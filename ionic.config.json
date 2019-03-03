@@ -1,0 +1,7 @@
+{
+  "name": "IdleLands",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

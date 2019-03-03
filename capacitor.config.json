@@ -1,0 +1,6 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "IdleLands",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
