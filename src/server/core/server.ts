@@ -8,8 +8,8 @@
 */
 
 const path = require('path');
+const chokidar = require('chokidar');
 const argv = require('minimist')(process.argv.slice(2));
-const scHotReboot = require('sc-hot-reboot');
 
 const { waitForFile } = require('socketcluster/fsutil');
 
@@ -81,8 +81,16 @@ const start = () => {
     // The second options argument here is passed directly to chokidar.
     // See https://github.com/paulmillr/chokidar#api for details.
     console.log(`   !! The sc-hot-reboot plugin is watching for code changes in the src/server directory`);
-    scHotReboot.attach(socketCluster, {
-      cwd: __dirname + '../',
+
+    const attachHMR = (scMasterInstance, opts) => {
+      chokidar.watch('**/*', opts).on('change', (filePath) => {
+        console.log('   !! File ' + filePath + ' was modified. Restarting workers...');
+        scMasterInstance.killWorkers({immediate: true});
+      });
+    };
+
+    attachHMR(socketCluster, {
+      cwd: path.join(__dirname, '../'),
       ignored: ['core/server.ts', 'core/broker.ts', /[\/\\]\./, '*.log']
     });
   }

@@ -1,8 +1,9 @@
-
 const SCWorker = require('socketcluster/scworker');
 const express = require('express');
 const morgan = require('morgan');
 const healthChecker = require('sc-framework-health-check');
+
+const allEvents = require('../modules');
 
 export class GameWorker extends SCWorker {
   run() {
@@ -25,7 +26,12 @@ export class GameWorker extends SCWorker {
 
     httpServer.on('request', app);
 
+    // initialize all the socket commands for the newly connected client
     scServer.on('connection', (socket) => {
+      Object.values(allEvents).forEach((EvtCtor: any) => {
+        const evtInst = new EvtCtor(socket);
+        socket.on(evtInst.event, () => evtInst.callback(socket));
+      });
     });
   }
 }
