@@ -1,5 +1,6 @@
 const SCBroker = require('socketcluster/scbroker');
 const scClusterBrokerClient = require('scc-broker-client');
+const scRedis = require('sc-redis');
 
 export class Broker extends SCBroker {
   run() {
@@ -11,7 +12,7 @@ export class Broker extends SCBroker {
     // This is mostly intended for the Kubernetes deployment of SocketCluster - In this case,
     // The clustering/sharding all happens automatically.
 
-    if (this.options.clusterStateServerHost) {
+    if(this.options.clusterStateServerHost) {
       scClusterBrokerClient.attach(this, {
         stateServerHost: this.options.clusterStateServerHost,
         stateServerPort: this.options.clusterStateServerPort,
@@ -22,6 +23,10 @@ export class Broker extends SCBroker {
         stateServerAckTimeout: this.options.clusterStateServerAckTimeout,
         stateServerReconnectRandomness: this.options.clusterStateServerReconnectRandomness
       });
+    }
+
+    if(this.options.brokerOptions && this.options.brokerOptions.host) {
+      scRedis.attach(this);
     }
   }
 }

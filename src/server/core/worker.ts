@@ -25,31 +25,7 @@ export class GameWorker extends SCWorker {
 
     httpServer.on('request', app);
 
-    let count = 0;
-
-    /*
-      In here we handle our incoming realtime connections and listen for events.
-    */
     scServer.on('connection', (socket) => {
-
-      // Some sample logic to show how to handle client events,
-      // replace this with your own logic
-
-      socket.on('sampleClientEvent', (data) => {
-        count++;
-        console.log('Handled sampleClientEvent', data);
-        scServer.exchange.publish('sample', count);
-      });
-
-      const interval = setInterval(() => {
-        socket.emit('random', {
-          number: Math.floor(Math.random() * 5)
-        });
-      }, 1000);
-
-      socket.on('disconnect', () => {
-        clearInterval(interval);
-      });
     });
   }
 }

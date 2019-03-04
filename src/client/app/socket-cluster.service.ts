@@ -1,10 +1,11 @@
 
 import { Injectable } from '@angular/core';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import * as SocketCluster from 'socketcluster-client';
 import * as Fingerprint from 'fingerprintjs2';
 
 import { environment } from './../environments/environment';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { GameEvent } from '../../shared/models/GameEvent';
 
 export enum Status {
   Connected,
@@ -22,10 +23,12 @@ export class SocketClusterService {
 
   private error: Subject<Error> = new Subject<Error>();
   private status: Subject<Status> = new Subject<Status>();
+  private gameEvent: Subject<GameEvent> = new Subject<GameEvent>();
   private userId: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   private errorObs: Observable<Error>;
   private statusObs: Observable<Status>;
+  private gameEventObs: Observable<GameEvent>;
 
   public get error$() {
     return this.errorObs;
@@ -33,6 +36,10 @@ export class SocketClusterService {
 
   public get status$() {
     return this.statusObs;
+  }
+
+  public get gameEvent$() {
+    return this.gameEventObs;
   }
 
   public init() {
@@ -72,6 +79,8 @@ export class SocketClusterService {
     this.socket.on('disconnect', () => {
       this.status.next(Status.Disconnected);
     });
+
+    this.socket.on('gameevent', (ev) => this.gameEvent.next(ev));
 
     // TODO channel for map pos, chat
   }
