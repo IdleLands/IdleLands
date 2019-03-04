@@ -19,6 +19,7 @@ const workerControllerPath = argv.wc || process.env.SOCKETCLUSTER_WORKER_CONTROL
 const brokerControllerPath = argv.bc || process.env.SOCKETCLUSTER_BROKER_CONTROLLER;
 const workerClusterControllerPath = argv.wcc || process.env.SOCKETCLUSTER_WORKERCLUSTER_CONTROLLER;
 const environment = process.env.ENV || 'dev';
+const filetype = process.env.SERVER_FILETYPE || (environment === 'dev' ? 'ts' : 'js');
 
 const options = {
   workers: Number(argv.w) || Number(process.env.SOCKETCLUSTER_WORKERS) || 1,
@@ -27,8 +28,8 @@ const options = {
   // You can switch to 'sc-uws' for improved performance.
   wsEngine: process.env.SOCKETCLUSTER_WS_ENGINE || 'ws',
   appName: argv.n || process.env.SOCKETCLUSTER_APP_NAME || null,
-  workerController: workerControllerPath || path.join(__dirname, 'worker.ts'),
-  brokerController: brokerControllerPath || path.join(__dirname, 'broker.ts'),
+  workerController: workerControllerPath || path.join(__dirname, 'worker.' + filetype),
+  brokerController: brokerControllerPath || path.join(__dirname, 'broker.' + filetype),
   workerClusterController: workerClusterControllerPath || null,
   socketChannelLimit: Number(process.env.SOCKETCLUSTER_SOCKET_CHANNEL_LIMIT) || 1000,
   clusterStateServerHost: argv.cssh || process.env.SCC_STATE_SERVER_HOST || null,
@@ -53,11 +54,11 @@ const bootStartTime = Date.now();
 
 let SOCKETCLUSTER_OPTIONS;
 
-if (process.env.SOCKETCLUSTER_OPTIONS) {
+if(process.env.SOCKETCLUSTER_OPTIONS) {
   SOCKETCLUSTER_OPTIONS = JSON.parse(process.env.SOCKETCLUSTER_OPTIONS);
 }
 
-for (const i in SOCKETCLUSTER_OPTIONS) {
+for(const i in SOCKETCLUSTER_OPTIONS) {
   if (SOCKETCLUSTER_OPTIONS.hasOwnProperty(i)) {
     options[i] = SOCKETCLUSTER_OPTIONS[i];
   }
