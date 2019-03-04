@@ -1,5 +1,7 @@
 
 export enum ServerEventName {
+  GameMessage = 'gamemessage',
+
   AuthSignIn = 'auth:signin'
 }
 
