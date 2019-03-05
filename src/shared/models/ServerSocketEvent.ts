@@ -1,9 +1,9 @@
-import { ServerEventName } from '../interfaces';
+import { ServerEventName, IPlayer } from '../interfaces';
 import { Game } from '../../server/core/game/game';
 
 export class ServerSocketEvent {
 
-  protected emit(event: ServerEventName, data: any) {
+  protected emit(event: ServerEventName, data: any = {}) {
     this.socket.emit('gameevent', { name: event, data });
   }
 
@@ -17,6 +17,10 @@ export class ServerSocketEvent {
 
   protected gameMessage(err: string) {
     this.emit(ServerEventName.GameMessage, { message: err });
+  }
+
+  protected setPlayer(player: IPlayer) {
+    this.socket.playerName = player.name;
   }
 
   constructor(protected game: Game, private socket) {}

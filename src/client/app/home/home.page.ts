@@ -106,7 +106,10 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public play() {
-    // TODO go to play
+    this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId });
+    // TODO: go to play
   }
+
+  // TODO: add "or sign in with X or Y" to sync your character to this location
 
 }

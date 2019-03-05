@@ -115,7 +115,7 @@ export class SocketClusterService {
     toast.present();
   }
 
-  public emit(evt: ServerEventName, data: any) {
+  public emit(evt: ServerEventName, data: any = {}) {
     this.socket.emit(evt, data);
   }
 

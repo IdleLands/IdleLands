@@ -1,10 +1,13 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
+import { sample } from 'lodash';
+
 import { IPlayer } from '../../interfaces/IPlayer';
 
 @Entity()
 export class Player implements IPlayer {
 
+  // internal vars
   @ObjectIdColumn()
   private id: number;
 
@@ -17,25 +20,45 @@ export class Player implements IPlayer {
   private authId: string;
 
   @Column()
-  public readonly createdAt: number;
+  public createdAt: number;
 
+  @Column()
+  public loggedIn: boolean;
+
+  // player-related vars
   @Column()
   @Index({ unique: true })
-  public readonly name: string;
+  public name: string;
 
   @Column()
-  public readonly level: number;
+  public level: number;
 
   @Column()
-  public readonly profession: string;
+  public profession: string;
 
   @Column()
-  public readonly map: string;
+  public gender: string;
 
-  constructor() {
+  @Column()
+  public map: string;
+
+  @Column()
+  public x: number;
+
+  @Column()
+  public y: number;
+
+  init() {
     if(!this.createdAt) this.createdAt = Date.now();
     if(!this.level) this.level = 1;
     if(!this.profession) this.profession = 'Merchant';
+    if(!this.gender) this.gender = sample(['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap']);
     if(!this.map) this.map = 'Norkos';
+    if(!this.x) this.x = 10;
+    if(!this.y) this.y = 10;
+  }
+
+  loop() {
+    console.log('loop', this.name);
   }
 }

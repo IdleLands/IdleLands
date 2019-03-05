@@ -7,6 +7,8 @@ const healthChecker = require('sc-framework-health-check');
 
 const allEvents = require('../modules');
 
+const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.env.GRACE_PERIOD_DISCONNECT : 30000;
+
 export class GameWorker extends SCWorker {
   run() {
     console.log('   >> Worker PID:', process.pid);
@@ -38,6 +40,22 @@ export class GameWorker extends SCWorker {
         const evtInst = new EvtCtor(game, socket);
         socket.on(evtInst.event, (args) => evtInst.callback(args));
       });
+    });
+
+    // handle disconnecting the client from the player
+    // if they do not come back within GRACE_PERIOD_DISCONNECT, we remove their player from the game, too
+    scServer.on('disconnection', (socket) => {
+      if(!socket.playerName) return;
+
+      const player = game.playerManager.getPlayer(socket.playerName);
+      if(!player) return;
+
+      player.loggedIn = false;
+
+      setTimeout(() => {
+        if(player.loggedIn) return;
+        game.playerManager.removePlayer(player);
+      }, GRACE_PERIOD_DISCONNECT);
     });
   }
 }

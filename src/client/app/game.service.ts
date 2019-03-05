@@ -5,7 +5,6 @@ import { SocketClusterService } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName } from '../../shared/interfaces';
 
-
 @Injectable({
   providedIn: 'root'
 })

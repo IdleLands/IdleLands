@@ -15,7 +15,9 @@ export class DatabaseManager {
   }
 
   public async loadPlayer(query): Promise<Player> {
-    return this.connection.manager.findOne(Player, query);
+    const player = await this.connection.manager.findOne(Player, query);
+    player.init();
+    return player;
   }
 
   public async savePlayer(query): Promise<void> {
@@ -25,6 +27,7 @@ export class DatabaseManager {
   public async createPlayer(name, userId): Promise<Player> {
     const player = new Player();
     extend(player, { name, userId });
+    player.init();
     await this.connection.manager.save(player);
     return player;
   }

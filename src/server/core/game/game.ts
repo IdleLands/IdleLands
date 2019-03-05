@@ -18,7 +18,7 @@ export class Game {
   public loop() {
 
     this.playerManager.allPlayers.forEach(player => {
-      console.log('tick', player.name);
+      player.loop();
     });
 
     setTimeout(() => {
