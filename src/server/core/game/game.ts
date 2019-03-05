@@ -10,6 +10,8 @@ export class Game {
   @Inject public databaseManager: DatabaseManager;
   @Inject public playerManager: PlayerManager;
 
+  private ticks = 0;
+
   public init() {
     this.databaseManager.init();
     this.loop();
@@ -17,8 +19,12 @@ export class Game {
 
   public loop() {
 
+    this.ticks++;
+
     this.playerManager.allPlayers.forEach(player => {
       player.loop();
+
+      if((this.ticks % 60) === 0) this.databaseManager.savePlayer(player);
     });
 
     setTimeout(() => {
