@@ -20,6 +20,7 @@
 * `SCC_BROKER_REDIS_HOST` - the URL to the Redis instance
 * `SCC_BROKER_REDIS_PORT` - the port of the Redis instance
 * `GAME_DELAY` - the game loop delay. Default: `5000`ms.
+* `GRACE_PERIOD_DISCONNECT` - the delay between disconnect and character exiting game. Default: `30000`ms.
 
 ## Useful Commands
 
