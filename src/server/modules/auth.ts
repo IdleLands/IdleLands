@@ -70,5 +70,6 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     this.emit(ServerEventName.PlayGame, {});
     this.setPlayer(character);
     this.game.playerManager.addPlayer(character);
+    this.game.databaseManager.savePlayer(character);
   }
 }

@@ -55,6 +55,7 @@ export class GameWorker extends SCWorker {
       setTimeout(() => {
         if(player.loggedIn) return;
         game.playerManager.removePlayer(player);
+        game.databaseManager.savePlayer(player);
       }, GRACE_PERIOD_DISCONNECT);
     });
   }
