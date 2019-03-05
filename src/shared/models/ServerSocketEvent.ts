@@ -1,10 +1,15 @@
 import { ServerEventName } from '../interfaces';
+import { Game } from '../../server/core/game/game';
 
 export class ServerSocketEvent {
 
-  protected gameError(err: string) {
-    this.socket.emit(ServerEventName.GameMessage, { message: err, type: 'error' });
+  protected emit(event: ServerEventName, data: any) {
+    this.socket.emit('gameevent', { name: event, data });
   }
 
-  constructor(private socket) {}
+  protected gameError(err: string) {
+    this.emit(ServerEventName.GameMessage, { message: err, type: 'error' });
+  }
+
+  constructor(protected game: Game, private socket) {}
 }

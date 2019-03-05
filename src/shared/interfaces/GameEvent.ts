@@ -1,5 +1,6 @@
+import { ServerEventName } from './ServerEvent';
 
 export interface GameEvent {
-  name: string;
+  name: ServerEventName;
   data: any;
 }

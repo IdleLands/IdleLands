@@ -2,7 +2,10 @@
 export enum ServerEventName {
   GameMessage = 'gamemessage',
 
-  AuthSignIn = 'auth:signin'
+  AuthSignIn = 'auth:signin',
+  AuthNeedsName = 'auth:needsname',
+
+  CharacterSync = 'character:sync'
 }
 
 export interface ServerEvent {
@@ -10,5 +13,5 @@ export interface ServerEvent {
   description: string;
   args: string;
 
-  callback: () => void;
+  callback: (args) => void;
 }

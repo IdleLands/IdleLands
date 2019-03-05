@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import * as SocketCluster from 'socketcluster-client';
 import * as Fingerprint from 'fingerprintjs2';
+import { Signal } from 'signals';
 
 import { environment } from './../environments/environment';
-import { GameEvent } from '../../shared/models/GameEvent';
+import { ServerEventName, GameEvent } from '../../shared/interfaces';
 
 export enum Status {
   Connected,
@@ -29,6 +30,9 @@ export class SocketClusterService {
   private errorObs: Observable<Error>;
   private statusObs: Observable<Status>;
   private gameEventObs: Observable<GameEvent>;
+  private userIdObs: Observable<string>;
+
+  private allSignals = {};
 
   public get error$() {
     return this.errorObs;
@@ -40,6 +44,10 @@ export class SocketClusterService {
 
   public get gameEvent$() {
     return this.gameEventObs;
+  }
+
+  public get userId$() {
+    return this.userIdObs;
   }
 
   public init() {
@@ -54,6 +62,8 @@ export class SocketClusterService {
   private initObs() {
     this.errorObs = this.error.asObservable();
     this.statusObs = this.status.asObservable();
+    this.gameEventObs = this.gameEvent.asObservable();
+    this.userIdObs = this.userId.asObservable();
   }
 
   private initUser() {
@@ -80,8 +90,24 @@ export class SocketClusterService {
       this.status.next(Status.Disconnected);
     });
 
-    this.socket.on('gameevent', (ev) => this.gameEvent.next(ev));
+    this.socket.on('gameevent', (ev) => {
+      this.gameEvent.next(ev);
+      if(this.allSignals[ev.name]) this.allSignals[ev.name].dispatch(ev.data);
+    });
 
     // TODO channel for map pos, chat
+  }
+
+  public emit(event: GameEvent) {
+    this.socket.emit(event.name, event.data);
+  }
+
+  public register(signal: ServerEventName, callback: Function) {
+    if(!this.allSignals[signal]) this.allSignals[signal] = new Signal();
+    this.allSignals[signal].add(callback);
+  }
+
+  public unregister(signal: ServerEventName, callback: Function) {
+    this.allSignals[signal].remove(callback);
   }
 }

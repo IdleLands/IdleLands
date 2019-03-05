@@ -1,3 +1,5 @@
+import { Game } from './game/game';
+
 const SCWorker = require('socketcluster/scworker');
 const express = require('express');
 const morgan = require('morgan');
@@ -8,6 +10,10 @@ const allEvents = require('../modules');
 export class GameWorker extends SCWorker {
   run() {
     console.log('   >> Worker PID:', process.pid);
+
+    const game = new Game();
+    game.init();
+
     const environment = this.options.environment;
 
     const app = express();
@@ -29,8 +35,8 @@ export class GameWorker extends SCWorker {
     // initialize all the socket commands for the newly connected client
     scServer.on('connection', (socket) => {
       Object.values(allEvents).forEach((EvtCtor: any) => {
-        const evtInst = new EvtCtor(socket);
-        socket.on(evtInst.event, () => evtInst.callback(socket));
+        const evtInst = new EvtCtor(game, socket);
+        socket.on(evtInst.event, (args) => evtInst.callback(args));
       });
     });
   }
