@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-img class="header-image" slot="start" src="assets/favicon/android-chrome-512x512.png"></ion-img>
     <ion-title>
       IdleLands
     </ion-title>
@@ -10,20 +11,28 @@
   <ion-row>
     <ion-col>
       <h3 text-center>Welcome to IdleLands!</h3>
-      <p text-center>It's an idling game like you've never seen before. Or maybe you have, if you've been here before.</p>
+      <p text-center>It's an idling game like you've never seen. Or maybe you have, if you've been here before.</p>
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col size="6" offset="3" padding>
 
-      <ion-card *ngIf="loading && !needsSignUp">
+      <ion-card *ngIf="hasError">
+        <ion-card-content class="error-card">
+          <ion-icon name="alert" color="danger"></ion-icon> It looks like the server is down. You'll be automatically connected, if possible, but you can always manually refresh. 
+          
+          <ion-button expand="block" (click)="refresh()" color="primary" fill="outline" margin-top>Refresh</ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="!hasError && loading && !needsSignUp">
         <ion-card-content class="true-center check-card">
           <ion-spinner></ion-spinner> Checking to see if you have a character...
         </ion-card-content>
       </ion-card>
 
-      <ion-card *ngIf="needsSignUp">
+      <ion-card *ngIf="!hasError && needsSignUp && !player">
         <ion-card-header>
           <ion-card-title>Create New Character</ion-card-title>
         </ion-card-header>
@@ -39,7 +48,7 @@
             <ion-col>
               <ion-item>
                 <ion-label position="stacked">Character Name</ion-label>
-                <ion-input [(ngModel)]="charName" placeholder="Character Name" minlength="2" maxlength="20"></ion-input>
+                <ion-input [(ngModel)]="charName" placeholder="Character Name" minlength="2" maxlength="20" (keyup.enter)="signUp()"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="3">
@@ -53,6 +62,18 @@
               <ion-button expand="block" color="primary" [disabled]="!canSignUp" (click)="signUp()">Register</ion-button>
             </ion-col>
           </ion-row>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="!hasError && player">
+        <ion-card-header>
+          <ion-card-title>Welcome {{ isNewPlayer ? 'to IdleLands' : 'back' }}, {{ player.name }}!</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content class="player-card">
+          You are a level {{ player.level }} {{ player.profession }}. {{ isNewPlayer ? 'Your adventure will begin in' : 'You were last seen traveling around' }} {{ player.map }}.
+
+          <ion-button margin-top expand="block" color="primary" (click)="play()">Play IdleLands!</ion-button>
         </ion-card-content>
       </ion-card>
 

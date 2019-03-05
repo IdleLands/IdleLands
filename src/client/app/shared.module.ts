@@ -1,5 +1,6 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { SocketClusterService } from './socket-cluster.service';
+import { GameService } from './game.service';
 
 @NgModule({
   providers: [
@@ -11,7 +12,8 @@ import { SocketClusterService } from './socket-cluster.service';
       },
       deps: [SocketClusterService],
       multi: true
-    }
+    },
+    GameService
   ],
   imports: [],
   exports: []

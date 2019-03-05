@@ -3,6 +3,7 @@ export enum ServerEventName {
   GameMessage = 'gamemessage',
 
   AuthSignIn = 'auth:signin',
+  AuthRegister = 'auth:register',
   AuthNeedsName = 'auth:needsname',
 
   CharacterSync = 'character:sync'

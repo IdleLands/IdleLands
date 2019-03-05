@@ -7,10 +7,11 @@ import { Signal } from 'signals';
 
 import { environment } from './../environments/environment';
 import { ServerEventName, GameEvent } from '../../shared/interfaces';
+import { ToastController } from '@ionic/angular';
 
 export enum Status {
-  Connected,
-  Disconnected
+  Connected = 1,
+  Disconnected = 2
 }
 
 @Injectable({
@@ -23,8 +24,9 @@ export class SocketClusterService {
   private socket: SocketCluster;
 
   private error: Subject<Error> = new Subject<Error>();
-  private status: Subject<Status> = new Subject<Status>();
   private gameEvent: Subject<GameEvent> = new Subject<GameEvent>();
+
+  private status: BehaviorSubject<Status> = new BehaviorSubject<Status>(Status.Disconnected);
   private userId: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   private errorObs: Observable<Error>;
@@ -49,6 +51,8 @@ export class SocketClusterService {
   public get userId$() {
     return this.userIdObs;
   }
+
+  constructor(private toastCtrl: ToastController) {}
 
   public init() {
     if(this.hasInit) throw new Error('SocketClusterService has already been initialized.');
@@ -92,14 +96,27 @@ export class SocketClusterService {
 
     this.socket.on('gameevent', (ev) => {
       this.gameEvent.next(ev);
+      if(ev.name === 'gamemessage') this.toastNotify(ev.data);
       if(this.allSignals[ev.name]) this.allSignals[ev.name].dispatch(ev.data);
     });
 
     // TODO channel for map pos, chat
   }
 
-  public emit(event: GameEvent) {
-    this.socket.emit(event.name, event.data);
+  private async toastNotify(info) {
+    const toastOpts: any = {
+      showCloseButton: true,
+      message: info.message,
+      duration: 3000,
+      color: info.type
+    };
+
+    const toast = await this.toastCtrl.create(toastOpts);
+    toast.present();
+  }
+
+  public emit(evt: ServerEventName, data: any) {
+    this.socket.emit(evt, data);
   }
 
   public register(signal: ServerEventName, callback: Function) {

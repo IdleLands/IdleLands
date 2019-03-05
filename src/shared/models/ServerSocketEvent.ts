@@ -8,7 +8,15 @@ export class ServerSocketEvent {
   }
 
   protected gameError(err: string) {
-    this.emit(ServerEventName.GameMessage, { message: err, type: 'error' });
+    this.emit(ServerEventName.GameMessage, { message: err, type: 'danger' });
+  }
+
+  protected gameWarning(err: string) {
+    this.emit(ServerEventName.GameMessage, { message: err, type: 'warning' });
+  }
+
+  protected gameMessage(err: string) {
+    this.emit(ServerEventName.GameMessage, { message: err });
   }
 
   constructor(protected game: Game, private socket) {}
