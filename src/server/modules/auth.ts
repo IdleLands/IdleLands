@@ -56,9 +56,9 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
 export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PlayGame;
   description = 'Join the game!';
-  args = 'userId, sessionId';
+  args = 'userId, sessionId, relogin';
 
-  async callback({ userId, sessionId } = { userId: '', sessionId: '' }) {
+  async callback({ userId, sessionId, relogin } = { userId: '', sessionId: '', relogin: false }) {
     if(!userId) return this.gameError(`${this.event} requires a userId`);
 
     const characterCheck = await this.game.databaseManager.checkIfPlayerExists({ userId });
@@ -81,7 +81,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     // we have passed all of the checks, so lets hit the database again, why not?
     const character = await this.game.databaseManager.loadPlayer({ userId });
 
-    this.gameSuccess(`Welcome back, ${character.name}!`);
+    if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 
     character.sessionId = uuid();
 

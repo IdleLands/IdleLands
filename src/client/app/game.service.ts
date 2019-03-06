@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
-import { SocketClusterService } from './socket-cluster.service';
+import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName } from '../../shared/interfaces';
 
@@ -56,6 +56,15 @@ export class GameService {
 
     this.setSessionId(await this.storage.get('sessionId'));
     this.setLoggedInId(await this.storage.get('loggedInId'));
+
+    this.socketService.status$.subscribe(status => {
+      if(status !== Status.Connected || !this.currentPlayer) return;
+
+      this.socketService.emit(ServerEventName.PlayGame, {
+        userId: this.userId$.value,
+        relogin: true
+      });
+    });
 
     this.socketService.register(ServerEventName.CharacterSync, (char) => {
       this.currentPlayer = char;
