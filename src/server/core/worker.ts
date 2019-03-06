@@ -3,9 +3,11 @@ import { Game } from './game/game';
 const SCWorker = require('socketcluster/scworker');
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 const healthChecker = require('sc-framework-health-check');
 
 const allEvents = require('../modules');
+const allAPI = require('../http');
 
 const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.env.GRACE_PERIOD_DISCONNECT : 30000;
 
@@ -24,13 +26,26 @@ export class GameWorker extends SCWorker {
     const scServer = this.scServer;
 
     if (environment === 'dev') {
-      // Log every HTTP request. See https://github.com/expressjs/morgan for other
-      // available formats.
       app.use(morgan('dev'));
     }
 
     // Add GET /health-check express route
     healthChecker.attach(this, app);
+
+    const limiter = rateLimit({
+      windowMs: 10 * 1000, // 10 seconds
+      max: 1
+    });
+
+    app.use('/api/', limiter);
+
+    const api = express();
+
+    Object.values(allAPI).forEach((API: any) => {
+      API.init(api, game);
+    });
+
+    app.use('/api', api);
 
     httpServer.on('request', app);
 
