@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { species } from 'fantastical';
 import { sample } from 'lodash';
@@ -7,7 +8,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { SocketClusterService, Status } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
 import { IPlayer } from '../../../shared/interfaces/IPlayer';
-
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-home',
@@ -32,8 +33,11 @@ export class HomePage implements OnInit, OnDestroy {
   private error$: Subscription;
   private needsNameCb: Function;
   private syncPlayerCb: Function;
+  private playGameCb: Function;
 
   constructor(
+    private router: Router,
+    private gameService: GameService,
     private socketService: SocketClusterService
   ) {}
 
@@ -44,8 +48,11 @@ export class HomePage implements OnInit, OnDestroy {
     this.syncPlayerCb = (p) => this.syncPlayer(p);
     this.socketService.register(ServerEventName.CharacterSync, this.syncPlayerCb);
 
+    this.playGameCb = () => this.router.navigate(['/play']);
+    this.socketService.register(ServerEventName.PlayGame, this.playGameCb);
+
     this.user$ = combineLatest(
-      this.socketService.userId$,
+      this.gameService.userId$,
       this.socketService.status$
     ).subscribe(([userId, status]) => {
       this.userId = userId;
@@ -72,6 +79,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.socketService.unregister(ServerEventName.AuthNeedsName, this.needsNameCb);
     this.socketService.unregister(ServerEventName.CharacterSync, this.syncPlayerCb);
+    this.socketService.unregister(ServerEventName.PlayGame, this.playGameCb);
 
     this.user$.unsubscribe();
     this.error$.unsubscribe();
@@ -99,6 +107,11 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   private syncPlayer(player: IPlayer) {
+    if(!player) {
+      this.loading = true;
+      return;
+    }
+
     this.loading = false;
     this.player = player;
 
@@ -106,8 +119,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public play() {
-    this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId });
-    // TODO: go to play
+    this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId, sessionId: this.gameService.session });
   }
 
   // TODO: add "or sign in with X or Y" to sync your character to this location

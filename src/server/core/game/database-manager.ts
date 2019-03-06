@@ -35,6 +35,13 @@ export class DatabaseManager {
   }
 
   // internal API calls
+  public async checkIfPlayerExists(query): Promise<Player> {
+    if(!this.connection) return null;
+
+    const player = await this.connection.manager.findOne(Player, query);
+    return player;
+  }
+
   public async loadPlayer(query): Promise<Player> {
     if(!this.connection) return null;
 

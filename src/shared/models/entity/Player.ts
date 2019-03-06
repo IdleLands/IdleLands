@@ -9,7 +9,7 @@ export class Player implements IPlayer {
 
   // internal vars
   @ObjectIdColumn()
-  private id: number;
+  public id: string;
 
   @Column()
   @Index({ unique: true })
@@ -24,6 +24,8 @@ export class Player implements IPlayer {
 
   @Column()
   public loggedIn: boolean;
+
+  public sessionId: string;
 
   // player-related vars
   @Column()
@@ -59,6 +61,6 @@ export class Player implements IPlayer {
   }
 
   loop() {
-    console.log('loop', this.name);
+    console.log('loop', Date.now(), this.name);
   }
 }

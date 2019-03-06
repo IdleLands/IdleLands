@@ -7,6 +7,10 @@ export class ServerSocketEvent {
     this.socket.emit('gameevent', { name: event, data });
   }
 
+  protected gameSuccess(err: string) {
+    this.emit(ServerEventName.GameMessage, { message: err, type: 'success' });
+  }
+
   protected gameError(err: string) {
     this.emit(ServerEventName.GameMessage, { message: err, type: 'danger' });
   }
