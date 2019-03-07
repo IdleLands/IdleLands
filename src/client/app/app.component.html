@@ -1,3 +1,58 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane [disabled]="hiddenSplitPane">
+    <ion-menu>
+
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button>
+              <ion-icon [name]="(gameService.status$ | async) === 1 ? 'cloud' : 'cloud-outline'"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>IdleLands</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content margin-bottom>
+
+        <ion-list>
+          <ion-item class="big-item" *ngIf="(gameService.player$ | async) as player">
+            <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
+            
+            <ion-label>
+              {{ player.name }}
+              <p>Level {{ player.level }} {{ player.profession }}</p>
+            </ion-label>
+
+          </ion-item>
+
+          <ion-item *ngIf="canUpdate" (click)="doAppUpdate()">
+            <ion-icon slot="start" name="logo-ionic"></ion-icon> Update available! Click to update.
+          </ion-item>
+
+          <ion-item *ngIf="a2hsPrompt" (click)="a2hs()">
+            <ion-icon slot="start" name="add"></ion-icon> Add to Homescreen
+          </ion-item>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
+
+            <ion-item [routerDirection]="'root'" 
+                      [routerLink]="[page.url]" 
+                      [queryParams]="page.queryParams">
+
+              <ion-icon slot="start" [src]="'assets/icon/category-' + page.icon + '.svg'"></ion-icon>
+
+              <ion-label>
+                {{ page.name }}
+              </ion-label>
+            </ion-item>
+
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+      
+    </ion-menu>
+
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>

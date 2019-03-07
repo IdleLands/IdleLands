@@ -4,8 +4,12 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SocketClusterService } from './socket-cluster.service';
 import { GameService } from './game.service';
 import { LoggedInGuard } from './logged-in.guard';
+import { GendervatarComponent } from './gendervatar/gendervatar.component';
 
 @NgModule({
+  declarations: [
+    GendervatarComponent
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -28,6 +32,6 @@ import { LoggedInGuard } from './logged-in.guard';
     LoggedInGuard
   ],
   imports: [IonicStorageModule.forRoot()],
-  exports: []
+  exports: [GendervatarComponent]
 })
 export class SharedModule { }

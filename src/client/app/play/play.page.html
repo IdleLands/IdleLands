@@ -1,14 +1,15 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon [name]="(gameService.status$ | async) === 1 ? 'cloud' : 'cloud-outline'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     <ion-title>Play</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-row class="category-row">
+    <ion-col size-sm="3" size-xs="4" *ngFor="let cat of categories" class="category-area true-center">
+      <ion-button color="secondary" class="big-icon-button">
+        <ion-icon [src]="'assets/icon/category-' + cat.icon + '.svg'"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>
