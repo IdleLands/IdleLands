@@ -75,7 +75,7 @@ export class SocketClusterService {
     // TODO channel for map pos, chat
   }
 
-  private async toastNotify(info) {
+  public async toastNotify(info) {
     const toastOpts: any = {
       showCloseButton: true,
       message: info.message,

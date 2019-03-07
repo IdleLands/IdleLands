@@ -5,7 +5,7 @@
       <ion-header>
         <ion-toolbar color="primary">
           <ion-buttons slot="start">
-            <ion-button>
+            <ion-button (click)="theCloud()">
               <ion-icon [name]="(gameService.status$ | async) === 1 ? 'cloud' : 'cloud-outline'"></ion-icon>
             </ion-button>
           </ion-buttons>

@@ -8,7 +8,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { interval } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { sample } from 'lodash';
+
 import { GameService } from './game.service';
+import { SocketClusterService } from './socket-cluster.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +23,8 @@ export class AppComponent {
   public canUpdate: boolean;
 
   public hiddenSplitPane: boolean;
+
+  private clouds = 0;
 
   public appPages = [
     { name: 'Adventure Log', icon: 'adventurelog' },
@@ -37,6 +42,7 @@ export class AppComponent {
     private router: Router,
     private updates: SwUpdate,
     private modalCtrl: ModalController,
+    private socketService: SocketClusterService,
     public gameService: GameService
   ) {
     this.initializeApp();
@@ -92,5 +98,83 @@ export class AppComponent {
   public async doAppUpdate() {
     await this.updates.activateUpdate();
     document.location.reload();
+  }
+
+  public theCloud() {
+    this.clouds++;
+
+    const clicks = {
+      0:    'IdleLands',
+      5:    'Why are you doing this?',
+      10:   'There are better things to do...',
+      20:   'Go back to idling!',
+      50:   'Stop that.',
+      60:   'Really, stop that.',
+      70:   'Please?',
+      75:   'Please??',
+      80:   'Please???',
+      85:   'Please????',
+      90:   'Please?????',
+      95:   'Please??????',
+      100:  'Please???????',
+      105:  'Fine.',
+      120:  'I have accepted this.',
+      150:  'Okay, maybe not really.',
+      170:  'You\'re being pretty annoying.',
+      200:  'LEAVE ME ALONE',
+      201:  'OR ELSE',
+      202:  'I WILL DISCONNECT YOU',
+      205:  '... That didn\'t stop you?',
+      210:  'I was being mean :(',
+      211:  'Please come back :(',
+      212:  'I didn\'t mean it :(',
+      215:  'Sigh...',
+      220:  'Okay, we\'re done here.',
+      225:  'No, really, we\'re done.',
+      250:  'I SAID WE\'RE DONE!',
+      275:  'NO SOUP FOR YOU!',
+      300:  'GOOD DAY SIR (or madam)!',
+      350:  'W',
+      351:  'H',
+      352:  'Y',
+      355:  '...',
+      356:  '....',
+      357:  '.....',
+      358:  '......',
+      359:  '.......',
+      360:  '........',
+      361:  '.........................................',
+      362:  'Goodbye.',
+      363:  '...',
+      366:  'Okay, this is getting really old.',
+      388:  'You WILL be disconnected!',
+      390:  'Try me.',
+      391:  'You really will.',
+      398:  'Don\t tempt me!',
+      399:  'Okay, here goes...'
+    };
+
+    const msg = clicks[this.clouds];
+
+    if(msg) {
+      const allColors = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark', 'medium', 'light'];
+      let type = 'primary';
+
+      if(this.clouds >= 50)  type = 'secondary';
+      if(this.clouds >= 60)  type = 'tertiary';
+
+      if(this.clouds >= 70)  type = 'success';
+
+      if(this.clouds >= 105) type = 'warning';
+
+      if(this.clouds >= 200) type = sample(['dark', 'medium', 'light']);
+
+      if(this.clouds >= 355) type = sample(allColors);
+      if(this.clouds >= 366) type = 'danger';
+
+      this.socketService.toastNotify({ message: msg, type });
+    }
+
+    if(this.clouds > 400) window.location.reload();
   }
 }
