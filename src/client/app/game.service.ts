@@ -39,6 +39,10 @@ export class GameService {
     return this.player;
   }
 
+  public get status$() {
+    return this.socketService.status$;
+  }
+
   constructor(private storage: Storage, private socketService: SocketClusterService) {}
 
   private setSessionId(id: string) {
