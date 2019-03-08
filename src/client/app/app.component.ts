@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -27,12 +27,11 @@ export class AppComponent {
   private clouds = 0;
 
   public appPages = [
-    { name: 'Adventure Log', icon: 'adventurelog' },
+    { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
     { name: 'Personalities', icon: 'personalities' },
     { name: 'Map', icon: 'map' },
     { name: 'Inventory', icon: 'inventory' },
-    { name: 'Settings', icon: 'settings' },
-    { name: 'Logout', icon: 'logout' }
+    { name: 'Settings', icon: 'settings', url: '/settings' }
   ];
 
   constructor(
@@ -41,6 +40,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private updates: SwUpdate,
+    private alertCtrl: AlertController,
     private modalCtrl: ModalController,
     private socketService: SocketClusterService,
     public gameService: GameService
@@ -53,6 +53,22 @@ export class AppComponent {
   public a2hs() {
     this.a2hsPrompt.prompt();
     this.a2hsPrompt = null;
+  }
+
+  public async logout() {
+    const alert = await this.alertCtrl.create({
+      header: 'Log out?',
+      message: 'Are you sure you want to log out?',
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Yes, log out!', handler: () => {
+          this.gameService.logout();
+          this.router.navigate(['/home']);
+        } }
+      ]
+    });
+
+    alert.present();
   }
 
   private initializeApp() {
@@ -91,7 +107,12 @@ export class AppComponent {
         filter(x => x instanceof NavigationEnd)
       )
       .subscribe((x: NavigationEnd) => {
-        this.hiddenSplitPane = x.url.includes('/home');
+        const isHome = x.url.includes('/home');
+        this.hiddenSplitPane = isHome;
+
+        if(!isHome && !this.gameService.hasPlayer) {
+          this.router.navigate(['/home']);
+        }
       });
   }
 

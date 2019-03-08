@@ -5,15 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PlayPage } from './play.page';
+import { SettingsPage } from './settings.page';
 import { SharedModule } from '../shared.module';
-import { LoggedInGuard } from '../logged-in.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: PlayPage,
-    canActivate: [LoggedInGuard]
+    component: SettingsPage
   }
 ];
 
@@ -26,6 +24,6 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [PlayPage]
+  declarations: [SettingsPage]
 })
-export class PlayPageModule {}
+export class SettingsPageModule {}

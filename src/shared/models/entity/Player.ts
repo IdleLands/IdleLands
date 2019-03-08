@@ -1,54 +1,40 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample } from 'lodash';
+import { sample, pickBy } from 'lodash';
 
 import { IPlayer } from '../../interfaces/IPlayer';
+import { Statistics } from './Statistics';
 
 @Entity()
 export class Player implements IPlayer {
 
   // internal vars
-  @ObjectIdColumn()
-  public id: string;
+  @ObjectIdColumn() public _id: string;
 
   @Column()
-  @Index({ unique: true })
-  private userId: string;
+  @Index({ unique: true }) private userId: string;
 
   @Column()
-  @Index({ unique: true })
-  private authId: string;
+  @Index({ unique: true }) private authId: string;
 
-  @Column()
-  public createdAt: number;
-
-  @Column()
-  public loggedIn: boolean;
+  @Column() public createdAt: number;
+  @Column() public loggedIn: boolean;
 
   public sessionId: string;
 
+  // joined vars
+  public $statistics: Statistics;
+
   // player-related vars
   @Column()
-  @Index({ unique: true })
-  public name: string;
+  @Index({ unique: true }) public name: string;
 
-  @Column()
-  public level: number;
-
-  @Column()
-  public profession: string;
-
-  @Column()
-  public gender: string;
-
-  @Column()
-  public map: string;
-
-  @Column()
-  public x: number;
-
-  @Column()
-  public y: number;
+  @Column() public level: number;
+  @Column() public profession: string;
+  @Column() public gender: string;
+  @Column() public map: string;
+  @Column() public x: number;
+  @Column() public y: number;
 
   init() {
     if(!this.createdAt) this.createdAt = Date.now();
@@ -58,6 +44,15 @@ export class Player implements IPlayer {
     if(!this.map) this.map = 'Norkos';
     if(!this.x) this.x = 10;
     if(!this.y) this.y = 10;
+
+    if(!this.$statistics) {
+      this.$statistics = new Statistics();
+      this.$statistics.setOwner(this);
+    }
+  }
+
+  toSaveObject(): any {
+    return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 
   loop() {

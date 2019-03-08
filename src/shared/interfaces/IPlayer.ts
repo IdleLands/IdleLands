@@ -1,6 +1,6 @@
 
 export interface IPlayer {
-  id: string;
+  _id: string;
   sessionId: string;
   createdAt: number;
 
@@ -14,4 +14,5 @@ export interface IPlayer {
   loggedIn: boolean;
 
   loop(): void;
+  toSaveObject(): IPlayer;
 }

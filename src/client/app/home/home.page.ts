@@ -48,7 +48,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.syncPlayerCb = (p) => this.syncPlayer(p);
     this.socketService.register(ServerEventName.CharacterSync, this.syncPlayerCb);
 
-    this.playGameCb = () => this.router.navigate(['/play']);
+    this.playGameCb = () => this.router.navigate(['/character']);
     this.socketService.register(ServerEventName.PlayGame, this.playGameCb);
 
     this.user$ = combineLatest(

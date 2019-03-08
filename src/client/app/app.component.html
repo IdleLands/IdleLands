@@ -16,7 +16,10 @@
       <ion-content margin-bottom>
 
         <ion-list>
-          <ion-item class="big-item" *ngIf="(gameService.player$ | async) as player">
+          <ion-item class="big-item" 
+                    *ngIf="(gameService.player$ | async) as player" 
+                    [routerDirection]="'root'"
+                    [routerLink]="['/character']">
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
             
             <ion-label>
@@ -48,6 +51,15 @@
             </ion-item>
 
           </ion-menu-toggle>
+
+          <ion-item (click)="logout()">
+            <ion-icon slot="start" [src]="'assets/icon/category-logout.svg'"></ion-icon>
+
+            <ion-label>
+              Logout
+            </ion-label>
+          </ion-item>
+          
         </ion-list>
       </ion-content>
       

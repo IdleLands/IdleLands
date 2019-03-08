@@ -25,6 +25,21 @@ export class SignInEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.AuthSignOut;
+  description = 'Sign out of IdleLands.';
+  args = '';
+
+  async callback() {
+    const player = this.game.playerManager.getPlayer(this.player);
+    player.loggedIn = false;
+    this.game.databaseManager.savePlayer(player);
+    this.game.playerManager.removePlayer(player);
+
+    this.gameMessage('Come back and idle any time!');
+  }
+}
+
 export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.AuthRegister;
   description = 'Sign in to IdleLands with a name and a userid.';
@@ -62,6 +77,8 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     if(!userId) return this.gameError(`${this.event} requires a userId`);
 
     const characterCheck = await this.game.databaseManager.checkIfPlayerExists({ userId });
+    if(!characterCheck) return;
+
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
 
     // check first the logged in player to see if it exists, and if we match

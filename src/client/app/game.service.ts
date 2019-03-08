@@ -73,7 +73,7 @@ export class GameService {
     this.socketService.register(ServerEventName.CharacterSync, (char) => {
       this.currentPlayer = char;
       this.setSessionId(this.currentPlayer.sessionId);
-      this.setLoggedInId(this.currentPlayer.id);
+      this.setLoggedInId(this.currentPlayer._id);
 
       this.player.next(char);
     });
@@ -98,6 +98,7 @@ export class GameService {
   }
 
   public logout() {
+    this.socketService.emit(ServerEventName.AuthSignOut);
     this.currentPlayer = null;
     this.player.next(null);
     this.setSessionId(null);

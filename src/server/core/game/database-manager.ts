@@ -1,17 +1,22 @@
 
-import { Singleton, AutoWired } from 'typescript-ioc';
-import { Connection, createConnection } from 'typeorm';
+import { Singleton, AutoWired, Inject } from 'typescript-ioc';
+import { Connection, createConnection, getConnectionOptions, ObjectID } from 'typeorm';
 import { extend } from 'lodash';
 
-import { Player } from '../../../shared/models/entity/Player';
+import { Player, Statistics } from '../../../shared/models/entity';
+import { Logger } from '../logger';
 
 @Singleton
 @AutoWired
 export class DatabaseManager {
   private connection: Connection;
 
+  @Inject public logger: Logger;
+
   public async init() {
-    this.connection = await createConnection();
+    const opts = await getConnectionOptions();
+    (<any>opts).useNewUrlParser = true;
+    this.connection = await createConnection(opts);
 
     this.updateOldData();
   }
@@ -38,22 +43,13 @@ export class DatabaseManager {
   public async checkIfPlayerExists(query): Promise<Player> {
     if(!this.connection) return null;
 
-    const player = await this.connection.manager.findOne(Player, query);
-    return player;
-  }
+    try {
+      const player = await this.connection.manager.findOne(Player, query);
+      return player;
 
-  public async loadPlayer(query): Promise<Player> {
-    if(!this.connection) return null;
-
-    const player = await this.connection.manager.findOne(Player, query);
-    player.init();
-    return player;
-  }
-
-  public async savePlayer(query): Promise<void> {
-    if(!this.connection) return null;
-
-    return this.connection.manager.save(Player, query);
+    } catch(e) {
+      this.logger.error(`DatabaseManager#checkIfPlayerExists`, e);
+    }
   }
 
   public async createPlayer(name, userId): Promise<Player> {
@@ -62,7 +58,48 @@ export class DatabaseManager {
     const player = new Player();
     extend(player, { name, userId });
     player.init();
-    await this.connection.manager.save(player);
-    return player;
+
+    try {
+      await this.savePlayer(player);
+      return player;
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#createPlayer`);
+    }
+  }
+
+  public async loadPlayer(query): Promise<Player> {
+    if(!this.connection) return null;
+
+    try {
+      const player = await this.connection.manager.findOne(Player, query);
+
+      const [statistics] = await Promise.all([
+        this.connection.manager.findOne(Statistics, { owner: player.name })
+      ]);
+
+      player.$statistics = statistics;
+
+      player.init();
+      return player;
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#load`, e);
+    }
+  }
+
+  public async savePlayer(player: Player): Promise<void> {
+    if(!this.connection) return null;
+
+    try {
+      await Promise.all([
+        this.connection.manager.save(Statistics, player.$statistics)
+      ]);
+
+      await this.connection.manager.save(Player, player.toSaveObject());
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#savePlayer`, e);
+    }
   }
 }

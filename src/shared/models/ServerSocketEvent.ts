@@ -3,6 +3,10 @@ import { Game } from '../../server/core/game/game';
 
 export class ServerSocketEvent {
 
+  protected get player(): string {
+    return this.socket.playerName;
+  }
+
   protected emit(event: ServerEventName, data: any = {}) {
     this.socket.emit('gameevent', { name: event, data });
   }
