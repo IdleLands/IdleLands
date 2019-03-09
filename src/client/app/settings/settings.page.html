@@ -4,6 +4,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <!-- TODO: sync with google/twit/fb/email-pw, delete account -->
+
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-title>Danger Zone</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list class="ion-no-padding">
+        <ion-item color="danger" class="ion-text-wrap">
+          <ion-label class="ion-text-wrap">If you really, really, for some reason want to delete your character, you can do that! You will have to go through a few dialogs, and then it will be confirmed. I'm not gonna beg you or anything, b-b-b-baka, but know that no data will be retained if you choose to go through with it.</ion-label>
+          <ion-button slot="end" color="danger" (click)="deleteCharacter()">Delete Character</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

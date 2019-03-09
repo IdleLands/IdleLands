@@ -5,6 +5,7 @@ export enum ServerEventName {
   AuthSignIn = 'auth:signin',
   AuthSignOut = 'auth:signout',
   AuthRegister = 'auth:register',
+  AuthDelete = 'auth:delete',
   AuthNeedsName = 'auth:needsname',
   PlayGame = 'auth:playgame',
 

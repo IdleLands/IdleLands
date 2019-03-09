@@ -13,6 +13,10 @@ export class DatabaseManager {
 
   @Inject public logger: Logger;
 
+  private allPlayerFields = [
+    { proto: Statistics, name: 'statistics' }
+  ];
+
   public async init() {
     const opts = await getConnectionOptions();
     (<any>opts).useNewUrlParser = true;
@@ -74,11 +78,14 @@ export class DatabaseManager {
     try {
       const player = await this.connection.manager.findOne(Player, query);
 
-      const [statistics] = await Promise.all([
-        this.connection.manager.findOne(Statistics, { owner: player.name })
-      ]);
+      const allUpdatedFields = await Promise.all(
+        this.allPlayerFields.map(x => this.connection.manager.findOne(x.proto, { owner: player.name }))
+      );
 
-      player.$statistics = statistics;
+      allUpdatedFields.forEach((data, i) => {
+        const matchingKey = this.allPlayerFields[i].name;
+        player[`$${matchingKey}`] = data;
+      });
 
       player.init();
       return player;
@@ -92,14 +99,29 @@ export class DatabaseManager {
     if(!this.connection) return null;
 
     try {
-      await Promise.all([
-        this.connection.manager.save(Statistics, player.$statistics)
-      ]);
+      await Promise.all(
+        this.allPlayerFields.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`]))
+      );
 
       await this.connection.manager.save(Player, player.toSaveObject());
 
     } catch(e) {
       this.logger.error(`DatabaseManager#savePlayer`, e);
+    }
+  }
+
+  public async deletePlayer(player: Player): Promise<void> {
+    if(!this.connection) return null;
+
+    try {
+      await Promise.all([
+        this.allPlayerFields.map(x => this.connection.manager.remove(x.proto, player[`$${x.name}`]))
+      ]);
+
+      await this.connection.manager.remove(Player, player.toSaveObject());
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#removePlayer`, e);
     }
   }
 }

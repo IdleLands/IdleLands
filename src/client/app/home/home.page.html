@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ion-row>
     <ion-col>
       <h3 text-center>Welcome to IdleLands!</h3>
@@ -16,13 +16,13 @@
   </ion-row>
 
   <ion-row>
-    <ion-col size="6" offset="3" padding>
+    <ion-col size="6" offset="3" class="ion-padding">
 
       <ion-card *ngIf="hasError">
         <ion-card-content class="error-card">
           <ion-icon name="alert" color="danger"></ion-icon> It looks like the server is down. You'll be automatically connected, if possible, but you can always manually refresh. 
           
-          <ion-button expand="block" (click)="refresh()" color="primary" fill="outline" margin-top>Refresh</ion-button>
+          <ion-button expand="block" (click)="refresh()" color="primary" fill="outline" class="ion-margin-top">Refresh</ion-button>
         </ion-card-content>
       </ion-card>
 
@@ -40,7 +40,7 @@
         <ion-card-content>
           <ion-row>
             <ion-col>
-              <p text-muted>Looks like you don't have a character. All you need is a name...</p>
+              <p class="ion-text-muted">Looks like you don't have a character. All you need is a name...</p>
             </ion-col>
           </ion-row>
 
@@ -57,7 +57,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row margin-top>
+          <ion-row class="ion-margin-top">
             <ion-col size="6" offset="3">
               <ion-button expand="block" color="primary" [disabled]="!canSignUp" (click)="signUp()">Register</ion-button>
             </ion-col>
@@ -73,7 +73,7 @@
         <ion-card-content class="player-card">
           You are a level {{ player.level }} {{ player.profession }}. {{ isNewPlayer ? 'Your adventure will begin in' : 'You were last seen traveling around' }} {{ player.map }}.
 
-          <ion-button margin-top expand="block" color="primary" (click)="play()">Play IdleLands!</ion-button>
+          <ion-button class="ion-margin-top" expand="block" color="primary" (click)="play()">Play IdleLands!</ion-button>
         </ion-card-content>
       </ion-card>
 

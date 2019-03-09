@@ -97,12 +97,21 @@ export class GameService {
     });
   }
 
-  public logout() {
-    this.socketService.emit(ServerEventName.AuthSignOut);
+  private removePlayerData() {
     this.currentPlayer = null;
     this.player.next(null);
     this.setSessionId(null);
     this.setLoggedInId(null);
+  }
+
+  public logout() {
+    this.socketService.emit(ServerEventName.AuthSignOut);
+    this.removePlayerData();
+  }
+
+  public delete() {
+    this.socketService.emit(ServerEventName.AuthDelete);
+    this.removePlayerData();
   }
 
 }

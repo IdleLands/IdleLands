@@ -40,6 +40,20 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class DeleteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.AuthDelete;
+  description = 'Delete your IdleLands character.';
+  args = '';
+
+  async callback() {
+    const player = this.game.playerManager.getPlayer(this.player);
+    this.game.databaseManager.deletePlayer(player);
+    this.game.playerManager.removePlayer(player);
+
+    this.gameMessage('Goodbye forever :(');
+  }
+}
+
 export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.AuthRegister;
   description = 'Sign in to IdleLands with a name and a userid.';
