@@ -2,12 +2,13 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName } from '../../shared/interfaces';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,11 @@ export class GameService {
     return this.socketService.status$;
   }
 
-  constructor(private storage: Storage, private socketService: SocketClusterService) {}
+  constructor(
+    private storage: Storage,
+    private authService: AuthService,
+    private socketService: SocketClusterService
+  ) {}
 
   private setSessionId(id: string) {
     this.sessionId = id;
@@ -60,6 +65,15 @@ export class GameService {
 
     this.setSessionId(await this.storage.get('sessionId'));
     this.setLoggedInId(await this.storage.get('loggedInId'));
+
+    combineLatest(
+      this.authService.user$,
+      this.socketService.status$,
+      this.player$
+    ).subscribe(async ([user, status, player]) => {
+      if(status !== Status.Connected || !player || !user) return;
+      this.socketService.emit(ServerEventName.AuthSyncAccount, { token: await user.getIdToken() });
+    });
 
     this.socketService.status$.subscribe(status => {
       if(status !== Status.Connected || !this.currentPlayer) return;
@@ -102,6 +116,7 @@ export class GameService {
     this.player.next(null);
     this.setSessionId(null);
     this.setLoggedInId(null);
+    this.authService.logout();
   }
 
   public logout() {

@@ -7,6 +7,8 @@ export enum ServerEventName {
   AuthRegister = 'auth:register',
   AuthDelete = 'auth:delete',
   AuthNeedsName = 'auth:needsname',
+  AuthSyncAccount = 'auth:syncaccount',
+  AuthUnsyncAccount = 'auth:unsyncaccount',
   PlayGame = 'auth:playgame',
 
   CharacterSync = 'character:sync'

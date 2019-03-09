@@ -5,7 +5,45 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- TODO: sync with google/twit/fb/email-pw, delete account -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Account Backup</ion-card-title>
+      <ion-card-subtitle>Back up your account with a different login mechanism. You can only sync to one service at a time.</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list class="ion-no-padding">
+
+        <ion-item-divider>Available Services</ion-item-divider>
+
+        <ion-item *ngFor="let authMethod of authService.authMethods">
+          <ion-icon slot="start" [icon]="authMethod.icon"></ion-icon>
+          
+          {{ authMethod.name }}
+
+          <ion-button slot="end" 
+                      size="small"
+                      (click)="authService.login(authMethod.provider)" 
+                      *ngIf="!authService.currentProviders[authMethod.type]">
+                      Sync
+          </ion-button>
+
+          <ion-label slot="end"
+                     class="ion-text-right"
+                     *ngIf="authService.currentProviders[authMethod.type] as authChunk">
+                     Synced to {{ authChunk.displayName || authChunk.email || 'unknown' }}
+          </ion-label>
+        </ion-item>
+
+        <ion-item-divider *ngIf="authService.user$ | async">Unsync</ion-item-divider>
+
+        <ion-item color="warning" *ngIf="authService.user$ | async as user">
+          <ion-label class="ion-text-wrap">You can also unsync your account, if you want. If you do this, and you lose access to your original account (clearing cache, etc), your account will vanish into the abyss. Not recommended, obviously.</ion-label>
+          <ion-button color="danger" fill="outline" slot="end" (click)="unsync(user)">Unsync</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
   <ion-card color="danger">
     <ion-card-header>
@@ -16,7 +54,7 @@
       <ion-list class="ion-no-padding">
         <ion-item color="danger" class="ion-text-wrap">
           <ion-label class="ion-text-wrap">If you really, really, for some reason want to delete your character, you can do that! You will have to go through a few dialogs, and then it will be confirmed. I'm not gonna beg you or anything, b-b-b-baka, but know that no data will be retained if you choose to go through with it.</ion-label>
-          <ion-button slot="end" color="danger" (click)="deleteCharacter()">Delete Character</ion-button>
+          <ion-button slot="end" fill="outline" color="warning" (click)="deleteCharacter()">Delete Character</ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>

@@ -107,11 +107,12 @@ export class AppComponent {
         filter(x => x instanceof NavigationEnd)
       )
       .subscribe((x: NavigationEnd) => {
-        const isHome = x.url.includes('/home');
+        const isHome = x.urlAfterRedirects.includes('/home');
         this.hiddenSplitPane = isHome;
 
         if(!isHome && !this.gameService.hasPlayer) {
           this.router.navigate(['/home']);
+          this.hiddenSplitPane = true;
         }
       });
   }

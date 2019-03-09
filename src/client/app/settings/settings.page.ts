@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GameService } from '../game.service';
+import { AuthService } from '../auth.service';
+import { SocketClusterService } from '../socket-cluster.service';
+import { ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +16,9 @@ export class SettingsPage {
   constructor(
     private router: Router,
     private alertCtrl: AlertController,
-    private gameService: GameService
+    private gameService: GameService,
+    private socketService: SocketClusterService,
+    public authService: AuthService
   ) { }
 
   public async deleteCharacter() {
@@ -64,6 +69,11 @@ export class SettingsPage {
     });
 
     alert.present();
+  }
+
+  public async unsync(user) {
+    this.socketService.emit(ServerEventName.AuthUnsyncAccount, { token: await user.getIdToken() });
+    this.authService.logout();
   }
 
 }

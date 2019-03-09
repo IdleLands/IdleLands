@@ -9,6 +9,7 @@ import { SocketClusterService, Status } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
 import { IPlayer } from '../../../shared/interfaces/IPlayer';
 import { GameService } from '../game.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -38,6 +39,7 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private gameService: GameService,
+    private authService: AuthService,
     private socketService: SocketClusterService
   ) {}
 

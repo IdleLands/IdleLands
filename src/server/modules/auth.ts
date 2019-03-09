@@ -15,10 +15,15 @@ export class SignInEvent extends ServerSocketEvent implements ServerEvent {
     if(!userId) return this.gameError(`${this.event} requires a userId`);
 
     const character = await this.game.databaseManager.checkIfPlayerExists({ userId });
+    const loggedInPlayer = this.game.playerManager.getPlayer(character.name);
 
     if(!character) {
       this.emit(ServerEventName.AuthNeedsName, {});
       return;
+    }
+
+    if(loggedInPlayer) {
+      character.sessionId = loggedInPlayer.sessionId;
     }
 
     this.emit(ServerEventName.CharacterSync, character);
@@ -79,6 +84,58 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     this.emit(ServerEventName.CharacterSync, character);
+  }
+}
+
+export class SyncAccountEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.AuthSyncAccount;
+  description = 'Lock your account down using a non-anonymous method.';
+  args = '';
+
+  async callback({ token } = { token: '' }) {
+
+    if(!token) return this.gameError('You need to specify a token.');
+    if(!this.player) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
+
+    const loggedInPlayer = this.game.playerManager.getPlayer(this.player);
+    if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
+
+    let setKey = false;
+    try {
+      setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, token);
+    } catch(e) {
+      this.gameError(e.message);
+    }
+
+    if(setKey) {
+      this.emit(ServerEventName.CharacterSync, loggedInPlayer);
+    }
+  }
+}
+
+export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.AuthUnsyncAccount;
+  description = 'Remove your synced account information.';
+  args = '';
+
+  async callback({ token } = { token: '' }) {
+
+    if(!token) return this.gameError('You need to specify a token.');
+    if(!this.player) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
+
+    const loggedInPlayer = this.game.playerManager.getPlayer(this.player);
+    if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
+
+    let setKey = false;
+    try {
+      setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, token, true);
+    } catch(e) {
+      this.gameError(e.message);
+    }
+
+    if(setKey) {
+      this.emit(ServerEventName.CharacterSync, loggedInPlayer);
+    }
   }
 }
 

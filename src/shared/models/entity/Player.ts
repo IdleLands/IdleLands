@@ -11,11 +11,13 @@ export class Player implements IPlayer {
   // internal vars
   @ObjectIdColumn() public _id: string;
 
-  @Column()
-  @Index({ unique: true }) private userId: string;
+  @Index({ unique: true })
+  @Column() public userId: string;
 
-  @Column()
-  @Index({ unique: true }) private authId: string;
+  @Column() public authType: string;
+
+  @Index({ unique: true })
+  @Column() public authId: string;
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
@@ -26,8 +28,8 @@ export class Player implements IPlayer {
   public $statistics: Statistics;
 
   // player-related vars
-  @Column()
-  @Index({ unique: true }) public name: string;
+  @Index({ unique: true })
+  @Column() public name: string;
 
   @Column() public level: number;
   @Column() public profession: string;

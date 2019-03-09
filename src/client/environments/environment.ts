@@ -5,6 +5,15 @@
 export const environment = {
   production: false,
 
+  firebase: {
+    apiKey: 'AIzaSyApNfy2rl9J4f1eyPu4ToF0nTrzS9bYO7c',
+    authDomain: 'idle-lands.firebaseapp.com',
+    databaseURL: 'https://idle-lands.firebaseio.com',
+    projectId: 'idle-lands',
+    storageBucket: 'idle-lands.appspot.com',
+    messagingSenderId: '289483800784'
+  },
+
   app: {
     protocol: 'http',
     hostname: '127.0.0.1',

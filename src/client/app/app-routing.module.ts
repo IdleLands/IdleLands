@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'character', loadChildren: './character/character.module#CharacterPageModule' },
   { path: 'adventure-log', loadChildren: './adventure-log/adventure-log.module#AdventureLogPageModule' },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

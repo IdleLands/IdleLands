@@ -1,10 +1,15 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { Connection, createConnection, getConnectionOptions, ObjectID } from 'typeorm';
+import { Connection, createConnection, getConnectionOptions } from 'typeorm';
 import { extend } from 'lodash';
+
+import * as firebaseAdmin from 'firebase-admin';
 
 import { Player, Statistics } from '../../../shared/models/entity';
 import { Logger } from '../logger';
+
+const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
+const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
 
 @Singleton
 @AutoWired
@@ -13,11 +18,20 @@ export class DatabaseManager {
 
   @Inject public logger: Logger;
 
+  private firebase;
+
   private allPlayerFields = [
     { proto: Statistics, name: 'statistics' }
   ];
 
   public async init() {
+    if(firebaseKey && firebaseProj) {
+      this.firebase = firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(JSON.parse(firebaseKey)),
+        databaseURL: firebaseProj
+      });
+    }
+
     const opts = await getConnectionOptions();
     (<any>opts).useNewUrlParser = true;
     this.connection = await createConnection(opts);
@@ -123,5 +137,28 @@ export class DatabaseManager {
     } catch(e) {
       this.logger.error(`DatabaseManager#removePlayer`, e);
     }
+  }
+
+  public async setAuthKey(player: Player, token: string, removeToken = false): Promise<boolean> {
+    if(!this.connection) return null;
+    if(!this.firebase) throw new Error('No firebase admin connection!');
+
+    const decoded = await this.firebase.auth().verifyIdToken(token);
+    const provider = decoded.firebase.sign_in_provider;
+    const uid = decoded.uid;
+
+    if(player.authId === uid) return false;
+
+    if(removeToken) {
+      player.authType = null;
+      player.authId = null;
+    } else {
+      player.authType = provider;
+      player.authId = uid;
+    }
+
+    this.savePlayer(player);
+
+    return true;
   }
 }
