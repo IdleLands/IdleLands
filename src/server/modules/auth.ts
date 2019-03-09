@@ -6,21 +6,33 @@ import { ServerSocketEvent } from '../../shared/models';
 
 export class SignInEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.AuthSignIn;
-  description = 'Sign in to IdleLands (anonymously or authenticated).';
+  description = 'Sign in to IdleLands anonymously.';
   args = 'userId';
 
-  async callback({ userId } = { userId: ''}) {
+  async callback({ userId, authToken } = { userId: '', authToken: '' }) {
+    if(!userId && !authToken) return this.gameError(`${this.event} requires a userId or an authToken.`);
 
-    // TODO: check here for an authId, if present, cannot sign in anonymously (authId takes precedence over userId)
-    if(!userId) return this.gameError(`${this.event} requires a userId`);
+    let searchOpts: any = { currentUserId: userId };
 
-    const character = await this.game.databaseManager.checkIfPlayerExists({ userId });
-    const loggedInPlayer = this.game.playerManager.getPlayer(character.name);
+    // we check for an auth id first because if a token is specified, we need to look for that
+    if(authToken) {
+      try {
+        const decodedToken = await this.game.databaseManager.verifyToken(authToken);
+        searchOpts = { authId: decodedToken.uid };
+      } catch(e) {
+        this.gameError('Auth token could not be decoded correctly.');
+        return;
+      }
+    }
+
+    const character = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
 
     if(!character) {
       this.emit(ServerEventName.AuthNeedsName, {});
       return;
     }
+
+    const loggedInPlayer = this.game.playerManager.getPlayer(character.name);
 
     if(loggedInPlayer) {
       character.sessionId = loggedInPlayer.sessionId;
@@ -69,9 +81,7 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
     if(name.length < 2 || name.length > 20) return this.gameError(`Character name must be between 2 and 20 characters.`);
 
     // try to load a character with this id/name
-    let character = await this.game.databaseManager.checkIfPlayerExists({ userId, name });
-
-    // TODO: check here for an authId, if present, this character cannot be registered.
+    let character = await this.game.databaseManager.checkIfPlayerExists({ currentUserId: userId, name });
 
     if(!character) {
 
@@ -142,12 +152,25 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
 export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PlayGame;
   description = 'Join the game!';
-  args = 'userId, sessionId, relogin';
+  args = 'userId, sessionId, authToken, relogin';
 
-  async callback({ userId, sessionId, relogin } = { userId: '', sessionId: '', relogin: false }) {
-    if(!userId) return this.gameError(`${this.event} requires a userId`);
+  async callback({ userId, sessionId, authToken, relogin } = { userId: '', sessionId: '', authToken: '', relogin: false }) {
+    if(!userId && !authToken) return this.gameError(`${this.event} requires a userId or an authToken.`);
 
-    const characterCheck = await this.game.databaseManager.checkIfPlayerExists({ userId });
+    let searchOpts: any = { currentUserId: userId };
+
+    // we check for an auth id first because if a token is specified, we need to look for that
+    if(authToken) {
+      try {
+        const decodedToken = await this.game.databaseManager.verifyToken(authToken);
+        searchOpts = { authId: decodedToken.uid };
+      } catch(e) {
+        this.gameError('Auth token could not be decoded correctly.');
+        return;
+      }
+    }
+
+    const characterCheck = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
     if(!characterCheck) return;
 
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
@@ -157,21 +180,24 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
       return this.gameError('Unable to log in, please wait 30 seconds and try again.');
     }
 
-    // secondly, check the character to see if it is logged in (fallback)
+    // thirdly, check the character to see if it is logged in (fallback)
     if(!loggedInPlayer && characterCheck.loggedIn) {
       return this.gameError('You are already logged in elsewhere.');
     }
 
-    // TODO: check here for an authId, if present, cannot sign in anonymously
-
     if(!characterCheck) return this.gameError('Your character does not exist.');
 
     // we have passed all of the checks, so lets hit the database again, why not?
-    const character = await this.game.databaseManager.loadPlayer({ userId });
+    const character = await this.game.databaseManager.loadPlayer(searchOpts);
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 
     character.sessionId = uuid();
+
+    // if we have an auth token, or we have a current user id, we can change to a new user id
+    if(authToken && userId) {
+      character.currentUserId = userId;
+    }
 
     this.setPlayer(character);
     this.game.playerManager.addPlayer(character);

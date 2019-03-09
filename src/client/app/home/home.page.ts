@@ -39,8 +39,8 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private gameService: GameService,
-    private authService: AuthService,
-    private socketService: SocketClusterService
+    private socketService: SocketClusterService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -124,6 +124,11 @@ export class HomePage implements OnInit, OnDestroy {
     this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId, sessionId: this.gameService.session });
   }
 
-  // TODO: add "or sign in with X or Y" to sync your character to this location
+  public async login(authProvider) {
+    const { user } = await this.authService.login(authProvider);
+    const token = await user.getIdToken();
+
+    this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId, authToken: token });
+  }
 
 }

@@ -53,7 +53,7 @@ export class GameWorker extends SCWorker {
     scServer.on('connection', (socket) => {
       Object.values(allEvents).forEach((EvtCtor: any) => {
         const evtInst = new EvtCtor(game, socket);
-        socket.on(evtInst.event, (args) => evtInst.callback(args));
+        socket.on(evtInst.event, (args) => evtInst.callback(args || {}));
       });
     });
 

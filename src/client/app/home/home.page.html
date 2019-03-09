@@ -16,7 +16,7 @@
   </ion-row>
 
   <ion-row>
-    <ion-col size="6" offset="3" class="ion-padding">
+    <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
 
       <ion-card *ngIf="hasError">
         <ion-card-content class="error-card">
@@ -58,8 +58,22 @@
           </ion-row>
 
           <ion-row class="ion-margin-top">
-            <ion-col size="6" offset="3">
+            <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3">
               <ion-button expand="block" color="primary" [disabled]="!canSignUp" (click)="signUp()">Register</ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-margin-top">
+            <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-text-center">
+              ... or sign in to an existing character with:
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-margin-top ion-flex-wrap">
+            <ion-col *ngFor="let auth of authService.authMethods" size-xs="12" size-sm="3" size-md="3">
+              <ion-button color="primary" size="small" expand="block" (click)="login(auth.provider)">
+                <ion-icon slot="start" [name]="auth.icon"></ion-icon> {{ auth.name }}
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-card-content>

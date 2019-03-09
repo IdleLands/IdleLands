@@ -74,7 +74,7 @@ export class DatabaseManager {
     if(!this.connection) return null;
 
     const player = new Player();
-    extend(player, { name, userId });
+    extend(player, { name, userId, currentUserId: userId });
     player.init();
 
     try {
@@ -139,11 +139,15 @@ export class DatabaseManager {
     }
   }
 
+  public async verifyToken(token: string) {
+    return this.firebase.auth().verifyIdToken(token);
+  }
+
   public async setAuthKey(player: Player, token: string, removeToken = false): Promise<boolean> {
     if(!this.connection) return null;
     if(!this.firebase) throw new Error('No firebase admin connection!');
 
-    const decoded = await this.firebase.auth().verifyIdToken(token);
+    const decoded = await this.verifyToken(token);
     const provider = decoded.firebase.sign_in_provider;
     const uid = decoded.uid;
 
@@ -152,9 +156,11 @@ export class DatabaseManager {
     if(removeToken) {
       player.authType = null;
       player.authId = null;
+      player.authSyncedTo = null;
     } else {
       player.authType = provider;
       player.authId = uid;
+      player.authSyncedTo = decoded.name || decoded.email || 'unknown';
     }
 
     this.savePlayer(player);

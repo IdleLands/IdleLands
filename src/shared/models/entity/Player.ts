@@ -14,10 +14,14 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public userId: string;
 
+  @Column() public currentUserId: string;
+
   @Column() public authType: string;
 
   @Index({ unique: true })
   @Column() public authId: string;
+
+  @Column() public authSyncedTo: string;
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
