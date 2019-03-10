@@ -6,4 +6,49 @@
 
 <ion-content padding>
 
+  <ng-container *ngIf="gameService.player$ | async as player">
+    <ion-row>
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</ion-card-subtitle>
+            <ion-card-title>{{ player.name }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+
+              <ion-item *ngIf="player.lastAscension">
+                <ion-icon slot="start" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+
+                You last ascended on {{ player.lastAscension | date:'medium' }}.
+              </ion-item>
+
+              <ion-item>
+                <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
+
+                {{ player.gender }}
+              </ion-item>
+
+              <ion-item>
+                <ion-icon slot="start" [src]="'assets/icon/symbol-title.svg'"></ion-icon>
+
+                {{ player.title || 'no title' }}
+              </ion-item>
+
+              <ion-item>
+                <ion-icon slot="start" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+
+                {{ player.xp.__current }} / {{ player.xp.maximum }} XP
+              </ion-item>
+
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ng-container>
+
 </ion-content>

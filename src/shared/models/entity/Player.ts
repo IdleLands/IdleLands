@@ -31,10 +31,12 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public name: string;
   @Column() public ascensionLevel: number;
+  @Column() public lastAscension: number;
   @Column() public level: RestrictedNumber;
   @Column() public xp: RestrictedNumber;
   @Column() public profession: string;
   @Column() public gender: string;
+  @Column() public title: string;
   @Column() public map: string;
   @Column() public x: number;
   @Column() public y: number;
@@ -51,6 +53,10 @@ export class Player implements IPlayer {
   // not serialized to client or DB
   public get $possibleGenders() {
     return ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+  }
+
+  public get $titles() {
+    return ['Newbie'];
   }
 
   init() {

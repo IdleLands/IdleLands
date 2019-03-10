@@ -21,6 +21,9 @@ export interface IPlayer {
   map: string;
   loggedIn: boolean;
 
+  $possibleGenders: string[];
+  $titles: string[];
+
   loop(): void;
   toSaveObject(): IPlayer;
 }
