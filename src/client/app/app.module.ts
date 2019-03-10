@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +22,8 @@ import { SharedModule } from './shared.module';
     IonicModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    NgCircleProgressModule.forRoot()
   ],
   providers: [
     StatusBar,

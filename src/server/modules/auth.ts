@@ -48,7 +48,7 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
   args = '';
 
   async callback() {
-    const player = this.game.playerManager.getPlayer(this.player);
+    const player = this.game.playerManager.getPlayer(this.playerName);
     player.loggedIn = false;
     this.game.databaseManager.savePlayer(player);
     this.game.playerManager.removePlayer(player);
@@ -63,7 +63,7 @@ export class DeleteEvent extends ServerSocketEvent implements ServerEvent {
   args = '';
 
   async callback() {
-    const player = this.game.playerManager.getPlayer(this.player);
+    const player = this.game.playerManager.getPlayer(this.playerName);
     this.game.databaseManager.deletePlayer(player);
     this.game.playerManager.removePlayer(player);
 
@@ -105,9 +105,9 @@ export class SyncAccountEvent extends ServerSocketEvent implements ServerEvent {
   async callback({ token } = { token: '' }) {
 
     if(!token) return this.gameError('You need to specify a token.');
-    if(!this.player) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
+    if(!this.playerName) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
 
-    const loggedInPlayer = this.game.playerManager.getPlayer(this.player);
+    const loggedInPlayer = this.game.playerManager.getPlayer(this.playerName);
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
     let setKey = false;
@@ -131,9 +131,9 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
   async callback({ token } = { token: '' }) {
 
     if(!token) return this.gameError('You need to specify a token.');
-    if(!this.player) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
+    if(!this.playerName) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
 
-    const loggedInPlayer = this.game.playerManager.getPlayer(this.player);
+    const loggedInPlayer = this.game.playerManager.getPlayer(this.playerName);
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
     let setKey = false;

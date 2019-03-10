@@ -1,10 +1,15 @@
 import { ServerEventName, IPlayer } from '../interfaces';
 import { Game } from '../../server/core/game/game';
+import { Player } from './entity';
 
 export class ServerSocketEvent {
 
-  protected get player(): string {
+  protected get playerName(): string {
     return this.socket.playerName;
+  }
+
+  protected get player(): Player {
+    return this.game.playerManager.getPlayer(this.playerName);
   }
 
   protected emit(event: ServerEventName, data: any = {}) {

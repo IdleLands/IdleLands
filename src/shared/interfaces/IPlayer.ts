@@ -1,3 +1,4 @@
+import { RestrictedNumber } from 'restricted-number';
 
 export interface IPlayer {
   _id: string;
@@ -11,7 +12,8 @@ export interface IPlayer {
   createdAt: number;
 
   name: string;
-  level: number;
+  level: RestrictedNumber;
+  xp: RestrictedNumber;
   profession: string;
   gender: string;
   x: number;

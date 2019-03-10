@@ -72,6 +72,8 @@ export class GameService {
       this.player$
     ).subscribe(async ([user, status, player]) => {
       if(status !== Status.Connected || !player || !user) return;
+      if(user.uid === player.authId) return;
+
       this.socketService.emit(ServerEventName.AuthSyncAccount, { token: await user.getIdToken() });
     });
 

@@ -85,7 +85,7 @@
         </ion-card-header>
 
         <ion-card-content class="player-card">
-          You are a level {{ player.level }} {{ player.profession }}. {{ isNewPlayer ? 'Your adventure will begin in' : 'You were last seen traveling around' }} {{ player.map }}.
+          You are a level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}. {{ isNewPlayer ? 'Your adventure will begin in' : 'You were last seen traveling around' }} {{ player.map }}.
 
           <ion-button class="ion-margin-top" expand="block" color="primary" (click)="play()">Play IdleLands!</ion-button>
         </ion-card-content>

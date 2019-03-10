@@ -43,6 +43,8 @@
     "minimist": "1.1.0",
     "mongodb": "^3.1.13",
     "morgan": "1.7.0",
+    "ng-circle-progress": "^1.4.0",
+    "restricted-number": "^2.1.0",
     "rxjs": "~6.3.3",
     "sc-errors": "^1.4.1",
     "sc-framework-health-check": "^2.0.0",
