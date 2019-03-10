@@ -2,6 +2,7 @@
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
 import { sample, pickBy } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
+import { nonenumerable } from 'nonenumerable';
 
 import { IPlayer } from '../../interfaces/IPlayer';
 import { Statistics } from './Statistics';
@@ -13,6 +14,7 @@ import * as AllProfessions from '../../professions';
 export class Player implements IPlayer {
 
   // internal vars
+  @nonenumerable
   @ObjectIdColumn() public _id: string;
 
   @Index({ unique: true })
@@ -47,25 +49,27 @@ export class Player implements IPlayer {
 
   // joined vars
   // not serialized to the client
+  @nonenumerable
   public $statistics: Statistics;
+
+  @nonenumerable
   public $profession: Profession;
 
-  // not serialized to client or DB
-  public get $possibleGenders() {
-    return ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
-  }
+  @Column()
+  public availableGenders: string[];
 
-  public get $titles() {
-    return ['Newbie'];
-  }
+  @Column()
+  public availableTitles: string[];
 
   init() {
     // validate that important properties exist
     if(!this.createdAt) this.createdAt = Date.now();
+    if(!this.availableGenders) this.availableGenders = ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+    if(!this.availableTitles) this.availableTitles = ['Newbie'];
     if(!this.level) this.level = new RestrictedNumber(1, 100, 1);
     if(!this.xp) this.xp = new RestrictedNumber(0, 100, 0);
     if(!this.profession) this.profession = 'Generalist';
-    if(!this.gender) this.gender = sample(this.$possibleGenders);
+    if(!this.gender) this.gender = sample(this.availableGenders);
     if(!this.map) this.map = 'Norkos';
     if(!this.x) this.x = 10;
     if(!this.y) this.y = 10;
@@ -88,7 +92,8 @@ export class Player implements IPlayer {
     return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 
-  loop() {
+  async loop() {
+    this.xp.add(1);
     console.log('loop', Date.now(), this.name);
   }
 }

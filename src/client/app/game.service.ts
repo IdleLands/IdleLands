@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
+import { applyPatch } from 'fast-json-patch';
+
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
@@ -92,6 +94,12 @@ export class GameService {
       this.setLoggedInId(this.currentPlayer._id);
 
       this.player.next(char);
+    });
+
+    this.socketService.register(ServerEventName.CharacterPatch, (patches) => {
+      const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
+      this.currentPlayer = newPlayer;
+      this.player.next(newPlayer);
     });
 
     if(this.sessionId) {

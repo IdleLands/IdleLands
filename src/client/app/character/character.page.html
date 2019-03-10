@@ -13,7 +13,7 @@
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</ion-card-subtitle>
-            <ion-card-title>{{ player.name }}</ion-card-title>
+            <ion-card-title>{{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span></ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
@@ -28,13 +28,24 @@
               <ion-item>
                 <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
 
-                {{ player.gender }}
+                <ion-select [value]="player.gender" 
+                            (ionChange)="changeGender($event)"
+                            placeholder="choose gender"
+                            [interfaceOptions]="{ header: 'Change Gender' }">
+                  <ion-select-option *ngFor="let gender of player.availableGenders">{{ gender }}</ion-select-option>
+                </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-icon slot="start" [src]="'assets/icon/symbol-title.svg'"></ion-icon>
 
-                {{ player.title || 'no title' }}
+                <ion-select [value]="player.title" 
+                            (ionChange)="changeTitle($event)" 
+                            placeholder="no title" 
+                            [interfaceOptions]="{ header: 'Change Title' }">
+                  <ion-select-option value="">no title</ion-select-option>
+                  <ion-select-option *ngFor="let title of player.availableTitles">{{ title }}</ion-select-option>
+                </ion-select>
               </ion-item>
 
               <ion-item>

@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import * as SocketCluster from 'socketcluster-client';
+import { decode } from 'notepack.io';
 import { Signal } from 'signals';
 
 import { environment } from './../environments/environment';

@@ -117,7 +117,9 @@ export class DatabaseManager {
         this.allPlayerFields.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`]))
       );
 
-      await this.connection.manager.save(Player, player.toSaveObject());
+      const saveObj = player.toSaveObject();
+      saveObj._id = player._id;
+      await this.connection.manager.save(Player, saveObj);
 
     } catch(e) {
       this.logger.error(`DatabaseManager#savePlayer`, e);
@@ -132,7 +134,9 @@ export class DatabaseManager {
         this.allPlayerFields.map(x => this.connection.manager.remove(x.proto, player[`$${x.name}`]))
       ]);
 
-      await this.connection.manager.remove(Player, player.toSaveObject());
+      const saveObj = player.toSaveObject();
+      saveObj._id = player._id;
+      await this.connection.manager.remove(Player, saveObj);
 
     } catch(e) {
       this.logger.error(`DatabaseManager#removePlayer`, e);

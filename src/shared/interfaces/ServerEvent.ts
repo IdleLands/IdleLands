@@ -12,8 +12,10 @@ export enum ServerEventName {
   PlayGame = 'auth:playgame',
 
   CharacterSync = 'character:sync',
+  CharacterPatch = 'character:patch',
 
-  CharacterGender = 'character:gender'
+  CharacterGender = 'character:gender',
+  CharacterTitle = 'character:title'
 }
 
 export interface ServerEvent {

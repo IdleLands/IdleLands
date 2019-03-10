@@ -23,13 +23,14 @@
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
             
             <ion-label>
-              {{ player.name }}
+              {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
               <p>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</p>
+              <p>{{ player.map }}</p>
             </ion-label>
 
             <circle-progress
               slot="end"
-              [percent]="player.xp.__current / player.xp.maximum"
+              [percent]="(player.xp.__current / player.xp.maximum) * 100"
               [radius]="20"
               [outerStrokeWidth]="6"
               [innerStrokeWidth]="0"
@@ -37,7 +38,7 @@
               [innerStrokeColor]="''"
               [showSubtitle]="false"
               [showUnits]="false"
-              [animation]="true"
+              [animation]="false"
               [renderOnClick]="false"
               [title]="player.ascensionLevel > 0 ? player.ascensionLevel : 'XP'"
               [backgroundStroke]="'#C7E596'"
