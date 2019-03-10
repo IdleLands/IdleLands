@@ -5,6 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const healthChecker = require('sc-framework-health-check');
+const scCodecMinBin = require('sc-codec-min-bin');
 
 const allEvents = require('../modules');
 const allAPI = require('../http');
@@ -14,6 +15,8 @@ const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.e
 export class GameWorker extends SCWorker {
   run() {
     console.log('   >> Worker PID:', process.pid);
+
+    this.scServer.setCodecEngine(scCodecMinBin);
 
     const game = new Game();
     game.init();

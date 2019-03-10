@@ -118,7 +118,7 @@ export class SyncAccountEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     if(setKey) {
-      this.emit(ServerEventName.CharacterSync, loggedInPlayer);
+      this.game.updatePlayer(loggedInPlayer);
     }
   }
 }
@@ -128,9 +128,8 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
   description = 'Remove your synced account information.';
   args = '';
 
-  async callback({ token } = { token: '' }) {
+  async callback() {
 
-    if(!token) return this.gameError('You need to specify a token.');
     if(!this.playerName) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
 
     const loggedInPlayer = this.game.playerManager.getPlayer(this.playerName);
@@ -138,13 +137,13 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
 
     let setKey = false;
     try {
-      setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, token, true);
+      setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, '', true);
     } catch(e) {
       this.gameError(e.message);
     }
 
     if(setKey) {
-      this.emit(ServerEventName.CharacterSync, loggedInPlayer);
+      this.game.updatePlayer(loggedInPlayer);
     }
   }
 }

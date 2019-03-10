@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { auth } from 'firebase/app';
 export class AuthService {
 
   public user$ = this.afAuth.user;
+  public token$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   public get authMethods() {
     return this.allAuth;
@@ -25,7 +27,20 @@ export class AuthService {
   constructor(
     private alertCtrl: AlertController,
     private afAuth: AngularFireAuth
-  ) {}
+  ) {
+    this.init();
+  }
+
+  private init() {
+    this.user$.subscribe(async user => {
+      if(!user) {
+        this.token$.next('');
+        return;
+      }
+
+      this.token$.next(await user.getIdToken());
+    });
+  }
 
   async login(provider): Promise<any> {
     return new Promise(async resolve => {

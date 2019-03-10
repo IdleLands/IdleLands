@@ -48,6 +48,7 @@
     "nonenumerable": "^1.1.1",
     "restricted-number": "^2.1.0",
     "rxjs": "~6.3.3",
+    "sc-codec-min-bin": "^3.0.0",
     "sc-errors": "^1.4.1",
     "sc-framework-health-check": "^2.0.0",
     "sc-redis": "^0.2.0",

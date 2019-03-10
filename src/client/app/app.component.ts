@@ -31,7 +31,10 @@ export class AppComponent {
     { name: 'Personalities', icon: 'personalities' },
     { name: 'Map', icon: 'map' },
     { name: 'Inventory', icon: 'inventory' },
-    { name: 'Settings', icon: 'settings', url: '/settings' }
+    { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
+      if(player.authId) return false;
+      return 'Unsynced';
+    } }
   ];
 
   constructor(

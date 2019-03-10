@@ -71,8 +71,8 @@ export class SettingsPage {
     alert.present();
   }
 
-  public async unsync(user) {
-    this.socketService.emit(ServerEventName.AuthUnsyncAccount, { token: await user.getIdToken() });
+  public unsync() {
+    this.socketService.emit(ServerEventName.AuthUnsyncAccount);
     this.authService.logout();
   }
 

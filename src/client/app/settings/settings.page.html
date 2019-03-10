@@ -12,7 +12,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-list class="ion-no-padding">
+      <ion-list class="ion-no-padding" *ngIf="gameService.player$ | async as player">
 
         <ion-item-divider>Available Services</ion-item-divider>
 
@@ -24,22 +24,22 @@
           <ion-button slot="end" 
                       size="small"
                       (click)="authService.login(authMethod.provider)" 
-                      *ngIf="(gameService.player$ | async).authType !== authMethod.type">
+                      *ngIf="player.authType !== authMethod.type">
                       Sync
           </ion-button>
 
           <ion-label slot="end"
                      class="ion-text-right"
-                     *ngIf="(gameService.player$ | async).authType === authMethod.type">
+                     *ngIf="player.authType === authMethod.type">
                      Synced ({{ (gameService.player$ | async).authSyncedTo }})
           </ion-label>
         </ion-item>
 
-        <ion-item-divider *ngIf="authService.user$ | async">Unsync</ion-item-divider>
+        <ion-item-divider *ngIf="player.authType">Unsync</ion-item-divider>
 
-        <ion-item color="danger" *ngIf="authService.user$ | async as user">
+        <ion-item color="danger" *ngIf="player.authType">
           <ion-label class="ion-text-wrap">You can also unsync your account, if you want. If you do this, and you lose access to your original account (clearing cache, etc), your account will vanish into the abyss. Not recommended, obviously.</ion-label>
-          <ion-button color="warning" fill="outline" slot="end" (click)="unsync(user)">Unsync</ion-button>
+          <ion-button color="warning" fill="outline" slot="end" (click)="unsync()">Unsync</ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>

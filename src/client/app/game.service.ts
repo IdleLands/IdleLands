@@ -62,6 +62,13 @@ export class GameService {
     this.storage.set('loggedInId', id);
   }
 
+  private setCurrentPlayer(player: IPlayer) {
+    this.currentPlayer = player;
+    this.setSessionId(this.currentPlayer.sessionId);
+    this.setLoggedInId(this.currentPlayer._id);
+    this.player.next(player);
+  }
+
   public async init() {
     await this.initUser();
 
@@ -89,17 +96,12 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.CharacterSync, (char) => {
-      this.currentPlayer = char;
-      this.setSessionId(this.currentPlayer.sessionId);
-      this.setLoggedInId(this.currentPlayer._id);
-
-      this.player.next(char);
+      this.setCurrentPlayer(char);
     });
 
     this.socketService.register(ServerEventName.CharacterPatch, (patches) => {
       const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
-      this.currentPlayer = newPlayer;
-      this.player.next(newPlayer);
+      this.setCurrentPlayer(newPlayer);
     });
 
     if(this.sessionId) {

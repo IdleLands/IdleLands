@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import * as SocketCluster from 'socketcluster-client';
-import { decode } from 'notepack.io';
 import { Signal } from 'signals';
+import * as scCodecMinBin from 'sc-codec-min-bin';
 
 import { environment } from './../environments/environment';
 import { ServerEventName, GameEvent } from '../../shared/interfaces';
@@ -52,7 +52,9 @@ export class SocketClusterService {
   }
 
   private initSocket() {
-    this.socket = SocketCluster.connect(environment.socketCluster);
+    const opts: any = environment.socketCluster;
+    opts.codecEngine = scCodecMinBin;
+    this.socket = SocketCluster.connect(opts);
 
     this.socket.on('error', (err) => {
       console.error(err);

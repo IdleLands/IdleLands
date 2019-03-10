@@ -30,8 +30,6 @@ export class ChangeTitleEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     const possibleTitles = player.availableTitles;
 
-    console.log('new title', newTitle, typeof newTitle)
-
     if(!newTitle) {
       player.title = '';
       this.game.updatePlayer(player);

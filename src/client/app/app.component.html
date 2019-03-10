@@ -15,9 +15,8 @@
 
       <ion-content class="ion-margin-bottom">
 
-        <ion-list>
+        <ion-list *ngIf="(gameService.player$ | async) as player">
           <ion-item class="big-item" 
-                    *ngIf="(gameService.player$ | async) as player" 
                     [routerDirection]="'root'"
                     [routerLink]="['/character']">
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
@@ -65,8 +64,10 @@
               <ion-icon slot="start" [src]="'assets/icon/category-' + page.icon + '.svg'"></ion-icon>
 
               <ion-label>
-                {{ page.name }}
+                {{ page.name }} 
               </ion-label>
+
+              <ion-badge slot="end" *ngIf="page.badge && page.badge(player)" [color]="page.badgeColor">{{ page.badge(player) }}</ion-badge>
             </ion-item>
 
           </ion-menu-toggle>

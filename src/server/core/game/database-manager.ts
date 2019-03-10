@@ -151,21 +151,25 @@ export class DatabaseManager {
     if(!this.connection) return null;
     if(!this.firebase) throw new Error('No firebase admin connection!');
 
+    if(removeToken) {
+      player.authType = null;
+      player.authId = null;
+      player.authSyncedTo = null;
+
+      this.savePlayer(player);
+
+      return true;
+    }
+
     const decoded = await this.verifyToken(token);
     const provider = decoded.firebase.sign_in_provider;
     const uid = decoded.uid;
 
     if(player.authId === uid) return false;
 
-    if(removeToken) {
-      player.authType = null;
-      player.authId = null;
-      player.authSyncedTo = null;
-    } else {
-      player.authType = provider;
-      player.authId = uid;
-      player.authSyncedTo = decoded.name || decoded.email || 'unknown';
-    }
+    player.authType = provider;
+    player.authId = uid;
+    player.authSyncedTo = decoded.name || decoded.email || 'unknown';
 
     this.savePlayer(player);
 
