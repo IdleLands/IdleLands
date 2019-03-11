@@ -34,7 +34,9 @@ export class PlayerManager {
   }
 
   public removePlayer(player: Player): void {
-    this.playerWatches[player.name].unobserve();
+    if(this.playerWatches[player.name]) {
+      this.playerWatches[player.name].unobserve();
+    }
 
     delete this.players[player.name];
     delete this.playerWatches[player.name];

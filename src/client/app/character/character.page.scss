@@ -2,3 +2,23 @@
 app-gendervatar {
   padding-left: 5px !important;
 }
+
+.stat-block {
+  display: flex;
+  align-items: center;
+
+  span {
+    padding-top: 2px;
+  }
+
+  ion-button {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --padding-top: 5px;
+    --padding-bottom: 5px;
+  }
+
+  ion-icon {
+    font-size: 2rem;
+  }
+}

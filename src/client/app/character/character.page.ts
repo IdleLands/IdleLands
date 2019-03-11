@@ -46,4 +46,22 @@ export class CharacterPage implements OnInit {
     alert.present();
   }
 
+  async showTrail(trail = [{ val: 0, reason: 'None' }], stat: string, total: number) {
+    const baseString = trail.map(({ val, reason }) => {
+      return `<p>${val > 0 ? '+' + val : val} (${reason})</p>`;
+    }).join('\n');
+
+    const resultString = `<p><strong>${total} (Total)</strong></p>`;
+
+    const alert = await this.alertCtrl.create({
+      header: `Stat Trail (${stat.toUpperCase()})`,
+      message: baseString + resultString,
+      buttons: [
+        'OK'
+      ]
+    });
+
+    alert.present();
+  }
+
 }

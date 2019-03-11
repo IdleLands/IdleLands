@@ -16,7 +16,7 @@ export class Generalist extends Profession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   1,
+    [Stat.XP]:   1.1,
     [Stat.GOLD]: 1
   };
 

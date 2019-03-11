@@ -68,6 +68,62 @@
 
       </ion-col>
     </ion-row>
+
+    <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="10" offset-md="1" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Stats</ion-card-title>
+            </ion-card-header>
+  
+            <ion-card-content>
+
+              <ion-row>
+                <ion-col class="stat-block">
+                  <ion-button fill="outline" color="dark" class="ion-margin-end" (click)="showTrail(player.$statTrail.hp, 'hp', player.stats.hp)">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-hp.svg'"></ion-icon>
+                  </ion-button>
+
+                  <strong class="ion-margin-end">HP</strong> <span>{{ player.stats.hp | number }}</span>
+                </ion-col>
+
+                <ion-col class="stat-block" *ngIf="player.stats.specialName">
+                  <ion-button fill="outline" color="dark" class="ion-margin-end">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-mp.svg'"></ion-icon>
+                  </ion-button>
+
+                  <strong class="ion-margin-end">{{ player.stats.specialName }}</strong> <span>{{ player.stats.special | number }}</span>
+                </ion-col>
+
+                <ion-col class="stat-block">
+                  <ion-button fill="outline" color="dark" class="ion-margin-end">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+                  </ion-button>
+
+                  <strong class="ion-margin-end">XP / Step</strong> <span>{{ player.stats.xp | number }}</span>
+                </ion-col>
+
+                <ion-col class="stat-block">
+                  <ion-button fill="outline" color="dark" class="ion-margin-end">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+                  </ion-button>
+
+                  <strong class="ion-margin-end">Gold Boost</strong> <span>{{ player.stats.gold | number }}</span>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+
+              </ion-row>
+              {{ player.stats | json }}
+
+              {{ player.$statTrail | json }}
+            </ion-card-content>
+          </ion-card>
+  
+        </ion-col>
+      </ion-row>
   </ng-container>
 
 </ion-content>

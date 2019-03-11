@@ -100,7 +100,7 @@ export class Player implements IPlayer {
   }
 
   async loop(): Promise<void> {
-    this.gainXP(1);
+    this.gainXP(this.stats.xp);
   }
 
   public canLevelUp(): boolean {
@@ -170,12 +170,20 @@ export class Player implements IPlayer {
     this.stats = {};
     this.$statTrail = {};
 
-    Object.keys(Stat).map(key => Stat[key]).forEach(stat => {
-      this.stats[stat] = 0;
+    this.stats.specialName = this.$profession.specialStatName;
 
+    // pre-configured
+    this.addStatTrail(Stat.XP, 5, `Base`);
+
+    // dynamically-calculated
+    Object.keys(Stat).map(key => Stat[key]).forEach(stat => {
+      this.stats[stat] = this.stats[stat] || 0;
+
+      // stats per level boost
       const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
       this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base Per Level (${profBasePerLevel})`);
 
+      // stat profession multiplier boost
       const profMult = this.$profession.calcStatMultiplier(stat);
       if(profMult > 1) {
         const addedValue = Math.floor((this.stats[stat] * profMult)) - this.stats[stat];
@@ -184,6 +192,13 @@ export class Player implements IPlayer {
         const lostValue = Math.floor(this.stats[stat] * profMult);
         this.addStatTrail(stat, -lostValue, `${this.profession} Multiplier (${profMult.toFixed(1)}x)`);
       }
+
+      // make sure it is 0. no super negatives.
+      this.stats[stat] = Math.max(0, this.stats[stat]);
     });
+
+    // base values
+    this.stats.hp = Math.max(1, this.stats.hp);
+    this.stats.xp = Math.max(1, this.stats.xp);
   }
 }
