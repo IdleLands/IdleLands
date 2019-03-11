@@ -8,6 +8,10 @@
 * MongoDB (not tested against other DBs)
 * Node 10.x
 
+### MongoDB Note
+
+The game is only tested against MongoDB. TypeORM currently lacks support for joins, etc and these are done manually. Additionally, the `seed` process requires using MongoDB. This could be cleaned up in the future, but is not a priority right now.
+
 ## Getting Started
 
 * Clone the repo
@@ -23,11 +27,7 @@ Create a `.env` file in the root of the cloned project and fill it with these va
 ### Required
 
 * `TYPEORM_CONNECTION` - the DB type (you probably want to use `mongodb`)
-* `TYPEORM_HOST` - the DB host
-* `TYPEORM_USERNAME` - the DB username (if applicable)
-* `TYPEORM_PASSWORD` - the DB password (if applicable)
-* `TYPEORM_DATABASE` - the DB name
-* `TYPEORM_PORT` - the DB port
+* `TYPEORM_URL` - the URL to connect to the DB
 * `TYPEORM_SYNCHRONIZE` - set to `true`
 * `TYPEORM_ENTITIES` - set to `src/shared/models/entity/**/*.ts`
 

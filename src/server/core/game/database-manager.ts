@@ -5,7 +5,7 @@ import { extend } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Statistics } from '../../../shared/models/entity';
+import { Player, Statistics, Assets } from '../../../shared/models/entity';
 import { Logger } from '../logger';
 
 const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
@@ -70,6 +70,7 @@ export class DatabaseManager {
     }
   }
 
+  // PLAYER FUNCTIONS
   public async createPlayer(name, userId): Promise<Player> {
     if(!this.connection) return null;
 
@@ -175,4 +176,17 @@ export class DatabaseManager {
 
     return true;
   }
+
+  // ASSET FUNCTIONS
+  public async loadAssets(): Promise<Assets> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.findOne(Assets);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadAssets`, e);
+    }
+  }
+
 }
