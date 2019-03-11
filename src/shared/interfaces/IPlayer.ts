@@ -24,6 +24,9 @@ export interface IPlayer {
   availableGenders: string[];
   availableTitles: string[];
 
-  loop(): void;
+  loop(): Promise<void>;
   toSaveObject(): IPlayer;
+
+  canLevelUp(): boolean;
+  gainXP(num: number): void;
 }

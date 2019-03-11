@@ -83,7 +83,7 @@ const start = () => {
     console.log(`   !! The sc-hot-reboot plugin is watching for code changes in the src/server directory`);
 
     const attachHMR = (scMasterInstance, opts) => {
-      chokidar.watch('**/*', opts).on('change', (filePath) => {
+      chokidar.watch(['**/*', '../shared/models'], opts).on('change', (filePath) => {
         console.log('   !! File ' + filePath + ' was modified. Restarting workers...');
         scMasterInstance.killWorkers({immediate: true});
       });

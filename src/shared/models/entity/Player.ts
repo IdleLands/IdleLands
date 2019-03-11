@@ -92,8 +92,53 @@ export class Player implements IPlayer {
     return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 
-  async loop() {
-    this.xp.add(1);
+  async loop(): Promise<void> {
     console.log('loop', Date.now(), this.name);
+
+    this.gainXP(1);
+  }
+
+  public canLevelUp(): boolean {
+    return !this.level.atMaximum();
+  }
+
+  public gainXP(xp: number): void {
+
+    let remainingXP = xp;
+
+    // TODO: track stats and edit 'xp' here.
+
+    while(remainingXP > 0 && this.canLevelUp()) {
+      const preAddXP = this.xp.total;
+      this.xp.add(remainingXP);
+
+      const xpDiff = this.xp.total - preAddXP;
+      remainingXP -= xpDiff;
+
+      this.tryLevelUp();
+    }
+  }
+
+  public ascend(): void {
+    if(this.canLevelUp()) return;
+
+    this.lastAscension = Date.now();
+    this.ascensionLevel = this.ascensionLevel || 0;
+    this.ascensionLevel++;
+    this.xp.toMinimum();
+    this.level.toMinimum();
+    this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
+  }
+
+  private calcLevelMaxXP(level: number): number {
+    return Math.floor(100 + (100 * Math.pow(level, 1.71)));
+  }
+
+  private tryLevelUp(): void {
+    if(!this.xp.atMaximum()) return;
+    this.level.add(1);
+
+    this.xp.toMinimum();
+    this.xp.maximum = this.calcLevelMaxXP(this.level.total);
   }
 }

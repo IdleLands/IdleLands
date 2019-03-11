@@ -15,7 +15,8 @@ export enum ServerEventName {
   CharacterPatch = 'character:patch',
 
   CharacterGender = 'character:gender',
-  CharacterTitle = 'character:title'
+  CharacterTitle = 'character:title',
+  CharacterAscend = 'character:ascend'
 }
 
 export interface ServerEvent {

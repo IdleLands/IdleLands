@@ -20,9 +20,17 @@
             <ion-list>
 
               <ion-item *ngIf="player.lastAscension">
-                <ion-icon slot="start" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+                <ion-icon slot="start" [src]="'assets/icon/symbol-ascend.svg'"></ion-icon>
 
-                You last ascended on {{ player.lastAscension | date:'medium' }}.
+                <span class="ion-padding-start">You last ascended on {{ player.lastAscension | date:'medium' }}.</span>
+              </ion-item>
+
+              <ion-item *ngIf="player.level.__current === player.level.maximum">
+                <ion-icon slot="start" [src]="'assets/icon/symbol-ascend.svg'"></ion-icon>
+
+                <span class="ion-padding-start">Would you like to ascend?</span>
+
+                <ion-button slot="end" color="primary" (click)="ascend()">Ascend</ion-button>
               </ion-item>
 
               <ion-item>

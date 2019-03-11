@@ -11,6 +11,8 @@ export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent 
 
   async callback({ newGender } = { newGender: '' }) {
     const player = this.player;
+    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    
     const possibleGenders = player.availableGenders;
 
     if(!includes(possibleGenders, newGender)) return this.gameError('Invalid gender specified');
@@ -28,6 +30,8 @@ export class ChangeTitleEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ newTitle } = { newTitle: '' }) {
     const player = this.player;
+    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+
     const possibleTitles = player.availableTitles;
 
     if(!newTitle) {
@@ -42,5 +46,22 @@ export class ChangeTitleEvent extends ServerSocketEvent implements ServerEvent {
     player.title = newTitle;
     this.game.updatePlayer(player);
     this.gameSuccess(`Title is now "${newTitle}"`);
+  }
+}
+
+export class AscendEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterAscend;
+  description = 'Ascend.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.gameError('Your socket is not connected to a player.');
+    if(player.canLevelUp()) return this.gameError('You are not currently able to ascend.');
+
+    player.ascend();
+    this.game.updatePlayer(player);
+
+    this.gameSuccess(`You have ascended!`);
   }
 }
