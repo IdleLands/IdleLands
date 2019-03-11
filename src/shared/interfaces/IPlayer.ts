@@ -24,6 +24,8 @@ export interface IPlayer {
   availableGenders: string[];
   availableTitles: string[];
 
+  $statisticsData: any;
+
   loop(): Promise<void>;
   toSaveObject(): IPlayer;
 

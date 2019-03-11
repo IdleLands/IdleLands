@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Statistics</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-row class="ion-flex-wrap">
+
+    <ion-col *ngFor="let col of statCats">
+
+      <ion-card *ngFor="let cat of col">
+        <ion-card-header>
+          <ion-title>{{ cat }}</ion-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="ion-margin-start" *ngIf="statistics[cat]">
+            <app-statistics-tree [treeData]="statistics[cat].children" 
+                                  [isFirst]="true"></app-statistics-tree>
+          </div>
+
+          <div class="ion-margin-start ion-margin-top" *ngIf="!statistics[cat]">
+            No statistics for this category.
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-content>

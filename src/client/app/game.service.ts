@@ -100,6 +100,8 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.CharacterPatch, (patches) => {
+      if(!this.currentPlayer) return;
+
       const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
       this.setCurrentPlayer(newPlayer);
     });

@@ -11,6 +11,15 @@ import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
 import { Stat } from '../../interfaces/Stat';
 
+/**
+ * Note: some attributes are @nonenumerable, while others are prefixed with $.
+ * @nonenumerable attributes are not sending updates to the client, and they also do not get sent to the DB.
+ * $ attributes are not saved to the DB, but are sent to the client unless marked with @nonenumerable.
+ *
+ * To save a @nonenumerable attr to the DB, DatabaseManager#savePlayer must be updated to manually copy these fields.
+ * $ attributes should never be saved to the DB, and are prefixed as such because it directly conflicts with MongoDB.
+ */
+
 @Entity()
 export class Player implements IPlayer {
 
@@ -54,6 +63,7 @@ export class Player implements IPlayer {
   // not serialized to the client
   @nonenumerable
   public $statistics: Statistics;
+  public $statisticsData: any;
 
   @nonenumerable
   public $profession: Profession;
@@ -92,6 +102,10 @@ export class Player implements IPlayer {
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
 
+    this.$statisticsData = this.$statistics.statisticsData;
+
+    this.$statistics.increase('Game.Logins', 1);
+
     this.recalculateStats();
   }
 
@@ -100,24 +114,22 @@ export class Player implements IPlayer {
   }
 
   async loop(): Promise<void> {
-    this.gainXP(this.stats.xp);
+    this.gainXP(0);
   }
 
   public canLevelUp(): boolean {
     return !this.level.atMaximum();
   }
 
-  public gainXP(xp: number): void {
+  public gainXP(xp = 0): void {
 
-    let remainingXP = xp;
+    let remainingXP = xp + this.stats.xp;
 
     if(remainingXP < 0) {
       this.xp.add(remainingXP);
       this.$statistics.increase('Character.Experience.Lose', -remainingXP);
       return;
     }
-
-    // TODO: track stats and edit 'xp' here.
 
     while(remainingXP > 0 && this.canLevelUp()) {
       this.$statistics.increase('Character.Experience.Gain', remainingXP);
@@ -139,6 +151,8 @@ export class Player implements IPlayer {
     this.ascensionLevel++;
     this.xp.toMinimum();
     this.level.toMinimum();
+
+    this.$statistics.increase('Character.Ascension.Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
     this.$statistics.increase('Character.Ascension.Times', 1);
@@ -161,6 +175,7 @@ export class Player implements IPlayer {
   private addStatTrail(stat: Stat, val: number, reason: string) {
     if(val === 0) return;
 
+    this.stats[stat] = this.stats[stat] || 0;
     this.stats[stat] += val;
     this.$statTrail[stat] = this.$statTrail[stat] || [];
     this.$statTrail[stat].push({ val, reason });
@@ -177,20 +192,21 @@ export class Player implements IPlayer {
 
     // dynamically-calculated
     Object.keys(Stat).map(key => Stat[key]).forEach(stat => {
+
       this.stats[stat] = this.stats[stat] || 0;
 
       // stats per level boost
       const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
-      this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base Per Level (${profBasePerLevel})`);
+      this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base / Lv. (${profBasePerLevel / this.level.total})`);
 
       // stat profession multiplier boost
       const profMult = this.$profession.calcStatMultiplier(stat);
       if(profMult > 1) {
         const addedValue = Math.floor((this.stats[stat] * profMult)) - this.stats[stat];
-        this.addStatTrail(stat, addedValue, `${this.profession} Multiplier (${profMult.toFixed(1)}x)`);
+        this.addStatTrail(stat, addedValue, `${this.profession} Mult. (${profMult.toFixed(1)}x)`);
       } else if(profMult < 1) {
-        const lostValue = Math.floor(this.stats[stat] * profMult);
-        this.addStatTrail(stat, -lostValue, `${this.profession} Multiplier (${profMult.toFixed(1)}x)`);
+        const lostValue = this.stats[stat] - Math.floor(this.stats[stat] * profMult);
+        this.addStatTrail(stat, -lostValue, `${this.profession} Mult. (${profMult.toFixed(1)}x)`);
       }
 
       // make sure it is 0. no super negatives.

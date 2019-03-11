@@ -36,3 +36,18 @@ ion-select {
 ion-alert .alert-wrapper {
   --min-width: 400px;
 }
+
+.stat-trail-table {
+  border-spacing: 1px; 
+  width: 100%;
+
+  td {
+    padding: 5px;
+    border: 1px solid #666;
+
+    &:first-child {
+      text-align: right;
+      white-space: nowrap;
+    }
+  }
+}

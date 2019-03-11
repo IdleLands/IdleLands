@@ -2,11 +2,27 @@
 
 🎉
 
+## Requirements
+
+* Git
+* MongoDB (not tested against other DBs)
+* Node 10.x
+
+## Getting Started
+
+* Clone the repo
+* `npm install`
+* If you do not have an `assets` folder, run `npm run postinstall`
+* `npm run seed`
+* Create `.env` file (see `Environment Variables`)
+
 ## Environment Variables
+
+Create a `.env` file in the root of the cloned project and fill it with these values.
 
 ### Required
 
-* `TYPEORM_CONNECTION` - the DB type
+* `TYPEORM_CONNECTION` - the DB type (you probably want to use `mongodb`)
 * `TYPEORM_HOST` - the DB host
 * `TYPEORM_USERNAME` - the DB username (if applicable)
 * `TYPEORM_PASSWORD` - the DB password (if applicable)

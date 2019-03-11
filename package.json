@@ -11,7 +11,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+
+    "postinstall": "node scripts/post-install",
+    "seed": "node scripts/seed"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",
@@ -33,6 +35,7 @@
     "connect": "3.6.6",
     "core-js": "^2.5.4",
     "dotenv": "^6.2.0",
+    "download-github-repo": "^0.1.4",
     "express": "4.16.3",
     "express-rate-limit": "^3.4.0",
     "fantastical": "^1.0.2",

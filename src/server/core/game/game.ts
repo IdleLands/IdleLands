@@ -5,6 +5,7 @@ import { PlayerManager } from './player-manager';
 import { Player } from '../../../shared/models/entity';
 import { ServerEventName } from '../../../shared/interfaces';
 import { Logger } from '../logger';
+import { ItemGenerator } from './item-generator';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
@@ -14,6 +15,7 @@ export class Game {
 
   @Inject public databaseManager: DatabaseManager;
   @Inject public playerManager: PlayerManager;
+  @Inject public itemGenerator: ItemGenerator;
   @Inject public logger: Logger;
 
   private ticks = 0;

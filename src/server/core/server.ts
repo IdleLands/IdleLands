@@ -85,7 +85,7 @@ const start = () => {
     const attachHMR = (scMasterInstance, opts) => {
       chokidar.watch(['**/*', '../shared/models'], opts).on('change', (filePath) => {
         console.log('   !! File ' + filePath + ' was modified. Restarting workers...');
-        scMasterInstance.killWorkers({immediate: true});
+        scMasterInstance.killWorkers({ immediate: true });
       });
     };
 

@@ -28,9 +28,10 @@ export class AppComponent {
 
   public appPages = [
     { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
-    { name: 'Personalities', icon: 'personalities' },
-    { name: 'Map', icon: 'map' },
-    { name: 'Inventory', icon: 'inventory' },
+    { name: 'Inventory', icon: 'inventory', url: '/inventory' },
+    { name: 'Statistics', icon: 'statistics', url: '/statistics' },
+    // { name: 'Personalities', icon: 'personalities' },
+    // { name: 'Map', icon: 'map' },
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;
       return 'Unsynced';
