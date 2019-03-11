@@ -9,6 +9,7 @@ import { Statistics } from './Statistics';
 
 import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
+import { Stat } from '../../interfaces/Stat';
 
 @Entity()
 export class Player implements IPlayer {
@@ -47,6 +48,8 @@ export class Player implements IPlayer {
   // still serialized to the client
   public sessionId: string;
 
+  public stats: any = {};
+
   // joined vars
   // not serialized to the client
   @nonenumerable
@@ -54,6 +57,8 @@ export class Player implements IPlayer {
 
   @nonenumerable
   public $profession: Profession;
+
+  public $statTrail: any = {};
 
   @Column()
   public availableGenders: string[];
@@ -86,6 +91,8 @@ export class Player implements IPlayer {
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
+
+    this.recalculateStats();
   }
 
   toSaveObject(): any {
@@ -93,8 +100,6 @@ export class Player implements IPlayer {
   }
 
   async loop(): Promise<void> {
-    console.log('loop', Date.now(), this.name);
-
     this.gainXP(1);
   }
 
@@ -151,5 +156,34 @@ export class Player implements IPlayer {
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
 
     this.$statistics.increase('Character.Experience.Levels', 1);
+  }
+
+  private addStatTrail(stat: Stat, val: number, reason: string) {
+    if(val === 0) return;
+
+    this.stats[stat] += val;
+    this.$statTrail[stat] = this.$statTrail[stat] || [];
+    this.$statTrail[stat].push({ val, reason });
+  }
+
+  public recalculateStats(): void {
+    this.stats = {};
+    this.$statTrail = {};
+
+    Object.keys(Stat).map(key => Stat[key]).forEach(stat => {
+      this.stats[stat] = 0;
+
+      const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
+      this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base Per Level (${profBasePerLevel})`);
+
+      const profMult = this.$profession.calcStatMultiplier(stat);
+      if(profMult > 1) {
+        const addedValue = Math.floor((this.stats[stat] * profMult)) - this.stats[stat];
+        this.addStatTrail(stat, addedValue, `${this.profession} Multiplier (${profMult.toFixed(1)}x)`);
+      } else if(profMult < 1) {
+        const lostValue = Math.floor(this.stats[stat] * profMult);
+        this.addStatTrail(stat, -lostValue, `${this.profession} Multiplier (${profMult.toFixed(1)}x)`);
+      }
+    });
   }
 }

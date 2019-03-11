@@ -4,6 +4,7 @@ import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
 import { ServerEventName } from '../../../shared/interfaces';
+import { Logger } from '../logger';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
@@ -13,6 +14,7 @@ export class Game {
 
   @Inject public databaseManager: DatabaseManager;
   @Inject public playerManager: PlayerManager;
+  @Inject public logger: Logger;
 
   private ticks = 0;
 
@@ -32,7 +34,10 @@ export class Game {
 
       this.updatePlayer(player);
 
-      if((this.ticks % SAVE_TICKS) === 0) this.databaseManager.savePlayer(player);
+      if((this.ticks % SAVE_TICKS) === 0) {
+        this.logger.log(`Game`, `Saving player ${player.name}...`);
+        this.databaseManager.savePlayer(player);
+      }
     });
 
     if(this.ticks > 600) this.ticks = 0;

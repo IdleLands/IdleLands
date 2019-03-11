@@ -29,4 +29,5 @@ export interface IPlayer {
 
   canLevelUp(): boolean;
   gainXP(num: number): void;
+  recalculateStats(): void;
 }
