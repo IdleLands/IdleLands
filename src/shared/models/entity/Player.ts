@@ -106,9 +106,16 @@ export class Player implements IPlayer {
 
     let remainingXP = xp;
 
+    if(remainingXP < 0) {
+      this.xp.add(remainingXP);
+      this.$statistics.increase('Character.Experience.Lose', -remainingXP);
+      return;
+    }
+
     // TODO: track stats and edit 'xp' here.
 
     while(remainingXP > 0 && this.canLevelUp()) {
+      this.$statistics.increase('Character.Experience.Gain', remainingXP);
       const preAddXP = this.xp.total;
       this.xp.add(remainingXP);
 
@@ -128,6 +135,8 @@ export class Player implements IPlayer {
     this.xp.toMinimum();
     this.level.toMinimum();
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
+
+    this.$statistics.increase('Character.Ascension.Times', 1);
   }
 
   private calcLevelMaxXP(level: number): number {
@@ -140,5 +149,7 @@ export class Player implements IPlayer {
 
     this.xp.toMinimum();
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
+
+    this.$statistics.increase('Character.Experience.Levels', 1);
   }
 }

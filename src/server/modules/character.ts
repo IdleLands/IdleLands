@@ -12,7 +12,7 @@ export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent 
   async callback({ newGender } = { newGender: '' }) {
     const player = this.player;
     if(!player) return this.gameError('Your socket is not currently connected to a player.');
-    
+
     const possibleGenders = player.availableGenders;
 
     if(!includes(possibleGenders, newGender)) return this.gameError('Invalid gender specified');

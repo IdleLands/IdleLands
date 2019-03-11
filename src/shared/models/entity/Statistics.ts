@@ -32,6 +32,6 @@ export class Statistics extends PlayerOwned {
   public set(stat: string, value: number): void {
     if(isNaN(value)) throw new Error(`${stat} being set to NaN!`);
 
-    set(this.statistics, stat, 0);
+    set(this.statistics, stat, value);
   }
 }

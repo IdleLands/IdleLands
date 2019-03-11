@@ -6,6 +6,7 @@ import { Player } from '../../../shared/models/entity';
 import { ServerEventName } from '../../../shared/interfaces';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
+const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
 
 @Singleton
 export class Game {
@@ -31,7 +32,7 @@ export class Game {
 
       this.updatePlayer(player);
 
-      if((this.ticks % 60) === 0) this.databaseManager.savePlayer(player);
+      if((this.ticks % SAVE_TICKS) === 0) this.databaseManager.savePlayer(player);
     });
 
     if(this.ticks > 600) this.ticks = 0;
