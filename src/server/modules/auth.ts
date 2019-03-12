@@ -90,7 +90,7 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
       if(checkCharacter) return this.gameError('Someone has already registered a character with that name.');
 
       // if there is no one by that name, create a player
-      character = await this.game.databaseManager.createPlayer(name, userId);
+      character = await this.game.databaseManager.createPlayer(this.game, name, userId);
     }
 
     this.emit(ServerEventName.CharacterSync, character);
@@ -187,7 +187,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     if(!characterCheck) return this.gameError('Your character does not exist.');
 
     // we have passed all of the checks, so lets hit the database again, why not?
-    const character = await this.game.databaseManager.loadPlayer(searchOpts);
+    const character = await this.game.databaseManager.loadPlayer(this.game, searchOpts);
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 

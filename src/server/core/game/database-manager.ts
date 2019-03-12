@@ -5,7 +5,7 @@ import { extend } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Statistics, Assets } from '../../../shared/models/entity';
+import { Player, Inventory, Statistics, Assets } from '../../../shared/models/entity';
 import { Logger } from '../logger';
 
 const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
@@ -21,7 +21,8 @@ export class DatabaseManager {
   private firebase;
 
   private allPlayerFields = [
-    { proto: Statistics, name: 'statistics' }
+    { proto: Statistics, name: 'statistics' },
+    { proto: Inventory, name: 'inventory' }
   ];
 
   public async init() {
@@ -71,11 +72,11 @@ export class DatabaseManager {
   }
 
   // PLAYER FUNCTIONS
-  public async createPlayer(name, userId): Promise<Player> {
+  public async createPlayer(game, name, userId): Promise<Player> {
     if(!this.connection) return null;
 
     const player = new Player();
-    extend(player, { name, userId, currentUserId: userId });
+    extend(player, { name, userId, currentUserId: userId, $game: game });
     player.init();
 
     try {
@@ -87,7 +88,7 @@ export class DatabaseManager {
     }
   }
 
-  public async loadPlayer(query): Promise<Player> {
+  public async loadPlayer(game, query): Promise<Player> {
     if(!this.connection) return null;
 
     try {
@@ -102,11 +103,12 @@ export class DatabaseManager {
         player[`$${matchingKey}`] = data;
       });
 
+      (<any>player).$game = game;
       player.init();
       return player;
 
     } catch(e) {
-      this.logger.error(`DatabaseManager#load`, e);
+      this.logger.error(`DatabaseManager#loadPlayer`, e);
     }
   }
 

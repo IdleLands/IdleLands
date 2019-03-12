@@ -1,4 +1,5 @@
 import { RestrictedNumber } from 'restricted-number';
+import { IItem } from './IItem';
 
 export interface IPlayer {
   _id: string;
@@ -26,10 +27,14 @@ export interface IPlayer {
 
   $statisticsData: any;
 
+  init(): void;
   loop(): Promise<void>;
   toSaveObject(): IPlayer;
 
   canLevelUp(): boolean;
   gainXP(num: number): void;
   recalculateStats(): void;
+
+  equip(item: IItem): void;
+  unequip(item: IItem): void;
 }

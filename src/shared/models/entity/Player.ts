@@ -4,12 +4,13 @@ import { sample, pickBy } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
-import { IPlayer } from '../../interfaces/IPlayer';
 import { Statistics } from './Statistics';
 
 import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
-import { Stat } from '../../interfaces/Stat';
+import { Inventory } from './Inventory';
+import { Item } from './Item';
+import { IGame, Stat, IPlayer } from '../../interfaces';
 
 /**
  * Note: some attributes are @nonenumerable, while others are prefixed with $.
@@ -26,6 +27,9 @@ export class Player implements IPlayer {
   // internal vars
   @nonenumerable
   @ObjectIdColumn() public _id: string;
+
+  @nonenumerable
+  private $game: IGame;
 
   @Index({ unique: true })
   @Column() public userId: string;
@@ -66,6 +70,9 @@ export class Player implements IPlayer {
   public $statisticsData: any;
 
   @nonenumerable
+  public $inventory: Inventory;
+
+  @nonenumerable
   public $profession: Profession;
 
   public $statTrail: any = {};
@@ -98,18 +105,24 @@ export class Player implements IPlayer {
       this.$statistics.setOwner(this);
     }
 
+    if(!this.$inventory) {
+      this.$inventory = new Inventory();
+      this.$inventory.setOwner(this);
+    }
+
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
 
     this.$statisticsData = this.$statistics.statisticsData;
-
     this.$statistics.increase('Game.Logins', 1);
+
+    this.initInventory();
 
     this.recalculateStats();
   }
 
-  toSaveObject(): any {
+  public toSaveObject(): any {
     return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 
@@ -216,5 +229,33 @@ export class Player implements IPlayer {
     // base values
     this.stats.hp = Math.max(1, this.stats.hp);
     this.stats.xp = Math.max(1, this.stats.xp);
+  }
+
+  private initInventory() {
+    this.$inventory.init();
+    if(this.$inventory.isNeedingNewbieItems()) {
+      const items = this.$game.itemGenerator.generateNewbieItems();
+      items.forEach(item => this.equip(item));
+    }
+  }
+
+  public equip(item: Item) {
+    const oldItem = this.$inventory.itemInEquipmentSlot(item.type);
+    if(oldItem) {
+      this.unequip(oldItem);
+    }
+
+    this.$inventory.equipItem(this, item);
+  }
+
+  // TODO: if there is space in the inventory, add the item to inventory, otherwise sell it
+  // TODO: add selling functionality
+  // TODO: track gold on player
+  public unequip(item: Item) {
+    if(this.$inventory.canAddItemsToInventory(this)) {
+      this.$inventory.addItemToInventory(this, item);
+    } else {
+      // TODO: sell the item
+    }
   }
 }

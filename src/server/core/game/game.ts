@@ -3,25 +3,28 @@ import { DatabaseManager } from './database-manager';
 import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
-import { ServerEventName } from '../../../shared/interfaces';
+import { ServerEventName, IGame } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
+import { AssetManager } from './asset-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
 
 @Singleton
-export class Game {
+export class Game implements IGame {
 
   @Inject public databaseManager: DatabaseManager;
+  @Inject public assetManager: AssetManager;
   @Inject public playerManager: PlayerManager;
   @Inject public itemGenerator: ItemGenerator;
   @Inject public logger: Logger;
 
   private ticks = 0;
 
-  public init() {
-    this.databaseManager.init();
+  public async init() {
+    await this.databaseManager.init();
+    await this.assetManager.init();
     this.loop();
   }
 
