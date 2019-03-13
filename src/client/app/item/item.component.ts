@@ -39,6 +39,8 @@ export class ItemComponent implements OnInit, OnDestroy {
   private canvas: HTMLCanvasElement;
 
   ngOnInit() {
+    if(this.item.name === 'nothing') return;
+
     const mask = SlotMasks[this.slot];
     if(!mask) return;
 
