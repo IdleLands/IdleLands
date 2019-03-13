@@ -26,6 +26,7 @@ export interface IPlayer {
   availableTitles: string[];
 
   $statisticsData: any;
+  $inventoryData: any;
 
   init(): void;
   loop(): Promise<void>;

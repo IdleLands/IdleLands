@@ -18,7 +18,12 @@ export class Inventory extends PlayerOwned {
   @Column()
   private items: Item[];
 
-  public init() {
+  public get inventoryData() {
+    return { equipment: this.equipment, items: this.items };
+  }
+
+  constructor() {
+    super();
     if(!this.equipment) this.equipment = {};
     if(!this.items) this.items = [];
   }

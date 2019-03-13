@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-inventory',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryPage implements OnInit {
 
-  constructor() { }
+  public slots = [
+    'body', 'charm', 'feet', 'finger', 'hands', 'head', 'legs', 'mainhand', 'neck', 'offhand',
+    'providence', 'soul', 'trinket'
+  ];
+
+  constructor(
+    public gameService: GameService
+  ) { }
 
   ngOnInit() {
   }

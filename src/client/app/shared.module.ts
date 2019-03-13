@@ -10,10 +10,14 @@ import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ItemComponent } from './item/item.component';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
-    GendervatarComponent
+    GendervatarComponent,
+    ItemComponent
   ],
   providers: [
     {
@@ -45,10 +49,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     LoggedInGuard
   ],
   imports: [
+    CommonModule,
+    IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  exports: [GendervatarComponent]
+  exports: [GendervatarComponent, ItemComponent]
 })
 export class SharedModule { }

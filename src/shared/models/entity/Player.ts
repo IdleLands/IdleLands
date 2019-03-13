@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy } from 'lodash';
+import { sample, pickBy, clone } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -10,7 +10,7 @@ import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
 import { Inventory } from './Inventory';
 import { Item } from './Item';
-import { IGame, Stat, IPlayer } from '../../interfaces';
+import { IGame, Stat, IPlayer, ItemSlot } from '../../interfaces';
 
 /**
  * Note: some attributes are @nonenumerable, while others are prefixed with $.
@@ -71,6 +71,7 @@ export class Player implements IPlayer {
 
   @nonenumerable
   public $inventory: Inventory;
+  public $inventoryData: any;
 
   @nonenumerable
   public $profession: Profession;
@@ -114,10 +115,13 @@ export class Player implements IPlayer {
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
 
+    // init extra data for relevant joined services
+    this.initInventory();
+
     this.$statisticsData = this.$statistics.statisticsData;
     this.$statistics.increase('Game.Logins', 1);
 
-    this.initInventory();
+    this.$inventoryData = this.$inventory.inventoryData;
 
     this.recalculateStats();
   }
@@ -204,14 +208,30 @@ export class Player implements IPlayer {
     this.addStatTrail(Stat.XP, 5, `Base`);
 
     // dynamically-calculated
-    Object.keys(Stat).map(key => Stat[key]).forEach(stat => {
+    // first, we do the addition-based adds
+    const allStats = Object.keys(Stat).map(key => Stat[key]);
+    allStats.forEach(stat => {
 
       this.stats[stat] = this.stats[stat] || 0;
+
+      Object.keys(this.$inventoryData.equipment).forEach(itemSlot => {
+        const item = this.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
+        if(!item || !item.stats[stat]) return;
+
+        this.addStatTrail(stat, item.stats[stat], item.name);
+      });
 
       // stats per level boost
       const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
       this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base / Lv. (${profBasePerLevel / this.level.total})`);
 
+
+      // make sure it is 0. no super negatives.
+      this.stats[stat] = Math.max(0, this.stats[stat]);
+    });
+
+    // here we do the multiplicative adds
+    allStats.forEach(stat => {
       // stat profession multiplier boost
       const profMult = this.$profession.calcStatMultiplier(stat);
       if(profMult > 1) {
@@ -221,18 +241,25 @@ export class Player implements IPlayer {
         const lostValue = this.stats[stat] - Math.floor(this.stats[stat] * profMult);
         this.addStatTrail(stat, -lostValue, `${this.profession} Mult. (${profMult.toFixed(1)}x)`);
       }
+    });
 
-      // make sure it is 0. no super negatives.
-      this.stats[stat] = Math.max(0, this.stats[stat]);
+    // next we do specific-adds from the profession
+    // we do these last, despite being additive, because they rely heavily on the stats from before
+    const copyStats = clone(this.stats);
+    allStats.forEach(checkStat => {
+      const profBoosts = this.$profession.calcStatsForStats(copyStats, checkStat);
+      profBoosts.forEach(({ stat, boost, tinyBoost }) => {
+        this.addStatTrail(checkStat, boost, `${this.profession} ${checkStat.toUpperCase()} / ${stat.toUpperCase()} (${tinyBoost})`);
+      });
     });
 
     // base values
     this.stats.hp = Math.max(1, this.stats.hp);
     this.stats.xp = Math.max(1, this.stats.xp);
+    this.stats.gold = Math.max(1, this.stats.gold);
   }
 
   private initInventory() {
-    this.$inventory.init();
     if(this.$inventory.isNeedingNewbieItems()) {
       const items = this.$game.itemGenerator.generateNewbieItems();
       items.forEach(item => this.equip(item));

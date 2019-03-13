@@ -74,6 +74,63 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /** ITEM COLORS **/
+  --ion-color-newbie: #008080;
+  --ion-color-newbie-rgb: 0, 128, 128;
+  --ion-color-newbie-contrast: #ffffff;
+  --ion-color-newbie-contrast-rgb: 255, 255, 255;
+  --ion-color-newbie-shade: #007171;
+  --ion-color-newbie-tint: #1a8d8d;
+
+  --ion-color-basic: #808080;
+  --ion-color-basic-rgb: 128, 128, 128;
+  --ion-color-basic-contrast: #000000;
+  --ion-color-basic-contrast-rgb: 0, 0, 0;
+  --ion-color-basic-shade: #717171;
+  --ion-color-basic-tint: #8d8d8d;
+
+  --ion-color-pro: #800080;
+  --ion-color-pro-rgb: 128, 0, 128;
+  --ion-color-pro-contrast: #ffffff;
+  --ion-color-pro-contrast-rgb: 255, 255, 255;
+  --ion-color-pro-shade: #710071;
+  --ion-color-pro-tint: #8d1a8d;
+
+  --ion-color-idle: #00ff00;
+  --ion-color-idle-rgb: 0, 255, 0;
+  --ion-color-idle-contrast: #000000;
+  --ion-color-idle-contrast-rgb: 0, 0, 0;
+  --ion-color-idle-shade: #00e000;
+  --ion-color-idle-tint: #1aff1a;
+
+  --ion-color-godly: #000000;
+  --ion-color-godly-rgb: 0, 0, 0;
+  --ion-color-godly-contrast: #ffffff;
+  --ion-color-godly-contrast-rgb: 255, 255, 255;
+  --ion-color-godly-shade: #000000;
+  --ion-color-godly-tint: #1a1a1a;
+
+  --ion-color-goatly: #ffffff;
+  --ion-color-goatly-rgb: 255, 255, 255;
+  --ion-color-goatly-contrast: #000000;
+  --ion-color-goatly-contrast-rgb: 0, 0, 0;
+  --ion-color-goatly-shade: #e0e0e0;
+  --ion-color-goatly-tint: #ffffff;
+
+  --ion-color-omega: #ff0000;
+  --ion-color-omega-rgb: 255, 0, 0;
+  --ion-color-omega-contrast: #ffffff;
+  --ion-color-omega-contrast-rgb: 255, 255, 255;
+  --ion-color-omega-shade: #e00000;
+  --ion-color-omega-tint: #ff1a1a;
+
+  --ion-color-guardian: #0000ff;
+  --ion-color-guardian-rgb: 0, 0, 255;
+  --ion-color-guardian-contrast: #ffffff;
+  --ion-color-guardian-contrast-rgb: 255, 255, 255;
+  --ion-color-guardian-shade: #0000e0;
+  --ion-color-guardian-tint: #1a1aff;
 }
 
 @media (prefers-color-scheme: dark) {

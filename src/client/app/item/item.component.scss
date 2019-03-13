@@ -1,0 +1,28 @@
+
+.stat-icon {
+  margin-right: 5px;
+}
+
+.type-name {
+  margin-right: 5px;
+  min-width: 125px;
+}
+
+.score-percent, .found-at {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.score-percent {
+  margin-right: 5px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.found-at {
+  margin-left: 5px;
+}
+
+.canvas-container {
+  height: 100%;
+}

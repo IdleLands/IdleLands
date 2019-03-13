@@ -5,6 +5,12 @@ export class Generalist extends Profession {
 
   public readonly specialStatName: string;
 
+  protected readonly statForStats = {
+    [Stat.HP]: {
+      [Stat.CON]: 5
+    }
+  };
+
   protected readonly statMultipliers = {
     [Stat.HP]:  5,
     [Stat.STR]: 1.2,

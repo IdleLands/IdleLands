@@ -152,7 +152,7 @@
                   <ion-icon slot="icon-only" [src]="'assets/icon/stat-' + stat + '.svg'"></ion-icon>
                 </ion-button>
                 
-                <ion-label [ngClass]="{ success: player.stats[stat] > 0, danger: player.stats[stat] < 0 }">
+                <ion-label>
                   <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ player.stats[stat] | number }}
                 </ion-label>
               </ion-item>

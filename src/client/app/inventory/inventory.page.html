@@ -8,5 +8,11 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ion-row *ngFor="let slot of slots">
+      <ion-col>
+        <app-item [item]="player.$inventoryData.equipment[slot]" [slot]="slot"></app-item>
+      </ion-col>
+    </ion-row>
+  </ng-container>
 </ion-content>
