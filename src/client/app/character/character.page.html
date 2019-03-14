@@ -62,7 +62,13 @@
               <ion-item>
                 <ion-icon slot="start" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
 
-                <span class="ion-padding-start">{{ player.xp.__current }} / {{ player.xp.maximum }} XP</span>
+                <span class="ion-padding-start">{{ player.xp.__current | number }} / {{ player.xp.maximum | number }} XP</span>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+
+                <span class="ion-padding-start">{{ player.gold | number }} Gold</span>
               </ion-item>
 
             </ion-list>

@@ -56,6 +56,7 @@ export class Player implements IPlayer {
   @Column() public map: string;
   @Column() public x: number;
   @Column() public y: number;
+  @Column() public gold: number;
 
   // non-saved player vars
   // still serialized to the client
@@ -96,6 +97,7 @@ export class Player implements IPlayer {
     if(!this.map) this.map = 'Norkos';
     if(!this.x) this.x = 10;
     if(!this.y) this.y = 10;
+    if(!this.gold) this.gold = 0;
 
     if(!this.$profession) {
       this.$profession = new AllProfessions[this.profession]();
@@ -132,20 +134,21 @@ export class Player implements IPlayer {
 
   async loop(): Promise<void> {
     this.gainXP(0);
+    this.gainGold(0);
   }
 
   public canLevelUp(): boolean {
     return !this.level.atMaximum();
   }
 
-  public gainXP(xp = 0): void {
+  public gainXP(xp = 0): number {
 
     let remainingXP = xp + this.stats.xp;
 
     if(remainingXP < 0) {
       this.xp.add(remainingXP);
       this.$statistics.increase('Character.Experience.Lose', -remainingXP);
-      return;
+      return remainingXP;
     }
 
     while(remainingXP > 0 && this.canLevelUp()) {
@@ -158,6 +161,25 @@ export class Player implements IPlayer {
 
       this.tryLevelUp();
     }
+
+    return remainingXP;
+  }
+
+  public gainGold(gold = 0): number {
+
+    const remainingGold = gold + this.stats.gold;
+
+    if(remainingGold < 0) {
+      this.gold += remainingGold;
+      this.$statistics.increase('Character.Gold.Lose', -remainingGold);
+      this.gold = Math.max(0, this.gold);
+      return remainingGold;
+    }
+
+    this.$statistics.increase('Character.Gold.Gain', remainingGold);
+    this.gold += remainingGold;
+
+    return remainingGold;
   }
 
   public ascend(): void {
@@ -256,7 +278,7 @@ export class Player implements IPlayer {
     // base values
     this.stats.hp = Math.max(1, this.stats.hp);
     this.stats.xp = Math.max(1, this.stats.xp);
-    this.stats.gold = Math.max(1, this.stats.gold);
+    this.stats.gold = Math.max(0, this.stats.gold);
   }
 
   private initInventory() {
@@ -276,22 +298,29 @@ export class Player implements IPlayer {
     }
 
     this.$inventory.equipItem(item);
+    this.recalculateStats();
     return true;
   }
 
-  // TODO: add selling functionality
-  // TODO: track gold on player
   public unequip(item: Item, failOnInventoryFull = false): boolean {
     if(failOnInventoryFull && !this.$inventory.canAddItemsToInventory()) return false;
 
     this.$inventory.unequipItem(item);
+    this.recalculateStats();
 
     if(this.$inventory.canAddItemsToInventory()) {
       this.$inventory.addItemToInventory(item);
     } else {
-      // TODO: sell the item
+      this.sellItem(item);
     }
 
     return true;
+  }
+
+  public sellItem(item: Item): number {
+    const value = item.score;
+    const modValue = this.gainGold(value);
+
+    return modValue;
   }
 }

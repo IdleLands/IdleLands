@@ -34,7 +34,7 @@ export class ItemGenerator {
         type: key,
         itemClass: 'newbie',
         name: sample(itemNames[key]),
-        stats: { str: r(), con: r(), dex: r(), int: r(), agi: r(), luk: r(), xp: 2 }
+        stats: { str: r(), con: r(), dex: r(), int: r(), agi: r(), luk: r(), xp: 2, gold: 1 }
       });
 
       equipment.push(item);
