@@ -7,7 +7,11 @@
   <ion-col>
     <ion-row>
       <ion-col class="vertical-center">
-        <ion-button [color]="item.itemClass" disabled size="small" fill="outline" class="type-name">
+        <ion-button [color]="item.itemClass" 
+                    [disabled]="item.name === 'nothing'" 
+                    (click)="itemMenu.emit($event)"
+                    size="small"
+                    class="type-name">
           {{ slot }}
         </ion-button> 
 

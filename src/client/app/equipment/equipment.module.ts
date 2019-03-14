@@ -5,15 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InventoryPage } from './inventory.page';
+import { EquipmentPage } from './equipment.page';
 import { SharedModule } from '../shared.module';
-
-import { InventoryItemPopover } from './item.popover';
+import { EquipmentItemPopover } from './item.popover';
 
 const routes: Routes = [
   {
     path: '',
-    component: InventoryPage
+    component: EquipmentPage
   }
 ];
 
@@ -26,7 +25,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  entryComponents: [InventoryItemPopover],
-  declarations: [InventoryItemPopover, InventoryPage]
+  entryComponents: [EquipmentItemPopover],
+  declarations: [EquipmentItemPopover, EquipmentPage]
 })
-export class InventoryPageModule {}
+export class EquipmentPageModule {}

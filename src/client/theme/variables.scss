@@ -133,6 +133,18 @@
   --ion-color-guardian-tint: #1a1aff;
 }
 
+$customColors: ('newbie', 'basic', 'pro', 'idle', 'godly', 'goatly', 'omega', 'guardian');
+  @each $color in $customColors {
+  .ion-color-#{$color} {
+  --ion-color-base: var(--ion-color-#{$color}) !important;
+  --ion-color-base-rgb: var(--ion-color-#{$color}-rgb) !important;
+  --ion-color-contrast: var(--ion-color-#{$color}-contrast) !important;
+  --ion-color-contrast-rgb: var(--ion-color-#{$color}-contrast-rgb) !important;
+  --ion-color-shade: var(--ion-color-#{$color}-shade) !important;
+  --ion-color-tint: var(--ion-color-#{$color}-tint) !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --ion-border-color: var(--ion-color-dark-shade);

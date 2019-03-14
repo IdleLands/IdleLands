@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, EventEmitter, Output } from '@angular/core';
 import { merge } from 'lodash';
 import { Sprite, SpriteCanvasHelper } from 'mixel';
 
@@ -21,6 +21,8 @@ export class ItemComponent implements OnInit, OnDestroy {
   @Input()
   public set item(item: IItem) {
     this._item = item;
+
+    this.recalculateImage();
   }
   public get item() {
     if(this._item) return this._item;
@@ -36,10 +38,15 @@ export class ItemComponent implements OnInit, OnDestroy {
   @Input() public slot: string;
   @Input() public scale = 6;
 
+  @Output() public itemMenu = new EventEmitter();
+
   private canvas: HTMLCanvasElement;
 
-  ngOnInit() {
-    if(this.item.name === 'nothing') return;
+  private recalculateImage() {
+    if(this.canvas) this.canvas.remove();
+    if(this.item.name === 'nothing' || !this.item) {
+      return;
+    }
 
     const mask = SlotMasks[this.slot];
     if(!mask) return;
@@ -57,8 +64,12 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.canvasContainer.nativeElement.appendChild(this.canvas);
   }
 
+  ngOnInit() {
+    this.recalculateImage();
+  }
+
   ngOnDestroy() {
-    this.canvas.remove();
+    if(this.canvas) this.canvas.remove();
   }
 
 }

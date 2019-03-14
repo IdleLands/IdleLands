@@ -3,15 +3,24 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Inventory</ion-title>
+    <ion-title>
+      Inventory 
+      <span *ngIf="(gameService.player$ | async) as player">({{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }})</span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
-    <ion-row *ngFor="let slot of slots">
+    <div class="blank-slate" *ngIf="player.$inventoryData.items.length === 0">
+      You have no items in your inventory.
+    </div>
+
+    <ion-row *ngFor="let item of player.$inventoryData.items">
       <ion-col>
-        <app-item [item]="player.$inventoryData.equipment[slot]" [slot]="slot"></app-item>
+        <app-item [item]="item" 
+                  [slot]="item.type"
+                  (itemMenu)="openItemMenu($event, item)"></app-item>
       </ion-col>
     </ion-row>
   </ng-container>

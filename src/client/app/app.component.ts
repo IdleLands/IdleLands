@@ -28,6 +28,7 @@ export class AppComponent {
 
   public appPages = [
     { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
+    { name: 'Equipment', icon: 'gear', url: '/equipment' },
     { name: 'Inventory', icon: 'inventory', url: '/inventory' },
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
     // { name: 'Personalities', icon: 'personalities' },

@@ -1,7 +1,7 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions } from 'typeorm';
-import { extend } from 'lodash';
+import { extend, cloneDeep } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
 
@@ -117,7 +117,7 @@ export class DatabaseManager {
 
     try {
       await Promise.all(
-        this.allPlayerFields.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`]))
+        this.allPlayerFields.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`].toSaveObject()))
       );
 
       const saveObj = player.toSaveObject();

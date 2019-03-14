@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'inventory', loadChildren: './inventory/inventory.module#InventoryPageModule' },
   { path: 'statistics', loadChildren: './statistics/statistics.module#StatisticsPageModule' },
+  { path: 'equipment', loadChildren: './equipment/equipment.module#EquipmentPageModule' },
   { path: '**', redirectTo: 'home' }
 ];
 

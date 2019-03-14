@@ -27,7 +27,7 @@ export class Statistics extends PlayerOwned {
   @Column()
   private statistics: any;
 
-  public get statisticsData() {
+  public get $statisticsData() {
     return this.statistics;
   }
 

@@ -118,10 +118,10 @@ export class Player implements IPlayer {
     // init extra data for relevant joined services
     this.initInventory();
 
-    this.$statisticsData = this.$statistics.statisticsData;
+    this.$statisticsData = this.$statistics.$statisticsData;
     this.$statistics.increase('Game.Logins', 1);
 
-    this.$inventoryData = this.$inventory.inventoryData;
+    this.$inventoryData = this.$inventory.$inventoryData;
 
     this.recalculateStats();
   }
@@ -260,29 +260,38 @@ export class Player implements IPlayer {
   }
 
   private initInventory() {
+    this.$inventory.init(this);
+
     if(this.$inventory.isNeedingNewbieItems()) {
       const items = this.$game.itemGenerator.generateNewbieItems();
       items.forEach(item => this.equip(item));
     }
   }
 
-  public equip(item: Item) {
+  public equip(item: Item): boolean {
     const oldItem = this.$inventory.itemInEquipmentSlot(item.type);
     if(oldItem) {
-      this.unequip(oldItem);
+      const successful = this.unequip(oldItem, true);
+      if(!successful) return false;
     }
 
-    this.$inventory.equipItem(this, item);
+    this.$inventory.equipItem(item);
+    return true;
   }
 
-  // TODO: if there is space in the inventory, add the item to inventory, otherwise sell it
   // TODO: add selling functionality
   // TODO: track gold on player
-  public unequip(item: Item) {
-    if(this.$inventory.canAddItemsToInventory(this)) {
-      this.$inventory.addItemToInventory(this, item);
+  public unequip(item: Item, failOnInventoryFull = false): boolean {
+    if(failOnInventoryFull && !this.$inventory.canAddItemsToInventory()) return false;
+
+    this.$inventory.unequipItem(item);
+
+    if(this.$inventory.canAddItemsToInventory()) {
+      this.$inventory.addItemToInventory(item);
     } else {
       // TODO: sell the item
     }
+
+    return true;
   }
 }
