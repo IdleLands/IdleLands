@@ -14,7 +14,7 @@
         <ion-col>
           <app-item [item]="player.$inventoryData.equipment[slot]" 
                     [slot]="slot" 
-                    (itemMenu)="openItemMenu($event, player.$inventoryData.equipment[slot])"></app-item>
+                    (itemMenu)="openItemMenu($event, player.$inventoryData.equipment[slot], slot)"></app-item>
         </ion-col>
       </ion-row>
     </ng-container>

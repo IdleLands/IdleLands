@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
 import { IonicModule } from '@ionic/angular';
 
 import { EquipmentPage } from './equipment.page';
 import { SharedModule } from '../shared.module';
 import { EquipmentItemPopover } from './item.popover';
+import { EquipSomethingElseModal } from './equipsomethingelse.modal';
 
 const routes: Routes = [
   {
@@ -20,12 +23,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    FilterPipeModule,
     IonicModule,
     RouterModule.forChild(routes),
 
     SharedModule
   ],
-  entryComponents: [EquipmentItemPopover],
-  declarations: [EquipmentItemPopover, EquipmentPage]
+  entryComponents: [EquipmentItemPopover, EquipSomethingElseModal],
+  declarations: [EquipmentItemPopover, EquipSomethingElseModal, EquipmentPage]
 })
 export class EquipmentPageModule {}

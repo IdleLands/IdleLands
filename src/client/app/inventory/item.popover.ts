@@ -7,7 +7,14 @@ import { SocketClusterService } from '../socket-cluster.service';
   template: `
     <ion-list>
       <ion-list-header>Actions</ion-list-header>
-      <ion-item button (click)="equip()">Equip This</ion-item>
+      <ion-item button (click)="equip()">
+        <ion-icon slot="start" [src]="'assets/icon/action-frominventory.svg'"></ion-icon>
+        Equip This
+      </ion-item>
+      <ion-item button>
+        <ion-icon slot="start" [src]="'assets/icon/action-sell.svg'"></ion-icon>
+        Sell This
+      </ion-item>
     </ion-list>
     <ion-button expand="block" (click)="dismiss()">Close</ion-button>
   `,

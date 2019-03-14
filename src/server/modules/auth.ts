@@ -48,7 +48,9 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
   args = '';
 
   async callback() {
-    const player = this.game.playerManager.getPlayer(this.playerName);
+    const player = this.player;
+    if(!player) return this.gameError('Your socket is not currently associated with a player.');
+
     player.loggedIn = false;
     this.game.databaseManager.savePlayer(player);
     this.game.playerManager.removePlayer(player);
@@ -63,7 +65,9 @@ export class DeleteEvent extends ServerSocketEvent implements ServerEvent {
   args = '';
 
   async callback() {
-    const player = this.game.playerManager.getPlayer(this.playerName);
+    const player = this.player;
+    if(!player) return this.gameError('Your socket is not currently associated with a player.');
+
     this.game.databaseManager.deletePlayer(player);
     this.game.playerManager.removePlayer(player);
 
@@ -105,9 +109,8 @@ export class SyncAccountEvent extends ServerSocketEvent implements ServerEvent {
   async callback({ token } = { token: '' }) {
 
     if(!token) return this.gameError('You need to specify a token.');
-    if(!this.playerName) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
 
-    const loggedInPlayer = this.game.playerManager.getPlayer(this.playerName);
+    const loggedInPlayer = this.player;
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
     let setKey = false;
@@ -130,9 +133,7 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
 
   async callback() {
 
-    if(!this.playerName) return this.gameError('You do not have a player associated with this socket. Try to sync again later.');
-
-    const loggedInPlayer = this.game.playerManager.getPlayer(this.playerName);
+    const loggedInPlayer = this.player;
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
     let setKey = false;
@@ -198,8 +199,8 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
       character.currentUserId = userId;
     }
 
-    this.setPlayer(character);
     this.game.playerManager.addPlayer(character, this);
+    this.setPlayer(character);
     this.game.databaseManager.savePlayer(character);
 
     this.emit(ServerEventName.CharacterSync, character);

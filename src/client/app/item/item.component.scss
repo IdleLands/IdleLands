@@ -26,3 +26,8 @@
 .canvas-container {
   height: 100%;
 }
+
+.stat-fixed-width {
+  display: inline-block;
+  min-width: 40px;
+}

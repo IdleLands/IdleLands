@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, EventEmitter, Output, OnChanges } from '@angular/core';
 import { merge } from 'lodash';
 import { Sprite, SpriteCanvasHelper } from 'mixel';
 
 import * as SlotMasks from './slot-masks';
 import * as SlotOptions from './slot-options';
-import { IItem } from '../../../shared/interfaces';
+import { IItem, ItemSlot } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
 })
-export class ItemComponent implements OnInit, OnDestroy {
+export class ItemComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild('canvasContainer')
   public canvasContainer;
@@ -35,7 +35,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     };
   }
 
-  @Input() public slot: string;
+  @Input() public slot: ItemSlot;
   @Input() public scale = 6;
 
   @Output() public itemMenu = new EventEmitter();
@@ -68,8 +68,18 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.recalculateImage();
   }
 
+  ngOnChanges(changes) {
+    if(!changes) return;
+
+    this.recalculateImage();
+  }
+
   ngOnDestroy() {
     if(this.canvas) this.canvas.remove();
+  }
+
+  public shouldDisable(): boolean {
+    return this.slot === 'providence' || this.slot === 'soul';
   }
 
 }

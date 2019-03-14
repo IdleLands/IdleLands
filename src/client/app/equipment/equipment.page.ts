@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 import { GameService } from '../game.service';
 import { EquipmentItemPopover } from './item.popover';
-import { IItem } from '../../../shared/interfaces';
+import { IItem, ItemSlot } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-equipment',
   templateUrl: './equipment.page.html',
   styleUrls: ['./equipment.page.scss'],
 })
-export class EquipmentPage implements OnInit {
+export class EquipmentPage {
 
   public slots = [
     'body', 'charm', 'feet', 'finger', 'hands', 'head', 'legs', 'mainhand', 'neck', 'offhand',
@@ -22,13 +22,10 @@ export class EquipmentPage implements OnInit {
     public gameService: GameService
   ) { }
 
-  ngOnInit() {
-  }
-
-  public async openItemMenu($event, item: IItem) {
+  public async openItemMenu($event, item: IItem, slot: ItemSlot) {
     const popover = await this.popoverCtrl.create({
       component: EquipmentItemPopover,
-      componentProps: { item },
+      componentProps: { item, slot },
       event: $event,
       translucent: true
     });

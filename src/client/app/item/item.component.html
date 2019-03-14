@@ -8,7 +8,7 @@
     <ion-row>
       <ion-col class="vertical-center">
         <ion-button [color]="item.itemClass" 
-                    [disabled]="item.name === 'nothing'" 
+                    [disabled]="shouldDisable()" 
                     (click)="itemMenu.emit($event)"
                     size="small"
                     class="type-name">

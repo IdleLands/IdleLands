@@ -9,6 +9,7 @@ export class ServerSocketEvent {
   }
 
   protected get player(): Player {
+    console.log('socket get player', this.playerName, !!this.game.playerManager.getPlayer(this.playerName));
     return this.game.playerManager.getPlayer(this.playerName);
   }
 

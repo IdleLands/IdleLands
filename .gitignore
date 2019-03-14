@@ -92,4 +92,5 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 
-assets/
+assets/content
+assets/maps
