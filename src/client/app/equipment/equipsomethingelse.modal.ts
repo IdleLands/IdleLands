@@ -25,7 +25,7 @@ import { GameService } from '../game.service';
           <ion-col>
             <app-item [item]="item"
                       [slot]="item.type"
-                      (itemMenu)="openItemMenu($event, item)"></app-item>
+                      (itemMenu)="equip($event, item)"></app-item>
           </ion-col>
         </ion-row>
       </ng-container>
@@ -45,7 +45,7 @@ export class EquipSomethingElseModal {
     public gameService: GameService
   ) {}
 
-  equip(item) {
+  equip($event, item) {
     this.socketService.emit(ServerEventName.ItemEquip, { itemId: item.id });
     this.dismiss();
   }
