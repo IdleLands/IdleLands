@@ -7,6 +7,7 @@ import { ServerEventName, IGame } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
 import { AssetManager } from './asset-manager';
+import { DiscordManager } from './discord-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
@@ -18,6 +19,7 @@ export class Game implements IGame {
   @Inject public assetManager: AssetManager;
   @Inject public playerManager: PlayerManager;
   @Inject public itemGenerator: ItemGenerator;
+  @Inject public discordManager: DiscordManager;
   @Inject public logger: Logger;
 
   private ticks = 0;
@@ -26,6 +28,8 @@ export class Game implements IGame {
     await this.databaseManager.init();
     await this.assetManager.init();
     await this.itemGenerator.init();
+    await this.discordManager.init();
+
     this.loop();
   }
 

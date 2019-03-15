@@ -39,6 +39,9 @@ Create a `.env` file in the root of the cloned project and fill it with these va
 * `GRACE_PERIOD_DISCONNECT` - the delay between disconnect and character exiting game. Default: `30000`ms.
 * `FIREBASE_ADMIN_DATABASE` - the admin database URL for firebase. Should be in the format `https://<DATABASE_NAME>.firebaseio.com`.
 * `FIREBASE_ADMIN_JSON` - the JSON blob (stringified) for a service account private key. You can read how to do that [here](https://firebase.google.com/docs/admin/setup).
+* `DISCORD_SECRET` - the Discord API secret for your created Discord bot
+* `DISCORD_GUILD_ID` - the Discord guild ID
+* `DISCORD_CHANNEL_ID` - the Discord channel ID
 
 ## Useful Commands
 
