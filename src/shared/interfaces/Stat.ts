@@ -13,3 +13,5 @@ export enum Stat {
   XP = 'xp',
   GOLD = 'gold'
 }
+
+export const AllStats = Object.keys(Stat).map(stat => Stat[stat]);

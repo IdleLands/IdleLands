@@ -25,6 +25,7 @@ export class Game implements IGame {
   public async init() {
     await this.databaseManager.init();
     await this.assetManager.init();
+    await this.itemGenerator.init();
     this.loop();
   }
 

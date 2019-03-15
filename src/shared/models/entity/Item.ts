@@ -1,12 +1,11 @@
 
 import { extend } from 'lodash';
 import * as uuid from 'uuid/v4';
-import { nonenumerable } from 'nonenumerable';
 
 import { Player } from './Player';
 import { IItem, ItemClass, ItemSlot, Stat } from '../../interfaces';
 
-const MAX_DIFF_PERCENT = 3; // 300, but 3 is the divisor
+const MAX_DIFF_PERCENT = 3; // 300%, but 3 is the divisor
 const MAX_ENCHANT_LEVEL = 10;
 
 const woodValues = {
@@ -67,12 +66,18 @@ export class Item implements IItem {
   public enchantLevel: number;
   public stats: { [key in Stat]?: number };
 
+  static calcScoreForHash(hash: any): number {
+    return Object.keys(scoreValues)
+      .map(statKey => (hash[statKey] || 0) * scoreValues[statKey])
+      .reduce((prev, cur) => prev + cur, 0);
+  }
+
   init(opts) {
     extend(this, opts);
     if(!this.id) this.id = uuid();
     if(!this.foundAt) this.foundAt = Date.now();
     if(!this.stats) this.stats = {};
-    if(!this.itemClass) this.itemClass = 'basic';
+    if(!this.itemClass) this.itemClass = ItemClass.Basic;
 
     this.recalculateScore();
   }
@@ -84,9 +89,7 @@ export class Item implements IItem {
   }
 
   private calcScore(): number {
-    return Object.keys(scoreValues)
-      .map(statKey => (this.stats[statKey] || 0) * scoreValues[statKey])
-      .reduce((prev, cur) => prev + cur, 0);
+    return Item.calcScoreForHash(this.stats);
   }
 
   private resourceValue(player: Player, hash: any): number {

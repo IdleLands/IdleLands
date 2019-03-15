@@ -1,11 +1,36 @@
 import { Stat } from './Stat';
 import { IPlayer } from './IPlayer';
 
-export type ItemSlot = 'body' | 'charm' | 'feet' | 'finger' | 'hands'
-                     | 'head' | 'legs' | 'neck' | 'mainhand' | 'offhand'
-                     | 'providence' | 'soul' | 'trinket';
+export enum ItemSlot {
+  Body = 'body',
+  Charm = 'charm',
+  Feet = 'feet',
+  Finger = 'finger',
+  Hands = 'hands',
+  Head = 'head',
+  Legs = 'legs',
+  Neck = 'neck',
+  Mainhand = 'mainhand',
+  Offhand = 'offhand',
+  Providence = 'providence',
+  Soul = 'soul',
+  Trinket = 'trinket'
+}
 
-export type ItemClass = 'newbie' | 'basic' | 'pro' | 'idle' | 'godly' | 'goatly' | 'omega';
+export enum ItemClass {
+  Newbie = 'newbie',
+  Basic = 'basic',
+  Pro = 'pro',
+  Idle = 'idle',
+  Godly = 'godly',
+  Goatly = 'goatly',
+  Omega = 'omega'
+}
+
+export const GenerateableItemSlot = Object
+  .keys(ItemSlot)
+  .map(slot => ItemSlot[slot])
+  .filter(x => x !== ItemSlot.Providence && x !== ItemSlot.Soul && x !== ItemSlot.Trinket);
 
 export interface IItem {
   id: string;
