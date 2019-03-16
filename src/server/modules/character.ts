@@ -65,3 +65,21 @@ export class AscendEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`You have ascended!`);
   }
 }
+
+export class OOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterOOCAction;
+  description = 'Execute your classes OOC action.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.gameError('Your socket is not connected to a player.');
+
+    if(player.stamina.total < player.$profession.oocAbilityCost) return this.gameError('You do not have enough stamina!');
+
+    const msg = player.oocAction();
+    this.gameMessage(msg);
+
+    this.game.updatePlayer(player);
+  }
+}

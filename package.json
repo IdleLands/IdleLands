@@ -50,6 +50,7 @@
     "mongodb": "^3.1.13",
     "morgan": "1.7.0",
     "ng-circle-progress": "^1.4.0",
+    "ngx-countdown-timer": "^0.1.9",
     "ngx-filter-pipe": "^2.1.2",
     "nonenumerable": "^1.1.1",
     "restricted-number": "^2.1.0",

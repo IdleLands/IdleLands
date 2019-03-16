@@ -1,9 +1,12 @@
 import { Profession } from './Profession';
 import { Stat } from '../interfaces/Stat';
+import { Player } from '../models/entity';
 
 export class Generalist extends Profession {
 
-  public readonly specialStatName: string;
+  public readonly oocAbilityName = 'Generalize';
+  public readonly oocAbilityDesc = 'Gain XP based on your LUK.';
+  public readonly oocAbilityCost = 10;
 
   protected readonly statForStats = {
     [Stat.HP]: {
@@ -40,4 +43,10 @@ export class Generalist extends Profession {
     [Stat.XP]:   0,
     [Stat.GOLD]: 0
   };
+
+  public oocAbility(player: Player): string {
+    const luk = player.getStat(Stat.LUK);
+    const xpGained = player.gainXP(luk);
+    return `You gained ${xpGained.toLocaleString()} XP!`;
+  }
 }

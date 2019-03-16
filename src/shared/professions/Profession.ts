@@ -7,6 +7,9 @@ import { Player } from '../models/entity';
 export class Profession {
 
   public readonly specialStatName: string;
+  public readonly oocAbilityName: string;
+  public readonly oocAbilityDesc: string;
+  public readonly oocAbilityCost: number;
 
   protected readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
@@ -43,6 +46,18 @@ export class Profession {
     [Stat.XP]:   0,
     [Stat.GOLD]: 0
   };
+
+  public get $professionData() {
+    return {
+      oocAbilityDesc: this.oocAbilityDesc,
+      oocAbilityName: this.oocAbilityName,
+      oocAbilityCost: this.oocAbilityCost
+    };
+  }
+
+  public oocAbility(player: Player): string {
+    return '';
+  }
 
   public calcLevelStat(player: Player, stat: Stat) {
     return player.level.total * this.statsPerLevel[stat];

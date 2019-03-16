@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
@@ -9,16 +9,13 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './character.page.html',
   styleUrls: ['./character.page.scss'],
 })
-export class CharacterPage implements OnInit {
+export class CharacterPage {
 
   constructor(
     private alertCtrl: AlertController,
     private socketService: SocketClusterService,
     public gameService: GameService
   ) { }
-
-  ngOnInit() {
-  }
 
   changeGender($event) {
     const newGender = $event.detail.value;
@@ -28,6 +25,10 @@ export class CharacterPage implements OnInit {
   changeTitle($event) {
     const newTitle = $event.detail.value;
     this.socketService.emit(ServerEventName.CharacterTitle, { newTitle });
+  }
+
+  async oocAction() {
+    this.socketService.emit(ServerEventName.CharacterOOCAction);
   }
 
   async ascend() {

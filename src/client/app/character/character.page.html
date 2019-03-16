@@ -83,6 +83,48 @@
         
         <ion-card>
           <ion-card-header>
+            <ion-card-title>Stamina</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-icon slot="start" [src]="'assets/icon/stat-stamina.svg'"></ion-icon>
+
+                <span class="ion-padding-start">
+                  {{ player.stamina.__current }}/{{ player.stamina.maximum }} Stamina 
+                  <span *ngIf="player.stamina.__current === player.stamina.maximum">
+                    (--:--:-- until next stamina)
+                  </span>
+                  <span *ngIf="player.stamina.__current !== player.stamina.maximum">
+                    (<countdown-timer [end]="player.nextStaminaTick"></countdown-timer> until next stamina)
+                  </span>
+                </span>
+              </ion-item>
+
+              <ion-item-divider>Special Action</ion-item-divider>
+              <ion-item button 
+                        color="primary" 
+                        *ngIf="player.$professionData" 
+                        (click)="oocAction()" 
+                        [disabled]="player.stamina.__current < player.$professionData.oocAbilityCost">
+                {{ player.$professionData.oocAbilityName }} ({{ player.$professionData.oocAbilityCost }} Stamina)
+              </ion-item>
+
+              <ion-item class="ion-text-wrap" *ngIf="player.$professionData">
+                {{ player.$professionData.oocAbilityDesc }}
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+        <ion-card>
+          <ion-card-header>
             <ion-card-title>Stats</ion-card-title>
           </ion-card-header>
 

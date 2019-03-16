@@ -17,9 +17,10 @@ export class DiscordManager {
     if(!process.env.DISCORD_SECRET) return false;
 
     this.discord = new Discord.Client();
+
     await this.discord.login(process.env.DISCORD_SECRET);
-    this.discordGuild = this.discord.guilds.get(process.env.DISCORD_GUILD);
-    this.discordChannel = <Discord.GuildChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL);
+    this.discordGuild = this.discord.guilds.get(process.env.DISCORD_GUILD_ID);
+    this.discordChannel = <Discord.GuildChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
       this.logger.error(error);
@@ -33,6 +34,12 @@ export class DiscordManager {
   }
 
   // INCOMING message format
-  //     this.channel.send(`<web:${msgData.playerName} [${msgData.guildTag || 'no guild'}] [${msgData.title || 'no title'}] [${msgData.ascensionLevel}~${msgData.level}]> ${msgData.text}`);
+  /*
+  <web:${msgData.playerName}
+  [${msgData.guildTag || 'no guild'}]
+  [${msgData.title || 'no title'}]
+  [${msgData.ascensionLevel}~${msgData.level}]>
+  ${msgData.text}`;
+  */
 
 }

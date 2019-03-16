@@ -12,6 +12,9 @@ import { Inventory } from './Inventory';
 import { Item } from './Item';
 import { IGame, Stat, IPlayer, ItemSlot } from '../../interfaces';
 
+// 5 minutes on prod, 5 seconds on dev
+const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
+
 /**
  * Note: some attributes are @nonenumerable, while others are prefixed with $.
  * @nonenumerable attributes are not sending updates to the client, and they also do not get sent to the DB.
@@ -58,11 +61,14 @@ export class Player implements IPlayer {
   @Column() public y: number;
   @Column() public gold: number;
 
+  @Column() public stamina: RestrictedNumber;
+  @Column() public nextStaminaTick: number;
+
   // non-saved player vars
   // still serialized to the client
   public sessionId: string;
 
-  public stats: any = {};
+  private stats: any = {};
 
   // joined vars
   // not serialized to the client
@@ -76,6 +82,7 @@ export class Player implements IPlayer {
 
   @nonenumerable
   public $profession: Profession;
+  public $professionData: any;
 
   public $statTrail: any = {};
 
@@ -98,6 +105,8 @@ export class Player implements IPlayer {
     if(!this.x) this.x = 10;
     if(!this.y) this.y = 10;
     if(!this.gold) this.gold = 0;
+    if(!this.stamina) this.stamina = new RestrictedNumber(0, 10, 10);
+    if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
 
     if(!this.$profession) {
       this.$profession = new AllProfessions[this.profession]();
@@ -116,8 +125,12 @@ export class Player implements IPlayer {
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
+    this.stamina = new RestrictedNumber(this.stamina.minimum, this.stamina.maximum, this.stamina.__current);
+    this.calculateStamina();
+    this.checkStaminaTick();
 
     // init extra data for relevant joined services
+    this.$professionData = this.$profession.$professionData;
     this.initInventory();
 
     this.$statisticsData = this.$statistics.$statisticsData;
@@ -135,6 +148,18 @@ export class Player implements IPlayer {
   async loop(): Promise<void> {
     this.gainXP(0);
     this.gainGold(0);
+    this.checkStaminaTick();
+  }
+
+  public getStat(stat: Stat): number {
+    return this.stats[stat];
+  }
+
+  public oocAction(): string {
+    if(this.stamina.total < this.$profession.oocAbilityCost) return;
+
+    this.stamina.sub(this.$profession.oocAbilityCost);
+    return this.$profession.oocAbility(this);
   }
 
   public canLevelUp(): boolean {
@@ -144,6 +169,7 @@ export class Player implements IPlayer {
   public gainXP(xp = 0): number {
 
     let remainingXP = xp + this.stats.xp;
+    const totalXP = remainingXP;
 
     if(remainingXP < 0) {
       this.xp.add(remainingXP);
@@ -162,7 +188,7 @@ export class Player implements IPlayer {
       this.tryLevelUp();
     }
 
-    return remainingXP;
+    return totalXP;
   }
 
   public gainGold(gold = 0): number {
@@ -197,8 +223,36 @@ export class Player implements IPlayer {
     this.$statistics.increase('Character.Ascension.Times', 1);
   }
 
+  private checkStaminaTick() {
+    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
+
+    this.stamina.add(1);
+    this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST;
+  }
+
+  private calculateStamina() {
+    const level = this.level.total;
+
+    // base of 8 (because you start level 1, which is a free +2)
+    let staminaTotal = 8;
+
+    // +2 stamina for the first 20 levels
+    staminaTotal += Math.max(1, Math.min(level, 20)) * 2;
+
+    // +1 stamina for levels 21-80
+    staminaTotal += Math.max(0, Math.min(level - 20, 80));
+
+    // 0.5 stamina for levels 100-200
+    staminaTotal += Math.floor(Math.max(0, Math.min(level - 100, 100)) * 0.5);
+
+    // ascensionLevel^2 bonus to stamina
+    staminaTotal += this.ascensionLevel * this.ascensionLevel;
+
+    this.stamina.maximum = staminaTotal;
+  }
+
   private calcLevelMaxXP(level: number): number {
-    return Math.floor(100 + (100 * Math.pow(level, 1.71)));
+    return Math.floor(100 + (50 * Math.pow(level, 1.65)));
   }
 
   private tryLevelUp(): void {
@@ -209,6 +263,7 @@ export class Player implements IPlayer {
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
 
     this.$statistics.increase('Character.Experience.Levels', 1);
+    this.calculateStamina();
   }
 
   private addStatTrail(stat: Stat, val: number, reason: string) {
