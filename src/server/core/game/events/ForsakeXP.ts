@@ -12,7 +12,7 @@ export class ForsakeXP extends Event {
     const intermediateXPLoss = -Math.max(player.xp.maximum / 50, baseXPLoss);
     const totalXPLoss = player.gainXP(intermediateXPLoss);
 
-    const eventText = this.eventText(EventType.ForsakeXP, player, { xp: totalXPLoss });
+    const eventText = this.eventText(EventType.ForsakeXP, player, { xp: Math.abs(totalXPLoss) });
     const allText = `${eventText} [${totalXPLoss.toLocaleString()} xp]`;
     this.emitMessage([player], allText, AdventureLogEventType.XP);
   }
