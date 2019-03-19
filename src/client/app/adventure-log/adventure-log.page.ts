@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-adventure-log',
   templateUrl: './adventure-log.page.html',
   styleUrls: ['./adventure-log.page.scss'],
 })
-export class AdventureLogPage implements OnInit {
+export class AdventureLogPage {
 
-  constructor() { }
+  constructor(
+    public gameService: GameService
+  ) { }
 
-  ngOnInit() {
+  openLink(link: string) {
+    window.open(link, '_blank');
   }
-
 }

@@ -1,11 +1,15 @@
-import { Singleton, AutoWired } from 'typescript-ioc';
+import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { observe, generate, Observer, Operation } from 'fast-json-patch';
 
 import { Player } from '../../../shared/models/entity';
+import { ServerEventName } from '../../../shared/interfaces';
+import { SubscriptionManager, Channel } from './subscription-manager';
 
 @Singleton
 @AutoWired
 export class PlayerManager {
+  @Inject private subscriptionManager: SubscriptionManager;
+
   private players: { [key: string]: Player } = {};
   private playerList: Player[] = [];
 
@@ -13,6 +17,19 @@ export class PlayerManager {
   private playerSockets: { [key: string]: any } = {};
 
   public playerDataHold = {};
+
+  public async init() {
+    this.subscribeToPlayerMessages();
+  }
+
+  private subscribeToPlayerMessages() {
+    this.subscriptionManager.subscribeToChannel(Channel.EventMessage, ({ playerNames, data }) => {
+
+      playerNames.forEach(playerName => {
+        this.emitToPlayer(playerName, ServerEventName.AdventureLogAdd, { ...data });
+      });
+    });
+  }
 
   public get allPlayers(): Player[] {
     return this.playerList;
@@ -54,6 +71,13 @@ export class PlayerManager {
 
   public getPlayerSocket(name: string) {
     return this.playerSockets[name];
+  }
+
+  public emitToPlayer(playerName: string, event: ServerEventName, data: any): void {
+    const socket = this.getPlayerSocket(playerName);
+    if(!socket) return;
+
+    socket.emit(event, data);
   }
 
 }

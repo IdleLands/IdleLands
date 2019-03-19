@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 import { applyPatch } from 'fast-json-patch';
-
+import { get } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName } from '../../shared/interfaces';
+import { ServerEventName, IAdventureLog } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -20,6 +20,9 @@ export class GameService {
   private currentPlayer: IPlayer;
   public get hasPlayer(): boolean {
     return !!this.currentPlayer;
+  }
+  public get playerRef(): IPlayer {
+    return this.currentPlayer;
   }
 
   private sessionId: string;
@@ -46,6 +49,11 @@ export class GameService {
     return this.socketService.status$;
   }
 
+  private adventureLog: BehaviorSubject<IAdventureLog[]> = new BehaviorSubject<IAdventureLog[]>([]);
+  public get adventureLog$() {
+    return this.adventureLog;
+  }
+
   constructor(
     private storage: Storage,
     private authService: AuthService,
@@ -62,6 +70,14 @@ export class GameService {
     this.storage.set('loggedInId', id);
   }
 
+  private setAdventureLog(log: IAdventureLog[]) {
+    const totalLength = get(this.playerRef, '$statisticsData.Game.Premium.AdventureLog', 25);
+    if(log.length > totalLength) log.length = totalLength;
+
+    this.adventureLog.next(log);
+    this.storage.set('adventureLog', log);
+  }
+
   private setCurrentPlayer(player: IPlayer) {
     this.currentPlayer = player;
     this.setSessionId(this.currentPlayer.sessionId);
@@ -74,6 +90,7 @@ export class GameService {
 
     this.setSessionId(await this.storage.get('sessionId'));
     this.setLoggedInId(await this.storage.get('loggedInId'));
+    this.setAdventureLog(await this.storage.get('adventureLog') || []);
 
     combineLatest(
       this.authService.user$,
@@ -95,16 +112,7 @@ export class GameService {
       });
     });
 
-    this.socketService.register(ServerEventName.CharacterSync, (char) => {
-      this.setCurrentPlayer(char);
-    });
-
-    this.socketService.register(ServerEventName.CharacterPatch, (patches) => {
-      if(!this.currentPlayer || !patches) return;
-
-      const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
-      this.setCurrentPlayer(newPlayer);
-    });
+    this.initCharacterWatches();
 
     if(this.sessionId) {
       this.socketService.emit(ServerEventName.PlayGame, {
@@ -131,6 +139,28 @@ export class GameService {
     this.setSessionId(null);
     this.setLoggedInId(null);
     this.authService.logout();
+  }
+
+  private initCharacterWatches() {
+    this.socketService.register(ServerEventName.CharacterSync, (char) => {
+      this.setCurrentPlayer(char);
+    });
+
+    this.socketService.register(ServerEventName.CharacterPatch, (patches) => {
+      if(!this.currentPlayer || !patches) return;
+
+      // these errors are usually just invalid patches, which is whatever
+      try {
+        const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
+        this.setCurrentPlayer(newPlayer);
+      } catch(e) {}
+    });
+
+    this.socketService.register(ServerEventName.AdventureLogAdd, (advData) => {
+      const log = this.adventureLog.getValue();
+      log.unshift(advData);
+      this.setAdventureLog(log);
+    });
   }
 
   public logout() {

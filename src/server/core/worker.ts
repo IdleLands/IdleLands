@@ -16,19 +16,18 @@ export class GameWorker extends SCWorker {
   run() {
     console.log('   >> Worker PID:', process.pid);
 
-    this.scServer.setCodecEngine(scCodecMinBin);
-
-    const game = new Game();
-    game.init();
-
-    const environment = this.options.environment;
-
-    const app = express();
-
     const httpServer = this.httpServer;
     const scServer = this.scServer;
 
-    if (environment === 'dev') {
+    scServer.setCodecEngine(scCodecMinBin);
+
+    const game = new Game();
+    game.init(scServer.exchange);
+
+    const environment = this.options.environment;
+    const app = express();
+
+    if(environment === 'dev') {
       app.use(morgan('dev'));
     }
 

@@ -11,7 +11,7 @@ import { SocketClusterService } from '../socket-cluster.service';
         <ion-icon slot="start" [src]="'assets/icon/action-frominventory.svg'"></ion-icon>
         Equip This
       </ion-item>
-      <ion-item button>
+      <ion-item button (click)="sell()">
         <ion-icon slot="start" [src]="'assets/icon/action-sell.svg'"></ion-icon>
         Sell This
       </ion-item>
@@ -30,6 +30,11 @@ export class InventoryItemPopover {
 
   equip() {
     this.socketService.emit(ServerEventName.ItemEquip, { itemId: this.item.id });
+    this.dismiss();
+  }
+
+  sell() {
+    this.socketService.emit(ServerEventName.ItemSell, { itemId: this.item.id });
     this.dismiss();
   }
 

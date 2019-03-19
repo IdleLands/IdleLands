@@ -98,8 +98,7 @@ const start = () => {
 
 // Detect when Docker volumes are ready.
 const startWhenFileIsReady = (filePath) => {
-  const errorMessage = `Failed to locate a controller file at path ${filePath} ` +
-  `before SOCKETCLUSTER_CONTROLLER_BOOT_TIMEOUT`;
+  const errorMessage = `Failed to locate a controller file at ${filePath} before SOCKETCLUSTER_CONTROLLER_BOOT_TIMEOUT`;
 
   return waitForFile(filePath, bootCheckInterval, bootStartTime, bootTimeout, errorMessage);
 };
@@ -111,10 +110,10 @@ const filesReadyPromises = [
 ];
 
 Promise.all(filesReadyPromises)
-.then(() => {
-  start();
-})
-.catch((err) => {
-  console.error(err.stack);
-  process.exit(1);
-});
+  .then(() => {
+    start();
+  })
+  .catch((err) => {
+    console.error(err.stack);
+    process.exit(1);
+  });

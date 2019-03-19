@@ -10,15 +10,12 @@ import { InventoryItemPopover } from './item.popover';
   templateUrl: './inventory.page.html',
   styleUrls: ['./inventory.page.scss'],
 })
-export class InventoryPage implements OnInit {
+export class InventoryPage {
 
   constructor(
     private popoverCtrl: PopoverController,
     public gameService: GameService
   ) { }
-
-  ngOnInit() {
-  }
 
   public async openItemMenu($event, item: IItem) {
     const popover = await this.popoverCtrl.create({

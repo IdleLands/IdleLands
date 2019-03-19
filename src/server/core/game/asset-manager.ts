@@ -16,6 +16,10 @@ export class AssetManager {
     return this.objectAssets;
   }
 
+  public get allStringAssets() {
+    return this.stringAssets;
+  }
+
   public async init() {
     const { stringAssets, objectAssets } = await this.databaseManager.loadAssets();
 

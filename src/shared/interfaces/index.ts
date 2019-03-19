@@ -6,3 +6,4 @@ export * from './IItem';
 export * from './IPlayer';
 
 export * from './Stat';
+export * from './IAdventureLog';

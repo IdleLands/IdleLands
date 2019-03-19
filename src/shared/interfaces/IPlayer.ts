@@ -22,6 +22,8 @@ export interface IPlayer {
   map: string;
   loggedIn: boolean;
 
+  eventSteps: number;
+
   availableGenders: string[];
   availableTitles: string[];
 
@@ -33,9 +35,12 @@ export interface IPlayer {
   toSaveObject(): IPlayer;
 
   canLevelUp(): boolean;
-  gainXP(num: number): void;
+  gainXP(num: number): number;
+  gainGold(num: number): number;
   recalculateStats(): void;
 
   equip(item: IItem): void;
   unequip(item: IItem): void;
+
+  sellItem(item: IItem): void;
 }

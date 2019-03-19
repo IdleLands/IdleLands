@@ -17,8 +17,8 @@ export class StatisticsPage implements OnInit, OnDestroy {
   public statistics = {};
   public statCats = [
     ['Game', 'Event', 'Profession', 'Character'],
-    ['Pet', 'Combat', 'BossKill'],
-    ['Environment', 'Map', 'Region']
+    ['Pet', 'Guild', 'Combat', 'BossKill'],
+    ['Item', 'Environment', 'Map', 'Region']
   ];
 
   constructor(public gameService: GameService) { }

@@ -20,7 +20,10 @@ export enum ServerEventName {
   CharacterOOCAction = 'character:oocaction',
 
   ItemEquip = 'item:equip',
-  ItemUnequip = 'item:unequip'
+  ItemUnequip = 'item:unequip',
+  ItemSell = 'item:sell',
+
+  AdventureLogAdd = 'adventurelog:add',
 }
 
 export interface ServerEvent {

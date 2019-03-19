@@ -43,3 +43,23 @@ export class EquipItemEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Equipped ${foundItem.name}!`);
   }
 }
+
+export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemSell;
+  description = 'Sell an item.';
+  args = 'itemId';
+
+  async callback({ itemId } = { itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+
+    const foundItem = player.$inventory.getItemFromInventory(itemId);
+    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+
+    const value = player.sellItem(foundItem);
+    player.$inventory.removeItemFromInventory(foundItem);
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Sold ${foundItem.name} for ${value.toLocaleString()} gold!`);
+  }
+}

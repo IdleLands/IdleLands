@@ -60,6 +60,7 @@ export class Player implements IPlayer {
   @Column() public x: number;
   @Column() public y: number;
   @Column() public gold: number;
+  @Column() public eventSteps: number;
 
   @Column() public stamina: RestrictedNumber;
   @Column() public nextStaminaTick: number;
@@ -139,16 +140,27 @@ export class Player implements IPlayer {
     this.$inventoryData = this.$inventory.$inventoryData;
 
     this.recalculateStats();
+
+    this.syncPremium();
   }
 
   public toSaveObject(): any {
     return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 
+  public fullName(): string {
+    if(this.title) return `${this.name}, the ${this.title}`;
+    return this.name;
+  }
+
   async loop(): Promise<void> {
+
+    this.$statistics.increase('Character.Ticks', 1);
+
     this.gainXP(0);
     this.gainGold(0);
     this.checkStaminaTick();
+    this.$game.eventManager.tryToDoEventFor(this);
   }
 
   public getStat(stat: Stat): number {
@@ -157,6 +169,9 @@ export class Player implements IPlayer {
 
   public oocAction(): string {
     if(this.stamina.total < this.$profession.oocAbilityCost) return;
+
+    this.$statistics.increase('Character.Stamina.Spend', this.$profession.oocAbilityCost);
+    this.$statistics.increase(`Profession.${this.profession}.AbilityUses`, this.$profession.oocAbilityCost);
 
     this.stamina.sub(this.$profession.oocAbilityCost);
     return this.$profession.oocAbility(this);
@@ -176,6 +191,9 @@ export class Player implements IPlayer {
       this.$statistics.increase('Character.Experience.Lose', -remainingXP);
       return remainingXP;
     }
+
+    // always gain profession xp, even if you are level blocked
+    this.$statistics.increase(`Profession.${this.profession}.Experience`, remainingXP);
 
     while(remainingXP > 0 && this.canLevelUp()) {
       this.$statistics.increase('Character.Experience.Gain', remainingXP);
@@ -226,6 +244,7 @@ export class Player implements IPlayer {
   private checkStaminaTick() {
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
+    this.$statistics.increase('Character.Stamina.Gain', 1);
     this.stamina.add(1);
     this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST;
   }
@@ -352,6 +371,8 @@ export class Player implements IPlayer {
       if(!successful) return false;
     }
 
+    this.$statistics.increase('Item.Equip.Times', 1);
+
     this.$inventory.equipItem(item);
     this.recalculateStats();
     return true;
@@ -362,6 +383,8 @@ export class Player implements IPlayer {
 
     this.$inventory.unequipItem(item);
     this.recalculateStats();
+
+    this.$statistics.increase('Item.Unequip.Times', 1);
 
     if(this.$inventory.canAddItemsToInventory()) {
       this.$inventory.addItemToInventory(item);
@@ -375,7 +398,20 @@ export class Player implements IPlayer {
   public sellItem(item: Item): number {
     const value = item.score;
     const modValue = this.gainGold(value);
+    this.$statistics.increase('Item.Sell.Times', 1);
+    this.$statistics.increase('Item.Sell.GoldGain', modValue);
 
     return modValue;
+  }
+
+  // TODO: refactor to a premium object/service
+  private syncPremium() {
+    const tier = 0;
+
+    this.$statistics.set('Game.Premium.Tier', tier);
+    this.$statistics.set('Game.Premium.AdventureLog', 25 + (tier * 25));
+    this.$statistics.set('Game.Premium.InventorySize', 10 + (tier * 10));
+    this.$statistics.set('Game.Premium.ChoiceLog', 10 + (tier * 10));
+    this.$statistics.set('Game.Premium.ItemStatCap', (tier));
   }
 }

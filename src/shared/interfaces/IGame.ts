@@ -4,4 +4,7 @@ export interface IGame {
   assetManager: any;
   playerManager: any;
   itemGenerator: any;
+  eventManager: any;
+  subscriptionManager: any;
+  discordManager: any;
 }
