@@ -7,7 +7,7 @@ export class BlessXP extends Event {
 
   public operateOn(player: Player) {
     // you can't gain more than 1% of your xp at once
-    const baseXPGain = this.rng.chance.numberInRange(10 + player.getStat(Stat.LUK), player.level.total * 25);
+    const baseXPGain = this.rng.numberInRange(10 + player.getStat(Stat.LUK), player.level.total * 25);
     const intermediateXPGain = Math.max(player.xp.maximum / 100, baseXPGain);
     const totalXPGain = player.gainXP(intermediateXPGain);
 

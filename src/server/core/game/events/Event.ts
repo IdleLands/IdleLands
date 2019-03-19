@@ -11,11 +11,23 @@ import { EventManager } from '@angular/platform-browser';
 import { SubscriptionManager, Channel } from '../subscription-manager';
 
 export enum EventType {
+  Battle = 'battle',
   BlessGold = 'blessGold',
-  ForsakeGold = 'forsakeGold',
+  BlessGoldParty = 'blessGoldParty',
+  BlessItem = 'blessItem',
   BlessXP = 'blessXp',
+  BlessXPParty = 'blessXpParty',
+  Enchant = 'enchant',
+  FindItem = 'findItem',
+  Switcheroo = 'flipStat',
+  ForsakeGold = 'forsakeGold',
+  ForsakeItem = 'forsakeItem',
   ForsakeXP = 'forsakeXp',
-  FindItem = 'findItem'
+  LevelDown = 'levelDown',
+  Merchant = 'merchant',
+  Party = 'party',
+  Providence = 'providence',
+  Tinker = 'tinker'
 }
 
 export abstract class Event {
