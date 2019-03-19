@@ -12,4 +12,13 @@ export class RNGService {
     return this._chance;
   }
 
+  public numberInRange(min: number, max: number): number {
+    return this.chance.integer(this.clampMinAtMax({ min, max }));
+  }
+
+  public clampMinAtMax({ min, max }): { min: number, max: number } {
+    if(min < max) return { min, max };
+    return { min: max, max: max };
+  }
+
 }

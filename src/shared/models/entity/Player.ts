@@ -183,7 +183,7 @@ export class Player implements IPlayer {
 
   public gainXP(xp = 0): number {
 
-    let remainingXP = xp + this.stats.xp;
+    let remainingXP = Math.floor(xp + this.stats.xp);
     const totalXP = remainingXP;
 
     if(remainingXP < 0) {
@@ -211,7 +211,7 @@ export class Player implements IPlayer {
 
   public gainGold(gold = 0): number {
 
-    const remainingGold = gold + this.stats.gold;
+    const remainingGold = Math.floor(gold + this.stats.gold);
 
     if(remainingGold < 0) {
       this.gold += remainingGold;

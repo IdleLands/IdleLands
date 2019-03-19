@@ -3,13 +3,13 @@ import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
 
 export class ForsakeGold extends Event {
-  public static readonly WEIGHT = 5;
+  public static readonly WEIGHT = 50;
 
   public operateOn(player: Player) {
-    const baseGoldLoss = this.rng.chance.integer({ min: 10, max: player.level.total * 50 }) + player.getStat(Stat.XP);
+    const baseGoldLoss = this.rng.numberInRange(10, player.level.total * 50) - player.getStat(Stat.LUK);
 
     // you always lose at least 1
-    const goldLoss = Math.max(-1, baseGoldLoss);
+    const goldLoss = Math.max(-1, -baseGoldLoss);
     const totalGoldLoss = player.gainGold(-goldLoss);
 
     const eventText = this.eventText(EventType.ForsakeGold, player, { gold: Math.abs(totalGoldLoss) });
