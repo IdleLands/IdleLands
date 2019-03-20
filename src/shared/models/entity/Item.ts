@@ -88,6 +88,11 @@ export class Item implements IItem {
     this.score = score;
   }
 
+  public fullName(): string {
+    if(this.enchantLevel) return `+${this.enchantLevel} ${this.name}`;
+    return this.name;
+  }
+
   private calcScore(): number {
     return Item.calcScoreForHash(this.stats);
   }

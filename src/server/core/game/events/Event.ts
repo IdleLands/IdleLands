@@ -58,6 +58,10 @@ export abstract class Event {
     return this.rng.chance.pickone([Stat.AGI, Stat.CON, Stat.DEX, Stat.INT, Stat.STR, Stat.LUK]);
   }
 
+  protected pickTinkerStat(): Stat {
+    return this.rng.chance.pickone([Stat.XP, Stat.HP, Stat.GOLD]);
+  }
+
   protected validItems(player: Player): Item[] {
     return compact(GenerateableItemSlot.map(slot => player.$inventory.itemInEquipmentSlot(slot)));
   }

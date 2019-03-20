@@ -39,6 +39,18 @@ export class Inventory extends PlayerOwned {
 
   public init(player: Player): void {
     this.size = this.calcSize(player);
+
+    this.items = this.items.map(item => {
+      const itemRef = new Item();
+      itemRef.init(item);
+      return itemRef;
+    });
+
+    Object.keys(this.equipment).forEach(itemSlot => {
+      const itemRef = new Item();
+      itemRef.init(this.equipment[itemSlot]);
+      this.equipment[itemSlot] = itemRef;
+    });
   }
 
   public isNeedingNewbieItems(): boolean {

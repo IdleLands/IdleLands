@@ -48,6 +48,8 @@ export interface IItem {
 
   init(opts): void;
 
+  fullName(): string;
+
   woodValue(player: IPlayer): number;
   clayValue(player: IPlayer): number;
   stoneValue(player: IPlayer): number;

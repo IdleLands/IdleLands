@@ -117,7 +117,7 @@ export class EventMessageParser {
   public item(): string {
     const player = sample(this.playerManager.allPlayers);
     const item = sample(values(player.$inventoryData.equipment));
-    return item ? item.name : this.placeholder();
+    return item ? item.fullName() : this.placeholder();
   }
 
   public class(): string {
