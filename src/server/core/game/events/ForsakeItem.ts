@@ -18,6 +18,6 @@ export class ForsakeItem extends Event {
     item.stats[stat] -= boost;
     item.recalculateScore();
 
-    this.emitMessage([player], allText, AdventureLogEventType.Gold);
+    this.emitMessage([player], allText, AdventureLogEventType.Item);
   }
 }

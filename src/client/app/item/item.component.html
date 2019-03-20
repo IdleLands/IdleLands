@@ -15,7 +15,7 @@
           {{ slot }}
         </ion-button> 
 
-        <span class="score-percent">({{ item.score > 0 ? (item.baseScore / item.score * 100) + '%' : '0%' }})</span>
+        <span class="score-percent">({{ item.score > 0 ? (item.score / item.baseScore * 100).toFixed(2) + '%' : '0%' }})</span>
 
         {{ item.enchantLevel > 0 ? '+' + item.enchantLevel : '' }} {{ item.name }}
 

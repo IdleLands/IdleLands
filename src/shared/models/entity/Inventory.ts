@@ -47,6 +47,11 @@ export class Inventory extends PlayerOwned {
     });
 
     Object.keys(this.equipment).forEach(itemSlot => {
+      if(!this.equipment[itemSlot] || !this.equipment[itemSlot].name) {
+        this.equipment[itemSlot] = null;
+        return;
+      }
+
       const itemRef = new Item();
       itemRef.init(this.equipment[itemSlot]);
       this.equipment[itemSlot] = itemRef;

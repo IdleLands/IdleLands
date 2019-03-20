@@ -188,7 +188,7 @@ export class ItemGenerator {
 
   public generateItemForPlayer(player: Player, { forceType } = { forceType: '' }): Item {
 
-    if(!forceType) forceType = this.rng.chance.pickone(GenerateableItemSlot);
+    if(!forceType) forceType = this.rng.pickone(GenerateableItemSlot);
     forceType = forceType.toLowerCase();
 
     const item = new Item();
@@ -202,12 +202,12 @@ export class ItemGenerator {
       possibleItemClasses.push(itemClass);
     });
 
-    const itemClassChosen = this.rng.chance.pickone(possibleItemClasses);
+    const itemClassChosen = this.rng.pickone(possibleItemClasses);
 
     let name = '';
     const allStatAssets = [];
 
-    const baseAsset = this.rng.chance.pickone(this.getAssetScoreSeries(<ItemSlot>forceType, itemClassChosen));
+    const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>forceType, itemClassChosen));
     if(!baseAsset) throw new Error(`Error: No asset available for ${forceType}:${itemClassChosen}`);
 
     name = baseAsset.name;
@@ -217,13 +217,13 @@ export class ItemGenerator {
     const suffixCount = this.rng.chance.weighted(...zip(...this.suffixWeight[itemClassChosen]));
 
     for(let p = 0; p < prefixCount; p++) {
-      const prefix = this.rng.chance.pickone(this.allAssetScoreSorted.prefix[itemClassChosen]);
+      const prefix = this.rng.pickone(this.allAssetScoreSorted.prefix[itemClassChosen]);
       name = `${prefix.name} ${name}`;
       allStatAssets.push(prefix);
     }
 
     for(let s = 0; s < suffixCount; s++) {
-      const suffix = this.rng.chance.pickone(this.allAssetScoreSorted.suffix[itemClassChosen]);
+      const suffix = this.rng.pickone(this.allAssetScoreSorted.suffix[itemClassChosen]);
       name = `${name} ${s > 0 ? 'and the ' + suffix.name : 'of the ' + suffix.name}`;
       allStatAssets.push(suffix);
     }

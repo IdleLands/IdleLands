@@ -51,15 +51,15 @@ export abstract class Event {
   }
 
   protected eventText(eventType: string, player: Player, extra: any): string {
-    return this._parseText(this.rng.chance.pickone(this.assetManager.allStringAssets[eventType]), player, extra);
+    return this._parseText(this.rng.pickone(this.assetManager.allStringAssets[eventType]), player, extra);
   }
 
   protected pickStat(): Stat {
-    return this.rng.chance.pickone([Stat.AGI, Stat.CON, Stat.DEX, Stat.INT, Stat.STR, Stat.LUK]);
+    return this.rng.pickone([Stat.AGI, Stat.CON, Stat.DEX, Stat.INT, Stat.STR, Stat.LUK]);
   }
 
   protected pickTinkerStat(): Stat {
-    return this.rng.chance.pickone([Stat.XP, Stat.HP, Stat.GOLD]);
+    return this.rng.pickone([Stat.XP, Stat.HP, Stat.GOLD]);
   }
 
   protected validItems(player: Player): Item[] {
@@ -67,15 +67,15 @@ export abstract class Event {
   }
 
   protected pickValidItem(player: Player): Item {
-    return this.rng.chance.pickone(this.validItems(player));
+    return this.rng.pickone(this.validItems(player));
   }
 
   protected pickValidEnchantItem(player: Player): Item {
-    return this.rng.chance.pickone(this.validItems(player).filter(i => i.isCurrentlyEnchantable(player)));
+    return this.rng.pickone(this.validItems(player).filter(i => i.isCurrentlyEnchantable(player)));
   }
 
   protected pickValidBlessItem(player: Player): Item {
-    return this.rng.chance.pickone(this.validItems(player).filter(i => i.isUnderBoostablePercent(player)));
+    return this.rng.pickone(this.validItems(player).filter(i => i.isUnderBoostablePercent(player)));
   }
 
   protected emitMessage(players: Player[], message: string, type: AdventureLogEventType, link?: string) {

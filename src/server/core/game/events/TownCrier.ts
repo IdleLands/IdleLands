@@ -1,5 +1,6 @@
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
+import { AdventureLogEventType } from '../../../../shared/interfaces';
 
 const townCrierMessages = [
   {
@@ -26,5 +27,10 @@ const townCrierMessages = [
 ];
 
 export class TownCrier extends Event {
-  public operateOn(player: Player) {}
+  public static readonly WEIGHT = 15;
+
+  public operateOn(player: Player) {
+    const message = this.rng.pickone(townCrierMessages);
+    this.emitMessage([player], message.message, AdventureLogEventType.TownCrier, message.link);
+  }
 }

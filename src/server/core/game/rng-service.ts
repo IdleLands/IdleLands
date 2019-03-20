@@ -21,4 +21,9 @@ export class RNGService {
     return { min: max, max: max };
   }
 
+  public pickone<T = any>(items: T[]): T {
+    if(items.length === 0) return null;
+    return this.chance.pickone(items);
+  }
+
 }
