@@ -404,7 +404,7 @@ export class Player implements IPlayer {
     return modValue;
   }
 
-  // TODO: refactor to a premium object/service
+  // TODO: add this to a premium object (tiers: donator, _, subscriber, contributor, gm)
   private syncPremium() {
     const tier = 0;
 
@@ -412,6 +412,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game.Premium.AdventureLog', 25 + (tier * 25));
     this.$statistics.set('Game.Premium.InventorySize', 10 + (tier * 10));
     this.$statistics.set('Game.Premium.ChoiceLog', 10 + (tier * 10));
-    this.$statistics.set('Game.Premium.ItemStatCap', (tier));
+    this.$statistics.set('Game.Premium.ItemStatCap', 3 + (tier));
+    this.$statistics.set('Game.Premium.EnchantCap', 10 + (tier));
   }
 }

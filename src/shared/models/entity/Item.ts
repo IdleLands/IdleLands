@@ -5,9 +5,6 @@ import * as uuid from 'uuid/v4';
 import { Player } from './Player';
 import { IItem, ItemClass, ItemSlot, Stat } from '../../interfaces';
 
-const MAX_DIFF_PERCENT = 3; // 300%, but 3 is the divisor
-const MAX_ENCHANT_LEVEL = 10;
-
 const woodValues = {
   [Stat.HP]: 100,
 
@@ -121,10 +118,10 @@ export class Item implements IItem {
   }
 
   public isCurrentlyEnchantable(player: Player): boolean {
-    return this.enchantLevel < MAX_ENCHANT_LEVEL;
+    return this.enchantLevel < player.$statistics.get('Game.Premium.EnchantCap');
   }
 
   public isUnderBoostablePercent(player: Player): boolean {
-    return (this.score / this.baseScore) < MAX_DIFF_PERCENT;
+    return (this.score / this.baseScore) < player.$statistics.get('Game.Premium.ItemStatCap');
   }
 }
