@@ -8,7 +8,10 @@ export class Switcheroo extends Event {
   public operateOn(player: Player) {
     const stat = this.pickStat();
     const item = this.pickValidItem(player);
-    if(!item || !item.stats[stat]) return;
+    if(!item || !item.stats[stat]) {
+      player.$statistics.increase(`Event.Switcheroo.Fail`, 1);
+      return;
+    }
 
     const eventText = this.eventText(EventType.Switcheroo, player, { item: item.fullName(), stat });
     const allText = `${eventText} [${stat} ${item.stats[stat]} -> ${-item.stats[stat]}]`;

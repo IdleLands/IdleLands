@@ -43,7 +43,6 @@ export class ItemComponent implements OnInit, OnChanges, OnDestroy {
   private canvas: HTMLCanvasElement;
 
   private recalculateImage() {
-    console.log(this);
     if(this.canvas) this.canvas.remove();
     if(this.item.name === 'nothing' || !this.item) {
       return;
