@@ -11,7 +11,7 @@ export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent 
 
   async callback({ newGender } = { newGender: '' }) {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    if(!player) return this.notConnected();
 
     const possibleGenders = player.availableGenders;
 
@@ -30,7 +30,7 @@ export class ChangeTitleEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ newTitle } = { newTitle: '' }) {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    if(!player) return this.notConnected();
 
     const possibleTitles = player.availableTitles;
 
@@ -56,7 +56,7 @@ export class AscendEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback() {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not connected to a player.');
+    if(!player) return this.notConnected();
     if(player.canLevelUp()) return this.gameError('You are not currently able to ascend.');
 
     player.ascend();
@@ -73,7 +73,7 @@ export class OOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback() {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not connected to a player.');
+    if(!player) return this.notConnected();
 
     if(player.stamina.total < player.$profession.oocAbilityCost) return this.gameError('You do not have enough stamina!');
 

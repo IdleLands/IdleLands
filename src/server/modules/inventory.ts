@@ -9,7 +9,7 @@ export class UnequipItemEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ itemSlot } = { itemSlot: '' }) {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    if(!player) return this.notConnected();
 
     const item = player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
     if(!item) return this.gameError('You do not have an item in that slot.');
@@ -29,13 +29,13 @@ export class EquipItemEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ itemId } = { itemId: '' }) {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    if(!player) return this.notConnected();
 
     const foundItem = player.$inventory.getItemFromInventory(itemId);
     if(!foundItem) return this.gameError('Could not find that item in your inventory.');
 
     const didSucceed = player.equip(foundItem);
-    if(!didSucceed) return this.gameError('Your inventory is full and cannot replace the item.');
+    if(!player) return this.notConnected();
 
     player.$inventory.removeItemFromInventory(foundItem);
 
@@ -51,7 +51,7 @@ export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ itemId } = { itemId: '' }) {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently connected to a player.');
+    if(!player) return this.notConnected();
 
     const foundItem = player.$inventory.getItemFromInventory(itemId);
     if(!foundItem) return this.gameError('Could not find that item in your inventory.');

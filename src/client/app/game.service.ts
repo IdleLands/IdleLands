@@ -54,6 +54,11 @@ export class GameService {
     return this.adventureLog;
   }
 
+  public get loggedInAndConnected(): boolean {
+    if(!this.currentPlayer) return false;
+    return this.sessionId === this.currentPlayer.sessionId && this.socketService.status$.value === Status.Connected;
+  }
+
   constructor(
     private storage: Storage,
     private authService: AuthService,
@@ -104,7 +109,13 @@ export class GameService {
     });
 
     this.socketService.status$.subscribe(status => {
-      if(status !== Status.Connected || !this.currentPlayer) return;
+      if(status !== Status.Connected) {
+        if(!this.currentPlayer) return;
+
+        // clear the current session id if you get disconnected
+        delete this.currentPlayer.sessionId;
+        return;
+      }
 
       this.socketService.emit(ServerEventName.PlayGame, {
         userId: this.userId$.value,

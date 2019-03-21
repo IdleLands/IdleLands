@@ -49,7 +49,7 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback() {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently associated with a player.');
+    if(!player) return this.notConnected();
 
     player.loggedIn = false;
     this.game.databaseManager.savePlayer(player);
@@ -66,7 +66,7 @@ export class DeleteEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback() {
     const player = this.player;
-    if(!player) return this.gameError('Your socket is not currently associated with a player.');
+    if(!player) return this.notConnected();
 
     this.game.databaseManager.deletePlayer(player);
     this.game.playerManager.removePlayer(player);

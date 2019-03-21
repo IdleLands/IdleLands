@@ -82,7 +82,7 @@ export class SocketClusterService {
     const toastOpts: any = {
       showCloseButton: true,
       message: info.message,
-      duration: 3000,
+      duration: info.duration || 3000,
       color: info.type
     };
 

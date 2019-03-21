@@ -9,12 +9,15 @@ export class ServerSocketEvent {
   }
 
   protected get player(): Player {
-    console.log('socket get player', this.playerName, !!this.game.playerManager.getPlayer(this.playerName));
     return this.game.playerManager.getPlayer(this.playerName);
   }
 
   protected emit(event: ServerEventName, data: any = {}) {
     this.socket.emit('gameevent', { name: event, data });
+  }
+
+  protected notConnected() {
+    this.emit(ServerEventName.GameMessage, { message: 'You aren\'t yet logged back in. Try again in a moment.' });
   }
 
   protected gameSuccess(err: string) {
