@@ -63,3 +63,40 @@ export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Sold ${foundItem.name} for ${value.toLocaleString()} gold!`);
   }
 }
+
+export class LockItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemLock;
+  description = 'Lock an item.';
+  args = 'itemId';
+
+  async callback({ itemId } = { itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const foundItem = player.$inventory.getItemFromInventory(itemId);
+    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+
+    foundItem.locked = true;
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Locked ${foundItem.name}! It will not be automatically sold or salvaged.`);
+  }
+}
+export class UnlockItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemUnlock;
+  description = 'Unlock an item.';
+  args = 'itemId';
+
+  async callback({ itemId } = { itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const foundItem = player.$inventory.getItemFromInventory(itemId);
+    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+
+    foundItem.locked = false;
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Unlocked ${foundItem.name}! It may be automatically sold or salvaged.`);
+  }
+}
