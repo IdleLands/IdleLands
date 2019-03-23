@@ -24,7 +24,6 @@ import { SocketClusterService } from '../socket-cluster.service';
         Lock This
       </ion-item>
     </ion-list>
-    <ion-button expand="block" (click)="dismiss()">Close</ion-button>
   `,
 })
 export class InventoryItemPopover {

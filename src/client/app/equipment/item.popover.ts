@@ -17,7 +17,6 @@ import { EquipSomethingElseModal } from './equipsomethingelse.modal';
         Unequip This
       </ion-item>
     </ion-list>
-    <ion-button expand="block" (click)="dismiss()">Close</ion-button>
   `,
 })
 export class EquipmentItemPopover {
