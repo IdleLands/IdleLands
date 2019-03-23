@@ -7,6 +7,11 @@
       Inventory 
       <span *ngIf="(gameService.player$ | async) as player">({{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }})</span>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAllMenu($event)">
+        <ion-icon slot="icon-only" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

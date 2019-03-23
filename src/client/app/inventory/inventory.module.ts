@@ -9,6 +9,7 @@ import { InventoryPage } from './inventory.page';
 import { SharedModule } from '../shared.module';
 
 import { InventoryItemPopover } from './item.popover';
+import { InventoryActionsPopover } from './invactions.popover';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  entryComponents: [InventoryItemPopover],
-  declarations: [InventoryItemPopover, InventoryPage]
+  entryComponents: [InventoryItemPopover, InventoryActionsPopover],
+  declarations: [InventoryItemPopover, InventoryActionsPopover, InventoryPage]
 })
 export class InventoryPageModule {}

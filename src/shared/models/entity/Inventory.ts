@@ -99,4 +99,8 @@ export class Inventory extends PlayerOwned {
     return find(this.items, { id: itemId });
   }
 
+  public itemsFromInventory(): Item[] {
+    return this.items;
+  }
+
 }
