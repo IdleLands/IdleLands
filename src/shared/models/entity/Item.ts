@@ -62,6 +62,7 @@ export class Item implements IItem {
   public itemClass: ItemClass;
   public enchantLevel: number;
   public stats: { [key in Stat]?: number };
+  public locked: boolean;
 
   static calcScoreForHash(hash: any): number {
     return Object.keys(scoreValues)

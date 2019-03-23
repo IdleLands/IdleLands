@@ -22,6 +22,8 @@ export enum ServerEventName {
   ItemEquip = 'item:equip',
   ItemUnequip = 'item:unequip',
   ItemSell = 'item:sell',
+  ItemLock = 'item:lock',
+  ItemUnlock = 'item:unlock',
 
   AdventureLogAdd = 'adventurelog:add',
 }

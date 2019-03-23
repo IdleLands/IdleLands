@@ -15,6 +15,14 @@ import { SocketClusterService } from '../socket-cluster.service';
         <ion-icon slot="start" [src]="'assets/icon/action-sell.svg'"></ion-icon>
         Sell This
       </ion-item>
+      <ion-item button (click)="unlock()" *ngIf="item.locked">
+        <ion-icon slot="start" [src]="'assets/icon/action-unlock.svg'"></ion-icon>
+        Unlock This
+      </ion-item>
+      <ion-item button (click)="lock()" *ngIf="!item.locked">
+        <ion-icon slot="start" [src]="'assets/icon/action-lock.svg'"></ion-icon>
+        Lock This
+      </ion-item>
     </ion-list>
     <ion-button expand="block" (click)="dismiss()">Close</ion-button>
   `,
@@ -35,6 +43,16 @@ export class InventoryItemPopover {
 
   sell() {
     this.socketService.emit(ServerEventName.ItemSell, { itemId: this.item.id });
+    this.dismiss();
+  }
+
+  lock() {
+    this.socketService.emit(ServerEventName.ItemLock, { itemId: this.item.id });
+    this.dismiss();
+  }
+
+  unlock() {
+    this.socketService.emit(ServerEventName.ItemUnlock, { itemId: this.item.id });
     this.dismiss();
   }
 

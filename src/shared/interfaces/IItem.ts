@@ -46,6 +46,8 @@ export interface IItem {
   enchantLevel: number;
   stats: { [key in Stat]?: number };
 
+  locked: boolean;
+
   init(opts): void;
 
   fullName(): string;

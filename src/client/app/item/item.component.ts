@@ -36,6 +36,7 @@ export class ItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   @Input() public slot: ItemSlot;
+  @Input() public showLock: boolean;
   @Input() public scale = 6;
 
   @Output() public itemMenu = new EventEmitter();

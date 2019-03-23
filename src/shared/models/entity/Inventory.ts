@@ -34,7 +34,7 @@ export class Inventory extends PlayerOwned {
 
   // basic functions
   private calcSize(player: Player): number {
-    return 10 + player.$statistics.get('Game.Premium.InventorySize');
+    return player.$statistics.get('Game.Premium.InventorySize');
   }
 
   public init(player: Player): void {
