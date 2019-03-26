@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'inventory', loadChildren: './inventory/inventory.module#InventoryPageModule' },
   { path: 'statistics', loadChildren: './statistics/statistics.module#StatisticsPageModule' },
   { path: 'equipment', loadChildren: './equipment/equipment.module#EquipmentPageModule' },
+  { path: 'choices', loadChildren: './choices/choices.module#ChoicesPageModule' },
   { path: '**', redirectTo: 'home' }
 ];
 

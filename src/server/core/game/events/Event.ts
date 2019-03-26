@@ -3,12 +3,13 @@ import { compact } from 'lodash';
 
 import { RNGService } from '../rng-service';
 import { EventMessageParser } from '../event-message-parser';
-import { Player, Item } from '../../../../shared/models/entity';
+import { Player, Item, Choice } from '../../../../shared/models';
 import { AssetManager } from '../asset-manager';
-import { Stat, GenerateableItemSlot, IAdventureLog, AdventureLogEventType } from '../../../../shared/interfaces';
+import { Stat, GenerateableItemSlot, IAdventureLog, AdventureLogEventType, PartialChoice } from '../../../../shared/interfaces';
 import { PlayerManager } from '../player-manager';
 import { EventManager } from '@angular/platform-browser';
 import { SubscriptionManager, Channel } from '../subscription-manager';
+import { ItemGenerator } from '../item-generator';
 
 export enum EventType {
   Battle = 'battle',
@@ -38,6 +39,7 @@ export abstract class Event {
   @Inject protected messageParser: EventMessageParser;
   @Inject protected playerManager: PlayerManager;
   @Inject protected eventManager: EventManager;
+  @Inject protected itemGenerator: ItemGenerator;
   @Inject protected subscriptionManager: SubscriptionManager;
 
   protected statTiers = {
@@ -45,6 +47,8 @@ export abstract class Event {
     t2: [Stat.STR, Stat.INT, Stat.CON],
     t3: [Stat.LUK]
   };
+
+  public static doChoice(player: Player, choice: Choice, valueChosen: string) {}
 
   protected _parseText(message: string, player: Player, extra: any): string {
     return this.messageParser.stringFormat(message, player, extra);
@@ -88,6 +92,14 @@ export abstract class Event {
     };
 
     this.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames, data: messageData });
+  }
+
+  protected getChoice(choiceOpts: PartialChoice): Choice {
+    const choice = new Choice();
+    choiceOpts.event = this.constructor.name;
+    choice.init(choiceOpts);
+
+    return choice;
   }
 
   public abstract operateOn(player: Player);

@@ -171,7 +171,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     const characterCheck = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
-    if(!characterCheck) return;
+    if(!characterCheck) return this.gameError('Your character does not exist.');
 
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
 
@@ -185,10 +185,9 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
       return this.gameError('You are already logged in elsewhere.');
     }
 
-    if(!characterCheck) return this.gameError('Your character does not exist.');
-
     // we have passed all of the checks, so lets hit the database again, why not?
     const character = await this.game.databaseManager.loadPlayer(this.game, searchOpts);
+    if(!character) return this.gameError('Your player could not be loaded for some reason.');
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 

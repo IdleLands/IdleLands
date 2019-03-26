@@ -1,6 +1,6 @@
 
-export * from './Assets';
-export * from './Inventory';
-export * from './Item';
-export * from './Player';
-export * from './Statistics';
+export * from './Assets.entity';
+export * from './Choices.entity';
+export * from './Inventory.entity';
+export * from './Player.entity';
+export * from './Statistics.entity';

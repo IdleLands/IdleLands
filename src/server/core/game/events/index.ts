@@ -9,5 +9,6 @@ export * from './BlessItem';
 export * from './ForsakeItem';
 
 export * from './Enchant';
+export * from './FindItem';
 export * from './Switcheroo';
 export * from './TownCrier';

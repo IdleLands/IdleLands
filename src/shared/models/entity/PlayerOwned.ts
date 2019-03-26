@@ -1,7 +1,7 @@
 import { Column } from 'typeorm';
 import { pickBy } from 'lodash';
 
-import { Player } from './Player';
+import { Player } from './Player.entity';
 
 export class PlayerOwned {
 

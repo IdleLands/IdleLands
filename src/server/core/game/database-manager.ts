@@ -1,12 +1,13 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions } from 'typeorm';
-import { extend, cloneDeep } from 'lodash';
+import { extend } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Inventory, Statistics, Assets } from '../../../shared/models/entity';
+import { Player, Assets } from '../../../shared/models';
 import { Logger } from '../logger';
+import { SHARED_FIELDS } from './shared-fields';
 
 const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
 const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
@@ -19,11 +20,6 @@ export class DatabaseManager {
   @Inject public logger: Logger;
 
   private firebase;
-
-  private allPlayerFields = [
-    { proto: Statistics, name: 'statistics' },
-    { proto: Inventory, name: 'inventory' }
-  ];
 
   public async init() {
     if(firebaseKey && firebaseProj) {
@@ -95,11 +91,11 @@ export class DatabaseManager {
       const player = await this.connection.manager.findOne(Player, query);
 
       const allUpdatedFields = await Promise.all(
-        this.allPlayerFields.map(x => this.connection.manager.findOne(x.proto, { owner: player.name }))
+        SHARED_FIELDS.map(x => this.connection.manager.findOne(x.proto, { owner: player.name }))
       );
 
       allUpdatedFields.forEach((data, i) => {
-        const matchingKey = this.allPlayerFields[i].name;
+        const matchingKey = SHARED_FIELDS[i].name;
         player[`$${matchingKey}`] = data;
       });
 
@@ -117,7 +113,7 @@ export class DatabaseManager {
 
     try {
       await Promise.all(
-        this.allPlayerFields.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`].toSaveObject()))
+        SHARED_FIELDS.map(x => this.connection.manager.save(x.proto, player[`$${x.name}`].toSaveObject()))
       );
 
       const saveObj = player.toSaveObject();
@@ -134,7 +130,7 @@ export class DatabaseManager {
 
     try {
       await Promise.all([
-        this.allPlayerFields.map(x => this.connection.manager.remove(x.proto, player[`$${x.name}`]))
+        SHARED_FIELDS.map(x => this.connection.manager.remove(x.proto, player[`$${x.name}`]))
       ]);
 
       const saveObj = player.toSaveObject();

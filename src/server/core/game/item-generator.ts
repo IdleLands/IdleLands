@@ -2,7 +2,7 @@ import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { random, sample, get, zip } from 'lodash';
 
 import { AssetManager } from './asset-manager';
-import { Item, Player } from '../../../shared/models/entity';
+import { Item, Player } from '../../../shared/models';
 import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 
@@ -174,8 +174,8 @@ export class ItemGenerator {
     Object.keys(itemNames).forEach(key => {
       const item = new Item();
       item.init({
-        type: key,
-        itemClass: 'newbie',
+        type: <ItemSlot>key,
+        itemClass: ItemClass.Newbie,
         name: sample(itemNames[key]),
         stats: { str: r(), con: r(), dex: r(), int: r(), agi: r(), luk: r(), xp: 2, gold: 1 }
       });
@@ -238,9 +238,9 @@ export class ItemGenerator {
       return prev;
     }, {});
 
-    const calcItemClass = Item.calcScoreForHash(allStats);
+    const calcItemClass = this.determineTierOfItemForScore(Item.calcScoreForHash(allStats));
 
-    item.init({ name, type: forceType, stats: allStats, itemClass: calcItemClass });
+    item.init({ name, type: <ItemSlot>forceType, stats: allStats, itemClass: calcItemClass });
 
     return item;
   }

@@ -48,7 +48,7 @@ export interface IItem {
 
   locked: boolean;
 
-  init(opts): void;
+  init(opts: PartialItem): void;
 
   fullName(): string;
 
@@ -60,3 +60,7 @@ export interface IItem {
   isCurrentlyEnchantable(player: IPlayer): boolean;
   isUnderBoostablePercent(player: IPlayer): boolean;
 }
+
+export type PartialItem = {
+  [P in keyof IItem]?: IItem[P];
+};

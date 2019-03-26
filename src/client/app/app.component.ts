@@ -28,12 +28,21 @@ export class AppComponent {
 
   public appPages = [
     { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
+
+    { name: 'Choices', icon: 'choices', url: '/choices', badgeColor: 'primary', badge: (player) => {
+      if(!player.$choicesData) return '';
+      return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
+    } },
+
     { name: 'Equipment', icon: 'gear', url: '/equipment' },
+
     { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
       if(!player.$inventoryData) return '';
       return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
     } },
+
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
+
     // { name: 'Personalities', icon: 'personalities' },
     // { name: 'Map', icon: 'map' },
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {

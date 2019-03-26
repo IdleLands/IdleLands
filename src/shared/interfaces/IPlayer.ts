@@ -1,5 +1,6 @@
 import { RestrictedNumber } from 'restricted-number';
 import { IItem } from './IItem';
+import { IChoice } from './IChoice';
 
 export interface IPlayer {
   _id: string;
@@ -42,5 +43,8 @@ export interface IPlayer {
   equip(item: IItem): void;
   unequip(item: IItem): void;
 
-  sellItem(item: IItem): void;
+  alwaysTryAddToInventory(item: IItem): void;
+  sellItem(item: IItem): number;
+
+  doChoice(choice: IChoice, decisionIndex: number): void;
 }
