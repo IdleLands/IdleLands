@@ -16,7 +16,7 @@ export class ForsakeItem extends Event {
     // boost item stat by 5% or 5, whichever is valid
     const boost = item.stats[stat] === 0 ? 5 : Math.max(3, Math.abs(Math.floor(item.stats[stat] / 20)));
     const eventText = this.eventText(EventType.BlessItem, player, { item: item.fullName() });
-    const allText = `${eventText} [${stat} ${item.stats[stat].toLocaleString()} -> ${(item.stats[stat] - boost).toLocaleString()}]`;
+    const allText = `${eventText} [${stat} ${(item.stats[stat] || 0).toLocaleString()} -> ${(item.stats[stat] - boost).toLocaleString()}]`;
 
     item.stats[stat] -= boost;
     item.recalculateScore();

@@ -25,6 +25,7 @@ export enum ServerEventName {
   ItemLock = 'item:lock',
   ItemUnlock = 'item:unlock',
   ItemSellAll = 'item:sellall',
+  ItemCompare = 'item:compare',
 
   ChoiceMake = 'choice:make',
 

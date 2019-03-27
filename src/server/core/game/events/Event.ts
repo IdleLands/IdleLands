@@ -48,7 +48,9 @@ export abstract class Event {
     t3: [Stat.LUK]
   };
 
-  public static doChoice(player: Player, choice: Choice, valueChosen: string) {}
+  public static doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
+    return true;
+  }
 
   protected _parseText(message: string, player: Player, extra: any): string {
     return this.messageParser.stringFormat(message, player, extra);

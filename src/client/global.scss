@@ -57,6 +57,38 @@ ion-alert .alert-wrapper {
   }
 }
 
+.item-compare-modal {
+
+  .alert-message {
+    max-height: 350px;
+  }
+
+  .item-compare-table {
+    border-spacing: 1px;
+    width: 100%;
+  
+    td {
+      padding: 5px;
+      border: 1px solid #666;
+  
+      &.desc {
+        width: 100px;
+        font-weight: bold;
+  
+        .desc-container {
+          display: flex;
+          justify-content: space-around;
+          color: var(--ion-color-base);
+        }
+      }
+  
+      &.stat-container {
+        color: var(--ion-color-base);
+      }
+    }
+  }
+}
+
 .blank-slate {
   width: 100%;
   height: 100%;

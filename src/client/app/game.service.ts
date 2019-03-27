@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
 
 import { applyPatch } from 'fast-json-patch';
 import { get } from 'lodash';
@@ -9,7 +10,7 @@ import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName, IAdventureLog } from '../../shared/interfaces';
+import { ServerEventName, IAdventureLog, IItem } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -60,6 +61,7 @@ export class GameService {
   }
 
   constructor(
+    private alertCtrl: AlertController,
     private storage: Storage,
     private authService: AuthService,
     private socketService: SocketClusterService
@@ -172,6 +174,10 @@ export class GameService {
       log.unshift(advData);
       this.setAdventureLog(log);
     });
+
+    this.socketService.register(ServerEventName.ItemCompare, ({ newItem, currentItem, choiceId }) => {
+      this.itemCompare(newItem, currentItem, choiceId);
+    });
   }
 
   public logout() {
@@ -182,6 +188,83 @@ export class GameService {
   public delete() {
     this.socketService.emit(ServerEventName.AuthDelete);
     this.removePlayerData();
+  }
+
+  private async itemCompare(newItem: IItem, currentItem: IItem, choiceId?: string) {
+    const stats = ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold'];
+
+    const newStats = newItem ? newItem.stats : {};
+    const curStats = currentItem ? currentItem.stats : {};
+
+    stats.forEach(stat => {
+      newStats[stat] = newStats[stat] || 0;
+      curStats[stat] = curStats[stat] || 0;
+    });
+
+    const baseString = stats.map(stat => {
+      let classColor = '';
+      let symbol = '→';
+
+      if(newStats[stat] > curStats[stat]) {
+        symbol = '↗';
+        classColor = 'ion-color-success';
+      }
+
+      if(newStats[stat] < curStats[stat]) {
+        symbol = '↘';
+        classColor = 'ion-color-danger';
+      }
+
+      return `
+        <tr>
+          <td>${curStats[stat]}</td>
+          <td class="desc">
+            <div class="desc-container ${classColor}">
+              <span>${stat.toUpperCase()}</span>
+              <span>»</span>
+            </div>
+          </td>
+          <td class="ion-text-right stat-container ${classColor}">
+            ${newStats[stat]} ${symbol}
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    const top = `
+      <tr><td colspan="3">
+        ↓ ${currentItem ? currentItem.name : 'nothing'} [${currentItem ? currentItem.score.toLocaleString() : 0}]
+      </td></tr>
+    `;
+
+    const bottom = `
+      <tr><td colspan="3" class="ion-text-right">
+        ${newItem ? newItem.name : 'nothing'} [${newItem ? newItem.score.toLocaleString() : 0}] ↑
+      </td></tr>
+    `;
+
+    const finalString = '<table class="item-compare-table">' + top + baseString + bottom + '</table>';
+
+    const alert = await this.alertCtrl.create({
+      header: `Item Compare (${newItem.type})`,
+      cssClass: 'item-compare-modal',
+      message: finalString,
+      buttons: [
+        // { text: 'Cancel' },
+        { text: 'Equip', handler: () => {
+          if(!choiceId) return;
+
+          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Yes' });
+        } },
+        { text: 'Sell', handler: () => {
+          if(!choiceId) return;
+
+          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Sell' });
+        } }
+      ]
+    });
+
+    alert.present();
   }
 
 }

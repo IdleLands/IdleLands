@@ -1,23 +1,26 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { CommonModule } from '@angular/common';
+
+import { IonicStorageModule } from '@ionic/storage';
+import { IonicModule } from '@ionic/angular';
 
 import { SocketClusterService } from './socket-cluster.service';
 import { GameService } from './game.service';
 import { LoggedInGuard } from './logged-in.guard';
-import { GendervatarComponent } from './gendervatar/gendervatar.component';
+import { GendervatarComponent } from './_shared/gendervatar/gendervatar.component';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ItemComponent } from './item/item.component';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { ItemComponent } from './_shared/item/item.component';
 
 @NgModule({
   declarations: [
     GendervatarComponent,
     ItemComponent
+  ],
+  entryComponents: [
   ],
   providers: [
     {
@@ -55,6 +58,9 @@ import { IonicModule } from '@ionic/angular';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  exports: [GendervatarComponent, ItemComponent]
+  exports: [
+    GendervatarComponent,
+    ItemComponent
+  ]
 })
 export class SharedModule { }

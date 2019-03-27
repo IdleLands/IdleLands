@@ -33,7 +33,7 @@ export class EventManager {
     event.operateOn(player);
   }
 
-  public doChoiceFor(player: Player, choice: Choice, decision: string) {
-    Events[choice.event].doChoice(player, choice, decision);
+  public doChoiceFor(player: Player, choice: Choice, decision: string): boolean {
+    return Events[choice.event].doChoice(player, choice, decision);
   }
 }
