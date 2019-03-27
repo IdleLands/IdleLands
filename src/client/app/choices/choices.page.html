@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Choices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <div class="blank-slate" *ngIf="player.$choicesData.choices.length === 0">
+      You have no choices to make.
+    </div>
+
+    <ion-row class="ion-flex-wrap">
+      <ion-col size-xs="12" size-md="6" *ngFor="let item of player.$choicesData.choices; let i = index">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{ item.foundAt | date:'medium' }}</ion-card-subtitle>
+            <ion-card-title>Choice {{ i + 1 }}/{{ player.$choicesData.size }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                {{ item.desc }}
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="ion-flex-wrap">
+              <ion-col *ngFor="let choice of item.choices" size="3">
+                <ion-button [color]="choice === item.defaultChoice ? 'primary' : 'secondary'" 
+                            expand="block"
+                            (click)="choose(item, choice)">
+                  {{ choice }}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-content>
