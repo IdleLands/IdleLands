@@ -23,7 +23,8 @@ export class Enchant extends Event {
       boost = stat === Stat.HP ? 500 : 10;
     }
 
-    const allText = `${eventText} [${stat} ${(item.stats[stat] || 0).toLocaleString()} -> ${(item.stats[stat] + boost).toLocaleString()}]`;
+    const baseNum = item.stats[stat] || 0;
+    const allText = `${eventText} [${stat} ${baseNum.toLocaleString()} -> ${(baseNum + boost).toLocaleString()}]`;
 
     item.enchantLevel = item.enchantLevel || 0;
     item.stats[stat] = item.stats[stat] || 0;
