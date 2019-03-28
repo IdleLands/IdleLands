@@ -78,9 +78,9 @@ export class AppComponent {
       message: 'Are you sure you want to log out?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Yes, log out!', handler: () => {
+        { text: 'Yes, log out!', handler: async () => {
+          await this.router.navigate(['/home']);
           this.gameService.logout();
-          this.router.navigate(['/home']);
         } }
       ]
     });

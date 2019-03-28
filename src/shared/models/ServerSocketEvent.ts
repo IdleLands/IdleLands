@@ -9,6 +9,7 @@ export class ServerSocketEvent {
   }
 
   protected get player(): Player {
+    console.log(this.playerName, 'get', !!this.game.playerManager.getPlayer(this.playerName));
     return this.game.playerManager.getPlayer(this.playerName);
   }
 
@@ -37,6 +38,7 @@ export class ServerSocketEvent {
   }
 
   protected setPlayer(player: IPlayer) {
+    console.log('set', player.name);
     this.socket.playerName = player.name;
   }
 

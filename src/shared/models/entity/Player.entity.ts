@@ -215,6 +215,11 @@ export class Player implements IPlayer {
     return totalXP;
   }
 
+  public spendGold(gold = 0): number {
+    this.$statistics.increase('Character.Gold.Spend', gold);
+    return this.gainGold(-gold);
+  }
+
   public gainGold(gold = 0): number {
 
     const remainingGold = Math.floor(gold + this.stats.gold);

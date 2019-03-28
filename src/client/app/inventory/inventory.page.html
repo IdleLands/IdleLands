@@ -5,7 +5,9 @@
     </ion-buttons>
     <ion-title>
       Inventory 
-      <span *ngIf="(gameService.player$ | async) as player">({{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }})</span>
+      <span *ngIf="(gameService.player$ | async) as player">
+        ({{ player?.$inventoryData?.items.length }}/{{ player?.$inventoryData?.size }})
+      </span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openAllMenu($event)">
@@ -17,11 +19,11 @@
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="player.$inventoryData.items.length === 0">
+    <div class="blank-slate" *ngIf="player?.$inventoryData?.items.length === 0">
       You have no items in your inventory.
     </div>
 
-    <ion-row *ngFor="let item of player.$inventoryData.items">
+    <ion-row *ngFor="let item of player?.$inventoryData?.items">
       <ion-col>
         <app-item [item]="item" 
                   [showLock]="true"

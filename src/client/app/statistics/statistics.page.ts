@@ -25,6 +25,8 @@ export class StatisticsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.character$ = this.gameService.player$.subscribe(player => {
+      if(!player) return;
+      
       this.statistics = this.handleStatistics(player.$statisticsData);
     });
   }

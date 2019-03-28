@@ -10,5 +10,6 @@ export * from './ForsakeItem';
 
 export * from './Enchant';
 export * from './FindItem';
+export * from './Merchant';
 export * from './Switcheroo';
 export * from './TownCrier';

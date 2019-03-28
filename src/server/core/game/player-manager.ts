@@ -40,6 +40,10 @@ export class PlayerManager {
   }
 
   public addPlayer(player: Player, socket): void {
+    if(this.players[player.name]) {
+      this.removePlayer(player);
+    }
+
     player.loggedIn = true;
 
     this.playerWatches[player.name] = observe(player);

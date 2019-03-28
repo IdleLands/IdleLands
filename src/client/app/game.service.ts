@@ -115,6 +115,7 @@ export class GameService {
         if(!this.currentPlayer) return;
 
         // clear the current session id if you get disconnected
+        this.setSessionId(null);
         delete this.currentPlayer.sessionId;
         return;
       }
@@ -147,11 +148,11 @@ export class GameService {
   }
 
   private removePlayerData() {
+    this.authService.logout();
     this.currentPlayer = null;
     this.player.next(null);
     this.setSessionId(null);
     this.setLoggedInId(null);
-    this.authService.logout();
   }
 
   private initCharacterWatches() {
@@ -181,8 +182,8 @@ export class GameService {
   }
 
   public logout() {
-    this.socketService.emit(ServerEventName.AuthSignOut);
     this.removePlayerData();
+    this.socketService.emit(ServerEventName.AuthSignOut);
   }
 
   public delete() {
