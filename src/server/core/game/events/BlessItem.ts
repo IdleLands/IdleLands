@@ -13,12 +13,15 @@ export class BlessItem extends Event {
       return;
     }
 
+    item.stats[stat] = item.stats[stat] || 0;
+
     // boost item stat by 5% or 5, whichever is valid
     const boost = item.stats[stat] === 0 ? 5 : Math.max(3, Math.abs(Math.floor(item.stats[stat] / 20)));
     const eventText = this.eventText(EventType.BlessItem, player, { item: item.fullName() });
 
-    const baseNum = item.stats[stat] || 0;
-    const allText = `${eventText} [${stat} ${baseNum.toLocaleString()} -> ${(baseNum + boost).toLocaleString()}]`;
+    const baseNum = item.stats[stat];
+
+    const allText = `${eventText} [${stat.toUpperCase()} ${baseNum.toLocaleString()} → ${(baseNum + boost).toLocaleString()}]`;
 
     item.stats[stat] += boost;
     item.recalculateScore();

@@ -16,15 +16,15 @@ export class Enchant extends Event {
     const eventText = this.eventText(choice, player, { item: item.fullName() });
 
     let stat = this.pickStat();
-    let boost = 50;
+    let boost = 25;
 
     if(choice === EventType.Tinker) {
       stat = this.pickTinkerStat();
-      boost = stat === Stat.HP ? 500 : 10;
+      boost = stat === Stat.HP ? 200 : 2;
     }
 
     const baseNum = item.stats[stat] || 0;
-    const allText = `${eventText} [${stat} ${baseNum.toLocaleString()} -> ${(baseNum + boost).toLocaleString()}]`;
+    const allText = `${eventText} [${stat.toUpperCase()} ${baseNum.toLocaleString()} → ${(baseNum + boost).toLocaleString()}]`;
 
     item.enchantLevel = item.enchantLevel || 0;
     item.stats[stat] = item.stats[stat] || 0;

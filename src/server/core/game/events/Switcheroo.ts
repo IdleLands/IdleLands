@@ -14,7 +14,7 @@ export class Switcheroo extends Event {
     }
 
     const eventText = this.eventText(EventType.Switcheroo, player, { item: item.fullName(), stat });
-    const allText = `${eventText} [${stat} ${item.stats[stat]} -> ${-item.stats[stat]}]`;
+    const allText = `${eventText} [${stat.toUpperCase()} ${item.stats[stat]} → ${-item.stats[stat]}]`;
 
     item.stats[stat] = -item.stats[stat];
     item.recalculateScore();
