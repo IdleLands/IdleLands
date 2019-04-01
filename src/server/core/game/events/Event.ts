@@ -48,11 +48,10 @@ export abstract class Event {
     t3: [Stat.LUK]
   };
 
-  public static doChoice(
+  public doChoice(
     player: Player,
     choice: Choice,
-    valueChosen: string,
-    { error, success, event, rng }: { error: Function, success: Function, event: Function, rng: RNGService }
+    valueChosen: string
   ): boolean {
     return true;
   }

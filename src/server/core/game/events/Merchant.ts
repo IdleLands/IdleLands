@@ -5,7 +5,7 @@ import { AdventureLogEventType, ServerEventName } from '../../../../shared/inter
 export class Merchant extends Event {
   public static readonly WEIGHT = 45;
 
-  public static doChoice(player: Player, choice: Choice, valueChosen: string, { error, success, event }): boolean {
+  public doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
     const item = new Item();
     item.init(choice.extraData.item);
 
@@ -15,7 +15,7 @@ export class Merchant extends Event {
     switch(valueChosen) {
       case 'Yes': {
         if(player.gold < cost) {
-          error(player, 'You cannot currently afford this.');
+          this.eventManager.errorMessage(player, 'You cannot currently afford this.');
           return false;
         }
 
@@ -23,12 +23,12 @@ export class Merchant extends Event {
 
         if(isEnchant) {
           player.$statistics.increase(`Event.Enchant.Buy`, 1);
-          event(player, 'Enchant');
-          success(player, `You bought an enchantment.`);
+          this.eventManager.doEventFor(player, 'Enchant');
+          this.eventManager.successMessage(player, `You bought an enchantment.`);
 
         } else {
           player.equip(item, false);
-          success(player, `You bought "${item.name}" and equipped it.`);
+          this.eventManager.successMessage(player, `You bought "${item.name}" and equipped it.`);
         }
 
         return true;
@@ -40,7 +40,7 @@ export class Merchant extends Event {
 
       case 'Compare': {
         if(isEnchant) {
-          error(player, 'Cannot compare with an enchantment. Stop hacking.');
+          this.eventManager.errorMessage(player, 'Cannot compare with an enchantment. Stop hacking.');
           return false;
         }
 
@@ -55,13 +55,13 @@ export class Merchant extends Event {
 
       case 'Inventory': {
         if(player.gold < cost || isEnchant) {
-          error(player, 'You cannot currently afford this.');
+          this.eventManager.errorMessage(player, 'You cannot currently afford this.');
           return false;
         }
 
         player.spendGold(cost);
         player.alwaysTryAddToInventory(item);
-        success(player, `You bought "${item.name}" and sent it to your inventory.`);
+        this.eventManager.successMessage(player, `You bought "${item.name}" and sent it to your inventory.`);
 
         return true;
       }
