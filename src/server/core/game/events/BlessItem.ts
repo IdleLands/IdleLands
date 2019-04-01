@@ -20,7 +20,6 @@ export class BlessItem extends Event {
     const eventText = this.eventText(EventType.BlessItem, player, { item: item.fullName() });
 
     const baseNum = item.stats[stat];
-
     const allText = `${eventText} [${stat.toUpperCase()} ${baseNum.toLocaleString()} → ${(baseNum + boost).toLocaleString()}]`;
 
     item.stats[stat] += boost;
