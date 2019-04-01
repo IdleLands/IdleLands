@@ -4,6 +4,9 @@ import { RNGService } from './rng-service';
 
 import * as Events from '../game/events';
 import { Choice } from '../../../shared/models';
+import { PlayerManager } from './player-manager';
+import { ServerEventName } from '../../../shared/interfaces';
+import { Logger } from '../logger';
 
 const EVENT_TICKS = process.env.NODE_ENV === 'production' ? { min: 25, max: 35 } : { min: 3, max: 5 };
 
@@ -12,6 +15,8 @@ const EVENT_TICKS = process.env.NODE_ENV === 'production' ? { min: 25, max: 35 }
 export class EventManager {
 
   @Inject private rng: RNGService;
+  @Inject private playerManager: PlayerManager;
+  @Inject private logger: Logger;
 
   public tryToDoEventFor(player: Player) {
     if(player.eventSteps > 0) {
@@ -29,11 +34,33 @@ export class EventManager {
     player.$statistics.increase(`Character.Events`, 1);
     player.$statistics.increase(`Event.${chosenEventName}.Times`, 1);
 
-    const event = new Events[chosenEventName]();
+    this.doEventFor(player, chosenEventName);
+  }
+
+  public doEventFor(player: Player, eventName: string) {
+    if(!Events[eventName]) {
+      this.logger.error(`EventManager`, `Event type ${eventName} is invalid.`);
+      return;
+    }
+
+    const event = new Events[eventName]();
     event.operateOn(player);
   }
 
+  public successMessage(player: Player, message: string) {
+    this.playerManager.emitToPlayer(player.name, ServerEventName.GameMessage, { message, type: 'success' });
+  }
+
+  public errorMessage(player: Player, message: string) {
+    this.playerManager.emitToPlayer(player.name, ServerEventName.GameMessage, { message, type: 'danger' });
+  }
+
   public doChoiceFor(player: Player, choice: Choice, decision: string): boolean {
-    return Events[choice.event].doChoice(player, choice, decision);
+    return Events[choice.event].doChoice(player, choice, decision,
+      {
+        event: (p, e) => this.doEventFor(p, e),
+        error: (p, e) => this.errorMessage(p, e),
+        success: (p, e) => this.successMessage(p, e)
+      });
   }
 }

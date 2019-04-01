@@ -7,9 +7,9 @@ import { Player, Item, Choice } from '../../../../shared/models';
 import { AssetManager } from '../asset-manager';
 import { Stat, GenerateableItemSlot, IAdventureLog, AdventureLogEventType, PartialChoice } from '../../../../shared/interfaces';
 import { PlayerManager } from '../player-manager';
-import { EventManager } from '@angular/platform-browser';
 import { SubscriptionManager, Channel } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
+import { EventManager } from '../event-manager';
 
 export enum EventType {
   Battle = 'battle',
@@ -48,7 +48,12 @@ export abstract class Event {
     t3: [Stat.LUK]
   };
 
-  public static doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
+  public static doChoice(
+    player: Player,
+    choice: Choice,
+    valueChosen: string,
+    { error, success, event }: { error: Function, success: Function, event: Function }
+  ): boolean {
     return true;
   }
 

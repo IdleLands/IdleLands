@@ -1,5 +1,5 @@
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
-import { random, sample, get, zip } from 'lodash';
+import { random, sample, get, zip, extend } from 'lodash';
 
 import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
@@ -186,10 +186,15 @@ export class ItemGenerator {
     return equipment;
   }
 
-  public generateItemForPlayer(player: Player, { forceType } = { forceType: '' }): Item {
+  public generateItemForPlayer(
+    player: Player,
+    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number }
+  ): Item {
 
-    if(!forceType) forceType = this.rng.pickone(GenerateableItemSlot);
-    forceType = forceType.toLowerCase();
+    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0 }, opts);
+
+    if(!opts.forceType) opts.forceType = this.rng.pickone(GenerateableItemSlot);
+    opts.forceType = opts.forceType.toLowerCase();
 
     const item = new Item();
 
@@ -202,13 +207,19 @@ export class ItemGenerator {
       possibleItemClasses.push(itemClass);
     });
 
+    // force boost quality if possible
+    for(let i = 0; i < opts.qualityBoost; i++) {
+      if(possibleItemClasses.length <= 1) continue;
+      possibleItemClasses.shift();
+    }
+
     const itemClassChosen = this.rng.pickone(possibleItemClasses);
 
     let name = '';
     const allStatAssets = [];
 
-    const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>forceType, itemClassChosen));
-    if(!baseAsset) throw new Error(`Error: No asset available for ${forceType}:${itemClassChosen}`);
+    const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>opts.forceType, itemClassChosen));
+    if(!baseAsset) throw new Error(`Error: No asset available for ${opts.forceType}:${itemClassChosen}`);
 
     name = baseAsset.name;
     allStatAssets.push(baseAsset);
@@ -240,7 +251,9 @@ export class ItemGenerator {
 
     const calcItemClass = this.determineTierOfItemForScore(Item.calcScoreForHash(allStats));
 
-    item.init({ name, type: <ItemSlot>forceType, stats: allStats, itemClass: calcItemClass });
+    item.init({ name, type: <ItemSlot>opts.forceType, stats: allStats, itemClass: calcItemClass });
+
+    if(item.score <= 0 && !opts.allowNegative) return null;
 
     return item;
   }

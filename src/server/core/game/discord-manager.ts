@@ -13,12 +13,18 @@ export class DiscordManager {
   private discordGuild: Discord.Guild;
   private discordChannel: Discord.GuildChannel;
 
-  public async init() {
-    if(!process.env.DISCORD_SECRET) return false;
+  public async init(): Promise<void> {
+    if(!process.env.DISCORD_SECRET) return;
 
     this.discord = new Discord.Client();
 
-    await this.discord.login(process.env.DISCORD_SECRET);
+    try {
+      await this.discord.login(process.env.DISCORD_SECRET);
+    } catch(e) {
+      this.logger.error(`Discord`, e.message);
+      return;
+    }
+
     this.discordGuild = this.discord.guilds.get(process.env.DISCORD_GUILD_ID);
     this.discordChannel = <Discord.GuildChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
 

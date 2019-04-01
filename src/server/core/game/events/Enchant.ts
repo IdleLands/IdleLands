@@ -8,6 +8,7 @@ export class Enchant extends Event {
   public operateOn(player: Player) {
     const item = this.pickValidEnchantItem(player);
     if(!item) {
+      this.emitMessage([player], 'The enchant fizzled.', AdventureLogEventType.Item);
       player.$statistics.increase(`Event.Enchant.Fail`, 1);
       return;
     }

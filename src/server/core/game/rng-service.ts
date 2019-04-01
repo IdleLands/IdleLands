@@ -26,4 +26,8 @@ export class RNGService {
     return this.chance.pickone(items);
   }
 
+  public likelihood(percent = 50): boolean {
+    return this.chance.bool({ likelihood: percent });
+  }
+
 }

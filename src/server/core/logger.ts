@@ -12,7 +12,7 @@ export class Logger {
     console.log(this.timestamp(), ...args);
   }
 
-  error(...args) {
+error(...args) {
     console.error(this.timestamp(), ...args);
   }
 
