@@ -55,9 +55,11 @@ export class EventManager {
     this.playerManager.emitToPlayer(player.name, ServerEventName.GameMessage, { message, type: 'danger' });
   }
 
+  // TODO: make doChoice not do static bullshit, it breaks DI and it's stupid.
   public doChoiceFor(player: Player, choice: Choice, decision: string): boolean {
     return Events[choice.event].doChoice(player, choice, decision,
       {
+        rng: this.rng,
         event: (p, e) => this.doEventFor(p, e),
         error: (p, e) => this.errorMessage(p, e),
         success: (p, e) => this.successMessage(p, e)

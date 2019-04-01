@@ -52,7 +52,7 @@ export abstract class Event {
     player: Player,
     choice: Choice,
     valueChosen: string,
-    { error, success, event }: { error: Function, success: Function, event: Function }
+    { error, success, event, rng }: { error: Function, success: Function, event: Function, rng: RNGService }
   ): boolean {
     return true;
   }
