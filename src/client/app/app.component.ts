@@ -34,6 +34,8 @@ export class AppComponent {
       return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
     } },
 
+    { name: 'Personalities', icon: 'personalities', url: '/personalities' },
+
     { name: 'Equipment', icon: 'gear', url: '/equipment' },
 
     { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
@@ -42,8 +44,6 @@ export class AppComponent {
     } },
 
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
-
-    // { name: 'Personalities', icon: 'personalities' },
     // { name: 'Map', icon: 'map' },
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Personalities</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <div class="blank-slate" *ngIf="player?.$personalitiesData?.personalities.length === 0">
+      You have no personalities.
+    </div>
+
+    <ion-row *ngFor="let pers of player?.$personalitiesData?.personalities">
+      <ion-col>
+        {{ pers | json }}
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-content>
