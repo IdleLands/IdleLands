@@ -1,5 +1,6 @@
 import { Event } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
+import { AdventureLogEventType } from '../../../../shared/interfaces';
 
 export class Gamble extends Event {
   public static readonly WEIGHT = 15;
@@ -33,6 +34,10 @@ export class Gamble extends Event {
         player.$statistics.increase(`Event.Gamble.WinDoubleTimes`, 1);
         player.$statistics.increase(`Event.Gamble.WinDouble`, payoff);
       }
+      
+      const allText = `${player} bet ${bet.toLocaleString()} gold at the gambling table against the odds 
+        of ${odds}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and won ${payoff.toLocaleString()} gold!`;
+      this.emitMessage([player], allText, AdventureLogEventType.Gold);
 
     } else {
       this.eventManager.successMessage(player,
@@ -42,6 +47,10 @@ export class Gamble extends Event {
       if(valueChosen === 'Double') {
         player.$statistics.increase(`Event.Gamble.LoseDoubleTimes`, 1);
       }
+      
+      const allText = `${player} bet ${bet.toLocaleString()} gold at the gambling table against the odds 
+        of ${odds}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and lost it all.`;
+      this.emitMessage([player], allText, AdventureLogEventType.Gold);
     }
 
     return true;
