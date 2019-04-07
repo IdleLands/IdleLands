@@ -49,7 +49,7 @@ export class FindItem extends Event {
     const choice = this.getChoice({
       desc: `Would you like to equip "${item.name}" (Score: ${item.score.toLocaleString()}, Type: ${item.type})?`,
       choices: ['Yes', 'No', 'Compare', 'Sell'],
-      defaultChoice: 'Yes',
+      defaultChoice: player.getDefaultChoice(['Yes', 'No', 'Sell']),
       extraData: {
         item
       }

@@ -57,7 +57,7 @@ export class AchievementManager {
 
       newAchievements.push(achObj);
 
-      player.$achievements.addAchievement(achObj);
+      player.$achievements.add(achObj);
     });
 
     return newAchievements;

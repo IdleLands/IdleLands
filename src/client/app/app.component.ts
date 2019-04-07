@@ -34,13 +34,9 @@ export class AppComponent {
       return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
     } },
 
-    { name: 'Achievements', icon: 'achievements', url: '/achievements', hideIf: (player) => {
-      return !player.$achievementsData || !player.$achievementsData.achievements.Walker;
-    } },
+    { name: 'Achievements', icon: 'achievements', url: '/achievements' },
 
-    { name: 'Personalities', icon: 'personalities', url: '/personalities', hideIf: (player) => {
-      return !player.$personalitiesData || player.$personalitiesData.personalities.length === 0;
-    } },
+    { name: 'Personalities', icon: 'personalities', url: '/personalities' },
 
     { name: 'Equipment', icon: 'gear', url: '/equipment' },
 

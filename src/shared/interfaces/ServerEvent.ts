@@ -30,6 +30,8 @@ export enum ServerEventName {
   ChoiceMake = 'choice:make',
 
   AdventureLogAdd = 'adventurelog:add',
+
+  TogglePersonality = 'personality:toggle'
 }
 
 export interface ServerEvent {

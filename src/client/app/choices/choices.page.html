@@ -14,7 +14,7 @@
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="player?.$choicesData?.choices.length === 0">
+    <div class="blank-slate" *ngIf="player?.$choicesData?.choices?.length === 0">
       You have no choices to make.
     </div>
 

@@ -1,6 +1,7 @@
 import { RestrictedNumber } from 'restricted-number';
 import { IItem } from './IItem';
 import { IChoice } from './IChoice';
+import { ServerEventName } from './ServerEvent';
 
 export interface IPlayer {
   _id: string;
@@ -28,8 +29,12 @@ export interface IPlayer {
   availableGenders: string[];
   availableTitles: string[];
 
+  $professionData: any;
   $statisticsData: any;
   $inventoryData: any;
+  $choicesData: any;
+  $achievementsData: any;
+  $personalitiesData: any;
 
   init(): void;
   loop(): Promise<void>;
@@ -47,4 +52,10 @@ export interface IPlayer {
   sellItem(item: IItem): number;
 
   doChoice(choice: IChoice, decisionIndex: number): void;
+
+  emit(evt: ServerEventName, data: any): void;
+
+  getDefaultChoice(str: string[]): string;
+
+  increaseStatistic(stat: string, val: number): void;
 }

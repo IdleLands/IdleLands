@@ -9,14 +9,21 @@
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="player?.$personalitiesData?.personalities.length === 0">
+    <div class="blank-slate" *ngIf="(player?.$personalitiesData?.personalities | keyvalue)?.length === 0">
       You have no personalities.
     </div>
 
-    <ion-row *ngFor="let pers of player?.$personalitiesData?.personalities">
-      <ion-col>
-        {{ pers | json }}
-      </ion-col>
-    </ion-row>
+    <ion-list>
+      <ion-item *ngFor="let pers of player?.$personalitiesData?.personalities | keyvalue">
+        <ion-checkbox slot="start" 
+                      (click)="togglePersonality(pers.key)"
+                      [(ngModel)]="player.$personalitiesData.activePersonalities[pers.key]"></ion-checkbox>
+
+        <ion-label class="ion-text-wrap">
+          <h3>{{ pers.key }}</h3>
+          <p>{{ pers.value }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </ng-container>
 </ion-content>

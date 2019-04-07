@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone } from 'lodash';
+import { sample, pickBy, clone, includes } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -11,11 +11,13 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
 import { Item } from '../Item';
-import { IGame, Stat, IPlayer, ItemSlot, ServerEventName, IAdventureLog, AdventureLogEventType, AchievementRewardType } from '../../interfaces';
+import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
+  IAdventureLog, AdventureLogEventType, AchievementRewardType } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
 import { Channel } from '../../../server/core/game/subscription-manager';
+import { Personalities } from './Personalities.entity';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -99,6 +101,10 @@ export class Player implements IPlayer {
   public $achievements: Achievements;
   public $achievementsData: any;
 
+  @nonenumerable
+  public $personalities: Personalities;
+  public $personalitiesData: any;
+
   @Column()
   public availableGenders: string[];
 
@@ -109,7 +115,7 @@ export class Player implements IPlayer {
     // validate that important properties exist
     if(!this.createdAt) this.createdAt = Date.now();
     if(!this.availableGenders) this.availableGenders = ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
-    if(!this.availableTitles) this.availableTitles = ['Newbie'];
+    if(!this.availableTitles) this.availableTitles = [];
     if(!this.level) this.level = new RestrictedNumber(1, 100, 1);
     if(!this.xp) this.xp = new RestrictedNumber(0, 100, 0);
     if(!this.profession) this.profession = 'Generalist';
@@ -317,9 +323,6 @@ export class Player implements IPlayer {
 
     this.stats.specialName = this.$profession.specialStatName;
 
-    // pre-configured
-    this.addStatTrail(Stat.XP, 5, `Base`);
-
     // dynamically-calculated
     // first, we do the addition-based adds
     const allStats = Object.keys(Stat).map(key => Stat[key]);
@@ -340,7 +343,7 @@ export class Player implements IPlayer {
         const ach = this.$achievementsData.achievements[achName];
         ach.rewards.forEach(reward => {
           if(reward.type !== AchievementRewardType.Stats || !reward.stats[stat]) return;
-          this.addStatTrail(stat, reward.stats[stat], `Achieve#: ${achName} (${ach.tier})`);
+          this.addStatTrail(stat, reward.stats[stat], `Achieve#: ${achName} (t${ach.tier})`);
         });
       });
 
@@ -352,6 +355,8 @@ export class Player implements IPlayer {
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);
     });
+
+    const personalityInstances = this.getActivePersonalityInstances();
 
     // here we do the multiplicative adds
     allStats.forEach(stat => {
@@ -373,9 +378,18 @@ export class Player implements IPlayer {
         const ach = this.$achievementsData.achievements[achName];
         ach.rewards.forEach(reward => {
           if(reward.type !== AchievementRewardType.StatMultipliers || !reward.stats[stat]) return;
+
           const addedValue = Math.floor((statBase * reward.stats[stat])) - statBase;
-          this.addStatTrail(stat, addedValue, `Achieve%: ${achName} (${ach.tier})`);
+          this.addStatTrail(stat, addedValue, `Achieve%: ${achName} (t${ach.tier})`);
         });
+      });
+
+      // personality multiplier boost
+      personalityInstances.forEach(pers => {
+        if(!pers.statMultipliers || !pers.statMultipliers[stat]) return;
+
+        const addedValue = Math.floor((statBase * pers.statMultipliers[stat])) - statBase;
+        this.addStatTrail(stat, addedValue, `Personality: ${pers.name}`);
       });
     });
 
@@ -407,6 +421,8 @@ export class Player implements IPlayer {
 
     this.$game.achievementManager.syncAchievements(this);
     this.syncTitles();
+    this.syncGenders();
+    this.syncPersonalities();
   }
 
   public equip(item: Item, failOnInventoryFull = true): boolean {
@@ -502,15 +518,49 @@ export class Player implements IPlayer {
       });
 
       this.syncTitles();
+      this.syncGenders();
+      this.syncPersonalities();
     }
 
+  }
+
+  public togglePersonality(pers: string): boolean {
+    if(!this.$personalities.has(pers)) return false;
+
+    this.$personalities.toggle(this.$game.personalityManager.get(pers));
+    this.recalculateStats();
+
+    return true;
+  }
+
+  public getDefaultChoice(choices: string[]): string {
+    if(this.$personalities.isActive('Denier') && includes(choices, 'No')) return 'No';
+    if(this.$personalities.isActive('Affirmer') && includes(choices, 'Yes')) return 'Yes';
+    if(this.$personalities.isActive('Indecisive')) return sample(choices);
+    return 'Yes';
+  }
+
+  private getPersonalityInstances() {
+    return this.$achievements.getPersonalities().map(pers => this.$game.personalityManager.get(pers));
+  }
+
+  private getActivePersonalityInstances() {
+    return this.getPersonalityInstances().filter(pers => this.$personalities.isActive(pers.name));
   }
 
   private syncTitles() {
     this.availableTitles = this.$achievements.getTitles();
   }
 
-  // TODO: add this to a premium object (tiers: donator, _, subscriber, contributor, gm)
+  private syncGenders() {
+    this.availableGenders = this.$achievements.getGenders();
+  }
+
+  private syncPersonalities() {
+    this.$personalities.resetPersonalitiesTo(this.getPersonalityInstances());
+  }
+
+  // TODO: add this to a premium object (tiers: donator, subscriber, moderator, contributor, gm)
   private syncPremium() {
     const tier = 0;
 

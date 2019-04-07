@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { get, compact } from 'lodash';
+import { get, compact, flatten, sortBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { IAchievement, AchievementRewardType } from '../../interfaces';
@@ -23,7 +23,7 @@ export class Achievements extends PlayerOwned {
     if(!this.achievements) this.achievements = {};
   }
 
-  public addAchievement(ach: IAchievement): void {
+  public add(ach: IAchievement): void {
     this.achievements[ach.name] = ach;
   }
 
@@ -38,19 +38,31 @@ export class Achievements extends PlayerOwned {
   public resetAchievementsTo(ach: IAchievement[]): void {
     this.achievements = {};
 
-    ach.forEach(achi => this.addAchievement(achi));
+    ach.forEach(achi => this.add(achi));
   }
 
   public getTitles(): string[] {
-    return ['Newbie'].concat(
-      ...Object.values(this.achievements).map(ach => {
+    return sortBy(flatten(Object.values(this.achievements).map(ach => {
         return compact(
           ach.rewards
             .filter(reward => reward.type === AchievementRewardType.Title)
             .map(reward => reward.title)
         );
-      })
-    );
+      })));
+  }
+
+  public getPersonalities(): string[] {
+    return sortBy(flatten(Object.values(this.achievements).map(ach => {
+        return compact(
+          ach.rewards
+            .filter(reward => reward.type === AchievementRewardType.Personality)
+            .map(reward => reward.personality)
+        );
+      })));
+  }
+
+  public getGenders(): string[] {
+    return ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
   }
 
 }

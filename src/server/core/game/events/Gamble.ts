@@ -82,7 +82,7 @@ export class Gamble extends Event {
         You can Double Down for a 50% odds reduction, but a 3x payoff.
       `,
       choices: ['Yes', 'No', 'Double'],
-      defaultChoice: 'Yes',
+      defaultChoice: player.getDefaultChoice(['Yes', 'No', 'Double']),
       extraData: {
         odds,
         bet,

@@ -1,7 +1,7 @@
-import { AchievementType, AchievementRewardType, Stat } from '../../../../shared/interfaces';
+import { AchievementType, AchievementRewardType, Stat, Achievement } from '../../../../shared/interfaces';
 import { Player } from '../../../../shared/models';
 
-export class Walker {
+export class Walker extends Achievement {
 
   static readonly base = 10;
 
@@ -20,7 +20,7 @@ export class Walker {
 
   static calculateTier(player: Player): number {
     const steps = player.$statistics.get('Character.Ticks');
-    return Math.round(Math.log(steps) / Math.log(Walker.base));
+    return Achievement.log(steps, Walker.base);
   }
 
   static rewardsForTier(tier: number): any[] {

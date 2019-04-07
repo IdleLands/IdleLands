@@ -72,6 +72,7 @@ export class Merchant extends Event {
     let item = null;
     let cost = 0;
     let choices = ['Yes', 'No'];
+    let pickableChoices = ['Yes', 'No'];
 
     if(this.rng.likelihood(10)) {
       player.increaseStatistic(`Event.Merchant.Enchant`, 1);
@@ -83,6 +84,7 @@ export class Merchant extends Event {
     } else {
       player.increaseStatistic(`Event.Merchant.Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
+      pickableChoices = ['Yes', 'No', 'Inventory'];
       item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1 });
       if(!item) {
         player.increaseStatistic(`Event.Merchant.Nothing`, 1);
@@ -97,7 +99,7 @@ export class Merchant extends Event {
         Would you like to buy "${item.name}" (Score: ${item.score.toLocaleString()}, Type: ${item.type}) for ${cost.toLocaleString()} gold?
       `,
       choices,
-      defaultChoice: 'Yes',
+      defaultChoice: player.getDefaultChoice(pickableChoices),
       extraData: {
         item,
         cost

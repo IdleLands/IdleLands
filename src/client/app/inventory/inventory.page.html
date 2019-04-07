@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="player?.$inventoryData?.items.length === 0">
+    <div class="blank-slate" *ngIf="player?.$inventoryData?.items?.length === 0">
       You have no items in your inventory.
     </div>
 
