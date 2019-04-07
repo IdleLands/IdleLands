@@ -406,6 +406,7 @@ export class Player implements IPlayer {
     this.$choices.init(this);
 
     this.$game.achievementManager.syncAchievements(this);
+    this.syncTitles();
   }
 
   public equip(item: Item, failOnInventoryFull = true): boolean {
@@ -499,7 +500,14 @@ export class Player implements IPlayer {
 
         this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
       });
+
+      this.syncTitles();
     }
+
+  }
+
+  private syncTitles() {
+    this.availableTitles = this.$achievements.getTitles();
   }
 
   // TODO: add this to a premium object (tiers: donator, _, subscriber, contributor, gm)

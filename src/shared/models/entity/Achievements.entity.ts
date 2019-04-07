@@ -1,9 +1,9 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { get } from 'lodash';
+import { get, compact } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
-import { IAchievement } from '../../interfaces';
+import { IAchievement, AchievementRewardType } from '../../interfaces';
 
 @Entity()
 export class Achievements extends PlayerOwned {
@@ -39,6 +39,18 @@ export class Achievements extends PlayerOwned {
     this.achievements = {};
 
     ach.forEach(achi => this.addAchievement(achi));
+  }
+
+  public getTitles(): string[] {
+    return ['Newbie'].concat(
+      ...Object.values(this.achievements).map(ach => {
+        return compact(
+          ach.rewards
+            .filter(reward => reward.type === AchievementRewardType.Title)
+            .map(reward => reward.title)
+        );
+      })
+    );
   }
 
 }
