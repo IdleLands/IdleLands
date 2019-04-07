@@ -56,13 +56,13 @@ export class Choices extends PlayerOwned {
 
     if(this.choices.length > this.size) {
       const poppedChoice = last(this.choices);
-      player.$statistics.increase(`Character.Choose.Ignore`);
+      player.increaseStatistic(`Character.Choose.Ignore`, 1);
       this.makeDecision(player, choice, choice.choices.indexOf(poppedChoice.defaultChoice));
     }
   }
 
   public makeDecision(player: Player, choice: Choice, decisionSlot: number, doRemove = true) {
-    player.$statistics.increase(`Character.Choose.${choice.choices[decisionSlot]}`);
+    player.increaseStatistic(`Character.Choose.${choice.choices[decisionSlot]}`, 1);
     if(doRemove) this.removeChoice(choice);
   }
 

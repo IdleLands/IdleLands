@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'equipment', loadChildren: './equipment/equipment.module#EquipmentPageModule' },
   { path: 'choices', loadChildren: './choices/choices.module#ChoicesPageModule' },
   { path: 'personalities', loadChildren: './personalities/personalities.module#PersonalitiesPageModule' },
+  { path: 'achievements', loadChildren: './achievements/achievements.module#AchievementsPageModule' },
   { path: '**', redirectTo: 'home' }
 ];
 

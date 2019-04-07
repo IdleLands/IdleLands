@@ -9,7 +9,7 @@ export class ForsakeItem extends Event {
     const stat = this.pickStat();
     const item = this.pickValidBlessItem(player);
     if(!item) {
-      player.$statistics.increase(`Event.ForsakeItem.Fail`, 1);
+      player.increaseStatistic(`Event.ForsakeItem.Fail`, 1);
       return;
     }
 

@@ -31,8 +31,8 @@ export class EventManager {
 
     const chosenEventName = this.rng.chance.weighted(events, weights);
 
-    player.$statistics.increase(`Character.Events`, 1);
-    player.$statistics.increase(`Event.${chosenEventName}.Times`, 1);
+    player.increaseStatistic(`Character.Events`, 1);
+    player.increaseStatistic(`Event.${chosenEventName}.Times`, 1);
 
     this.doEventFor(player, chosenEventName);
   }

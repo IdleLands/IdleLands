@@ -7,4 +7,5 @@ export interface IGame {
   eventManager: any;
   subscriptionManager: any;
   discordManager: any;
+  achievementManager: any;
 }

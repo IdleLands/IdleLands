@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Achievements</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <div class="blank-slate" *ngIf="(player?.$achievementsData?.achievements | keyvalue).length === 0">
+      You have no achievements.
+    </div>
+
+
+    <ion-row class="ion-flex-wrap">
+      <ion-col size-xs="12" size-md="6" *ngFor="let ach of player?.$achievementsData?.achievements | keyvalue">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{ ach.value.achievedAt | date:'medium' }}</ion-card-subtitle>
+            <ion-card-title>{{ ach.value.name }} ({{ ach.value.tier }})</ion-card-title>
+
+            <ion-img class="title-img" [src]="'assets/icon/symbol-' + ach.value.type + '.svg'"></ion-img>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-row class="ach-row">
+              <ion-col>
+                {{ ach.value.desc }}
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-content>

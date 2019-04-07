@@ -10,6 +10,7 @@ import { AssetManager } from './asset-manager';
 import { DiscordManager } from './discord-manager';
 import { SubscriptionManager } from './subscription-manager';
 import { EventManager } from './event-manager';
+import { AchievementManager } from './achievement-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
@@ -17,6 +18,7 @@ const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
 @Singleton
 export class Game implements IGame {
 
+  @Inject public achievementManager: AchievementManager;
   @Inject public databaseManager: DatabaseManager;
   @Inject public assetManager: AssetManager;
   @Inject public playerManager: PlayerManager;
@@ -35,6 +37,7 @@ export class Game implements IGame {
     await this.assetManager.init();
     await this.itemGenerator.init();
     await this.discordManager.init();
+    await this.achievementManager.init();
 
     this.loop();
   }

@@ -11,9 +11,11 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
 import { Item } from '../Item';
-import { IGame, Stat, IPlayer, ItemSlot, ServerEventName } from '../../interfaces';
+import { IGame, Stat, IPlayer, ItemSlot, ServerEventName, IAdventureLog, AdventureLogEventType, AchievementRewardType } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
+import { Achievements } from './Achievements.entity';
+import { Channel } from '../../../server/core/game/subscription-manager';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -93,6 +95,10 @@ export class Player implements IPlayer {
   public $choices: Choices;
   public $choicesData: any;
 
+  @nonenumerable
+  public $achievements: Achievements;
+  public $achievementsData: any;
+
   @Column()
   public availableGenders: string[];
 
@@ -143,7 +149,7 @@ export class Player implements IPlayer {
       this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
     });
 
-    this.$statistics.increase('Game.Logins', 1);
+    this.increaseStatistic('Game.Logins', 1);
 
     this.recalculateStats();
 
@@ -161,7 +167,7 @@ export class Player implements IPlayer {
 
   async loop(): Promise<void> {
 
-    this.$statistics.increase('Character.Ticks', 1);
+    this.increaseStatistic('Character.Ticks', 1);
 
     this.gainXP(0);
     this.gainGold(0);
@@ -176,8 +182,8 @@ export class Player implements IPlayer {
   public oocAction(): string {
     if(this.stamina.total < this.$profession.oocAbilityCost) return;
 
-    this.$statistics.increase('Character.Stamina.Spend', this.$profession.oocAbilityCost);
-    this.$statistics.increase(`Profession.${this.profession}.AbilityUses`, this.$profession.oocAbilityCost);
+    this.increaseStatistic('Character.Stamina.Spend', this.$profession.oocAbilityCost);
+    this.increaseStatistic(`Profession.${this.profession}.AbilityUses`, this.$profession.oocAbilityCost);
 
     this.stamina.sub(this.$profession.oocAbilityCost);
     return this.$profession.oocAbility(this);
@@ -194,15 +200,15 @@ export class Player implements IPlayer {
 
     if(remainingXP < 0) {
       this.xp.add(remainingXP);
-      this.$statistics.increase('Character.Experience.Lose', -remainingXP);
+      this.increaseStatistic('Character.Experience.Lose', -remainingXP);
       return remainingXP;
     }
 
     // always gain profession xp, even if you are level blocked
-    this.$statistics.increase(`Profession.${this.profession}.Experience`, remainingXP);
+    this.increaseStatistic(`Profession.${this.profession}.Experience`, remainingXP);
 
     while(remainingXP > 0 && this.canLevelUp()) {
-      this.$statistics.increase('Character.Experience.Gain', remainingXP);
+      this.increaseStatistic('Character.Experience.Gain', remainingXP);
       const preAddXP = this.xp.total;
       this.xp.add(remainingXP);
 
@@ -216,7 +222,7 @@ export class Player implements IPlayer {
   }
 
   public spendGold(gold = 0): number {
-    this.$statistics.increase('Character.Gold.Spend', gold);
+    this.increaseStatistic('Character.Gold.Spend', gold);
     return this.gainGold(-gold);
   }
 
@@ -226,12 +232,12 @@ export class Player implements IPlayer {
 
     if(remainingGold < 0) {
       this.gold += remainingGold;
-      this.$statistics.increase('Character.Gold.Lose', -remainingGold);
+      this.increaseStatistic('Character.Gold.Lose', -remainingGold);
       this.gold = Math.max(0, this.gold);
       return remainingGold;
     }
 
-    this.$statistics.increase('Character.Gold.Gain', remainingGold);
+    this.increaseStatistic('Character.Gold.Gain', remainingGold);
     this.gold += remainingGold;
 
     return remainingGold;
@@ -246,16 +252,16 @@ export class Player implements IPlayer {
     this.xp.toMinimum();
     this.level.toMinimum();
 
-    this.$statistics.increase('Character.Ascension.Levels', this.level.maximum);
+    this.increaseStatistic('Character.Ascension.Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
-    this.$statistics.increase('Character.Ascension.Times', 1);
+    this.increaseStatistic('Character.Ascension.Times', 1);
   }
 
   private checkStaminaTick() {
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
-    this.$statistics.increase('Character.Stamina.Gain', 1);
+    this.increaseStatistic('Character.Stamina.Gain', 1);
     this.stamina.add(1);
     this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST;
   }
@@ -292,7 +298,7 @@ export class Player implements IPlayer {
     this.xp.toMinimum();
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
 
-    this.$statistics.increase('Character.Experience.Levels', 1);
+    this.increaseStatistic('Character.Experience.Levels', 1);
     this.calculateStamina();
   }
 
@@ -321,16 +327,26 @@ export class Player implements IPlayer {
 
       this.stats[stat] = this.stats[stat] || 0;
 
+      // item adds
       Object.keys(this.$inventoryData.equipment).forEach(itemSlot => {
         const item = this.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
         if(!item || !item.stats[stat]) return;
 
-        this.addStatTrail(stat, item.stats[stat], item.name);
+        this.addStatTrail(stat, item.stats[stat], `Item: ${item.name}`);
+      });
+
+      // achievement adds
+      Object.keys(this.$achievementsData.achievements).forEach(achName => {
+        const ach = this.$achievementsData.achievements[achName];
+        ach.rewards.forEach(reward => {
+          if(reward.type !== AchievementRewardType.Stats || !reward.stats[stat]) return;
+          this.addStatTrail(stat, reward.stats[stat], `Achieve#: ${achName} (${ach.tier})`);
+        });
       });
 
       // stats per level boost
       const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
-      this.addStatTrail(stat, profBasePerLevel, `${this.profession} Base / Lv. (${profBasePerLevel / this.level.total})`);
+      this.addStatTrail(stat, profBasePerLevel, `${this.profession}: Base / Lv. (${profBasePerLevel / this.level.total})`);
 
 
       // make sure it is 0. no super negatives.
@@ -339,15 +355,28 @@ export class Player implements IPlayer {
 
     // here we do the multiplicative adds
     allStats.forEach(stat => {
+
+      const statBase = this.stats[stat];
+
       // stat profession multiplier boost
       const profMult = this.$profession.calcStatMultiplier(stat);
       if(profMult > 1) {
-        const addedValue = Math.floor((this.stats[stat] * profMult)) - this.stats[stat];
+        const addedValue = Math.floor((statBase * profMult)) - statBase;
         this.addStatTrail(stat, addedValue, `${this.profession} Mult. (${profMult.toFixed(1)}x)`);
       } else if(profMult < 1) {
-        const lostValue = this.stats[stat] - Math.floor(this.stats[stat] * profMult);
+        const lostValue = statBase - Math.floor(statBase * profMult);
         this.addStatTrail(stat, -lostValue, `${this.profession} Mult. (${profMult.toFixed(1)}x)`);
       }
+
+      // achievement multiplier boost
+      Object.keys(this.$achievementsData.achievements).forEach(achName => {
+        const ach = this.$achievementsData.achievements[achName];
+        ach.rewards.forEach(reward => {
+          if(reward.type !== AchievementRewardType.StatMultipliers || !reward.stats[stat]) return;
+          const addedValue = Math.floor((statBase * reward.stats[stat])) - statBase;
+          this.addStatTrail(stat, addedValue, `Achieve%: ${achName} (${ach.tier})`);
+        });
+      });
     });
 
     // next we do specific-adds from the profession
@@ -375,6 +404,8 @@ export class Player implements IPlayer {
     }
 
     this.$choices.init(this);
+
+    this.$game.achievementManager.syncAchievements(this);
   }
 
   public equip(item: Item, failOnInventoryFull = true): boolean {
@@ -384,7 +415,7 @@ export class Player implements IPlayer {
       if(!successful) return false;
     }
 
-    this.$statistics.increase('Item.Equip.Times', 1);
+    this.increaseStatistic('Item.Equip.Times', 1);
 
     this.$inventory.equipItem(item);
     this.recalculateStats();
@@ -397,7 +428,7 @@ export class Player implements IPlayer {
     this.$inventory.unequipItem(item);
     this.recalculateStats();
 
-    this.$statistics.increase('Item.Unequip.Times', 1);
+    this.increaseStatistic('Item.Unequip.Times', 1);
 
     if(this.$inventory.canAddItemsToInventory()) {
       this.$inventory.addItemToInventory(item);
@@ -436,8 +467,8 @@ export class Player implements IPlayer {
   public sellItem(item: Item): number {
     const value = item.score;
     const modValue = this.gainGold(value);
-    this.$statistics.increase('Item.Sell.Times', 1);
-    this.$statistics.increase('Item.Sell.GoldGain', modValue);
+    this.increaseStatistic('Item.Sell.Times', 1);
+    this.increaseStatistic('Item.Sell.GoldGain', modValue);
 
     return modValue;
   }
@@ -451,6 +482,24 @@ export class Player implements IPlayer {
 
   public emit(evt: ServerEventName, data: any): void {
     this.$game.playerManager.emitToPlayer(this.name, evt, data);
+  }
+
+  public increaseStatistic(stat: string, val: number): void {
+    this.$statistics.increase(stat, val);
+    const newAchievements = this.$game.achievementManager.checkAchievementsFor(this, stat);
+    if(newAchievements.length > 0) {
+      this.recalculateStats();
+
+      newAchievements.forEach(ach => {
+        const messageData: IAdventureLog = {
+          when: Date.now(),
+          type: AdventureLogEventType.Achievement,
+          message: `${this.fullName()} has achieved ${ach.name} tier ${ach.tier}!`
+        };
+
+        this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
+      });
+    }
   }
 
   // TODO: add this to a premium object (tiers: donator, _, subscriber, contributor, gm)

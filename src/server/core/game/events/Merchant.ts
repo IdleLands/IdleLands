@@ -22,7 +22,7 @@ export class Merchant extends Event {
         player.spendGold(cost);
 
         if(isEnchant) {
-          player.$statistics.increase(`Event.Enchant.Buy`, 1);
+          player.increaseStatistic(`Event.Enchant.Buy`, 1);
           this.eventManager.doEventFor(player, 'Enchant');
           this.eventManager.successMessage(player, `You bought an enchantment.`);
 
@@ -74,18 +74,18 @@ export class Merchant extends Event {
     let choices = ['Yes', 'No'];
 
     if(this.rng.likelihood(10)) {
-      player.$statistics.increase(`Event.Merchant.Enchant`, 1);
+      player.increaseStatistic(`Event.Merchant.Enchant`, 1);
       item = { name: 'Enchantment', score: 1, type: 'enchant', fullName: () => 'enchantment' };
 
       const baseCostFivePercent = Math.floor(player.gold * 0.05);
       cost = this.rng.numberInRange(baseCostFivePercent * 2, baseCostFivePercent * 3);
 
     } else {
-      player.$statistics.increase(`Event.Merchant.Item`, 1);
+      player.increaseStatistic(`Event.Merchant.Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
       item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1 });
       if(!item) {
-        player.$statistics.increase(`Event.Merchant.Nothing`, 1);
+        player.increaseStatistic(`Event.Merchant.Nothing`, 1);
         return;
       }
 

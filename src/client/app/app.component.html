@@ -55,7 +55,9 @@
             <ion-icon slot="start" name="add"></ion-icon> Add to Homescreen
           </ion-item>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let page of appPages">
+          <ion-menu-toggle auto-hide="false" 
+                           *ngFor="let page of appPages" 
+                           [class.ion-hide]="page.hideIf && page.hideIf(player)">
 
             <ion-item [routerDirection]="'root'" 
                       [routerLink]="[page.url]" 

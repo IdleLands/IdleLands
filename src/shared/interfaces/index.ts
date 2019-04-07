@@ -1,6 +1,7 @@
 export * from './GameEvent';
 export * from './ServerEvent';
 
+export * from './IAchievement';
 export * from './IAdventureLog';
 export * from './IChoice';
 export * from './IGame';

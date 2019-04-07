@@ -9,7 +9,7 @@ export class Switcheroo extends Event {
     const stat = this.pickStat();
     const item = this.pickValidItem(player);
     if(!item || !item.stats[stat]) {
-      player.$statistics.increase(`Event.Switcheroo.Fail`, 1);
+      player.increaseStatistic(`Event.Switcheroo.Fail`, 1);
       return;
     }
 
