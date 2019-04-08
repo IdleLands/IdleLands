@@ -57,6 +57,6 @@ export class EventManager {
 
   public doChoiceFor(player: Player, choice: Choice, decision: string): boolean {
     const event = new Events[choice.event]();
-    return event.doChoice(player, choice, decision);
+    return event.doChoice(this, player, choice, decision);
   }
 }

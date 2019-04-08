@@ -5,7 +5,7 @@ import { AdventureLogEventType, ServerEventName } from '../../../../shared/inter
 export class Merchant extends Event {
   public static readonly WEIGHT = 45;
 
-  public doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
+  public doChoice(eventManager: any, player: Player, choice: Choice, valueChosen: string): boolean {
     const item = new Item();
     item.init(choice.extraData.item);
 
@@ -15,7 +15,7 @@ export class Merchant extends Event {
     switch(valueChosen) {
       case 'Yes': {
         if(player.gold < cost) {
-          this.eventManager.errorMessage(player, 'You cannot currently afford this.');
+          eventManager.errorMessage(player, 'You cannot currently afford this.');
           return false;
         }
 
@@ -23,12 +23,12 @@ export class Merchant extends Event {
 
         if(isEnchant) {
           player.increaseStatistic(`Event.Enchant.Buy`, 1);
-          this.eventManager.doEventFor(player, 'Enchant');
-          this.eventManager.successMessage(player, `You bought an enchantment.`);
+          eventManager.doEventFor(player, 'Enchant');
+          eventManager.successMessage(player, `You bought an enchantment.`);
 
         } else {
           player.equip(item, false);
-          this.eventManager.successMessage(player, `You bought "${item.name}" and equipped it.`);
+          eventManager.successMessage(player, `You bought "${item.name}" and equipped it.`);
         }
 
         return true;
@@ -40,7 +40,7 @@ export class Merchant extends Event {
 
       case 'Compare': {
         if(isEnchant) {
-          this.eventManager.errorMessage(player, 'Cannot compare with an enchantment. Stop hacking.');
+          eventManager.errorMessage(player, 'Cannot compare with an enchantment. Stop hacking.');
           return false;
         }
 
@@ -55,13 +55,13 @@ export class Merchant extends Event {
 
       case 'Inventory': {
         if(player.gold < cost || isEnchant) {
-          this.eventManager.errorMessage(player, 'You cannot currently afford this.');
+          eventManager.errorMessage(player, 'You cannot currently afford this.');
           return false;
         }
 
         player.spendGold(cost);
         player.alwaysTryAddToInventory(item);
-        this.eventManager.successMessage(player, `You bought "${item.name}" and sent it to your inventory.`);
+        eventManager.successMessage(player, `You bought "${item.name}" and sent it to your inventory.`);
 
         return true;
       }

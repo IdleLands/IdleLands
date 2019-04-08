@@ -5,20 +5,20 @@ import { AdventureLogEventType, ServerEventName } from '../../../../shared/inter
 export class FindItem extends Event {
   public static readonly WEIGHT = 30;
 
-  public doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
+  public doChoice(eventManager: any, player: Player, choice: Choice, valueChosen: string): boolean {
     const item = new Item();
     item.init(choice.extraData.item);
 
     switch(valueChosen) {
       case 'Yes': {
         player.equip(item, false);
-        this.eventManager.successMessage(player, `You equipped the "${item.fullName()}" successfully.`);
+        eventManager.successMessage(player, `You equipped the "${item.fullName()}" successfully.`);
         return true;
       }
 
       case 'No': {
         player.alwaysTryAddToInventory(item);
-        this.eventManager.successMessage(player, `You sent the "${item.fullName()}" to your inventory.`);
+        eventManager.successMessage(player, `You sent the "${item.fullName()}" to your inventory.`);
         return true;
       }
 
@@ -33,7 +33,7 @@ export class FindItem extends Event {
 
       case 'Sell': {
         const value = player.sellItem(item);
-        this.eventManager.successMessage(player, `You sold the "${item.fullName()}" for ${value.toLocaleString()} gold.`);
+        eventManager.successMessage(player, `You sold the "${item.fullName()}" for ${value.toLocaleString()} gold.`);
         return true;
       }
     }

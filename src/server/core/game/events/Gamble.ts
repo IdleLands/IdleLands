@@ -5,7 +5,7 @@ import { AdventureLogEventType } from '../../../../shared/interfaces';
 export class Gamble extends Event {
   public static readonly WEIGHT = 15;
 
-  public doChoice(player: Player, choice: Choice, valueChosen: string): boolean {
+  public doChoice(eventManager: any, player: Player, choice: Choice, valueChosen: string): boolean {
 
     if(valueChosen === 'No') return true;
 
@@ -17,7 +17,7 @@ export class Gamble extends Event {
     }
 
     if(player.gold < bet) {
-      this.eventManager.errorMessage(player, 'You do not have enough gold to do that.');
+      eventManager.errorMessage(player, 'You do not have enough gold to do that.');
       return false;
     }
 
@@ -25,7 +25,7 @@ export class Gamble extends Event {
     player.increaseStatistic(`Event.Gamble.Wager`, bet);
 
     if(this.rng.likelihood(odds)) {
-      this.eventManager.successMessage(player, `You won ${payoff.toLocaleString()} gold against the odds of ${odds}%!`);
+      eventManager.successMessage(player, `You won ${payoff.toLocaleString()} gold against the odds of ${odds}%!`);
       player.gainGold(payoff);
       player.increaseStatistic(`Event.Gamble.WinTimes`, 1);
       player.increaseStatistic(`Event.Gamble.Win`, payoff);
@@ -40,7 +40,7 @@ export class Gamble extends Event {
       this.emitMessage([player], allText, AdventureLogEventType.Gold);
 
     } else {
-      this.eventManager.successMessage(player,
+      eventManager.successMessage(player,
         `You lost ${bet.toLocaleString()} gold against the odds of ${odds}%! Better luck next time.`);
       player.increaseStatistic(`Event.Gamble.LoseTimes`, 1);
 

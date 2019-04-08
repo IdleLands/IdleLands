@@ -38,7 +38,6 @@ export abstract class Event {
   @Inject protected assetManager: AssetManager;
   @Inject protected messageParser: EventMessageParser;
   @Inject protected playerManager: PlayerManager;
-  @Inject protected eventManager: EventManager;
   @Inject protected itemGenerator: ItemGenerator;
   @Inject protected subscriptionManager: SubscriptionManager;
 
@@ -49,6 +48,7 @@ export abstract class Event {
   };
 
   public doChoice(
+    eventManager: any,
     player: Player,
     choice: Choice,
     valueChosen: string
