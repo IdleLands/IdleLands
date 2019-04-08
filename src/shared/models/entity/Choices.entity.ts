@@ -62,7 +62,20 @@ export class Choices extends PlayerOwned {
   }
 
   public makeDecision(player: Player, choice: Choice, decisionSlot: number, doRemove = true) {
-    player.increaseStatistic(`Character.Choose.${choice.choices[decisionSlot]}`, 1);
+    player.increaseStatistic(`Character.Choose.Choice.${choice.choices[decisionSlot]}`, 1);
+
+    if(player.hasPersonality('Affirmer')) {
+      player.increaseStatistic(`Character.Choose.Personality.Affirmer`, 1);
+    }
+
+    if(player.hasPersonality('Denier')) {
+      player.increaseStatistic(`Character.Choose.Personality.Denier`, 1);
+    }
+    
+    if(player.hasPersonality('Indecisive')) {
+      player.increaseStatistic(`Character.Choose.Personality.Indecisive`, 1);
+    }
+
     if(doRemove) this.removeChoice(choice);
   }
 

@@ -540,6 +540,10 @@ export class Player implements IPlayer {
     return 'Yes';
   }
 
+  public hasPersonality(pers: string): boolean {
+    return this.$personalities.has(pers);
+  }
+
   private getPersonalityInstances() {
     return this.$achievements.getPersonalities().map(pers => this.$game.personalityManager.get(pers));
   }

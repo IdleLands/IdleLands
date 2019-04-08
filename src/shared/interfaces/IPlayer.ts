@@ -56,6 +56,7 @@ export interface IPlayer {
   emit(evt: ServerEventName, data: any): void;
 
   getDefaultChoice(str: string[]): string;
+  hasPersonality(pers: string): boolean;
 
   increaseStatistic(stat: string, val: number): void;
 }
