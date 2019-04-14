@@ -51,6 +51,8 @@ export class DatabaseManager {
 
     res.forEach((p: any) => delete p.id);
 
+    console.log(res)
+
     return res;
   }
 

@@ -17,7 +17,6 @@ import { PlayerOwned } from './PlayerOwned';
  * - BossKill (tracks boss kills)
  * - Combat (tracks combat-related stats)
  * - Map (tracks map visits)
- * - Region (tracks region visits)
  */
 
 @Entity()

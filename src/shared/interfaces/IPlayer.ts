@@ -3,6 +3,25 @@ import { IItem } from './IItem';
 import { IChoice } from './IChoice';
 import { ServerEventName } from './ServerEvent';
 
+export enum Direction {
+  Southwest = 1,
+  South = 2,
+  Southeast = 3,
+  West = 4,
+  Nowhere = 5,
+  East = 6,
+  Northwest = 7,
+  North = 8,
+  Northeast = 9
+}
+
+export enum MovementType {
+  Ascend = 'ascend',
+  Descend = 'descend',
+  Fall = 'fall',
+  Teleport = 'teleport'
+}
+
 export interface IPlayer {
   _id: string;
 
@@ -35,6 +54,8 @@ export interface IPlayer {
   $choicesData: any;
   $achievementsData: any;
   $personalitiesData: any;
+
+  lastDir: Direction;
 
   init(): void;
   loop(): Promise<void>;

@@ -9,4 +9,5 @@ export interface IGame {
   discordManager: any;
   achievementManager: any;
   personalityManager: any;
+  movementHelper: any;
 }

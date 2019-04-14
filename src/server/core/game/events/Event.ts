@@ -108,5 +108,5 @@ export abstract class Event {
     return choice;
   }
 
-  public abstract operateOn(player: Player);
+  public abstract operateOn(player: Player, opts?: any);
 }

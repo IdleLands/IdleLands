@@ -12,7 +12,7 @@ import { Profession } from '../../professions/Profession';
 import * as AllProfessions from '../../professions';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -64,6 +64,7 @@ export class Player implements IPlayer {
   @Column() public gender: string;
   @Column() public title: string;
   @Column() public map: string;
+  @Column() public region: string;
   @Column() public x: number;
   @Column() public y: number;
   @Column() public gold: number;
@@ -72,12 +73,16 @@ export class Player implements IPlayer {
   @Column() public stamina: RestrictedNumber;
   @Column() public nextStaminaTick: number;
 
+  @Column() public stepCooldown: number;
+
+  @Column() public lastDir: Direction;
+
   // non-saved player vars
   // still serialized to the client
   public sessionId: string;
 
-  private stats: any = {};
-  public $statTrail: any = {};
+  private stats: any;
+  public $statTrail: any;
 
   // joined vars
   // not serialized to the client
@@ -126,6 +131,8 @@ export class Player implements IPlayer {
     if(!this.gold) this.gold = 0;
     if(!this.stamina) this.stamina = new RestrictedNumber(0, 10, 10);
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
+    if(!this.stats) this.stats = {};
+    if(!this.$statTrail) this.$statTrail = {};
 
     if(!this.$profession) {
       this.$profession = new AllProfessions[this.profession]();
@@ -178,6 +185,8 @@ export class Player implements IPlayer {
     this.gainXP(0);
     this.gainGold(0);
     this.checkStaminaTick();
+
+    this.$game.movementHelper.takeStep(this);
     this.$game.eventManager.tryToDoEventFor(this);
   }
 
@@ -261,7 +270,17 @@ export class Player implements IPlayer {
     this.increaseStatistic('Character.Ascension.Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
+    this.increaseStatistic('Character.Ascension.Gold', this.gold);
+    this.gold = 0;
+
+    this.increaseStatistic('Character.Ascension.ItemScore', this.$inventory.totalItemScore());
+    const items = this.$game.itemGenerator.generateNewbieItems();
+    items.forEach(item => this.$inventory.equipItem(item));
+    this.$inventory.clearInventory();
+
     this.increaseStatistic('Character.Ascension.Times', 1);
+
+    this.recalculateStats();
   }
 
   private checkStaminaTick() {

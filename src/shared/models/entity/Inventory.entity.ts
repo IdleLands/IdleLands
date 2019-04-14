@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { find, pull } from 'lodash';
+import { find, pull, sumBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Item } from '../Item';
@@ -62,6 +62,10 @@ export class Inventory extends PlayerOwned {
     return Object.keys(this.equipment).length === 0;
   }
 
+  public totalItemScore(): number {
+    return sumBy(Object.values(this.equipment), item => item.score);
+  }
+
   // equipment-related functions
   public itemInEquipmentSlot(slot: ItemSlot): Item {
     return this.equipment[slot];
@@ -105,6 +109,10 @@ export class Inventory extends PlayerOwned {
 
   public unlockedItems(): Item[] {
     return this.items.filter(item => !item.locked);
+  }
+
+  public clearInventory(): void {
+    this.items = [];
   }
 
 }

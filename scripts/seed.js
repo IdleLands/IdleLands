@@ -7,6 +7,9 @@ const _ = require('lodash');
 
 const StringAssets = {};
 const ObjectAssets = {};
+const MapAssets = {};
+const MapInformation = {};
+const GlobalMapInformation = {};
 
 const replaceMultiSpaces = (string) => {
   return string.replace(/ {2,}/g, ' ');
@@ -157,7 +160,84 @@ Object.keys(ObjectAssets).forEach(itemType => {
   ObjectAssets[itemType] = _.compact(ObjectAssets[itemType]);
 });
 
+const getMapsInFolder = (dir) => {
+  let results = [];
+
+  const list = fs.readdirSync(__dirname + '/../' + dir);
+  list.forEach(basefilename => {
+    const filename = `${dir}/${basefilename}`;
+    const stat = fs.statSync(__dirname + '/../' + filename);
+    if(_.includes(filename, 'promo')) return;
+
+    if(stat && stat.isDirectory()) results = results.concat(getMapsInFolder(filename));
+    else results.push({ map: basefilename.split('.')[0], path: __dirname + '/../' + filename });
+  });
+
+  return results;
+};
+
+const fixObject = (obj) => {
+  if(obj.type === 'Collectible') {
+    if(!obj.properties.rarity) obj.properties.rarity = 'basic';
+    obj.properties.description = obj.properties.flavorText;
+  }
+
+  return obj;
+};
+
+const getDataForMap = (map) => {
+
+  const objects = {};
+  const regions = {};
+
+  if(map.layers[2] && map.layers[2].objects) {
+    map.layers[2].objects.forEach(obj => {
+      if(obj.type !== 'Teleport'
+      && obj.type !== 'GuildTeleport'
+      && obj.type !== 'Boss'
+      && obj.type !== 'Collectible'
+      && obj.type !== 'Trainer'
+      && obj.type !== 'Treasure') return;
+
+      obj = fixObject(obj);
+
+      const x = obj.x / 16;
+      const y = (obj.y / 16) + 1;
+
+      objects[x] = objects[x] || {};
+      objects[x][y] = obj;
+    });
+  }
+
+  if(map.layers[3] && map.layers[3].objects) {
+    map.layers[3].objects.forEach(region => {
+      const startX = region.x / 16;
+      const startY = (region.y / 16) + 1;
+      const width = region.width / 16;
+      const height = region.height / 16;
+
+      for(let x = startX; x < startX + width; x++) {
+        for(let y = startY; y < startY + height; y++) {
+          regions[x] = regions[x] || {};
+          regions[x][y] = region.name;
+        }
+      }
+    });
+  }
+
+  return { objects, regions };
+};
+
+const loadMapsInFolder = () => {
+  getMapsInFolder('assets/maps/world-maps').forEach(({ map, path }) => {
+    MapAssets[map] = require(path);
+    MapInformation[map] = getDataForMap(MapAssets[map]);
+  });
+};
+
 const init = async () => {
+  loadMapsInFolder();
+
   const url = process.env.TYPEORM_URL;
   const client = await MongoClient.connect(url, { useNewUrlParser: true });
 
@@ -169,7 +249,10 @@ const init = async () => {
 
   await assetCol.insertOne({
     stringAssets: StringAssets,
-    objectAssets: ObjectAssets
+    objectAssets: ObjectAssets,
+    mapAssets: MapAssets,
+    mapInformation: MapInformation,
+    globalMapInformation: GlobalMapInformation
   });
 
   process.exit(0);

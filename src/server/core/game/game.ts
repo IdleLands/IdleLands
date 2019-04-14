@@ -12,6 +12,8 @@ import { SubscriptionManager } from './subscription-manager';
 import { EventManager } from './event-manager';
 import { AchievementManager } from './achievement-manager';
 import { PersonalityManager } from './personality-manager';
+import { World } from './world';
+import { MovementHelper } from './movement-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
@@ -28,18 +30,23 @@ export class Game implements IGame {
   @Inject public discordManager: DiscordManager;
   @Inject public subscriptionManager: SubscriptionManager;
   @Inject public eventManager: EventManager;
+  @Inject public movementHelper: MovementHelper;
+  @Inject public world: World;
   @Inject public logger: Logger;
 
   private ticks = 0;
 
   public async init(scExchange) {
     await this.subscriptionManager.init(scExchange);
+
     await this.playerManager.init();
     await this.databaseManager.init();
     await this.assetManager.init();
     await this.itemGenerator.init();
     await this.discordManager.init();
     await this.achievementManager.init();
+
+    await this.world.init(this.assetManager.allMapAssets);
 
     this.loop();
   }

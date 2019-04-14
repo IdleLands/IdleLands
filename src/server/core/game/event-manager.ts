@@ -31,20 +31,20 @@ export class EventManager {
 
     const chosenEventName = this.rng.chance.weighted(events, weights);
 
-    player.increaseStatistic(`Character.Events`, 1);
-    player.increaseStatistic(`Event.${chosenEventName}.Times`, 1);
-
     this.doEventFor(player, chosenEventName);
   }
 
-  public doEventFor(player: Player, eventName: string) {
+  public doEventFor(player: Player, eventName: string, opts = {}) {
     if(!Events[eventName]) {
       this.logger.error(`EventManager`, `Event type ${eventName} is invalid.`);
       return;
     }
 
+    player.increaseStatistic(`Character.Events`, 1);
+    player.increaseStatistic(`Event.${eventName}.Times`, 1);
+
     const event = new Events[eventName]();
-    event.operateOn(player);
+    event.operateOn(player, opts);
   }
 
   public successMessage(player: Player, message: string) {

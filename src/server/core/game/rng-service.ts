@@ -30,4 +30,8 @@ export class RNGService {
     return this.chance.bool({ likelihood: percent });
   }
 
+  public weighted(items: any[], weights: number[]): any {
+    return this.chance.weighted(items, weights);
+  }
+
 }
