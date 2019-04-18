@@ -8,7 +8,8 @@ export class MapAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/map', async (req, res) => {
-      res.json(await game.world.getMap(req.query.map));
+      const { jsonMap } = await game.world.getMap(req.query.map);
+      res.json(jsonMap);
     });
   }
 }

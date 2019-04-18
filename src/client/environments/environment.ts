@@ -20,7 +20,8 @@ export const environment = {
     port: 2468
   },
 
-  socketCluster: {
+  server: {
+    protocol: 'http',
     hostname: '127.0.0.1',
     port: 8000
   }

@@ -40,13 +40,14 @@ export class AppComponent {
 
     { name: 'Equipment', icon: 'gear', url: '/equipment' },
 
+    { name: 'Map', icon: 'map', url: '/map' },
+
     { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
       if(!player.$inventoryData) return '';
       return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
     } },
 
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
-    // { name: 'Map', icon: 'map' },
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;
       return 'Unsynced';

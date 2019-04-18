@@ -21,6 +21,10 @@ class Map {
     return this.map.width;
   }
 
+  public get jsonMap(): any {
+    return this.map;
+  }
+
   constructor(private map: any, private data: any) {}
 
   getTile(x: number, y: number): Tile {

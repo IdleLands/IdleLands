@@ -39,7 +39,11 @@
                 "input": "src/client/global.scss"
               }
             ],
-            "scripts": []
+            "scripts": [
+              { "input": "node_modules/phaser-ce/build/custom/pixi.min.js" },
+              { "input": "node_modules/phaser-ce/build/custom/p2.min.js" },
+              { "input": "node_modules/phaser-ce/build/custom/phaser-split.min.js" }
+            ]
           },
           "configurations": {
             "production": {

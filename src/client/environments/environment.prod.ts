@@ -16,7 +16,8 @@ export const environment = {
     port: 80
   },
 
-  socketCluster: {
+  server: {
+    protocol: 'https',
     hostname: 'idle.land',
     port: 8000
   }

@@ -4,6 +4,7 @@ const SCWorker = require('socketcluster/scworker');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const healthChecker = require('sc-framework-health-check');
 const scCodecMinBin = require('sc-codec-min-bin');
 
@@ -29,6 +30,11 @@ export class GameWorker extends SCWorker {
 
     if(environment === 'dev') {
       app.use(morgan('dev'));
+      app.use(cors());
+    } else {
+      app.use(cors({
+        origin: 'https://idle.land'
+      }))
     }
 
     // Add GET /health-check express route
@@ -39,7 +45,9 @@ export class GameWorker extends SCWorker {
       max: 1
     });
 
-    app.use('/api/', limiter);
+    if(process.env.NODE_ENV === 'production') {
+      app.use('/api/', limiter);
+    }
 
     const api = express();
 

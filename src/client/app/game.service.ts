@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { AlertController } from '@ionic/angular';
 
@@ -13,10 +14,20 @@ import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName, IAdventureLog, IItem } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
+
+  public get baseUrl() {
+    return `${environment.app.protocol}://${environment.app.hostname}:${environment.app.port}`;
+  }
+
+  public get apiUrl() {
+    return `${environment.server.protocol}://${environment.server.hostname}:${environment.server.port}`;
+  }
 
   private currentPlayer: IPlayer;
   public get hasPlayer(): boolean {
@@ -61,6 +72,7 @@ export class GameService {
   }
 
   constructor(
+    private http: HttpClient,
     private alertCtrl: AlertController,
     private storage: Storage,
     private authService: AuthService,
@@ -266,6 +278,10 @@ export class GameService {
     });
 
     alert.present();
+  }
+
+  public getPlayerLocationsInCurrentMap() {
+    return this.http.get(`${this.apiUrl}/api/players?map=${encodeURIComponent(this.currentPlayer.map)}`);
   }
 
 }
