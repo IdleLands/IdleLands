@@ -2,3 +2,25 @@
 ion-content {
   --overflow: hidden;
 }
+
+canvas {
+  cursor: pointer;
+}
+
+.help {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+
+  max-width: 30vw;
+
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px;
+
+  .help-line {
+    min-height: 16px;
+  }
+}

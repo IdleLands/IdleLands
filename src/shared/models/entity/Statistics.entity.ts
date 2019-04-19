@@ -41,7 +41,7 @@ export class Statistics extends PlayerOwned {
     if(isNaN(value)) throw new Error(`${stat} being incremented by NaN!`);
 
     const curVal = this.get(stat);
-    this.set(stat, curVal + value);
+    this.set(stat, Math.floor(curVal + value));
   }
 
   public get(stat: string): number {

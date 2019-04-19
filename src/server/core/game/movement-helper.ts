@@ -128,7 +128,7 @@ export class MovementHelper {
 
   private handleTile(player: Player, tile: Tile, ignoreIf?: string): void {
 
-    const type = get(tile, 'object.type');
+    const type = get(tile, 'object.properties.realtype');
 
     const forceEvent = get(tile, 'object.properties.forceEvent', '');
     if(forceEvent) {

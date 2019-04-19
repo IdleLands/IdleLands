@@ -16,7 +16,7 @@ import { World } from './world';
 import { MovementHelper } from './movement-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
-const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 5;
+const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 60;
 
 @Singleton
 export class Game implements IGame {

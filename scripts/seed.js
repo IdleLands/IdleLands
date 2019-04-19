@@ -202,7 +202,7 @@ const getDataForMap = (map) => {
       obj = fixObject(obj);
 
       const x = obj.x / 16;
-      const y = (obj.y / 16) + 1;
+      const y = (obj.y / 16) - 1;
 
       objects[x] = objects[x] || {};
       objects[x][y] = obj;
@@ -228,10 +228,47 @@ const getDataForMap = (map) => {
   return { objects, regions };
 };
 
+const formatMap = (map) => {
+  if(!map.layers[2] || !map.layers[2].objects) return;
+
+  map.layers[2].objects.forEach(object => {
+    if(!object.type) return;
+    if(!object.properties) object.properties = {};
+
+    object.properties = {
+      ...object.properties,
+      realtype:           object.type,
+      destName:           object.properties.destName,
+      movementType:       object.properties.movementType,
+      teleportX:          object.properties.destx ? +object.properties.destx : 0,
+      teleportY:          object.properties.desty ? +object.properties.desty : 0,
+      teleportMap:        object.properties.map,
+      teleportLocation:   object.properties.toLoc,
+      flavorText:         object.properties.flavorText,
+
+      requireBoss:        object.properties.requireBoss,
+      requireCollectible: object.properties.requireCollectible,
+      requireAchievement: object.properties.requireAchievement,
+      requireClass:       object.properties.requireClass,
+      requireRegion:      object.properties.requireRegion,
+      requireMap:         object.properties.requireMap,
+      requireHoliday:     object.properties.requireHoliday,
+      requireAscension:   object.properties.requireAscension
+    };
+
+    Object.keys(object.properties).forEach(key => {
+      if(!_.isUndefined(object.properties[key])) return;
+      delete object.properties[key];
+    });
+  });
+};
+
 const loadMapsInFolder = () => {
   getMapsInFolder('assets/maps/world-maps').forEach(({ map, path }) => {
     MapAssets[map] = require(path);
     MapInformation[map] = getDataForMap(MapAssets[map]);
+
+    formatMap(MapAssets[map]);
   });
 };
 

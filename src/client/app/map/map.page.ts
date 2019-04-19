@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 
-import { timer } from 'rxjs';
+import { compact } from 'lodash';
+import { timer, Subject, Subscription } from 'rxjs';
 
 import * as Phaser from 'phaser-ce';
 
@@ -17,6 +18,7 @@ class GameState extends Phaser.State {
   private player: IPlayer;
   private map: string;
 
+  private objectSpriteGroup: Phaser.Group;
   private playerSpriteGroup: Phaser.Group;
   private currentPlayerSprite: Phaser.Sprite;
 
@@ -24,8 +26,9 @@ class GameState extends Phaser.State {
   private apiUrl: string;
 
   private stored: any;
+  private isReady: boolean;
 
-  init({ gameService, player$ }) {
+  init({ gameService, gameText }) {
     this.stage.disableVisibilityChange = true;
     this.load.crossOrigin = 'anonymous';
 
@@ -34,10 +37,10 @@ class GameState extends Phaser.State {
     this.baseUrl = gameService.baseUrl;
     this.apiUrl = gameService.apiUrl;
 
-    this.stored = { gameService, player$ };
+    this.stored = { gameService, gameText };
 
-    this.setPlayer(player$.getValue());
-    this.player$ = player$.subscribe(player => this.setPlayer(player));
+    this.setPlayer(gameService.player$.getValue());
+    this.player$ = gameService.player$.subscribe(player => this.setPlayer(player));
   }
 
   preload() {
@@ -53,26 +56,21 @@ class GameState extends Phaser.State {
     map.createLayer('Terrain').resizeWorld();
     map.createLayer('Blocking');
 
+    this.objectSpriteGroup = this.add.group();
+
     for(let i = 0; i < this.cache.getFrameCount('interactables'); i++) {
-      map.createFromObjects('Interactables', i, 'interactables', i - 1);
+      map.createFromObjects('Interactables', i, 'interactables', i - 1, true, false, this.objectSpriteGroup);
     }
 
-    // TODO: click on thing on map to get info about it
+    this.addObjectEvents();
+    this.watchPlayerUpdates();
 
-    this.playerSpriteGroup = this.add.group();
-
-    this.playerTimer$ = timer(0, 5000).subscribe(() => {
-      this.playerSpriteGroup.removeAll();
-
-      this.stored.gameService.getPlayerLocationsInCurrentMap().subscribe(players => {
-        players.forEach(player => this.updatePlayerSprite(player));
-      });
-    });
+    this.isReady = true;
   }
 
   update() {
-    if(!this.currentPlayerSprite) return;
-    this.camera.position = new Phaser.Point(this.currentPlayerSprite.x, this.currentPlayerSprite.y);
+    if(!this.currentPlayerSprite || this.currentPlayerSprite.x === 0) return;
+    this.camera.follow(this.currentPlayerSprite);
   }
 
   render() {
@@ -85,9 +83,89 @@ class GameState extends Phaser.State {
     this.playerTimer$.unsubscribe();
   }
 
+  private addObjectEvents() {
+    this.objectSpriteGroup.forEach(item => {
+      item.inputEnabled = true;
+
+      const addText = () => {
+        const strings = [];
+
+        const nameKey = item.teleportMap ? 'teleportMap' : 'name';
+        if(item.realtype) {
+          const nameValue = item[nameKey];
+          strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''}`);
+        }
+
+        if(item.flavorText) {
+          strings.push('');
+          strings.push(`"${item.flavorText}"`);
+        }
+
+        const baseRequirements = [
+          { key: 'Achievement' },
+          { key: 'Boss', display: 'Boss Kill' },
+          { key: 'Class' },
+          { key: 'Collectible' },
+          { key: 'Holiday' },
+          { key: 'Region', display: 'Region Visited' },
+          { key: 'Map', display: 'Map Visited' },
+          { key: 'Ascension', display: 'Ascension Level' }
+        ];
+
+        const requirements = compact(baseRequirements.map(({ key, display }) => {
+          const req = item[`require${key}`];
+          if(!req) return null;
+
+          return `${display || key}: ${req}`;
+        }));
+
+        if(requirements.length > 0) {
+          requirements.unshift('------------------------');
+          requirements.unshift('Requirements');
+          requirements.unshift('');
+
+          strings.push(...requirements);
+        }
+
+        this.stored.gameText.next(strings);
+      };
+
+      const removeText = () => {
+        this.stored.gameText.next(null);
+      };
+
+      item.events.onInputDown.add(addText);
+      item.events.onInputOver.add(addText);
+
+      item.events.onInputOut.add(removeText);
+    });
+  }
+
+  private watchPlayerUpdates() {
+    this.playerSpriteGroup = this.add.group();
+
+    this.playerTimer$ = timer(0, 5000).subscribe(() => {
+      if(!this.stored.gameService.loggedInAndConnected) return;
+
+      this.playerSpriteGroup.removeAll();
+
+      this.stored.gameService.getPlayerLocationsInCurrentMap().subscribe(players => {
+        players.forEach(player => {
+          if(player.name === this.player.name) return;
+
+          this.updatePlayerSprite(player);
+        });
+      });
+    });
+  }
+
   private setPlayer(player: IPlayer): void {
     // set player
     this.player = player;
+
+    if(!player) return;
+
+    this.updatePlayerSprite(player);
 
     // restart the state if needed
     if(this.map && this.map !== player.map) {
@@ -100,15 +178,33 @@ class GameState extends Phaser.State {
   }
 
   private updatePlayerSprite(player: { x: number, y: number, name: string, gender: string }): void {
+    if(!this.isReady) return;
 
     const genderRef = GenderPositions[player.gender] || { x: 5, y: 1 };
     const genderNum = (genderRef.y * 9) + genderRef.x;
 
-    const sprite = this.game.add.sprite(player.x * 16, player.y * 16, 'interactables', genderNum, this.playerSpriteGroup);
+    const group = player.name === this.player.name ? undefined : this.playerSpriteGroup;
+    const sprite = this.game.add.sprite(player.x * 16, player.y * 16, 'interactables', genderNum, group);
 
     if(player.name === this.player.name) {
+      if(this.currentPlayerSprite) this.currentPlayerSprite.destroy();
       this.currentPlayerSprite = sprite;
     }
+
+    sprite.inputEnabled = true;
+
+    const addText = () => {
+      this.stored.gameText.next([`Player: ${player.name}`]);
+    };
+
+    const removeText = () => {
+      this.stored.gameText.next(null);
+    };
+
+    sprite.events.onInputDown.add(addText);
+    sprite.events.onInputOver.add(addText);
+
+    sprite.events.onInputOut.add(removeText);
   }
 }
 
@@ -122,15 +218,16 @@ export class MapPage implements OnInit, OnDestroy {
   @ViewChild(IonContent)
   private content: IonContent;
 
-  @ViewChild('map')
-  private mapDiv;
-
   private game: Phaser.Game;
+  private gameText = new Subject<string[]>();
+  private gameText$: Subscription;
 
   constructor(private gameService: GameService) { }
 
   async ngOnInit() {
     const el = await this.content.getScrollElement();
+
+    (<any>window).PhaserGlobal = { hideBanner: true };
 
     this.game = new Phaser.Game({
       parent: el,
@@ -140,11 +237,15 @@ export class MapPage implements OnInit, OnDestroy {
     });
 
     this.game.state.add('game', GameState);
-    this.game.state.start('game', true, true, { gameService: this.gameService, player$: this.gameService.player$ });
+    this.game.state.start('game', true, true, {
+      gameService: this.gameService,
+      gameText: this.gameText
+    });
   }
 
   ngOnDestroy() {
     if(this.game) this.game.destroy();
+    if(this.gameText$) this.gameText$.unsubscribe();
   }
 
 }
