@@ -63,7 +63,7 @@ export class Inventory extends PlayerOwned {
   }
 
   public totalItemScore(): number {
-    return sumBy(Object.values(this.equipment), item => item.score);
+    return sumBy(Object.values(this.equipment), item => item ? item.score : 0);
   }
 
   // equipment-related functions

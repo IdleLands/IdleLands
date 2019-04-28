@@ -43,6 +43,7 @@ export class MovementHelper {
     return this.world.getMap(map).getTile(x, y);
   }
 
+  // TODO: finish this
   private canEnterTile(player: Player, tile: Tile): boolean {
     return !tile.blocked && tile.terrain !== 'Void';
   }
@@ -105,7 +106,8 @@ export class MovementHelper {
     return { index: dirIndex, dir: this.directions[dirIndex] };
   }
 
-  private doTeleport(player: Player, { map, x, y, toLoc }) {
+  // used externally to move the player (gm, premium, etc)
+  public doTeleport(player: Player, { map, x, y, toLoc }) {
     const tile = {
       terrain: '',
       region: '',
@@ -191,22 +193,27 @@ export class MovementHelper {
     player.$statistics.increase(`Character.Movement.${capitalize(dest.movementType)}`, 1);
   }
 
+  // TODO: handle collectible
   private handleTileCollectible(player: Player, tileData: any) {
 
   }
 
+  // TODO: handle trianer
   private handleTileTrainer(player: Player, tileData: any) {
 
   }
 
+  // TODO: handle boss
   private handleTileBoss(player: Player, tileData: any) {
 
   }
 
+  // TODO: handle boss party
   private handleTileBossParty(player: Player, tileData: any) {
 
   }
 
+  // TODO: handle treasure
   private handleTileTreasure(player: Player, tileData: any) {
 
   }
