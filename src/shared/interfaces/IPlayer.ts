@@ -79,5 +79,9 @@ export interface IPlayer {
   getDefaultChoice(str: string[]): string;
   hasPersonality(pers: string): boolean;
 
+  hasAchievement(achievement: string): boolean;
+  hasCollectible(collectible: string): boolean;
+  tryFindCollectible({ name, rarity, description, storyline }): void;
+
   increaseStatistic(stat: string, val: number): void;
 }

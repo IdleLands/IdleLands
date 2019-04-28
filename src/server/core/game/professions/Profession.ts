@@ -1,8 +1,8 @@
 
 import { get } from 'lodash';
 
-import { Stat } from '../interfaces/Stat';
-import { Player } from '../models/entity';
+import { Stat } from '../../../../shared/interfaces/Stat';
+import { Player } from '../../../../shared/models/entity';
 
 export class Profession {
 

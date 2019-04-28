@@ -10,6 +10,7 @@ import { Direction, MovementType } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { EventManager } from './event-manager';
 import { Logger } from '../logger';
+import { HolidayHelper } from './holiday-helper';
 
 @Singleton
 @AutoWired
@@ -19,6 +20,7 @@ export class MovementHelper {
   @Inject private logger: Logger;
   @Inject private rng: RNGService;
   @Inject private eventManager: EventManager;
+  @Inject private holidayHelper: HolidayHelper;
 
   private directions: Direction[] = [1, 2, 3, 6, 9, 8, 7, 4];
   private allTeleports = {
@@ -43,8 +45,51 @@ export class MovementHelper {
     return this.world.getMap(map).getTile(x, y);
   }
 
-  // TODO: finish this
   private canEnterTile(player: Player, tile: Tile): boolean {
+
+    const properties = get(tile, 'object.properties');
+    if(properties) {
+      let totalRequirements = 0;
+      let metRequirements = 0;
+
+      if(properties.requireMap) {
+        totalRequirements++;
+        if(player.$statistics.get(`Map.${properties.requireMap}.Steps`) > 0) metRequirements++;
+      }
+
+      if(properties.requireBoss) {
+        totalRequirements++;
+        if(player.$statistics.get(`BossKill.${properties.requireBoss}`) > 0) metRequirements++;
+      }
+
+      if(properties.requireClass) {
+        totalRequirements++;
+        if(player.profession === properties.requireClass) metRequirements++;
+      }
+
+      if(properties.requireAchievement) {
+        totalRequirements++;
+        if(player.hasAchievement(properties.requireAchievement)) metRequirements++;
+      }
+
+      if(properties.requireCollectible) {
+        totalRequirements++;
+        if(player.hasCollectible(properties.requireCollectible)) metRequirements++;
+      }
+
+      if(properties.requireAscension) {
+        totalRequirements++;
+        if(player.ascensionLevel >= +properties.requireAscension) metRequirements++;
+      }
+
+      if(properties.requireHoliday) {
+        totalRequirements++;
+        if(this.holidayHelper.isHoliday(properties.requireHoliday)) metRequirements++;
+      }
+
+      if(totalRequirements !== metRequirements) return false;
+    }
+
     return !tile.blocked && tile.terrain !== 'Void';
   }
 
@@ -193,29 +238,38 @@ export class MovementHelper {
     player.$statistics.increase(`Character.Movement.${capitalize(dest.movementType)}`, 1);
   }
 
-  // TODO: handle collectible
   private handleTileCollectible(player: Player, tileData: any) {
+    const collectible = tileData.object;
+    const collectibleName = collectible.name;
+    const collectibleRarity = get(collectible, 'properties.rarity', 'basic');
 
+    player.tryFindCollectible({
+      name: collectibleName,
+      rarity: collectibleRarity,
+      description: collectible.properties.flavorText,
+      storyline: collectible.properties.storyline
+    });
   }
 
-  // TODO: handle trianer
   private handleTileTrainer(player: Player, tileData: any) {
+    const professionName = tileData.object.name;
+    const trainerName = tileData.object.properties.realName ?
+      `${tileData.object.properties.realName}, the ${professionName} trainer` :
+      `the ${professionName} trainer`;
 
+    this.eventManager.doEventFor(player, 'FindTrainer', { professionName, trainerName });
   }
 
-  // TODO: handle boss
   private handleTileBoss(player: Player, tileData: any) {
-
+    this.eventManager.doEventFor(player, 'BattleBoss', { bossName: tileData.object.name });
   }
 
-  // TODO: handle boss party
   private handleTileBossParty(player: Player, tileData: any) {
-
+    this.eventManager.doEventFor(player, 'BattleBoss', { bossName: tileData.object.name });
   }
 
-  // TODO: handle treasure
   private handleTileTreasure(player: Player, tileData: any) {
-
+    this.eventManager.doEventFor(player, 'FindTreasure', { treasureName: tileData.object.name });
   }
 
   public takeStep(player: Player) {

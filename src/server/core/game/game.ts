@@ -14,6 +14,8 @@ import { AchievementManager } from './achievement-manager';
 import { PersonalityManager } from './personality-manager';
 import { World } from './world';
 import { MovementHelper } from './movement-helper';
+import { HolidayHelper } from './holiday-helper';
+import { ProfessionHelper } from './profession-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 60;
@@ -31,6 +33,8 @@ export class Game implements IGame {
   @Inject public subscriptionManager: SubscriptionManager;
   @Inject public eventManager: EventManager;
   @Inject public movementHelper: MovementHelper;
+  @Inject public holidayHelper: HolidayHelper;
+  @Inject public professionHelper: ProfessionHelper;
   @Inject public world: World;
   @Inject public logger: Logger;
 

@@ -8,8 +8,7 @@ import { Statistics } from './Statistics.entity';
 import { Inventory } from './Inventory.entity';
 import { Choices } from './Choices.entity';
 
-import { Profession } from '../../professions/Profession';
-import * as AllProfessions from '../../professions';
+import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction } from '../../interfaces';
@@ -135,7 +134,7 @@ export class Player implements IPlayer {
     if(!this.$statTrail) this.$statTrail = {};
 
     if(!this.$profession) {
-      this.$profession = new AllProfessions[this.profession]();
+      this.$profession = this.$game.professionHelper.getProfession(this.profession);
     }
 
     // init the prototypes that exist
@@ -593,5 +592,30 @@ export class Player implements IPlayer {
     this.$statistics.set('Game.Premium.ChoiceLogSize', 10 + (tier * 10));
     this.$statistics.set('Game.Premium.ItemStatCap', 3 + (tier));
     this.$statistics.set('Game.Premium.EnchantCap', 10 + (tier));
+  }
+
+  public hasAchievement(achi: string): boolean {
+    return !!this.$achievements.getAchievementAchieved(achi);
+  }
+
+  public tryFindCollectible({ name, rarity, description, storyline }) {
+    /*
+
+    const collectibleObj = {
+      name: collectibleName,
+      map: player.map,
+      region: player.mapRegion,
+      rarity: collectibleRarity,
+      description: collectible.properties.flavorText,
+      storyline: collectible.properties.storyline,
+      foundAt: Date.now()
+    };
+
+    player.$collectibles.addCollectible(collectibleObj);
+    */
+  }
+
+  public hasCollectible(coll: string): boolean {
+    return false;
   }
 }

@@ -10,4 +10,6 @@ export interface IGame {
   achievementManager: any;
   personalityManager: any;
   movementHelper: any;
+  holidayHelper: any;
+  professionHelper: any;
 }
