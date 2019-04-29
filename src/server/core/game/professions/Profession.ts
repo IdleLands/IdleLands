@@ -3,21 +3,22 @@ import { get } from 'lodash';
 
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
+import { IProfession } from '../../../../shared/interfaces';
 
-export class Profession {
+export class Profession implements IProfession {
 
   public readonly specialStatName: string;
   public readonly oocAbilityName: string;
   public readonly oocAbilityDesc: string;
   public readonly oocAbilityCost: number;
 
-  protected readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
+  public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
       [Stat.CON]: 1
     }
   };
 
-  protected readonly statMultipliers: { [key in Stat]: number } = {
+  public readonly statMultipliers: { [key in Stat]?: number } = {
     [Stat.HP]:  1,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,
@@ -32,7 +33,7 @@ export class Profession {
     [Stat.GOLD]: 1
   };
 
-  protected readonly statsPerLevel: { [key in Stat]: number } = {
+  public readonly statsPerLevel: { [key in Stat]?: number } = {
     [Stat.HP]:  10,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,

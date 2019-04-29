@@ -28,6 +28,9 @@ class GameState extends Phaser.State {
   private stored: any;
   private isReady: boolean;
 
+  private frameColors = ['#000', '#f00', '#0f0', '#00f'];
+  private frames = 0;
+
   init({ gameService, gameText }) {
     this.stage.disableVisibilityChange = true;
     this.load.crossOrigin = 'anonymous';
@@ -75,7 +78,8 @@ class GameState extends Phaser.State {
 
   render() {
     if(!this.currentPlayerSprite) return;
-    this.game.debug.spriteBounds(this.currentPlayerSprite, '#000', false);
+    this.frames = (this.frames + 1) % this.frameColors.length;
+    this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames], false);
   }
 
   shutdown() {

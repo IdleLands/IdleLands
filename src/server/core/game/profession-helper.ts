@@ -9,4 +9,8 @@ export class ProfessionHelper {
   public getProfession(prof: string): Profession {
     return new AllProfessions[prof]();
   }
+
+  public hasProfession(prof: string): boolean {
+    return AllProfessions[prof];
+  }
 }

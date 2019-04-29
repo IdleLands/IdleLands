@@ -1,20 +1,21 @@
 import { Profession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
+import { IProfession } from '../../../../shared/interfaces';
 
-export class Generalist extends Profession {
+export class Generalist extends Profession implements IProfession {
 
   public readonly oocAbilityName = 'Generalize';
   public readonly oocAbilityDesc = 'Gain XP based on your LUK.';
   public readonly oocAbilityCost = 10;
 
-  protected readonly statForStats = {
+  public readonly statForStats = {
     [Stat.HP]: {
       [Stat.CON]: 5
     }
   };
 
-  protected readonly statMultipliers = {
+  public readonly statMultipliers = {
     [Stat.HP]:  5,
     [Stat.STR]: 1.2,
     [Stat.DEX]: 0.8,
@@ -29,7 +30,7 @@ export class Generalist extends Profession {
     [Stat.GOLD]: 1
   };
 
-  protected readonly statsPerLevel = {
+  public readonly statsPerLevel = {
     [Stat.HP]:  10,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,

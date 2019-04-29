@@ -10,6 +10,7 @@ import { PlayerManager } from '../player-manager';
 import { SubscriptionManager, Channel } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
 import { EventManager } from '../event-manager';
+import { ProfessionHelper } from '../profession-helper';
 
 export enum EventType {
   Battle = 'battle',
@@ -40,6 +41,7 @@ export abstract class Event {
   @Inject protected playerManager: PlayerManager;
   @Inject protected itemGenerator: ItemGenerator;
   @Inject protected subscriptionManager: SubscriptionManager;
+  @Inject protected professionHelper: ProfessionHelper;
 
   protected statTiers = {
     t1: [Stat.AGI, Stat.DEX],

@@ -18,7 +18,7 @@ import { HolidayHelper } from './holiday-helper';
 import { ProfessionHelper } from './profession-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
-const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 60;
+const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
 
 @Singleton
 export class Game implements IGame {

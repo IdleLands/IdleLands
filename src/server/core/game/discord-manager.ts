@@ -29,7 +29,7 @@ export class DiscordManager {
     this.discordChannel = <Discord.GuildChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
-      this.logger.error(error);
+      this.logger.error(new Error(error.message));
     });
   }
 

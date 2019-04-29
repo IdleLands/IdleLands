@@ -2,6 +2,7 @@ import { RestrictedNumber } from 'restricted-number';
 import { IItem } from './IItem';
 import { IChoice } from './IChoice';
 import { ServerEventName } from './ServerEvent';
+import { IProfession } from './IProfession';
 
 export enum Direction {
   Southwest = 1,
@@ -71,6 +72,8 @@ export interface IPlayer {
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;
+
+  changeProfession(profession: IProfession): void;
 
   doChoice(choice: IChoice, decisionIndex: number): void;
 

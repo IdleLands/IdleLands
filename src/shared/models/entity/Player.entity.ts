@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -134,7 +134,7 @@ export class Player implements IPlayer {
     if(!this.$statTrail) this.$statTrail = {};
 
     if(!this.$profession) {
-      this.$profession = this.$game.professionHelper.getProfession(this.profession);
+      this.changeProfession(this.$game.professionHelper.getProfession(this.profession));
     }
 
     // init the prototypes that exist
@@ -592,6 +592,10 @@ export class Player implements IPlayer {
     this.$statistics.set('Game.Premium.ChoiceLogSize', 10 + (tier * 10));
     this.$statistics.set('Game.Premium.ItemStatCap', 3 + (tier));
     this.$statistics.set('Game.Premium.EnchantCap', 10 + (tier));
+  }
+
+  public changeProfession(prof: IProfession): void {
+    this.$profession = prof;
   }
 
   public hasAchievement(achi: string): boolean {
