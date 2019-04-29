@@ -124,6 +124,7 @@ export class EventMessageParser {
     return sample(this.assetManager.allStringAssets.class);
   }
 
+  // TODO: make it so you can get all but a particular player
   public player(): string {
     return sample(this.playerManager.allPlayers).fullName();
   }

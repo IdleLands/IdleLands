@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone, includes } from 'lodash';
+import { sample, pickBy, clone, includes, without, uniqBy } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -76,6 +76,8 @@ export class Player implements IPlayer {
 
   @Column() public lastDir: Direction;
 
+  private $buffWatches: { [key in Stat]?: IBuff[] };
+
   // non-saved player vars
   // still serialized to the client
   public sessionId: string;
@@ -132,6 +134,7 @@ export class Player implements IPlayer {
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
+    if(!this.$buffWatches) this.$buffWatches = {};
 
     if(!this.$profession) {
       this.changeProfession(this.$game.professionHelper.getProfession(this.profession));
@@ -329,6 +332,8 @@ export class Player implements IPlayer {
   private addStatTrail(stat: Stat, val: number, reason: string) {
     if(val === 0) return;
 
+    val = Math.floor(val);
+
     this.stats[stat] = this.stats[stat] || 0;
     this.stats[stat] += val;
     this.$statTrail[stat] = this.$statTrail[stat] || [];
@@ -362,6 +367,14 @@ export class Player implements IPlayer {
         ach.rewards.forEach(reward => {
           if(reward.type !== AchievementRewardType.Stats || !reward.stats[stat]) return;
           this.addStatTrail(stat, reward.stats[stat], `Achieve#: ${achName} (t${ach.tier})`);
+        });
+      });
+
+      // buff adds
+      Object.keys(this.$buffWatches).forEach(buffKey => {
+        this.$buffWatches[buffKey].forEach((buff: IBuff) => {
+          if(!buff.stats[stat]) return;
+          this.addStatTrail(stat, buff.stats[stat], `Buff: ${buff.name}`);
         });
       });
 
@@ -522,6 +535,7 @@ export class Player implements IPlayer {
   public increaseStatistic(stat: string, val: number): void {
     this.$statistics.increase(stat, val);
     const newAchievements = this.$game.achievementManager.checkAchievementsFor(this, stat);
+
     if(newAchievements.length > 0) {
       this.recalculateStats();
 
@@ -538,6 +552,25 @@ export class Player implements IPlayer {
       this.syncTitles();
       this.syncGenders();
       this.syncPersonalities();
+    }
+
+    let shouldRecalc = false;
+
+    const allBuffWatches = this.$buffWatches[stat];
+    if(allBuffWatches) {
+      allBuffWatches.forEach(buff => {
+        buff.duration--;
+        if(buff.duration <= 0) {
+          this.$buffWatches[stat] = without(allBuffWatches, buff);
+          shouldRecalc = true;
+        }
+      });
+
+      if(this.$buffWatches[stat].length === 0) delete this.$buffWatches[stat];
+    }
+
+    if(shouldRecalc) {
+      this.recalculateStats();
     }
 
   }
@@ -621,5 +654,14 @@ export class Player implements IPlayer {
 
   public hasCollectible(coll: string): boolean {
     return false;
+  }
+
+  public addBuff(buff: IBuff): void {
+    this.$buffWatches[buff.statistic] = this.$buffWatches[buff.statistic] || [];
+    this.$buffWatches[buff.statistic].unshift(buff);
+    this.$buffWatches[buff.statistic] = uniqBy(this.$buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);
+    delete buff.statistic;
+
+    this.recalculateStats();
   }
 }

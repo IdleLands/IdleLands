@@ -3,6 +3,7 @@ import { IItem } from './IItem';
 import { IChoice } from './IChoice';
 import { ServerEventName } from './ServerEvent';
 import { IProfession } from './IProfession';
+import { IBuff } from './IBuff';
 
 export enum Direction {
   Southwest = 1,
@@ -87,4 +88,6 @@ export interface IPlayer {
   tryFindCollectible({ name, rarity, description, storyline }): void;
 
   increaseStatistic(stat: string, val: number): void;
+
+  addBuff(buff: IBuff): void;
 }

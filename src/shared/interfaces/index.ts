@@ -3,6 +3,7 @@ export * from './ServerEvent';
 
 export * from './IAchievement';
 export * from './IAdventureLog';
+export * from './IBuff';
 export * from './IChoice';
 export * from './IGame';
 export * from './IItem';
