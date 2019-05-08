@@ -14,6 +14,7 @@ export class FindTrainer extends Event {
     if(!profession) return true;
 
     player.changeProfession(profession);
+    player.increaseStatistic(`Profession.${profession}.Become`, 1);
 
     return true;
   }
