@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { get, set } from 'lodash';
+import { get, set, isNumber } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 
@@ -44,7 +44,7 @@ export class Statistics extends PlayerOwned {
     this.set(stat, Math.floor(curVal + value));
   }
 
-  public get(stat: string): number {
+  public get(stat: string): number|any {
     return get(this.statistics, stat, 0);
   }
 
@@ -52,5 +52,10 @@ export class Statistics extends PlayerOwned {
     if(isNaN(value)) throw new Error(`${stat} being set to NaN!`);
 
     set(this.statistics, stat, value);
+  }
+
+  public getChildrenCount(stat: string): number {
+    const statB = this.get(stat);
+    return isNumber(statB) ? statB : Object.keys(statB).length;
   }
 }
