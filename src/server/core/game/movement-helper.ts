@@ -22,7 +22,17 @@ export class MovementHelper {
   @Inject private eventManager: EventManager;
   @Inject private holidayHelper: HolidayHelper;
 
-  private directions: Direction[] = [1, 2, 3, 6, 9, 8, 7, 4];
+  private directions: Direction[] = [
+    Direction.Southwest,
+    Direction.South,
+    Direction.Southeast,
+    Direction.East,
+    Direction.Northeast,
+    Direction.North,
+    Direction.Northwest,
+    Direction.West
+  ];
+
   private allTeleports = {
     ...teleports.towns,
     ...teleports.trainers,
@@ -108,18 +118,44 @@ export class MovementHelper {
     }
   }
 
+  private xyDiff2dir(x1: number, y1: number, x2: number, y2: number): Direction {
+    if(x1 > x2    && y1 > y2)   return Direction.Southwest;
+    if(x1 === x2  && y1 > y2)   return Direction.South;
+    if(x1 < x2    && y1 > y2)   return Direction.Southeast;
+
+    if(x1 > x2    && y1 === y2) return Direction.West;
+    if(x1 < x2    && y1 === y2) return Direction.East;
+
+    if(x1 > x2    && y1 < y2)   return Direction.Northwest;
+    if(x1 === x2  && y1 < y2)   return Direction.North;
+    if(x1 < x2    && y1 < y2)   return Direction.Northeast;
+
+    return Direction.Nowhere;
+  }
+
   private getInitialWeight(player: Player) {
 
     let weight = [300, 40, 7,  3,  1,  3,  7,  40];
 
     const drunk = false;
 
+    let dirMod: Direction = null;
     if(player.lastDir) {
-      const lastDirIndex = this.directions.indexOf(player.lastDir);
+      dirMod = player.lastDir;
+    }
+
+    if(player.divineDirection) {
+      dirMod = this.xyDiff2dir(player.x, player.y, player.divineDirection.x, player.divineDirection.y);
+    }
+
+    if(dirMod) {
+      const lastDirIndex = this.directions.indexOf(dirMod);
       if(lastDirIndex !== -1) {
         weight = weight.slice(weight.length - lastDirIndex).concat(weight.slice(0, weight.length - lastDirIndex));
       }
-    } else if(drunk) {
+    }
+
+    if(drunk) {
       weight = [1, 1, 1, 1, 1, 1, 1, 1];
     }
 
@@ -227,11 +263,7 @@ export class MovementHelper {
       }
     }
 
-    player.map = dest.map;
-    player.x = dest.x;
-    player.y = dest.y;
-
-    player.region = tile.region;
+    player.setPos(dest.x, dest.y, dest.map, tile.region);
 
     this.handleTile(player, tile, 'Teleport');
 

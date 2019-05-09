@@ -83,3 +83,17 @@ export class OOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
     this.game.updatePlayer(player);
   }
 }
+
+export class DivineDirectionEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterDivineDirection;
+  description = 'Set the Divine Direction of your character.';
+  args = 'x, y';
+
+  async callback({ x, y } = { x: 0, y: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    player.setDivineDirection(x, y);
+    this.gameMessage(player.divineDirection ? 'You have set a Divine Direction!' : 'You no longer have a Divine Direction!');
+  }
+}

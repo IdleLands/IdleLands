@@ -58,6 +58,7 @@ export interface IPlayer {
   $personalitiesData: any;
 
   lastDir: Direction;
+  divineDirection?: { x: number, y: number, steps: number };
 
   init(): void;
   loop(): Promise<void>;
@@ -90,4 +91,7 @@ export interface IPlayer {
   increaseStatistic(stat: string, val: number): void;
 
   addBuff(buff: IBuff): void;
+
+  setDivineDirection(x: number, y: number): void;
+  setPos(x: number, y: number, map: string, region: string): void;
 }

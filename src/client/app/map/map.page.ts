@@ -7,8 +7,10 @@ import { timer, Subject, Subscription } from 'rxjs';
 import * as Phaser from 'phaser-ce';
 
 import { GameService } from '../game.service';
-import { IPlayer } from '../../../shared/interfaces';
+import { IPlayer, ServerEventName } from '../../../shared/interfaces';
 import { GenderPositions } from '../_shared/gendervatar/genders';
+import { SocketClusterService } from '../socket-cluster.service';
+import { RevGidMap } from '../../../server/core/static/tile-data';
 
 class GameState extends Phaser.State {
 
@@ -21,6 +23,7 @@ class GameState extends Phaser.State {
   private objectSpriteGroup: Phaser.Group;
   private playerSpriteGroup: Phaser.Group;
   private currentPlayerSprite: Phaser.Sprite;
+  private currentDivineSprite: Phaser.Sprite;
 
   private baseUrl: string;
   private apiUrl: string;
@@ -31,7 +34,7 @@ class GameState extends Phaser.State {
   private frameColors = ['#000', '#f00', '#0f0', '#00f'];
   private frames = 0;
 
-  init({ gameService, gameText }) {
+  init({ gameService, gameText, socketService }) {
     this.stage.disableVisibilityChange = true;
     this.load.crossOrigin = 'anonymous';
 
@@ -40,7 +43,7 @@ class GameState extends Phaser.State {
     this.baseUrl = gameService.baseUrl;
     this.apiUrl = gameService.apiUrl;
 
-    this.stored = { gameService, gameText };
+    this.stored = { gameService, gameText, socketService, };
 
     this.setPlayer(gameService.player$.getValue());
     this.player$ = gameService.player$.subscribe(player => this.setPlayer(player));
@@ -67,6 +70,7 @@ class GameState extends Phaser.State {
 
     this.addObjectEvents();
     this.watchPlayerUpdates();
+    this.watchDivineSteps();
 
     this.isReady = true;
   }
@@ -77,14 +81,31 @@ class GameState extends Phaser.State {
   }
 
   render() {
-    if(!this.currentPlayerSprite) return;
     this.frames = (this.frames + 1) % this.frameColors.length;
-    this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames], false);
+
+    if(this.currentPlayerSprite) {
+      this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames], false);
+    }
+
+    if(this.currentDivineSprite) {
+      try {
+        this.game.debug.spriteBounds(this.currentDivineSprite, this.frameColors[this.frames], false);
+      } catch(e) {}
+    }
   }
 
   shutdown() {
     this.player$.unsubscribe();
     this.playerTimer$.unsubscribe();
+  }
+
+  private watchDivineSteps() {
+    this.game.input.onDown.add(() => {
+      const x = Math.floor((this.game.camera.x + this.game.input.activePointer.x) / 16);
+      const y = Math.floor((this.game.camera.y + this.game.input.activePointer.y) / 16);
+
+      this.stored.socketService.emit(ServerEventName.CharacterDivineDirection, { x, y });
+    });
   }
 
   private addObjectEvents() {
@@ -193,6 +214,16 @@ class GameState extends Phaser.State {
     if(player.name === this.player.name) {
       if(this.currentPlayerSprite) this.currentPlayerSprite.destroy();
       this.currentPlayerSprite = sprite;
+
+      if(this.currentDivineSprite) this.currentDivineSprite.destroy();
+
+      if(this.player.divineDirection) {
+
+        this.currentDivineSprite = this.game.add.sprite(
+          this.player.divineDirection.x * 16, this.player.divineDirection.y * 16,
+          'interactables', +(RevGidMap.PurpleTeleport) - 1
+        );
+      }
     }
 
     sprite.inputEnabled = true;
@@ -226,7 +257,10 @@ export class MapPage implements OnInit, OnDestroy {
   private gameText = new Subject<string[]>();
   private gameText$: Subscription;
 
-  constructor(private gameService: GameService) { }
+  constructor(
+    private socketService: SocketClusterService,
+    private gameService: GameService
+  ) { }
 
   async ngOnInit() {
     const el = await this.content.getScrollElement();
@@ -242,6 +276,7 @@ export class MapPage implements OnInit, OnDestroy {
 
     this.game.state.add('game', GameState);
     this.game.state.start('game', true, true, {
+      socketService: this.socketService,
       gameService: this.gameService,
       gameText: this.gameText
     });

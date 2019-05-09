@@ -75,6 +75,7 @@ export class Player implements IPlayer {
   @Column() public stepCooldown: number;
 
   @Column() public lastDir: Direction;
+  @Column() public divineDirection: { x: number, y: number, steps: number };
 
   private $buffWatches: { [key in Stat]?: IBuff[] };
 
@@ -190,6 +191,11 @@ export class Player implements IPlayer {
 
     this.$game.movementHelper.takeStep(this);
     this.$game.eventManager.tryToDoEventFor(this);
+
+    if(this.divineDirection) {
+      this.divineDirection.steps--;
+      if(this.divineDirection.steps <= 0) this.divineDirection = null;
+    }
   }
 
   public getStat(stat: Stat): number {
@@ -663,5 +669,25 @@ export class Player implements IPlayer {
     delete buff.statistic;
 
     this.recalculateStats();
+  }
+
+  public setPos(x: number, y: number, map: string, region: string): void {
+    const oldMap = this.map;
+
+    this.x = x;
+    this.y = y;
+    this.map = map;
+    this.region = region;
+
+    if(this.map !== oldMap) this.divineDirection = null;
+  }
+
+  public setDivineDirection(x: number, y: number): void {
+    if(this.divineDirection || x === 0 || y === 0) {
+      this.divineDirection = null;
+      return;
+    }
+
+    this.divineDirection = { x, y, steps: 360 };
   }
 }

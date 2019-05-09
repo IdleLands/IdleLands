@@ -18,6 +18,7 @@ export enum ServerEventName {
   CharacterTitle = 'character:title',
   CharacterAscend = 'character:ascend',
   CharacterOOCAction = 'character:oocaction',
+  CharacterDivineDirection = 'character:divinedirection',
 
   ItemEquip = 'item:equip',
   ItemUnequip = 'item:unequip',
