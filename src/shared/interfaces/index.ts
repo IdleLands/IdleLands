@@ -5,6 +5,7 @@ export * from './IAchievement';
 export * from './IAdventureLog';
 export * from './IBuff';
 export * from './IChoice';
+export * from './ICollectible';
 export * from './IGame';
 export * from './IItem';
 export * from './IPersonality';

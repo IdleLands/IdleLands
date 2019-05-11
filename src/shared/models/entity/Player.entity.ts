@@ -17,6 +17,7 @@ import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
 import { Channel } from '../../../server/core/game/subscription-manager';
 import { Personalities } from './Personalities.entity';
+import { Collectibles } from './Collectibles.entity';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -111,6 +112,10 @@ export class Player implements IPlayer {
   @nonenumerable
   public $personalities: Personalities;
   public $personalitiesData: any;
+
+  @nonenumerable
+  public $collectibles: Collectibles;
+  public $collectiblesData: any;
 
   @Column()
   public availableGenders: string[];
@@ -659,7 +664,7 @@ export class Player implements IPlayer {
   }
 
   public hasCollectible(coll: string): boolean {
-    return false;
+    return this.$collectibles.has(coll);
   }
 
   public addBuff(buff: IBuff): void {

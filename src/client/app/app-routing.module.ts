@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'personalities', loadChildren: './personalities/personalities.module#PersonalitiesPageModule' },
   { path: 'achievements', loadChildren: './achievements/achievements.module#AchievementsPageModule' },
   { path: 'map', loadChildren: './map/map.module#MapPageModule' },
+  { path: 'collectibles', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' },
   { path: '**', redirectTo: 'home' }
 ];
 

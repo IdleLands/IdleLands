@@ -56,6 +56,7 @@ export interface IPlayer {
   $choicesData: any;
   $achievementsData: any;
   $personalitiesData: any;
+  $collectiblesData: any;
 
   lastDir: Direction;
   divineDirection?: { x: number, y: number, steps: number };

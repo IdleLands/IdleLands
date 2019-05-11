@@ -36,6 +36,8 @@ export class AppComponent {
 
     { name: 'Achievements', icon: 'achievements', url: '/achievements' },
 
+    { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
+
     { name: 'Personalities', icon: 'personalities', url: '/personalities' },
 
     { name: 'Equipment', icon: 'gear', url: '/equipment' },

@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Collectibles
+      <span *ngIf="(gameService.player$ | async) as player">
+        ({{ (player?.$collectiblesData?.collectibles | keyvalue)?.length }})
+      </span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <div class="blank-slate" *ngIf="(player?.$collectiblesData?.collectibles | keyvalue)?.length === 0">
+      You have no collectibles.
+    </div>
+  </ng-container>
+</ion-content>
