@@ -102,6 +102,8 @@ export class GameService {
     this.setSessionId(this.currentPlayer.sessionId);
     this.setLoggedInId(this.currentPlayer._id);
     this.player.next(player);
+
+    (<any>window).discordGlobalCharacter = player;
   }
 
   public async init() {

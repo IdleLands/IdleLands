@@ -29,7 +29,8 @@ class GameState extends Phaser.State {
   private apiUrl: string;
 
   private stored: any;
-  private isReady: boolean;
+  private isReady: Promise<boolean>;
+  private isReadyCb: Function;
 
   private frameColors = ['#000', '#f00', '#0f0', '#00f'];
   private frames = 0;
@@ -47,6 +48,8 @@ class GameState extends Phaser.State {
 
     this.setPlayer(gameService.player$.getValue());
     this.player$ = gameService.player$.subscribe(player => this.setPlayer(player));
+
+    this.isReady = new Promise(resolve => this.isReadyCb = resolve);
   }
 
   preload() {
@@ -72,7 +75,7 @@ class GameState extends Phaser.State {
     this.watchPlayerUpdates();
     this.watchDivineSteps();
 
-    this.isReady = true;
+    this.isReadyCb();
   }
 
   update() {
@@ -95,8 +98,8 @@ class GameState extends Phaser.State {
   }
 
   shutdown() {
-    this.player$.unsubscribe();
-    this.playerTimer$.unsubscribe();
+    if(this.player$) this.player$.unsubscribe();
+    if(this.playerTimer$) this.playerTimer$.unsubscribe();
   }
 
   private watchDivineSteps() {
@@ -184,13 +187,16 @@ class GameState extends Phaser.State {
     });
   }
 
-  private setPlayer(player: IPlayer): void {
+  private async setPlayer(player: IPlayer): Promise<void> {
+
     // set player
     this.player = player;
 
     if(!player) return;
 
-    this.updatePlayerSprite(player);
+    await this.isReady;
+    await this.updatePlayerSprite(player);
+    this.camera.follow(this.currentPlayerSprite);
 
     // restart the state if needed
     if(this.map && this.map !== player.map) {
@@ -200,10 +206,14 @@ class GameState extends Phaser.State {
 
     // update the map for state restart watching
     this.map = player.map;
+
+    setTimeout(() => {
+      this.camera.position = new Phaser.Point(this.player.x * 16, this.player.y * 16);
+    });
   }
 
-  private updatePlayerSprite(player: { x: number, y: number, name: string, gender: string }): void {
-    if(!this.isReady) return;
+  private async updatePlayerSprite(player: { x: number, y: number, name: string, gender: string }): Promise<void> {
+    await this.isReady;
 
     const genderRef = GenderPositions[player.gender] || { x: 5, y: 1 };
     const genderNum = (genderRef.y * 9) + genderRef.x;
