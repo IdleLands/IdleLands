@@ -153,9 +153,16 @@ export class GameService {
   private async initUser() {
     return new Promise(resolve => {
       setTimeout(async () => {
+        const storedFingerprint = await this.storage.get('fingerprint');
+        if(storedFingerprint) {
+          this.userId.next(storedFingerprint);
+          return resolve(storedFingerprint);
+        }
+
         const components = await Fingerprint.getPromise();
         const userId = Fingerprint.x64hash128(components.map(x => x.value).join(''), 31);
         this.userId.next(userId);
+        await this.storage.set('fingerprint', userId);
         resolve(userId);
       }, 500);
     });
