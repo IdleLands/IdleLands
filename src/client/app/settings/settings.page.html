@@ -26,7 +26,7 @@
 
           <ion-button slot="end" 
                       size="small"
-                      (click)="authService.login(authMethod.provider)" 
+                      (click)="sync(authMethod.provider)" 
                       *ngIf="player.authType !== authMethod.type">
                       Sync
           </ion-button>

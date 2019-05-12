@@ -45,7 +45,6 @@ export class Player implements IPlayer {
   @Column() public userId: string;
   @Column() public currentUserId: string;
 
-  @Index({ unique: true })
   @Column() public authId: string;
   @Column() public authSyncedTo: string;
   @Column() public authType: string;
@@ -354,6 +353,8 @@ export class Player implements IPlayer {
   }
 
   public recalculateStats(): void {
+    if(!this.$inventoryData) return;
+
     this.stats = {};
     this.$statTrail = {};
 
@@ -685,7 +686,7 @@ export class Player implements IPlayer {
       };
 
       this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
-    
+
     }
 
     // always touch it

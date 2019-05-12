@@ -35,8 +35,15 @@ const play = (name) => {
   });
 
   socket.emit('auth:register', { name, userId: `local|${name}` });
+  
   setTimeout(() => {
-    socket.emit('auth:playgame', { name, userId: `local|${name}` });
+
+    socket.emit('auth:signin', { name, userId: `local|${name}` });
+
+    setTimeout(() => {
+
+      socket.emit('auth:playgame', { name, userId: `local|${name}` });
+    }, 100);
   }, 100);
 };
 
@@ -46,7 +53,5 @@ if(chosenNames.length < PLAYER_COUNT) {
     chosenNames.push(species.human());
   }
 }
-
-console.log(chosenNames);
 
 chosenNames.forEach(name => play(name));

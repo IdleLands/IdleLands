@@ -71,6 +71,20 @@ export class SettingsPage {
     alert.present();
   }
 
+  public async sync(provider) {
+
+    let res;
+    try {
+      res = await this.authService.login(provider);
+      if(!res.user) return;
+
+    } catch(e) {
+      return;
+    }
+
+    this.socketService.emit(ServerEventName.AuthSyncAccount, { token: await res.user.getIdToken() });
+  }
+
   public unsync() {
     this.socketService.emit(ServerEventName.AuthUnsyncAccount);
     this.authService.logout();

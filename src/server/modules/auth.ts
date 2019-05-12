@@ -1,5 +1,6 @@
 
 import * as uuid from 'uuid/v4';
+import { isString } from 'lodash';
 
 import { censorSensor } from '../core/static/profanity-filter';
 
@@ -116,14 +117,16 @@ export class SyncAccountEvent extends ServerSocketEvent implements ServerEvent {
     const loggedInPlayer = this.player;
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
-    let setKey = false;
+    let setKey: string|boolean = false;
     try {
       setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, token);
+
+      if(isString(setKey)) return this.gameError(setKey);
     } catch(e) {
       this.gameError(e.message);
     }
 
-    if(setKey) {
+    if(setKey === true) {
       this.game.updatePlayer(loggedInPlayer);
     }
   }
@@ -139,9 +142,11 @@ export class UnsyncAccountEvent extends ServerSocketEvent implements ServerEvent
     const loggedInPlayer = this.player;
     if(!loggedInPlayer) return this.gameError('Not currently logged in anywhere.');
 
-    let setKey = false;
+    let setKey: string|boolean = false;
     try {
       setKey = await this.game.databaseManager.setAuthKey(loggedInPlayer, '', true);
+
+      if(isString(setKey)) return this.gameError(setKey);
     } catch(e) {
       this.gameError(e.message);
     }

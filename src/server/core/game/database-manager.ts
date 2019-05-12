@@ -1,6 +1,6 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { Connection, createConnection, getConnectionOptions } from 'typeorm';
+import { Connection, createConnection, getConnectionOptions, MongoEntityManager, getMongoManager } from 'typeorm';
 import { extend } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
@@ -16,6 +16,7 @@ const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
 @AutoWired
 export class DatabaseManager {
   private connection: Connection;
+  private manager: MongoEntityManager;
 
   @Inject public logger: Logger;
 
@@ -32,15 +33,17 @@ export class DatabaseManager {
     const opts = await getConnectionOptions();
     (<any>opts).useNewUrlParser = true;
     this.connection = await createConnection(opts);
+    this.manager = getMongoManager();
 
     this.updateOldData();
   }
 
-  private updateOldData() {
-    this.connection.manager.update(Player, {}, { loggedIn: false });
+  private async updateOldData() {
+    await this.manager.updateMany(Player, {}, { $set: { loggedIn: false } });
   }
 
   // external API calls
+  // TODO: this will not work - it needs to get from the socketcluster store
   public async getAllPlayerLocations(map: string): Promise<Player[]> {
     if(!this.connection) return [];
 
@@ -146,7 +149,7 @@ export class DatabaseManager {
     return this.firebase.auth().verifyIdToken(token);
   }
 
-  public async setAuthKey(player: Player, token: string, removeToken = false): Promise<boolean> {
+  public async setAuthKey(player: Player, token: string, removeToken = false): Promise<boolean|string> {
     if(!this.connection) return null;
     if(!this.firebase) throw new Error('No firebase admin connection!');
 
@@ -165,6 +168,9 @@ export class DatabaseManager {
     const uid = decoded.uid;
 
     if(player.authId === uid) return false;
+
+    const existingAuthPlayer = await this.connection.manager.findOne(Player, { authId: uid });
+    if(existingAuthPlayer && existingAuthPlayer.name !== player.name) return 'Account already synced to another player.';
 
     player.authType = provider;
     player.authId = uid;

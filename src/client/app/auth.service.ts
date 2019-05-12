@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   async login(provider): Promise<any> {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve, reject) => {
 
       if(provider === auth.EmailAuthProvider) {
         const alert = await this.alertCtrl.create({
@@ -62,7 +62,7 @@ export class AuthService {
             }
           ],
           buttons: [
-            'Cancel',
+            { text: 'Cancel', handler: reject },
             {
               text: 'Sign In',
               handler: async (values) => {
