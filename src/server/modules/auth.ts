@@ -1,13 +1,10 @@
 
 import * as uuid from 'uuid/v4';
-import { CensorSensor } from 'censor-sensor';
+
+import { censorSensor } from '../core/static/profanity-filter';
 
 import { ServerEvent, ServerEventName } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
-
-const censorSensor = new CensorSensor();
-censorSensor.disableTier(2);
-censorSensor.disableTier(4);
 
 export class SignInEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.AuthSignIn;
