@@ -22,14 +22,23 @@ export class Collectibles extends PlayerOwned {
     if(!this.collectibles) this.collectibles = {};
   }
 
-  // TODO: if coll.achievedAt < player.ascension (or no coll, or no asc) add it and increment count by 1
-  // TODO: increment "collectibles touched" stat (every time you step into one, whether you collect it or not)
   public add(coll: ICollectible): void {
     this.collectibles[coll.name] = coll;
   }
 
   public has(collName: string): boolean {
-    return !!this.collectibles[collName];
+    return !!this.get(collName);
+  }
+
+  public get(collName: string): ICollectible {
+    return this.collectibles[collName];
+  }
+
+  public resetFoundAts() {
+    Object.keys(this.collectibles).forEach(collName => {
+      const coll = this.get(collName);
+      coll.foundAt = 0;
+    });
   }
 
 }

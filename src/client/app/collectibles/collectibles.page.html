@@ -17,5 +17,32 @@
     <div class="blank-slate" *ngIf="(player?.$collectiblesData?.collectibles | keyvalue)?.length === 0">
       You have no collectibles.
     </div>
+
+    <ion-row class="ion-flex-wrap">
+      <ion-col size-xs="12" size-md="6" *ngFor="let coll of player?.$collectiblesData?.collectibles | keyvalue">
+        <ion-card [color]="coll.value.rarity">
+          <ion-card-header>
+            <ion-card-subtitle>Found {{ coll.value.foundAt | date:'medium' }}</ion-card-subtitle>
+            <ion-card-title>{{ coll.value.name }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-row class="coll-row">
+              <ion-col>
+                {{ coll.value.description }}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="coll-desc">
+                Touched {{ coll.value.touched }} times
+              </ion-col>
+              <ion-col class="ion-text-right coll-desc">
+                {{ coll.value.storyline }}
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ng-container>
 </ion-content>

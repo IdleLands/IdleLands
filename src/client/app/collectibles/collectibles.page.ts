@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-collectibles',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollectiblesPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public gameService: GameService
+  ) { }
 
   ngOnInit() {
   }

@@ -293,6 +293,8 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Character.Ascension.Times', 1);
 
+    this.$collectibles.resetFoundAts();
+
     this.recalculateStats();
   }
 
@@ -647,20 +649,47 @@ export class Player implements IPlayer {
   }
 
   public tryFindCollectible({ name, rarity, description, storyline }) {
-    /*
 
-    const collectibleObj = {
-      name: collectibleName,
-      map: player.map,
-      region: player.mapRegion,
-      rarity: collectibleRarity,
-      description: collectible.properties.flavorText,
-      storyline: collectible.properties.storyline,
-      foundAt: Date.now()
-    };
+    this.increaseStatistic('Item.Collectible.Touch', 1);
 
-    player.$collectibles.addCollectible(collectibleObj);
-    */
+    let currentCollectible = this.$collectibles.get(name);
+
+    // create a new collectible
+    if(!currentCollectible) {
+      currentCollectible = {
+        name: name,
+        map: this.map,
+        region: this.region,
+        rarity,
+        description,
+        storyline,
+        count: 0,
+        touched: 0,
+        foundAt: 0
+      };
+
+      this.$collectibles.add(currentCollectible);
+    }
+
+    // if it doesn't have found-at, set it + count++ it
+    if(!currentCollectible.foundAt) {
+      currentCollectible.foundAt = Date.now();
+      currentCollectible.count++;
+
+      this.increaseStatistic('Item.Collectible.Find', 1);
+
+      const messageData: IAdventureLog = {
+        when: Date.now(),
+        type: AdventureLogEventType.Item,
+        message: `${this.fullName()} found "${currentCollectible.name}" in ${this.map} - ${this.region}!`
+      };
+
+      this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
+    
+    }
+
+    // always touch it
+    currentCollectible.touched++;
   }
 
   public hasCollectible(coll: string): boolean {
