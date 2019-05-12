@@ -113,8 +113,6 @@ export class GameService {
     this.setLoggedInId(await this.storage.get('loggedInId'));
     this.setAdventureLog(await this.storage.get('adventureLog') || []);
 
-      // TODO: stamina is also NaN when you create a new character, dunno why
-
     this.socketService.status$.subscribe(status => {
       if(status !== Status.Connected) {
         if(!this.currentPlayer) return;

@@ -134,6 +134,7 @@ export class Player implements IPlayer {
     if(!this.map) this.map = 'Norkos';
     if(!this.x) this.x = 10;
     if(!this.y) this.y = 10;
+    if(!this.ascensionLevel) this.ascensionLevel = 0;
     if(!this.gold) this.gold = 0;
     if(!this.stamina) this.stamina = new RestrictedNumber(0, 10, 10);
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
