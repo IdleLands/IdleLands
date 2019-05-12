@@ -1,8 +1,13 @@
 
 import * as uuid from 'uuid/v4';
+import { CensorSensor } from 'censor-sensor';
 
 import { ServerEvent, ServerEventName } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
+
+const censorSensor = new CensorSensor();
+censorSensor.disableTier(2);
+censorSensor.disableTier(4);
 
 export class SignInEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.AuthSignIn;
@@ -83,6 +88,7 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
   async callback({ userId, name } = { userId: '', name: '' }) {
     if(!userId || !name) return this.gameError(`${this.event} requires a userId and a name.`);
     if(name.length < 2 || name.length > 20) return this.gameError(`Character name must be between 2 and 20 characters.`);
+    if(censorSensor.isProfaneIsh(name)) return this.gameError(`Character name is a bit too crude.`);
 
     // try to load a character with this id/name
     let character = await this.game.databaseManager.checkIfPlayerExists({ currentUserId: userId, name });

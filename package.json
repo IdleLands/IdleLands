@@ -32,6 +32,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.1.1",
     "@ionic/storage": "^2.2.0",
+    "censor-sensor": "^1.0.4",
     "chance": "^1.0.18",
     "connect": "3.6.6",
     "core-js": "^2.5.4",
