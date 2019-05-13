@@ -191,7 +191,7 @@ class GameState extends Phaser.State {
         });
 
         difference(curPlayers, newPlayers).forEach(removePlayer => {
-          if(!this.allPlayerSprites[removePlayer]) return;
+          if(!this.allPlayerSprites[removePlayer] || removePlayer === this.player.name) return;
           this.allPlayerSprites[removePlayer].destroy();
         });
 

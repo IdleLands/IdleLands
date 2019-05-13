@@ -1,10 +1,15 @@
 import { AutoWired, Singleton } from 'typescript-ioc';
 import { Signal } from 'signals';
 
+// TODO: player chat
+// TODO: parties / buffs, events
+
 export enum Channel {
   PlayerMessage = 'playerMessage',
   EventMessage = 'eventMessage',
   PlayerChat = 'playerChat',
+  PlayerBuffs = 'playerBuffs',
+  PlayerEvents = 'playerEvents',
   Players = 'players'
 }
 
