@@ -46,6 +46,7 @@ const options = {
   // If using nodemon, set this to true, and make sure that environment is 'dev'.
   killMasterOnSignal: false,
   environment: environment,
+  logLevel: 1,
 
   brokerOptions: {
     host: process.env.SCC_BROKER_REDIS_HOST,

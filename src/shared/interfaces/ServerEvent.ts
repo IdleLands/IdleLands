@@ -35,6 +35,11 @@ export enum ServerEventName {
   TogglePersonality = 'personality:toggle'
 }
 
+export enum PlayerChannelOperation {
+  Add,
+  Remove
+}
+
 export interface ServerEvent {
   event: string;
   description: string;

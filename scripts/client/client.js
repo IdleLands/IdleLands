@@ -3,7 +3,6 @@ const PLAYER_COUNT = process.env.PLAYER_COUNT ? +process.env.PLAYER_COUNT : 10;
 
 const { species } = require('fantastical');
 
-const SocketCluster = require('socketcluster-client');
 const scCodecMinBin = require('sc-codec-min-bin');
 
 const names = [
@@ -17,9 +16,10 @@ const names = [
 
 const play = (name) => {
 
-  const opts = { hostname: 'localhost', port: 8000 };
+  const SocketCluster = require('socketcluster-client');
+  const opts = { hostname: 'localhost', port: 8000, multiplex: false };
   opts.codecEngine = scCodecMinBin;
-  const socket = SocketCluster.connect(opts);
+  const socket = SocketCluster.create(opts);
 
   socket.on('error', (err) => {
   });

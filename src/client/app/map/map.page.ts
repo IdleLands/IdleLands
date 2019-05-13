@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 
-import { compact } from 'lodash';
+import { compact, difference } from 'lodash';
 import { timer, Subject, Subscription } from 'rxjs';
 
 import * as Phaser from 'phaser-ce';
@@ -22,8 +22,13 @@ class GameState extends Phaser.State {
 
   private objectSpriteGroup: Phaser.Group;
   private playerSpriteGroup: Phaser.Group;
-  private currentPlayerSprite: Phaser.Sprite;
   private currentDivineSprite: Phaser.Sprite;
+  private allPlayerSprites: { [key: string]: Phaser.Sprite } = {};
+
+  private get currentPlayerSprite(): Phaser.Sprite {
+    if(!this.player) return null;
+    return this.allPlayerSprites[this.player.name];
+  }
 
   private baseUrl: string;
   private apiUrl: string;
@@ -175,14 +180,21 @@ class GameState extends Phaser.State {
     this.playerTimer$ = timer(0, 5000).subscribe(() => {
       if(!this.stored.gameService.loggedInAndConnected) return;
 
-      this.playerSpriteGroup.removeAll();
-
       this.stored.gameService.getPlayerLocationsInCurrentMap().subscribe(players => {
+        const curPlayers = Object.keys(this.allPlayerSprites);
+        const newPlayers = players.map(x => x.name);
+
         players.forEach(player => {
           if(player.name === this.player.name) return;
 
           this.updatePlayerSprite(player);
         });
+
+        difference(curPlayers, newPlayers).forEach(removePlayer => {
+          if(!this.allPlayerSprites[removePlayer]) return;
+          this.allPlayerSprites[removePlayer].destroy();
+        });
+
       });
     });
   }
@@ -195,7 +207,7 @@ class GameState extends Phaser.State {
     if(!player) return;
 
     await this.isReady;
-    await this.updatePlayerSprite(player);
+    await this.updatePlayerSprite(player as any);
     this.camera.follow(this.currentPlayerSprite);
 
     // restart the state if needed
@@ -212,23 +224,32 @@ class GameState extends Phaser.State {
     });
   }
 
-  private async updatePlayerSprite(player: { x: number, y: number, name: string, gender: string }): Promise<void> {
+  private async updatePlayerSprite(
+    player: { x: number, y: number, name: string, gender: string, level: number|any, profession: string, title: string }
+  ): Promise<void> {
     await this.isReady;
 
     const genderRef = GenderPositions[player.gender] || { x: 5, y: 1 };
     const genderNum = (genderRef.y * 9) + genderRef.x;
 
     const group = player.name === this.player.name ? undefined : this.playerSpriteGroup;
-    const sprite = this.game.add.sprite(player.x * 16, player.y * 16, 'interactables', genderNum, group);
+
+    let sprite = this.allPlayerSprites[player.name];
+    let isNew = false;
+    if(!sprite) {
+      sprite = this.game.add.sprite(player.x * 16, player.y * 16, 'interactables', genderNum, group);
+      this.allPlayerSprites[player.name] = sprite;
+      isNew = true;
+    }
+
+    sprite.frame = genderNum;
+    sprite.x = player.x * 16;
+    sprite.y = player.y * 16;
 
     if(player.name === this.player.name) {
-      if(this.currentPlayerSprite) this.currentPlayerSprite.destroy();
-      this.currentPlayerSprite = sprite;
-
       if(this.currentDivineSprite) this.currentDivineSprite.destroy();
 
       if(this.player.divineDirection) {
-
         this.currentDivineSprite = this.game.add.sprite(
           this.player.divineDirection.x * 16, this.player.divineDirection.y * 16,
           'interactables', +(RevGidMap.PurpleTeleport) - 1
@@ -236,20 +257,25 @@ class GameState extends Phaser.State {
       }
     }
 
-    sprite.inputEnabled = true;
+    if(isNew) {
+      sprite.inputEnabled = true;
 
-    const addText = () => {
-      this.stored.gameText.next([`Player: ${player.name}`]);
-    };
+      const addText = () => {
+        this.stored.gameText.next([
+          `Player: ${player.name}${player.title ? ', the ' + player.title : ''}`,
+          `Level ${player.level.__current ? player.level.__current : player.level} ${player.profession}`
+        ]);
+      };
 
-    const removeText = () => {
-      this.stored.gameText.next(null);
-    };
+      const removeText = () => {
+        this.stored.gameText.next(null);
+      };
 
-    sprite.events.onInputDown.add(addText);
-    sprite.events.onInputOver.add(addText);
+      sprite.events.onInputDown.add(addText);
+      sprite.events.onInputOver.add(addText);
 
-    sprite.events.onInputOut.add(removeText);
+      sprite.events.onInputOut.add(removeText);
+    }
   }
 }
 

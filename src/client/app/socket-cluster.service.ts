@@ -75,7 +75,6 @@ export class SocketClusterService {
       if(this.allSignals[ev.name]) this.allSignals[ev.name].dispatch(ev.data);
     });
 
-    // TODO channel for map pos, chat
   }
 
   public async toastNotify(info) {

@@ -12,6 +12,7 @@ import { sample } from 'lodash';
 
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
+import { IPlayer } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -70,6 +71,12 @@ export class AppComponent {
     this.initializeApp();
     this.watchRouteChanges();
     this.watchAppChanges();
+  }
+
+  public playerCircleText(player: IPlayer) {
+    if(player.level.__current === player.level.maximum) return '!';
+    if(player.ascensionLevel > 0) return player.ascensionLevel;
+    return 'XP';
   }
 
   public a2hs() {

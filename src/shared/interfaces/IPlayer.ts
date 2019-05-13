@@ -44,6 +44,7 @@ export interface IPlayer {
   y: number;
   map: string;
   loggedIn: boolean;
+  ascensionLevel: number;
 
   eventSteps: number;
 

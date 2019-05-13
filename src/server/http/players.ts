@@ -8,7 +8,7 @@ export class PlayerAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/players', async (req, res) => {
-      res.json(await game.databaseManager.getAllPlayerLocations(req.query.map));
+      res.json(await game.playerManager.getPlayersInMap(req.query.map));
     });
   }
 }

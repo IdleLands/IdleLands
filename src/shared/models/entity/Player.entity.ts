@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, PlayerChannelOperation } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -201,6 +201,8 @@ export class Player implements IPlayer {
       this.divineDirection.steps--;
       if(this.divineDirection.steps <= 0) this.divineDirection = null;
     }
+
+    this.$game.playerManager.updatePlayer(this);
   }
 
   public getStat(stat: Stat): number {

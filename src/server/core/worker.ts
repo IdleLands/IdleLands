@@ -2,6 +2,7 @@ import { Game } from './game/game';
 
 const SCWorker = require('socketcluster/scworker');
 const express = require('express');
+const compression = require('compression');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
@@ -28,13 +29,15 @@ export class GameWorker extends SCWorker {
     const environment = this.options.environment;
     const app = express();
 
+    app.use(compression());
+
     if(environment === 'dev') {
       app.use(morgan('dev'));
       app.use(cors());
     } else {
       app.use(cors({
         origin: 'https://idle.land'
-      }))
+      }));
     }
 
     // Add GET /health-check express route
@@ -63,7 +66,13 @@ export class GameWorker extends SCWorker {
     scServer.on('connection', (socket) => {
       Object.values(allEvents).forEach((EvtCtor: any) => {
         const evtInst = new EvtCtor(game, socket);
-        socket.on(evtInst.event, (args) => evtInst.callback(args || {}));
+        socket.on(evtInst.event, async (args) => {
+          if(evtInst.isDoingSomething) return;
+
+          evtInst.isDoingSomething = true;
+          await evtInst.callback(args || {});
+          evtInst.isDoingSomething = false;
+        });
       });
     });
 

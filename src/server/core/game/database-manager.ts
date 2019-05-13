@@ -42,21 +42,6 @@ export class DatabaseManager {
     await this.manager.updateMany(Player, {}, { $set: { loggedIn: false } });
   }
 
-  // external API calls
-  // TODO: this will not work - it needs to get from the socketcluster store
-  public async getAllPlayerLocations(map: string): Promise<Player[]> {
-    if(!this.connection) return [];
-
-    const res = await this.connection.manager.find(Player, {
-      where: { loggedIn: true, map },
-      select: ['name', 'gender', 'x', 'y'] }
-    );
-
-    res.forEach((p: any) => delete p.id);
-
-    return res;
-  }
-
   // internal API calls
   public async checkIfPlayerExists(query): Promise<Player> {
     if(!this.connection) return null;

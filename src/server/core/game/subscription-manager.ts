@@ -1,9 +1,11 @@
-import { AutoWired, Singleton, Inject } from 'typescript-ioc';
+import { AutoWired, Singleton } from 'typescript-ioc';
 import { Signal } from 'signals';
 
 export enum Channel {
   PlayerMessage = 'playerMessage',
-  EventMessage = 'eventMessage'
+  EventMessage = 'eventMessage',
+  PlayerChat = 'playerChat',
+  Players = 'players'
 }
 
 @Singleton
