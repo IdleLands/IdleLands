@@ -254,6 +254,7 @@ class GameState extends Phaser.State {
           this.player.divineDirection.x * 16, this.player.divineDirection.y * 16,
           'interactables', +(RevGidMap.PurpleTeleport) - 1
         );
+        this.currentDivineSprite.moveDown();
       }
     }
 
