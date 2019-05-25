@@ -140,7 +140,7 @@ export class PlayerManager {
     if(sendUpdate) {
       this.updatePlayer(player, PlayerChannelOperation.Add);
     }
-    
+
     this.updatePlayerCount();
   }
 
@@ -172,13 +172,6 @@ export class PlayerManager {
   public getPlayersInMap(map: string) {
     const players = this.allPlayersInMaps[map] || [];
     return players.map(x => pick(x, ['name', 'title', 'x', 'y', 'level', 'profession', 'gender']));
-  }
-
-  // TODO: return an array of player names and genders, and tell clients when to update (when join/leave)
-  // lets try not showing all the other info this time
-  // but we can totally show it when they chat!
-  public getChatPlayers() {
-
   }
 
   public getPlayerPatch(name: string): Operation[] {
