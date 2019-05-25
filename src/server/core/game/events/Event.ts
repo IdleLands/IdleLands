@@ -5,11 +5,10 @@ import { RNGService } from '../rng-service';
 import { EventMessageParser } from '../event-message-parser';
 import { Player, Item, Choice } from '../../../../shared/models';
 import { AssetManager } from '../asset-manager';
-import { Stat, GenerateableItemSlot, IAdventureLog, AdventureLogEventType, PartialChoice } from '../../../../shared/interfaces';
+import { Stat, GenerateableItemSlot, IAdventureLog, AdventureLogEventType, PartialChoice, Channel } from '../../../../shared/interfaces';
 import { PlayerManager } from '../player-manager';
-import { SubscriptionManager, Channel } from '../subscription-manager';
+import { SubscriptionManager } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
-import { EventManager } from '../event-manager';
 import { ProfessionHelper } from '../profession-helper';
 
 export enum EventType {

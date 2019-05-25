@@ -20,6 +20,9 @@ export enum ServerEventName {
   CharacterOOCAction = 'character:oocaction',
   CharacterDivineDirection = 'character:divinedirection',
 
+  ChatPlayerListSync = 'chat:playersync',
+  ChatMessage = 'chat:message',
+
   ItemEquip = 'item:equip',
   ItemUnequip = 'item:unequip',
   ItemSell = 'item:sell',
@@ -36,7 +39,17 @@ export enum ServerEventName {
 }
 
 export enum PlayerChannelOperation {
+
+  // used when a player is added to the game
   Add,
+
+  // used any time position etc changes
+  Update,
+
+  // used when level, gender, class, title, or ascension changes
+  SpecificUpdate,
+
+  // used when a player is removed from the game
   Remove
 }
 

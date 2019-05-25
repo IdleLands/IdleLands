@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Chat</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleChatMenu()">
+        <ion-icon slot="icon-only" name="people"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-row class="chat-container">
+    <ion-col class="chat-area">
+      <ion-row class="output-area" #chatArea>
+        <ion-col>
+          <ion-list>
+            <ion-item *ngFor="let message of gameService.messages">
+              <ion-label text-wrap>
+                <h2>
+                    <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
+                  <span class="chat-username">{{ message.playerName }}</span>
+                  <span class="chat-timestamp">{{ message.timestamp | date:'short' }}</span>
+                </h2>
+                <p>{{ message.message }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    
+      <ion-row class="input-area">
+        <ion-col class="text-entry">
+          <ion-item>
+            <ion-input placeholder="Type your message here..." (keyup.enter)="send()" [(ngModel)]="message"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col class="button-col">
+          <ion-button color="primary" (click)="send()" [disabled]="!message">
+            <ion-icon slot="icon-only" name="send"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>

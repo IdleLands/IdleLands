@@ -8,6 +8,7 @@ export * from './IChoice';
 export * from './ICollectible';
 export * from './IGame';
 export * from './IItem';
+export * from './IMessage';
 export * from './IPersonality';
 export * from './IPlayer';
 export * from './IProfession';

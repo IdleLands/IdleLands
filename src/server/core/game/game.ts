@@ -3,7 +3,7 @@ import { DatabaseManager } from './database-manager';
 import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
-import { ServerEventName, IGame } from '../../../shared/interfaces';
+import { ServerEventName, IGame, PlayerChannelOperation, IMessage } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
 import { AssetManager } from './asset-manager';
@@ -16,6 +16,7 @@ import { World } from './world';
 import { MovementHelper } from './movement-helper';
 import { HolidayHelper } from './holiday-helper';
 import { ProfessionHelper } from './profession-helper';
+import { ChatHelper } from './chat-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -35,20 +36,28 @@ export class Game implements IGame {
   @Inject public movementHelper: MovementHelper;
   @Inject public holidayHelper: HolidayHelper;
   @Inject public professionHelper: ProfessionHelper;
+  @Inject public chatHelper: ChatHelper;
   @Inject public world: World;
   @Inject public logger: Logger;
 
   private ticks = 0;
 
-  public async init(scExchange) {
-    await this.subscriptionManager.init(scExchange);
+  public async init(scServer, id: number) {
+    await this.subscriptionManager.init(scServer);
 
     await this.playerManager.init();
     await this.databaseManager.init();
     await this.assetManager.init();
     await this.itemGenerator.init();
-    await this.discordManager.init();
     await this.achievementManager.init();
+
+    await this.chatHelper.init((msg: string) => {
+      this.discordManager.sendMessage(msg);
+    });
+
+    await this.discordManager.init((msg: IMessage) => {
+      this.chatHelper.sendMessageToGame(msg);
+    }, id === 0);
 
     await this.world.init(this.assetManager.allMapAssets);
 
@@ -82,5 +91,9 @@ export class Game implements IGame {
   public updatePlayer(player: Player) {
     const patch = this.playerManager.getPlayerPatch(player.name);
     this.playerManager.emitToPlayer(player.name, ServerEventName.CharacterPatch, patch);
+  }
+
+  public sendClientUpdateForPlayer(player: Player) {
+    this.playerManager.updatePlayer(player, PlayerChannelOperation.SpecificUpdate);
   }
 }

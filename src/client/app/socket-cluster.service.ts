@@ -6,7 +6,7 @@ import { Signal } from 'signals';
 import * as scCodecMinBin from 'sc-codec-min-bin';
 
 import { environment } from './../environments/environment';
-import { ServerEventName, GameEvent } from '../../shared/interfaces';
+import { ServerEventName, GameEvent, Channel } from '../../shared/interfaces';
 import { ToastController } from '@ionic/angular';
 
 export enum Status {
@@ -29,6 +29,8 @@ export class SocketClusterService {
   private status: BehaviorSubject<Status> = new BehaviorSubject<Status>(Status.Disconnected);
 
   private allSignals = {};
+
+  private channels: { [key in Channel]?: any } = {};
 
   public get error$() {
     return this.error;
@@ -100,5 +102,10 @@ export class SocketClusterService {
 
   public unregister(signal: ServerEventName, callback: Function) {
     this.allSignals[signal].remove(callback);
+  }
+
+  public watch(channel: Channel, callback: Function) {
+    this.channels[channel] = this.channels[channel] || this.socket.subscribe(channel);
+    this.channels[channel].watch(callback);
   }
 }

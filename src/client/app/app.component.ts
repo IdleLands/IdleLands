@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { Platform, ModalController, AlertController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, IonMenu } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -20,10 +20,14 @@ import { IPlayer } from '../../shared/interfaces';
 })
 export class AppComponent {
 
+  @ViewChild('playerMenu')
+  public playerMenu: IonMenu;
+
   public a2hsPrompt: any;
   public canUpdate: boolean;
 
   public hiddenSplitPane: boolean;
+  public hiddenPlayerMenu: boolean;
 
   private clouds = 0;
 
@@ -35,6 +39,15 @@ export class AppComponent {
       return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
     } },
 
+    { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
+      if(!player.$inventoryData) return '';
+      return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
+    } },
+
+    { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
+      return this.gameService.unreadMessages;
+    } },
+
     { name: 'Achievements', icon: 'achievements', url: '/achievements' },
 
     { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
@@ -44,11 +57,6 @@ export class AppComponent {
     { name: 'Equipment', icon: 'gear', url: '/equipment' },
 
     { name: 'Map', icon: 'map', url: '/map' },
-
-    { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
-      if(!player.$inventoryData) return '';
-      return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
-    } },
 
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
@@ -117,6 +125,10 @@ export class AppComponent {
       e.preventDefault();
       this.a2hsPrompt = e;
     });
+
+    setTimeout(() => {
+      this.gameService.playerMenu = this.playerMenu;
+    }, 0);
   }
 
   private watchAppChanges() {
@@ -138,6 +150,9 @@ export class AppComponent {
       .subscribe((x: NavigationEnd) => {
         const isHome = x.urlAfterRedirects.includes('/home');
         this.hiddenSplitPane = isHome;
+
+        const isChat = x.urlAfterRedirects.includes('/chat');
+        this.hiddenPlayerMenu = !isChat;
 
         if(!isHome && !this.gameService.hasPlayer) {
           this.router.navigate(['/home']);

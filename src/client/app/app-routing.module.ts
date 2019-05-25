@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'achievements', loadChildren: './achievements/achievements.module#AchievementsPageModule' },
   { path: 'map', loadChildren: './map/map.module#MapPageModule' },
   { path: 'collectibles', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' },
+  { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
   { path: '**', redirectTo: 'home' }
 ];
 

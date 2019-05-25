@@ -2,16 +2,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonMenu } from '@ionic/angular';
 
 import { applyPatch } from 'fast-json-patch';
-import { get } from 'lodash';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { get, pullAllBy, merge, find, uniqBy, sortBy } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName, IAdventureLog, IItem } from '../../shared/interfaces';
+import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
@@ -71,6 +71,23 @@ export class GameService {
     return this.sessionId === this.currentPlayer.sessionId && this.socketService.status$.value === Status.Connected;
   }
 
+  private allPlayers: any[] = [];
+  public get players(): any[] {
+    return this.allPlayers;
+  }
+
+  private allMessages: IMessage[] = [];
+  public get messages(): IMessage[] {
+    return this.allMessages;
+  }
+
+  private newMessages = 0;
+  public get unreadMessages(): number {
+    return this.newMessages;
+  }
+
+  public playerMenu: IonMenu;
+
   constructor(
     private http: HttpClient,
     private alertCtrl: AlertController,
@@ -113,9 +130,13 @@ export class GameService {
     this.setLoggedInId(await this.storage.get('loggedInId'));
     this.setAdventureLog(await this.storage.get('adventureLog') || []);
 
+    this.allMessages = await this.storage.get('lastMessages') || [];
+
     this.socketService.status$.subscribe(status => {
       if(status !== Status.Connected) {
         if(!this.currentPlayer) return;
+
+        this.allPlayers = [];
 
         // clear the current session id if you get disconnected
         this.setSessionId(null);
@@ -165,7 +186,15 @@ export class GameService {
     this.setLoggedInId(null);
   }
 
+  private sortAndUniqPlayerList() {
+    this.allPlayers = sortBy(uniqBy(this.allPlayers, p => p.name), p => p.name);
+  }
+
   private initCharacterWatches() {
+    this.socketService.register(ServerEventName.PlayGame, () => {
+      this.socketService.emit(ServerEventName.ChatPlayerListSync);
+    });
+
     this.socketService.register(ServerEventName.CharacterSync, (char) => {
       this.setCurrentPlayer(char);
     });
@@ -189,6 +218,52 @@ export class GameService {
     this.socketService.register(ServerEventName.ItemCompare, ({ newItem, currentItem, choiceId }) => {
       this.itemCompare(newItem, currentItem, choiceId);
     });
+
+    this.socketService.register(ServerEventName.ChatPlayerListSync, (players) => {
+      this.allPlayers.push(...players);
+      this.sortAndUniqPlayerList();
+    });
+
+    this.socketService.watch(Channel.PlayerUpdates, ({ player, operation }) => {
+      switch(operation) {
+        case PlayerChannelOperation.Add: {
+          this.allPlayers.push(player);
+          this.sortAndUniqPlayerList();
+          break;
+        }
+
+        case PlayerChannelOperation.SpecificUpdate: {
+          merge(find(this.allPlayers, { name: player.name }), player);
+          break;
+        }
+
+        case PlayerChannelOperation.Remove: {
+          pullAllBy(this.allPlayers, [player], p => p.name === player.name);
+          this.sortAndUniqPlayerList();
+          break;
+        }
+      }
+    });
+
+    this.socketService.watch(Channel.PlayerChat, ({ message }) => {
+      this.addMessage(message);
+    });
+  }
+
+  private addMessage(message: IMessage) {
+    this.allMessages.push(message);
+
+    while(this.allMessages.length > 500) this.allMessages.shift();
+
+    this.storage.set('lastMessages', this.allMessages);
+
+    if(!window.location.href.includes('/chat')) {
+      this.newMessages++;
+    }
+  }
+
+  public resetMessages() {
+    this.newMessages = 0;
   }
 
   public logout() {

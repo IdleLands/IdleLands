@@ -1,0 +1,40 @@
+
+.chat-container {
+  height: 100%;
+  
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+  
+    height: 100%;
+  
+    .output-area {
+      flex-grow: 1;
+
+      overflow: scroll;
+    }
+    
+    .input-area {
+      border-top: 1px solid #000;
+
+      .button-col {
+        max-width: 70px;
+      }
+    }
+  }
+}
+
+.chat-author {
+  font-weight: bold;
+}
+
+.chat-timestamp {
+  margin-left: 5px;
+  font-size: 0.6rem;
+  font-style: italic;
+}
+
+.chat-discord {
+  margin-right: 5px;
+  font-size: 0.6rem;
+}

@@ -96,4 +96,7 @@ export interface IPlayer {
 
   setDivineDirection(x: number, y: number): void;
   setPos(x: number, y: number, map: string, region: string): void;
+
+  changeGender(newGender: string): void;
+  changeTitle(newTitle: string): void;
 }

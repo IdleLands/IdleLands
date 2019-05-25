@@ -13,7 +13,7 @@ export class SignInEvent extends ServerSocketEvent implements ServerEvent {
   args = 'userId';
 
   async callback({ userId, authToken } = { userId: '', authToken: '' }) {
-    if(this.playerName) return this.gameError('You are already connected!');
+    // if(this.playerName) return this.gameError('You are already connected!');
     if(!userId && !authToken) return this.gameError(`${this.event} requires a userId or an authToken.`);
 
     let searchOpts: any = { currentUserId: userId };
@@ -165,7 +165,14 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
   args = 'userId, sessionId, authToken, relogin';
 
   async callback({ userId, sessionId, authToken, relogin } = { userId: '', sessionId: '', authToken: '', relogin: false }) {
-    if(this.playerName) return this.gameError('You are already connected!');
+    if(this.playerName) {
+      const characterPreObj = this.game.playerManager.getPlayer(this.playerName);
+      this.emit(ServerEventName.CharacterSync, characterPreObj);
+      this.emit(ServerEventName.PlayGame);
+
+      return this.gameError('You are already connected!');
+    }
+
     if(!userId && !authToken) return this.gameError(`${this.event} requires a userId or an authToken.`);
 
     let searchOpts: any = { currentUserId: userId };

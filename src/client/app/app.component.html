@@ -70,7 +70,9 @@
                 {{ page.name }} 
               </ion-label>
 
-              <ion-badge slot="end" *ngIf="page.badge && page.badge(player)" [color]="page.badgeColor">{{ page.badge(player) }}</ion-badge>
+              <ion-badge slot="end" *ngIf="page.badge && page.badge(player)" [color]="page.badgeColor">
+                {{ page.badge(player) }}
+              </ion-badge>
             </ion-item>
 
           </ion-menu-toggle>
@@ -86,6 +88,29 @@
         </ion-list>
       </ion-content>
       
+    </ion-menu>
+
+    <ion-menu side="end" #playerMenu [swipeGesture]="false" type="overlay" [class.ion-hide]="hiddenPlayerMenu">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Players ({{ gameService.players.length }})</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item *ngFor="let player of gameService.players">
+            <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
+
+            <ion-label>
+              <h2>{{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span></h2>
+              <p class="vertical-center">
+                {{ player.profession }} &nbsp;
+                <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
     </ion-menu>
 
     <ion-router-outlet main></ion-router-outlet>

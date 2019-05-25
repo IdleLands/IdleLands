@@ -17,7 +17,7 @@ export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent 
 
     if(!includes(possibleGenders, newGender)) return this.gameError('Invalid gender specified');
 
-    player.gender = newGender;
+    player.changeGender(newGender);
     this.game.updatePlayer(player);
     this.gameSuccess(`Gender is now "${newGender}"`);
   }
@@ -43,7 +43,7 @@ export class ChangeTitleEvent extends ServerSocketEvent implements ServerEvent {
 
     if(!includes(possibleTitles, newTitle)) return this.gameError('Invalid title specified');
 
-    player.title = newTitle;
+    player.changeTitle(newTitle);
     this.game.updatePlayer(player);
     this.gameSuccess(`Title is now "${newTitle}"`);
   }

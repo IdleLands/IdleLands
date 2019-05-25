@@ -1,3 +1,4 @@
+import { IPlayer } from './IPlayer';
 
 export interface IGame {
   databaseManager: any;
@@ -12,4 +13,7 @@ export interface IGame {
   movementHelper: any;
   holidayHelper: any;
   professionHelper: any;
+  chatHelper: any;
+
+  sendClientUpdateForPlayer(player: IPlayer): void;
 }

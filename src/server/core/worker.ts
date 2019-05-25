@@ -16,7 +16,7 @@ const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.e
 
 export class GameWorker extends SCWorker {
   run() {
-    console.log('   >> Worker PID:', process.pid);
+    console.log('   >> Worker PID:', process.pid, 'ID:', this.id);
 
     const httpServer = this.httpServer;
     const scServer = this.scServer;
@@ -24,7 +24,7 @@ export class GameWorker extends SCWorker {
     scServer.setCodecEngine(scCodecMinBin);
 
     const game = new Game();
-    game.init(scServer.exchange);
+    game.init(scServer, this.id);
 
     const environment = this.options.environment;
     const app = express();
@@ -45,7 +45,7 @@ export class GameWorker extends SCWorker {
 
     const limiter = rateLimit({
       windowMs: 10 * 1000, // 10 seconds
-      max: 1
+      max: 3
     });
 
     if(process.env.NODE_ENV === 'production') {
@@ -87,10 +87,15 @@ export class GameWorker extends SCWorker {
       player.loggedIn = false;
 
       setTimeout(() => {
-        if(player.loggedIn) return;
-        game.playerManager.removePlayer(player);
-        game.databaseManager.savePlayer(player);
+        const checkAgainPlayer = game.playerManager.getPlayer(socket.playerName);
+        if(checkAgainPlayer && checkAgainPlayer.loggedIn) return;
+        game.playerManager.removePlayer(checkAgainPlayer);
+        game.databaseManager.savePlayer(checkAgainPlayer);
       }, GRACE_PERIOD_DISCONNECT);
+    });
+
+    scServer.on('error', (err) => {
+      console.error(err);
     });
   }
 }

@@ -11,11 +11,10 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, PlayerChannelOperation } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
-import { Channel } from '../../../server/core/game/subscription-manager';
 import { Personalities } from './Personalities.entity';
 import { Collectibles } from './Collectibles.entity';
 
@@ -279,8 +278,12 @@ export class Player implements IPlayer {
     this.lastAscension = Date.now();
     this.ascensionLevel = this.ascensionLevel || 0;
     this.ascensionLevel++;
-    this.xp.toMinimum();
-    this.level.toMinimum();
+
+    this.level.minimum = 1;
+    this.level.set(1);
+
+    this.xp.set(0);
+    this.xp.maximum = this.calcLevelMaxXP(1);
 
     this.increaseStatistic('Character.Ascension.Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
@@ -727,5 +730,15 @@ export class Player implements IPlayer {
     }
 
     this.divineDirection = { x, y, steps: 360 };
+  }
+
+  public changeGender(gender: string) {
+    this.gender = gender;
+    this.$game.sendClientUpdateForPlayer(this);
+  }
+
+  public changeTitle(title: string) {
+    this.title = title;
+    this.$game.sendClientUpdateForPlayer(this);
   }
 }

@@ -1,11 +1,11 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { observe, generate, Observer, Operation } from 'fast-json-patch';
 
-import { pullAllBy, pick } from 'lodash';
+import { pullAllBy, pick, values } from 'lodash';
 
 import { Player } from '../../../shared/models/entity';
-import { ServerEventName, PlayerChannelOperation } from '../../../shared/interfaces';
-import { SubscriptionManager, Channel } from './subscription-manager';
+import { ServerEventName, PlayerChannelOperation, Channel } from '../../../shared/interfaces';
+import { SubscriptionManager } from './subscription-manager';
 
 @Singleton
 @AutoWired
@@ -28,6 +28,10 @@ export class PlayerManager {
     return this.playerList;
   }
 
+  public get allSimplePlayers(): Player[] {
+    return values(this.allPlayersSimple);
+  }
+
   public async init() {
     this.subscribeToPlayerMessages();
     this.subscribeToPlayerListMods();
@@ -47,6 +51,27 @@ export class PlayerManager {
           this.allPlayersInMaps[player.map] = this.allPlayersInMaps[player.map] || [];
           pullAllBy(this.allPlayersInMaps[player.map], [player], p => p.name === player.name);
           this.allPlayersInMaps[player.map].push(player);
+
+          this.subscriptionManager.emitToClients(Channel.PlayerUpdates, { player, operation });
+          break;
+        }
+
+        case PlayerChannelOperation.Update: {
+          const oldMap = this.currentPlayerMaps[player.name];
+          if(oldMap && oldMap !== player.map) {
+            pullAllBy(this.allPlayersInMaps[oldMap], [player], p => p.name === player.name);
+          }
+
+          this.allPlayersSimple[player.name] = player;
+          this.currentPlayerMaps[player.name] = player.map;
+          this.allPlayersInMaps[player.map] = this.allPlayersInMaps[player.map] || [];
+          pullAllBy(this.allPlayersInMaps[player.map], [player], p => p.name === player.name);
+          this.allPlayersInMaps[player.map].push(player);
+          break;
+        }
+
+        case PlayerChannelOperation.SpecificUpdate: {
+          this.subscriptionManager.emitToClients(Channel.PlayerUpdates, { player, operation });
           break;
         }
 
@@ -54,6 +79,8 @@ export class PlayerManager {
           delete this.allPlayersSimple[player.name];
           delete this.currentPlayerMaps[player.name];
           pullAllBy(this.allPlayersInMaps[player.map], [player], p => p.name === player.name);
+
+          this.subscriptionManager.emitToClients(Channel.PlayerUpdates, { player, operation });
           break;
         }
       }
@@ -83,7 +110,7 @@ export class PlayerManager {
     };
   }
 
-  public updatePlayer(player: Player, operation: PlayerChannelOperation = PlayerChannelOperation.Add) {
+  public updatePlayer(player: Player, operation: PlayerChannelOperation = PlayerChannelOperation.Update) {
     this.subscriptionManager.emitToChannel(Channel.Players, { player: this.simplifyPlayer(player), operation });
   }
 
@@ -92,8 +119,11 @@ export class PlayerManager {
   }
 
   public addPlayer(player: Player, socket): void {
+    let sendUpdate = true;
+
     if(this.players[player.name]) {
-      this.removePlayer(player);
+      sendUpdate = false;
+      this.removePlayer(player, false);
     }
 
     player.loggedIn = true;
@@ -104,10 +134,13 @@ export class PlayerManager {
     this.playerSockets[player.name] = socket;
     this.playerDataHold[player.name] = {};
     this.resetPlayerList();
-    this.updatePlayer(player, PlayerChannelOperation.Add);
+
+    if(sendUpdate) {
+      this.updatePlayer(player, PlayerChannelOperation.Add);
+    }
   }
 
-  public removePlayer(player: Player): void {
+  public removePlayer(player: Player, sendUpdates = true): void {
     if(this.playerWatches[player.name]) {
       this.playerWatches[player.name].unobserve();
     }
@@ -116,7 +149,11 @@ export class PlayerManager {
     delete this.playerWatches[player.name];
     delete this.playerDataHold[player.name];
     this.resetPlayerList();
-    this.updatePlayer(player, PlayerChannelOperation.Remove);
+
+    if(sendUpdates) {
+      console.log('sending remove update', new Error().stack);
+      this.updatePlayer(player, PlayerChannelOperation.Remove);
+    }
   }
 
   public getPlayer(name: string): Player {
