@@ -2,6 +2,7 @@ import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 
 import { IMessage, Channel } from '../../../shared/interfaces';
 import { SubscriptionManager } from './subscription-manager';
+import { censorSensor } from '../static/profanity-filter';
 
 @Singleton
 @AutoWired
@@ -16,6 +17,8 @@ export class ChatHelper {
   }
 
   public sendMessageFromClient(message: IMessage) {
+    message.message = censorSensor.cleanProfanity(message.message);
+
     this.sendMessageToDiscord(message);
     this.sendMessageToGame(message);
   }

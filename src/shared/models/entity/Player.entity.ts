@@ -703,7 +703,15 @@ export class Player implements IPlayer {
     return this.$collectibles.has(coll);
   }
 
+  public grantBuff(buff: IBuff): void {
+    this.increaseStatistic(`Character.Booster.Give`, 1);
+
+    this.addBuff(buff);
+  }
+
   public addBuff(buff: IBuff): void {
+    this.increaseStatistic(`Character.Booster.Receive`, 1);
+
     this.$buffWatches[buff.statistic] = this.$buffWatches[buff.statistic] || [];
     this.$buffWatches[buff.statistic].unshift(buff);
     this.$buffWatches[buff.statistic] = uniqBy(this.$buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);

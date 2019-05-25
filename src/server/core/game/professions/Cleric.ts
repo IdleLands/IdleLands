@@ -51,7 +51,7 @@ export class Cleric extends Profession implements IProfession {
 
   public oocAbility(player: Player): string {
     const luk = player.getStat(Stat.LUK);
-    player.addBuff({
+    player.grantBuff({
       name: 'Panhandle',
       statistic: 'Character.Ticks',
       duration: 720,

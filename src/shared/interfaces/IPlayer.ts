@@ -92,6 +92,7 @@ export interface IPlayer {
 
   increaseStatistic(stat: string, val: number): void;
 
+  grantBuff(buff: IBuff): void;
   addBuff(buff: IBuff): void;
 
   setDivineDirection(x: number, y: number): void;

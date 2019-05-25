@@ -48,7 +48,7 @@ export class Fighter extends Profession implements IProfession {
 
   public oocAbility(player: Player): string {
     const luk = player.getStat(Stat.LUK);
-    player.addBuff({
+    player.grantBuff({
       name: 'Experiencer',
       statistic: 'Character.Ticks',
       duration: 720,
