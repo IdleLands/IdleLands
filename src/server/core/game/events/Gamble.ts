@@ -35,7 +35,7 @@ export class Gamble extends Event {
         player.increaseStatistic(`Event.Gamble.WinDouble`, payoff);
       }
 
-      const allText = `${player} bet ${bet.toLocaleString()} gold at the gambling table against the odds
+      const allText = `${player.fullName()} bet ${bet.toLocaleString()} gold at the gambling table against the odds
         of ${odds}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and won ${payoff.toLocaleString()} gold!`;
       this.emitMessage([player], allText, AdventureLogEventType.Gold);
 
