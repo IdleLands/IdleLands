@@ -6,11 +6,13 @@ import { pullAllBy, pick, values } from 'lodash';
 import { Player } from '../../../shared/models/entity';
 import { ServerEventName, PlayerChannelOperation, Channel } from '../../../shared/interfaces';
 import { SubscriptionManager } from './subscription-manager';
+import { DiscordManager } from './discord-manager';
 
 @Singleton
 @AutoWired
 export class PlayerManager {
   @Inject private subscriptionManager: SubscriptionManager;
+  @Inject private discordManager: DiscordManager;
 
   private players: { [key: string]: Player } = {};
   private playerList: Player[] = [];
@@ -138,6 +140,8 @@ export class PlayerManager {
     if(sendUpdate) {
       this.updatePlayer(player, PlayerChannelOperation.Add);
     }
+    
+    this.updatePlayerCount();
   }
 
   public removePlayer(player: Player, sendUpdates = true): void {
@@ -151,9 +155,14 @@ export class PlayerManager {
     this.resetPlayerList();
 
     if(sendUpdates) {
-      console.log('sending remove update', new Error().stack);
       this.updatePlayer(player, PlayerChannelOperation.Remove);
     }
+
+    this.updatePlayerCount();
+  }
+
+  private updatePlayerCount() {
+    this.discordManager.updateUserCount(this.playerList.length);
   }
 
   public getPlayer(name: string): Player {
