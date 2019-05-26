@@ -44,6 +44,10 @@ export class AppComponent {
       return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
     } },
 
+    { name: 'Equipment', icon: 'gear', url: '/equipment' },
+
+    { name: 'Personalities', icon: 'personalities', url: '/personalities' },
+
     { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
       return this.gameService.unreadMessages;
     } },
@@ -52,13 +56,10 @@ export class AppComponent {
 
     { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
 
-    { name: 'Personalities', icon: 'personalities', url: '/personalities' },
-
-    { name: 'Equipment', icon: 'gear', url: '/equipment' },
-
     { name: 'Map', icon: 'map', url: '/map' },
 
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
+
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;
       return 'Unsynced';
