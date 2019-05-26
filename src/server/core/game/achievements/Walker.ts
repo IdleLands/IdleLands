@@ -5,7 +5,7 @@ export class Walker extends Achievement {
 
   static readonly base = 10;
 
-  static readonly statWatches = ['Character.Ticks'];
+  static readonly statWatches = ['Character/Ticks'];
   static readonly type = AchievementType.Progress;
 
   static descriptionForTier(tier: number): string {
@@ -19,7 +19,7 @@ export class Walker extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const steps = player.$statistics.get('Character.Ticks');
+    const steps = player.$statistics.get('Character/Ticks');
     return Achievement.log(steps, Walker.base);
   }
 

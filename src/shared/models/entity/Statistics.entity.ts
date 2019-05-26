@@ -39,19 +39,22 @@ export class Statistics extends PlayerOwned {
 
   public increase(stat: string, value = 1): void {
     if(isNaN(value)) throw new Error(`${stat} being incremented by NaN!`);
+    if(stat.includes('.')) throw new Error(`${stat} path contains a .! Use / instead.`);
 
     const curVal = this.get(stat);
     this.set(stat, Math.floor(curVal + value));
   }
 
   public get(stat: string): number|any {
-    return get(this.statistics, stat, 0);
+    if(stat.includes('.')) throw new Error(`${stat} path contains a .! Use / instead.`);
+
+    return get(this.statistics, stat.split('/'), 0);
   }
 
   public set(stat: string, value: number): void {
     if(isNaN(value)) throw new Error(`${stat} being set to NaN!`);
 
-    set(this.statistics, stat, value);
+    set(this.statistics, stat.split('/'), value);
   }
 
   public getChildrenCount(stat: string): number {

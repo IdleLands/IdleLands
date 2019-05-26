@@ -64,12 +64,12 @@ export class MovementHelper {
 
       if(properties.requireMap) {
         totalRequirements++;
-        if(player.$statistics.get(`Map.${properties.requireMap}.Steps`) > 0) metRequirements++;
+        if(player.$statistics.get(`Map/${properties.requireMap}/Steps`) > 0) metRequirements++;
       }
 
       if(properties.requireBoss) {
         totalRequirements++;
-        if(player.$statistics.get(`BossKill.${properties.requireBoss}`) > 0) metRequirements++;
+        if(player.$statistics.get(`BossKill/${properties.requireBoss}`) > 0) metRequirements++;
       }
 
       if(properties.requireClass) {
@@ -267,7 +267,7 @@ export class MovementHelper {
 
     this.handleTile(player, tile, 'Teleport');
 
-    player.increaseStatistic(`Character.Movement.${capitalize(dest.movementType)}`, 1);
+    player.increaseStatistic(`Character/Movement/${capitalize(dest.movementType)}`, 1);
   }
 
   private handleTileCollectible(player: Player, tileData: any) {
@@ -307,7 +307,7 @@ export class MovementHelper {
   public takeStep(player: Player) {
 
     if(player.$personalities.isActive('Camping')) {
-      player.increaseStatistic('Character.Movement.Steps.Camping', 1);
+      player.increaseStatistic('Character/Movement/Steps/Camping', 1);
       return;
     }
 
@@ -363,14 +363,14 @@ export class MovementHelper {
 
     this.handleTile(player, tile);
 
-    player.increaseStatistic(`Profession.${player.profession}.Steps`, 1);
-    player.increaseStatistic(`Character.Movement.Steps.Normal`, 1);
-    player.increaseStatistic(`Environment.Terrain.${capitalize(tile.terrain) || 'Void'}`, 1);
-    player.increaseStatistic(`Map.${player.map}.Region.${player.region || 'Wilderness'}`, 1);
-    player.increaseStatistic(`Map.${player.map}.Steps`, 1);
+    player.increaseStatistic(`Profession/${player.profession}/Steps`, 1);
+    player.increaseStatistic(`Character/Movement/Steps/Normal`, 1);
+    player.increaseStatistic(`Environment/Terrain/${capitalize(tile.terrain) || 'Void'}`, 1);
+    player.increaseStatistic(`Map/${player.map}/Region/${player.region || 'Wilderness'}`, 1);
+    player.increaseStatistic(`Map/${player.map}/Steps`, 1);
 
     if(player.$personalities.isActive('Drunk')) {
-      player.increaseStatistic(`Character.Movement.Steps.Drunk`, 1);
+      player.increaseStatistic(`Character/Movement/Steps/Drunk`, 1);
     }
   }
 

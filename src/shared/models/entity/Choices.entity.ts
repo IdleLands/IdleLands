@@ -30,7 +30,7 @@ export class Choices extends PlayerOwned {
 
   // basic functions
   private calcSize(player: Player): number {
-    return player.$statistics.get('Game.Premium.ChoiceLogSize');
+    return player.$statistics.get('Game/Premium/ChoiceLogSize');
   }
 
   public init(player: Player): void {
@@ -56,25 +56,25 @@ export class Choices extends PlayerOwned {
 
     if(this.choices.length > this.size) {
       const poppedChoice = last(this.choices);
-      player.increaseStatistic(`Character.Choose.Ignore`, 1);
+      player.increaseStatistic(`Character/Choose/Ignore`, 1);
       this.makeDecision(player, choice, choice.choices.indexOf(poppedChoice.defaultChoice));
     }
   }
 
   public makeDecision(player: Player, choice: Choice, decisionSlot: number, doRemove = true) {
-    player.increaseStatistic(`Character.Choose.Choice.${choice.choices[decisionSlot]}`, 1);
-    player.increaseStatistic(`Character.Choose.Total`, 1);
+    player.increaseStatistic(`Character/Choose/Choice/${choice.choices[decisionSlot]}`, 1);
+    player.increaseStatistic(`Character/Choose/Total`, 1);
 
     if(player.hasPersonality('Affirmer')) {
-      player.increaseStatistic(`Character.Choose.Personality.Affirmer`, 1);
+      player.increaseStatistic(`Character/Choose/Personality/Affirmer`, 1);
     }
 
     if(player.hasPersonality('Denier')) {
-      player.increaseStatistic(`Character.Choose.Personality.Denier`, 1);
+      player.increaseStatistic(`Character/Choose/Personality/Denier`, 1);
     }
 
     if(player.hasPersonality('Indecisive')) {
-      player.increaseStatistic(`Character.Choose.Personality.Indecisive`, 1);
+      player.increaseStatistic(`Character/Choose/Personality/Indecisive`, 1);
     }
 
     if(doRemove) this.removeChoice(choice);

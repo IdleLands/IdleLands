@@ -22,17 +22,17 @@ export class Gamble extends Event {
     }
 
     player.gainGold(-bet);
-    player.increaseStatistic(`Event.Gamble.Wager`, bet);
+    player.increaseStatistic(`Event/Gamble/Wager`, bet);
 
     if(this.rng.likelihood(odds)) {
       eventManager.successMessage(player, `You won ${payoff.toLocaleString()} gold against the odds of ${odds}%!`);
       player.gainGold(payoff);
-      player.increaseStatistic(`Event.Gamble.WinTimes`, 1);
-      player.increaseStatistic(`Event.Gamble.Win`, payoff);
+      player.increaseStatistic(`Event/Gamble/WinTimes`, 1);
+      player.increaseStatistic(`Event/Gamble/Win`, payoff);
 
       if(valueChosen === 'Double') {
-        player.increaseStatistic(`Event.Gamble.WinDoubleTimes`, 1);
-        player.increaseStatistic(`Event.Gamble.WinDouble`, payoff);
+        player.increaseStatistic(`Event/Gamble/WinDoubleTimes`, 1);
+        player.increaseStatistic(`Event/Gamble/WinDouble`, payoff);
       }
 
       const allText = `${player.fullName()} bet ${bet.toLocaleString()} gold at the gambling table against the odds
@@ -42,10 +42,10 @@ export class Gamble extends Event {
     } else {
       eventManager.successMessage(player,
         `You lost ${bet.toLocaleString()} gold against the odds of ${odds}%! Better luck next time.`);
-      player.increaseStatistic(`Event.Gamble.LoseTimes`, 1);
+      player.increaseStatistic(`Event/Gamble/LoseTimes`, 1);
 
       if(valueChosen === 'Double') {
-        player.increaseStatistic(`Event.Gamble.LoseDoubleTimes`, 1);
+        player.increaseStatistic(`Event/Gamble/LoseDoubleTimes`, 1);
       }
 
       const allText = `${player} bet ${bet.toLocaleString()} gold at the gambling table against the odds

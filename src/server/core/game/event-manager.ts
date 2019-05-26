@@ -40,8 +40,8 @@ export class EventManager {
       return;
     }
 
-    player.increaseStatistic(`Character.Events`, 1);
-    player.increaseStatistic(`Event.${eventName}.Times`, 1);
+    player.increaseStatistic(`Character/Events`, 1);
+    player.increaseStatistic(`Event/${eventName}/Times`, 1);
 
     const event = new Events[eventName]();
     event.operateOn(player, opts);

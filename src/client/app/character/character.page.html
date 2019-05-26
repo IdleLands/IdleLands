@@ -207,7 +207,7 @@
 
               <ion-item-divider>Boosters & Injuries</ion-item-divider>
 
-              <ng-container *ngFor="let buff of player.$buffWatches | keyvalue">
+              <ng-container *ngFor="let buff of player.buffWatches | keyvalue">
                 <ion-item *ngFor="let actualBuff of buff.value">
                   <ion-icon slot="start" 
                             [src]="'assets/icon/stat-' + (actualBuff.booster ? 'booster' : 'injury') + '.svg'"></ion-icon>

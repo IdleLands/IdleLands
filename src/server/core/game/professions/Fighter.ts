@@ -50,7 +50,7 @@ export class Fighter extends Profession implements IProfession {
     const luk = player.getStat(Stat.LUK);
     player.grantBuff({
       name: 'Experiencer',
-      statistic: 'Character.Ticks',
+      statistic: 'Character/Ticks',
       booster: true,
       duration: 720,
       stats: {

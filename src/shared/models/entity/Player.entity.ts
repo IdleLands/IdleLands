@@ -76,7 +76,7 @@ export class Player implements IPlayer {
   @Column() public lastDir: Direction;
   @Column() public divineDirection: { x: number, y: number, steps: number };
 
-  private $buffWatches: { [key in Stat]?: IBuff[] };
+  @Column() private buffWatches: { [key in Stat]?: IBuff[] };
 
   // non-saved player vars
   // still serialized to the client
@@ -139,7 +139,7 @@ export class Player implements IPlayer {
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
-    if(!this.$buffWatches) this.$buffWatches = {};
+    if(!this.buffWatches) this.buffWatches = {};
 
     if(!this.$profession) {
       this.changeProfession(this.$game.professionHelper.getProfession(this.profession));
@@ -169,7 +169,7 @@ export class Player implements IPlayer {
       this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
     });
 
-    this.increaseStatistic('Game.Logins', 1);
+    this.increaseStatistic('Game/Logins', 1);
 
     this.recalculateStats();
 
@@ -187,7 +187,7 @@ export class Player implements IPlayer {
 
   async loop(): Promise<void> {
 
-    this.increaseStatistic('Character.Ticks', 1);
+    this.increaseStatistic('Character/Ticks', 1);
 
     this.gainXP(0);
     this.gainGold(0);
@@ -211,8 +211,8 @@ export class Player implements IPlayer {
   public oocAction(): string {
     if(this.stamina.total < this.$profession.oocAbilityCost) return;
 
-    this.increaseStatistic('Character.Stamina.Spend', this.$profession.oocAbilityCost);
-    this.increaseStatistic(`Profession.${this.profession}.AbilityUses`, this.$profession.oocAbilityCost);
+    this.increaseStatistic('Character/Stamina/Spend', this.$profession.oocAbilityCost);
+    this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
     this.stamina.sub(this.$profession.oocAbilityCost);
     return this.$profession.oocAbility(this);
@@ -229,15 +229,15 @@ export class Player implements IPlayer {
 
     if(remainingXP < 0) {
       this.xp.add(remainingXP);
-      this.increaseStatistic('Character.Experience.Lose', -remainingXP);
+      this.increaseStatistic('Character/Experience/Lose', -remainingXP);
       return remainingXP;
     }
 
     // always gain profession xp, even if you are level blocked
-    this.increaseStatistic(`Profession.${this.profession}.Experience`, remainingXP);
+    this.increaseStatistic(`Profession/${this.profession}/Experience`, remainingXP);
 
     while(remainingXP > 0 && this.canLevelUp()) {
-      this.increaseStatistic('Character.Experience.Gain', remainingXP);
+      this.increaseStatistic('Character/Experience/Gain', remainingXP);
       const preAddXP = this.xp.total;
       this.xp.add(remainingXP);
 
@@ -251,7 +251,7 @@ export class Player implements IPlayer {
   }
 
   public spendGold(gold = 0): number {
-    this.increaseStatistic('Character.Gold.Spend', gold);
+    this.increaseStatistic('Character/Gold/Spend', gold);
     return this.gainGold(-gold);
   }
 
@@ -261,12 +261,12 @@ export class Player implements IPlayer {
 
     if(remainingGold < 0) {
       this.gold += remainingGold;
-      this.increaseStatistic('Character.Gold.Lose', -remainingGold);
+      this.increaseStatistic('Character/Gold/Lose', -remainingGold);
       this.gold = Math.max(0, this.gold);
       return remainingGold;
     }
 
-    this.increaseStatistic('Character.Gold.Gain', remainingGold);
+    this.increaseStatistic('Character/Gold/Gain', remainingGold);
     this.gold += remainingGold;
 
     return remainingGold;
@@ -285,18 +285,18 @@ export class Player implements IPlayer {
     this.xp.set(0);
     this.xp.maximum = this.calcLevelMaxXP(1);
 
-    this.increaseStatistic('Character.Ascension.Levels', this.level.maximum);
+    this.increaseStatistic('Character/Ascension/Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
-    this.increaseStatistic('Character.Ascension.Gold', this.gold);
+    this.increaseStatistic('Character/Ascension/Gold', this.gold);
     this.gold = 0;
 
-    this.increaseStatistic('Character.Ascension.ItemScore', this.$inventory.totalItemScore());
+    this.increaseStatistic('Character/Ascension/ItemScore', this.$inventory.totalItemScore());
     const items = this.$game.itemGenerator.generateNewbieItems();
     items.forEach(item => this.$inventory.equipItem(item));
     this.$inventory.clearInventory();
 
-    this.increaseStatistic('Character.Ascension.Times', 1);
+    this.increaseStatistic('Character/Ascension/Times', 1);
 
     this.$collectibles.resetFoundAts();
 
@@ -306,7 +306,7 @@ export class Player implements IPlayer {
   private checkStaminaTick() {
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
-    this.increaseStatistic('Character.Stamina.Gain', 1);
+    this.increaseStatistic('Character/Stamina/Gain', 1);
     this.stamina.add(1);
     this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST;
   }
@@ -343,7 +343,7 @@ export class Player implements IPlayer {
     this.xp.toMinimum();
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
 
-    this.increaseStatistic('Character.Experience.Levels', 1);
+    this.increaseStatistic('Character/Experience/Levels', 1);
     this.calculateStamina();
   }
 
@@ -391,8 +391,8 @@ export class Player implements IPlayer {
       });
 
       // buff adds
-      Object.keys(this.$buffWatches).forEach(buffKey => {
-        this.$buffWatches[buffKey].forEach((buff: IBuff) => {
+      Object.keys(this.buffWatches).forEach(buffKey => {
+        this.buffWatches[buffKey].forEach((buff: IBuff) => {
           if(!buff.stats[stat]) return;
           this.addStatTrail(stat, buff.stats[stat], `Buff: ${buff.name}`);
         });
@@ -483,7 +483,7 @@ export class Player implements IPlayer {
       if(!successful) return false;
     }
 
-    this.increaseStatistic('Item.Equip.Times', 1);
+    this.increaseStatistic('Item/Equip/Times', 1);
 
     this.$inventory.equipItem(item);
     this.recalculateStats();
@@ -496,7 +496,7 @@ export class Player implements IPlayer {
     this.$inventory.unequipItem(item);
     this.recalculateStats();
 
-    this.increaseStatistic('Item.Unequip.Times', 1);
+    this.increaseStatistic('Item/Unequip/Times', 1);
 
     if(this.$inventory.canAddItemsToInventory()) {
       this.$inventory.addItemToInventory(item);
@@ -535,8 +535,8 @@ export class Player implements IPlayer {
   public sellItem(item: Item): number {
     const value = item.score;
     const modValue = this.gainGold(value);
-    this.increaseStatistic('Item.Sell.Times', 1);
-    this.increaseStatistic('Item.Sell.GoldGain', modValue);
+    this.increaseStatistic('Item/Sell/Times', 1);
+    this.increaseStatistic('Item/Sell/GoldGain', modValue);
 
     return modValue;
   }
@@ -576,17 +576,17 @@ export class Player implements IPlayer {
 
     let shouldRecalc = false;
 
-    const allBuffWatches = this.$buffWatches[stat];
+    const allBuffWatches = this.buffWatches[stat];
     if(allBuffWatches) {
       allBuffWatches.forEach(buff => {
         buff.duration--;
         if(buff.duration <= 0) {
-          this.$buffWatches[stat] = without(allBuffWatches, buff);
+          this.buffWatches[stat] = without(allBuffWatches, buff);
           shouldRecalc = true;
         }
       });
 
-      if(this.$buffWatches[stat].length === 0) delete this.$buffWatches[stat];
+      if(this.buffWatches[stat].length === 0) delete this.buffWatches[stat];
     }
 
     if(shouldRecalc) {
@@ -639,12 +639,12 @@ export class Player implements IPlayer {
   private syncPremium() {
     const tier = 0;
 
-    this.$statistics.set('Game.Premium.Tier', tier);
-    this.$statistics.set('Game.Premium.AdventureLogSize', 25 + (tier * 25));
-    this.$statistics.set('Game.Premium.InventorySize', 10 + (tier * 10));
-    this.$statistics.set('Game.Premium.ChoiceLogSize', 10 + (tier * 10));
-    this.$statistics.set('Game.Premium.ItemStatCap', 3 + (tier));
-    this.$statistics.set('Game.Premium.EnchantCap', 10 + (tier));
+    this.$statistics.set('Game/Premium/Tier', tier);
+    this.$statistics.set('Game/Premium/AdventureLogSize', 25 + (tier * 25));
+    this.$statistics.set('Game/Premium/InventorySize', 10 + (tier * 10));
+    this.$statistics.set('Game/Premium/ChoiceLogSize', 10 + (tier * 10));
+    this.$statistics.set('Game/Premium/ItemStatCap', 3 + (tier));
+    this.$statistics.set('Game/Premium/EnchantCap', 10 + (tier));
   }
 
   public changeProfession(prof: IProfession): void {
@@ -657,7 +657,7 @@ export class Player implements IPlayer {
 
   public tryFindCollectible({ name, rarity, description, storyline }) {
 
-    this.increaseStatistic('Item.Collectible.Touch', 1);
+    this.increaseStatistic('Item/Collectible/Touch', 1);
 
     let currentCollectible = this.$collectibles.get(name);
 
@@ -683,7 +683,7 @@ export class Player implements IPlayer {
       currentCollectible.foundAt = Date.now();
       currentCollectible.count++;
 
-      this.increaseStatistic('Item.Collectible.Find', 1);
+      this.increaseStatistic('Item/Collectible/Find', 1);
 
       const messageData: IAdventureLog = {
         when: Date.now(),
@@ -704,17 +704,17 @@ export class Player implements IPlayer {
   }
 
   public grantBuff(buff: IBuff): void {
-    this.increaseStatistic(`Character.${buff.booster ? 'Booster' : 'Injury'}.Give`, 1);
+    this.increaseStatistic(`Character/${buff.booster ? 'Booster' : 'Injury'}/Give`, 1);
 
     this.addBuff(buff);
   }
 
   public addBuff(buff: IBuff): void {
-    this.increaseStatistic(`Character.${buff.booster ? 'Booster' : 'Injury'}.Receive`, 1);
+    this.increaseStatistic(`Character/${buff.booster ? 'Booster' : 'Injury'}/Receive`, 1);
 
-    this.$buffWatches[buff.statistic] = this.$buffWatches[buff.statistic] || [];
-    this.$buffWatches[buff.statistic].unshift(buff);
-    this.$buffWatches[buff.statistic] = uniqBy(this.$buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);
+    this.buffWatches[buff.statistic] = this.buffWatches[buff.statistic] || [];
+    this.buffWatches[buff.statistic].unshift(buff);
+    this.buffWatches[buff.statistic] = uniqBy(this.buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);
     delete buff.statistic;
 
     this.recalculateStats();

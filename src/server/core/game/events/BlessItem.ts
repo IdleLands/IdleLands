@@ -9,7 +9,7 @@ export class BlessItem extends Event {
     const stat = this.pickStat();
     const item = this.pickValidBlessItem(player);
     if(!item) {
-      player.increaseStatistic(`Event.BlessItem.Fail`, 1);
+      player.increaseStatistic(`Event/BlessItem/Fail`, 1);
       return;
     }
 
