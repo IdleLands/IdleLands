@@ -51,6 +51,7 @@ export class Fighter extends Profession implements IProfession {
     player.grantBuff({
       name: 'Experiencer',
       statistic: 'Character.Ticks',
+      booster: true,
       duration: 720,
       stats: {
         [Stat.XP]: Math.log(luk) * Math.log(player.level.total)

@@ -54,6 +54,7 @@ export class Cleric extends Profession implements IProfession {
     player.grantBuff({
       name: 'Panhandle',
       statistic: 'Character.Ticks',
+      booster: true,
       duration: 720,
       stats: {
         [Stat.GOLD]: Math.log(luk) * Math.log(player.level.total)

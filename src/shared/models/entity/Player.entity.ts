@@ -704,13 +704,13 @@ export class Player implements IPlayer {
   }
 
   public grantBuff(buff: IBuff): void {
-    this.increaseStatistic(`Character.Booster.Give`, 1);
+    this.increaseStatistic(`Character.${buff.booster ? 'Booster' : 'Injury'}.Give`, 1);
 
     this.addBuff(buff);
   }
 
   public addBuff(buff: IBuff): void {
-    this.increaseStatistic(`Character.Booster.Receive`, 1);
+    this.increaseStatistic(`Character.${buff.booster ? 'Booster' : 'Injury'}.Receive`, 1);
 
     this.$buffWatches[buff.statistic] = this.$buffWatches[buff.statistic] || [];
     this.$buffWatches[buff.statistic].unshift(buff);
