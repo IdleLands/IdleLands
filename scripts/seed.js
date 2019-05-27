@@ -98,7 +98,7 @@ const parseFile = (filename) => {
   return _(baseContents).compact().value();
 };
 
-StringAssets.class = _.map(loadDirectory(`${__dirname}/../src/shared/professions`), ({ filename }) => {
+StringAssets.class = _.map(loadDirectory(`${__dirname}/../src/server/core/game/professions`), ({ filename }) => {
   if(_.includes(filename, 'index')) return;
   const split = filename.split('/');
   return split[split.length - 1].split('.')[0];
@@ -107,6 +107,8 @@ StringAssets.class = _.map(loadDirectory(`${__dirname}/../src/shared/professions
 _.each(['events', 'strings'], folder => {
   _.each(loadDirectory(`${__dirname}/../assets/content/${folder}`), ({ type, filename }) => {
     StringAssets[type] = parseFile(filename);
+    StringAssets.providenceName = StringAssets.providenceNames;
+    delete StringAssets.providenceNames;
   });
 });
 

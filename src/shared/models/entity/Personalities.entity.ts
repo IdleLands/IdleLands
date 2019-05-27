@@ -26,6 +26,10 @@ export class Personalities extends PlayerOwned {
     if(!this.activePersonalities) this.activePersonalities = {};
   }
 
+  public allEarnedPersonalities(): string[] {
+    return Object.keys(this.personalities);
+  }
+
   public has(personality: string): boolean {
     return !!this.personalities[personality];
   }
@@ -39,7 +43,7 @@ export class Personalities extends PlayerOwned {
     if(!this.personalities[name]) return;
 
     this.activePersonalities[name] = !this.activePersonalities[name];
-    
+
     const toggleOff = (<any>personality).toggleOff;
     if(this.activePersonalities[name] && toggleOff) {
       toggleOff.forEach(pers => this.activePersonalities[pers] = false);

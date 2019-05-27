@@ -142,7 +142,7 @@ export class Player implements IPlayer {
     if(!this.buffWatches) this.buffWatches = {};
 
     if(!this.$profession) {
-      this.changeProfession(this.$game.professionHelper.getProfession(this.profession));
+      this.changeProfessionWithRef(this.profession);
     }
 
     // init the prototypes that exist
@@ -341,10 +341,14 @@ export class Player implements IPlayer {
     this.level.add(1);
 
     this.xp.toMinimum();
-    this.xp.maximum = this.calcLevelMaxXP(this.level.total);
+    this.resetMaxXP();
 
     this.increaseStatistic('Character/Experience/Levels', 1);
     this.calculateStamina();
+  }
+
+  public resetMaxXP(): void {
+    this.xp.maximum = this.calcLevelMaxXP(this.level.total);
   }
 
   private addStatTrail(stat: Stat, val: number, reason: string) {
@@ -488,6 +492,12 @@ export class Player implements IPlayer {
     this.$inventory.equipItem(item);
     this.recalculateStats();
     return true;
+  }
+
+  // primarily used for providences
+  public forceUnequip(item: Item): void {
+    this.$inventory.unequipItem(item);
+    this.recalculateStats();
   }
 
   public unequip(item: Item, failOnInventoryFull = false): boolean {
@@ -645,6 +655,14 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/ChoiceLogSize', 10 + (tier * 10));
     this.$statistics.set('Game/Premium/ItemStatCap', 3 + (tier));
     this.$statistics.set('Game/Premium/EnchantCap', 10 + (tier));
+  }
+
+  public gainILP(ilp: number): void {
+    // TODO: gain ilp
+  }
+
+  public changeProfessionWithRef(prof: string): void {
+    this.changeProfession(this.$game.professionHelper.getProfession(prof));
   }
 
   public changeProfession(prof: IProfession): void {

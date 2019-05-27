@@ -57,6 +57,10 @@ export class Statistics extends PlayerOwned {
     set(this.statistics, stat.split('/'), value);
   }
 
+  public getChildren(stat: string): string[] {
+    return Object.keys(this.get(stat));
+  }
+
   public getChildrenCount(stat: string): number {
     const statB = this.get(stat);
     return isNumber(statB) ? statB : Object.keys(statB).length;

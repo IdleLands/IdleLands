@@ -68,15 +68,18 @@ export interface IPlayer {
 
   canLevelUp(): boolean;
   gainXP(num: number): number;
+  resetMaxXP(): void;
   gainGold(num: number): number;
   recalculateStats(): void;
 
   equip(item: IItem): void;
   unequip(item: IItem): void;
+  forceUnequip(item: IItem): void;
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;
 
+  changeProfessionWithRef(profession: string): void;
   changeProfession(profession: IProfession): void;
 
   doChoice(choice: IChoice, decisionIndex: number): void;
@@ -91,6 +94,8 @@ export interface IPlayer {
   tryFindCollectible({ name, rarity, description, storyline }): void;
 
   increaseStatistic(stat: string, val: number): void;
+
+  gainILP(ilp: number): void;
 
   grantBuff(buff: IBuff): void;
   addBuff(buff: IBuff): void;
