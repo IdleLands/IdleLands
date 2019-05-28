@@ -5,9 +5,9 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class SandwichArtist extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityName = 'Panhandle';
+  public readonly oocAbilityDesc = 'Give your party a GOLD buff based on your LUK for 720 ticks.';
+  public readonly oocAbilityCost = 20;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -46,6 +46,18 @@ export class SandwichArtist extends Profession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+    const luk = player.getStat(Stat.LUK);
+    const numAbilUsesBonus = Math.floor(player.$statistics.get('Profession/Cleric/AbilityUses') / 10);
+    player.grantBuff({
+      name: 'Panhandle',
+      statistic: 'Character/Ticks',
+      booster: true,
+      duration: 720,
+      stats: {
+        [Stat.GOLD]: (Math.log(luk) * Math.log(player.level.total)) + numAbilUsesBonus
+      }
+    });
+
+    return `Your GOLD gain will be increased for 720 ticks!`;
   }
 }

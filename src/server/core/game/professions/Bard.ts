@@ -5,9 +5,9 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Bard extends Profession implements IProfession {
 
-  public readonly oocAbilityName = 'Tempt Fate';
-  public readonly oocAbilityDesc = 'Sing a fateful song, and find out what happens next!';
-  public readonly oocAbilityCost = 1;
+  public readonly oocAbilityName = '???';
+  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -46,7 +46,6 @@ export class Bard extends Profession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    (<any>player).$game.eventManager.doEventFor(player, 'Providence');
-    return `You've tempted fate! Your adventure log has the details.`;
+    return `Not yet implemented!`;
   }
 }

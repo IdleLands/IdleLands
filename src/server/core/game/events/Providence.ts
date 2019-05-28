@@ -13,8 +13,8 @@ export class Providence extends Event {
     gender: 80,
     gold: 50,
     profession: 10,
-    clearProvidence: 100,
-    newProvidence: 100,
+    clearProvidence: 20,
+    newProvidence: 80,
     personality: 50,
     title: 75,
     ilp: 1
