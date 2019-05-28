@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Barbarian extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Duel';
+  public readonly oocAbilityDesc = 'Begin a duel with a random player.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

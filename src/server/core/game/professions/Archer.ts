@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Archer extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Pet Phenomenon';
+  public readonly oocAbilityDesc = 'Bring more pets to aid you in combat.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

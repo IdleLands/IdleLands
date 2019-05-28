@@ -6,7 +6,7 @@ import { IProfession } from '../../../../shared/interfaces';
 export class Fighter extends Profession implements IProfession {
 
   public readonly oocAbilityName = 'Experiencer';
-  public readonly oocAbilityDesc = 'Give your party an XP buff based on your LUK for 720 ticks.';
+  public readonly oocAbilityDesc = 'Give your party an XP buff based on your LUK.';
   public readonly oocAbilityCost = 20;
 
   public readonly statForStats = {

@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Necromancer extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Minion Spawn';
+  public readonly oocAbilityDesc = 'Summon minions to join you in your next few combats.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

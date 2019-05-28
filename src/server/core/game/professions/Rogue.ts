@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Rogue extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Pilfer';
+  public readonly oocAbilityDesc = 'Steal a random amount of gold from a random player.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

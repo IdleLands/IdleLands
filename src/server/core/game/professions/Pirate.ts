@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Pirate extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Pillage';
+  public readonly oocAbilityDesc = 'Acquire a random item.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

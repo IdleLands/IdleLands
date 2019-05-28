@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Bard extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Orchestra';
+  public readonly oocAbilityDesc = 'Start a festival that lasts an hour.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {

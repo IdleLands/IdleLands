@@ -5,8 +5,8 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Monster extends Profession implements IProfession {
 
-  public readonly oocAbilityName = '???';
-  public readonly oocAbilityDesc = '???';
+  public readonly oocAbilityName = 'Swap Fiend';
+  public readonly oocAbilityDesc = 'Perform two switcheroos on yourself.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {
