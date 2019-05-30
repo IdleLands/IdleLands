@@ -43,11 +43,16 @@ export class Game implements IGame {
   private ticks = 0;
 
   public async init(scServer, id: number) {
+    try {
+      await this.assetManager.init();
+    } catch(e) {
+      this.logger.error(new Error('Failed to load asset manager; did you run `npm run seed`?'));
+    }
+
     await this.subscriptionManager.init(scServer);
 
     await this.playerManager.init();
     await this.databaseManager.init();
-    await this.assetManager.init();
     await this.itemGenerator.init();
     await this.achievementManager.init();
 
