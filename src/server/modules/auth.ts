@@ -189,7 +189,10 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     const characterCheck = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
-    if(!characterCheck) return this.gameError('Your character does not exist.');
+    if(!characterCheck) {
+      if(userId && relogin && !sessionId) return;
+      return this.gameError('Your character does not exist.');
+    }
 
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
 

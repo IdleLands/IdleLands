@@ -43,27 +43,40 @@ export class Game implements IGame {
   private ticks = 0;
 
   public async init(scServer, id: number) {
+
+    this.logger.log('Game', 'Database manager initializing...');
+    await this.databaseManager.init();
+
+    this.logger.log('Game', 'Asset manager initializing...');
     try {
       await this.assetManager.init();
     } catch(e) {
       this.logger.error(new Error('Failed to load asset manager; did you run `npm run seed`?'));
     }
 
+    this.logger.log('Game', 'Subscription manager initializing...');
     await this.subscriptionManager.init(scServer);
 
+    this.logger.log('Game', 'Player manager initializing...');
     await this.playerManager.init();
-    await this.databaseManager.init();
+
+    this.logger.log('Game', 'Item generator initializing...');
     await this.itemGenerator.init();
+
+    this.logger.log('Game', 'Achievement manager initializing...');
     await this.achievementManager.init();
 
+    this.logger.log('Game', 'Chat helper initializing...');
     await this.chatHelper.init((msg: string) => {
       this.discordManager.sendMessage(msg);
     });
 
+    this.logger.log('Game', 'Discord manager initializing...');
     await this.discordManager.init((msg: IMessage) => {
       this.chatHelper.sendMessageToGame(msg);
     }, id === 0);
 
+    this.logger.log('Game', 'World initializing...');
     await this.world.init(this.assetManager.allMapAssets);
 
     this.loop();
