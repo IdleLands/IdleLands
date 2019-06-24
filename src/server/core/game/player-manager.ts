@@ -90,7 +90,7 @@ export class PlayerManager {
   }
 
   private subscribeToPlayerMessages() {
-    this.subscriptionManager.subscribeToChannel(Channel.EventMessage, ({ playerNames, data }) => {
+    this.subscriptionManager.subscribeToChannel(Channel.PlayerAdventureLog, ({ playerNames, data }) => {
 
       playerNames.forEach(playerName => {
         this.emitToPlayer(playerName, ServerEventName.AdventureLogAdd, { ...data });
@@ -156,6 +156,10 @@ export class PlayerManager {
 
     if(sendUpdates) {
       this.updatePlayer(player, PlayerChannelOperation.Remove);
+    }
+
+    if(player.$partyName) {
+      (<any>player).$game.partyHelper.playerLeave(player);
     }
 
     this.updatePlayerCount();

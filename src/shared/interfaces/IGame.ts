@@ -14,6 +14,8 @@ export interface IGame {
   holidayHelper: any;
   professionHelper: any;
   chatHelper: any;
+  partyManager: any;
+  partyHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;
 }

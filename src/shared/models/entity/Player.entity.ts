@@ -28,6 +28,8 @@ const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000
  *
  * To save a @nonenumerable attr to the DB, DatabaseManager#savePlayer must be updated to manually copy these fields.
  * $ attributes should never be saved to the DB, and are prefixed as such because it directly conflicts with MongoDB.
+ *
+ * Sadly, getters just don't work.
  */
 
 @Entity()
@@ -120,6 +122,8 @@ export class Player implements IPlayer {
 
   @Column()
   public availableTitles: string[];
+
+  public $partyName?: string;
 
   init() {
     // validate that important properties exist
@@ -576,7 +580,7 @@ export class Player implements IPlayer {
           message: `${this.fullName()} has achieved ${ach.name} tier ${ach.tier}!`
         };
 
-        this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
+        this.$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [this.name], data: messageData });
       });
 
       this.syncTitles();
@@ -709,7 +713,7 @@ export class Player implements IPlayer {
         message: `${this.fullName()} found "${currentCollectible.name}" in ${this.map} - ${this.region}!`
       };
 
-      this.$game.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames: [this.name], data: messageData });
+      this.$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [this.name], data: messageData });
 
     }
 

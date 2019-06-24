@@ -10,6 +10,7 @@ import { PlayerManager } from '../player-manager';
 import { SubscriptionManager } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
 import { ProfessionHelper } from '../profession-helper';
+import { PartyHelper } from '../party-helper';
 
 export enum EventType {
   Battle = 'battle',
@@ -38,6 +39,7 @@ export abstract class Event {
   @Inject protected assetManager: AssetManager;
   @Inject protected messageParser: EventMessageParser;
   @Inject protected playerManager: PlayerManager;
+  @Inject protected partyHelper: PartyHelper;
   @Inject protected itemGenerator: ItemGenerator;
   @Inject protected subscriptionManager: SubscriptionManager;
   @Inject protected professionHelper: ProfessionHelper;
@@ -98,7 +100,7 @@ export abstract class Event {
       link
     };
 
-    this.subscriptionManager.emitToChannel(Channel.EventMessage, { playerNames, data: messageData });
+    this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
   }
 
   protected getChoice(choiceOpts: PartialChoice): Choice {

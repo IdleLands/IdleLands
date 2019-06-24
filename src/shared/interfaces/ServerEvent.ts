@@ -53,6 +53,18 @@ export enum PlayerChannelOperation {
   Remove
 }
 
+export enum PartyChannelOperation {
+
+  // used when a party is added
+  Add,
+
+  // used when a party is modified
+  Update,
+
+  // used when a party is removed
+  Remove
+}
+
 export interface ServerEvent {
   event: string;
   description: string;

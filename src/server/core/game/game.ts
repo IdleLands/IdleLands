@@ -17,6 +17,8 @@ import { MovementHelper } from './movement-helper';
 import { HolidayHelper } from './holiday-helper';
 import { ProfessionHelper } from './profession-helper';
 import { ChatHelper } from './chat-helper';
+import { PartyHelper } from './party-helper';
+import { PartyManager } from './party-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -37,6 +39,8 @@ export class Game implements IGame {
   @Inject public holidayHelper: HolidayHelper;
   @Inject public professionHelper: ProfessionHelper;
   @Inject public chatHelper: ChatHelper;
+  @Inject public partyManager: PartyManager;
+  @Inject public partyHelper: PartyHelper;
   @Inject public world: World;
   @Inject public logger: Logger;
 
@@ -59,6 +63,9 @@ export class Game implements IGame {
 
     this.logger.log('Game', 'Player manager initializing...');
     await this.playerManager.init();
+
+    this.logger.log('Game', 'Party manager initializing...');
+    await this.partyManager.init();
 
     this.logger.log('Game', 'Item generator initializing...');
     await this.itemGenerator.init();

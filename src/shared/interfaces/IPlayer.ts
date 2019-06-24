@@ -24,7 +24,24 @@ export enum MovementType {
   Teleport = 'teleport'
 }
 
-export interface IPlayer {
+export interface ICharacter {
+  name: string;
+  level: RestrictedNumber;
+  profession: string;
+  gender: string;
+
+  init(): void;
+  recalculateStats(): void;
+
+  equip(item: IItem): void;
+  unequip(item: IItem): void;
+  forceUnequip(item: IItem): void;
+
+  grantBuff(buff: IBuff): void;
+  addBuff(buff: IBuff): void;
+}
+
+export interface IPlayer extends ICharacter {
   _id: string;
 
   userId: string;
@@ -35,11 +52,8 @@ export interface IPlayer {
 
   createdAt: number;
 
-  name: string;
-  level: RestrictedNumber;
   xp: RestrictedNumber;
-  profession: string;
-  gender: string;
+
   x: number;
   y: number;
   map: string;
@@ -62,7 +76,8 @@ export interface IPlayer {
   lastDir: Direction;
   divineDirection?: { x: number, y: number, steps: number };
 
-  init(): void;
+  $partyName?: string;
+
   loop(): Promise<void>;
   toSaveObject(): IPlayer;
 
@@ -70,11 +85,6 @@ export interface IPlayer {
   gainXP(num: number): number;
   resetMaxXP(): void;
   gainGold(num: number): number;
-  recalculateStats(): void;
-
-  equip(item: IItem): void;
-  unequip(item: IItem): void;
-  forceUnequip(item: IItem): void;
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;
@@ -96,9 +106,6 @@ export interface IPlayer {
   increaseStatistic(stat: string, val: number): void;
 
   gainILP(ilp: number): void;
-
-  grantBuff(buff: IBuff): void;
-  addBuff(buff: IBuff): void;
 
   setDivineDirection(x: number, y: number): void;
   setPos(x: number, y: number, map: string, region: string): void;

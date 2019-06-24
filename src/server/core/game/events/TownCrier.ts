@@ -14,7 +14,7 @@ const townCrierMessages = [
     origin: 'system'
   },
   {
-    message: 'Want to join our external discord? Come check it out!',
+    message: 'Want to join our Discord server? Come check it out!',
     link: 'https://discord.gg/USwJW4y',
     origin: 'system'
   },
