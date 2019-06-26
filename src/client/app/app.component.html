@@ -100,6 +100,9 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
+        <div class="blank-slate" *ngIf="gameService.players.length === 0">
+          No players here... that means you're offline.
+        </div>
         <ion-list>
           <ion-item *ngFor="let player of gameService.players">
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
