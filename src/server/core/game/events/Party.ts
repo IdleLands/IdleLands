@@ -19,7 +19,10 @@ export class Party extends Event {
       return;
     }
 
-    const checkPlayers = this.playerManager.allPlayers.filter(
+   /* TODO: this does not work cross server.
+            to do so, fullname() needs to be stubbed or queried, and solo/camper need to be sent or queried
+   */
+   const checkPlayers = this.playerManager.allPlayers.filter(
          x => !x.$party
       && x !== player
       && !x.$personalities.isActive('Solo')

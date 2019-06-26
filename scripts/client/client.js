@@ -26,6 +26,16 @@ const play = (name) => {
 
   socket.on('connect', () => {
     console.log(`Logged in ${name}!`);
+  
+    setTimeout(() => {
+  
+      socket.emit('auth:signin', { name, userId: `local|${name}` });
+  
+      setTimeout(() => {
+  
+        socket.emit('auth:playgame', { name, userId: `local|${name}` });
+      }, 100);
+    }, 100);
   });
 
   socket.on('disconnect', () => {
@@ -35,16 +45,6 @@ const play = (name) => {
   });
 
   socket.emit('auth:register', { name, userId: `local|${name}` });
-  
-  setTimeout(() => {
-
-    socket.emit('auth:signin', { name, userId: `local|${name}` });
-
-    setTimeout(() => {
-
-      socket.emit('auth:playgame', { name, userId: `local|${name}` });
-    }, 100);
-  }, 100);
 };
 
 const chosenNames = names.slice(0, PLAYER_COUNT);
