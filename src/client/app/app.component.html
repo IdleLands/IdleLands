@@ -19,7 +19,10 @@
           <ion-item class="big-item" 
                     [routerDirection]="'root'"
                     [routerLink]="['/character']">
+
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
+
+            <ion-badge class="menu-bottom-left" color="secondary">In Party</ion-badge>
             
             <ion-label>
               {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
