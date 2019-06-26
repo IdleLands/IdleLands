@@ -88,7 +88,7 @@ export class GameWorker extends SCWorker {
 
       setTimeout(() => {
         const checkAgainPlayer = game.playerManager.getPlayer(socket.playerName);
-        if(checkAgainPlayer && checkAgainPlayer.loggedIn) return;
+        if(!checkAgainPlayer || checkAgainPlayer && checkAgainPlayer.loggedIn) return;
         game.playerManager.removePlayer(checkAgainPlayer);
         game.databaseManager.savePlayer(checkAgainPlayer);
       }, GRACE_PERIOD_DISCONNECT);

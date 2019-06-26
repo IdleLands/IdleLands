@@ -28,7 +28,7 @@ export class RNGService {
 
   public picksome<T = any>(items: T[], qty: number): T[] {
     if(items.length === 0) return null;
-    return this.chance.picksome(items, qty);
+    return this.chance.pickset(items, qty);
   }
 
   public likelihood(percent = 50): boolean {

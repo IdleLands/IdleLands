@@ -123,7 +123,7 @@ export class PlayerManager {
   public addPlayer(player: Player, socket): void {
     let sendUpdate = true;
 
-    if(this.players[player.name]) {
+    if(this.players[player.name] && this.players[player.name] !== player) {
       sendUpdate = false;
       this.removePlayer(player, false);
     }
@@ -158,7 +158,7 @@ export class PlayerManager {
       this.updatePlayer(player, PlayerChannelOperation.Remove);
     }
 
-    if(player.$partyName) {
+    if(player.$party) {
       (<any>player).$game.partyHelper.playerLeave(player);
     }
 

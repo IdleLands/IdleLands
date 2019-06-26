@@ -4,6 +4,7 @@ import { IChoice } from './IChoice';
 import { ServerEventName } from './ServerEvent';
 import { IProfession } from './IProfession';
 import { IBuff } from './IBuff';
+import { IParty } from './IParty';
 
 export enum Direction {
   Southwest = 1,
@@ -76,7 +77,7 @@ export interface IPlayer extends ICharacter {
   lastDir: Direction;
   divineDirection?: { x: number, y: number, steps: number };
 
-  $partyName?: string;
+  $party?: IParty;
 
   loop(): Promise<void>;
   toSaveObject(): IPlayer;

@@ -71,6 +71,15 @@
                 <span class="ion-padding-start">{{ player.gold | number }} Gold</span>
               </ion-item>
 
+              <ion-item *ngIf="player.$party">
+                <ion-icon slot="start" [src]="'assets/icon/category-party.svg'"></ion-icon>
+
+                <ion-label class="ion-padding-start">
+                  <div>Party: {{ player.$party.name }}</div>
+                  <div>{{ player.$party.members.join(' · ') }}</div>
+                </ion-label>
+              </ion-item>
+
             </ion-list>
           </ion-card-content>
         </ion-card>

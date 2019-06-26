@@ -22,7 +22,7 @@
 
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
 
-            <ion-badge class="menu-bottom-left" color="secondary">In Party</ion-badge>
+            <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
             
             <ion-label>
               {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>

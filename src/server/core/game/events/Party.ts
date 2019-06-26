@@ -13,14 +13,14 @@ export class Party extends Event {
       return;
     }
 
-    if(player.$partyName) {
+    if(player.$party) {
       this.emitMessage([player],
         'You almost started looking for a party before you realized you were in one!', AdventureLogEventType.Party);
       return;
     }
 
     const checkPlayers = this.playerManager.allPlayers.filter(
-         x => !x.$partyName
+         x => !x.$party
       && x !== player
       && !x.$personalities.isActive('Solo')
       && !x.$personalities.isActive('Camper')
@@ -33,7 +33,7 @@ export class Party extends Event {
     const newParty = this.partyHelper.createParty();
     const chosenPlayers = this.rng.picksome<Player>(checkPlayers, 3);
 
-    player.increaseStatistic(`Event.Party.Create`, 1);
+    player.increaseStatistic(`Event/Party/Create`, 1);
 
     const allMembers = [player, ...chosenPlayers];
     allMembers.forEach(joinPlayer => {
@@ -42,7 +42,7 @@ export class Party extends Event {
 
     this.partyHelper.shareParty(newParty);
 
-    const partyMemberString = allMembers.map(p => `«${p.fullName()}»`).join(', ');
+    const partyMemberString = chosenPlayers.map(p => `«${p.fullName()}»`).join(', ');
 
     const eventText = this.eventText(EventType.Party, player,
       { partyName: newParty.name, partyMembers: partyMemberString });

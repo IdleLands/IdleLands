@@ -54,15 +54,15 @@ export class PartyHelper {
 
   // player join party
   public playerJoin(party: IParty, player: IPlayer): void {
-    player.$partyName = party.name;
+    player.$party = party;
     party.members.push(player.name);
-    player.increaseStatistic('Event.Party.Join', 1);
+    player.increaseStatistic('Event/Party/Join', 1);
 
     // TODO: teleport near?
   }
 
   public playerLeave(player: IPlayer): void {
-    const party = this.getParty(player.$partyName);
+    const party = player.$party;
     if(!party) return;
 
     this.disband(party);
@@ -75,8 +75,8 @@ export class PartyHelper {
       const playerRef = this.playerManager.getPlayer(memberName);
       if(!playerRef) return;
 
-      playerRef.increaseStatistic('Event.Party.Leave', 1);
-      playerRef.$partyName = null;
+      playerRef.increaseStatistic('Event/Party/Leave', 1);
+      playerRef.$party = null;
     });
 
     this.removeParty(party);

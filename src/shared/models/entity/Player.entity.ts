@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel, IParty } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -123,7 +123,7 @@ export class Player implements IPlayer {
   @Column()
   public availableTitles: string[];
 
-  public $partyName?: string;
+  public $party?: IParty;
 
   init() {
     // validate that important properties exist

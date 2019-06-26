@@ -219,11 +219,13 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
       character.currentUserId = userId;
     }
 
-    this.game.playerManager.addPlayer(character, this);
-    this.setPlayer(character);
-    this.game.databaseManager.savePlayer(character);
+    const setCharacter = loggedInPlayer || character;
 
-    this.emit(ServerEventName.CharacterSync, character);
+    this.game.playerManager.addPlayer(setCharacter, this);
+    this.setPlayer(setCharacter);
+    this.game.databaseManager.savePlayer(setCharacter);
+
+    this.emit(ServerEventName.CharacterSync, setCharacter);
     this.emit(ServerEventName.PlayGame);
   }
 }

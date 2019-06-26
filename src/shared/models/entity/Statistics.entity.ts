@@ -39,14 +39,14 @@ export class Statistics extends PlayerOwned {
 
   public increase(stat: string, value = 1): void {
     if(isNaN(value)) throw new Error(`${stat} being incremented by NaN!`);
-    if(stat.includes('.')) throw new Error(`${stat} path contains a .! Use / instead.`);
+    if(stat.includes('.')) throw new Error(`${stat} path contains a "."! Use "/" instead.`);
 
     const curVal = this.get(stat);
     this.set(stat, Math.floor(curVal + value));
   }
 
   public get(stat: string): number|any {
-    if(stat.includes('.')) throw new Error(`${stat} path contains a .! Use / instead.`);
+    if(stat.includes('.')) throw new Error(`${stat} path contains a "."! Use "/" instead.`);
 
     return get(this.statistics, stat.split('/'), 0);
   }
