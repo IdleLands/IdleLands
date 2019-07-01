@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
 
@@ -12,7 +12,7 @@ export class ForsakeXP extends Event {
     const intermediateXPLoss = -Math.min(player.xp.maximum / 10, baseXPLoss);
     const totalXPLoss = player.gainXP(intermediateXPLoss);
 
-    const eventText = this.eventText(EventType.ForsakeXP, player, { xp: Math.abs(totalXPLoss) });
+    const eventText = this.eventText(EventMessageType.ForsakeXP, player, { xp: Math.abs(totalXPLoss) });
     const allText = `${eventText} [${totalXPLoss.toLocaleString()} xp]`;
     this.emitMessage([player], allText, AdventureLogEventType.XP);
   }

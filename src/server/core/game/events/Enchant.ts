@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
 
@@ -13,13 +13,13 @@ export class Enchant extends Event {
       return;
     }
 
-    const choice = this.rng.chance.weighted([EventType.Tinker, EventType.Enchant], [0.15, 0.85]);
+    const choice = this.rng.chance.weighted([EventMessageType.Tinker, EventMessageType.Enchant], [0.15, 0.85]);
     const eventText = this.eventText(choice, player, { item: item.fullName() });
 
     let stat = this.pickStat();
     let boost = 25;
 
-    if(choice === EventType.Tinker) {
+    if(choice === EventMessageType.Tinker) {
       stat = this.pickTinkerStat();
       boost = stat === Stat.HP ? 200 : 2;
     }

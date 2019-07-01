@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
 
@@ -12,7 +12,7 @@ export class ForsakeGold extends Event {
     const goldLoss = Math.min(-1, -baseGoldLoss);
     const totalGoldLoss = player.gainGold(goldLoss);
 
-    const eventText = this.eventText(EventType.ForsakeGold, player, { gold: Math.abs(totalGoldLoss) });
+    const eventText = this.eventText(EventMessageType.ForsakeGold, player, { gold: Math.abs(totalGoldLoss) });
     const allText = `${eventText} [${totalGoldLoss.toLocaleString()} gold]`;
     this.emitMessage([player], allText, AdventureLogEventType.Gold);
   }

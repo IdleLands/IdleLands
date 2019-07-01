@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType } from '../../../../shared/interfaces';
 
@@ -13,7 +13,7 @@ export class Switcheroo extends Event {
       return;
     }
 
-    const eventText = this.eventText(EventType.Switcheroo, player, { item: item.fullName(), stat });
+    const eventText = this.eventText(EventMessageType.Switcheroo, player, { item: item.fullName(), stat });
     const allText = `${eventText} [${stat.toUpperCase()} ${item.stats[stat]} → ${-item.stats[stat]}]`;
 
     item.stats[stat] = -item.stats[stat];

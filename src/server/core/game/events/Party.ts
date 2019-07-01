@@ -1,5 +1,5 @@
 
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType } from '../../../../shared/interfaces';
 
@@ -47,7 +47,7 @@ export class Party extends Event {
 
     const partyMemberString = chosenPlayers.map(p => `«${p.fullName()}»`).join(', ');
 
-    const eventText = this.eventText(EventType.Party, player,
+    const eventText = this.eventText(EventMessageType.Party, player,
       { partyName: newParty.name, partyMembers: partyMemberString });
     this.emitMessage([player], eventText, AdventureLogEventType.Party);
   }

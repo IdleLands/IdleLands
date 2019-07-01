@@ -11,6 +11,7 @@ import { RNGService } from './rng-service';
 import { EventManager } from './event-manager';
 import { Logger } from '../logger';
 import { HolidayHelper } from './holiday-helper';
+import { EventName } from './events/Event';
 
 @Singleton
 @AutoWired
@@ -289,19 +290,19 @@ export class MovementHelper {
       `${tileData.object.properties.realName}, the ${professionName} trainer` :
       `the ${professionName} trainer`;
 
-    this.eventManager.doEventFor(player, 'FindTrainer', { professionName, trainerName });
+    this.eventManager.doEventFor(player, EventName.FindTrainer, { professionName, trainerName });
   }
 
   private handleTileBoss(player: Player, tileData: any) {
-    this.eventManager.doEventFor(player, 'BattleBoss', { bossName: tileData.object.name });
+    this.eventManager.doEventFor(player, EventName.BattleBoss, { bossName: tileData.object.name });
   }
 
   private handleTileBossParty(player: Player, tileData: any) {
-    this.eventManager.doEventFor(player, 'BattleBoss', { bossName: tileData.object.name });
+    this.eventManager.doEventFor(player, EventName.BattleBoss, { bossName: tileData.object.name });
   }
 
   private handleTileTreasure(player: Player, tileData: any) {
-    this.eventManager.doEventFor(player, 'FindTreasure', { treasureName: tileData.object.name });
+    this.eventManager.doEventFor(player, EventName.FindTreasure, { treasureName: tileData.object.name });
   }
 
   public takeStep(player: Player) {

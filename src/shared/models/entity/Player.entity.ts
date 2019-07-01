@@ -226,9 +226,9 @@ export class Player implements IPlayer {
     return !this.level.atMaximum();
   }
 
-  public gainXP(xp = 0): number {
+  public gainXP(xp = 0, addMyXP = true): number {
 
-    let remainingXP = Math.floor(xp + this.stats.xp);
+    let remainingXP = addMyXP ? Math.floor(xp + this.stats.xp) : xp;
     const totalXP = remainingXP;
 
     if(remainingXP < 0) {
@@ -259,9 +259,9 @@ export class Player implements IPlayer {
     return this.gainGold(-gold);
   }
 
-  public gainGold(gold = 0): number {
+  public gainGold(gold = 0, addMyGold = true): number {
 
-    const remainingGold = Math.floor(gold + this.stats.gold);
+    const remainingGold = addMyGold ? Math.floor(gold + this.stats.gold) : gold;
 
     if(remainingGold < 0) {
       this.gold += remainingGold;

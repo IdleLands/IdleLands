@@ -5,8 +5,10 @@ import { RNGService } from './rng-service';
 import * as Events from '../game/events';
 import { Choice } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
-import { ServerEventName } from '../../../shared/interfaces';
+import { ServerEventName, Channel, Stat } from '../../../shared/interfaces';
 import { Logger } from '../logger';
+import { EventName } from './events/Event';
+import { SubscriptionManager } from './subscription-manager';
 
 const EVENT_TICKS = process.env.NODE_ENV === 'production' ? { min: 25, max: 35 } : { min: 3, max: 5 };
 
@@ -16,7 +18,24 @@ export class EventManager {
 
   @Inject private rng: RNGService;
   @Inject private playerManager: PlayerManager;
+  @Inject private subscriptionManager: SubscriptionManager;
   @Inject private logger: Logger;
+
+  public async init() {
+    this.subscriptionManager.subscribeToChannel(Channel.PlayerEvent, ({ playerNames, gainedStats }) => {
+      playerNames.forEach((playerName) => {
+        const player = this.playerManager.getPlayer(playerName);
+        if(!player) return;
+
+        if(gainedStats[Stat.XP]) player.gainXP(gainedStats[Stat.XP], false);
+        if(gainedStats[Stat.GOLD]) player.gainGold(gainedStats[Stat.GOLD], false);
+      });
+    });
+  }
+
+  public emitStatGainsToPlayers(playerNames: string[], gainedStats: { [Stat.XP]?: number, [Stat.GOLD]?: number }) {
+    this.subscriptionManager.emitToChannel(Channel.PlayerEvent, { playerNames, gainedStats });
+  }
 
   public tryToDoEventFor(player: Player) {
     if(player.eventSteps > 0) {
@@ -34,7 +53,7 @@ export class EventManager {
     this.doEventFor(player, chosenEventName);
   }
 
-  public doEventFor(player: Player, eventName: string, opts = {}) {
+  public doEventFor(player: Player, eventName: EventName, opts = {}) {
     if(!Events[eventName]) {
       this.logger.error(`EventManager`, `Event type ${eventName} is invalid.`);
       return;

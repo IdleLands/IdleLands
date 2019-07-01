@@ -2,6 +2,7 @@ import { Profession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
+import { EventName } from '../events/Event';
 
 export class MagicalMonster extends Profession implements IProfession {
 
@@ -46,7 +47,7 @@ export class MagicalMonster extends Profession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    (<any>player).$game.eventManager.doEventFor(player, 'Providence');
+    (<any>player).$game.eventManager.doEventFor(player, EventName.Providence);
     return `You've tempted fate! Your adventure log has the details.`;
   }
 }

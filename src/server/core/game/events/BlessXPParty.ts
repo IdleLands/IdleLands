@@ -2,23 +2,21 @@ import { Event, EventMessageType, EventName } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
 
-export class BlessXP extends Event {
-  public static readonly WEIGHT = 100;
+export class BlessXPParty extends Event {
+  public static readonly WEIGHT = 0;
 
   public operateOn(player: Player) {
-
-    if(player.$party && this.rng.likelihood(25)) {
-      (<any>player).$game.eventManager.doEventFor(player, EventName.BlessXPParty);
-      return;
-    }
+    if(!player.$party) return;
 
     // you can't gain more than 5% of your xp at once
     const baseXPGain = this.rng.numberInRange(10 + player.getStat(Stat.LUK), player.level.total * 25);
     const intermediateXPGain = Math.min(player.xp.maximum / 20, baseXPGain);
     const totalXPGain = player.gainXP(intermediateXPGain);
 
-    const eventText = this.eventText(EventMessageType.BlessXP, player, { xp: totalXPGain });
+    const eventText = this.eventText(EventMessageType.BlessXPParty, player, { xp: totalXPGain, partyName: player.$party.name });
     const allText = `${eventText} [+${totalXPGain.toLocaleString()} xp]`;
-    this.emitMessage([player], allText, AdventureLogEventType.XP);
+
+    (<any>player).$game.eventManager.emitStatGainsToPlayers(player.$party.members, { xp: totalXPGain });
+    this.emitMessageToNames(player.$party.members, allText, AdventureLogEventType.XP);
   }
 }

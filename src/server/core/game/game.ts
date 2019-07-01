@@ -64,6 +64,9 @@ export class Game implements IGame {
     this.logger.log('Game', 'Player manager initializing...');
     await this.playerManager.init();
 
+    this.logger.log('Game', 'Event manager initializing...');
+    await this.eventManager.init();
+
     this.logger.log('Game', 'Party manager initializing...');
     await this.partyManager.init();
 

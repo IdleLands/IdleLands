@@ -83,9 +83,9 @@ export interface IPlayer extends ICharacter {
   toSaveObject(): IPlayer;
 
   canLevelUp(): boolean;
-  gainXP(num: number): number;
+  gainXP(num: number, addMyXP: boolean): number;
   resetMaxXP(): void;
-  gainGold(num: number): number;
+  gainGold(num: number, addMyGold: boolean): number;
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;

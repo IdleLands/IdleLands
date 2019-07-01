@@ -1,5 +1,5 @@
 
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, ItemClass, ItemSlot } from '../../../../shared/interfaces';
 import { Item } from '../../../../shared/models';
@@ -152,7 +152,7 @@ export class Providence extends Event {
       gold: this.rng.numberInRange(-Math.min(300 * player.level.total, player.gold), 200 * player.level.total)
     };
 
-    const baseMessage = this.eventText(EventType.Providence, player, {});
+    const baseMessage = this.eventText(EventMessageType.Providence, player, {});
     const finalMessage = this.basicProvidence(player, baseMessage, providenceData);
 
     this.emitMessage([player], finalMessage, AdventureLogEventType.Meta);

@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType, EventName } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
 import { AdventureLogEventType, ServerEventName } from '../../../../shared/interfaces';
 
@@ -23,7 +23,7 @@ export class Merchant extends Event {
 
         if(isEnchant) {
           player.increaseStatistic(`Event/Enchant/Buy`, 1);
-          eventManager.doEventFor(player, 'Enchant');
+          eventManager.doEventFor(player, EventName.Enchant);
           eventManager.successMessage(player, `You bought an enchantment.`);
 
         } else {
@@ -108,7 +108,7 @@ export class Merchant extends Event {
 
     player.$choices.addChoice(player, choice);
 
-    const eventText = this.eventText(EventType.Merchant, player, { item: item.fullName(), shopGold: cost });
+    const eventText = this.eventText(EventMessageType.Merchant, player, { item: item.fullName(), shopGold: cost });
     this.emitMessage([player], eventText, AdventureLogEventType.Item);
   }
 }

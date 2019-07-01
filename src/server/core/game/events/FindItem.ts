@@ -1,4 +1,4 @@
-import { Event, EventType } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
 import { AdventureLogEventType, ServerEventName } from '../../../../shared/interfaces';
 
@@ -57,7 +57,7 @@ export class FindItem extends Event {
 
     player.$choices.addChoice(player, choice);
 
-    const eventText = this.eventText(EventType.FindItem, player, { item: item.fullName() });
+    const eventText = this.eventText(EventMessageType.FindItem, player, { item: item.fullName() });
     this.emitMessage([player], eventText, AdventureLogEventType.Item);
   }
 }

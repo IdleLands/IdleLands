@@ -11,8 +11,9 @@ import { SubscriptionManager } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
 import { ProfessionHelper } from '../profession-helper';
 import { PartyHelper } from '../party-helper';
+import { EventManager } from '../event-manager';
 
-export enum EventType {
+export enum EventMessageType {
   Battle = 'battle',
   BlessGold = 'blessGold',
   BlessGoldParty = 'blessGoldParty',
@@ -30,6 +31,30 @@ export enum EventType {
   Party = 'party',
   Providence = 'providence',
   Tinker = 'tinker'
+}
+
+export enum EventName {
+  Battle = 'Battle',
+  BattleBoss = 'BattleBoss',
+  BlessGold = 'BlessGold',
+  BlessGoldParty = 'BlessGoldParty',
+  BlessItem = 'BlessItem',
+  BlessXP = 'BlessXP',
+  BlessXPParty = 'BlessXPParty',
+  Enchant = 'Enchant',
+  FindItem = 'FindItem',
+  FindTrainer = 'FindTrainer',
+  FindTreasure = 'FindTreasure',
+  ForsakeGold = 'ForsakeGold',
+  ForsakeItem = 'ForsakeItem',
+  ForsakeXP = 'ForsakeXP',
+  Gamble = 'Gamble',
+  Merchant = 'Merchant',
+  Party = 'Party',
+  PartyLeave = 'PartyLeave',
+  Providence = 'Providence',
+  Switcheroo = 'Switcheroo',
+  TownCrier = 'TownCrier'
 }
 
 export abstract class Event {
@@ -92,7 +117,10 @@ export abstract class Event {
   }
 
   protected emitMessage(players: Player[], message: string, type: AdventureLogEventType, link?: string) {
-    const playerNames = players.map(x => x.name);
+    this.emitMessageToNames(players.map(x => x.name), message, type, link);
+  }
+
+  protected emitMessageToNames(playerNames: string[], message: string, type: AdventureLogEventType, link?: string) {
     const messageData: IAdventureLog = {
       when: Date.now(),
       type,
