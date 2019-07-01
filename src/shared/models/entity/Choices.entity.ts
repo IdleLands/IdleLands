@@ -41,6 +41,8 @@ export class Choices extends PlayerOwned {
       choiceRef.init(choice);
       return choiceRef;
     });
+
+    this.choices = this.choices.filter(x => x.id !== 'PartyLeave');
   }
 
   public removeChoice(choice: Choice): void {

@@ -97,3 +97,20 @@ export class DivineDirectionEvent extends ServerSocketEvent implements ServerEve
     this.gameMessage(player.divineDirection ? 'You have set a Divine Direction!' : 'You no longer have a Divine Direction!');
   }
 }
+
+export class LeavePartyEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterLeaveParty;
+  description = 'Leave your party.';
+  args = '';
+
+  async callback({ x, y } = { x: 0, y: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(!player.$party) return this.gameError('You are not in a party.');
+
+    this.game.partyHelper.playerLeave(player);
+    this.gameMessage('You left your party!');
+  }
+}
+

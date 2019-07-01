@@ -67,4 +67,8 @@ export class CharacterPage {
     alert.present();
   }
 
+  leaveParty() {
+    this.socketService.emit(ServerEventName.CharacterLeaveParty);
+  }
+
 }

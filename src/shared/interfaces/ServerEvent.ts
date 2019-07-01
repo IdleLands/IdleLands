@@ -19,6 +19,7 @@ export enum ServerEventName {
   CharacterAscend = 'character:ascend',
   CharacterOOCAction = 'character:oocaction',
   CharacterDivineDirection = 'character:divinedirection',
+  CharacterLeaveParty = 'character:leaveparty',
 
   ChatPlayerListSync = 'chat:playersync',
   ChatMessage = 'chat:message',

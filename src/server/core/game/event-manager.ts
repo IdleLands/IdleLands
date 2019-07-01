@@ -46,7 +46,10 @@ export class EventManager {
     player.eventSteps = this.rng.chance.integer(EVENT_TICKS);
 
     const events = Object.keys(Events);
-    const weights = events.map(x => Events[x].WEIGHT);
+    const weights = events.map(x => {
+      if(x === 'PartyLeave' && player.$party) return 15;
+      return Events[x].WEIGHT;
+    });
 
     const chosenEventName = this.rng.chance.weighted(events, weights);
 

@@ -78,6 +78,10 @@
                   <div>Party: {{ player.$party.name }}</div>
                   <div>{{ player.$party.members.join(' · ') }}</div>
                 </ion-label>
+
+                <ion-button slot="end" color="warning" (click)="leaveParty()">
+                  Leave
+                </ion-button>
               </ion-item>
 
             </ion-list>
