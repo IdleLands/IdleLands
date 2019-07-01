@@ -725,8 +725,13 @@ export class Player implements IPlayer {
     return this.$collectibles.has(coll);
   }
 
-  public grantBuff(buff: IBuff): void {
+  public grantBuff(buff: IBuff, canShare = false): void {
     this.increaseStatistic(`Character/${buff.booster ? 'Booster' : 'Injury'}/Give`, 1);
+
+    if(this.$party && canShare) {
+      this.increaseStatistic(`Character/${buff.booster ? 'Booster' : 'Injury'}/Give`, this.$party.members.length - 1);
+      this.$game.buffManager.shareBuff(this, buff);
+    }
 
     this.addBuff(buff);
   }

@@ -22,6 +22,9 @@ export enum Channel {
   // internal: used to sync player add/remove between servers
   Players = 'players',
 
+  // internal: used to sync player buff grants (party buffers)
+  PlayerBuff = 'playerBuffs',
+
   // internal: used to sync player events for parties (blessxp, blessgold)
   PlayerEvent = 'playerEvents'
 }

@@ -19,6 +19,7 @@ import { ProfessionHelper } from './profession-helper';
 import { ChatHelper } from './chat-helper';
 import { PartyHelper } from './party-helper';
 import { PartyManager } from './party-manager';
+import { BuffManager } from './buff-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -35,6 +36,7 @@ export class Game implements IGame {
   @Inject public discordManager: DiscordManager;
   @Inject public subscriptionManager: SubscriptionManager;
   @Inject public eventManager: EventManager;
+  @Inject public buffManager: BuffManager;
   @Inject public movementHelper: MovementHelper;
   @Inject public holidayHelper: HolidayHelper;
   @Inject public professionHelper: ProfessionHelper;
@@ -63,6 +65,9 @@ export class Game implements IGame {
 
     this.logger.log('Game', 'Player manager initializing...');
     await this.playerManager.init();
+
+    this.logger.log('Game', 'Buff manager initializing...');
+    await this.buffManager.init();
 
     this.logger.log('Game', 'Event manager initializing...');
     await this.eventManager.init();

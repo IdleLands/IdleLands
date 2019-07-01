@@ -56,7 +56,7 @@ export class Fighter extends Profession implements IProfession {
       stats: {
         [Stat.XP]: Math.log(luk) * Math.log(player.level.total)
       }
-    });
+    }, true);
 
     return `Your XP gain will be increased for 720 ticks!`;
   }

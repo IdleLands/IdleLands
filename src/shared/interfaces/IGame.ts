@@ -8,6 +8,7 @@ export interface IGame {
   eventManager: any;
   subscriptionManager: any;
   discordManager: any;
+  buffManager: any;
   achievementManager: any;
   personalityManager: any;
   movementHelper: any;

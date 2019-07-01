@@ -38,7 +38,7 @@ export interface ICharacter {
   unequip(item: IItem): void;
   forceUnequip(item: IItem): void;
 
-  grantBuff(buff: IBuff): void;
+  grantBuff(buff: IBuff, canShare: boolean): void;
   addBuff(buff: IBuff): void;
 }
 
