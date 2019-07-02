@@ -3,7 +3,7 @@ import { DatabaseManager } from './database-manager';
 import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
-import { ServerEventName, IGame, PlayerChannelOperation, IMessage } from '../../../shared/interfaces';
+import { ServerEventName, IGame, PlayerChannelOperation, IMessage, IAdventureLog, AdventureLogEventType, Channel } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
 import { AssetManager } from './asset-manager';
@@ -20,6 +20,7 @@ import { ChatHelper } from './chat-helper';
 import { PartyHelper } from './party-helper';
 import { PartyManager } from './party-manager';
 import { BuffManager } from './buff-manager';
+import { EventName } from './events/Event';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -128,5 +129,19 @@ export class Game implements IGame {
 
   public sendClientUpdateForPlayer(player: Player) {
     this.playerManager.updatePlayer(player, PlayerChannelOperation.SpecificUpdate);
+  }
+
+  public doStartingPlayerStuff(player: Player) {
+    const messageData: IAdventureLog = {
+      when: Date.now(),
+      type: AdventureLogEventType.Meta,
+      message: `Welcome to IdleLands! Please check out your choices tab to get a sampling of what sort of things you'll encounter.
+      Hit the link attached to this message to view the FAQ / New Player Guide to answer some of your questions!`,
+      link: 'https://help.idle.land'
+    };
+
+    this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [player.name], data: messageData });
+
+    this.eventManager.doEventFor(player, EventName.FindItem);
   }
 }

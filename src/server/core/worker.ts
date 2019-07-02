@@ -15,7 +15,7 @@ const allAPI = require('../http');
 const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.env.GRACE_PERIOD_DISCONNECT : 30000;
 
 export class GameWorker extends SCWorker {
-  run() {
+  async run() {
     console.log('   >> Worker PID:', process.pid, 'ID:', this.id);
 
     const httpServer = this.httpServer;
@@ -24,7 +24,7 @@ export class GameWorker extends SCWorker {
     scServer.setCodecEngine(scCodecMinBin);
 
     const game = new Game();
-    game.init(scServer, this.id);
+    await game.init(scServer, this.id);
 
     const environment = this.options.environment;
     const app = express();
@@ -36,7 +36,7 @@ export class GameWorker extends SCWorker {
       app.use(cors());
     } else {
       app.use(cors({
-        origin: 'https://idle.land'
+        origin: 'https://play.idle.land'
       }));
     }
 

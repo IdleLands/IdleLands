@@ -20,7 +20,7 @@ export class Walker extends Achievement {
 
   static calculateTier(player: Player): number {
     const steps = player.$statistics.get('Character/Ticks');
-    return Achievement.log(steps, Walker.base);
+    return Math.floor(Achievement.log(steps, Walker.base));
   }
 
   static rewardsForTier(tier: number): any[] {

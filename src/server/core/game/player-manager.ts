@@ -91,6 +91,7 @@ export class PlayerManager {
 
   private subscribeToPlayerMessages() {
     this.subscriptionManager.subscribeToChannel(Channel.PlayerAdventureLog, ({ playerNames, data }) => {
+      if(!playerNames || !data) throw new Error('Cannot send an adventure log message without player names or data!');
 
       playerNames.forEach(playerName => {
         this.emitToPlayer(playerName, ServerEventName.AdventureLogAdd, { ...data });

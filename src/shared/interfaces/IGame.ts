@@ -19,4 +19,5 @@ export interface IGame {
   partyHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;
+  doStartingPlayerStuff(player: IPlayer): void;
 }

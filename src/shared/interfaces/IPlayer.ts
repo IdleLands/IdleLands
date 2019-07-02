@@ -113,4 +113,6 @@ export interface IPlayer extends ICharacter {
 
   changeGender(newGender: string): void;
   changeTitle(newTitle: string): void;
+
+  tryToDoNewCharacter(): void;
 }

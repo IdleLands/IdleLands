@@ -17,6 +17,7 @@ import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
 import { Personalities } from './Personalities.entity';
 import { Collectibles } from './Collectibles.entity';
+import { EventName } from '../../../server/core/game/events/Event';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -710,7 +711,7 @@ export class Player implements IPlayer {
       const messageData: IAdventureLog = {
         when: Date.now(),
         type: AdventureLogEventType.Item,
-        message: `${this.fullName()} found "${currentCollectible.name}" in ${this.map} - ${this.region}!`
+        message: `${this.fullName()} found "${currentCollectible.name}" in ${this.map} - ${this.region || 'Wilderness'}!`
       };
 
       this.$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [this.name], data: messageData });
@@ -775,5 +776,12 @@ export class Player implements IPlayer {
   public changeTitle(title: string) {
     this.title = title;
     this.$game.sendClientUpdateForPlayer(this);
+  }
+
+  public tryToDoNewCharacter() {
+    const canDo = this.$choices.$choicesData.choices.length === 0 && this.$statistics.get('Character/Choose/Total') === 0;
+    if(!canDo) return;
+
+    this.$game.doStartingPlayerStuff(this);
   }
 }

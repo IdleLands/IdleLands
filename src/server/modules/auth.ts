@@ -227,5 +227,9 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
 
     this.emit(ServerEventName.CharacterSync, setCharacter);
     this.emit(ServerEventName.PlayGame);
+
+    setTimeout(() => {
+      setCharacter.tryToDoNewCharacter();
+    }, 500);
   }
 }
