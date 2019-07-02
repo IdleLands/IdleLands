@@ -7,7 +7,7 @@ import * as scCodecMinBin from 'sc-codec-min-bin';
 
 import { environment } from './../environments/environment';
 import { ServerEventName, GameEvent, Channel } from '../../shared/interfaces';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 
 export enum Status {
   Connected = 1,
@@ -44,7 +44,10 @@ export class SocketClusterService {
     return this.gameEvent;
   }
 
-  constructor(private toastCtrl: ToastController) {}
+  constructor(
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController
+  ) {}
 
   public init() {
     if(this.hasInit) throw new Error('SocketClusterService has already been initialized.');
@@ -77,6 +80,18 @@ export class SocketClusterService {
       if(this.allSignals[ev.name]) this.allSignals[ev.name].dispatch(ev.data);
     });
 
+    this.register(ServerEventName.CharacterFirstTime, async () => {
+      const modal = await this.alertCtrl.create({
+        header: 'Welcome to IdleLands!',
+        message: `Welcome! It seems like it's your first time here.
+        Check out the adventure log to see a bit more about what your adventurer is up to!
+        Also, check out the choices area to see what you can decide for your adventurer!
+        If you have any questions, ask around in chat.`,
+        buttons: ['OK! Lets do this!']
+      });
+
+      await modal.present();
+    });
   }
 
   public async toastNotify(info) {

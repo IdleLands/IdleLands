@@ -143,5 +143,7 @@ export class Game implements IGame {
     this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [player.name], data: messageData });
 
     this.eventManager.doEventFor(player, EventName.FindItem);
+
+    player.emit(ServerEventName.CharacterFirstTime, {});
   }
 }

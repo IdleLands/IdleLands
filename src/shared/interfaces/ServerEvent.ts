@@ -11,6 +11,7 @@ export enum ServerEventName {
   AuthUnsyncAccount = 'auth:unsyncaccount',
   PlayGame = 'auth:playgame',
 
+  CharacterFirstTime = 'character:firsttime',
   CharacterSync = 'character:sync',
   CharacterPatch = 'character:patch',
 
