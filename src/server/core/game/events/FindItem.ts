@@ -39,7 +39,7 @@ export class FindItem extends Event {
     }
   }
 
-  public operateOn(player: Player, opts = {}) {
+  public operateOn(player: Player) {
     const item = this.itemGenerator.generateItemForPlayer(player);
     if(!item) {
       player.increaseStatistic(`Event/FindItem/Nothing`, 1);
