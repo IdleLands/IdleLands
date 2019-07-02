@@ -190,15 +190,22 @@ export class ItemGenerator {
     player: Player,
     opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number }
   ): Item {
+    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total }, opts);
+    return this.generateItem(opts);
+  }
 
-    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0 }, opts);
+  public generateItem(
+    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number }
+  ): Item {
+
+    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1 }, opts);
 
     if(!opts.forceType) opts.forceType = this.rng.pickone(GenerateableItemSlot);
     opts.forceType = opts.forceType.toLowerCase();
 
     const item = new Item();
 
-    const curLevel = player.level.total;
+    const curLevel = opts.generateLevel;
     const possibleItemClasses = [ItemClass.Newbie];
 
     // determine the item tier we want to generate
