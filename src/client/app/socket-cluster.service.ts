@@ -86,6 +86,7 @@ export class SocketClusterService {
         message: `Welcome! It seems like it's your first time here.
         Check out the adventure log to see a bit more about what your adventurer is up to!
         Also, check out the choices area to see what you can decide for your adventurer!
+        Finally, be sure to head to Settings and sync your account with an email. Otherwise, you might lose your character!
         If you have any questions, ask around in chat.`,
         buttons: ['OK! Lets do this!']
       });
