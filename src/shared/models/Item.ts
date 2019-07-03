@@ -123,6 +123,6 @@ export class Item implements IItem {
   }
 
   public isUnderBoostablePercent(player: Player): boolean {
-    return (this.score / this.baseScore) < player.$statistics.get('Game/Premium/ItemStatCap');
+    return (this.score / this.baseScore) < (player.$statistics.get('Game/Premium/ItemStatCap') / 100);
   }
 }

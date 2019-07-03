@@ -17,6 +17,7 @@ export interface IGame {
   chatHelper: any;
   partyManager: any;
   partyHelper: any;
+  petHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;
   doStartingPlayerStuff(player: IPlayer): void;

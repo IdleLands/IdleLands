@@ -657,8 +657,9 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Tier', tier);
     this.$statistics.set('Game/Premium/AdventureLogSize', 25 + (tier * 25));
     this.$statistics.set('Game/Premium/InventorySize', 10 + (tier * 10));
+    this.$statistics.set('Game/Premium/SoulStashSize', 0 + (tier * 5));
     this.$statistics.set('Game/Premium/ChoiceLogSize', 10 + (tier * 10));
-    this.$statistics.set('Game/Premium/ItemStatCap', 3 + (tier));
+    this.$statistics.set('Game/Premium/ItemStatCap', 300 + (tier * 100));
     this.$statistics.set('Game/Premium/EnchantCap', 10 + (tier));
   }
 

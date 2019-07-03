@@ -21,6 +21,7 @@ import { PartyHelper } from './party-helper';
 import { PartyManager } from './party-manager';
 import { BuffManager } from './buff-manager';
 import { EventName } from './events/Event';
+import { PetHelper } from './pet-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -44,6 +45,7 @@ export class Game implements IGame {
   @Inject public chatHelper: ChatHelper;
   @Inject public partyManager: PartyManager;
   @Inject public partyHelper: PartyHelper;
+  @Inject public petHelper: PetHelper;
   @Inject public world: World;
   @Inject public logger: Logger;
 

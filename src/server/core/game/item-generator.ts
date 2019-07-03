@@ -106,12 +106,12 @@ export class ItemGenerator {
   };
 
   private levelTiers = [
-    { itemClass: ItemClass.Basic, levelReq: 10 },
-    { itemClass: ItemClass.Pro, levelReq: 50 },
-    { itemClass: ItemClass.Idle, levelReq: 100 },
-    { itemClass: ItemClass.Godly, levelReq: 500 },
-    { itemClass: ItemClass.Goatly, levelReq: 1000 },
-    { itemClass: ItemClass.Omega, levelReq: 5000 }
+    { itemClass: ItemClass.Basic,   levelReq: 10 },
+    { itemClass: ItemClass.Pro,     levelReq: 50 },
+    { itemClass: ItemClass.Idle,    levelReq: 100 },
+    { itemClass: ItemClass.Godly,   levelReq: 500 },
+    { itemClass: ItemClass.Goatly,  levelReq: 1000 },
+    { itemClass: ItemClass.Omega,   levelReq: 5000 }
   ];
 
   private allAssetScoreSorted: { [key in ItemSlot | 'prefix' | 'suffix']?: { [key2 in ItemClass]: any[] } } = {};

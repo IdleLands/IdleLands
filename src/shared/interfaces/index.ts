@@ -11,6 +11,7 @@ export * from './IItem';
 export * from './IMessage';
 export * from './IParty';
 export * from './IPersonality';
+export * from './IPet';
 export * from './IPlayer';
 export * from './IProfession';
 

@@ -28,7 +28,6 @@ export enum MovementType {
 export interface ICharacter {
   name: string;
   level: RestrictedNumber;
-  profession: string;
   gender: string;
 
   init(): void;
@@ -36,9 +35,7 @@ export interface ICharacter {
 
   equip(item: IItem): void;
   unequip(item: IItem): void;
-  forceUnequip(item: IItem): void;
 
-  grantBuff(buff: IBuff, canShare: boolean): void;
   addBuff(buff: IBuff): void;
 }
 
@@ -52,6 +49,8 @@ export interface IPlayer extends ICharacter {
   authSyncedTo: string;
 
   createdAt: number;
+
+  profession: string;
 
   xp: RestrictedNumber;
 
@@ -105,6 +104,10 @@ export interface IPlayer extends ICharacter {
   tryFindCollectible({ name, rarity, description, storyline }): void;
 
   increaseStatistic(stat: string, val: number): void;
+
+  forceUnequip(item: IItem): void;
+
+  grantBuff(buff: IBuff, canShare: boolean): void;
 
   gainILP(ilp: number): void;
 
