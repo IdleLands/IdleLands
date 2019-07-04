@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -13,10 +14,11 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared.module';
-import { HttpClientModule } from '@angular/common/http';
+
+import { PetsPage } from './pets/pets.page';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PetsPage],
   entryComponents: [],
   imports: [
     BrowserModule,

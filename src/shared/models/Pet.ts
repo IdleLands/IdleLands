@@ -1,43 +1,37 @@
 
-import { Entity, Column, ObjectIdColumn } from 'typeorm';
 import { pickBy } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
-import { Item } from '../Item';
-import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff } from '../../interfaces';
+import { Item } from './Item';
+import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff } from '../interfaces';
 
-@Entity()
 export class Pet implements IPet {
-
-  // internal vars
-  @nonenumerable
-  @ObjectIdColumn() public _id: string;
 
   @nonenumerable
   private $game: IGame;
 
-  @Column() public ownerUserId: string;
+  public ownerUserId: string;
 
   // pet-related vars
-  @Column() public name: string;
-  @Column() public level: RestrictedNumber;
-  @Column() public xp: RestrictedNumber;
-  @Column() public gender: string;
-  @Column() public gold: RestrictedNumber;
+  public name: string;
+  public level: RestrictedNumber;
+  public xp: RestrictedNumber;
+  public gender: string;
+  public gold: RestrictedNumber;
 
-  @Column() public typeName: string;
-  @Column() public affinity: PetAffinity;
-  @Column() public attribute: PetAttribute;
-  @Column() public rating: number;
-
-  @Column() public gatherTick: number;
+  public typeName: string;
+  public affinity: PetAffinity;
+  public attribute: PetAttribute;
+  public rating: number;
+  public gatherTick: number;
 
   private stats: any;
 
   public $party?: IParty;
 
   init() {
+
     // validate that important properties exist
     if(!this.level) this.level = new RestrictedNumber(1, 100, 1);
     if(!this.xp) this.xp = new RestrictedNumber(0, 100, 0);

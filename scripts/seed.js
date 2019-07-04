@@ -2,6 +2,7 @@
 require('dotenv').config({ silent: true });
 
 const { MongoClient } = require('mongodb');
+const YAML = require('yamljs');
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -10,6 +11,7 @@ const ObjectAssets = {};
 const MapAssets = {};
 const MapInformation = {};
 const GlobalMapInformation = {};
+const Pets = [];
 
 const replaceMultiSpaces = (string) => {
   return string.replace(/ {2,}/g, ' ');
@@ -274,8 +276,14 @@ const loadMapsInFolder = () => {
   });
 };
 
+const loadPetData = () => {
+  const pets = YAML.load('assets/maps/content/pets.yml');
+  pets.forEach(pet => Pets.push(pet));
+};
+
 const init = async () => {
   loadMapsInFolder();
+  loadPetData();
 
   const url = process.env.TYPEORM_URL;
   const client = await MongoClient.connect(url, { useNewUrlParser: true });
@@ -290,6 +298,7 @@ const init = async () => {
     stringAssets: StringAssets,
     objectAssets: ObjectAssets,
     mapAssets: MapAssets,
+    petAssets: Pets,
     mapInformation: MapInformation,
     globalMapInformation: GlobalMapInformation
   });

@@ -32,31 +32,34 @@ export class AppComponent {
   private clouds = 0;
 
   public appPages = [
+
+    { name: 'Achievements', icon: 'achievements', url: '/achievements' },
+
     { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
+
+    { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
+      return this.gameService.unreadMessages;
+    } },
 
     { name: 'Choices', icon: 'choices', url: '/choices', badgeColor: 'primary', badge: (player) => {
       if(!player.$choicesData) return '';
       return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
     } },
 
+    { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
+
+    { name: 'Equipment', icon: 'gear', url: '/equipment' },
+
     { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
       if(!player.$inventoryData) return '';
       return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
     } },
 
-    { name: 'Equipment', icon: 'gear', url: '/equipment' },
+    { name: 'Map', icon: 'map', url: '/map' },
 
     { name: 'Personalities', icon: 'personalities', url: '/personalities' },
 
-    { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
-      return this.gameService.unreadMessages;
-    } },
-
-    { name: 'Achievements', icon: 'achievements', url: '/achievements' },
-
-    { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
-
-    { name: 'Map', icon: 'map', url: '/map' },
+    { name: 'Pets', icon: 'allpets', url: '/pets' },
 
     { name: 'Statistics', icon: 'statistics', url: '/statistics' },
 

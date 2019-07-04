@@ -11,6 +11,7 @@ export class AssetManager {
 
   private stringAssets: any;
   private objectAssets: any;
+  private petAssets: any;
   private mapAssets: any;
   private mapInfoAssets: any;
 
@@ -21,17 +22,22 @@ export class AssetManager {
   public get allStringAssets() {
     return this.stringAssets;
   }
+  
+  public get allPetAssets() {
+    return this.petAssets;
+  }
 
   public get allMapAssets() {
     return { maps: this.mapAssets, mapInfo: this.mapInfoAssets };
   }
 
   public async init() {
-    const { stringAssets, objectAssets, mapAssets, mapInformation } = await this.databaseManager.loadAssets();
+    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation } = await this.databaseManager.loadAssets();
 
     this.stringAssets = stringAssets;
     this.objectAssets = objectAssets;
     this.mapAssets = mapAssets;
+    this.petAssets = petAssets;
     this.mapInfoAssets = mapInformation;
   }
 

@@ -17,7 +17,7 @@ import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
 import { Personalities } from './Personalities.entity';
 import { Collectibles } from './Collectibles.entity';
-import { EventName } from '../../../server/core/game/events/Event';
+import { Pets } from './Pets.entity';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -117,6 +117,10 @@ export class Player implements IPlayer {
   @nonenumerable
   public $collectibles: Collectibles;
   public $collectiblesData: any;
+
+  @nonenumerable
+  public $pets: Pets;
+  public $petsData: any;
 
   @Column()
   public availableGenders: string[];
@@ -478,6 +482,7 @@ export class Player implements IPlayer {
     }
 
     this.$choices.init(this);
+    this.$pets.init(this);
 
     this.$game.achievementManager.syncAchievements(this);
     this.syncTitles();

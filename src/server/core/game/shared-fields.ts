@@ -6,6 +6,7 @@ import { Choices } from '../../../shared/models/entity/Choices.entity';
 import { Inventory } from '../../../shared/models/entity/Inventory.entity';
 import { Statistics } from '../../../shared/models/entity/Statistics.entity';
 import { Personalities } from '../../../shared/models/entity/Personalities.entity';
+import { Pets } from '../../../shared/models/entity/Pets.entity';
 
 export const SHARED_FIELDS = [
   { proto: Achievements, name: 'achievements' },
@@ -13,5 +14,6 @@ export const SHARED_FIELDS = [
   { proto: Choices, name: 'choices' },
   { proto: Inventory, name: 'inventory' },
   { proto: Personalities, name: 'personalities' },
-  { proto: Statistics, name: 'statistics' }
+  { proto: Statistics, name: 'statistics' },
+  { proto: Pets, name: 'pets' }
 ];

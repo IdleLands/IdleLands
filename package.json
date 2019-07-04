@@ -71,6 +71,7 @@
     "typeorm": "^0.2.14",
     "typescript-ioc": "^1.2.5",
     "uuid": "^3.3.2",
+    "yamljs": "^0.3.0",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {

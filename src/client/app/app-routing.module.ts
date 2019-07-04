@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PetsPage } from './pets/pets.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,6 +17,25 @@ const routes: Routes = [
   { path: 'map', loadChildren: './map/map.module#MapPageModule' },
   { path: 'collectibles', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' },
   { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
+  { path: 'pets', component: PetsPage, children: [
+    {
+      path: 'all',
+      children: [
+        { path: '', loadChildren: './petslist/petslist.module#PetslistPageModule' }
+      ]
+    },
+    {
+      path: 'current',
+      children: [
+        { path: '', loadChildren: './petcurrent/petcurrent.module#PetcurrentPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/pets/current',
+      pathMatch: 'full'
+    }
+  ] },
   { path: '**', redirectTo: 'home' }
 ];
 

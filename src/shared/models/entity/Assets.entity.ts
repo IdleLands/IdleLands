@@ -8,6 +8,7 @@ export class Assets {
 
   @Column() public stringAssets: any;
   @Column() public objectAssets: any;
+  @Column() public petAssets: any;
   @Column() public mapAssets: any;
   @Column() public mapInformation: any;
 }

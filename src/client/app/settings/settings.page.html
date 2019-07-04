@@ -8,58 +8,63 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Account Backup</ion-card-title>
-      <ion-card-subtitle>Back up your account with a different login mechanism. You can only sync to one service at a time.</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-list class="ion-no-padding" *ngIf="gameService.player$ | async as player">
-
-        <ion-item-divider>Available Services</ion-item-divider>
-
-        <ion-item *ngFor="let authMethod of authService.authMethods">
-          <ion-icon slot="start" [icon]="authMethod.icon"></ion-icon>
-          
-          {{ authMethod.name }}
-
-          <ion-button slot="end" 
-                      size="small"
-                      (click)="sync(authMethod.provider)" 
-                      *ngIf="player.authType !== authMethod.type">
-                      Sync
-          </ion-button>
-
-          <ion-label slot="end"
-                     class="ion-text-right"
-                     *ngIf="player.authType === authMethod.type">
-                     Synced ({{ (gameService.player$ | async).authSyncedTo }})
-          </ion-label>
-        </ion-item>
-
-        <ion-item-divider *ngIf="player.authType">Unsync</ion-item-divider>
-
-        <ion-item color="danger" *ngIf="player.authType">
-          <ion-label class="ion-text-wrap">You can also unsync your account, if you want. If you do this, and you lose access to your original account (clearing cache, etc), your account will vanish into the abyss. Not recommended, obviously.</ion-label>
-          <ion-button color="warning" fill="outline" slot="end" (click)="unsync()">Unsync</ion-button>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card color="danger">
-    <ion-card-header>
-      <ion-card-title>Danger Zone</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-list class="ion-no-padding">
-        <ion-item color="danger" class="ion-text-wrap">
-          <ion-label class="ion-text-wrap">If you really, really, for some reason want to delete your character, you can do that! You will have to go through a few dialogs, and then it will be confirmed. I'm not gonna beg you or anything, b-b-b-baka, but know that no data will be retained if you choose to go through with it.</ion-label>
-          <ion-button slot="end" fill="outline" color="warning" (click)="deleteCharacter()">Delete Character</ion-button>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <ion-row>
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2">
+      
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Account Backup</ion-card-title>
+          <ion-card-subtitle>Back up your account with a different login mechanism. You can only sync to one service at a time.</ion-card-subtitle>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <ion-list class="ion-no-padding" *ngIf="gameService.player$ | async as player">
+    
+            <ion-item-divider>Available Services</ion-item-divider>
+    
+            <ion-item *ngFor="let authMethod of authService.authMethods">
+              <ion-icon slot="start" [icon]="authMethod.icon"></ion-icon>
+              
+              {{ authMethod.name }}
+    
+              <ion-button slot="end" 
+                          size="small"
+                          (click)="sync(authMethod.provider)" 
+                          *ngIf="player.authType !== authMethod.type">
+                          Sync
+              </ion-button>
+    
+              <ion-label slot="end"
+                        class="ion-text-right"
+                        *ngIf="player.authType === authMethod.type">
+                        Synced ({{ (gameService.player$ | async).authSyncedTo }})
+              </ion-label>
+            </ion-item>
+    
+            <ion-item-divider *ngIf="player.authType">Unsync</ion-item-divider>
+    
+            <ion-item color="danger" *ngIf="player.authType">
+              <ion-label class="ion-text-wrap">You can also unsync your account, if you want. If you do this, and you lose access to your original account (clearing cache, etc), your account will vanish into the abyss. Not recommended, obviously.</ion-label>
+              <ion-button color="warning" fill="outline" slot="end" (click)="unsync()">Unsync</ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    
+      <ion-card color="danger">
+        <ion-card-header>
+          <ion-card-title>Danger Zone</ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <ion-list class="ion-no-padding">
+            <ion-item color="danger" class="ion-text-wrap">
+              <ion-label class="ion-text-wrap">If you really, really, for some reason want to delete your character, you can do that! You will have to go through a few dialogs, and then it will be confirmed. I'm not gonna beg you or anything, b-b-b-baka, but know that no data will be retained if you choose to go through with it.</ion-label>
+              <ion-button slot="end" fill="outline" color="warning" (click)="deleteCharacter()">Delete Character</ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
