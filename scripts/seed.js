@@ -277,7 +277,7 @@ const loadMapsInFolder = () => {
 };
 
 const loadPetData = () => {
-  const pets = YAML.load('assets/maps/content/pets.yml');
+  const pets = YAML.load('src/content/pets.yml');
   pets.forEach(pet => Pets.push(pet));
 };
 

@@ -1,0 +1,62 @@
+- typeName: Pet Rock
+  affinity: attacker
+  cost: 0
+
+  equipmentSlots:
+    body: 1
+  
+  soulStats:
+    luk: 10
+
+  requirements:
+    statistics:
+      Game/Logins: 1
+
+  upgrades:
+    maxLevel:
+      - { v: 50, c: 0 }
+
+    goldStorage:
+      - { v: 10000,  c: 0 }
+      - { v: 100000, c: 10000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 5,  c: 1000 }
+      - { v: 15, c: 10000 }
+      - { v: 25, c: 100000 }
+      - { v: 35, c: 1000000 }
+      - { v: 50, c: 10000000 }
+      - { v: 75, c: 50000000, a: 3 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000 }
+      - { v: 43200,   c: 150000 }
+      - { v: 21600,   c: 450000,   a: 2 }
+      - { v: 10800,   c: 1350000,  a: 3 }
+      - { v: 3600,    c: 4000000,  a: 4 }
+      - { v: 1800,    c: 10000000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 100000, a: 1 }
+
+    itemFindLevelBoost:
+      - { v: 0,  c: 0 }
+      - { v: 10, c: 10000 }
+      - { v: 20, c: 50000 }
+      - { v: 30, c: 250000 }
+      - { v: 40, c: 1250000, a: 1 }
+      - { v: 50, c: 5250000, a: 3 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 10000,  a: 1 }
+      - { v: 2,   c: 50000,  a: 3 }
+      - { v: 3,   c: 150000, a: 5 }
+
+  permanentUpgrades:
+    soulStashSizeBoost: 1
+
