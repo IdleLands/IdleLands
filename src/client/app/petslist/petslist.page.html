@@ -19,15 +19,17 @@
         <app-gendervatar slot="start" [gender]="pet.value.gender"></app-gendervatar> 
 
         <ion-label class="ion-text-wrap">
-          <h3 class="vertical-center">
-            <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge> 
-            &nbsp;
+          <h3>
             {{ pet.value.name }}, the {{ pet.value.attribute }} {{ pet.value.affinity }}
           </h3>
-          <p>Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}</p>
+          <p class="vertical-center">
+            Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}
+            &nbsp;
+            <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge>
+          </p>
         </ion-label>
 
-        <ion-button slot="end" [disabled]="player.$petsData.currentPet === pet.key">Activate</ion-button>
+        <ion-button slot="end" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
       </ion-item>
     </ion-list>
   </ng-container>

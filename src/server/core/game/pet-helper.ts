@@ -51,26 +51,35 @@ export class PetHelper {
   }
 
   syncPetNextUpgradeCost(pet: IPet): void {
-    // set $nextUpgradeCost { upgrade: { c, v, a } } for all upgrades
+    const proto = this.getPetProto(pet.typeName);
+
+    pet.currentUpgrade = {};
+    pet.nextUpgrade = {};
+
+    Object.values(PetUpgrade).forEach(upgrade => {
+      pet.currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade]];
+      pet.nextUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] + 1];
+    });
   }
 
   syncBasePetStats(pet: IPet): void {
     // compare base soul vs type soul
+    // get attribute stats and add them to soul
   }
 
   syncPetBasedOnProto(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
-    pet.level.maximum = 100;
-    // set level, max gold, etc
+    pet.level.maximum = this.getPetUpgradeValue(pet, PetUpgrade.MaxLevel);
+    pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
+    pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
+
+    this.syncPetNextUpgradeCost(pet);
+    this.syncBasePetStats(pet);
   }
 
   getSoulStatsForAttribute(attribute: PetAttribute): { [key in Stat]?: number } {
     return {};
-  }
-
-  getPermanentUpgradesForPet(pet: IPetProto): { [key in PermanentPetUpgrade]?: number } {
-    return null;
   }
 
 }

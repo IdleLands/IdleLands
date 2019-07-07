@@ -4,7 +4,7 @@ import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
-import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade } from '../interfaces';
+import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade, PermanentPetUpgrade } from '../interfaces';
 
 export class Pet implements IPet {
 
@@ -31,7 +31,13 @@ export class Pet implements IPet {
 
   private stats: any;
 
+  @nonenumerable
   public $party?: IParty;
+
+  public currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+  public nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+
+  public permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
 
   init() {
 
@@ -149,6 +155,8 @@ export class Pet implements IPet {
       this.stats[stat] = this.stats[stat] || 0;
 
       // TODO: get equipment stats and add them here
+
+      // TODO: get all buffs from owner and add them here
 
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);

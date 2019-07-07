@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { Profession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel, IParty } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -209,6 +209,8 @@ export class Player implements IPlayer {
       this.divineDirection.steps--;
       if(this.divineDirection.steps <= 0) this.divineDirection = null;
     }
+
+    this.$pets.loop();
 
     this.$game.playerManager.updatePlayer(this);
   }
@@ -660,12 +662,19 @@ export class Player implements IPlayer {
     const tier = 0;
 
     this.$statistics.set('Game/Premium/Tier', tier);
-    this.$statistics.set('Game/Premium/AdventureLogSize', 25 + (tier * 25));
-    this.$statistics.set('Game/Premium/InventorySize', 10 + (tier * 10));
-    this.$statistics.set('Game/Premium/SoulStashSize', 0 + (tier * 5));
-    this.$statistics.set('Game/Premium/ChoiceLogSize', 10 + (tier * 10));
-    this.$statistics.set('Game/Premium/ItemStatCap', 300 + (tier * 100));
-    this.$statistics.set('Game/Premium/EnchantCap', 10 + (tier));
+
+    this.$statistics.set('Game/Premium/AdventureLogSize',
+      25 + (tier * 25) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.AdventureLogSizeBoost));
+    this.$statistics.set('Game/Premium/InventorySize',
+      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.InventorySizeBoost));
+    this.$statistics.set('Game/Premium/SoulStashSize',
+      0 + (tier * 5) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.SoulStashSizeBoost));
+    this.$statistics.set('Game/Premium/ChoiceLogSize',
+      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ChoiceLogSizeBoost));
+    this.$statistics.set('Game/Premium/ItemStatCap',
+      300 + (tier * 100) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ItemStatCapBoost));
+    this.$statistics.set('Game/Premium/EnchantCap',
+      10 + (tier) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.EnchantCapBoost));
   }
 
   public gainILP(ilp: number): void {

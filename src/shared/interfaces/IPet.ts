@@ -1,6 +1,7 @@
 import { ICharacter } from './IPlayer';
 import { ItemSlot } from './IItem';
 import { Stat } from './Stat';
+import { RestrictedNumber } from 'restricted-number';
 
 export enum PermanentPetUpgrade {
 
@@ -106,6 +107,20 @@ export interface IPet extends ICharacter {
 
   // the current upgrade level for each pet upgrade
   upgradeLevels: { [key in PetUpgrade]?: number };
+
+  // how much gold the pet can hold
+  gold: RestrictedNumber;
+
+  // the current upgrade level values/costs
+  currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+
+  // the next upgrade level values/costs
+  nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+
+  // the permanent upgrades offered by the pet
+  permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+
+  loop(): void;
 }
 
 export interface IPetProto {

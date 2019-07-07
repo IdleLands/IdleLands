@@ -17,4 +17,8 @@ export class PetslistPage implements OnInit {
   ngOnInit() {
   }
 
+  activate(petKey: string) {
+    // TODO: activate and route to petcurrent
+  }
+
 }

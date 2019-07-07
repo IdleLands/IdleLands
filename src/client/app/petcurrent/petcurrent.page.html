@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Current Pet</ion-title>
+    <ion-title>Active Pet</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,119 @@
     <div class="blank-slate" *ngIf="!player?.$petsData?.currentPet">
       You have no current pet.
     </div>
+
+    <ng-container *ngIf="player.$petsData.allPets[player.$petsData.currentPet] as pet">
+      <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle class="vertical-center">
+                Level {{ pet.level.__current }}/{{ pet.level.maximum }}
+                &nbsp;
+                <ion-badge color="tertiary">{{ pet.rating }}★{{ pet.typeName }}</ion-badge>
+              </ion-card-subtitle>
+              <ion-card-title>{{ pet.name }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+
+                <ion-item>
+                  <app-gendervatar slot="start" [gender]="pet.gender"></app-gendervatar>
+                  
+                  <span class="ion-padding-start">{{ pet.gender }}</span>
+                </ion-item>
+
+                <ion-item>
+                  <ion-icon slot="start" [src]="'assets/icon/stat-attribute.svg'"></ion-icon>
+                  
+                  <span class="ion-padding-start">{{ pet.attribute }}</span>
+                </ion-item>
+
+                <ion-item>
+                  <ion-icon slot="start" [src]="'assets/icon/stat-affinity.svg'"></ion-icon>
+                  
+                  <span class="ion-padding-start">{{ pet.affinity }}</span>
+                </ion-item>
+
+                <ion-item>
+                  <ion-icon slot="start" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+
+                  <span class="ion-padding-start">{{ pet.xp.__current | number }} / {{ pet.xp.maximum | number }} XP</span>
+                </ion-item>
+
+                <ion-item>
+                  <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+
+                  <span class="ion-padding-start">{{ pet.gold.__current | number }} / {{ pet.gold.maximum | number }} Gold</span>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Upgrades</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+
+                <ion-item *ngFor="let upgrade of properUpgradeNames | keyvalue">
+
+                  <ion-label text-wrap>
+                    <h3>{{ upgrade.value }}</h3>
+                    <p *ngIf="!pet.nextUpgrade[upgrade.key]">Max Upgrade Level ({{ pet.currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }})</p>
+                    <p *ngIf="pet.nextUpgrade[upgrade.key]">
+                      Current: {{ pet.currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }} / Next: {{ pet.nextUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }}
+                      <br>
+                      Upgrade Cost: {{ pet.nextUpgrade[upgrade.key].c | number }}g
+                    </p>
+                  </ion-label>
+
+                  <ion-button slot="end" 
+                              *ngIf="pet.nextUpgrade[upgrade.key]" 
+                              [disabled]="player.gold < pet.nextUpgrade[upgrade.key].c || player.ascensionLevel < (pet.nextUpgrade[upgrade.key].a || 0)" 
+                              (click)="upgradeAttr(upgrade.key)">Upgrade</ion-button>
+                </ion-item>
+
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Permanent Upgrades</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+
+                <ion-item *ngFor="let upgrade of pet.permanentUpgrades | keyvalue">
+
+                  <ion-label text-wrap>
+                    <h3>{{ properPermanentUpgradeNames[upgrade.key] }} +{{ upgrade.value }}</h3>
+                  </ion-label>
+                </ion-item>
+
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
     
-    {{ player?.$petsData.currentPet | json }}
+    {{ player.$petsData.allPets[player.$petsData.currentPet] | json }}
   </ng-container>
 </ion-content>
