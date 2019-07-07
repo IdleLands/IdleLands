@@ -103,6 +103,9 @@ export interface IPet extends ICharacter {
 
   // the tick for the next item find & ilp gather
   gatherTick: number;
+
+  // the current upgrade level for each pet upgrade
+  upgradeLevels: { [key in PetUpgrade]?: number };
 }
 
 export interface IPetProto {

@@ -3,6 +3,8 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
+import { IPet } from '../../interfaces';
+import { Pet } from '../Pet';
 
 @Entity()
 export class Pets extends PlayerOwned {
@@ -11,26 +13,57 @@ export class Pets extends PlayerOwned {
   @ObjectIdColumn() public _id: string;
 
   @Column()
-  private allPets: { [key: string]: string };
+  private allPets: { [key: string]: IPet };
 
   @Column()
-  private currentPet: { [key: string]: boolean };
+  private currentPet: string;
+
+  @Column()
+  private buyablePets: string[];
 
   public get $petsData() {
-    return { currentPet: this.currentPet, allPets: this.allPets };
+    return { currentPet: this.currentPet, allPets: this.allPets, buyablePets: this.buyablePets };
   }
 
   constructor() {
     super();
     if(!this.allPets) this.allPets = {};
-    if(!this.currentPet) this.currentPet = {};
+    if(!this.currentPet) this.currentPet = '';
+    if(!this.buyablePets) this.buyablePets = [];
   }
 
   public init(player: Player) {
-    console.log('init pets');
 
-    // if no current pet, create one and add it to the list based on a proto
-    // need to be able to get pet protos from the DB (?) - probably the asset handler or some such
+    if(!this.currentPet) this.firstInit(player);
+
+    Object.values(this.allPets).forEach((pet: IPet) => {
+      (<any>pet).$game = (<any>player).$game;
+      (<any>pet).$player = player;
+
+      this.initPet(pet);
+    });
+  }
+
+  private addNewPet(pet: IPet, setActive?: boolean) {
+    this.allPets[pet.typeName] = pet;
+
+    if(setActive) {
+      this.currentPet = pet.typeName;
+    }
+  }
+
+  private initPet(petData: IPet) {
+    const pet = Object.assign(new Pet(), petData);
+    this.allPets[petData.typeName] = pet;
+
+    pet.init();
+    (<any>pet).$game.petHelper.syncPetBasedOnProto(pet);
+  }
+
+  private firstInit(player: Player) {
+    const petProto = (<any>player).$game.petHelper.getPetProto('Pet Rock');
+    const madePet = (<any>player).$game.petHelper.createPet(player, petProto);
+    this.addNewPet(madePet, true);
   }
 
 }

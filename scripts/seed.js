@@ -11,7 +11,7 @@ const ObjectAssets = {};
 const MapAssets = {};
 const MapInformation = {};
 const GlobalMapInformation = {};
-const Pets = [];
+const Pets = {};
 
 const replaceMultiSpaces = (string) => {
   return string.replace(/ {2,}/g, ' ');
@@ -278,7 +278,7 @@ const loadMapsInFolder = () => {
 
 const loadPetData = () => {
   const pets = YAML.load('src/content/pets.yml');
-  pets.forEach(pet => Pets.push(pet));
+  pets.forEach(pet => Pets[pet.typeName] = pet);
 };
 
 const init = async () => {

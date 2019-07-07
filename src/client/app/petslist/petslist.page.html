@@ -14,11 +14,20 @@
     </div>
 
     <ion-list>
-      <ion-item *ngFor="let pers of player?.$petsData?.allPets | keyvalue">
+      <ion-item *ngFor="let pet of player?.$petsData?.allPets | keyvalue">
+
+        <app-gendervatar slot="start" [gender]="pet.value.gender"></app-gendervatar> 
+
         <ion-label class="ion-text-wrap">
-          <h3>{{ pers.key }}</h3>
-          <p>{{ pers.value | json }}</p>
+          <h3 class="vertical-center">
+            <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge> 
+            &nbsp;
+            {{ pet.value.name }}, the {{ pet.value.attribute }} {{ pet.value.affinity }}
+          </h3>
+          <p>Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}</p>
         </ion-label>
+
+        <ion-button slot="end" [disabled]="player.$petsData.currentPet === pet.key">Activate</ion-button>
       </ion-item>
     </ion-list>
   </ng-container>

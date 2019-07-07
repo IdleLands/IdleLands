@@ -4,14 +4,15 @@ import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
-import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff } from '../interfaces';
+import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade } from '../interfaces';
 
 export class Pet implements IPet {
 
   @nonenumerable
   private $game: IGame;
 
-  public ownerUserId: string;
+  @nonenumerable
+  private $player: IPlayer;
 
   // pet-related vars
   public name: string;
@@ -26,6 +27,8 @@ export class Pet implements IPet {
   public rating: number;
   public gatherTick: number;
 
+  public upgradeLevels: { [key in PetUpgrade]?: number };
+
   private stats: any;
 
   public $party?: IParty;
@@ -39,11 +42,16 @@ export class Pet implements IPet {
     if(!this.gold) this.gold = new RestrictedNumber(0, 0, 0);
     if(!this.rating) this.rating = 1;
     if(!this.stats) this.stats = {};
+    if(!this.upgradeLevels) this.upgradeLevels = {};
 
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
     this.gold = new RestrictedNumber(this.gold.minimum, this.gold.maximum, this.gold.__current);
+
+    Object.values(PetUpgrade).forEach(upgrade => {
+      this.upgradeLevels[upgrade] = this.upgradeLevels[upgrade] || 0;
+    });
 
     this.recalculateStats();
   }
@@ -120,7 +128,7 @@ export class Pet implements IPet {
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
   }
 
-  private addStatTrail(stat: Stat, val: number, reason: string) {
+  private addStatTrail(stat: Stat, val: number) {
     if(val === 0) return;
 
     val = Math.floor(val);

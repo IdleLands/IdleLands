@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
+import { SocketClusterService } from '../socket-cluster.service';
 
 @Component({
   selector: 'app-pets',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PetsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private socketService: SocketClusterService,
+    public gameService: GameService
+  ) { }
 
   ngOnInit() {
   }
