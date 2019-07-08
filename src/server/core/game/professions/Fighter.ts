@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Fighter extends Profession implements IProfession {
+export class Fighter extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Experiencer';
   public readonly oocAbilityDesc = 'Give your party an XP buff based on your LUK.';

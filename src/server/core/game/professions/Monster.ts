@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Monster extends Profession implements IProfession {
+export class Monster extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Swap Fiend';
   public readonly oocAbilityDesc = 'Perform two switcheroos on yourself.';

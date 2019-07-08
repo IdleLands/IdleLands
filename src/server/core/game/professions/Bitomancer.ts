@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Bitomancer extends Profession implements IProfession {
+export class Bitomancer extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Hack';
   public readonly oocAbilityDesc = 'Decrease your Forsake event rate significantly.';

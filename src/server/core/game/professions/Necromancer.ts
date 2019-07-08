@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Necromancer extends Profession implements IProfession {
+export class Necromancer extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Minion Spawn';
   public readonly oocAbilityDesc = 'Summon minions to join you in your next few combats.';

@@ -1,10 +1,10 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 import { EventName } from '../events/Event';
 
-export class MagicalMonster extends Profession implements IProfession {
+export class MagicalMonster extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Tempt Fate';
   public readonly oocAbilityDesc = 'Sing a fateful song, and find out what happens next!';

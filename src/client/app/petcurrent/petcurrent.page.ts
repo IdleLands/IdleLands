@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { PetUpgrade, PermanentPetUpgrade } from '../../../shared/interfaces';
+import { PetUpgrade, PermanentPetUpgrade, ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-petcurrent',
@@ -47,8 +47,12 @@ export class PetcurrentPage implements OnInit {
   ngOnInit() {
   }
 
-  upgradeAttr(petAttr: PetUpgrade) {
+  upgradeAttr(petUpgrade: PetUpgrade) {
+    this.socketService.emit(ServerEventName.PetUpgrade, { petUpgrade });
+  }
 
+  oocAction() {
+    this.socketService.emit(ServerEventName.PetOOCAction);
   }
 
 }

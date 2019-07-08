@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Generalist extends Profession implements IProfession {
+export class Generalist extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Generalize';
   public readonly oocAbilityDesc = 'Gain XP based on your LUK.';

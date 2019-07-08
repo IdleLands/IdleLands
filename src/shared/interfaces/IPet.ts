@@ -1,7 +1,8 @@
-import { ICharacter } from './IPlayer';
+import { ICharacter, IPlayer } from './IPlayer';
 import { ItemSlot } from './IItem';
 import { Stat } from './Stat';
 import { RestrictedNumber } from 'restricted-number';
+import { IAffinity, IAttribute } from './IProfession';
 
 export enum PermanentPetUpgrade {
 
@@ -53,36 +54,36 @@ export enum PetUpgrade {
 export enum PetAffinity {
 
   // non-combat
-  None = 'none',
+  None = 'None',
 
   // primarily physical attack/skills
-  Attacker = 'attacker',
+  Attacker = 'Attacker',
 
   // primarily buffs
-  Buffer = 'buffer',
+  Buffer = 'Buffer',
 
   // primarily offensive spells
-  Caster = 'caster',
+  Caster = 'Caster',
 
   // primarily defensive skills
-  Defender = 'defender',
+  Defender = 'Defender',
 
   // primarily heals
-  Healer = 'healer',
+  Healer = 'Healer',
 
   // primarily debuffs
-  Slagger = 'slagger'
+  Slagger = 'Slagger'
 
 }
 
 export enum PetAttribute {
-  Alchemist = 'alchemist',
-  Blessed = 'blessed',
-  Fateful = 'fateful',
-  Mischievous = 'mischievous',
-  Surging = 'surging',
-  Thief = 'thief',
-  Trueseer = 'trueseer'
+  Alchemist = 'Alchemist',
+  Blessed = 'Blessed',
+  Fateful = 'Fateful',
+  Mischievous = 'Mischievous',
+  Surging = 'Surging',
+  Thief = 'Thief',
+  Trueseer = 'Trueseer'
 }
 
 export interface IPet extends ICharacter {
@@ -90,8 +91,14 @@ export interface IPet extends ICharacter {
   // if unspecified, it will be randomly chosen
   affinity: PetAffinity;
 
+  // the implementation of the affinity above
+  $affinity: IAffinity;
+
   // if unspecified, it will be randomly chosen (<pet> the <attribute>)
   attribute: PetAttribute;
+
+  // the implementation of the attribute above
+  $attribute: IAttribute;
 
   // rating is 1..5 - starts at 1, but can be upgraded
   rating: number;
@@ -121,6 +128,7 @@ export interface IPet extends ICharacter {
   permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
 
   loop(): void;
+  toSaveObject(): any;
 }
 
 export interface IPetProto {

@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Barbarian extends Profession implements IProfession {
+export class Barbarian extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Duel';
   public readonly oocAbilityDesc = 'Begin a duel with a random player.';

@@ -1,5 +1,5 @@
 - typeName: Pet Rock
-  affinity: attacker
+  affinity: Attacker
   cost: 0
 
   equipmentSlots:

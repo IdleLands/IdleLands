@@ -1,10 +1,12 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { species } from 'fantastical';
 
-import { PetAttribute, Stat, IPet, IPlayer, IPetProto, PermanentPetUpgrade, PetAffinity, PetUpgrade } from '../../../shared/interfaces';
+import { PetAttribute, Stat, IPet, IPlayer, IPetProto, PetAffinity, PetUpgrade } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { AssetManager } from './asset-manager';
 import { Pet } from '../../../shared/models/Pet';
+
+import * as Attributes from './attributes';
 
 @Singleton
 @AutoWired
@@ -62,6 +64,10 @@ export class PetHelper {
     });
   }
 
+  syncPetAttribute(pet: IPet): void {
+    pet.$attribute = new Attributes[pet.attribute]();
+  }
+
   syncBasePetStats(pet: IPet): void {
     // compare base soul vs type soul
     // get attribute stats and add them to soul
@@ -76,6 +82,7 @@ export class PetHelper {
 
     this.syncPetNextUpgradeCost(pet);
     this.syncBasePetStats(pet);
+    this.syncPetAttribute(pet);
   }
 
   getSoulStatsForAttribute(attribute: PetAttribute): { [key in Stat]?: number } {

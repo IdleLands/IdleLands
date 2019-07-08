@@ -8,10 +8,11 @@ import { Statistics } from './Statistics.entity';
 import { Inventory } from './Inventory.entity';
 import { Choices } from './Choices.entity';
 
-import { Profession } from '../../../server/core/game/professions/Profession';
+import { BaseProfession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession, IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession,
+  IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -91,7 +92,7 @@ export class Player implements IPlayer {
   // joined vars
   // not serialized to the client
   @nonenumerable
-  public $profession: Profession;
+  public $profession: BaseProfession;
   public $professionData: any;
 
   @nonenumerable
@@ -227,6 +228,16 @@ export class Player implements IPlayer {
 
     this.stamina.sub(this.$profession.oocAbilityCost);
     return this.$profession.oocAbility(this);
+  }
+
+  public petOOCAction(): string {
+    if(this.stamina.total < this.$pets.$activePet.$attribute.oocAbilityCost) return;
+
+    this.increaseStatistic('Character/Stamina/Spend', this.$pets.$activePet.$attribute.oocAbilityCost);
+    this.increaseStatistic(`Pet/${this.$pets.$activePet.typeName}/AbilityUses`, 1);
+
+    this.stamina.sub(this.$pets.$activePet.$attribute.oocAbilityCost);
+    return this.$pets.$activePet.$attribute.oocAbility(this);
   }
 
   public canLevelUp(): boolean {

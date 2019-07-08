@@ -33,6 +33,9 @@ export enum ServerEventName {
   ItemSellAll = 'item:sellall',
   ItemCompare = 'item:compare',
 
+  PetOOCAction = 'pet:oocaction',
+  PetUpgrade = 'pet:upgrade',
+
   ChoiceMake = 'choice:make',
 
   AdventureLogAdd = 'adventurelog:add',

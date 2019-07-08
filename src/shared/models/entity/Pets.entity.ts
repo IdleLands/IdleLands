@@ -3,7 +3,7 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
-import { IPet, PetUpgrade, PermanentPetUpgrade } from '../../interfaces';
+import { IPet, PetUpgrade, PermanentPetUpgrade, PetAttribute } from '../../interfaces';
 import { Pet } from '../Pet';
 
 @Entity()
@@ -25,11 +25,24 @@ export class Pets extends PlayerOwned {
     return { currentPet: this.currentPet, allPets: this.allPets, buyablePets: this.buyablePets };
   }
 
+  public get $activePet(): IPet {
+    return this.allPets[this.currentPet];
+  }
+
   constructor() {
     super();
     if(!this.allPets) this.allPets = {};
     if(!this.currentPet) this.currentPet = '';
     if(!this.buyablePets) this.buyablePets = {};
+  }
+
+  toSaveObject() {
+    const allPets = {};
+    Object.keys(this.allPets).forEach(petKey => {
+      allPets[petKey] = this.allPets[petKey].toSaveObject();
+    });
+
+    return { _id: this._id, owner: this.owner, currentPet: this.currentPet, buyablePets: this.buyablePets, allPets };
   }
 
   public init(player: Player) {
@@ -42,10 +55,12 @@ export class Pets extends PlayerOwned {
 
       this.initPet(pet);
     });
+
+    this.syncBuyablePets(player);
   }
 
   public loop() {
-    this.allPets[this.currentPet].loop();
+    this.$activePet.loop();
   }
 
   public getTotalPermanentUpgradeValue(upgradeAttr: PermanentPetUpgrade): number {
@@ -74,8 +89,24 @@ export class Pets extends PlayerOwned {
     this.addNewPet(madePet, true);
   }
 
-  upgradePet(player: Player, petAttr: PetUpgrade) {
+  private syncBuyablePets(player: Player) {
+
+  }
+
+  changePetAttribute(player: Player, attribute?: PetAttribute) {
+    // call syncPetAttribute for new attr
+  }
+
+  upgradePet(player: Player, petUpgrade: PetUpgrade) {
     // call syncPetNextUpgradeCost for all attrs
+
+    const pet = this.$activePet;
+    const upgrade = this.$activePet.nextUpgrade[petUpgrade];
+
+    player.spendGold(upgrade.c);
+    pet.upgradeLevels[petUpgrade]++;
+
+    (<any>pet).$game.petHelper.syncPetBasedOnProto(pet);
   }
 
 }

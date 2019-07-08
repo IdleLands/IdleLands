@@ -1,16 +1,28 @@
 
-import { get } from 'lodash';
-
 import { Stat } from '../../../../shared/interfaces/Stat';
-import { Player } from '../../../../shared/models/entity';
-import { IProfession } from '../../../../shared/interfaces';
+import { IProfession, ICharacter, IAttribute, IAffinity } from '../../../../shared/interfaces';
 
-export class Profession implements IProfession {
-
-  public readonly specialStatName: string;
+export class BaseAttribute implements IAttribute {
   public readonly oocAbilityName: string;
   public readonly oocAbilityDesc: string;
   public readonly oocAbilityCost: number;
+
+  public get $professionData() {
+    return {
+      oocAbilityDesc: this.oocAbilityDesc,
+      oocAbilityName: this.oocAbilityName,
+      oocAbilityCost: this.oocAbilityCost
+    };
+  }
+
+  public oocAbility(player: ICharacter): string {
+    return '';
+  }
+}
+
+export class BaseProfession extends BaseAttribute implements IAffinity, IAttribute, IProfession {
+
+  public readonly specialStatName: string;
 
   public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
@@ -48,19 +60,7 @@ export class Profession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public get $professionData() {
-    return {
-      oocAbilityDesc: this.oocAbilityDesc,
-      oocAbilityName: this.oocAbilityName,
-      oocAbilityCost: this.oocAbilityCost
-    };
-  }
-
-  public oocAbility(player: Player): string {
-    return '';
-  }
-
-  public calcLevelStat(player: Player, stat: Stat) {
+  public calcLevelStat(player: ICharacter, stat: Stat) {
     return player.level.total * this.statsPerLevel[stat];
   }
 

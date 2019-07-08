@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Pirate extends Profession implements IProfession {
+export class Pirate extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Pillage';
   public readonly oocAbilityDesc = 'Acquire a random item.';

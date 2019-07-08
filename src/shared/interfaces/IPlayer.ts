@@ -118,4 +118,7 @@ export interface IPlayer extends ICharacter {
   changeTitle(newTitle: string): void;
 
   tryToDoNewCharacter(): void;
+
+  oocAction(): string;
+  petOOCAction(): string;
 }

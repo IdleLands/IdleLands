@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Mage extends Profession implements IProfession {
+export class Mage extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Mana';
   public readonly oocAbilityName = 'Alchemy';

@@ -18,7 +18,7 @@ export class PlayerOwned {
     this._id = this._id || ObjectID();
   }
 
-  toSaveObject() {
+  toSaveObject(): any {
     return pickBy(this, (value, key) => !key.startsWith('$'));
   }
 }

@@ -1,12 +1,12 @@
 import { Singleton, AutoWired } from 'typescript-ioc';
 
 import * as AllProfessions from './professions';
-import { Profession } from './professions/Profession';
+import { BaseProfession } from './professions/Profession';
 
 @Singleton
 @AutoWired
 export class ProfessionHelper {
-  public getProfession(prof: string): Profession {
+  public getProfession(prof: string): BaseProfession {
     return new AllProfessions[prof]();
   }
 

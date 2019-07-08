@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Bard extends Profession implements IProfession {
+export class Bard extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Orchestra';
   public readonly oocAbilityDesc = 'Start a festival that lasts an hour.';

@@ -70,6 +70,42 @@
           
           <ion-card>
             <ion-card-header>
+              <ion-card-title>Pet Ability</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <ion-icon slot="start" [src]="'assets/icon/stat-stamina.svg'"></ion-icon>
+  
+                  <span class="ion-padding-start">
+                    {{ player.name }} has {{ player.stamina.__current }}/{{ player.stamina.maximum }} stamina
+                  </span>
+                </ion-item>
+  
+                <ion-item-divider>Special Action</ion-item-divider>
+                <ion-item button 
+                          color="primary" 
+                          *ngIf="pet.$attribute" 
+                          (click)="oocAction()" 
+                          [disabled]="player.stamina.__current < player.$professionData.oocAbilityCost">
+                  {{ pet.$attribute.oocAbilityName }} ({{ pet.$attribute.oocAbilityCost }} Stamina)
+                </ion-item>
+  
+                <ion-item class="ion-text-wrap" *ngIf="pet.$attribute">
+                  {{ pet.$attribute.oocAbilityDesc }}
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
               <ion-card-title>Upgrades</ion-card-title>
             </ion-card-header>
 
@@ -90,7 +126,7 @@
 
                   <ion-button slot="end" 
                               *ngIf="pet.nextUpgrade[upgrade.key]" 
-                              [disabled]="player.gold < pet.nextUpgrade[upgrade.key].c || player.ascensionLevel < (pet.nextUpgrade[upgrade.key].a || 0)" 
+                              [disabled]="player.gold < pet.nextUpgrade[upgrade.key].c || pet.rating < (pet.nextUpgrade[upgrade.key].a || 0)" 
                               (click)="upgradeAttr(upgrade.key)">Upgrade</ion-button>
                 </ion-item>
 

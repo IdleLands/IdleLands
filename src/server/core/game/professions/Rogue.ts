@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Rogue extends Profession implements IProfession {
+export class Rogue extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Pilfer';
   public readonly oocAbilityDesc = 'Steal a random amount of gold from a random player.';

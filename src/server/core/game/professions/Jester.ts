@@ -1,12 +1,12 @@
 
 import { sample } from 'lodash';
 
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { IProfession } from '../../../../shared/interfaces';
 import { GoodMessages } from '../../static/good-messages';
 
-export class Jester extends Profession implements IProfession {
+export class Jester extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Jest';
   public readonly oocAbilityDesc = 'Surely you jest.';

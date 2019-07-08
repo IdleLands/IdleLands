@@ -4,7 +4,7 @@ import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
-import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade, PermanentPetUpgrade } from '../interfaces';
+import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity } from '../interfaces';
 
 export class Pet implements IPet {
 
@@ -23,7 +23,9 @@ export class Pet implements IPet {
 
   public typeName: string;
   public affinity: PetAffinity;
+  public $affinity: IAffinity;
   public attribute: PetAttribute;
+  public $attribute: IAttribute;
   public rating: number;
   public gatherTick: number;
 
@@ -155,6 +157,8 @@ export class Pet implements IPet {
       this.stats[stat] = this.stats[stat] || 0;
 
       // TODO: get equipment stats and add them here
+
+      // TODO: get affinity stats and add them here
 
       // TODO: get all buffs from owner and add them here
 

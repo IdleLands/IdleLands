@@ -1,9 +1,9 @@
-import { Profession } from './Profession';
+import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
 
-export class Archer extends Profession implements IProfession {
+export class Archer extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Pet Phenomenon';
   public readonly oocAbilityDesc = 'Bring more pets to aid you in combat.';
