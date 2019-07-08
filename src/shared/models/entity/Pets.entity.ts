@@ -3,7 +3,7 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
-import { IPet, PetUpgrade, PermanentPetUpgrade, PetAttribute } from '../../interfaces';
+import { IPet, PetUpgrade, PermanentPetUpgrade, PetAttribute, PetAffinity } from '../../interfaces';
 import { Pet } from '../Pet';
 
 @Entity()
@@ -97,11 +97,16 @@ export class Pets extends PlayerOwned {
     // call syncPetAttribute for new attr
   }
 
-  upgradePet(player: Player, petUpgrade: PetUpgrade) {
-    // call syncPetNextUpgradeCost for all attrs
+  changePetAffinity(player: Player, affinity?: PetAffinity) {
+    // call syncPetAttribute for new attr
+  }
 
+  upgradePet(player: Player, petUpgrade: PetUpgrade) {
     const pet = this.$activePet;
     const upgrade = this.$activePet.nextUpgrade[petUpgrade];
+
+    player.increaseStatistic(`Pet/Upgrade/Times`, 1);
+    player.increaseStatistic(`Pet/Upgrade/Spent`, upgrade.c);
 
     player.spendGold(upgrade.c);
     pet.upgradeLevels[petUpgrade]++;
