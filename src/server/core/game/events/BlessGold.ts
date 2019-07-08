@@ -8,7 +8,7 @@ export class BlessGold extends Event {
   public operateOn(player: Player) {
 
     if(player.$party && this.rng.likelihood(25)) {
-      (<any>player).$game.eventManager.doEventFor(player, EventName.BlessGoldParty);
+      player.$$game.eventManager.doEventFor(player, EventName.BlessGoldParty);
       return;
     }
 

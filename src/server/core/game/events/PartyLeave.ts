@@ -11,7 +11,7 @@ export class PartyLeave extends Event {
   public doChoice(eventManager: any, player: Player, choice: Choice, valueChosen: string): boolean {
     if(valueChosen === 'No') return true;
 
-    (<any>player).$game.partyHelper.playerLeave(player);
+    player.$$game.partyHelper.playerLeave(player);
 
     return true;
   }

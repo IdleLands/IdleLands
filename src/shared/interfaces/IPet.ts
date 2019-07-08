@@ -1,4 +1,4 @@
-import { ICharacter, IPlayer } from './IPlayer';
+import { ICharacter } from './IPlayer';
 import { ItemSlot } from './IItem';
 import { Stat } from './Stat';
 import { RestrictedNumber } from 'restricted-number';
@@ -79,11 +79,13 @@ export enum PetAffinity {
 export enum PetAttribute {
   Alchemist = 'Alchemist',
   Blessed = 'Blessed',
+  Cursed = 'Cursed',
+  Golden = 'Golden',
   Fateful = 'Fateful',
-  Mischievous = 'Mischievous',
+  // Mischievous = 'Mischievous', // TODO: ???
   Surging = 'Surging',
-  Thief = 'Thief',
-  Trueseer = 'Trueseer'
+  // Thief = 'Thief', // TODO: steal gold from another player
+  // Trueseer = 'Trueseer' // TODO: teleport to a random, predetermined location (maeles, vocalnus, norkos, etc)
 }
 
 export interface IPet extends ICharacter {

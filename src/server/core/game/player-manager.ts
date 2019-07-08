@@ -160,7 +160,7 @@ export class PlayerManager {
     }
 
     if(player.$party) {
-      (<any>player).$game.partyHelper.playerLeave(player);
+      player.$$game.partyHelper.playerLeave(player);
     }
 
     this.updatePlayerCount();

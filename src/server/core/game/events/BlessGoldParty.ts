@@ -14,7 +14,7 @@ export class BlessGoldParty extends Event {
     const eventText = this.eventText(EventMessageType.BlessGoldParty, player, { gold: totalGoldGain, partyName: player.$party.name });
     const allText = `${eventText} [+${totalGoldGain.toLocaleString()} gold]`;
 
-    (<any>player).$game.eventManager.emitStatGainsToPlayers(player.$party.members, { gold: totalGoldGain });
+    player.$$game.eventManager.emitStatGainsToPlayers(player.$party.members, { gold: totalGoldGain });
     this.emitMessage([player], allText, AdventureLogEventType.Gold);
   }
 }

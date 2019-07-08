@@ -44,6 +44,10 @@ export class Player implements IPlayer {
   @nonenumerable
   private $game: IGame;
 
+  public get $$game(): IGame {
+    return this.$game;
+  }
+
   @Index({ unique: true })
   @Column() public userId: string;
   @Column() public currentUserId: string;

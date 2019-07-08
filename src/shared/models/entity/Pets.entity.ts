@@ -13,7 +13,7 @@ export class Pets extends PlayerOwned {
   @ObjectIdColumn() public _id: string;
 
   @Column()
-  private allPets: { [key: string]: IPet };
+  private allPets: { [key: string]: Pet };
 
   @Column()
   private currentPet: string;
@@ -25,7 +25,7 @@ export class Pets extends PlayerOwned {
     return { currentPet: this.currentPet, allPets: this.allPets, buyablePets: this.buyablePets };
   }
 
-  public get $activePet(): IPet {
+  public get $activePet(): Pet {
     return this.allPets[this.currentPet];
   }
 
@@ -50,7 +50,7 @@ export class Pets extends PlayerOwned {
     if(!this.currentPet) this.firstInit(player);
 
     Object.values(this.allPets).forEach((pet: IPet) => {
-      (<any>pet).$game = (<any>player).$game;
+      (<any>pet).$game = player.$$game;
       (<any>pet).$player = player;
 
       this.initPet(pet);
@@ -67,7 +67,7 @@ export class Pets extends PlayerOwned {
     return Object.values(this.allPets).reduce((prev, cur) => prev + (cur.permanentUpgrades[upgradeAttr] || 0), 0);
   }
 
-  private addNewPet(pet: IPet, setActive?: boolean) {
+  private addNewPet(pet: Pet, setActive?: boolean) {
     this.allPets[pet.typeName] = pet;
 
     if(setActive) {
@@ -80,12 +80,12 @@ export class Pets extends PlayerOwned {
     this.allPets[petData.typeName] = pet;
 
     pet.init();
-    (<any>pet).$game.petHelper.syncPetBasedOnProto(pet);
+    pet.$$game.petHelper.syncPetBasedOnProto(pet);
   }
 
   private firstInit(player: Player) {
-    const petProto = (<any>player).$game.petHelper.getPetProto('Pet Rock');
-    const madePet = (<any>player).$game.petHelper.createPet(player, petProto);
+    const petProto = player.$$game.petHelper.getPetProto('Pet Rock');
+    const madePet = player.$$game.petHelper.createPet(player, petProto);
     this.addNewPet(madePet, true);
   }
 
@@ -111,7 +111,7 @@ export class Pets extends PlayerOwned {
     player.spendGold(upgrade.c);
     pet.upgradeLevels[petUpgrade]++;
 
-    (<any>pet).$game.petHelper.syncPetBasedOnProto(pet);
+    pet.$$game.petHelper.syncPetBasedOnProto(pet);
   }
 
 }

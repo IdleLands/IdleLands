@@ -1,7 +1,6 @@
 import { ServerSocketEvent } from '../../shared/models';
 import { ServerEvent, ServerEventName, PetUpgrade } from '../../shared/interfaces';
 
-
 export class PetOOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PetOOCAction;
   description = 'Execute your pets OOC action.';

@@ -4,12 +4,17 @@ import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
-import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer, PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity } from '../interfaces';
+import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer,
+  PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity } from '../interfaces';
 
 export class Pet implements IPet {
 
   @nonenumerable
   private $game: IGame;
+
+  public get $$game(): IGame {
+    return this.$game;
+  }
 
   @nonenumerable
   private $player: IPlayer;

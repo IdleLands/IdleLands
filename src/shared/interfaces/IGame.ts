@@ -16,6 +16,7 @@ export interface IGame {
   professionHelper: any;
   chatHelper: any;
   partyManager: any;
+  rngService: any;
   partyHelper: any;
   petHelper: any;
 

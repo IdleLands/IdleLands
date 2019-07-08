@@ -16,7 +16,7 @@ export class BlessXPParty extends Event {
     const eventText = this.eventText(EventMessageType.BlessXPParty, player, { xp: totalXPGain, partyName: player.$party.name });
     const allText = `${eventText} [+${totalXPGain.toLocaleString()} xp]`;
 
-    (<any>player).$game.eventManager.emitStatGainsToPlayers(player.$party.members, { xp: totalXPGain });
+    player.$$game.eventManager.emitStatGainsToPlayers(player.$party.members, { xp: totalXPGain });
     this.emitMessageToNames(player.$party.members, allText, AdventureLogEventType.XP);
   }
 }
