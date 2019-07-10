@@ -14,25 +14,27 @@
     </div>
 
     <ion-list>
-      <ion-item-group>
-        <ion-item *ngFor="let pet of player?.$petsData?.allPets | keyvalue">
+      <ion-reorder-group (ionItemReorder)="reorderPets($event)" disabled="false">
+        <ion-item *ngFor="let pet of petOrder">
   
-          <app-gendervatar slot="start" [gender]="pet.value.gender"></app-gendervatar> 
+          <ion-reorder slot="start">
+            <app-gendervatar [gender]="petHash[pet].gender"></app-gendervatar> 
+          </ion-reorder>
   
           <ion-label class="ion-text-wrap">
             <h3>
-              {{ pet.value.name }}, the {{ pet.value.attribute }} {{ pet.value.affinity }}
+              {{ petHash[pet].name }}, the {{ petHash[pet].attribute }} {{ petHash[pet].affinity }}
             </h3>
             <p class="vertical-center">
-              Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}
+              Level {{ petHash[pet].level.__current }}/{{ petHash[pet].level.maximum }}
               &nbsp;
-              <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge>
+              <ion-badge color="tertiary">{{ petHash[pet].rating }}★{{ pet }}</ion-badge>
             </p>
           </ion-label>
   
-          <ion-button slot="end" size="small" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
+          <ion-button slot="end" size="small" *ngIf="player.$petsData.currentPet !== pet" (click)="activate(pet)">Activate</ion-button>
         </ion-item>
-      </ion-item-group>
+      </ion-reorder-group>
 
       <ion-item-group *ngIf="(player.$petsData.buyablePets | keyvalue).length > 0">
         <ion-list-header>Purchaseable Pets</ion-list-header>
