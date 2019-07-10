@@ -14,23 +14,38 @@
     </div>
 
     <ion-list>
-      <ion-item *ngFor="let pet of player?.$petsData?.allPets | keyvalue">
+      <ion-item-group>
+        <ion-item *ngFor="let pet of player?.$petsData?.allPets | keyvalue">
+  
+          <app-gendervatar slot="start" [gender]="pet.value.gender"></app-gendervatar> 
+  
+          <ion-label class="ion-text-wrap">
+            <h3>
+              {{ pet.value.name }}, the {{ pet.value.attribute }} {{ pet.value.affinity }}
+            </h3>
+            <p class="vertical-center">
+              Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}
+              &nbsp;
+              <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge>
+            </p>
+          </ion-label>
+  
+          <ion-button slot="end" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
+        </ion-item>
+      </ion-item-group>
 
-        <app-gendervatar slot="start" [gender]="pet.value.gender"></app-gendervatar> 
+      <ion-item-group *ngIf="(player.$petsData.buyablePets | keyvalue).length > 0">
+        <ion-list-header>Purchaseable Pets</ion-list-header>
+        <ion-item *ngFor="let newPet of player.$petsData.buyablePets | keyvalue">
+          <ion-label>
+            {{ newPet.key }}
+          </ion-label>
 
-        <ion-label class="ion-text-wrap">
-          <h3>
-            {{ pet.value.name }}, the {{ pet.value.attribute }} {{ pet.value.affinity }}
-          </h3>
-          <p class="vertical-center">
-            Level {{ pet.value.level.__current }}/{{ pet.value.level.maximum }}
-            &nbsp;
-            <ion-badge color="tertiary">{{ pet.value.rating }}★{{ pet.key }}</ion-badge>
-          </p>
-        </ion-label>
-
-        <ion-button slot="end" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
-      </ion-item>
+          <ion-button slot="end" [disabled]="player.gold < newPet.value" (click)="buyPet(newPet.key)">
+            Buy for {{ newPet.value | number }} gold
+          </ion-button>
+        </ion-item>
+      </ion-item-group>
     </ion-list>
   </ng-container>
 </ion-content>

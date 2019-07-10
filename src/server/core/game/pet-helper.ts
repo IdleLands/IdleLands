@@ -20,13 +20,14 @@ export class PetHelper {
     return this.assets.allPetAssets[proto];
   }
 
-  buyPet(forPlayer: IPlayer, petProto: IPetProto): IPet {
-    // check gold cost
-    // deduct gold cost
-    // create pet
-    // sync base stats to pet
-    // sync player premium stats based on pet
-    return null;
+  buyPet(forPlayer: IPlayer, petName: string): IPet {
+    const proto = this.getPetProto(petName);
+    const pet = this.createPet(forPlayer, proto);
+
+    pet.init();
+
+    this.syncPetBasedOnProto(pet);
+    return pet;
   }
 
   createPet(forPlayer: IPlayer, petProto: IPetProto): IPet {
@@ -52,6 +53,11 @@ export class PetHelper {
     return proto.upgrades[upgrade][pet.upgradeLevels[upgrade]].v;
   }
 
+  getPetCost(petType: string): number {
+    const proto = this.getPetProto(petType);
+    return proto.cost;
+  }
+
   syncPetNextUpgradeCost(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
@@ -75,12 +81,12 @@ export class PetHelper {
 
   syncPetBasedOnProto(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
+    this.syncPetNextUpgradeCost(pet);
 
     pet.level.maximum = this.getPetUpgradeValue(pet, PetUpgrade.MaxLevel);
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
     pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
 
-    this.syncPetNextUpgradeCost(pet);
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);
   }

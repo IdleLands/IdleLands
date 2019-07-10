@@ -62,3 +62,117 @@
   permanentUpgrades:
     soulStashSizeBoost: 1
 
+- typeName: Pet Boulder
+  affinity: Attacker
+  cost: 100000
+
+  equipmentSlots:
+    body: 3
+  
+  soulStats:
+    luk: 100
+
+  requirements:
+    statistics:
+      Character/Experience/Levels: 49
+
+  upgrades:
+    maxLevel:
+      - { v: 100, c: 0 }
+      - { v: 200, c: 100000 }
+      - { v: 300, c: 1000000, a: 1 }
+
+    goldStorage:
+      - { v: 50000,  c: 0 }
+      - { v: 500000, c: 50000 }
+
+    battleJoinPercent:
+      - { v: 25, c: 0 }
+      - { v: 35, c: 10000 }
+      - { v: 50, c: 100000 }
+      - { v: 75, c: 5000000, a: 3 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,    a: 2 }
+      - { v: 43200,   c: 150000,   a: 3 }
+      - { v: 21800,   c: 450000,   a: 4 }
+      - { v: 10900,   c: 1350000,  a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 1000000, a: 3 }
+      - { v: 2, c: 1000000, a: 5 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 25,  c: 250000 }
+      - { v: 50,  c: 1250000,  a: 1 }
+      - { v: 75,  c: 5250000,  a: 3 }
+      - { v: 100, c: 15250000, a: 5 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 5
+    inventorySizeBoost: 1
+    choiceLogSizeBoost: 1
+
+- typeName: Pet Mountain
+  affinity: Attacker
+  cost: 1000000
+
+  equipmentSlots:
+    body: 5
+  
+  soulStats:
+    luk: 1000
+
+  requirements:
+    statistics:
+      Character/Ascension/Times: 1
+
+  upgrades:
+    maxLevel:
+      - { v: 200, c: 0 }
+      - { v: 300, c: 1000000 }
+      - { v: 500, c: 10000000, a: 1 }
+
+    goldStorage:
+      - { v: 100000,  c: 0 }
+      - { v: 1000000, c: 50000 }
+
+    battleJoinPercent:
+      - { v: 50, c: 100000 }
+      - { v: 75, c: 5000000,  a: 1 }
+      - { v: 85, c: 10000000, a: 3 }
+      - { v: 95, c: 15000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 21800,   c: 4500000 }
+      - { v: 10900,   c: 13500000,  a: 3 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000000, a: 3 }
+      - { v: 2, c: 10000000, a: 5 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 2500000 }
+      - { v: 100, c: 12500000,  a: 1 }
+      - { v: 150, c: 52500000,  a: 3 }
+      - { v: 200, c: 152500000, a: 5 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+      - { v: 1, c: 100000000, a: 1 }
+      - { v: 2, c: 100000000, a: 3 }
+
+  permanentUpgrades:
+    enchantCapBoost: 1
+    itemStatCapBoost: 25
+

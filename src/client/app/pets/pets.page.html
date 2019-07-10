@@ -12,7 +12,7 @@
 
       <!-- tabs must request data like this or it doesn't work -->
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$petsData && player.$petsData.buyablePets.length" color="secondary">{{ player.$petsData.buyablePets.length }}</ion-badge>
+        <ion-badge *ngIf="player.$petsData && (player.$petsData.buyablePets | keyvalue).length" color="secondary">{{ (player.$petsData.buyablePets | keyvalue).length }}</ion-badge>
       </ng-container>
 
     </ion-tab-button>

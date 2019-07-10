@@ -217,6 +217,10 @@ export class Player implements IPlayer {
 
     this.$pets.loop();
 
+    SHARED_FIELDS.forEach(({ name }) => {
+      this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
+    });
+
     this.$game.playerManager.updatePlayer(this);
   }
 
@@ -499,6 +503,7 @@ export class Player implements IPlayer {
       items.forEach(item => this.equip(item));
     }
 
+    this.$achievements.init(this);
     this.$choices.init(this);
     this.$pets.init(this);
 
@@ -610,6 +615,8 @@ export class Player implements IPlayer {
       this.syncTitles();
       this.syncGenders();
       this.syncPersonalities();
+
+      this.$pets.syncBuyablePets(this);
     }
 
     let shouldRecalc = false;
@@ -674,7 +681,7 @@ export class Player implements IPlayer {
   }
 
   // TODO: add this to a premium object (tiers: donator, subscriber, moderator, contributor, gm)
-  private syncPremium() {
+  public syncPremium() {
     const tier = 0;
 
     this.$statistics.set('Game/Premium/Tier', tier);

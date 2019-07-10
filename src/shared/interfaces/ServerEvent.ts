@@ -35,6 +35,8 @@ export enum ServerEventName {
 
   PetOOCAction = 'pet:oocaction',
   PetUpgrade = 'pet:upgrade',
+  PetBuy = 'pet:buy',
+  PetSwap = 'pet:swap',
 
   ChoiceMake = 'choice:make',
 

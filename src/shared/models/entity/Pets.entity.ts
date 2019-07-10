@@ -71,8 +71,12 @@ export class Pets extends PlayerOwned {
     this.allPets[pet.typeName] = pet;
 
     if(setActive) {
-      this.currentPet = pet.typeName;
+      this.setActivePet(pet.typeName);
     }
+  }
+
+  public setActivePet(typeName: string) {
+    this.currentPet = typeName;
   }
 
   private initPet(petData: IPet) {
@@ -89,8 +93,14 @@ export class Pets extends PlayerOwned {
     this.addNewPet(madePet, true);
   }
 
-  private syncBuyablePets(player: Player) {
+  public syncBuyablePets(player: Player) {
+    this.buyablePets = {};
 
+    const achieved = player.$achievements.getPets();
+    achieved.forEach(petName => {
+      if(this.allPets[petName]) return;
+      this.buyablePets[petName] = player.$$game.petHelper.getPetCost(petName);
+    });
   }
 
   changePetAttribute(player: Player, attribute?: PetAttribute) {
@@ -99,6 +109,21 @@ export class Pets extends PlayerOwned {
 
   changePetAffinity(player: Player, affinity?: PetAffinity) {
     // call syncPetAttribute for new attr
+  }
+
+  buyPet(player: Player, petName: string) {
+    if(player.gold < this.buyablePets[petName]) return;
+
+    player.increaseStatistic(`Pet/Buy/Times`, 1);
+    player.increaseStatistic(`Pet/Buy/Spent`, this.buyablePets[petName]);
+    player.spendGold(this.buyablePets[petName]);
+
+    const pet = player.$$game.petHelper.buyPet(player, petName);
+    this.addNewPet(pet, true);
+
+    this.syncBuyablePets(player);
+
+    player.syncPremium();
   }
 
   upgradePet(player: Player, petUpgrade: PetUpgrade) {

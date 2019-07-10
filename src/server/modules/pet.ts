@@ -39,3 +39,39 @@ export class PetUpgradeEvent extends ServerSocketEvent implements ServerEvent {
     this.game.updatePlayer(player);
   }
 }
+export class BuyPetEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetBuy;
+  description = 'Buy a new pet.';
+  args = 'petType';
+
+  async callback({ petType } = { petType: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const buyPet = player.$pets.$petsData.buyablePets[petType];
+    if(!buyPet) return this.gameError('That pet is not for sale!');
+    if(player.gold < buyPet) return this.gameError('You do not have enough gold to do that upgrade!');
+
+    player.$pets.buyPet(player, petType);
+    this.gameMessage(`Bought a new ${petType}!`);
+
+    this.game.updatePlayer(player);
+  }
+}
+export class SwapPetEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetSwap;
+  description = 'Swap to a different pet.';
+  args = 'petType';
+
+  async callback({ petType } = { petType: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const hasPet = player.$pets.$petsData.allPets[petType];
+    if(!hasPet) return this.gameError('You do not have that kind of pet available.');
+
+    player.$pets.setActivePet(petType);
+
+    this.game.updatePlayer(player);
+  }
+}

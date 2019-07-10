@@ -1,4 +1,5 @@
 import { Stat } from './Stat';
+import { IPlayer } from './IPlayer';
 
 export enum AchievementType {
   Progress = 'progress',
@@ -12,6 +13,7 @@ export enum AchievementType {
 export enum AchievementRewardType {
   Stats = 'stat#',
   StatMultipliers = 'stat%',
+  Pet = 'pet',
   PetAttribute = 'petattr',
   Title = 'title',
   DeathMessage = 'deathmsg',
@@ -40,6 +42,21 @@ export interface IAchievement {
 
 export abstract class Achievement {
   static base = 1;
+
+  static readonly statWatches: string[];
+  static readonly type: AchievementType = AchievementType.Special;
+
+  static descriptionForTier(tier: number): string {
+    return `Error: no desc for ach`;
+  }
+
+  static calculateTier(player: IPlayer): number {
+    return 1;
+  }
+
+  static rewardsForTier(tier: number): IAchievementReward[] {
+    return [];
+  }
 
   static log(num: number, base: number): number {
     return +parseFloat(

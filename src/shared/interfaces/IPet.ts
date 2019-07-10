@@ -82,7 +82,7 @@ export enum PetAttribute {
   Cursed = 'Cursed',
   Golden = 'Golden',
   Fateful = 'Fateful',
-  // Mischievous = 'Mischievous', // TODO: ???
+  // Mischievous = 'Mischievous', // TODO: force a battle between this pet and another random pet
   Surging = 'Surging',
   // Thief = 'Thief', // TODO: steal gold from another player
   // Trueseer = 'Trueseer' // TODO: teleport to a random, predetermined location (maeles, vocalnus, norkos, etc)
@@ -145,7 +145,7 @@ export interface IPetProto {
   soulStats: { [key in Stat]?: number };
 
   requirements: {
-    statistics?: { [key: string]: number },
+    statistics: { [key: string]: number },
     achievements?: Array<{ name: string, tier: number }>,
     collectibles?: string[],
     bosses?: string[]

@@ -120,7 +120,7 @@
                     <p *ngIf="pet.nextUpgrade[upgrade.key]">
                       Current: {{ pet.currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }} / Next: {{ pet.nextUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }}
                       <br>
-                      Upgrade Cost: {{ pet.nextUpgrade[upgrade.key].c | number }}g
+                      Upgrade Cost: {{ pet.nextUpgrade[upgrade.key].c | number }}g <span *ngIf="pet.nextUpgrade[upgrade.key].a">/ Ascension {{ pet.nextUpgrade[upgrade.key].a }}</span>
                     </p>
                   </ion-label>
 

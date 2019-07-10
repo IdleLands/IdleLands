@@ -74,6 +74,8 @@ export class Pet implements IPet {
   }
 
   async loop(): Promise<void> {
+    this.gainXP(0);
+    this.gainGold(0);
   }
 
   public getStat(stat: Stat): number {

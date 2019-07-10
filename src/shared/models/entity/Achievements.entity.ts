@@ -4,6 +4,7 @@ import { get, compact, flatten, sortBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { IAchievement, AchievementRewardType } from '../../interfaces';
+import { Player } from './Player.entity';
 
 @Entity()
 export class Achievements extends PlayerOwned {
@@ -21,6 +22,10 @@ export class Achievements extends PlayerOwned {
   constructor() {
     super();
     if(!this.achievements) this.achievements = {};
+  }
+
+  public init(player: Player) {
+    player.$$game.achievementManager.checkAchievementsFor(player);
   }
 
   public add(ach: IAchievement): void {
@@ -57,6 +62,16 @@ export class Achievements extends PlayerOwned {
           ach.rewards
             .filter(reward => reward.type === AchievementRewardType.Personality)
             .map(reward => reward.personality)
+        );
+      })));
+  }
+
+  public getPets(): string[] {
+    return sortBy(flatten(Object.values(this.achievements).map(ach => {
+        return compact(
+          ach.rewards
+            .filter(reward => reward.type === AchievementRewardType.Pet)
+            .map(reward => reward.pet)
         );
       })));
   }

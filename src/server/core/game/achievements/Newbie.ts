@@ -10,7 +10,7 @@ export class Newbie extends Achievement {
     return `Welcome to IdleLands!
       You get a base bonus of +5 XP.
       You also get a starting title: Newbie.
-      Additionally, you get four personalities: Affirmer, Denier, Greedy, Indecisive, Seeker.`;
+      Additionally, you get five personalities: Affirmer, Denier, Greedy, Indecisive, Seeker.`;
   }
 
   static calculateTier(player: Player): number {

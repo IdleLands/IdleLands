@@ -72,6 +72,7 @@ export interface IPlayer extends ICharacter {
   $achievementsData: any;
   $personalitiesData: any;
   $collectiblesData: any;
+  $petsData: any;
 
   lastDir: Direction;
   divineDirection?: { x: number, y: number, steps: number };
