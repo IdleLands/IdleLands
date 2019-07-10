@@ -179,15 +179,19 @@ export class Player implements IPlayer {
     this.initLinks();
 
     // copy all the data to us
-    SHARED_FIELDS.forEach(({ name }) => {
-      this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
-    });
+    this.copyLinkedDataToSelf();
 
     this.increaseStatistic('Game/Logins', 1);
 
     this.recalculateStats();
 
     this.syncPremium();
+  }
+
+  public copyLinkedDataToSelf() {
+    SHARED_FIELDS.forEach(({ name }) => {
+      this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
+    });
   }
 
   public toSaveObject(): any {
@@ -216,10 +220,6 @@ export class Player implements IPlayer {
     }
 
     this.$pets.loop();
-
-    SHARED_FIELDS.forEach(({ name }) => {
-      this[`$${name}Data`] = this[`$${name}`][`$${name}Data`];
-    });
 
     this.$game.playerManager.updatePlayer(this);
   }

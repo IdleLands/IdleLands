@@ -30,7 +30,7 @@
             </p>
           </ion-label>
   
-          <ion-button slot="end" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
+          <ion-button slot="end" size="small" *ngIf="player.$petsData.currentPet !== pet.key" (click)="activate(pet.key)">Activate</ion-button>
         </ion-item>
       </ion-item-group>
 
@@ -41,7 +41,7 @@
             {{ newPet.key }}
           </ion-label>
 
-          <ion-button slot="end" [disabled]="player.gold < newPet.value" (click)="buyPet(newPet.key)">
+          <ion-button size="small" slot="end" [disabled]="player.gold < newPet.value" (click)="buyPet(newPet.key)">
             Buy for {{ newPet.value | number }} gold
           </ion-button>
         </ion-item>

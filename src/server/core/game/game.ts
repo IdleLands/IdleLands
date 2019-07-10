@@ -127,6 +127,8 @@ export class Game implements IGame {
   }
 
   public updatePlayer(player: Player) {
+    player.copyLinkedDataToSelf();
+
     const patch = this.playerManager.getPlayerPatch(player.name);
     this.playerManager.emitToPlayer(player.name, ServerEventName.CharacterPatch, patch);
   }

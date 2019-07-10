@@ -125,6 +125,7 @@
                   </ion-label>
 
                   <ion-button slot="end" 
+                              size="small"
                               *ngIf="pet.nextUpgrade[upgrade.key]" 
                               [disabled]="player.gold < pet.nextUpgrade[upgrade.key].c || pet.rating < (pet.nextUpgrade[upgrade.key].a || 0)" 
                               (click)="upgradeAttr(upgrade.key)">Upgrade</ion-button>
