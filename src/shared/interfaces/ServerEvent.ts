@@ -37,6 +37,8 @@ export enum ServerEventName {
   PetUpgrade = 'pet:upgrade',
   PetBuy = 'pet:buy',
   PetSwap = 'pet:swap',
+  PetEquip = 'pet:equip',
+  PetUnequip = 'pet:unequip',
 
   ChoiceMake = 'choice:make',
 

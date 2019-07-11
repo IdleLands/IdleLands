@@ -1,5 +1,5 @@
 import { ServerSocketEvent } from '../../shared/models';
-import { ServerEvent, ServerEventName, PetUpgrade } from '../../shared/interfaces';
+import { ServerEvent, ServerEventName, PetUpgrade, ItemSlot } from '../../shared/interfaces';
 
 export class PetOOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PetOOCAction;
@@ -73,5 +73,52 @@ export class SwapPetEvent extends ServerSocketEvent implements ServerEvent {
     player.$pets.setActivePet(petType);
 
     this.game.updatePlayer(player);
+  }
+}
+
+export class PetEquipItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetEquip;
+  description = 'Equip an item from your inventory to your pet.';
+  args = 'itemId';
+
+  async callback({ itemId } = { itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const foundItem = player.$inventory.getItemFromInventory(itemId);
+    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+
+    const didSucceed = player.$pets.$activePet.equip(foundItem);
+    if(!didSucceed) return this.notConnected();
+
+    player.$inventory.removeItemFromInventory(foundItem);
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Equipped ${foundItem.name} to your pet!`);
+  }
+}
+
+export class PetUnequipItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetUnequip;
+  description = 'Unequip an item from your pet.';
+  args = 'itemSlot, itemId';
+
+  async callback({ itemSlot, itemId } = { itemSlot: '', itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const invHasSpace = player.$inventory.canAddItemsToInventory();
+    if(!invHasSpace) return this.gameError('Your inventory is full.');
+
+    const item = player.$pets.$activePet.findEquippedItemById(<ItemSlot>itemSlot, itemId);
+    if(!item) return this.gameError('That item is not equipped to your pet.');
+
+    const didSucceed = player.$pets.$activePet.unequip(item);
+    if(!didSucceed) return this.gameError('You could not unequip that item.');
+
+    player.$inventory.addItemToInventory(item);
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Unequipped ${item.name} from your pet!`);
   }
 }

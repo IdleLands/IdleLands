@@ -1,5 +1,5 @@
-import { ICharacter } from './IPlayer';
-import { ItemSlot } from './IItem';
+import { ICharacter, IPlayer } from './IPlayer';
+import { ItemSlot, IItem } from './IItem';
 import { Stat } from './Stat';
 import { RestrictedNumber } from 'restricted-number';
 import { IAffinity, IAttribute } from './IProfession';
@@ -128,6 +128,9 @@ export interface IPet extends ICharacter {
 
   // the permanent upgrades offered by the pet
   permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+
+  // the pet equipment slots
+  equipment: { [key in ItemSlot]?: IItem[] };
 
   loop(): void;
   toSaveObject(): any;

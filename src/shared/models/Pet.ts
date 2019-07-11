@@ -1,11 +1,11 @@
 
-import { pickBy } from 'lodash';
+import { pickBy, find, pull } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
 import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer,
-  PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity } from '../interfaces';
+  PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity, ItemSlot } from '../interfaces';
 
 export class Pet implements IPet {
 
@@ -45,6 +45,8 @@ export class Pet implements IPet {
   public nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
   public permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+
+  public equipment: { [key in ItemSlot]?: Item[] };
 
   init() {
 
@@ -179,38 +181,27 @@ export class Pet implements IPet {
     this.stats.gold = Math.max(0, this.stats.gold);
   }
 
-  public equip(item: Item, failOnInventoryFull = true): boolean {
-    /*
-    const oldItem = this.$inventory.itemInEquipmentSlot(item.type);
-    if(oldItem) {
-      const successful = this.unequip(oldItem, failOnInventoryFull);
-      if(!successful) return false;
+  public findEquippedItemById(itemSlot: ItemSlot, itemId: string): Item {
+    return find(this.equipment[itemSlot], { id: itemId });
+  }
+
+  public equip(item: Item): boolean {
+    if(this.equipment[item.type].every(x => !!x)) {
+      return false;
     }
 
-    this.increaseStatistic('Item/Equip/Times', 1);
+    // push the new item to the beginning and pop an empty
+    this.equipment[item.type].unshift(item);
+    this.equipment[item.type].pop();
 
-    this.$inventory.equipItem(item);
     this.recalculateStats();
-    */
     return true;
   }
 
-  public unequip(item: Item, failOnInventoryFull = false): boolean {
-    /*
-    if(failOnInventoryFull && !this.$inventory.canAddItemsToInventory()) return false;
-
-    this.$inventory.unequipItem(item);
+  public unequip(item: Item): boolean {
+    pull(this.equipment[item.type], item);
+    
     this.recalculateStats();
-
-    this.increaseStatistic('Item/Unequip/Times', 1);
-
-    if(this.$inventory.canAddItemsToInventory()) {
-      this.$inventory.addItemToInventory(item);
-    } else {
-      this.sellItem(item);
-    }
-    */
-
     return true;
   }
 

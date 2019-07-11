@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule } from '@ionic/angular';
 
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
 import { SocketClusterService } from './socket-cluster.service';
 import { GameService } from './game.service';
 import { LoggedInGuard } from './logged-in.guard';
@@ -14,13 +16,19 @@ import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
 import { ItemComponent } from './_shared/item/item.component';
+import { EquipSomethingElseModal } from './_shared/equipment/equipsomethingelse.modal';
+import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover';
 
 @NgModule({
   declarations: [
     GendervatarComponent,
-    ItemComponent
+    ItemComponent,
+    EquipSomethingElseModal,
+    EquipmentItemPopover
   ],
   entryComponents: [
+    EquipSomethingElseModal,
+    EquipmentItemPopover
   ],
   providers: [
     {
@@ -53,6 +61,7 @@ import { ItemComponent } from './_shared/item/item.component';
   ],
   imports: [
     CommonModule,
+    FilterPipeModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
@@ -60,7 +69,9 @@ import { ItemComponent } from './_shared/item/item.component';
   ],
   exports: [
     GendervatarComponent,
-    ItemComponent
+    ItemComponent,
+    EquipSomethingElseModal,
+    EquipmentItemPopover
   ]
 })
 export class SharedModule { }

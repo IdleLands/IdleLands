@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { IItem, ServerEventName, ItemSlot } from '../../../shared/interfaces';
-import { SocketClusterService } from '../socket-cluster.service';
-import { GameService } from '../game.service';
+import { ItemSlot, IItem } from '../../../../shared/interfaces';
+import { GameService } from '../../game.service';
 
 @Component({
   template: `
@@ -34,19 +33,19 @@ import { GameService } from '../game.service';
 })
 export class EquipSomethingElseModal {
 
+  public filteredItems: IItem[] = [];
+
   @Input() public item: IItem;
   @Input() public slot: ItemSlot;
-
-  public filteredItems: IItem[] = [];
+  @Input() public equipCallback: Function = () => {};
 
   constructor(
     private modalCtrl: ModalController,
-    private socketService: SocketClusterService,
     public gameService: GameService
   ) {}
 
   equip($event, item) {
-    this.socketService.emit(ServerEventName.ItemEquip, { itemId: item.id });
+    this.equipCallback(item);
     this.dismiss();
   }
 

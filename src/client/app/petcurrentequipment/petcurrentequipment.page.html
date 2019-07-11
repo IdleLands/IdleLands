@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Pet Gear</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ng-container *ngIf="player.$petsData.allPets[player.$petsData.currentPet] as pet">
+      <ng-container *ngFor="let equipSlot of pet.equipment | keyvalue">
+        <ion-row *ngFor="let item of equipSlot.value">
+          <ion-col>
+            <app-item [item]="item" 
+                      [slot]="equipSlot.key" 
+                      (itemMenu)="openItemMenu($event, item, equipSlot.key)"></app-item>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ion-content>

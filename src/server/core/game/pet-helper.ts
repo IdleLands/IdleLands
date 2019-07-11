@@ -87,6 +87,13 @@ export class PetHelper {
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
     pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
 
+    pet.equipment = pet.equipment || {};
+    
+    Object.keys(proto.equipmentSlots).forEach(slotName => {
+      pet.equipment[slotName] = pet.equipment[slotName] || [];
+      pet.equipment[slotName].length = proto.equipmentSlots[slotName];
+    });
+
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);
   }

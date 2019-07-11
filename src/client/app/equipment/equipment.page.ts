@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 import { GameService } from '../game.service';
-import { EquipmentItemPopover } from './item.popover';
-import { IItem, ItemSlot } from '../../../shared/interfaces';
+import { EquipmentItemPopover } from '../_shared/equipment/equipmentitem.popover';
+import { IItem, ItemSlot, ServerEventName } from '../../../shared/interfaces';
+import { SocketClusterService } from '../socket-cluster.service';
 
 @Component({
   selector: 'app-equipment',
@@ -19,13 +20,23 @@ export class EquipmentPage {
 
   constructor(
     private popoverCtrl: PopoverController,
+    private socketService: SocketClusterService,
     public gameService: GameService
   ) { }
 
   public async openItemMenu($event, item: IItem, slot: ItemSlot) {
     const popover = await this.popoverCtrl.create({
       component: EquipmentItemPopover,
-      componentProps: { item, slot },
+      componentProps: {
+        item,
+        slot,
+        somethingElseCallback: (chosenItem) => {
+          this.socketService.emit(ServerEventName.ItemEquip, { itemId: chosenItem.id });
+        },
+        unequipCallback: () => {
+          this.socketService.emit(ServerEventName.ItemUnequip, { itemSlot: item.type });
+        }
+      },
       event: $event,
       translucent: true
     });

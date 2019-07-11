@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PopoverController, ModalController } from '@ionic/angular';
-import { IItem, ServerEventName, ItemSlot } from '../../../shared/interfaces';
-import { SocketClusterService } from '../socket-cluster.service';
+import { IItem, ItemSlot } from '../../../../shared/interfaces';
+import { SocketClusterService } from '../../socket-cluster.service';
 import { EquipSomethingElseModal } from './equipsomethingelse.modal';
 
 @Component({
@@ -23,17 +23,18 @@ export class EquipmentItemPopover {
 
   @Input() public item: IItem;
   @Input() public slot: ItemSlot;
+  @Input() public somethingElseCallback: Function = () => {};
+  @Input() public unequipCallback: Function = () => {};
 
   constructor(
     private popoverCtrl: PopoverController,
-    private modalCtrl: ModalController,
-    private socketService: SocketClusterService
+    private modalCtrl: ModalController
   ) {}
 
   async somethingElse() {
     const modal = await this.modalCtrl.create({
       component: EquipSomethingElseModal,
-      componentProps: { item: this.item, slot: this.slot }
+      componentProps: { item: this.item, slot: this.slot, equipCallback: this.somethingElseCallback }
     });
 
     this.dismiss();
@@ -41,7 +42,7 @@ export class EquipmentItemPopover {
   }
 
   unequip() {
-    this.socketService.emit(ServerEventName.ItemUnequip, { itemSlot: this.item.type });
+    this.unequipCallback(this.item);
     this.dismiss();
   }
 

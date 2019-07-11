@@ -5,13 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EquipmentPage } from './equipment.page';
+import { PetcurrentequipmentPage } from './petcurrentequipment.page';
 import { SharedModule } from '../shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: EquipmentPage
+    component: PetcurrentequipmentPage
   }
 ];
 
@@ -24,7 +24,6 @@ const routes: Routes = [
 
     SharedModule
   ],
-  entryComponents: [],
-  declarations: [EquipmentPage]
+  declarations: [PetcurrentequipmentPage]
 })
-export class EquipmentPageModule {}
+export class PetcurrentequipmentPageModule {}

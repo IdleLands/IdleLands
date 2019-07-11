@@ -31,12 +31,19 @@ const routes: Routes = [
       ]
     },
     {
+      path: 'gear',
+      children: [
+        { path: '', loadChildren: './petcurrentequipment/petcurrentequipment.module#PetcurrentequipmentPageModule' }
+      ]
+    },
+    {
       path: '',
       redirectTo: '/pets/current',
       pathMatch: 'full'
     }
   ] },
   { path: '**', redirectTo: 'home' }
+
 ];
 
 @NgModule({
