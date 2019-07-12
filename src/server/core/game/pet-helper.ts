@@ -1,12 +1,14 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { species } from 'fantastical';
 
-import { PetAttribute, Stat, IPet, IPlayer, IPetProto, PetAffinity, PetUpgrade } from '../../../shared/interfaces';
+import { PetAttribute, Stat, IPet, IPlayer, IPetProto, PetAffinity, PetUpgrade, IItem, ItemSlot } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { AssetManager } from './asset-manager';
 import { Pet } from '../../../shared/models/Pet';
 
 import * as Attributes from './attributes';
+import * as Affinities from './affinities';
+import { Item } from '../../../shared/models';
 
 @Singleton
 @AutoWired
@@ -74,9 +76,20 @@ export class PetHelper {
     pet.$attribute = new Attributes[pet.attribute]();
   }
 
+  syncPetAffinity(pet: IPet): void {
+    pet.$affinity = new Affinities[pet.affinity]();
+  }
+
   syncBasePetStats(pet: IPet): void {
-    // compare base soul vs type soul
-    // get attribute stats and add them to soul
+    const proto = this.getPetProto(pet.typeName);
+
+    const soulItem = new Item();
+    soulItem.init({
+      name: `${pet.typeName} Soul`,
+      stats: { ...proto.soulStats }
+    });
+
+    pet.equipment[ItemSlot.Soul] = [soulItem];
   }
 
   syncPetEquipmentSlots(pet: IPet): void {
@@ -100,10 +113,7 @@ export class PetHelper {
     this.syncPetEquipmentSlots(pet);
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);
-  }
-
-  getSoulStatsForAttribute(attribute: PetAttribute): { [key in Stat]?: number } {
-    return {};
+    this.syncPetAffinity(pet);
   }
 
 }

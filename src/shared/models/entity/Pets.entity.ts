@@ -85,6 +85,7 @@ export class Pets extends PlayerOwned {
 
     pet.init();
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
+    pet.recalculateStats();
   }
 
   private firstInit(player: Player) {

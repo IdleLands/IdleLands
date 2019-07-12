@@ -160,6 +160,84 @@
           </ion-card>
         </ion-col>
       </ion-row>
+
+      <ion-row>
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Stats</ion-card-title>
+            </ion-card-header>
+  
+            <ion-card-content *ngIf="pet.stats">
+              
+              <ion-list>
+                <ion-item-divider>Vital Stats</ion-item-divider>
+  
+                <ion-item>
+                  <ion-button fill="outline" 
+                              slot="start"
+                              color="dark" 
+                              class="ion-margin-end"
+                              (click)="showTrail(pet.$statTrail.hp, stat, pet.stats.hp)">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-hp.svg'"></ion-icon>
+                  </ion-button>
+                  
+                  <ion-label>
+                    <strong class="ion-margin-end">HP</strong> {{ pet.stats.hp | number }}
+                  </ion-label>
+                </ion-item>
+  
+                <ion-item>
+                  <ion-button fill="outline" 
+                              slot="start"
+                              color="dark" 
+                              class="ion-margin-end"
+                              (click)="showTrail(pet.$statTrail.xp, stat, pet.stats.xp)">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
+                  </ion-button>
+                  
+                  <ion-label>
+                    <strong class="ion-margin-end">XP Boost</strong> {{ pet.stats.xp | number }}
+                  </ion-label>
+                </ion-item>
+  
+                <ion-item>
+                  <ion-button fill="outline" 
+                              slot="start"
+                              color="dark" 
+                              class="ion-margin-end"
+                              (click)="showTrail(pet.$statTrail.gold, stat, pet.stats.gold)">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+                  </ion-button>
+                  
+                  <ion-label>
+                    <strong class="ion-margin-end">Gold Boost</strong> {{ pet.stats.gold | number }}
+                  </ion-label>
+                </ion-item>
+  
+                <ion-item-divider>Primary Stats</ion-item-divider>
+  
+                <ion-item *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk']">
+                  <ion-button fill="outline" 
+                              slot="start"
+                              color="dark" 
+                              class="ion-margin-end"
+                              (click)="showTrail(pet.$statTrail[stat], stat, pet.stats[stat])">
+                    <ion-icon slot="icon-only" [src]="'assets/icon/stat-' + stat + '.svg'"></ion-icon>
+                  </ion-button>
+                  
+                  <ion-label>
+                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ pet.stats[stat] | number }}
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+  
+            </ion-card-content>
+          </ion-card>
+  
+        </ion-col>
+      </ion-row>
     </ng-container>
   </ng-container>
 </ion-content>

@@ -13,6 +13,10 @@ import { EquipmentItemPopover } from '../_shared/equipment/equipmentitem.popover
 })
 export class PetcurrentequipmentPage implements OnInit {
 
+  public slots = [
+    'soul', 'body', 'charm', 'feet', 'finger', 'hands', 'head', 'legs', 'mainhand', 'neck', 'offhand'
+  ];
+
   constructor(
     private popoverCtrl: PopoverController,
     private socketService: SocketClusterService,

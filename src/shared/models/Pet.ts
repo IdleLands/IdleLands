@@ -1,5 +1,5 @@
 
-import { pickBy, find, pull } from 'lodash';
+import { pickBy, find, pull, clone } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -37,6 +37,7 @@ export class Pet implements IPet {
   public upgradeLevels: { [key in PetUpgrade]?: number };
 
   private stats: any;
+  private $statTrail: any;
 
   @nonenumerable
   public $party?: IParty;
@@ -57,6 +58,7 @@ export class Pet implements IPet {
     if(!this.gold) this.gold = new RestrictedNumber(0, 0, 0);
     if(!this.rating) this.rating = 1;
     if(!this.stats) this.stats = {};
+    if(!this.$statTrail) this.$statTrail = {};
     if(!this.upgradeLevels) this.upgradeLevels = {};
 
     // reset some aspects
@@ -155,16 +157,19 @@ export class Pet implements IPet {
     this.xp.maximum = this.calcLevelMaxXP(this.level.total);
   }
 
-  private addStatTrail(stat: Stat, val: number) {
+  private addStatTrail(stat: Stat, val: number, reason?: string) {
     if(val === 0) return;
 
     val = Math.floor(val);
 
     this.stats[stat] = this.stats[stat] || 0;
     this.stats[stat] += val;
+    this.$statTrail[stat] = this.$statTrail[stat] || [];
+    this.$statTrail[stat].push({ val, reason });
   }
 
   public recalculateStats(): void {
+    if(!this.$affinity) return;
 
     this.stats = {};
 
@@ -175,20 +180,40 @@ export class Pet implements IPet {
 
       this.stats[stat] = this.stats[stat] || 0;
 
-      // TODO: get equipment stats and add them here
+      Object.keys(this.equipment).forEach(itemSlot => {
+        this.equipment[itemSlot].forEach(item => {
+          if(!item || !item.stats[stat]) return;
 
-      // TODO: get affinity stats and add them here
+          this.addStatTrail(stat, item.stats[stat], `Item: ${item.name}`);
+        });
+      });
 
-      // TODO: get all buffs from owner and add them here
+      Object.keys(this.$player.buffWatches).forEach(buffKey => {
+        this.$player.buffWatches[buffKey].forEach((buff: IBuff) => {
+          if(!buff.stats[stat]) return;
+          this.addStatTrail(stat, buff.stats[stat], `Player Buff: ${buff.name}`);
+        });
+      });
+
+      const profBasePerLevel = this.$affinity.calcLevelStat(this, stat);
+      this.addStatTrail(stat, profBasePerLevel, `${this.affinity}: Base / Lv. (${profBasePerLevel / this.level.total})`);
 
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);
+    });
+    
+    const copyStats = clone(this.stats);
+    allStats.forEach(checkStat => {
+      const profBoosts = this.$affinity.calcStatsForStats(copyStats, checkStat);
+      profBoosts.forEach(({ stat, boost, tinyBoost }) => {
+        this.addStatTrail(checkStat, boost, `${this.affinity} ${checkStat.toUpperCase()} / ${stat.toUpperCase()} (${tinyBoost})`);
+      });
     });
 
     // base values
     this.stats.hp = Math.max(1, this.stats.hp);
     this.stats.xp = Math.max(1, this.stats.xp);
-    this.stats.gold = Math.max(0, this.stats.gold);
+    this.stats.gold = Math.max(1, this.stats.gold);
   }
 
   public findEquippedItemById(itemSlot: ItemSlot, itemId: string): Item {

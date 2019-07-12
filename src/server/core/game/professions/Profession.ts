@@ -20,9 +20,7 @@ export class BaseAttribute implements IAttribute {
   }
 }
 
-export class BaseProfession extends BaseAttribute implements IAffinity, IAttribute, IProfession {
-
-  public readonly specialStatName: string;
+export class BaseAffinity implements IAffinity {
 
   public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
@@ -79,6 +77,26 @@ export class BaseProfession extends BaseAttribute implements IAffinity, IAttribu
         tinyBoost: baseBoosts[boostedStat]
       };
     });
+  }
+}
+
+export class BaseProfession extends BaseAffinity implements IAffinity, IAttribute, IProfession {
+
+  public readonly specialStatName: string;
+  public readonly oocAbilityName: string;
+  public readonly oocAbilityDesc: string;
+  public readonly oocAbilityCost: number;
+
+  public get $professionData() {
+    return {
+      oocAbilityDesc: this.oocAbilityDesc,
+      oocAbilityName: this.oocAbilityName,
+      oocAbilityCost: this.oocAbilityCost
+    };
+  }
+
+  public oocAbility(player: ICharacter): string {
+    return '';
   }
 
 }

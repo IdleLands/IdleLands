@@ -84,7 +84,7 @@ export class Player implements IPlayer {
   @Column() public lastDir: Direction;
   @Column() public divineDirection: { x: number, y: number, steps: number };
 
-  @Column() private buffWatches: { [key in Stat]?: IBuff[] };
+  @Column() public buffWatches: { [key in Stat]?: IBuff[] };
 
   // non-saved player vars
   // still serialized to the client

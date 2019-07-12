@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { PetUpgrade, PermanentPetUpgrade, ServerEventName } from '../../../shared/interfaces';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-petcurrent',
@@ -40,6 +41,7 @@ export class PetcurrentPage implements OnInit {
   };
 
   constructor(
+    private alertCtrl: AlertController,
     private socketService: SocketClusterService,
     public gameService: GameService
   ) { }
@@ -53,6 +55,26 @@ export class PetcurrentPage implements OnInit {
 
   oocAction() {
     this.socketService.emit(ServerEventName.PetOOCAction);
+  }
+
+  async showTrail(trail = [], stat: string, total: number) {
+    const baseString = trail.map(({ val, reason }) => {
+      return `<tr><td>${val > 0 ? '+' + val : val}</td><td>${reason}</td></tr>`;
+    }).join('');
+
+    const resultString = `<tr><td><strong>${total > 0 ? '+' + total : total}</strong></td><td><strong>Total</strong></td>`;
+
+    const finalString = '<table class="stat-trail-table">' + baseString + resultString + '</table>';
+
+    const alert = await this.alertCtrl.create({
+      header: `Stat Trail (${stat.toUpperCase()})`,
+      message: trail.length > 0 ? finalString : 'No trail to display for this stat.',
+      buttons: [
+        'OK'
+      ]
+    });
+
+    alert.present();
   }
 
 }

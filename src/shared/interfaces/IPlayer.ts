@@ -5,6 +5,7 @@ import { ServerEventName } from './ServerEvent';
 import { IProfession } from './IProfession';
 import { IBuff } from './IBuff';
 import { IParty } from './IParty';
+import { Stat } from './Stat';
 
 export enum Direction {
   Southwest = 1,
@@ -76,6 +77,7 @@ export interface IPlayer extends ICharacter {
 
   lastDir: Direction;
   divineDirection?: { x: number, y: number, steps: number };
+  buffWatches: { [key in Stat]?: IBuff[] };
 
   $party?: IParty;
 

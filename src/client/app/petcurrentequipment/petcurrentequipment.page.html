@@ -10,12 +10,12 @@
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <ng-container *ngIf="player.$petsData.allPets[player.$petsData.currentPet] as pet">
-      <ng-container *ngFor="let equipSlot of pet.equipment | keyvalue">
-        <ion-row *ngFor="let item of equipSlot.value">
+      <ng-container *ngFor="let equipSlot of slots">
+        <ion-row *ngFor="let item of pet.equipment[equipSlot]">
           <ion-col>
             <app-item [item]="item" 
-                      [slot]="equipSlot.key" 
-                      (itemMenu)="openItemMenu($event, item, equipSlot.key)"></app-item>
+                      [slot]="equipSlot" 
+                      (itemMenu)="openItemMenu($event, item, equipSlot)"></app-item>
           </ion-col>
         </ion-row>
       </ng-container>
