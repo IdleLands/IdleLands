@@ -74,9 +74,23 @@
               <ion-item *ngIf="player.$party">
                 <ion-icon slot="start" [src]="'assets/icon/category-party.svg'"></ion-icon>
 
-                <ion-label class="ion-padding-start">
+                <ion-label class="ion-padding-start" text-wrap>
                   <div>Party: {{ player.$party.name }}</div>
-                  <div>{{ player.$party.members.join(' · ') }}</div>
+                  <div *ngFor="let member of player.$party.members" [class.ion-hide]="member === player.name">
+                    <div>
+                    </div>
+                    <div class="vertical-center">
+                      <strong>{{ member }}</strong>
+
+                      &nbsp;
+                      <ion-badge color="secondary">
+                        <span *ngIf="gameService.playerInfoHash[member].ascensionLevel">{{ gameService.playerInfoHash[member].ascensionLevel }}★</span>{{ gameService.playerInfoHash[member].level }}
+                      </ion-badge>
+
+                      &nbsp;
+                      {{ gameService.playerInfoHash[member].profession }}
+                    </div>
+                  </div>
                 </ion-label>
 
                 <ion-button slot="end" color="warning" (click)="leaveParty()">

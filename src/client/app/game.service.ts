@@ -76,6 +76,8 @@ export class GameService {
     return this.allPlayers;
   }
 
+  public playerInfoHash: any = {};
+
   private allMessages: IMessage[] = [];
   public get messages(): IMessage[] {
     return this.allMessages;
@@ -190,6 +192,11 @@ export class GameService {
     this.allPlayers = sortBy(uniqBy(this.allPlayers, p => p.name), p => p.name);
   }
 
+  private refreshPlayerInfoHash() {
+    this.playerInfoHash = {};
+    this.allPlayers.forEach(p => this.playerInfoHash[p.name] = p);
+  }
+
   private initCharacterWatches() {
     this.socketService.register(ServerEventName.PlayGame, () => {
       this.socketService.emit(ServerEventName.ChatPlayerListSync);
@@ -222,6 +229,7 @@ export class GameService {
     this.socketService.register(ServerEventName.ChatPlayerListSync, (players) => {
       this.allPlayers.push(...players);
       this.sortAndUniqPlayerList();
+      this.refreshPlayerInfoHash();
     });
 
     this.socketService.watch(Channel.PlayerUpdates, ({ player, operation }) => {
@@ -229,17 +237,20 @@ export class GameService {
         case PlayerChannelOperation.Add: {
           this.allPlayers.push(player);
           this.sortAndUniqPlayerList();
+          this.refreshPlayerInfoHash();
           break;
         }
 
         case PlayerChannelOperation.SpecificUpdate: {
           merge(find(this.allPlayers, { name: player.name }), player);
+          this.playerInfoHash[player.name] = player;
           break;
         }
 
         case PlayerChannelOperation.Remove: {
           pullAllBy(this.allPlayers, [player], p => p.name === player.name);
           this.sortAndUniqPlayerList();
+          this.refreshPlayerInfoHash();
           break;
         }
       }

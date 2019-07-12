@@ -61,7 +61,8 @@ export class Pet implements IPet {
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
     if(!this.upgradeLevels) this.upgradeLevels = {};
-    if(!this.gatherTick) this.updateGatherTick();
+    if(!this.equipment) this.equipment = {};
+    if(!this.gatherTick && this.upgradeLevels[PetUpgrade.GatherTime]) this.updateGatherTick();
 
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
@@ -266,6 +267,8 @@ export class Pet implements IPet {
   }
 
   private updateGatherTick() {
+    if(!this.$$game) return;
+
     const tickValue = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.GatherTime);
     if(!tickValue) return;
 

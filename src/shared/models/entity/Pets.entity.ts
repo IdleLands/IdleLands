@@ -50,10 +50,7 @@ export class Pets extends PlayerOwned {
     if(!this.currentPet) this.firstInit(player);
 
     Object.values(this.allPets).forEach((pet: IPet) => {
-      (<any>pet).$game = player.$$game;
-      (<any>pet).$player = player;
-
-      this.initPet(pet);
+      this.initPet(player, pet);
     });
 
     this.syncBuyablePets(player);
@@ -79,9 +76,12 @@ export class Pets extends PlayerOwned {
     this.currentPet = typeName;
   }
 
-  private initPet(petData: IPet) {
+  private initPet(player: Player, petData: IPet) {
     const pet = Object.assign(new Pet(), petData);
     this.allPets[petData.typeName] = pet;
+
+    (<any>pet).$game = player.$$game;
+    (<any>pet).$player = player;
 
     pet.init();
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
@@ -91,6 +91,10 @@ export class Pets extends PlayerOwned {
   private firstInit(player: Player) {
     const petProto = player.$$game.petHelper.getPetProto('Pet Rock');
     const madePet = player.$$game.petHelper.createPet(player, petProto);
+
+    (<any>madePet).$game = player.$$game;
+    (<any>madePet).$player = player;
+
     this.addNewPet(madePet, true);
   }
 
