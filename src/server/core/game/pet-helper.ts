@@ -63,12 +63,12 @@ export class PetHelper {
   syncPetNextUpgradeCost(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
-    pet.currentUpgrade = {};
-    pet.nextUpgrade = {};
+    pet.$currentUpgrade = {};
+    pet.$nextUpgrade = {};
 
     Object.values(PetUpgrade).forEach(upgrade => {
-      pet.currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade]];
-      pet.nextUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] + 1];
+      pet.$currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade]];
+      pet.$nextUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] + 1];
     });
   }
 

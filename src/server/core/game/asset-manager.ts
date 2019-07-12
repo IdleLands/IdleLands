@@ -7,7 +7,7 @@ import { DatabaseManager } from './database-manager';
 @AutoWired
 export class AssetManager {
 
-  @Inject public databaseManager: DatabaseManager;
+  @Inject private databaseManager: DatabaseManager;
 
   private stringAssets: any;
   private objectAssets: any;
@@ -22,7 +22,7 @@ export class AssetManager {
   public get allStringAssets() {
     return this.stringAssets;
   }
-  
+
   public get allPetAssets() {
     return this.petAssets;
   }
@@ -31,8 +31,8 @@ export class AssetManager {
     return { maps: this.mapAssets, mapInfo: this.mapInfoAssets };
   }
 
-  public async init() {
-    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation } = await this.databaseManager.loadAssets();
+  public async init(assets) {
+    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation } = assets;
 
     this.stringAssets = stringAssets;
     this.objectAssets = objectAssets;

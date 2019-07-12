@@ -13,7 +13,6 @@ const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
 const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
 
 @Singleton
-@AutoWired
 export class DatabaseManager {
   private connection: Connection;
   private manager: MongoEntityManager;

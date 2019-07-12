@@ -121,10 +121,10 @@ export interface IPet extends ICharacter {
   gold: RestrictedNumber;
 
   // the current upgrade level values/costs
-  currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+  $currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
   // the next upgrade level values/costs
-  nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+  $nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
   // the permanent upgrades offered by the pet
   permanentUpgrades: { [key in PermanentPetUpgrade]?: number };

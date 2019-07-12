@@ -129,13 +129,13 @@ export class Pets extends PlayerOwned {
 
   upgradePet(player: Player, petUpgrade: PetUpgrade) {
     const pet = this.$activePet;
-    const upgrade = this.$activePet.nextUpgrade[petUpgrade];
+    const upgrade = this.$activePet.$nextUpgrade[petUpgrade];
 
     player.increaseStatistic(`Pet/Upgrade/Times`, 1);
     player.increaseStatistic(`Pet/Upgrade/Spent`, upgrade.c);
 
     player.spendGold(upgrade.c);
-    pet.upgradeLevels[petUpgrade]++;
+    pet.doUpgrade(petUpgrade);
 
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
   }

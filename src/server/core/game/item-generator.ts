@@ -188,7 +188,7 @@ export class ItemGenerator {
 
   public generateItemForPlayer(
     player: Player,
-    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number }
+    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number }
   ): Item {
     opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total }, opts);
     return this.generateItem(opts);

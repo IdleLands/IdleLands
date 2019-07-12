@@ -59,6 +59,12 @@
 
                   <span class="ion-padding-start">{{ pet.gold.__current | number }} / {{ pet.gold.maximum | number }} Gold</span>
                 </ion-item>
+
+                <ion-item *ngIf="pet.gatherTick">
+                  <ion-icon slot="start" [src]="'assets/icon/stat-itemfind.svg'"></ion-icon>
+
+                  <span class="ion-padding-start"><countdown-timer [end]="pet.gatherTick"></countdown-timer> until next gather</span>
+                </ion-item>
               </ion-list>
             </ion-card-content>
           </ion-card>
@@ -116,18 +122,18 @@
 
                   <ion-label text-wrap>
                     <h3>{{ upgrade.value }}</h3>
-                    <p *ngIf="!pet.nextUpgrade[upgrade.key]">Max Upgrade Level ({{ pet.currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }})</p>
-                    <p *ngIf="pet.nextUpgrade[upgrade.key]">
-                      Current: {{ pet.currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }} / Next: {{ pet.nextUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }}
+                    <p *ngIf="!pet.$nextUpgrade[upgrade.key]">Max Upgrade Level ({{ pet.$currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }})</p>
+                    <p *ngIf="pet.$nextUpgrade[upgrade.key]">
+                      Current: {{ pet.$currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }} / Next: {{ pet.$nextUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }}
                       <br>
-                      Upgrade Cost: {{ pet.nextUpgrade[upgrade.key].c | number }}g <span *ngIf="pet.nextUpgrade[upgrade.key].a">/ Ascension {{ pet.nextUpgrade[upgrade.key].a }}</span>
+                      Upgrade Cost: {{ pet.$nextUpgrade[upgrade.key].c | number }}g <span *ngIf="pet.$nextUpgrade[upgrade.key].a">/ Ascension {{ pet.$nextUpgrade[upgrade.key].a }}</span>
                     </p>
                   </ion-label>
 
                   <ion-button slot="end" 
                               size="small"
-                              *ngIf="pet.nextUpgrade[upgrade.key]" 
-                              [disabled]="player.gold < pet.nextUpgrade[upgrade.key].c || pet.rating < (pet.nextUpgrade[upgrade.key].a || 0)" 
+                              *ngIf="pet.$nextUpgrade[upgrade.key]" 
+                              [disabled]="player.gold < pet.$nextUpgrade[upgrade.key].c || pet.rating < (pet.$nextUpgrade[upgrade.key].a || 0)" 
                               (click)="upgradeAttr(upgrade.key)">Upgrade</ion-button>
                 </ion-item>
 

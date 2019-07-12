@@ -36,8 +36,6 @@ export interface ICharacter {
 
   equip(item: IItem): void;
   unequip(item: IItem): void;
-
-  addBuff(buff: IBuff): void;
 }
 
 export interface IPlayer extends ICharacter {
@@ -124,4 +122,6 @@ export interface IPlayer extends ICharacter {
 
   oocAction(): string;
   petOOCAction(): string;
+
+  addBuff(buff: IBuff): void;
 }

@@ -5,8 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CountdownTimerModule } from 'ngx-countdown-timer';
-
 import { CharacterPage } from './character.page';
 import { SharedModule } from '../shared.module';
 
@@ -23,7 +21,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    CountdownTimerModule,
 
     SharedModule
   ],

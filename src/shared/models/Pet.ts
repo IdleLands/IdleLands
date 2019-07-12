@@ -6,6 +6,7 @@ import { nonenumerable } from 'nonenumerable';
 import { Item } from './Item';
 import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer,
   PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity, ItemSlot } from '../interfaces';
+import { EventName } from '../../server/core/game/events/Event';
 
 export class Pet implements IPet {
 
@@ -42,8 +43,8 @@ export class Pet implements IPet {
   @nonenumerable
   public $party?: IParty;
 
-  public currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
-  public nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+  public $currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
+  public $nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
   public permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
 
@@ -60,6 +61,7 @@ export class Pet implements IPet {
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
     if(!this.upgradeLevels) this.upgradeLevels = {};
+    if(!this.gatherTick) this.updateGatherTick();
 
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
@@ -90,6 +92,11 @@ export class Pet implements IPet {
   async loop(): Promise<void> {
     this.gainXP(0);
     this.gainGold(0);
+
+    if(this.gatherTick && Date.now() > this.gatherTick) {
+      this.doFind();
+      this.updateGatherTick();
+    }
   }
 
   public getStat(stat: Stat): number {
@@ -201,7 +208,7 @@ export class Pet implements IPet {
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);
     });
-    
+
     const copyStats = clone(this.stats);
     allStats.forEach(checkStat => {
       const profBoosts = this.$affinity.calcStatsForStats(copyStats, checkStat);
@@ -243,15 +250,39 @@ export class Pet implements IPet {
     return true;
   }
 
-  public addBuff(buff: IBuff): void {
-
-  }
-
   public sellItem(item: Item): number {
     const value = item.score;
     const modValue = this.gainGold(value);
 
     return modValue;
+  }
+
+  public doUpgrade(upgrade: PetUpgrade) {
+    this.upgradeLevels[upgrade]++;
+
+    if(upgrade === PetUpgrade.GatherTime) {
+      this.updateGatherTick();
+    }
+  }
+
+  private updateGatherTick() {
+    const tickValue = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.GatherTime);
+    if(!tickValue) return;
+
+    this.gatherTick = Date.now() + (tickValue * 1000);
+  }
+
+  private doFind() {
+    const ilpFind = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ILPGatherQuantity);
+    const itemFindLevelBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindLevelBoost);
+    const itemFindQualityBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindQualityBoost);
+
+    const foundItem = this.$$game.itemGenerator.generateItemForPlayer(this.$player, {
+      generateLevel: this.level.total + itemFindLevelBoost, qualityBoost: itemFindQualityBoost
+    });
+
+    this.$player.gainILP(ilpFind);
+    this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
   }
 
 }

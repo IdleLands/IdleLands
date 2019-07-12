@@ -30,10 +30,11 @@ const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
 @Singleton
 export class Game implements IGame {
 
-  @Inject public personalityManager: PersonalityManager;
-  @Inject public achievementManager: AchievementManager;
+  @Inject public logger: Logger;
   @Inject public databaseManager: DatabaseManager;
   @Inject public assetManager: AssetManager;
+  @Inject public personalityManager: PersonalityManager;
+  @Inject public achievementManager: AchievementManager;
   @Inject public playerManager: PlayerManager;
   @Inject public itemGenerator: ItemGenerator;
   @Inject public discordManager: DiscordManager;
@@ -49,19 +50,25 @@ export class Game implements IGame {
   @Inject public petHelper: PetHelper;
   @Inject public rngService: RNGService;
   @Inject public world: World;
-  @Inject public logger: Logger;
 
   private ticks = 0;
 
   public async init(scServer, id: number) {
 
+    await this.logger.init();
+
     this.logger.log('Game', 'Database manager initializing...');
-    await this.databaseManager.init();
+    try {
+      await this.databaseManager.init();
+    } catch(e) {
+      this.logger.error('Game', e);
+    }
 
     this.logger.log('Game', 'Asset manager initializing...');
     try {
-      await this.assetManager.init();
+      await this.assetManager.init(await this.databaseManager.loadAssets());
     } catch(e) {
+      this.logger.error('Game', e);
       this.logger.error(new Error('Failed to load asset manager; did you run `npm run seed`?'));
     }
 

@@ -7,6 +7,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule } from '@ionic/angular';
 
 import { FilterPipeModule } from 'ngx-filter-pipe';
+import { CountdownTimerModule, CountdownTimer } from 'ngx-countdown-timer';
 
 import { SocketClusterService } from './socket-cluster.service';
 import { GameService } from './game.service';
@@ -62,6 +63,7 @@ import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover'
   imports: [
     CommonModule,
     FilterPipeModule,
+    CountdownTimerModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
@@ -71,7 +73,8 @@ import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover'
     GendervatarComponent,
     ItemComponent,
     EquipSomethingElseModal,
-    EquipmentItemPopover
+    EquipmentItemPopover,
+    CountdownTimer
   ]
 })
 export class SharedModule { }

@@ -4,6 +4,10 @@ import { Singleton, AutoWired } from 'typescript-ioc';
 @AutoWired
 export class Logger {
 
+  public async init() {
+
+  }
+
   private timestamp() {
     return new Date();
   }
@@ -12,7 +16,7 @@ export class Logger {
     console.log(this.timestamp(), ...args);
   }
 
-error(...args) {
+  error(...args) {
     console.error(this.timestamp(), ...args);
   }
 
