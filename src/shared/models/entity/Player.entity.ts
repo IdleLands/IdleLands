@@ -708,7 +708,7 @@ export class Player implements IPlayer {
     this.changeProfession(this.$game.professionHelper.getProfession(prof));
   }
 
-  public changeProfession(prof: IProfession): void {
+  public changeProfession(prof: BaseProfession): void {
     this.$profession = prof;
   }
 

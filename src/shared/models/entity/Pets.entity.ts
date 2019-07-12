@@ -139,12 +139,4 @@ export class Pets extends PlayerOwned {
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
   }
 
-  equipPet(player: Player, itemUUID: string) {
-
-  }
-
-  unequipPet(player: Player, itemUUID: string) {
-
-  }
-
 }

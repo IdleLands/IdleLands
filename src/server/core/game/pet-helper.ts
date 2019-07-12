@@ -79,6 +79,16 @@ export class PetHelper {
     // get attribute stats and add them to soul
   }
 
+  syncPetEquipmentSlots(pet: IPet): void {
+    const proto = this.getPetProto(pet.typeName);
+    pet.equipment = pet.equipment || {};
+
+    Object.keys(proto.equipmentSlots).forEach(slotName => {
+      pet.equipment[slotName] = pet.equipment[slotName] || [];
+      pet.equipment[slotName].length = proto.equipmentSlots[slotName];
+    });
+  }
+
   syncPetBasedOnProto(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
     this.syncPetNextUpgradeCost(pet);
@@ -87,13 +97,7 @@ export class PetHelper {
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
     pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
 
-    pet.equipment = pet.equipment || {};
-    
-    Object.keys(proto.equipmentSlots).forEach(slotName => {
-      pet.equipment[slotName] = pet.equipment[slotName] || [];
-      pet.equipment[slotName].length = proto.equipmentSlots[slotName];
-    });
-
+    this.syncPetEquipmentSlots(pet);
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);
   }

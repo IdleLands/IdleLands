@@ -68,6 +68,16 @@ export class Pet implements IPet {
       this.upgradeLevels[upgrade] = this.upgradeLevels[upgrade] || 0;
     });
 
+    Object.keys(this.equipment).forEach(itemSlot => {
+      this.equipment[itemSlot] = this.equipment[itemSlot].map(item => {
+        if(!item) return;
+
+        const itemRef = new Item();
+        itemRef.init(item);
+        return itemRef;
+      });
+    });
+
     this.recalculateStats();
   }
 
@@ -200,7 +210,10 @@ export class Pet implements IPet {
 
   public unequip(item: Item): boolean {
     pull(this.equipment[item.type], item);
-    
+    this.equipment[item.type].push(null);
+
+    this.$$game.petHelper.syncPetEquipmentSlots(this);
+
     this.recalculateStats();
     return true;
   }

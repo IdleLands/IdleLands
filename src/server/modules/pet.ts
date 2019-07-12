@@ -89,7 +89,7 @@ export class PetEquipItemEvent extends ServerSocketEvent implements ServerEvent 
     if(!foundItem) return this.gameError('Could not find that item in your inventory.');
 
     const didSucceed = player.$pets.$activePet.equip(foundItem);
-    if(!didSucceed) return this.notConnected();
+    if(!didSucceed) return this.gameError('Could not equip that item.');
 
     player.$inventory.removeItemFromInventory(foundItem);
 
