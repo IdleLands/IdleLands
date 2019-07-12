@@ -77,18 +77,18 @@
                 <ion-label class="ion-padding-start" text-wrap>
                   <div>Party: {{ player.$party.name }}</div>
                   <div *ngFor="let member of player.$party.members" [class.ion-hide]="member === player.name">
-                    <div>
-                    </div>
                     <div class="vertical-center">
                       <strong>{{ member }}</strong>
-
+                      
                       &nbsp;
-                      <ion-badge color="secondary">
-                        <span *ngIf="gameService.playerInfoHash[member].ascensionLevel">{{ gameService.playerInfoHash[member].ascensionLevel }}★</span>{{ gameService.playerInfoHash[member].level }}
-                      </ion-badge>
-
-                      &nbsp;
-                      {{ gameService.playerInfoHash[member].profession }}
+                      <span *ngIf="gameService.playerInfoHash[member]" class="vertical-center">
+                        <ion-badge color="secondary">
+                          <span *ngIf="gameService.playerInfoHash[member].ascensionLevel">{{ gameService.playerInfoHash[member].ascensionLevel }}★</span>{{ gameService.playerInfoHash[member].level }}
+                        </ion-badge>
+  
+                        &nbsp;
+                        {{ gameService.playerInfoHash[member].profession }}
+                      </span>
                     </div>
                   </div>
                 </ion-label>
