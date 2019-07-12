@@ -179,7 +179,7 @@
                               slot="start"
                               color="dark" 
                               class="ion-margin-end"
-                              (click)="showTrail(pet.$statTrail.hp, stat, pet.stats.hp)">
+                              (click)="showTrail(pet.$statTrail.hp, 'hp', pet.stats.hp)">
                     <ion-icon slot="icon-only" [src]="'assets/icon/stat-hp.svg'"></ion-icon>
                   </ion-button>
                   
@@ -193,7 +193,7 @@
                               slot="start"
                               color="dark" 
                               class="ion-margin-end"
-                              (click)="showTrail(pet.$statTrail.xp, stat, pet.stats.xp)">
+                              (click)="showTrail(pet.$statTrail.xp, 'xp', pet.stats.xp)">
                     <ion-icon slot="icon-only" [src]="'assets/icon/stat-xp.svg'"></ion-icon>
                   </ion-button>
                   
@@ -207,7 +207,7 @@
                               slot="start"
                               color="dark" 
                               class="ion-margin-end"
-                              (click)="showTrail(pet.$statTrail.gold, stat, pet.stats.gold)">
+                              (click)="showTrail(pet.$statTrail.gold, 'gold', pet.stats.gold)">
                     <ion-icon slot="icon-only" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
                   </ion-button>
                   
