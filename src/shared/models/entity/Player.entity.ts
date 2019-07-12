@@ -784,6 +784,7 @@ export class Player implements IPlayer {
     delete buff.statistic;
 
     this.recalculateStats();
+    this.$pets.$activePet.recalculateStats();
   }
 
   public setPos(x: number, y: number, map: string, region: string): void {
