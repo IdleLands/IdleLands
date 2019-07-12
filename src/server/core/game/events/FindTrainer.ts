@@ -20,7 +20,7 @@ export class FindTrainer extends Event {
     return true;
   }
 
-  public operateOn(player: Player, opts?: any) {
+  public operateOn(player: Player, opts: any = { professionName: '' }) {
     const checkProf = this.professionHelper.hasProfession(opts.professionName);
     if(!checkProf || opts.professionName === player.profession) {
       this.emitMessage(

@@ -1,7 +1,7 @@
 import { BaseAffinity } from '../professions/Profession';
 import { Stat } from '../../../../shared/interfaces';
 
-export class Attacker extends BaseAffinity {
+export class Caster extends BaseAffinity {
   public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
       [Stat.CON]: 2

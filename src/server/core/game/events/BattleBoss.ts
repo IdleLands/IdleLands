@@ -6,7 +6,7 @@ import { AdventureLogEventType } from '../../../../shared/interfaces';
 export class BattleBoss extends Event {
   public static readonly WEIGHT = 0;
 
-  public operateOn(player: Player, opts?: any) {
+  public operateOn(player: Player, opts: any = { bossName: '' }) {
     // opts.bossName
     this.emitMessage([player], 'You should be battling a boss right now, but it is not implemented.', AdventureLogEventType.Meta);
   }

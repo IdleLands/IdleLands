@@ -39,8 +39,8 @@ export class FindItem extends Event {
     }
   }
 
-  public operateOn(player: Player, opts?: { item: Item, fromPet: boolean }) {
-    const item = (opts && opts.item) ? opts.item : this.itemGenerator.generateItemForPlayer(player);
+  public operateOn(player: Player, opts: any = { item: null, fromPet: false }) {
+    const item = opts.item || this.itemGenerator.generateItemForPlayer(player);
     if(!item) {
       player.increaseStatistic(`Event/FindItem/Nothing`, 1);
       return;
@@ -57,7 +57,7 @@ export class FindItem extends Event {
 
     player.$choices.addChoice(player, choice);
 
-    const petText = opts && opts.fromPet
+    const petText = opts.fromPet
       ? this._parseText(`${player.$pets.$activePet.name} found %item while digging around!`, player, { item: item.fullName() })
       : '';
     const eventText = petText || this.eventText(EventMessageType.FindItem, player, { item: item.fullName() });
