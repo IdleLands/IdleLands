@@ -15,10 +15,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared.module';
 
-import { PetsPage } from './tabpets/tabpets.page';
+import { PetsPage } from './tab-pets/tab-pets.page';
+import { TabCharPage } from './tab-char/tab-char.page';
+import { TabGearPage } from './tab-gear/tab-gear.page';
+import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
 
 @NgModule({
-  declarations: [AppComponent, PetsPage],
+  declarations: [AppComponent, PetsPage, TabCharPage, TabGearPage, TabAccomplishmentsPage],
   entryComponents: [],
   imports: [
     BrowserModule,

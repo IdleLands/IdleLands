@@ -1,0 +1,21 @@
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="equipment">
+      <ion-icon [src]="'assets/icon/category-gear.svg'"></ion-icon>
+      <ion-label>Equipment</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="inventory">
+      <ion-icon [src]="'assets/icon/category-inventory.svg'"></ion-icon>
+      <ion-label>Inventory</ion-label>
+
+      <!-- tabs must request data like this or it doesn't work -->
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <ion-badge *ngIf="player.$inventoryData" color="secondary">{{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }}</ion-badge>
+      </ng-container>
+
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

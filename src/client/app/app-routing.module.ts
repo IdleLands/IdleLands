@@ -1,22 +1,95 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PetsPage } from './tabpets/tabpets.page';
+import { PetsPage } from './tab-pets/tab-pets.page';
+import { TabCharPage } from './tab-char/tab-char.page';
+import { TabGearPage } from './tab-gear/tab-gear.page';
+import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-  { path: 'character', loadChildren: './character/character.module#CharacterPageModule' },
-  { path: 'adventure-log', loadChildren: './adventure-log/adventure-log.module#AdventureLogPageModule' },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
-  { path: 'inventory', loadChildren: './inventory/inventory.module#InventoryPageModule' },
-  { path: 'statistics', loadChildren: './statistics/statistics.module#StatisticsPageModule' },
-  { path: 'equipment', loadChildren: './equipment/equipment.module#EquipmentPageModule' },
-  { path: 'choices', loadChildren: './choices/choices.module#ChoicesPageModule' },
-  { path: 'personalities', loadChildren: './personalities/personalities.module#PersonalitiesPageModule' },
-  { path: 'achievements', loadChildren: './achievements/achievements.module#AchievementsPageModule' },
   { path: 'map', loadChildren: './map/map.module#MapPageModule' },
-  { path: 'collectibles', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' },
   { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
+
+  { path: 'accomplishments', component: TabAccomplishmentsPage, children: [
+    {
+      path: 'achievements',
+      children: [
+        { path: '', loadChildren: './achievements/achievements.module#AchievementsPageModule' }
+      ]
+    },
+    {
+      path: 'collectibles',
+      children: [
+        { path: '', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' }
+      ]
+    },
+    {
+      path: 'statistics',
+      children: [
+        { path: '', loadChildren: './statistics/statistics.module#StatisticsPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/accomplishments/achievements',
+      pathMatch: 'full'
+    }
+  ] },
+
+  { path: 'gear', component: TabGearPage, children: [
+    {
+      path: 'equipment',
+      children: [
+        { path: '', loadChildren: './equipment/equipment.module#EquipmentPageModule' }
+      ]
+    },
+    {
+      path: 'inventory',
+      children: [
+        { path: '', loadChildren: './inventory/inventory.module#InventoryPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/gear/equipment',
+      pathMatch: 'full'
+    }
+  ] },
+
+  { path: 'character', component: TabCharPage, children: [
+    {
+      path: 'me',
+      children: [
+        { path: '', loadChildren: './character/character.module#CharacterPageModule' }
+      ]
+    },
+    {
+      path: 'adventure-log',
+      children: [
+        { path: '', loadChildren: './adventure-log/adventure-log.module#AdventureLogPageModule' }
+      ]
+    },
+    {
+      path: 'choices',
+      children: [
+        { path: '', loadChildren: './choices/choices.module#ChoicesPageModule' }
+      ]
+    },
+    {
+      path: 'personalities',
+      children: [
+        { path: '', loadChildren: './personalities/personalities.module#PersonalitiesPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/character/me',
+      pathMatch: 'full'
+    }
+  ] },
+
   { path: 'pets', component: PetsPage, children: [
     {
       path: 'all',
@@ -42,6 +115,7 @@ const routes: Routes = [
       pathMatch: 'full'
     }
   ] },
+
   { path: '**', redirectTo: 'home' }
 
 ];
