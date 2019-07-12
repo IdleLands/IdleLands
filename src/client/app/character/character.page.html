@@ -81,13 +81,13 @@
                       <strong>{{ member }}</strong>
                       
                       &nbsp;
-                      <span *ngIf="gameService.playerInfoHash[member]" class="vertical-center">
+                      <span *ngIf="gameService.playerInfoHash[member] as memberPlayer" class="vertical-center">
                         <ion-badge color="secondary">
-                          <span *ngIf="gameService.playerInfoHash[member].ascensionLevel">{{ gameService.playerInfoHash[member].ascensionLevel }}★</span>{{ gameService.playerInfoHash[member].level }}
+                          <span *ngIf="memberPlayer.ascensionLevel">{{ memberPlayer.ascensionLevel }}★</span>{{ memberPlayer.level }}
                         </ion-badge>
   
                         &nbsp;
-                        {{ gameService.playerInfoHash[member].profession }}
+                        {{ memberPlayer.profession }}
                       </span>
                     </div>
                   </div>
