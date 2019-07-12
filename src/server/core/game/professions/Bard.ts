@@ -7,7 +7,7 @@ export class Bard extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Orchestra';
   public readonly oocAbilityDesc = 'Start a festival that lasts an hour.';
-  public readonly oocAbilityCost = 1;
+  public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -46,7 +46,6 @@ export class Bard extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    player.$$game.eventManager.doEventFor(player, 'Party');
     return `Not yet implemented!`;
   }
 }
