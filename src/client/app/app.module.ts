@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared.module';
 
-import { PetsPage } from './pets/pets.page';
+import { PetsPage } from './tabpets/tabpets.page';
 
 @NgModule({
   declarations: [AppComponent, PetsPage],
