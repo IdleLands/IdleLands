@@ -108,9 +108,9 @@ StringAssets.class = _.map(loadDirectory(`${__dirname}/../src/server/core/game/p
 
 _.each(['events', 'strings'], folder => {
   _.each(loadDirectory(`${__dirname}/../assets/content/${folder}`), ({ type, filename }) => {
-    StringAssets[type] = parseFile(filename);
-    StringAssets.providenceName = StringAssets.providenceNames;
-    delete StringAssets.providenceNames;
+    let realType = type;
+    if(type === 'providenceNames') realType = 'providenceName';
+    StringAssets[realType] = parseFile(filename);
   });
 });
 
