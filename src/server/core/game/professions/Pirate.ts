@@ -2,12 +2,13 @@ import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
+import { EventName } from '../events/Event';
 
 export class Pirate extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Pillage';
   public readonly oocAbilityDesc = 'Acquire a random item.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityCost = 50;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -46,6 +47,13 @@ export class Pirate extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+
+    const foundItem = player.$$game.itemGenerator.generateItemForPlayer(player, {
+      generateLevel: player.level.total + Math.log(player.getStat(Stat.LUK)),
+      qualityBoost: 1
+    });
+
+    player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPillage: true, item: foundItem });
+    return `You've pillaged an item!`;
   }
 }

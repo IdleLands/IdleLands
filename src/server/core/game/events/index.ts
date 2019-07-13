@@ -25,3 +25,4 @@ export * from './Gamble';
 export * from './Merchant';
 export * from './Switcheroo';
 export * from './TownCrier';
+export * from './Witch';

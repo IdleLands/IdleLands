@@ -6,4 +6,5 @@ export * from './Choices.entity';
 export * from './Inventory.entity';
 export * from './Personalities.entity';
 export * from './Player.entity';
+export * from './Premium.entity';
 export * from './Statistics.entity';

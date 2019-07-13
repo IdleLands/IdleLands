@@ -51,6 +51,11 @@ export class AssetManager {
     .join(' ');
   }
 
+  public witch() {
+    const grammar = sample(this.stringAssets.providenceGrammar);
+    return this.stringFromGrammar(grammar);
+  }
+
   public providence() {
     const grammar = sample(this.stringAssets.providenceGrammar);
     return this.stringFromGrammar(grammar);

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>ILP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ion-row>
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
+            <ion-card-title>Premium Upgrades</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="player.$premiumData">
+            <ion-list>
+              <ion-item lines="none" text-wrap>You can earn ILP by finding collectibles, leveling up, and ascending.</ion-item>
+
+              <ion-item *ngFor="let upgrade of upgrades">
+                <ion-label>
+                  <h3>{{ upgrade.name }}</h3>
+                  <p>You've upgraded this {{ (player.$premiumData.upgradeLevels[upgrade.upgrade] || 0) | number }} times.</p>
+                  <p>Your next upgrade costs {{ upgradeCost(upgrade.upgrade, player.$premiumData.upgradeLevels[upgrade.upgrade]) | number }} ILP.</p>
+                </ion-label>
+
+                <ion-button slot="end" (click)="buyUpgrade(upgrade.upgrade)">Buy</ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-content>

@@ -1,30 +1,9 @@
-import { ICharacter, IPlayer } from './IPlayer';
+import { ICharacter } from './IPlayer';
 import { ItemSlot, IItem } from './IItem';
 import { Stat } from './Stat';
 import { RestrictedNumber } from 'restricted-number';
 import { IAffinity, IAttribute } from './IProfession';
-
-export enum PermanentPetUpgrade {
-
-  // the permanent inventory size boost for buying this pet
-  InventorySizeBoost = 'inventorySizeBoost',
-
-  // the permanent soul storage size boost for buying this pet
-  SoulStashSizeBoost = 'soulStashSizeBoost',
-
-  // the permanent adventure log size boost for buying this pet
-  AdventureLogSizeBoost = 'adventureLogSizeBoost',
-
-  // the permanent choice log size boost for buying this pet
-  ChoiceLogSizeBoost = 'choiceLogSizeBoost',
-
-  // the permanent enchant cap boost for buying this pet
-  EnchantCapBoost = 'enchantCapBoost',
-
-  // the permanent item stat cap % boost for buying this pet
-  ItemStatCapBoost = 'itemStatCapBoost'
-
-}
+import { PermanentUpgrade } from './IPremium';
 
 export enum PetUpgrade {
 
@@ -127,7 +106,7 @@ export interface IPet extends ICharacter {
   $nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
   // the permanent upgrades offered by the pet
-  permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+  permanentUpgrades: { [key in PermanentUpgrade]?: number };
 
   // the pet equipment slots
   equipment: { [key in ItemSlot]?: IItem[] };
@@ -156,5 +135,5 @@ export interface IPetProto {
 
   // v = value, c = cost (in gold), a = ascension required
   upgrades: { [key in PetUpgrade]: Array<{ v: number, c: number, a?: number }> };
-  permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+  permanentUpgrades: { [key in PermanentUpgrade]?: number };
 }

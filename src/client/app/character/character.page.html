@@ -77,18 +77,18 @@
                 <ion-label class="ion-padding-start" text-wrap>
                   <div>Party: {{ player.$party.name }}</div>
                   <div *ngFor="let member of player.$party.members" [class.ion-hide]="member === player.name">
-                    <div>
-                    </div>
                     <div class="vertical-center">
                       <strong>{{ member }}</strong>
-
+                      
                       &nbsp;
-                      <ion-badge color="secondary">
-                        <span *ngIf="gameService.playerInfoHash[member].ascensionLevel">{{ gameService.playerInfoHash[member].ascensionLevel }}★</span>{{ gameService.playerInfoHash[member].level }}
-                      </ion-badge>
-
-                      &nbsp;
-                      {{ gameService.playerInfoHash[member].profession }}
+                      <span *ngIf="gameService.playerInfoHash[member] as memberPlayer" class="vertical-center">
+                        <ion-badge color="secondary">
+                          <span *ngIf="memberPlayer.ascensionLevel">{{ memberPlayer.ascensionLevel }}★</span>{{ memberPlayer.level }}
+                        </ion-badge>
+  
+                        &nbsp;
+                        {{ memberPlayer.profession }}
+                      </span>
                     </div>
                   </div>
                 </ion-label>
@@ -232,15 +232,15 @@
                 </ion-label>
               </ion-item>
 
-              <ion-item-divider>Boosters & Injuries</ion-item-divider>
+              <ion-item-divider *ngIf="(player.buffWatches | keyvalue).length > 0">Boosters & Injuries</ion-item-divider>
 
               <ng-container *ngFor="let buff of player.buffWatches | keyvalue">
                 <ion-item *ngFor="let actualBuff of buff.value">
                   <ion-icon slot="start" 
                             [src]="'assets/icon/stat-' + (actualBuff.booster ? 'booster' : 'injury') + '.svg'"></ion-icon>
 
-                  <ion-label>
-                    <h2>{{ actualBuff.name }} ({{ actualBuff.duration }}t)</h2>
+                  <ion-label text-wrap>
+                    <h2>{{ actualBuff.name }} ({{ actualBuff.duration }} {{ buff.key }})</h2>
                     <span *ngFor="let stat of actualBuff.stats | keyvalue" class="vertical-center">
                       <ion-icon [src]="'assets/icon/stat-' + stat.key + '.svg'" class="ion-margin-end"></ion-icon> 
                       {{ stat.key.toUpperCase() }} {{ stat.value > 0 ? '+' : '' }}{{ stat.value | number:'1.0-0' }}

@@ -4,7 +4,7 @@ import { SocketClusterService } from '../socket-cluster.service';
 
 @Component({
   selector: 'app-pets',
-  templateUrl: './pets.page.html',
+  templateUrl: './tab-pets.page.html',
   styleUrls: [],
 })
 export class PetsPage implements OnInit {

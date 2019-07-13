@@ -33,35 +33,19 @@ export class AppComponent {
 
   public appPages = [
 
-    { name: 'Achievements', icon: 'achievements', url: '/achievements' },
-
-    { name: 'Adventure Log', icon: 'adventurelog', url: '/adventure-log' },
+    { name: 'Accomplishments', icon: 'achievements', url: '/accomplishments' },
 
     { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
       return this.gameService.unreadMessages;
     } },
 
-    { name: 'Choices', icon: 'choices', url: '/choices', badgeColor: 'primary', badge: (player) => {
-      if(!player.$choicesData) return '';
-      return `${player.$choicesData.choices.length}/${player.$choicesData.size}`;
-    } },
-
-    { name: 'Collectibles', icon: 'collectibles', url: '/collectibles' },
-
-    { name: 'Equipment', icon: 'gear', url: '/equipment' },
-
-    { name: 'Inventory', icon: 'inventory', url: '/inventory', badgeColor: 'primary', badge: (player) => {
-      if(!player.$inventoryData) return '';
-      return `${player.$inventoryData.items.length}/${player.$inventoryData.size}`;
-    } },
+    { name: 'Gear', icon: 'gear', url: '/gear' },
 
     { name: 'Map', icon: 'map', url: '/map' },
 
-    { name: 'Personalities', icon: 'personalities', url: '/personalities' },
-
     { name: 'Pets', icon: 'allpets', url: '/pets' },
 
-    { name: 'Statistics', icon: 'statistics', url: '/statistics' },
+    { name: 'Premium', icon: 'premium', url: '/premium' },
 
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;

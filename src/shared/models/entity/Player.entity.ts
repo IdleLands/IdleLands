@@ -11,14 +11,15 @@ import { Choices } from './Choices.entity';
 import { BaseProfession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession,
-  IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
 import { Personalities } from './Personalities.entity';
 import { Collectibles } from './Collectibles.entity';
 import { Pets } from './Pets.entity';
+import { Premium } from './Premium.entity';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -126,6 +127,10 @@ export class Player implements IPlayer {
   @nonenumerable
   public $pets: Pets;
   public $petsData: any;
+
+  @nonenumerable
+  public $premium: Premium;
+  public $premiumData: any;
 
   @Column()
   public availableGenders: string[];
@@ -316,6 +321,8 @@ export class Player implements IPlayer {
     this.xp.set(0);
     this.xp.maximum = this.calcLevelMaxXP(1);
 
+    this.gainILP(this.level.maximum);
+
     this.increaseStatistic('Character/Ascension/Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
@@ -370,6 +377,8 @@ export class Player implements IPlayer {
   private tryLevelUp(): void {
     if(!this.xp.atMaximum()) return;
     this.level.add(1);
+
+    this.gainILP(1);
 
     this.xp.toMinimum();
     this.resetMaxXP();
@@ -680,28 +689,54 @@ export class Player implements IPlayer {
     this.$personalities.resetPersonalitiesTo(this.getPersonalityInstances());
   }
 
-  // TODO: add this to a premium object (tiers: donator, subscriber, moderator, contributor, gm)
   public syncPremium() {
-    const tier = 0;
+    const tier = this.$premiumData.tier;
 
     this.$statistics.set('Game/Premium/Tier', tier);
 
     this.$statistics.set('Game/Premium/AdventureLogSize',
-      25 + (tier * 25) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.AdventureLogSizeBoost));
+      25
+    + (tier * 25)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.AdventureLogSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.AdventureLogSizeBoost));
+
     this.$statistics.set('Game/Premium/InventorySize',
-      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.InventorySizeBoost));
+      10
+    + (tier * 10)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.InventorySizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.InventorySizeBoost));
+
     this.$statistics.set('Game/Premium/SoulStashSize',
-      0 + (tier * 5) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.SoulStashSizeBoost));
+      0
+    + (tier * 5)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.SoulStashSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.SoulStashSizeBoost));
+
     this.$statistics.set('Game/Premium/ChoiceLogSize',
-      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ChoiceLogSizeBoost));
+      10
+    + (tier * 10)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
+
     this.$statistics.set('Game/Premium/ItemStatCap',
-      300 + (tier * 100) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ItemStatCapBoost));
+      300
+    + (tier * 100)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost));
+
     this.$statistics.set('Game/Premium/EnchantCap',
-      10 + (tier) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.EnchantCapBoost));
+      10
+    + (tier)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.EnchantCapBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.EnchantCapBoost));
+
+    this.$choices.updateSize(this);
+    this.$inventory.updateSize(this);
   }
 
   public gainILP(ilp: number): void {
-    // TODO: gain ilp
+    this.increaseStatistic('Game/Premium/ILP Lifetime Gain', ilp);
+    this.$premium.gainILP(ilp);
   }
 
   public changeProfessionWithRef(prof: string): void {
@@ -714,6 +749,19 @@ export class Player implements IPlayer {
 
   public hasAchievement(achi: string): boolean {
     return !!this.$achievements.getAchievementAchieved(achi);
+  }
+
+  private collectibleRarityILPValue(rarity: ItemClass) {
+    switch(rarity) {
+      case ItemClass.Newbie:  return 1;
+      case ItemClass.Basic:   return 2;
+      case ItemClass.Pro:     return 3;
+      case ItemClass.Idle:    return 4;
+      case ItemClass.Godly:   return 5;
+      case ItemClass.Goatly:  return 7;
+      case ItemClass.Omega:   return 10;
+      default:                return 1;
+    }
   }
 
   public tryFindCollectible({ name, rarity, description, storyline }) {
@@ -745,6 +793,8 @@ export class Player implements IPlayer {
       currentCollectible.count++;
 
       this.increaseStatistic('Item/Collectible/Find', 1);
+
+      this.gainILP(this.collectibleRarityILPValue(currentCollectible.rarity));
 
       const messageData: IAdventureLog = {
         when: Date.now(),

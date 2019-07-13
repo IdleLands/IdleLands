@@ -11,7 +11,6 @@ import { SubscriptionManager } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
 import { ProfessionHelper } from '../profession-helper';
 import { PartyHelper } from '../party-helper';
-import { EventManager } from '../event-manager';
 
 export enum EventMessageType {
   Battle = 'battle',
@@ -30,7 +29,8 @@ export enum EventMessageType {
   Merchant = 'merchant',
   Party = 'party',
   Providence = 'providence',
-  Tinker = 'tinker'
+  Tinker = 'tinker',
+  Witch = 'witch'
 }
 
 export enum EventName {
@@ -54,7 +54,8 @@ export enum EventName {
   PartyLeave = 'PartyLeave',
   Providence = 'Providence',
   Switcheroo = 'Switcheroo',
-  TownCrier = 'TownCrier'
+  TownCrier = 'TownCrier',
+  Witch = 'Witch'
 }
 
 export abstract class Event {
@@ -72,7 +73,8 @@ export abstract class Event {
   protected statTiers = {
     t1: [Stat.AGI, Stat.DEX],
     t2: [Stat.STR, Stat.INT, Stat.CON],
-    t3: [Stat.LUK]
+    t3: [Stat.LUK],
+    t4: [Stat.GOLD, Stat.XP]
   };
 
   public doChoice(

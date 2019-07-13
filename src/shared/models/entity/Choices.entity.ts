@@ -34,7 +34,7 @@ export class Choices extends PlayerOwned {
   }
 
   public init(player: Player): void {
-    this.size = this.calcSize(player);
+    this.updateSize(player);
 
     this.choices = this.choices.map(choice => {
       const choiceRef = new Choice();
@@ -43,6 +43,10 @@ export class Choices extends PlayerOwned {
     });
 
     this.choices = this.choices.filter(x => x.id !== 'PartyLeave');
+  }
+
+  public updateSize(player: Player) {
+    this.size = this.calcSize(player);
   }
 
   public removeChoice(choice: Choice): void {

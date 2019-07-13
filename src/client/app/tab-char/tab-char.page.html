@@ -1,0 +1,32 @@
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="me">
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <app-gendervatar [gender]="player.gender"></app-gendervatar> 
+      </ng-container>
+      <ion-label>Me</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="adventure-log">
+      <ion-icon [src]="'assets/icon/category-adventurelog.svg'"></ion-icon>
+      <ion-label>Adventure Log</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="choices">
+      <ion-icon [src]="'assets/icon/category-choices.svg'"></ion-icon>
+      <ion-label>Choices</ion-label>
+
+      <!-- tabs must request data like this or it doesn't work -->
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <ion-badge *ngIf="player.$choicesData" color="secondary">{{ player.$choicesData.choices.length }}/{{ player.$choicesData.size }}</ion-badge>
+      </ng-container>
+
+    </ion-tab-button>
+
+    <ion-tab-button tab="personalities">
+      <ion-icon [src]="'assets/icon/category-personalities.svg'"></ion-icon>
+      <ion-label>Personalities</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

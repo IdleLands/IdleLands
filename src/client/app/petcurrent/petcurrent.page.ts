@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { PetUpgrade, PermanentPetUpgrade, ServerEventName } from '../../../shared/interfaces';
+import { PetUpgrade, PermanentUpgrade, ServerEventName } from '../../../shared/interfaces';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -31,7 +31,7 @@ export class PetcurrentPage implements OnInit {
     ilpGatherQuantity: ' ILP'
   };
 
-  public properPermanentUpgradeNames: { [key in PermanentPetUpgrade]: string } = {
+  public properPermanentUpgradeNames: { [key in PermanentUpgrade]: string } = {
     inventorySizeBoost: 'Inventory Size',
     soulStashSizeBoost: 'Soul Stash Size',
     adventureLogSizeBoost: 'Adventure Log Size',

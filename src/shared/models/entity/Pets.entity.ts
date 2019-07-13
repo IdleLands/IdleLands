@@ -3,7 +3,7 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
-import { IPet, PetUpgrade, PermanentPetUpgrade, PetAttribute, PetAffinity } from '../../interfaces';
+import { IPet, PetUpgrade, PermanentUpgrade, PetAttribute, PetAffinity } from '../../interfaces';
 import { Pet } from '../Pet';
 
 @Entity()
@@ -60,7 +60,7 @@ export class Pets extends PlayerOwned {
     this.$activePet.loop();
   }
 
-  public getTotalPermanentUpgradeValue(upgradeAttr: PermanentPetUpgrade): number {
+  public getTotalPermanentUpgradeValue(upgradeAttr: PermanentUpgrade): number {
     return Object.values(this.allPets).reduce((prev, cur) => prev + (cur.permanentUpgrades[upgradeAttr] || 0), 0);
   }
 
