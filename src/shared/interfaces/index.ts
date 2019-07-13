@@ -6,6 +6,7 @@ export * from './IAdventureLog';
 export * from './IBuff';
 export * from './IChoice';
 export * from './ICollectible';
+export * from './IGacha';
 export * from './IGame';
 export * from './IItem';
 export * from './IMessage';
