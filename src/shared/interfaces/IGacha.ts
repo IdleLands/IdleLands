@@ -20,6 +20,10 @@ export enum GachaReward {
   XPPetLG = 'xp:pet:lg',
   XPPetMax = 'xp:pet:max',
 
+  GoldSM = 'gold:player:sm',
+  GoldMD = 'gold:player:md',
+  GoldLG = 'gold:player:lg',
+
   SoulGreen = 'collectible:soul:green',
   SoulYellow = 'collectible:soul:yellow',
   SoulRed = 'collectible:soul:red',
@@ -35,10 +39,6 @@ export enum GachaReward {
   CrystalOrange = 'item:crystal:orange',
   CrystalAstral = 'item:crystal:astral',
 
-  GoldSM = 'gold:player:sm',
-  GoldMD = 'gold:player:md',
-  GoldLG = 'gold:player:lg',
-
   ItemBasic = 'item:basic',
   ItemPro = 'item:pro',
   ItemIdle = 'item:idle',
@@ -46,6 +46,44 @@ export enum GachaReward {
   ItemGoatly = 'item:goatly',
   ItemOmega = 'item:omega',
 }
+
+export const GachaNameReward: { [key in GachaReward]: string } = {
+  [GachaReward.XPPlayerSM]: 'Player XP (Small)',
+  [GachaReward.XPPlayerMD]: 'Player XP (Medium)',
+  [GachaReward.XPPlayerLG]: 'Player XP (Large)',
+  [GachaReward.XPPlayerMax]: 'Player Level Up',
+
+  [GachaReward.XPPetSM]: 'Pet XP (Small)',
+  [GachaReward.XPPetMD]: 'Pet XP (Medium)',
+  [GachaReward.XPPetLG]: 'Pet XP (Large)',
+  [GachaReward.XPPetMax]: 'Pet Level Up',
+
+  [GachaReward.GoldSM]: 'Gold (Small)',
+  [GachaReward.GoldMD]: 'Gold (Medium)',
+  [GachaReward.GoldLG]: 'Gold (Large)',
+
+  [GachaReward.ItemBasic]: 'Item (Basic)',
+  [GachaReward.ItemPro]: 'Item (Pro)',
+  [GachaReward.ItemIdle]: 'Item (Idle)',
+  [GachaReward.ItemGodly]: 'Item (Godly)',
+  [GachaReward.ItemGoatly]: 'Item (Goatly)',
+  [GachaReward.ItemOmega]: 'Item (Omega)',
+
+  [GachaReward.SoulGreen]: 'Pet Soul (Green)',
+  [GachaReward.SoulYellow]: 'Pet Soul (Yellow)',
+  [GachaReward.SoulRed]: 'Pet Soul (Red)',
+  [GachaReward.SoulBlue]: 'Pet Soul (Blue)',
+  [GachaReward.SoulPurple]: 'Pet Soul (Purple)',
+  [GachaReward.SoulOrange]: 'Pet Soul (Orange)',
+
+  [GachaReward.CrystalGreen]: 'Pet Crystal (Green)',
+  [GachaReward.CrystalYellow]: 'Pet Crystal (Yellow)',
+  [GachaReward.CrystalRed]: 'Pet Crystal (Red)',
+  [GachaReward.CrystalBlue]: 'Pet Crystal (Blue)',
+  [GachaReward.CrystalPurple]: 'Pet Crystal (Purple)',
+  [GachaReward.CrystalOrange]: 'Pet Crystal (Orange)',
+  [GachaReward.CrystalAstral]: 'Pet Crystal (Astral)',
+};
 
 export interface IGacha {
   name: string;
