@@ -12,7 +12,7 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentPetUpgrade, ItemClass } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -378,6 +378,8 @@ export class Player implements IPlayer {
     if(!this.xp.atMaximum()) return;
     this.level.add(1);
 
+    this.gainILP(1);
+
     this.xp.toMinimum();
     this.resetMaxXP();
 
@@ -722,6 +724,19 @@ export class Player implements IPlayer {
     return !!this.$achievements.getAchievementAchieved(achi);
   }
 
+  private collectibleRarityILPValue(rarity: ItemClass) {
+    switch(rarity) {
+      case ItemClass.Newbie:  return 1;
+      case ItemClass.Basic:   return 2;
+      case ItemClass.Pro:     return 3;
+      case ItemClass.Idle:    return 4;
+      case ItemClass.Godly:   return 5;
+      case ItemClass.Goatly:  return 7;
+      case ItemClass.Omega:   return 10;
+      default:                return 1;
+    }
+  }
+
   public tryFindCollectible({ name, rarity, description, storyline }) {
 
     this.increaseStatistic('Item/Collectible/Touch', 1);
@@ -751,6 +766,8 @@ export class Player implements IPlayer {
       currentCollectible.count++;
 
       this.increaseStatistic('Item/Collectible/Find', 1);
+
+      this.gainILP(this.collectibleRarityILPValue(currentCollectible.rarity));
 
       const messageData: IAdventureLog = {
         when: Date.now(),
