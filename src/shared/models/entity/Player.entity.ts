@@ -316,6 +316,8 @@ export class Player implements IPlayer {
     this.xp.set(0);
     this.xp.maximum = this.calcLevelMaxXP(1);
 
+    this.gainILP(this.level.maximum);
+
     this.increaseStatistic('Character/Ascension/Levels', this.level.maximum);
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
