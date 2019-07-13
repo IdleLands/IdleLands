@@ -5,7 +5,7 @@ import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
 import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer,
-  PetUpgrade, PermanentPetUpgrade, IAttribute, IAffinity, ItemSlot } from '../interfaces';
+  PetUpgrade, PermanentUpgrade, IAttribute, IAffinity, ItemSlot } from '../interfaces';
 import { EventName } from '../../server/core/game/events/Event';
 
 export class Pet implements IPet {
@@ -46,7 +46,7 @@ export class Pet implements IPet {
   public $currentUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
   public $nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
-  public permanentUpgrades: { [key in PermanentPetUpgrade]?: number };
+  public permanentUpgrades: { [key in PermanentUpgrade]?: number };
 
   public equipment: { [key in ItemSlot]?: Item[] };
 

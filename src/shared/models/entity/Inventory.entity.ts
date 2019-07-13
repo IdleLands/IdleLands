@@ -38,7 +38,7 @@ export class Inventory extends PlayerOwned {
   }
 
   public init(player: Player): void {
-    this.size = this.calcSize(player);
+    this.updateSize(player);
 
     this.items = this.items.map(item => {
       const itemRef = new Item();
@@ -56,6 +56,10 @@ export class Inventory extends PlayerOwned {
       itemRef.init(this.equipment[itemSlot]);
       this.equipment[itemSlot] = itemRef;
     });
+  }
+
+  public updateSize(player) {
+    this.size = this.calcSize(player);
   }
 
   public isNeedingNewbieItems(): boolean {

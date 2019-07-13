@@ -13,6 +13,7 @@ export * from './IParty';
 export * from './IPersonality';
 export * from './IPet';
 export * from './IPlayer';
+export * from './IPremium';
 export * from './IProfession';
 
 export * from './Stat';

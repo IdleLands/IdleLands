@@ -12,7 +12,7 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentPetUpgrade, ItemClass } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -695,20 +695,47 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Tier', tier);
 
     this.$statistics.set('Game/Premium/AdventureLogSize',
-      25 + (tier * 25) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.AdventureLogSizeBoost));
+      25
+    + (tier * 25)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.AdventureLogSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.AdventureLogSizeBoost));
+
     this.$statistics.set('Game/Premium/InventorySize',
-      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.InventorySizeBoost));
+      10
+    + (tier * 10)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.InventorySizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.InventorySizeBoost));
+
     this.$statistics.set('Game/Premium/SoulStashSize',
-      0 + (tier * 5) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.SoulStashSizeBoost));
+      0
+    + (tier * 5)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.SoulStashSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.SoulStashSizeBoost));
+
     this.$statistics.set('Game/Premium/ChoiceLogSize',
-      10 + (tier * 10) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ChoiceLogSizeBoost));
+      10
+    + (tier * 10)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
+
     this.$statistics.set('Game/Premium/ItemStatCap',
-      300 + (tier * 100) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.ItemStatCapBoost));
+      300
+    + (tier * 100)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost));
+
     this.$statistics.set('Game/Premium/EnchantCap',
-      10 + (tier) + this.$pets.getTotalPermanentUpgradeValue(PermanentPetUpgrade.EnchantCapBoost));
+      10
+    + (tier)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.EnchantCapBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.EnchantCapBoost));
+
+    this.$choices.updateSize(this);
+    this.$inventory.updateSize(this);
   }
 
   public gainILP(ilp: number): void {
+    this.increaseStatistic('Game/Premium/ILP Lifetime Gain', ilp);
     this.$premium.gainILP(ilp);
   }
 
