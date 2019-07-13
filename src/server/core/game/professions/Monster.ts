@@ -2,12 +2,13 @@ import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
+import { EventName } from '../events/Event';
 
 export class Monster extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Swap Fiend';
   public readonly oocAbilityDesc = 'Perform two switcheroos on yourself.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -46,6 +47,8 @@ export class Monster extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+    player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
+    player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
+    return `You've switched yourself around a bit!`;
   }
 }
