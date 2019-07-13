@@ -4,6 +4,7 @@ import { PetsPage } from './tab-pets/tab-pets.page';
 import { TabCharPage } from './tab-char/tab-char.page';
 import { TabGearPage } from './tab-gear/tab-gear.page';
 import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
+import { TabPremiumPage } from './tab-premium/tab-premium.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -34,6 +35,26 @@ const routes: Routes = [
     {
       path: '',
       redirectTo: '/accomplishments/achievements',
+      pathMatch: 'full'
+    }
+  ] },
+
+  { path: 'premium', component: TabPremiumPage, children: [
+    {
+      path: 'ilp',
+      children: [
+        { path: '', loadChildren: './premium/premium.module#PremiumPageModule' }
+      ]
+    },
+    {
+      path: 'festivals',
+      children: [
+        { path: '', loadChildren: './festivals/festivals.module#FestivalsPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/premium/ilp',
       pathMatch: 'full'
     }
   ] },
@@ -117,6 +138,7 @@ const routes: Routes = [
   ] },
 
   { path: '**', redirectTo: 'home' }
+
 
 ];
 

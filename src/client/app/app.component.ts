@@ -45,6 +45,8 @@ export class AppComponent {
 
     { name: 'Pets', icon: 'allpets', url: '/pets' },
 
+    { name: 'Premium', icon: 'premium', url: '/premium' },
+
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;
       return 'Unsynced';

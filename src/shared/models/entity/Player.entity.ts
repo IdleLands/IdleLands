@@ -11,7 +11,7 @@ import { Choices } from './Choices.entity';
 import { BaseProfession } from '../../../server/core/game/professions/Profession';
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
-  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction, IProfession,
+  IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
   IBuff, Channel, IParty, PermanentPetUpgrade } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
@@ -19,6 +19,7 @@ import { Achievements } from './Achievements.entity';
 import { Personalities } from './Personalities.entity';
 import { Collectibles } from './Collectibles.entity';
 import { Pets } from './Pets.entity';
+import { Premium } from './Premium.entity';
 
 // 5 minutes on prod, 5 seconds on dev
 const STAMINA_TICK_BOOST = process.env.NODE_ENV === 'production' ? 300000 : 5000;
@@ -126,6 +127,10 @@ export class Player implements IPlayer {
   @nonenumerable
   public $pets: Pets;
   public $petsData: any;
+
+  @nonenumerable
+  public $premium: Premium;
+  public $premiumData: any;
 
   @Column()
   public availableGenders: string[];
@@ -682,9 +687,8 @@ export class Player implements IPlayer {
     this.$personalities.resetPersonalitiesTo(this.getPersonalityInstances());
   }
 
-  // TODO: add this to a premium object (tiers: donator, subscriber, moderator, contributor, gm)
   public syncPremium() {
-    const tier = 0;
+    const tier = this.$premiumData.tier;
 
     this.$statistics.set('Game/Premium/Tier', tier);
 
@@ -703,7 +707,7 @@ export class Player implements IPlayer {
   }
 
   public gainILP(ilp: number): void {
-    // TODO: gain ilp
+    this.$premium.gainILP(ilp);
   }
 
   public changeProfessionWithRef(prof: string): void {
