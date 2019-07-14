@@ -1,5 +1,9 @@
 import { IPlayer } from './IPlayer';
 
+export enum GachaFreeReset {
+  Daily = 'daily'
+}
+
 export enum GachaChance {
   Common = 1000,
   Uncommon = 750,
@@ -87,8 +91,10 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
 
 export interface IGacha {
   name: string;
+  desc: string;
   rollCost: number;
   requiredToken?: string;
+  freeResetInterval?: GachaFreeReset;
 
   rewards: Array<{ reward: GachaReward, chance: number }>;
 

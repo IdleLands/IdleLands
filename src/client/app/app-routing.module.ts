@@ -41,6 +41,12 @@ const routes: Routes = [
 
   { path: 'premium', component: TabPremiumPage, children: [
     {
+      path: 'astral-gate',
+      children: [
+        { path: '', loadChildren: './astral-gate/astral-gate.module#AstralGatePageModule' }
+      ]
+    },
+    {
       path: 'ilp',
       children: [
         { path: '', loadChildren: './premium/premium.module#PremiumPageModule' }
@@ -137,9 +143,7 @@ const routes: Routes = [
     }
   ] },
 
-  { path: '**', redirectTo: 'home' }
-
-
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

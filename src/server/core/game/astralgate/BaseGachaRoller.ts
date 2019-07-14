@@ -5,6 +5,7 @@ import { Player } from '../../../../shared/models';
 
 export abstract class BaseGachaRoller implements IGacha {
   abstract name = '???';
+  abstract desc = '???';
   abstract rewards = [];
   abstract rollCost = 999;
 

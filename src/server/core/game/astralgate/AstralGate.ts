@@ -1,9 +1,11 @@
 import { BaseGachaRoller } from './BaseGachaRoller';
-import { GachaReward, GachaChance } from '../../../../shared/interfaces';
+import { GachaReward, GachaChance, GachaFreeReset } from '../../../../shared/interfaces';
 
 export class AstralGate extends BaseGachaRoller {
   name = 'Astral Gate';
+  desc = 'A trip to the Astral Gate can bring you back experience, gold, items, rare pets, and pet enhancing items.';
   rollCost = 10;
+  freeResetInterval = GachaFreeReset.Daily;
 
   rewards = [
     { result: GachaReward.GoldSM,         chance: GachaChance.Common },

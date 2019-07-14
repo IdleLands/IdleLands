@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
         
-        <ion-card>
+        <ion-card *ngIf="player.$premiumData">
           <ion-card-header>
             <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
             <ion-card-title>Premium Upgrades</ion-card-title>
