@@ -96,7 +96,7 @@ export interface IGacha {
   requiredToken?: string;
   freeResetInterval?: GachaFreeReset;
 
-  rewards: Array<{ reward: GachaReward, chance: number }>;
+  rewards: Array<{ result: GachaReward, chance: number }>;
 
   canRoll(player: IPlayer): boolean;
   roll(): GachaReward;

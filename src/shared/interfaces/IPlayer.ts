@@ -64,14 +64,31 @@ export interface IPlayer extends ICharacter {
   availableGenders: string[];
   availableTitles: string[];
 
+  $profession: any;
   $professionData: any;
+
+  $statistics: any;
   $statisticsData: any;
+
+  $inventory: any;
   $inventoryData: any;
+
+  $choices: any;
   $choicesData: any;
+
+  $achievements: any;
   $achievementsData: any;
+
+  $personalities: any;
   $personalitiesData: any;
+
+  $collectibles: any;
   $collectiblesData: any;
+
+  $pets: any;
   $petsData: any;
+
+  $premium: any;
   $premiumData: any;
 
   lastDir: Direction;

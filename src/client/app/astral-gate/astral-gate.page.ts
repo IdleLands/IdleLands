@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
+import { SocketClusterService } from '../socket-cluster.service';
+
+import * as Gachas from '../../../shared/astralgate';
+import { IGacha } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-astral-gate',
@@ -7,9 +12,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AstralGatePage implements OnInit {
 
-  constructor() { }
+  public gachas: IGacha[] = [];
+
+  constructor(
+    private socketService: SocketClusterService,
+    public gameService: GameService
+  ) { }
 
   ngOnInit() {
+    this.gachas.push(...Object.values(Gachas).map(ctor => new ctor()));
   }
 
 }

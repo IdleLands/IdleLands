@@ -8,5 +8,37 @@
 </ion-header>
 
 <ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ion-row *ngFor="let gacha of gachas">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{ gacha.rollCost }} ILP</ion-card-subtitle>
+            <ion-card-title>{{ gacha.name }}</ion-card-title>
+          </ion-card-header>
 
+          <ion-card-content>
+            <ion-row>
+              {{ gacha.desc }}
+            </ion-row>
+
+            <ion-row>
+              <br>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-button *ngIf="gacha.freeResetInterval" color="secondary">Free Roll</ion-button>
+              </ion-col>
+
+              <ion-col text-right>
+                <ion-button [disabled]="player.$premiumData.ilp < gacha.rollCost">Roll</ion-button>
+                <ion-button [disabled]="player.$premiumData.ilp < gacha.rollCost * 10">Roll x10</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
 </ion-content>

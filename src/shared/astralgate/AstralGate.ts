@@ -1,5 +1,5 @@
 import { BaseGachaRoller } from './BaseGachaRoller';
-import { GachaReward, GachaChance, GachaFreeReset } from '../../../../shared/interfaces';
+import { GachaReward, GachaChance, GachaFreeReset } from '../interfaces';
 
 export class AstralGate extends BaseGachaRoller {
   name = 'Astral Gate';

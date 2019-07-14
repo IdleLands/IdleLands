@@ -1,7 +1,6 @@
-import { IGacha } from '../../../../shared/interfaces';
+import { IGacha, IPlayer } from '../interfaces';
 
 import { LootTable } from 'lootastic';
-import { Player } from '../../../../shared/models';
 
 export abstract class BaseGachaRoller implements IGacha {
   abstract name = '???';
@@ -9,7 +8,7 @@ export abstract class BaseGachaRoller implements IGacha {
   abstract rewards = [];
   abstract rollCost = 999;
 
-  canRoll(player: Player): boolean {
+  canRoll(player: IPlayer): boolean {
     return player.$premium.hasILP(this.rollCost);
   }
 
