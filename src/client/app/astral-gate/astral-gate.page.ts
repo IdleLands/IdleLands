@@ -3,7 +3,7 @@ import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 
 import * as Gachas from '../../../shared/astralgate';
-import { IGacha, GachaNameReward } from '../../../shared/interfaces';
+import { IGacha, GachaNameReward, ServerEventName, IPlayer } from '../../../shared/interfaces';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -13,7 +13,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class AstralGatePage implements OnInit {
 
-  public gachas: IGacha[] = [];
+  public gachas: Array<{ key: string, value: IGacha }> = [];
 
   constructor(
     private alertCtrl: AlertController,
@@ -22,7 +22,11 @@ export class AstralGatePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gachas.push(...Object.values(Gachas).map(ctor => new ctor()));
+    this.gachas.push(...Object.keys(Gachas).map(key => ({ key, value: new Gachas[key]() })));
+  }
+
+  canRollGachaFree(player: IPlayer, gacha: IGacha) {
+    return gacha.freeResetInterval && (player.$premiumData.gachaFreeRolls[gacha.name] || 0) < Date.now();
   }
 
   async showOdds(gacha: IGacha) {
@@ -42,6 +46,22 @@ export class AstralGatePage implements OnInit {
       message: finalString,
       buttons: [
         'OK'
+      ]
+    });
+
+    alert.present();
+  }
+
+  async roll(gachaName: string, gacha: IGacha, numRolls: number, isFree: boolean) {
+    const alert = await this.alertCtrl.create({
+      header: `Roll ${gacha.name}`,
+      message: `Are you sure you want to roll ${gacha.name} x${numRolls}?
+                ${isFree ? '' : `This will cost ${gacha.rollCost * numRolls} ILP.`}`,
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Yes, roll!', handler: () => {
+          this.socketService.emit(ServerEventName.AstralGateRoll, { astralGateName: gachaName, numRolls });
+        } }
       ]
     });
 

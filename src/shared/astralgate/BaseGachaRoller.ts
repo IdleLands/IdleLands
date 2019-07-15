@@ -1,4 +1,4 @@
-import { IGacha, IPlayer } from '../interfaces';
+import { IGacha, IPlayer, GachaFreeReset } from '../interfaces';
 
 import { LootTable } from 'lootastic';
 
@@ -8,8 +8,36 @@ export abstract class BaseGachaRoller implements IGacha {
   abstract rewards = [];
   abstract rollCost = 999;
 
-  canRoll(player: IPlayer): boolean {
-    return player.$premium.hasILP(this.rollCost);
+  requiredToken?: string;
+  freeResetInterval?: GachaFreeReset;
+
+  canRollFree(player: IPlayer): boolean {
+    if(!this.freeResetInterval) return false;
+    if(this.freeResetInterval === GachaFreeReset.Daily) return player.$premium.getNextFreeRoll(this.name) < Date.now();
+    return false;
+  }
+
+  canRoll(player: IPlayer, numRolls = 1): boolean {
+    const canRollFree = this.canRollFree(player);
+    if(canRollFree) return true;
+
+    return player.$premium.hasILP(this.rollCost * numRolls);
+  }
+
+  getNextGachaFreeInterval(): number {
+    if(this.freeResetInterval === GachaFreeReset.Daily) {
+      const d = new Date();
+      d.setHours(24, 0, 0, 0);
+      return d.getTime();
+    }
+
+    return 0;
+  }
+
+  spendCurrency(player: IPlayer, numRolls: number): void {
+    if(!this.requiredToken) {
+      player.$premium.spendILP(numRolls * this.rollCost);
+    }
   }
 
   roll() {
