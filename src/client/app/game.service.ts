@@ -203,6 +203,7 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.CharacterSync, (char) => {
+      if(!char.loggedIn) return;
       this.setCurrentPlayer(char);
     });
 

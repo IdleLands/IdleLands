@@ -166,7 +166,7 @@ export class Pet implements IPet {
   }
 
   private addStatTrail(stat: Stat, val: number, reason?: string) {
-    if(val === 0) return;
+    if(val === 0 || stat === Stat.SPECIAL) return;
 
     val = Math.floor(val);
 

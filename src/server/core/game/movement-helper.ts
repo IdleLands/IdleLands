@@ -346,6 +346,10 @@ export class MovementHelper {
 
     const oldLoc = { x: player.x, y: player.y };
 
+    if(player.stepCooldown > 0) {
+      player.stepCooldown--;
+    }
+
     player.stepCooldown--;
     player.lastDir = dir === Direction.Nowhere ? null : dir;
     player.x = newLoc.x;
