@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 
@@ -11,9 +11,10 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './astral-gate.page.html',
   styleUrls: ['./astral-gate.page.scss'],
 })
-export class AstralGatePage implements OnInit {
+export class AstralGatePage implements OnInit, OnDestroy {
 
   public gachas: Array<{ key: string, value: IGacha }> = [];
+  private rewardsCb: Function;
 
   constructor(
     private alertCtrl: AlertController,
@@ -23,6 +24,13 @@ export class AstralGatePage implements OnInit {
 
   ngOnInit() {
     this.gachas.push(...Object.keys(Gachas).map(key => ({ key, value: new Gachas[key]() })));
+
+    this.rewardsCb = ({ rewards }) => this.showRewards(rewards);
+    this.socketService.register(ServerEventName.AstralGateRewards, this.rewardsCb);
+  }
+
+  ngOnDestroy() {
+    this.socketService.unregister(ServerEventName.AstralGateRewards, this.rewardsCb);
   }
 
   canRollGachaFree(player: IPlayer, gacha: IGacha) {
@@ -62,6 +70,18 @@ export class AstralGatePage implements OnInit {
         { text: 'Yes, roll!', handler: () => {
           this.socketService.emit(ServerEventName.AstralGateRoll, { astralGateName: gachaName, numRolls });
         } }
+      ]
+    });
+
+    alert.present();
+  }
+
+  private async showRewards(rewards) {
+    const alert = await this.alertCtrl.create({
+      header: `Astral Gate Rewards`,
+      message: '<ol>' + rewards.map(x => GachaNameReward[x]).map(x => '<li>' + x + '</li>').join('') + '</ol>',
+      buttons: [
+        'OK'
       ]
     });
 

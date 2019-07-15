@@ -42,7 +42,7 @@ export abstract class BaseGachaRoller implements IGacha {
 
   roll() {
     const table = new LootTable(this.rewards);
-    return table.chooseWithReplacement(1);
+    return table.chooseWithReplacement(1)[0];
   }
 
   roll10() {

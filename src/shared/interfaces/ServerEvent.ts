@@ -41,6 +41,7 @@ export enum ServerEventName {
   PetUnequip = 'pet:unequip',
 
   AstralGateRoll = 'astralgate:roll',
+  AstralGateRewards = 'astralgate:rewards',
 
   PremiumUpgrade = 'premium:upgrade',
 

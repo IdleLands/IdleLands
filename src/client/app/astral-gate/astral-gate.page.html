@@ -37,8 +37,8 @@
               </ion-row>
   
               <ion-row>
-                <ion-col>
-                  <ion-button *ngIf="canRollGachaFree(player, gacha.value)" color="secondary" (click)="roll(gacha.key, gacha.value, 10, true)">Free Roll</ion-button>
+                <ion-col *ngIf="canRollGachaFree(player, gacha.value)">
+                  <ion-button color="secondary" (click)="roll(gacha.key, gacha.value, 10, true)">Free Roll</ion-button>
                 </ion-col>
   
                 <ion-col text-right>

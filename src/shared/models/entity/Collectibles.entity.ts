@@ -30,6 +30,13 @@ export class Collectibles extends PlayerOwned {
     return !!this.get(collName);
   }
 
+  public hasCurrently(collName: string): boolean {
+    const coll = this.get(collName);
+    if(!coll) return false;
+
+    return coll.foundAt !== 0;
+  }
+
   public get(collName: string): ICollectible {
     return this.collectibles[collName];
   }

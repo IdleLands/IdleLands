@@ -15,7 +15,7 @@ export class GateRollEvent extends ServerSocketEvent implements ServerEvent {
     const rollRewards = player.$premium.doGachaRoll(player, astralGateName, numRolls);
     if(!rollRewards) return this.gameError('You do not have enough currency to do that roll!');
 
-    console.log(rollRewards);
+    this.emit(ServerEventName.AstralGateRewards, { rewards: rollRewards });
 
     this.game.updatePlayer(player);
   }

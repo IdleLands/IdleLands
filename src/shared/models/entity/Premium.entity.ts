@@ -2,7 +2,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
-import { PermanentUpgrade, PremiumTier, PremiumScale } from '../../interfaces';
+import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -68,6 +68,10 @@ export class Premium extends PlayerOwned {
     return this.upgradeLevels[upgrade] || 0;
   }
 
+  getNextFreeRoll(gachaName: string) {
+    return this.gachaFreeRolls[gachaName] || 0;
+  }
+
   doGachaRoll(player: Player, gachaName: string, numRolls = 1): false|any[] {
     if(!Gachas[gachaName]) return false;
 
@@ -76,26 +80,89 @@ export class Premium extends PlayerOwned {
 
     if(gacha.canRollFree(player)) {
       this.gachaFreeRolls[gacha.name] = gacha.getNextGachaFreeInterval();
+      player.increaseStatistic('Astral Gate/Roll/Free', 1);
     } else {
       gacha.spendCurrency(player, numRolls);
+      player.increaseStatistic('Astral Gate/Roll/Currency', 1);
     }
 
-    const rewards = [];
+    player.increaseStatistic(`Astral Gate/Gates/${gacha.name}`, 1);
+
+    let rewards = [];
     for(let i = 0; i < numRolls; i++) {
       rewards.push(gacha.roll());
     }
 
-    this.earnGachaRewards(rewards);
+    rewards = this.validateRewards(player, rewards);
+
+    this.earnGachaRewards(player, rewards);
 
     return rewards;
   }
 
-  getNextFreeRoll(gachaName: string) {
-    return this.gachaFreeRolls[gachaName] || 0;
+  private validateRewards(player: Player, rewards: string[]): string[] {
+    return rewards.map(reward => {
+
+      // we can't get the same collectible twice if we have it
+      if(reward.includes('collectible')) {
+        const [x, y, color] = reward.split(':');
+        if(player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
+      }
+
+      return reward;
+    });
   }
 
-  earnGachaRewards(rewards: string[]): void {
+  private earnGachaRewards(player: Player, rewards: string[]): void {
+    rewards.forEach(reward => {
+      const [main, sub, choice] = reward.split(':');
 
-    console.log(rewards);
+      switch(main) {
+        case 'xp': {
+          const xpGained = {
+            sm:  (char) => Math.floor(char.xp.maximum * 0.01),
+            md:  (char) => Math.floor(char.xp.maximum * 0.05),
+            lg:  (char) => Math.floor(char.xp.maximum * 0.10),
+            max: (char) => Math.floor(char.xp.maximum)
+          };
+
+          if(sub === 'player') {
+            player.gainXP(xpGained[choice](player));
+          }
+
+          if(sub === 'pet') {
+            player.$pets.$activePet.gainXP(xpGained[choice](player.$pets.$activePet));
+          }
+
+          break;
+        }
+
+        case 'gold': {
+          const goldEarned = { sm: 1000, md: 10000, lg: 100000 };
+          player.gainGold(goldEarned[choice]);
+          break;
+        }
+
+        case 'collectible': {
+          if(sub === 'Soul') {
+            player.tryFindCollectible({
+              name: `Pet Soul: ${choice}`,
+              rarity: ItemClass.Goatly,
+              description: `A floating ball of... pet essence? Perhaps you can tame this ${choice} soul.`,
+              storyline: `Lore: Astral Gate`
+            });
+          }
+          break;
+        }
+
+        case 'item': {
+          if(sub === 'Crystal') {
+            player.$pets.addAscensionMaterial(`Crystal${choice}`);
+          }
+          break;
+        }
+
+      }
+    });
   }
 }

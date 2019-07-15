@@ -21,8 +21,16 @@ export class Pets extends PlayerOwned {
   @Column()
   private buyablePets: { [key: string]: number };
 
+  @Column()
+  private ascensionMaterials: { [key: string]: number };
+
   public get $petsData() {
-    return { currentPet: this.currentPet, allPets: this.allPets, buyablePets: this.buyablePets };
+    return {
+      currentPet: this.currentPet,
+      allPets: this.allPets,
+      buyablePets: this.buyablePets,
+      ascensionMaterials: this.ascensionMaterials
+    };
   }
 
   public get $activePet(): Pet {
@@ -34,6 +42,7 @@ export class Pets extends PlayerOwned {
     if(!this.allPets) this.allPets = {};
     if(!this.currentPet) this.currentPet = '';
     if(!this.buyablePets) this.buyablePets = {};
+    if(!this.ascensionMaterials) this.ascensionMaterials = {};
   }
 
   toSaveObject() {
@@ -42,7 +51,14 @@ export class Pets extends PlayerOwned {
       allPets[petKey] = this.allPets[petKey].toSaveObject();
     });
 
-    return { _id: this._id, owner: this.owner, currentPet: this.currentPet, buyablePets: this.buyablePets, allPets };
+    return {
+      _id: this._id,
+      owner: this.owner,
+      currentPet: this.currentPet,
+      buyablePets: this.buyablePets,
+      ascensionMaterials: this.ascensionMaterials,
+      allPets
+    };
   }
 
   public init(player: Player) {
@@ -142,6 +158,11 @@ export class Pets extends PlayerOwned {
     pet.doUpgrade(petUpgrade);
 
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
+  }
+
+  addAscensionMaterial(material: string): void {
+    this.ascensionMaterials[material] = this.ascensionMaterials[material] || 0;
+    this.ascensionMaterials[material]++;
   }
 
 }
