@@ -42,7 +42,7 @@ ion-alert .alert-wrapper {
   --min-width: 400px;
 }
 
-.stat-trail-table {
+.stat-trail-table, .odds-table {
   border-spacing: 1px; 
   width: 100%;
 
@@ -53,6 +53,10 @@ ion-alert .alert-wrapper {
     &:first-child {
       text-align: right;
       white-space: nowrap;
+    }
+
+    .move-right {
+      float: right;
     }
   }
 }

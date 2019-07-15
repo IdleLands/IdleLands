@@ -5,12 +5,12 @@ export enum GachaFreeReset {
 }
 
 export enum GachaChance {
-  Common = 1000,
-  Uncommon = 750,
-  Rare = 250,
+  Common = 450,
+  Uncommon = 300,
+  Rare = 200,
   XRare = 100,
-  XXRare = 10,
-  XXXRare = 1
+  XXRare = 50,
+  XXXRare = 10
 }
 
 export enum GachaReward {

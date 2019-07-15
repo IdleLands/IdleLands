@@ -12,9 +12,6 @@ export class AstralGate extends BaseGachaRoller {
     { result: GachaReward.GoldMD,         chance: GachaChance.Uncommon },
     { result: GachaReward.GoldLG,         chance: GachaChance.Rare },
 
-    { result: GachaReward.ItemBasic,      chance: GachaChance.Common },
-    { result: GachaReward.ItemPro,        chance: GachaChance.Uncommon },
-
     { result: GachaReward.XPPlayerSM,     chance: GachaChance.Common },
     { result: GachaReward.XPPlayerMD,     chance: GachaChance.Uncommon },
     { result: GachaReward.XPPlayerLG,     chance: GachaChance.Rare },

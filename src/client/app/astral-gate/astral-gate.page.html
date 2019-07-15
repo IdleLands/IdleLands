@@ -14,7 +14,17 @@
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle>{{ gacha.rollCost }} ILP</ion-card-subtitle>
-            <ion-card-title>{{ gacha.name }}</ion-card-title>
+            <ion-card-title>
+              <ion-row class="vertical-center">
+                <ion-col class="vertical-center">
+                  {{ gacha.name }}
+                </ion-col>
+
+                <ion-col text-right>
+                  <ion-button size="small" text-right color="tertiary" (click)="showOdds(gacha)">Odds</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
