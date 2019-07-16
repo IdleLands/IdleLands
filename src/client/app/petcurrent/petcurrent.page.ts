@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { PetUpgrade, PermanentUpgrade, ServerEventName } from '../../../shared/interfaces';
+import { PetUpgrade, PermanentUpgrade, ServerEventName, IPet } from '../../../shared/interfaces';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -18,7 +18,8 @@ export class PetcurrentPage implements OnInit {
     gatherTime: 'Gather Time',
     itemFindQualityBoost: 'Item Find Quality Boost',
     itemFindLevelBoost: 'Item Find Level Boost',
-    ilpGatherQuantity: 'ILP Gather Quantity'
+    ilpGatherQuantity: 'ILP Gather Quantity',
+    strongerSoul: 'Stronger Soul'
   };
 
   public properUpgradeSuffixes: { [key in PetUpgrade]: string } = {
@@ -28,7 +29,8 @@ export class PetcurrentPage implements OnInit {
     gatherTime: 's',
     itemFindQualityBoost: 'q',
     itemFindLevelBoost: ' Lv.',
-    ilpGatherQuantity: ' ILP'
+    ilpGatherQuantity: ' ILP',
+    strongerSoul: ' Lv.'
   };
 
   public properPermanentUpgradeNames: { [key in PermanentUpgrade]: string } = {
@@ -71,6 +73,28 @@ export class PetcurrentPage implements OnInit {
       message: trail.length > 0 ? finalString : 'No trail to display for this stat.',
       buttons: [
         'OK'
+      ]
+    });
+
+    alert.present();
+  }
+
+  async ascend(pet: IPet) {
+
+    const matString = Object.keys(pet.$ascMaterials)
+      .map(mat => `<li>${mat.split('Crystal').join('')} Crystal (x${pet.$ascMaterials[mat]})</li>`)
+      .join('');
+
+    const alert = await this.alertCtrl.create({
+      header: 'Ascend',
+      message: `Are you sure you want to ascend your pet?
+      It will NOT reset level, and will earn further upgrades.
+      It will cost the following materials: <br><ol>${matString}</ol>`,
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Yes, ascend!', handler: () => {
+          this.socketService.emit(ServerEventName.PetAscend);
+        } }
       ]
     });
 

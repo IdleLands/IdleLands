@@ -39,6 +39,7 @@ export enum ServerEventName {
   PetSwap = 'pet:swap',
   PetEquip = 'pet:equip',
   PetUnequip = 'pet:unequip',
+  PetAscend = 'pet:ascend',
 
   AstralGateRoll = 'astralgate:roll',
   AstralGateRewards = 'astralgate:rewards',

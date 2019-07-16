@@ -122,3 +122,21 @@ export class PetUnequipItemEvent extends ServerSocketEvent implements ServerEven
     this.gameSuccess(`Unequipped ${item.name} from your pet!`);
   }
 }
+
+
+export class PetAscendEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetAscend;
+  description = 'Ascend your pet.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const didSucceed = player.$pets.ascend();
+    if(!didSucceed) return this.gameError('Could not ascend.');
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Your pet has ascended!`);
+  }
+}

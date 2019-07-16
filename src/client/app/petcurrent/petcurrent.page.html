@@ -30,6 +30,14 @@
             <ion-card-content>
               <ion-list>
 
+                <ion-item *ngIf="pet.level.__current === pet.level.maximum">
+                  <ion-icon slot="start" [src]="'assets/icon/symbol-ascend.svg'"></ion-icon>
+  
+                  <span class="ion-padding-start">Would you like to ascend your pet?</span>
+  
+                  <ion-button slot="end" color="primary" (click)="ascend(pet)">Ascend</ion-button>
+                </ion-item>
+
                 <ion-item>
                   <app-gendervatar slot="start" [gender]="pet.gender"></app-gendervatar>
                   

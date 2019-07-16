@@ -83,10 +83,13 @@ export class PetHelper {
   syncBasePetStats(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
+    const soulStats = { ...proto.soulStats };
+    Object.keys(soulStats).forEach(stat => soulStats[stat] = soulStats[stat] * pet.rating);
+
     const soulItem = new Item();
     soulItem.init({
-      name: `${pet.typeName} Soul`,
-      stats: { ...proto.soulStats }
+      name: `${pet.typeName} Soul (t${pet.rating})`,
+      stats: soulStats
     });
 
     pet.equipment[ItemSlot.Soul] = [soulItem];
@@ -102,6 +105,11 @@ export class PetHelper {
     });
   }
 
+  syncPetAscMats(pet: IPet): void {
+    const proto = this.getPetProto(pet.typeName);
+    pet.$ascMaterials = proto.ascensionMaterials[pet.rating];
+  }
+
   syncPetBasedOnProto(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
     this.syncPetNextUpgradeCost(pet);
@@ -114,6 +122,7 @@ export class PetHelper {
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);
     this.syncPetAffinity(pet);
+    this.syncPetAscMats(pet);
   }
 
 }

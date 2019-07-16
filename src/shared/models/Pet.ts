@@ -32,6 +32,7 @@ export class Pet implements IPet {
   public $affinity: IAffinity;
   public attribute: PetAttribute;
   public $attribute: IAttribute;
+  public $ascMaterials: any;
   public rating: number;
   public gatherTick: number;
 
@@ -57,7 +58,7 @@ export class Pet implements IPet {
     if(!this.xp) this.xp = new RestrictedNumber(0, 100, 0);
     if(!this.gender) this.gender = 'male';
     if(!this.gold) this.gold = new RestrictedNumber(0, 0, 0);
-    if(!this.rating) this.rating = 1;
+    if(!this.rating) this.rating = 0;
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
     if(!this.upgradeLevels) this.upgradeLevels = {};
@@ -286,6 +287,10 @@ export class Pet implements IPet {
 
     this.$player.gainILP(ilpFind);
     this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
+  }
+
+  public ascend() {
+    this.rating++;
   }
 
 }

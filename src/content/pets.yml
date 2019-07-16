@@ -59,8 +59,28 @@
       - { v: 2,   c: 50000,  a: 3 }
       - { v: 3,   c: 150000, a: 5 }
 
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 100000,  a: 1 }
+      - { v: 2,   c: 200000,  a: 2 }
+      - { v: 3,   c: 300000,  a: 3 }
+      - { v: 4,   c: 400000,  a: 4 }
+      - { v: 5,   c: 500000,  a: 5 }
+
   permanentUpgrades:
     soulStashSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalRed: 1
+      CrystalAstral: 1
+    - CrystalRed: 2
+      CrystalAstral: 1
+    - CrystalRed: 3
+      CrystalAstral: 1
+    - CrystalRed: 4
+      CrystalAstral: 1
+    - CrystalRed: 5
+      CrystalAstral: 1
 
 - typeName: Pet Boulder
   affinity: Attacker
@@ -115,10 +135,30 @@
     ilpGatherQuantity:
       - { v: 0,   c: 0 }
 
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
   permanentUpgrades:
     adventureLogSizeBoost: 5
     inventorySizeBoost: 1
     choiceLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalRed: 2
+      CrystalAstral: 2
+    - CrystalRed: 4
+      CrystalAstral: 2
+    - CrystalRed: 6
+      CrystalAstral: 2
+    - CrystalRed: 8
+      CrystalAstral: 2
+    - CrystalRed: 10
+      CrystalAstral: 2
 
 - typeName: Pet Mountain
   affinity: Attacker
@@ -172,7 +212,27 @@
       - { v: 1, c: 100000000, a: 1 }
       - { v: 2, c: 100000000, a: 3 }
 
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 300000,   a: 1 }
+      - { v: 2,   c: 600000,   a: 2 }
+      - { v: 3,   c: 900000,   a: 3 }
+      - { v: 4,   c: 1200000,  a: 4 }
+      - { v: 5,   c: 1500000,  a: 5 }
+
   permanentUpgrades:
     enchantCapBoost: 1
     itemStatCapBoost: 25
+
+  ascensionMaterials:
+    - CrystalRed: 3
+      CrystalAstral: 3
+    - CrystalRed: 6
+      CrystalAstral: 3
+    - CrystalRed: 9
+      CrystalAstral: 3
+    - CrystalRed: 12
+      CrystalAstral: 3
+    - CrystalRed: 15
+      CrystalAstral: 3
 

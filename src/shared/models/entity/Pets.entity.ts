@@ -1,6 +1,8 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
+import { some } from 'lodash';
+
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
 import { IPet, PetUpgrade, PermanentUpgrade, PetAttribute, PetAffinity } from '../../interfaces';
@@ -163,6 +165,22 @@ export class Pets extends PlayerOwned {
   addAscensionMaterial(material: string): void {
     this.ascensionMaterials[material] = this.ascensionMaterials[material] || 0;
     this.ascensionMaterials[material]++;
+  }
+
+  ascend(): boolean {
+    const pet = this.$activePet;
+    if(pet.rating >= 5 || !pet.level.atMaximum()) return false;
+
+    const materials = pet.$$game.petHelper.getPetProto(pet.typeName).ascensionMaterials[pet.rating];
+    const someMaterialsMissing = some(Object.keys(materials), (mat) => materials[mat] > this.ascensionMaterials[mat]);
+    if(someMaterialsMissing) return false;
+
+    Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
+
+    pet.ascend();
+    pet.$$game.petHelper.syncPetBasedOnProto(pet);
+
+    return true;
   }
 
 }

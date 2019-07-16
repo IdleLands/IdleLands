@@ -26,7 +26,10 @@ export enum PetUpgrade {
   ItemFindLevelBoost = 'itemFindLevelBoost',
 
   // the amount of ILP this pet gathers per tick
-  ILPGatherQuantity = 'ilpGatherQuantity'
+  ILPGatherQuantity = 'ilpGatherQuantity',
+
+  // the strength of the pet soul, goes up with ascension typically
+  StrongerSoul = 'strongerSoul'
 
 }
 
@@ -67,6 +70,16 @@ export enum PetAttribute {
   // Trueseer = 'Trueseer' // TODO: teleport to a random, predetermined location (maeles, vocalnus, norkos, etc)
 }
 
+export enum PetUpgradeMaterial {
+  CrystalGreen = 'CrystalGreen',
+  CrystalYellow = 'CrystalYellow',
+  CrystalRed = 'CrystalRed',
+  CrystalBlue = 'CrystalBlue',
+  CrystalPurple = 'CrystalPurple',
+  CrystalOrange = 'CrystalOrange',
+  CrystalAstral = 'CrystalAstral'
+}
+
 export interface IPet extends ICharacter {
 
   // if unspecified, it will be randomly chosen
@@ -105,6 +118,9 @@ export interface IPet extends ICharacter {
   // the next upgrade level values/costs
   $nextUpgrade: { [key in PetUpgrade]?: { a?: number, v: number, c: number } };
 
+  // the materials required to ascend a pet
+  $ascMaterials: any;
+
   // the permanent upgrades offered by the pet
   permanentUpgrades: { [key in PermanentUpgrade]?: number };
 
@@ -132,6 +148,8 @@ export interface IPetProto {
     collectibles?: string[],
     bosses?: string[]
   };
+
+  ascensionMaterials: Array<{ [key in PetUpgradeMaterial]?: number }>;
 
   // v = value, c = cost (in gold), a = ascension required
   upgrades: { [key in PetUpgrade]: Array<{ v: number, c: number, a?: number }> };

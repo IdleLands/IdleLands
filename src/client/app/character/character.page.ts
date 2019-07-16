@@ -35,7 +35,11 @@ export class CharacterPage {
     const alert = await this.alertCtrl.create({
       header: 'Ascend',
       message: `Are you sure you want to ascend?
-      You will go back to level 1 and your level cap will go up.`,
+      You will go back to level 1 and your level cap will go up.'
+      You will lose all collectibles, but retain the number of times you found them previously.
+      You will lose some level-based achievements.
+      You will lose access to pets that are not bought.
+      You're probably going to do this anyway.`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         { text: 'Yes, ascend!', handler: () => {
