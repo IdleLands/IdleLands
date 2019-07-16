@@ -167,7 +167,7 @@ export class Pets extends PlayerOwned {
     this.ascensionMaterials[material]++;
   }
 
-  ascend(): boolean {
+  ascend(player: Player): boolean {
     const pet = this.$activePet;
     if(pet.rating >= 5 || !pet.level.atMaximum()) return false;
 
@@ -177,6 +177,7 @@ export class Pets extends PlayerOwned {
 
     Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
 
+    player.increaseStatistic('Pet/Ascension/Times', 1);
     pet.ascend();
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
 
