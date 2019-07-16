@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Materials</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ion-row *ngIf="player.$petsData">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Pet Enhancement Materials</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let crystal of crystals">
+                <ion-icon slot="start" [src]="'assets/icon/symbol-crystal.svg'" [style.color]="crystal.color"></ion-icon>
+
+                <ion-label>
+                  {{ crystal.name }} Crystal (x{{ player.$petsData.ascensionMaterials['Crystal' + crystal.name] || 0 }})
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-content>

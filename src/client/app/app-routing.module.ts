@@ -79,6 +79,12 @@ const routes: Routes = [
       ]
     },
     {
+      path: 'materials',
+      children: [
+        { path: '', loadChildren: './enhancement-materials/enhancement-materials.module#EnhancementMaterialsPageModule' }
+      ]
+    },
+    {
       path: '',
       redirectTo: '/gear/equipment',
       pathMatch: 'full'
@@ -143,7 +149,8 @@ const routes: Routes = [
     }
   ] },
 
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' }
+
 ];
 
 @NgModule({

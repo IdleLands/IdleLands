@@ -35,7 +35,7 @@
               slot="end"
               [percent]="(player.xp.__current / player.xp.maximum) * 100"
               [radius]="20"
-              [outerStrokeWidth]="6"
+              [outerStrokeWidth]="4"
               [innerStrokeWidth]="0"
               [outerStrokeColor]="'#78C000'"
               [innerStrokeColor]="''"
@@ -45,7 +45,8 @@
               [renderOnClick]="false"
               [title]="playerCircleText(player)"
               [backgroundStroke]="'#C7E596'"
-              [backgroundStrokeWidth]="4"
+              [backgroundStrokeWidth]="2"
+              [backgroundPadding]="2"
               [animationDuration]="300"
             ></circle-progress>
 
