@@ -10,12 +10,12 @@ import { GameService } from '../game.service';
 export class EnhancementMaterialsPage implements OnInit {
 
   public crystals = [
-    { name: 'Green',  color: '#0a0' },
-    { name: 'Yellow', color: '#aa0' },
     { name: 'Red',    color: '#a00' },
+    { name: 'Orange', color: '#fa5' },
+    { name: 'Yellow', color: '#aa0' },
+    { name: 'Green',  color: '#0a0' },
     { name: 'Blue',   color: '#00a' },
     { name: 'Purple', color: '#a0a' },
-    { name: 'Orange', color: '#fa5' },
     { name: 'Astral' }
   ];
 
