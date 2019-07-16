@@ -94,7 +94,7 @@
                           color="primary" 
                           *ngIf="pet.$attribute" 
                           (click)="oocAction()" 
-                          [disabled]="player.stamina.__current < player.$professionData.oocAbilityCost">
+                          [disabled]="player.stamina.__current < pet.$attribute.oocAbilityCost">
                   {{ pet.$attribute.oocAbilityName }} ({{ pet.$attribute.oocAbilityCost }} Stamina)
                 </ion-item>
   
