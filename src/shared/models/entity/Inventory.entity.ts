@@ -76,11 +76,16 @@ export class Inventory extends PlayerOwned {
   }
 
   public equipItem(item: Item): void {
+    if(!item) return;
+    if(!item.type) throw new Error(`Item ${JSON.stringify(item)} has no type so it cannot be equipped.`);
+
     this.equipment = this.equipment || {};
     this.equipment[item.type] = item;
   }
 
   public unequipItem(item: Item): void {
+    if(!item) return;
+
     const itemExisting = this.itemInEquipmentSlot(item.type);
     if(item !== itemExisting) throw new Error(`Could not unequip ${item.name} since it is not equipped.`);
 

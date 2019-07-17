@@ -14,6 +14,7 @@
     - 150
     - 200
     - 250
+    - 300
 
   requirements:
     statistics:
@@ -72,6 +73,9 @@
       - { v: 4,   c: 400000,  a: 4 }
       - { v: 5,   c: 500000,  a: 5 }
 
+    soulShare:
+      - { v: 0,   c: 0 }
+
   permanentUpgrades:
     soulStashSizeBoost: 1
 
@@ -103,6 +107,7 @@
     - 225
     - 300
     - 375
+    - 450
 
   requirements:
     statistics:
@@ -153,6 +158,9 @@
       - { v: 4,   c: 800000,   a: 4 }
       - { v: 5,   c: 1000000,  a: 5 }
 
+    soulShare:
+      - { v: 0,   c: 0 }
+
   permanentUpgrades:
     adventureLogSizeBoost: 5
     inventorySizeBoost: 1
@@ -186,6 +194,7 @@
     - 300
     - 400
     - 500
+    - 600
 
   requirements:
     statistics:
@@ -235,6 +244,10 @@
       - { v: 3,   c: 900000,   a: 3 }
       - { v: 4,   c: 1200000,  a: 4 }
       - { v: 5,   c: 1500000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 1000000, a: 3 }
 
   permanentUpgrades:
     enchantCapBoost: 1

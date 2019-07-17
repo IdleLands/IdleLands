@@ -133,7 +133,7 @@ export class PetAscendEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const didSucceed = player.$pets.ascend();
+    const didSucceed = player.$pets.ascend(player);
     if(!didSucceed) return this.gameError('Could not ascend.');
 
     this.game.updatePlayer(player);

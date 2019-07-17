@@ -20,6 +20,10 @@ export class Pet implements IPet {
   @nonenumerable
   private $player: IPlayer;
 
+  public get $$player(): IPlayer {
+    return this.$player;
+  }
+
   // pet-related vars
   public name: string;
   public level: RestrictedNumber;

@@ -1,4 +1,4 @@
-import { ICharacter } from './IPlayer';
+import { ICharacter, IPlayer } from './IPlayer';
 import { ItemSlot, IItem } from './IItem';
 import { Stat } from './Stat';
 import { RestrictedNumber } from 'restricted-number';
@@ -29,7 +29,10 @@ export enum PetUpgrade {
   ILPGatherQuantity = 'ilpGatherQuantity',
 
   // the strength of the pet soul, goes up with ascension typically
-  StrongerSoul = 'strongerSoul'
+  StrongerSoul = 'strongerSoul',
+
+  // the % of the soul to share with the player
+  SoulShare = 'soulShare'
 
 }
 
@@ -81,6 +84,8 @@ export enum PetUpgradeMaterial {
 }
 
 export interface IPet extends ICharacter {
+
+  $$player: IPlayer;
 
   // if unspecified, it will be randomly chosen
   affinity: PetAffinity;

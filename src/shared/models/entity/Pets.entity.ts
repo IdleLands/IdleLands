@@ -72,6 +72,8 @@ export class Pets extends PlayerOwned {
     });
 
     this.syncBuyablePets(player);
+
+    this.setActivePet(this.currentPet);
   }
 
   public loop() {
@@ -92,6 +94,8 @@ export class Pets extends PlayerOwned {
 
   public setActivePet(typeName: string) {
     this.currentPet = typeName;
+
+    this.$activePet.$$game.petHelper.shareSoul(this.$activePet);
   }
 
   private initPet(player: Player, petData: IPet) {
@@ -160,6 +164,7 @@ export class Pets extends PlayerOwned {
     pet.doUpgrade(petUpgrade);
 
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
+    pet.$$game.petHelper.shareSoul(pet);
   }
 
   addAscensionMaterial(material: string): void {

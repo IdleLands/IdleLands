@@ -80,6 +80,23 @@ export class PetHelper {
     pet.$affinity = new Affinities[pet.affinity]();
   }
 
+  petSoulForScale(pet: IPet): IItem {
+    const sharePct = this.getPetUpgradeValue(pet, PetUpgrade.SoulShare);
+    if(sharePct === 0) return null;
+
+    const soulStats = { ...pet.equipment[ItemSlot.Soul][0].stats };
+    Object.keys(soulStats).forEach(stat => soulStats[stat] = soulStats[stat] * (sharePct / 100));
+
+    const soulItem = new Item();
+    soulItem.init({
+      type: ItemSlot.Soul,
+      name: `${pet.typeName} Soul (${sharePct}%)`,
+      stats: soulStats
+    });
+
+    return soulItem;
+  }
+
   syncBasePetStats(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
@@ -128,6 +145,16 @@ export class PetHelper {
     this.syncPetAttribute(pet);
     this.syncPetAffinity(pet);
     this.syncPetAscMats(pet);
+  }
+
+  shareSoul(pet: IPet): void {
+    const player = pet.$$player;
+    player.$inventory.unequipItem(player.$inventory.itemInEquipmentSlot(ItemSlot.Soul));
+
+    const soulItem = this.petSoulForScale(pet);
+    player.$inventory.equipItem(soulItem);
+
+    player.recalculateStats();
   }
 
 }

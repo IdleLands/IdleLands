@@ -19,7 +19,8 @@ export class PetcurrentPage implements OnInit {
     itemFindLevelBoost: 'Item Find Level Boost',
     itemFindLevelPercent: 'Item Find % Boost',
     ilpGatherQuantity: 'ILP Gather Quantity',
-    strongerSoul: 'Stronger Soul'
+    strongerSoul: 'Stronger Soul',
+    soulShare: 'Soul Share %'
   };
 
   public properUpgradeSuffixes: { [key in PetUpgrade]: string } = {
@@ -30,7 +31,8 @@ export class PetcurrentPage implements OnInit {
     itemFindLevelBoost: ' Lv.',
     itemFindLevelPercent: '%',
     ilpGatherQuantity: ' ILP',
-    strongerSoul: ' Lv.'
+    strongerSoul: ' Lv.',
+    soulShare: '%'
   };
 
   public properPermanentUpgradeNames: { [key in PermanentUpgrade]: string } = {
