@@ -126,7 +126,7 @@
             <ion-card-content>
               <ion-list>
 
-                <ion-item *ngFor="let upgrade of properUpgradeNames | keyvalue">
+                <ion-item *ngFor="let upgrade of properUpgradeNames | keyvalue" [class.ion-hide]="!pet.$nextUpgrade[upgrade.key] && pet.$currentUpgrade[upgrade.key].c === 0">
 
                   <ion-label text-wrap>
                     <h3>{{ upgrade.value }}</h3>

@@ -7,9 +7,6 @@ import { PermanentUpgrade } from './IPremium';
 
 export enum PetUpgrade {
 
-  // the pets max level
-  MaxLevel = 'maxLevel',
-
   // how much gold the pet can hold
   GoldStorage = 'goldStorage',
 
@@ -24,6 +21,9 @@ export enum PetUpgrade {
 
   // the level boost (1..5000) for the pet item find generator
   ItemFindLevelBoost = 'itemFindLevelBoost',
+
+  // the level boost calculated as a % of the players level
+  ItemFindLevelPercent = 'itemFindLevelPercent',
 
   // the amount of ILP this pet gathers per tick
   ILPGatherQuantity = 'ilpGatherQuantity',
@@ -149,6 +149,7 @@ export interface IPetProto {
     bosses?: string[]
   };
 
+  maxLevelPerAscension: Array<number>;
   ascensionMaterials: Array<{ [key in PetUpgradeMaterial]?: number }>;
 
   // v = value, c = cost (in gold), a = ascension required

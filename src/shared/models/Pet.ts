@@ -280,9 +280,11 @@ export class Pet implements IPet {
     const ilpFind = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ILPGatherQuantity);
     const itemFindLevelBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindLevelBoost);
     const itemFindQualityBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindQualityBoost);
+    const itemFindPercentBoostStat = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindLevelPercent) / 100;
+    const itemFindPercentBoost = Math.floor(this.$player.level.total * itemFindPercentBoostStat);
 
     const foundItem = this.$$game.itemGenerator.generateItemForPlayer(this.$player, {
-      generateLevel: this.level.total + itemFindLevelBoost, qualityBoost: itemFindQualityBoost
+      generateLevel: this.level.total + itemFindLevelBoost + itemFindPercentBoost, qualityBoost: itemFindQualityBoost
     });
 
     this.$player.gainILP(ilpFind);

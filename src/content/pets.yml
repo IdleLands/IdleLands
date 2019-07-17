@@ -8,16 +8,18 @@
   soulStats:
     luk: 10
 
+  maxLevelPerAscension:
+    - 50
+    - 100
+    - 150
+    - 200
+    - 250
+
   requirements:
     statistics:
       Game/Logins: 1
 
   upgrades:
-    maxLevel:
-      - { v: 50, c: 0 }
-      - { v: 100, c: 100000 }
-      - { v: 200, c: 1000000, a: 1 }
-
     goldStorage:
       - { v: 10000,  c: 0 }
       - { v: 100000, c: 10000 }
@@ -52,6 +54,9 @@
       - { v: 30, c: 250000 }
       - { v: 40, c: 1250000, a: 1 }
       - { v: 50, c: 5250000, a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
 
     ilpGatherQuantity:
       - { v: 0,   c: 0 }
@@ -92,16 +97,18 @@
   soulStats:
     luk: 100
 
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+
   requirements:
     statistics:
       Character/Experience/Levels: 49
 
   upgrades:
-    maxLevel:
-      - { v: 100, c: 0 }
-      - { v: 200, c: 100000 }
-      - { v: 300, c: 1000000, a: 1 }
-
     goldStorage:
       - { v: 50000,  c: 0 }
       - { v: 500000, c: 50000 }
@@ -131,6 +138,9 @@
       - { v: 50,  c: 1250000,  a: 1 }
       - { v: 75,  c: 5250000,  a: 3 }
       - { v: 100, c: 15250000, a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
 
     ilpGatherQuantity:
       - { v: 0,   c: 0 }
@@ -170,16 +180,18 @@
   soulStats:
     luk: 1000
 
+  maxLevelPerAscension:
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+
   requirements:
     statistics:
       Character/Ascension/Times: 1
 
   upgrades:
-    maxLevel:
-      - { v: 200, c: 0 }
-      - { v: 300, c: 1000000 }
-      - { v: 500, c: 10000000, a: 1 }
-
     goldStorage:
       - { v: 100000,  c: 0 }
       - { v: 1000000, c: 50000 }
@@ -211,6 +223,10 @@
       - { v: 0,   c: 0 }
       - { v: 1, c: 100000000, a: 1 }
       - { v: 2, c: 100000000, a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+      - { v: 20, c: 1000000 }
 
     strongerSoul:
       - { v: 0,   c: 0 }

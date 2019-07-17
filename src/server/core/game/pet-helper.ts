@@ -84,7 +84,7 @@ export class PetHelper {
     const proto = this.getPetProto(pet.typeName);
 
     const soulStats = { ...proto.soulStats };
-    Object.keys(soulStats).forEach(stat => soulStats[stat] = soulStats[stat] * pet.rating);
+    Object.keys(soulStats).forEach(stat => soulStats[stat] = soulStats[stat] * this.getPetUpgradeValue(pet, PetUpgrade.StrongerSoul));
 
     const soulItem = new Item();
     soulItem.init({
@@ -110,14 +110,19 @@ export class PetHelper {
     pet.$ascMaterials = proto.ascensionMaterials[pet.rating];
   }
 
+  syncMaxLevel(pet: IPet): void {
+    const proto = this.getPetProto(pet.typeName);
+    pet.level.maximum = proto.maxLevelPerAscension[pet.rating];
+  }
+
   syncPetBasedOnProto(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
     this.syncPetNextUpgradeCost(pet);
 
-    pet.level.maximum = this.getPetUpgradeValue(pet, PetUpgrade.MaxLevel);
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
     pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
 
+    this.syncMaxLevel(pet);
     this.syncPetEquipmentSlots(pet);
     this.syncBasePetStats(pet);
     this.syncPetAttribute(pet);

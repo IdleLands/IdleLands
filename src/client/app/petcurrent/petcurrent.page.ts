@@ -12,23 +12,23 @@ import { AlertController } from '@ionic/angular';
 export class PetcurrentPage implements OnInit {
 
   public properUpgradeNames: { [key in PetUpgrade]: string } = {
-    maxLevel: 'Max Level',
     goldStorage: 'Gold Storage',
     battleJoinPercent: 'Battle Join Percent',
     gatherTime: 'Gather Time',
     itemFindQualityBoost: 'Item Find Quality Boost',
     itemFindLevelBoost: 'Item Find Level Boost',
+    itemFindLevelPercent: 'Item Find % Boost',
     ilpGatherQuantity: 'ILP Gather Quantity',
     strongerSoul: 'Stronger Soul'
   };
 
   public properUpgradeSuffixes: { [key in PetUpgrade]: string } = {
-    maxLevel: ' Lv.',
     goldStorage: 'g',
     battleJoinPercent: '%',
     gatherTime: 's',
     itemFindQualityBoost: 'q',
     itemFindLevelBoost: ' Lv.',
+    itemFindLevelPercent: '%',
     ilpGatherQuantity: ' ILP',
     strongerSoul: ' Lv.'
   };
