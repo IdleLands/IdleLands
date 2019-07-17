@@ -4,4 +4,4 @@ export * from './Buffer';
 export * from './Caster';
 export * from './Defender';
 export * from './Healer';
-export * from './Slagger';
+export * from './Hunter';

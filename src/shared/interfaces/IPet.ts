@@ -57,7 +57,7 @@ export enum PetAffinity {
   Healer = 'Healer',
 
   // primarily debuffs
-  Slagger = 'Slagger'
+  Hunter = 'Hunter'
 
 }
 
