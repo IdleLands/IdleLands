@@ -3,7 +3,8 @@ import { DatabaseManager } from './database-manager';
 import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
-import { ServerEventName, IGame, PlayerChannelOperation, IMessage, IAdventureLog, AdventureLogEventType, Channel } from '../../../shared/interfaces';
+import { ServerEventName, IGame, PlayerChannelOperation, IMessage,
+  IAdventureLog, AdventureLogEventType, Channel } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
 import { AssetManager } from './asset-manager';

@@ -11,4 +11,5 @@ export class Assets {
   @Column() public petAssets: any;
   @Column() public mapAssets: any;
   @Column() public mapInformation: any;
+  @Column() public teleports: any;
 }

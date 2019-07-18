@@ -12,6 +12,7 @@ const MapAssets = {};
 const MapInformation = {};
 const GlobalMapInformation = {};
 const Pets = {};
+const Teleports = {};
 
 const replaceMultiSpaces = (string) => {
   return string.replace(/ {2,}/g, ' ');
@@ -281,9 +282,19 @@ const loadPetData = () => {
   pets.forEach(pet => Pets[pet.typeName] = pet);
 };
 
+const loadTeleportData = () => {
+  const teleports = YAML.load('src/content/teleports.yml');
+  for(let key in teleports) {
+    for(let subkey in teleports[key]) {
+      Teleports[subkey] = teleports[key][subkey];
+    }
+  }
+}
+
 const init = async () => {
   loadMapsInFolder();
   loadPetData();
+  loadTeleportData();
 
   const url = process.env.TYPEORM_URL;
   const client = await MongoClient.connect(url, { useNewUrlParser: true });
@@ -299,6 +310,7 @@ const init = async () => {
     objectAssets: ObjectAssets,
     mapAssets: MapAssets,
     petAssets: Pets,
+    teleports: Teleports,
     mapInformation: MapInformation,
     globalMapInformation: GlobalMapInformation
   });

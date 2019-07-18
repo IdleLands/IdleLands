@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
+import { ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-enhancement-materials',
@@ -25,6 +26,11 @@ export class EnhancementMaterialsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  useTeleportScroll(scroll: string) {
+    
+    this.socketService.emit(ServerEventName.ItemTeleportScroll, { scroll });
   }
 
 }

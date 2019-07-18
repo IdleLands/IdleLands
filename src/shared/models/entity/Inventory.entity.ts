@@ -26,7 +26,7 @@ export class Inventory extends PlayerOwned {
   private teleportScrolls: { [key in TeleportItemLocation]?: number };
 
   public get $inventoryData() {
-    return { equipment: this.equipment, items: this.items, size: this.size };
+    return { equipment: this.equipment, items: this.items, size: this.size, teleportScrolls: this.teleportScrolls };
   }
 
   constructor() {
@@ -133,8 +133,10 @@ export class Inventory extends PlayerOwned {
     this.teleportScrolls[scroll]++;
   }
 
-  public useTeleportScroll(scroll: TeleportItemLocation): boolean {
-    if(this.teleportScrolls[scroll] <= 0) return false;
+  public useTeleportScroll(player: Player, scroll: TeleportItemLocation): boolean {
+    if(this.teleportScrolls[scroll] <= 0 || player.region === scroll) return false;
+
+    player.$$game.movementHelper.doTeleport(player, { toLoc: scroll });
 
     this.teleportScrolls[scroll]--;
     return true;

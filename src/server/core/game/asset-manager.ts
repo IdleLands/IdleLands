@@ -14,6 +14,7 @@ export class AssetManager {
   private petAssets: any;
   private mapAssets: any;
   private mapInfoAssets: any;
+  private teleports: any;
 
   public get allObjectAssets() {
     return this.objectAssets;
@@ -31,14 +32,19 @@ export class AssetManager {
     return { maps: this.mapAssets, mapInfo: this.mapInfoAssets };
   }
 
+  public get allTeleports() {
+    return this.teleports;
+  }
+
   public async init(assets) {
-    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation } = assets;
+    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation, teleports } = assets;
 
     this.stringAssets = stringAssets;
     this.objectAssets = objectAssets;
     this.mapAssets = mapAssets;
     this.petAssets = petAssets;
     this.mapInfoAssets = mapInformation;
+    this.teleports = teleports;
   }
 
   private stringFromGrammar(grammar: string): string {

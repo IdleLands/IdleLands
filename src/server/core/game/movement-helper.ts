@@ -2,8 +2,6 @@ import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 
 import { capitalize, get } from 'lodash';
 
-import * as teleports from '../../../../assets/maps/content/teleports.json';
-
 import { Player } from '../../../shared/models';
 import { World, Tile } from './world';
 import { Direction, MovementType } from '../../../shared/interfaces';
@@ -12,6 +10,7 @@ import { EventManager } from './event-manager';
 import { Logger } from '../logger';
 import { HolidayHelper } from './holiday-helper';
 import { EventName } from './events/Event';
+import { AssetManager } from './asset-manager';
 
 @Singleton
 @AutoWired
@@ -20,6 +19,7 @@ export class MovementHelper {
   @Inject private world: World;
   @Inject private logger: Logger;
   @Inject private rng: RNGService;
+  @Inject private assets: AssetManager;
   @Inject private eventManager: EventManager;
   @Inject private holidayHelper: HolidayHelper;
 
@@ -34,16 +34,8 @@ export class MovementHelper {
     Direction.West
   ];
 
-  private allTeleports = {
-    ...teleports.towns,
-    ...teleports.trainers,
-    ...teleports.other,
-    ...teleports.bosses,
-    ...teleports.dungeons
-  };
-
   public locToTeleport(name) {
-    return this.allTeleports[name];
+    return this.assets.allTeleports[name];
   }
 
   public moveToStart(player: Player): void {
@@ -352,8 +344,8 @@ export class MovementHelper {
 
     player.stepCooldown--;
     player.lastDir = dir === Direction.Nowhere ? null : dir;
-    player.x = newLoc.x;
-    player.y = newLoc.y;
+
+    player.setPos(newLoc.x, newLoc.y, player.map, tile.region);
 
     const map = this.world.getMap(player.map);
 

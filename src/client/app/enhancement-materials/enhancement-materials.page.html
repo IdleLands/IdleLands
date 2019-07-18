@@ -30,5 +30,29 @@
         </ion-card>
       </ion-col>
     </ion-row>
+
+    <ion-row *ngIf="player.$inventoryData">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding" *ngIf="(player.$inventoryData.teleportScrolls | keyvalue).length">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Teleport Scrolls</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let scroll of player.$inventoryData.teleportScrolls | keyvalue">
+                <ion-icon slot="start" [src]="'assets/icon/symbol-scroll.svg'"></ion-icon>
+
+                <ion-label>
+                  {{ scroll.key }} Teleport Scroll (x{{ scroll.value }})
+                </ion-label>
+
+                <ion-button slot="end" (click)="useTeleportScroll(scroll.key)">Use</ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ng-container>
 </ion-content>
