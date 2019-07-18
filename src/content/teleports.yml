@@ -1,0 +1,823 @@
+towns:
+  astral:
+    map: The Astral Plane
+    formalName: Astral Town
+    x: 13
+    y: 60
+    cost: 5000000
+    requiredRegionVisit: Astral Town
+  frigri:
+    map: Norkos
+    formalName: Frigri Town
+    x: 133
+    y: 160
+    cost: 500000
+    requiredRegionVisit: Frigri Town
+  homlet:
+    map: Homlet Caves
+    formalName: Homlet Town
+    x: 60
+    y: 7
+    cost: 550000
+    requiredRegionVisit: Homlet Town
+  maeles:
+    map: Norkos
+    formalName: Maeles Town
+    x: 51
+    y: 115
+    cost: 250000
+    requiredRegionVisit: Maeles Town
+  norkos:
+    map: Norkos
+    formalName: Norkos Town
+    x: 34
+    y: 14
+    cost: 50000
+    requiredRegionVisit: Norkos Town
+  raburro:
+    map: Norkos Dungeon -5
+    formalName: Raburro Town
+    x: 37
+    y: 39
+    cost: 750000
+    requiredRegionVisit: Raburro Town
+  vocalnus:
+    map: Vocalnus
+    formalName: Vocalnus Town
+    x: 31
+    y: 41
+    cost: 350000
+    requiredRegionVisit: Vocalnus Town
+  desert:
+    map: Cabran
+    formalName: Desert Town
+    x: 195
+    y: 11
+    cost: 7500000
+    requiredRegionVisit: Desert Town
+  tree:
+    map: Tree Town
+    formalName: Tree Town
+    x: 13
+    y: 17
+    cost: 7500000
+    requiredRegionVisit: Tree Town
+trainers:
+  archer:
+    map: Leviathan Mountain
+    formalName: the Archer Trainer
+    x: 40
+    y: 39
+  barbarian:
+    map: Norkos
+    formalName: the Barbarian Trainer
+    x: 112
+    y: 14
+  bard:
+    map: Bard Island -1
+    formalName: the Bard Trainer
+    x: 4
+    y: 4
+  bitomancer:
+    map: Norkos
+    formalName: the Bitomancer Trainer
+    x: 165
+    y: 154
+  cleric:
+    map: Norkos
+    formalName: the Cleric Trainer
+    x: 38
+    y: 23
+  fighter:
+    map: Norkos
+    formalName: the Fighter Trainer
+    x: 43
+    y: 23
+  generalist:
+    map: Norkos
+    formalName: the Generalist Trainer
+    x: 10
+    y: 14
+  jester:
+    map: Norkos Dungeon -5
+    formalName: the Jester Trainer
+    x: 39
+    y: 44
+  mage:
+    map: Norkos
+    formalName: the Mage Trainer
+    x: 47
+    y: 23
+  magicalmonster:
+    map: Minotaur Maze -3
+    formalName: the MagicalMonster Trainer
+    x: 22
+    y: 2
+  monster:
+    map: Mythos -2
+    formalName: the Monster Trainer
+    x: 6
+    y: 19
+  necromancer:
+    map: Dark Tower -1
+    formalName: the Necromancer Trainer
+    x: 9
+    y: 2
+  pirate:
+    map: Norkos
+    formalName: the Pirate Trainer
+    x: 219
+    y: 49
+  rogue:
+    map: Norkos Prison -1
+    formalName: the Rogue Trainer
+    x: 34
+    y: 1
+  sandwichartist:
+    map: Norkos
+    formalName: the Sandwich Artist Trainer
+    x: 56
+    y: 11
+other:
+  start:
+    map: Norkos
+    formalName: the Start Location
+    x: 10
+    y: 10
+  cabranstart:
+    map: Cabran
+    formalName: the Cabran Start Location
+    x: 110
+    y: 183
+  guildbase:
+    map: Norkos
+    formalName: a Guild Base
+    x: 10
+    y: 10
+  astralcontrolroom:
+    map: Astral Control Room
+    formalName: the Astral Control Room
+    x: 25
+    y: 23
+  swordinthestone:
+    map: Norkos Dungeon -11
+    formalName: the Sword in the Stone
+    x: 10
+    y: 5
+  itsatrap!:
+    map: Norkos
+    formalName: the Jail
+    x: 13
+    y: 44
+  fatepools:
+    map: Fate Pools -2
+    formalName: the Fate Pools
+    x: 17
+    y: 12
+  impossible:
+    map: Norkos Dungeon -9
+    formalName: the Hax0r Place
+    x: 2
+    y: 2
+  fatelake:
+    map: Fate Lake
+    formalName: Fate Lake
+    x: 20
+    y: 25
+  Hi 2 U:
+    map: Norkos Dungeon -4
+    formalName: the Hi 2 U Monument
+    x: 2
+    y: 2
+  BDKhoard:
+    map: Mythos -2
+    formalName: the Black Dragon King's Treasure Hoard
+    x: 80
+    y: 3
+  merchantguildlvault:
+    map: Merchant's Guild
+    formalName: the Merchant's Guild Locked Vault
+    x: 1
+    y: 56
+  merchantguildrvault:
+    map: Merchant's Guild
+    formalName: the Merchant's Guild Locked Vault
+    x: 41
+    y: 66
+  hallofheroes:
+    map: Hall of Heroes
+    formalName: the Hall of Heroes
+    x: 23
+    y: 15
+  christmas:
+    map: Norkos
+    formalName: the North Pole
+    x: 115
+    y: 1
+  valentines:
+    map: Norkos
+    formalName: the Dungeon of Love
+    x: 213
+    y: 223
+  norkossecret:
+    map: Norkos Secret -1
+    formalName: Norkos Secret -1
+    x: 2
+    y: 2
+bosses:
+  goblinlord:
+    map: Norkos Dungeon -1
+    formalName: the Goblin Lord
+    x: 41
+    y: 14
+  dChickenproblemsolver:
+    map: Norkos
+    formalName: dChicken Problem Solver
+    x: 23
+    y: 14
+  mummylord:
+    map: Norkos Dungeon -3
+    formalName: the Mummy Lord
+    x: 24
+    y: 1
+  lizardking:
+    map: Norkos Dungeon -5
+    formalName: the Lizard King
+    x: 4
+    y: 4
+  warden:
+    map: Norkos Dungeon -10
+    formalName: the Warden of Norkos
+    x: 27
+    y: 16
+  maelianninja:
+    map: Maeles Dungeon -3
+    formalName: the Maelian Ninja Master
+    x: 25
+    y: 1
+  emerisstheguardian:
+    map: Norkos
+    formalName: Emeriss the Guardian
+    x: 103
+    y: 48
+  trustee:
+    map: Norkos Prison -2
+    formalName: the Trustee Rakshasha
+    x: 18
+    y: 9
+  blackdragon:
+    map: Mythos -2
+    formalName: the Black Dragon King
+    x: 64
+    y: 4
+  childminotaur:
+    map: Minotaur Maze -1
+    formalName: the Child Minotaur
+    x: 10
+    y: 41
+  siblingminotaur:
+    map: Minotaur Maze -2
+    formalName: the Sibling Minotaur
+    x: 2
+    y: 32
+  elderminotaur:
+    map: Minotaur Maze -3
+    formalName: the Elder Minotaur
+    x: 5
+    y: 28
+  kingminotaur:
+    map: Minotaur Maze -4
+    formalName: the King Minotaur
+    x: 23
+    y: 24
+  vampirelord:
+    map: Vampire Lair +1
+    formalName: the Vampire Lord
+    x: 6
+    y: 4
+  cloudgiant:
+    map: Leviathan Mountain
+    formalName: the Cloud Giant
+    x: 24
+    y: 9
+  piratecaptain:
+    map: Haunted Ship -2
+    formalName: the Ghostly Pirate Captain
+    x: 6
+    y: 17
+  babyred:
+    map: Mama Red Dragon Lair
+    formalName: the Baby Red Dragon
+    x: 23
+    y: 3
+  mamared:
+    map: Mama Red Dragon Lair
+    formalName: the Mama Red Dragon
+    x: 18
+    y: 15
+  lichanger:
+    map: Lich Brothers Mansion
+    formalName: the Lich Brother of Anger
+    x: 10
+    y: 14
+  lichfear:
+    map: Lich Brothers Mansion
+    formalName: the Lich Brother of Fear
+    x: 15
+    y: 13
+  lichdecay:
+    map: Lich Brothers Mansion
+    formalName: the Lich Brother of Decay
+    x: 22
+    y: 11
+  lichinsanity:
+    map: Lich Brothers Mansion
+    formalName: the Lich Brother of Insanity
+    x: 28
+    y: 15
+  lichdeath:
+    map: Lich Brothers Mansion
+    formalName: the Lich Brother of Death
+    x: 33
+    y: 13
+  lichlord:
+    map: Lich Brothers Mansion
+    formalName: the Lich Lord
+    x: 34
+    y: 8
+  dwarflord:
+    map: Ancient Dwarven Ruins -2
+    formalName: the Venerable Dwarven Lord
+    x: 16
+    y: 27
+  mushroombeast:
+    map: Homlet Caves
+    formalName: the Mushroom Beast
+    x: 73
+    y: 63
+  christmaselves:
+    map: North Pole
+    formalName: the Christmas Elves
+    x: 31
+    y: 58
+  reindeerwarden:
+    map: North Pole
+    formalName: the Reindeer Warden
+    x: 10
+    y: 12
+  santa:
+    map: North Pole
+    formalName: Santa, Lord of Presents
+    x: 33
+    y: 4
+  lucifer:
+    map: Norkos
+    formalName: Lucifer the Flame-Born
+    x: 236
+    y: 40
+  greendragon:
+    map: Dark Tower -3
+    formalName: the Green Dragon
+    x: 26
+    y: 30
+  fighterguardian:
+    map: Dark Tower -1
+    formalName: the Fighter Guardian
+    x: 16
+    y: 4
+  mageguardian:
+    map: Dark Tower -1
+    formalName: the Mage Guardian
+    x: 16
+    y: 12
+  clericguardian:
+    map: Dark Tower -1
+    formalName: the Cleric Guardian
+    x: 11
+    y: 4
+  generalistguardian:
+    map: Dark Tower -1
+    formalName: the Generalist Guardian
+    x: 11
+    y: 12
+  guardianlord:
+    map: Dark Tower -1
+    formalName: the Guardian Lord
+    x: 1
+    y: 9
+  barney:
+    map: Evil Norkos
+    formalName: Barney
+    x: 46
+    y: 66
+  necromancerguardian:
+    map: Evil Norkos
+    formalName: the Necromancer Guardian
+    x: 34
+    y: 25
+  firegiant:
+    map: The Fire Plane
+    formalName: the Fire Giant
+    x: 34
+    y: 32
+  spotthedragon:
+    map: The Fire Plane
+    formalName: Spot, the Dragon
+    x: 23
+    y: 32
+  littleyeti:
+    map: Norkos Fisheries +1
+    formalName: the Little Yeti
+    x: 32
+    y: 4
+  leviathan:
+    map: Norkos
+    formalName: the Leviathan
+    x: 9
+    y: 241
+  snowbeast:
+    map: Norkos
+    formalName: the Snowbeast
+    x: 202
+    y: 118
+  cavecreature:
+    map: Norkos
+    formalName: the Unspeakably Horrible Cave Creature
+    x: 1
+    y: 107
+  basilisk:
+    map: Norkos
+    formalName: the Basilisk
+    x: 131
+    y: 3
+  slicer:
+    map: Norkos Dungeon -7
+    formalName: Slicer
+    x: 25
+    y: 26
+  smasher:
+    map: Norkos Dungeon -7
+    formalName: Smasher
+    x: 1
+    y: 23
+  naganecromancer:
+    map: Norkos Dungeon -8
+    formalName: the Naga Necromancer
+    x: 47
+    y: 32
+  lordwaxington:
+    map: Funhouse -3
+    formalName: Lord Waxington
+    x: 28
+    y: 5
+  skeletonparty:
+    map: Funhouse -4
+    formalName: the Spooky Skeletons
+    x: 9
+    y: 8
+  norkiannecromancer:
+    map: The Elemental Plane -3
+    formalName: the Norkian Necromancer
+    x: 76
+    y: 70
+  livingcrystal:
+    map: The Elemental Plane -3
+    formalName: the Living Crystal
+    x: 7
+    y: 15
+  astralguards:
+    map: The Elemental Plane -3
+    formalName: the Astral Guards
+    x: 36
+    y: 51
+  astralbeast:
+    map: The Elemental Plane -3
+    formalName: the Astral Beast
+    x: 37
+    y: 59
+  griffin:
+    map: Vocalnus
+    formalName: the Gryffyndor House Representative
+    x: 93
+    y: 35
+  skydragon:
+    map: Vocalnus
+    formalName: the Sky Dragon of Vocalnus
+    x: 12
+    y: 3
+  fatemonster:
+    map: Fate Lake
+    formalName: the Fate-Twisted Lake Monstrosity
+    x: 21
+    y: 57
+  bloodooze:
+    map: Dungeon of Love -1
+    formalName: the Blood Ooze
+    x: 18
+    y: 39
+  bloodkeeper:
+    map: Dungeon of Love -1
+    formalName: the Bloodkeeper
+    x: 25
+    y: 38
+  ukadaghag:
+    map: Mythos -3
+    formalName: Ukad-Aghag the Exile
+    x: 81
+    y: 43
+  drunkendragon:
+    map: Mythos -3
+    formalName: the Drunken Dragon
+    x: 48
+    y: 14
+  oldcopperdragon:
+    map: Mythos -3
+    formalName: the Old Copper Dragon
+    x: 51
+    y: 21
+  whitedragon:
+    map: Mythos -3
+    formalName: the White Dragon
+    x: 63
+    y: 24
+  bluedragon:
+    map: Mythos -3
+    formalName: the Blue Dragon
+    x: 59
+    y: 2
+  branor:
+    map: Mythos -3
+    formalName: Branor the Hungry
+    x: 16
+    y: 25
+  dragonkindefenders:
+    map: Mythos -3
+    formalName: the Dragon-kin Defenders
+    x: 32
+    y: 32
+  barbarianguardian:
+    map: Cabran
+    formalName: the Barbarian Guardian
+    x: 123
+    y: 167
+  hulkingbeast:
+    map: Cabran
+    formalName: the Hulking Beast
+    x: 24
+    y: 69
+  goldenmushroomstatue:
+    map: Cabran
+    formalName: the Golden Mushroom Statue
+    x: 14
+    y: 30
+  snakeguardjaunthes:
+    map: Cabran
+    formalName: Snake Guard Jaunthes
+    x: 136
+    y: 60
+  pegleggedogre:
+    map: Cabran
+    formalName: the Peglegged Ogre
+    x: 98
+    y: 96
+  gnomelord:
+    map: Cabran
+    formalName: the Gnome Lord
+    x: 103
+    y: 80
+  ogrelord:
+    map: Cabran
+    formalName: the Ogre Lord
+    x: 94
+    y: 122
+  trolllord:
+    map: Cabran
+    formalName: the Troll Lord
+    x: 155
+    y: 122
+  transmuter:
+    map: Cabran
+    formalName: the Transmuter
+    x: 212
+    y: 184
+  cavetrollkin:
+    map: Cabran Falls
+    formalName: the Cave Troll-kin
+    x: 46
+    y: 3
+  eviltwin:
+    map: Cabran Falls
+    formalName: The Evil Twin
+    x: 2
+    y: 2
+  shimmeringspecter:
+    map: Specter Lair
+    formalName: The Shimmering Specter
+    x: 14
+    y: 3
+  smallyeti:
+    map: Yeti Mountain +1
+    formalName: The Small Yeti
+    x: 8
+    y: 20
+  largeyeti:
+    map: Yeti Mountain +2
+    formalName: The Large Yeti
+    x: 5
+    y: 2
+  shacklesarchers:
+    map: The Shackles +1
+    formalName: The Shackles Archer Squad
+    x: 6
+    y: 13
+  shacklescommander:
+    map: The Shackles +1
+    formalName: The Shackles Commander
+    x: 9
+    y: 2
+  mayhempitchampion:
+    map: Mayhem Caves -2
+    formalName: the Mayhem Pit Champion
+    x: 11
+    y: 10
+  defensiveroc:
+    map: Roc Lair
+    formalName: the Defensive Roc
+    x: 7
+    y: 19
+  cavehermit:
+    map: The Haunted Cave
+    formalName: the Cave Hermit
+    x: 34
+    y: 67
+  glopthegrub:
+    map: Salamander Caves
+    formalName: Glop the Grub
+    x: 23
+    y: 2
+  salamanderlord:
+    map: Salamander Caves
+    formalName: the Salamander Lord
+    x: 3
+    y: 29
+  weatheredmonk:
+    map: Desert Tower -1
+    formalName: the Weathered Monk
+    x: 9
+    y: 9
+  mechanicaldragon:
+    map: Desert Tower +2
+    formalName: the Mechanical Dragon
+    x: 5
+    y: 9
+  snakelord:
+    map: Temple of the Snake -1
+    formalName: the Snake Lord
+    x: 16
+    y: 9
+  alchemistsapprentice:
+    map: Swamp Tower +1
+    formalName: the Alchemist's Apprentice
+    x: 7
+    y: 9
+  maigervex:
+    map: Cabran Dungeon -2
+    formalName: Maigervex of Old
+    x: 67
+    y: 19
+  wellfedcavespider:
+    map: Cabran Dungeon -2
+    formalName: the Well Fed Cave Spider
+    x: 92
+    y: 2
+  clockborgarcher:
+    map: Cabran Dungeon -3
+    formalName: the Clockborg Defense Archer
+    x: 65
+    y: 49
+  deepwellengineer:
+    map: Cabran Dungeon -3
+    formalName: the Deep Well Engineer
+    x: 15
+    y: 22
+  beetlelord:
+    map: Temple of the Beetle -2
+    formalName: the Five-Legged Beetle Lord
+    x: 3
+    y: 11
+dungeons:
+  norkosdungeon:
+    map: Norkos
+    formalName: Norkos Dungeon entrance
+    x: 24
+    y: 24
+  maelesdungeon:
+    map: Norkos
+    formalName: Maeles Dungeon entrance
+    x: 107
+    y: 129
+  mythosdungeon:
+    map: Norkos
+    formalName: Mythos Dungeon entrance
+    x: 246
+    y: 43
+  norkosfisheries:
+    map: Norkos
+    formalName: the Norkos Fisheries entrance
+    x: 33
+    y: 70
+  norkosboathouse:
+    map: Norkos
+    formalName: the Norkos Boathouse entrance
+    x: 10
+    y: 88
+  norkosprison:
+    map: Norkos
+    formalName: the Norkos Prison entrance
+    x: 96
+    y: 13
+  minotaurmaze:
+    map: Norkos
+    formalName: the Minotaur Maze entrance
+    x: 238
+    y: 188
+  funhouse:
+    map: Norkos
+    formalName: the Funhouse entrance
+    x: 216
+    y: 162
+  dwarfruins:
+    map: Homlet Caves
+    formalName: the Ancient Dwarven Ruins entrance
+    x: 26
+    y: 14
+  lichmansion:
+    map: Norkos
+    formalName: the Lich Brothers Mansion entrance
+    x: 184
+    y: 209
+  waterplane:
+    map: Norkos
+    formalName: the Water Plane entrance
+    x: 154
+    y: 124
+  elementalplane:
+    map: Norkos
+    formalName: the Elemental Plane entrance
+    x: 112
+    y: 183
+  hauntedship:
+    map: Norkos
+    formalName: the Haunted Ship entrance
+    x: 17
+    y: 103
+  evilnorkos:
+    map: Norkos
+    formalName: Evil Norkos entrance
+    x: 17
+    y: 103
+  dopplegangerlair:
+    map: Norkos
+    formalName: the Doppleganger Lair
+    x: 51
+    y: 217
+  idleisland:
+    map: Norkos
+    formalName: the Idle Island entrance
+    x: 87
+    y: 242
+  winecellar:
+    map: Norkos
+    formalName: the Frigri Wine Cellar entrance
+    x: 87
+    y: 242
+  theshackles:
+    map: Cabran
+    formalName: the Shackles Guard Room
+    x: 44
+    y: 97
+  mayhemcaves:
+    map: Cabran
+    formalName: the Mayhem Caves
+    x: 2
+    y: 13
+  giantsoutpost:
+    map: Cabran
+    formalName: the Giant's Outpost
+    x: 7
+    y: 3
+  cabrandungeon:
+    map: Cabran
+    formalName: the Cabran Dungeon entrance
+    x: 22
+    y: 185
+  maelespark:
+    map: Norkos
+    formalName: the Maeles Park entrance
+    x: 54
+    y: 135
+  fatetester:
+    map: Minotaur Maze -4
+    formalName: outside a Fate Lake portal in the Minotaur Maze
+    x: 35
+    y: 9

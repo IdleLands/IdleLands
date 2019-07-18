@@ -1,0 +1,42 @@
+Wardens:
+  respawn: 7200
+  members:
+  - Warden of Norkos
+  - Warden of Norkos
+Christmas Elves:
+  respawn: 7200
+  members:
+  - Elf Administrator
+  - Angry Elf
+  - Toy Maker Elf
+Spooky Scary Skeletons:
+  respawn: 7200
+  members:
+  - Andy the Skeleton
+  - Goldy the Skeleton
+  - Mr Bones
+Astral Guards:
+  respawn: 7200
+  members:
+  - Astral Guard
+  - Astral Guard
+  - Astral Guard
+  - Astral Guard
+Dragon-kin Defenders:
+  respawn: 10800
+  members:
+  - Dragon-kin Defender
+  - Dragon-kin Defender
+  - Dragon-kin Defender
+Shackles Archer Squad:
+  respawn: 10800
+  members:
+  - Shackles Captain of the Guard
+  - Shackles Lieutenant
+  - Shackles Lieutenant
+Snake Lord's Entourage:
+  respawn: 10800
+  members:
+  - Snake Lord
+  - Snake-headed Guardsman
+  - Snake-headed Guardsman

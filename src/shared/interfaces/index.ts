@@ -2,6 +2,7 @@ export * from './GameEvent';
 export * from './ServerEvent';
 
 export * from './IAchievement';
+export * from './IAdventure';
 export * from './IAdventureLog';
 export * from './IBuff';
 export * from './IChoice';
