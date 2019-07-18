@@ -1,67 +1,60 @@
 towns:
-  astral:
+  Astral Town:
     map: The Astral Plane
-    formalName: Astral Town
     x: 13
     y: 60
     cost: 5000000
     requiredRegionVisit: Astral Town
-  frigri:
+  Frigri Town:
     map: Norkos
-    formalName: Frigri Town
     x: 133
     y: 160
     cost: 500000
     requiredRegionVisit: Frigri Town
-  homlet:
+  Homlet Town:
     map: Homlet Caves
-    formalName: Homlet Town
     x: 60
     y: 7
     cost: 550000
     requiredRegionVisit: Homlet Town
-  maeles:
+  Maeles Town:
     map: Norkos
-    formalName: Maeles Town
     x: 51
     y: 115
     cost: 250000
     requiredRegionVisit: Maeles Town
-  norkos:
+  Norkos Town:
     map: Norkos
-    formalName: Norkos Town
     x: 34
     y: 14
     cost: 50000
     requiredRegionVisit: Norkos Town
-  raburro:
+  Raburro Town:
     map: Norkos Dungeon -5
-    formalName: Raburro Town
     x: 37
     y: 39
     cost: 750000
     requiredRegionVisit: Raburro Town
-  vocalnus:
+  Vocalnus Town:
     map: Vocalnus
     formalName: Vocalnus Town
     x: 31
     y: 41
     cost: 350000
     requiredRegionVisit: Vocalnus Town
-  desert:
+  Desert Town:
     map: Cabran
-    formalName: Desert Town
     x: 195
     y: 11
     cost: 7500000
     requiredRegionVisit: Desert Town
-  tree:
+  Tree Town:
     map: Tree Town
-    formalName: Tree Town
     x: 13
     y: 17
     cost: 7500000
     requiredRegionVisit: Tree Town
+    
 trainers:
   archer:
     map: Leviathan Mountain

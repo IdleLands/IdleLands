@@ -32,6 +32,7 @@ export enum ServerEventName {
   ItemUnlock = 'item:unlock',
   ItemSellAll = 'item:sellall',
   ItemCompare = 'item:compare',
+  ItemTeleportScroll = 'item:teleportscroll',
 
   PetOOCAction = 'pet:oocaction',
   PetUpgrade = 'pet:upgrade',

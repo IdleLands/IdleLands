@@ -1,5 +1,5 @@
 
-import { ServerEventName, ServerEvent, ItemSlot } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, ItemSlot, TeleportItemLocation } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class UnequipItemEvent extends ServerSocketEvent implements ServerEvent {
@@ -128,5 +128,22 @@ export class SellAllEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.updatePlayer(player);
     this.gameSuccess(`Sold ${numItems} item(s) for ${totalValue.toLocaleString()} gold!`);
+  }
+}
+
+export class UseTeleportScrollEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemTeleportScroll;
+  description = 'Use a teleport scroll in your inventory.';
+  args = 'scroll';
+
+  async callback({ scroll } = { scroll: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const didWork = player.$inventory.useTeleportScroll(<TeleportItemLocation>scroll);
+    if(!didWork) return this.gameError('Could not teleport.');
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`You teleported to ${scroll}!`);
   }
 }

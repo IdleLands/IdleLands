@@ -4,7 +4,7 @@ import { find, pull, sumBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Item } from '../Item';
-import { ItemSlot } from '../../interfaces';
+import { ItemSlot, TeleportItemLocation } from '../../interfaces';
 import { Player } from './Player.entity';
 
 @Entity()
@@ -22,6 +22,9 @@ export class Inventory extends PlayerOwned {
   @Column()
   private size: number;
 
+  @Column()
+  private teleportScrolls: { [key in TeleportItemLocation]?: number };
+
   public get $inventoryData() {
     return { equipment: this.equipment, items: this.items, size: this.size };
   }
@@ -30,6 +33,7 @@ export class Inventory extends PlayerOwned {
     super();
     if(!this.equipment) this.equipment = {};
     if(!this.items) this.items = [];
+    if(!this.teleportScrolls) this.teleportScrolls = {};
   }
 
   // basic functions
@@ -122,6 +126,18 @@ export class Inventory extends PlayerOwned {
 
   public clearInventory(): void {
     this.items = [];
+  }
+
+  public addTeleportScroll(scroll: TeleportItemLocation): void {
+    this.teleportScrolls[scroll] = this.teleportScrolls[scroll] || 0;
+    this.teleportScrolls[scroll]++;
+  }
+
+  public useTeleportScroll(scroll: TeleportItemLocation): boolean {
+    if(this.teleportScrolls[scroll] <= 0) return false;
+
+    this.teleportScrolls[scroll]--;
+    return true;
   }
 
 }

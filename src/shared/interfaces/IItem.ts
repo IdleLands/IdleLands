@@ -64,3 +64,15 @@ export interface IItem {
 export type PartialItem = {
   [P in keyof IItem]?: IItem[P];
 };
+
+export enum TeleportItemLocation {
+  AstralTown = 'Astral Town',
+  FrigriTown = 'Frigri Town',
+  HomletTown = 'Homlet Town',
+  MaelesTown = 'Maeles Town',
+  NorkosTown = 'Norkos Town',
+  RaburroTown = 'Raburro Town',
+  VocalnusTown = 'Vocalnus Town',
+  DesertTown = 'Desert Town',
+  TreeTown = 'Tree Town'
+}
