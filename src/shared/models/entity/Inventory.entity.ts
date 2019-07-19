@@ -167,7 +167,7 @@ export class Inventory extends PlayerOwned {
     player.addBuff({
       name: scroll.name,
       statistic: 'Character/Ticks',
-      duration: 720 * (1 + player.$statistics.get('Game/Premium/BuffScrollDuration')), // 1 hour + stat,
+      duration: Math.min(720, (720 * player.$statistics.get('Game/Premium/BuffScrollDuration'))), // 1 hour per stat,
       stats: scroll.stats
     });
 
