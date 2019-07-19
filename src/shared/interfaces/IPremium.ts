@@ -5,7 +5,7 @@ export enum PermanentUpgrade {
   InventorySizeBoost = 'inventorySizeBoost',
 
   // the permanent soul storage size boost for buying this pet
-  SoulStashSizeBoost = 'soulStashSizeBoost',
+  BuffScrollDuration = 'buffScrollDurationBoost',
 
   // the permanent adventure log size boost for buying this pet
   AdventureLogSizeBoost = 'adventureLogSizeBoost',
@@ -35,6 +35,6 @@ export const PremiumScale = {
   [PermanentUpgrade.ChoiceLogSizeBoost]: 10,
   [PermanentUpgrade.EnchantCapBoost]: 100,
   [PermanentUpgrade.InventorySizeBoost]: 50,
-  [PermanentUpgrade.SoulStashSizeBoost]: 150,
+  [PermanentUpgrade.BuffScrollDuration]: 150,
   [PermanentUpgrade.ItemStatCapBoost]: 25
 };

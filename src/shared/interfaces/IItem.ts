@@ -76,3 +76,10 @@ export enum TeleportItemLocation {
   DesertTown = 'Desert Town',
   TreeTown = 'Tree Town'
 }
+
+export interface IBuffScrollItem {
+  id: string;
+  name: string;
+  stats: { [key in Stat]?: number };
+  expiresAt: number;
+}

@@ -77,7 +77,7 @@
       - { v: 0,   c: 0 }
 
   permanentUpgrades:
-    soulStashSizeBoost: 1
+    buffScrollDurationBoost: 1
 
   ascensionMaterials:
     - CrystalRed: 1

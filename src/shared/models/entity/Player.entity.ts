@@ -706,11 +706,11 @@ export class Player implements IPlayer {
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.InventorySizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.InventorySizeBoost));
 
-    this.$statistics.set('Game/Premium/SoulStashSize',
+    this.$statistics.set('Game/Premium/BuffScrollDuration',
       0
     + (tier * 5)
-    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.SoulStashSizeBoost)
-    + this.$premium.getUpgradeLevel(PermanentUpgrade.SoulStashSizeBoost));
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.BuffScrollDuration)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.BuffScrollDuration));
 
     this.$statistics.set('Game/Premium/ChoiceLogSize',
       10

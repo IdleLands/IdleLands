@@ -54,5 +54,35 @@
         </ion-card>
       </ion-col>
     </ion-row>
+
+    <ion-row *ngIf="player.$inventoryData">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding" *ngIf="player.$inventoryData.buffScrolls.length">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Buff Scrolls</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let scroll of player.$inventoryData.buffScrolls" [class.ion-hide]="!canSeeBuffScroll(scroll)">
+                <ion-icon slot="start" [src]="'assets/icon/symbol-scroll.svg'"></ion-icon>
+
+                <ion-label>
+                  {{ scroll.name }}
+                  <p>
+                    <span class="ion-margin-end" *ngFor="let stat of scroll.stats | keyvalue">
+                      <ion-icon [src]="'assets/icon/stat-' + stat.key + '.svg'" class="ion-margin-end"></ion-icon>  {{ stat.key | uppercase }} +{{ stat.value }}
+                    </span>
+                  </p>
+                  <p>Expires {{ scroll.expiresAt | date:'medium' }}</p>
+                </ion-label>
+
+                <ion-button slot="end" (click)="useBuffScroll(scroll.id)">Use</ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ng-container>
 </ion-content>

@@ -2,7 +2,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
-import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward, TeleportItemLocation } from '../../interfaces';
+import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward, TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -167,6 +167,33 @@ export class Premium extends PlayerOwned {
 
           if(sub === 'teleportscroll') {
             player.$inventory.addTeleportScroll(<TeleportItemLocation>choice);
+          }
+
+          if(sub === 'buffscroll') {
+
+            const stats = {};
+
+            const chooseAndAddStat = () => {
+
+              const stat = player.$$game.rngService.pickone(AllStatsButSpecial);
+              const val = Math.floor(player.getStat(StatPartners[stat]) / 10);
+
+              stats[stat] = stats[stat] || 0;
+              stats[stat] += val;
+            };
+
+            chooseAndAddStat();
+            if(player.$$game.rngService.likelihood(50)) chooseAndAddStat();
+            if(player.$$game.rngService.likelihood(25)) chooseAndAddStat();
+
+            const scroll: IBuffScrollItem = {
+              id: player.$$game.rngService.id(),
+              name: player.$$game.assetManager.scroll(),
+              stats,
+              expiresAt: Date.now() + (259200 * 1000) // 3 days in seconds * 1000
+            };
+
+            player.$inventory.addBuffScroll(scroll);
           }
 
           break;

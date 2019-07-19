@@ -147,3 +147,20 @@ export class UseTeleportScrollEvent extends ServerSocketEvent implements ServerE
     this.gameSuccess(`You teleported to ${scroll}!`);
   }
 }
+
+export class UseBuffScrollEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemBuffScroll;
+  description = 'Use a buff scroll in your inventory.';
+  args = 'scrollId';
+
+  async callback({ scrollId } = { scrollId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const didWork = player.$inventory.useBuffScroll(player, scrollId);
+    if(!didWork) return this.gameError('Could not use scroll. It might not be there or is expired!');
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`You used the scroll!`);
+  }
+}

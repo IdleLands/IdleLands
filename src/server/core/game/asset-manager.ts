@@ -62,6 +62,11 @@ export class AssetManager {
     return this.stringFromGrammar(grammar);
   }
 
+  public scroll() {
+    const grammar = sample(this.stringAssets.scrollGrammar);
+    return this.stringFromGrammar(grammar);
+  }
+
   public providence() {
     const grammar = sample(this.stringAssets.providenceGrammar);
     return this.stringFromGrammar(grammar);

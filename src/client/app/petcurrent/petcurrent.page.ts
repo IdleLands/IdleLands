@@ -12,36 +12,36 @@ import { AlertController } from '@ionic/angular';
 export class PetcurrentPage implements OnInit {
 
   public properUpgradeNames: { [key in PetUpgrade]: string } = {
-    goldStorage: 'Gold Storage',
-    battleJoinPercent: 'Battle Join Percent',
-    gatherTime: 'Gather Time',
-    itemFindQualityBoost: 'Item Find Quality Boost',
-    itemFindLevelBoost: 'Item Find Level Boost',
-    itemFindLevelPercent: 'Item Find % Boost',
-    ilpGatherQuantity: 'ILP Gather Quantity',
-    strongerSoul: 'Stronger Soul',
-    soulShare: 'Soul Share %'
+    [PetUpgrade.GoldStorage]: 'Gold Storage',
+    [PetUpgrade.BattleJoinPercent]: 'Battle Join Percent',
+    [PetUpgrade.GatherTime]: 'Gather Time',
+    [PetUpgrade.ItemFindQualityBoost]: 'Item Find Quality Boost',
+    [PetUpgrade.ItemFindLevelBoost]: 'Item Find Level Boost',
+    [PetUpgrade.ItemFindLevelPercent]: 'Item Find % Boost',
+    [PetUpgrade.ILPGatherQuantity]: 'ILP Gather Quantity',
+    [PetUpgrade.StrongerSoul]: 'Stronger Soul',
+    [PetUpgrade.SoulShare]: 'Soul Share %'
   };
 
   public properUpgradeSuffixes: { [key in PetUpgrade]: string } = {
-    goldStorage: 'g',
-    battleJoinPercent: '%',
-    gatherTime: 's',
-    itemFindQualityBoost: 'q',
-    itemFindLevelBoost: ' Lv.',
-    itemFindLevelPercent: '%',
-    ilpGatherQuantity: ' ILP',
-    strongerSoul: ' Lv.',
-    soulShare: '%'
+    [PetUpgrade.GoldStorage]: 'g',
+    [PetUpgrade.BattleJoinPercent]: '%',
+    [PetUpgrade.GatherTime]: 's',
+    [PetUpgrade.ItemFindQualityBoost]: 'q',
+    [PetUpgrade.ItemFindLevelBoost]: ' Lv.',
+    [PetUpgrade.ItemFindLevelPercent]: '%',
+    [PetUpgrade.ILPGatherQuantity]: ' ILP',
+    [PetUpgrade.StrongerSoul]: ' Lv.',
+    [PetUpgrade.SoulShare]: '%'
   };
 
   public properPermanentUpgradeNames: { [key in PermanentUpgrade]: string } = {
-    inventorySizeBoost: 'Inventory Size',
-    soulStashSizeBoost: 'Soul Stash Size',
-    adventureLogSizeBoost: 'Adventure Log Size',
-    choiceLogSizeBoost: 'Choice Log Size',
-    enchantCapBoost: 'Enchant Cap',
-    itemStatCapBoost: 'Item stat Cap'
+    [PermanentUpgrade.InventorySizeBoost]: 'Inventory Size',
+    [PermanentUpgrade.BuffScrollDuration]: 'Buff Scroll Duration',
+    [PermanentUpgrade.AdventureLogSizeBoost]: 'Adventure Log Size',
+    [PermanentUpgrade.ChoiceLogSizeBoost]: 'Choice Log Size',
+    [PermanentUpgrade.EnchantCapBoost]: 'Enchant Cap',
+    [PermanentUpgrade.ItemStatCapBoost]: 'Item Stat Cap'
   };
 
   constructor(

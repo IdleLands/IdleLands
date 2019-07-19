@@ -1,6 +1,6 @@
 import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
+import { AdventureLogEventType, Stat, AllStatsButSpecial } from '../../../../shared/interfaces';
 
 export class Witch extends Event {
   public static readonly WEIGHT = 3;
@@ -20,7 +20,7 @@ export class Witch extends Event {
   }
 
   private pickBuffStats(player: Player) {
-    const stat = this.rng.pickone(Object.values(Stat).filter(x => x.toLowerCase() !== 'special'));
+    const stat = this.rng.pickone(AllStatsButSpecial);
     const statModPercent = this.rng.pickone([-20, -10, -5, -1, 1, 5, 10, 20, 25]);
     const statMod = Math.floor(player.getStat(stat) * (1 / statModPercent));
 

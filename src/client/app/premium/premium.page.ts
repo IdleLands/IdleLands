@@ -18,7 +18,7 @@ export class PremiumPage implements OnInit {
     { name: 'Enchant Cap',     upgrade: PermanentUpgrade.EnchantCapBoost },
     { name: 'Inventory Size',  upgrade: PermanentUpgrade.InventorySizeBoost },
     { name: 'Item Stat Cap',   upgrade: PermanentUpgrade.ItemStatCapBoost },
-    { name: 'Soul Stash Size', upgrade: PermanentUpgrade.SoulStashSizeBoost },
+    { name: 'Buff Duration',   upgrade: PermanentUpgrade.BuffScrollDuration },
   ];
 
   constructor(

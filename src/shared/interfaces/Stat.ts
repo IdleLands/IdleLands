@@ -14,4 +14,19 @@ export enum Stat {
   GOLD = 'gold'
 }
 
+export const StatPartners = {
+  [Stat.STR]: Stat.INT,
+  [Stat.INT]: Stat.STR,
+
+  [Stat.DEX]: Stat.AGI,
+  [Stat.AGI]: Stat.DEX,
+
+  [Stat.CON]: Stat.LUK,
+  [Stat.LUK]: Stat.CON,
+
+  [Stat.XP]: Stat.GOLD,
+  [Stat.GOLD]: Stat.XP
+};
+
 export const AllStats = Object.keys(Stat).map(stat => Stat[stat]);
+export const AllStatsButSpecial = AllStats.filter(x => x !== Stat.SPECIAL);

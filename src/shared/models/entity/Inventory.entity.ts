@@ -4,7 +4,7 @@ import { find, pull, sumBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Item } from '../Item';
-import { ItemSlot, TeleportItemLocation } from '../../interfaces';
+import { ItemSlot, TeleportItemLocation, IBuffScrollItem, IBuff } from '../../interfaces';
 import { Player } from './Player.entity';
 
 @Entity()
@@ -25,8 +25,17 @@ export class Inventory extends PlayerOwned {
   @Column()
   private teleportScrolls: { [key in TeleportItemLocation]?: number };
 
+  @Column()
+  private buffScrolls: IBuffScrollItem[];
+
   public get $inventoryData() {
-    return { equipment: this.equipment, items: this.items, size: this.size, teleportScrolls: this.teleportScrolls };
+    return {
+      equipment: this.equipment,
+      items: this.items,
+      size: this.size,
+      teleportScrolls: this.teleportScrolls,
+      buffScrolls: this.buffScrolls
+    };
   }
 
   constructor() {
@@ -34,6 +43,7 @@ export class Inventory extends PlayerOwned {
     if(!this.equipment) this.equipment = {};
     if(!this.items) this.items = [];
     if(!this.teleportScrolls) this.teleportScrolls = {};
+    if(!this.buffScrolls) this.buffScrolls = [];
   }
 
   // basic functions
@@ -60,6 +70,8 @@ export class Inventory extends PlayerOwned {
       itemRef.init(this.equipment[itemSlot]);
       this.equipment[itemSlot] = itemRef;
     });
+
+    // TODO: clear expired scrolls
   }
 
   public updateSize(player) {
@@ -137,9 +149,32 @@ export class Inventory extends PlayerOwned {
     if(this.teleportScrolls[scroll] <= 0 || player.region === scroll) return false;
 
     player.$$game.movementHelper.doTeleport(player, { toLoc: scroll });
+    player.increaseStatistic('Item/Use/TeleportScroll', 1);
 
     this.teleportScrolls[scroll]--;
     return true;
   }
 
+  public addBuffScroll(scroll: IBuffScrollItem): void {
+    this.buffScrolls.push(scroll);
+  }
+
+  public useBuffScroll(player: Player, scrollId: string): boolean {
+    const scroll = find(this.buffScrolls, { id: scrollId });
+    console.log(scroll, scrollId, this.buffScrolls);
+    if(!scroll || scroll.expiresAt < Date.now()) return false;
+
+    player.addBuff({
+      name: scroll.name,
+      statistic: 'Character/Ticks',
+      duration: 720 * (1 + player.$statistics.get('Game/Premium/BuffScrollDuration')), // 1 hour + stat,
+      stats: scroll.stats
+    });
+
+    player.increaseStatistic('Item/Use/BuffScroll', 1);
+
+    pull(this.buffScrolls, scroll);
+
+    return true;
+  }
 }

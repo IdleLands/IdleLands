@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
-import { ServerEventName } from '../../../shared/interfaces';
+import { ServerEventName, IBuffScrollItem } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-enhancement-materials',
@@ -29,8 +29,15 @@ export class EnhancementMaterialsPage implements OnInit {
   }
 
   useTeleportScroll(scroll: string) {
-    
     this.socketService.emit(ServerEventName.ItemTeleportScroll, { scroll });
+  }
+
+  canSeeBuffScroll(scroll: IBuffScrollItem): boolean {
+    return Date.now() < scroll.expiresAt;
+  }
+
+  useBuffScroll(scrollId: string) {
+    this.socketService.emit(ServerEventName.ItemBuffScroll, { scrollId });
   }
 
 }
