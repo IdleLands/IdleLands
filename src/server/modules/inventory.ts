@@ -150,7 +150,7 @@ export class UseTeleportScrollEvent extends ServerSocketEvent implements ServerE
 
 export class UseBuffScrollEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.ItemBuffScroll;
-  description = 'Use a buff scroll in your inventory.';
+  description = 'Use a booster scroll in your inventory.';
   args = 'scrollId';
 
   async callback({ scrollId } = { scrollId: '' }) {
