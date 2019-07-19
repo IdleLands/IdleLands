@@ -49,6 +49,8 @@ export enum GachaReward {
   ItemGodly = 'item:generated:godly',
   ItemGoatly = 'item:generated:goatly',
   ItemOmega = 'item:generated:omega',
+
+  ItemTeleportScrollRandom = 'item:teleportscroll:random'
 }
 
 export const GachaNameReward: { [key in GachaReward]: string } = {
@@ -87,6 +89,8 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.CrystalPurple]: 'Pet Crystal (Purple)',
   [GachaReward.CrystalOrange]: 'Pet Crystal (Orange)',
   [GachaReward.CrystalAstral]: 'Pet Crystal (Astral)',
+
+  [GachaReward.ItemTeleportScrollRandom]: 'Teleport Scroll (Random)'
 };
 
 export interface IGacha {

@@ -2,7 +2,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
-import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass } from '../../interfaces';
+import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward, TeleportItemLocation } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -109,6 +109,11 @@ export class Premium extends PlayerOwned {
         if(player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
       }
 
+      if(reward === GachaReward.ItemTeleportScrollRandom) {
+        const chosenLocation = player.$$game.rngService.pickone(['Norkos Town', 'Maeles Town', 'Vocalnus Town', 'Frigri Town']);
+        return `item:teleportscroll:${chosenLocation}`;
+      }
+
       return reward;
     });
   }
@@ -159,6 +164,11 @@ export class Premium extends PlayerOwned {
           if(sub === 'Crystal') {
             player.$pets.addAscensionMaterial(`Crystal${choice}`);
           }
+
+          if(sub === 'teleportscroll') {
+            player.$inventory.addTeleportScroll(<TeleportItemLocation>choice);
+          }
+
           break;
         }
 
