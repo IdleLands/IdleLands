@@ -71,7 +71,7 @@ export class Inventory extends PlayerOwned {
       this.equipment[itemSlot] = itemRef;
     });
 
-    // TODO: clear expired scrolls
+    this.buffScrolls = this.buffScrolls.filter(x => x.expiresAt > Date.now());
   }
 
   public updateSize(player) {
