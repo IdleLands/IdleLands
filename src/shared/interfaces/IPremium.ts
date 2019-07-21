@@ -17,7 +17,10 @@ export enum PermanentUpgrade {
   EnchantCapBoost = 'enchantCapBoost',
 
   // the permanent item stat cap % boost for buying this pet
-  ItemStatCapBoost = 'itemStatCapBoost'
+  ItemStatCapBoost = 'itemStatCapBoost',
+
+  // the permanent item stat cap % boost for buying this pet
+  PetMissionCapBoost = 'petMissionCapBoost'
 
 }
 
@@ -36,5 +39,6 @@ export const PremiumScale = {
   [PermanentUpgrade.EnchantCapBoost]: 100,
   [PermanentUpgrade.InventorySizeBoost]: 50,
   [PermanentUpgrade.BuffScrollDuration]: 150,
-  [PermanentUpgrade.ItemStatCapBoost]: 25
+  [PermanentUpgrade.ItemStatCapBoost]: 25,
+  [PermanentUpgrade.PetMissionCapBoost]: 75
 };

@@ -119,10 +119,10 @@ export class Item implements IItem {
   }
 
   public isCurrentlyEnchantable(player: Player): boolean {
-    return this.enchantLevel < player.$statistics.get('Game/Premium/EnchantCap');
+    return this.enchantLevel < player.$statistics.get('Game/Premium/Upgrade/EnchantCap');
   }
 
   public isUnderBoostablePercent(player: Player): boolean {
-    return (this.score / this.baseScore) < (player.$statistics.get('Game/Premium/ItemStatCap') / 100);
+    return (this.score / this.baseScore) < (player.$statistics.get('Game/Premium/Upgrade/ItemStatCap') / 100);
   }
 }

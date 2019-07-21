@@ -28,6 +28,10 @@ export enum GachaReward {
   GoldMD = 'gold:player:md',
   GoldLG = 'gold:player:lg',
 
+  ILPSM = 'ilp:player:sm',
+  ILPMD = 'ilp:player:md',
+  ILPLG = 'ilp:player:lg',
+
   SoulGreen = 'collectible:Soul:Green',
   SoulYellow = 'collectible:Soul:Yellow',
   SoulRed = 'collectible:Soul:Red',
@@ -50,6 +54,10 @@ export enum GachaReward {
   ItemGoatly = 'item:generated:goatly',
   ItemOmega = 'item:generated:omega',
 
+  GuardianItem = 'item:guardian:gear',
+  GuardianCollectible = 'item:guardian:collectible',
+  HistoricalCollectible = 'item:historical:collectible',
+
   ItemTeleportScrollRandom = 'item:teleportscroll:random',
   ItemBuffScrollRandom = 'item:buffscroll:random'
 }
@@ -69,12 +77,21 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.GoldMD]: 'Gold (Medium)',
   [GachaReward.GoldLG]: 'Gold (Large)',
 
+  [GachaReward.ILPSM]: 'ILP (Small)',
+  [GachaReward.ILPMD]: 'ILP (Medium)',
+  [GachaReward.ILPLG]: 'ILP (Large)',
+
   [GachaReward.ItemBasic]: 'Item (Basic)',
   [GachaReward.ItemPro]: 'Item (Pro)',
   [GachaReward.ItemIdle]: 'Item (Idle)',
   [GachaReward.ItemGodly]: 'Item (Godly)',
   [GachaReward.ItemGoatly]: 'Item (Goatly)',
   [GachaReward.ItemOmega]: 'Item (Omega)',
+
+  [GachaReward.GuardianItem]: 'Item (Guardian)',
+  [GachaReward.GuardianCollectible]: 'Collectible (Guardian)',
+
+  [GachaReward.HistoricalCollectible]: 'Collectible (Historical)',
 
   [GachaReward.SoulGreen]: 'Pet Soul (Green)',
   [GachaReward.SoulYellow]: 'Pet Soul (Yellow)',

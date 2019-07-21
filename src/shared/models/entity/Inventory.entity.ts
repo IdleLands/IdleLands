@@ -48,7 +48,7 @@ export class Inventory extends PlayerOwned {
 
   // basic functions
   private calcSize(player: Player): number {
-    return player.$statistics.get('Game/Premium/InventorySize');
+    return player.$statistics.get('Game/Premium/Upgrade/InventorySize');
   }
 
   public init(player: Player): void {
@@ -167,7 +167,7 @@ export class Inventory extends PlayerOwned {
     player.addBuff({
       name: scroll.name,
       statistic: 'Character/Ticks',
-      duration: Math.min(720, (720 * player.$statistics.get('Game/Premium/BuffScrollDuration'))), // 1 hour per stat,
+      duration: Math.min(720, (720 * player.$statistics.get('Game/Premium/Upgrade/BuffScrollDuration'))), // 1 hour per stat,
       stats: scroll.stats
     });
 

@@ -19,6 +19,7 @@ export class PremiumPage implements OnInit {
     { name: 'Inventory Size',  upgrade: PermanentUpgrade.InventorySizeBoost },
     { name: 'Item Stat Cap',   upgrade: PermanentUpgrade.ItemStatCapBoost },
     { name: 'Buff Duration',   upgrade: PermanentUpgrade.BuffScrollDuration },
+    { name: 'Pet Mission Cap', upgrade: PermanentUpgrade.PetMissionCapBoost },
   ];
 
   constructor(

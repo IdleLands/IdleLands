@@ -7,8 +7,17 @@ export enum AdventureDuration {
   VeryLong = 24
 }
 
-export enum AdventureRewardCategory {
-
+export enum AdventureType {
+  /*
+  Combat = 'combat',
+  MerchantGuild = 'merchantguild',
+  BossHunt = 'bosshunt',
+  TimeTravel = 'timetravel',
+  MagicalItemSearch = 'magicalitemsearch',
+  EnhancementSearch = 'enhancementsearch',
+  Adventure = 'adventure',
+  AdventurersGraveyard = 'adventurersgraveyard'
+  */
 }
 
 export interface IAdventure {
@@ -16,6 +25,6 @@ export interface IAdventure {
   duration: AdventureDuration;
 }
 
-export const GenerateRewardsForCategory: { [key in AdventureRewardCategory]: Function } = {
+export const GenerateRewardsForCategory: { [key in AdventureType]: Function } = {
 
 };

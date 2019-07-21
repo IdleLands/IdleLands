@@ -30,7 +30,7 @@ export class Choices extends PlayerOwned {
 
   // basic functions
   private calcSize(player: Player): number {
-    return player.$statistics.get('Game/Premium/ChoiceLogSize');
+    return player.$statistics.get('Game/Premium/Upgrade/ChoiceLogSize');
   }
 
   public init(player: Player): void {

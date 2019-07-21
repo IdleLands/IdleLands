@@ -20,9 +20,14 @@
 
     <ion-row class="ion-flex-wrap">
       <ion-col size-xs="12" size-md="6" *ngFor="let coll of player?.$collectiblesData?.collectibles | keyvalue">
-        <ion-card [color]="coll.value.rarity">
+        <ion-card [color]="coll.value.rarity" [class.notfound-collectible]="coll.value.foundAt === 0">
           <ion-card-header>
-            <ion-card-subtitle>Found {{ coll.value.foundAt | date:'medium' }}</ion-card-subtitle>
+            <ion-card-subtitle *ngIf="coll.value.foundAt === 0">
+              Not Found This Ascension
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="coll.value.foundAt > 0">
+              Found {{ coll.value.foundAt | date:'medium' }}
+            </ion-card-subtitle>
             <ion-card-title>{{ coll.value.name }}</ion-card-title>
           </ion-card-header>
 
