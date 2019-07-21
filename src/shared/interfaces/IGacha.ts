@@ -5,12 +5,15 @@ export enum GachaFreeReset {
 }
 
 export enum GachaChance {
+  VeryCommon = 600,
   Common = 450,
   Uncommon = 300,
   Rare = 200,
   XRare = 100,
   XXRare = 50,
-  XXXRare = 10
+  XXXRare = 10,
+  XXXXRare = 1,
+  Always = -1
 }
 
 export enum GachaReward {
@@ -119,7 +122,7 @@ export interface IGacha {
   requiredToken?: string;
   freeResetInterval?: GachaFreeReset;
 
-  rewards: Array<{ result: GachaReward, chance: number }>;
+  rewards: Array<{ result: GachaReward, chance: GachaChance }>;
 
   canRoll(player: IPlayer): boolean;
   roll(): GachaReward;
