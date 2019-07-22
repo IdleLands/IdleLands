@@ -1,11 +1,13 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
-import { some } from 'lodash';
+import { LootTable } from 'lootastic';
+import { some, find, pull } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
-import { IPet, PetUpgrade, PermanentUpgrade, PetAttribute, PetAffinity } from '../../interfaces';
+import { IPet, PetUpgrade, PermanentUpgrade, PetAttribute, PetAffinity, IAdventure,
+  AdventureChances, AdventureRequirements, AdventureDurationChances, BaseAdventureRewardCount, AdventureRewards } from '../../interfaces';
 import { Pet } from '../Pet';
 
 @Entity()
@@ -26,12 +28,16 @@ export class Pets extends PlayerOwned {
   @Column()
   private ascensionMaterials: { [key: string]: number };
 
+  @Column()
+  private adventures: IAdventure[];
+
   public get $petsData() {
     return {
       currentPet: this.currentPet,
       allPets: this.allPets,
       buyablePets: this.buyablePets,
-      ascensionMaterials: this.ascensionMaterials
+      ascensionMaterials: this.ascensionMaterials,
+      adventures: this.adventures
     };
   }
 
@@ -45,6 +51,7 @@ export class Pets extends PlayerOwned {
     if(!this.currentPet) this.currentPet = '';
     if(!this.buyablePets) this.buyablePets = {};
     if(!this.ascensionMaterials) this.ascensionMaterials = {};
+    if(!this.adventures) this.adventures = [];
   }
 
   toSaveObject() {
@@ -59,6 +66,7 @@ export class Pets extends PlayerOwned {
       currentPet: this.currentPet,
       buyablePets: this.buyablePets,
       ascensionMaterials: this.ascensionMaterials,
+      adventures: this.adventures,
       allPets
     };
   }
@@ -74,6 +82,8 @@ export class Pets extends PlayerOwned {
     this.syncBuyablePets(player);
 
     this.setActivePet(this.currentPet);
+
+    this.validatePetMissionsAndQuantity(player);
   }
 
   public loop() {
@@ -187,6 +197,82 @@ export class Pets extends PlayerOwned {
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
 
     return true;
+  }
+
+  private generateAdventureFor(player: Player): IAdventure {
+    const validTypes = AdventureChances.filter(x => AdventureRequirements[x.result] ? AdventureRequirements[x.result](player) : true);
+    const chosenAdventure = player.$$game.rngService.weightedFromLootastic(validTypes);
+
+    const adventure: IAdventure = {
+      id: player.$$game.rngService.id(),
+      type: chosenAdventure,
+      duration: player.$$game.rngService.weightedFromLootastic(AdventureDurationChances),
+      finishAt: 0
+    };
+
+    return adventure;
+  }
+
+  private addNewAdventure(player: Player) {
+    const newAdventure = this.generateAdventureFor(player);
+    this.adventures.push(newAdventure);
+  }
+
+  // create pet missions equal to the stat for the player
+  public validatePetMissionsAndQuantity(player: Player) {
+    const totalAdventures = player.$statistics.get('Game/Premium/Upgrade/PetMissions');
+
+    while(this.adventures.length < totalAdventures) {
+      this.addNewAdventure(player);
+    }
+  }
+
+  // check if all pets are able to go on mission. if so, mark them as in mission
+  public embarkOnPetMission(player: Player, adventureId: string, pets: string[]): boolean {
+    const adventure = find(this.adventures, { id: adventureId });
+    const petRefs = pets.map(x => this.allPets[x]).filter(x => x && !x.currentAdventureId);
+
+    if(pets.length === 0 || petRefs.length !== pets.length || !adventure) return false;
+
+    // update finishAt to be the end time
+    adventure.finishAt = Date.now() + (3600 * 1000 * adventure.duration);
+    petRefs.forEach(pet => pet.currentAdventureId = adventureId);
+
+    player.increaseStatistic('Pet/Adventure/PetsSent', pets.length);
+
+    return true;
+  }
+
+  // clear pet currentAdventureId
+  public cashInMission(player: Player, adventureId: string): false|{ rewards, adventure } {
+    const adventure = find(this.adventures, { id: adventureId });
+    if(!adventure || adventure.finishAt > Date.now()) return false;
+
+    pull(this.adventures, adventure);
+    this.addNewAdventure(player);
+
+    let totalPetsSentOnAdventure = 0;
+    Object.values(this.allPets).forEach(pet => {
+      if(pet.currentAdventureId !== adventureId) return;
+      pet.currentAdventureId = '';
+      totalPetsSentOnAdventure++;
+    });
+
+    let totalRewards = Math.floor(BaseAdventureRewardCount[adventure.duration] * totalPetsSentOnAdventure);
+    if(player.$$game.rngService.likelihood(50)) totalRewards++;
+    if(player.$$game.rngService.likelihood(25)) totalRewards++;
+    if(player.$$game.rngService.likelihood(10)) totalRewards++;
+
+    const table = new LootTable(AdventureRewards[adventure.type]);
+    const rewards = table.chooseWithReplacement(totalRewards);
+
+    const realRewards = player.$premium.validateAndEarnGachaRewards(player, rewards);
+
+    player.increaseStatistic('Pet/Adventure/Hours', adventure.duration);
+    player.increaseStatistic('Pet/Adventure/TotalAdventures', 1);
+    player.increaseStatistic('Pet/Adventure/TotalRewards', totalRewards);
+
+    return { rewards: realRewards, adventure };
   }
 
 }

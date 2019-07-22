@@ -140,3 +140,39 @@ export class PetAscendEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Your pet has ascended!`);
   }
 }
+
+export class PetAdventureEmbarkEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetAdventureEmbark;
+  description = 'Send your pets on an adventure.';
+  args = 'adventureId, petIds';
+
+  async callback({ adventureId, petIds } = { adventureId: '', petIds: [] }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const didSucceed = player.$pets.embarkOnPetMission(player, adventureId, petIds);
+    if(!didSucceed) return this.gameError('Could not embark on that mission.');
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`You've sent your pets off on another wacky adventure!`);
+  }
+}
+
+export class PetAdventureCollectEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetAdventureFinish;
+  description = 'Collect your pets and rewards from an adventure.';
+  args = 'adventureId';
+
+  async callback({ adventureId } = { adventureId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const rewards = player.$pets.cashInMission(player, adventureId);
+    if(!rewards) return this.gameError('Could not collect from that mission.');
+
+    this.emit(ServerEventName.PetAdventureRewards, rewards);
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`You've collected your rewards and pets from their adventure!`);
+  }
+}

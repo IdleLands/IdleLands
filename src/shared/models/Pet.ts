@@ -39,6 +39,7 @@ export class Pet implements IPet {
   public $ascMaterials: any;
   public rating: number;
   public gatherTick: number;
+  public currentAdventureId: string;
 
   public upgradeLevels: { [key in PetUpgrade]?: number };
 

@@ -132,6 +132,9 @@ export interface IPet extends ICharacter {
   // the pet equipment slots
   equipment: { [key in ItemSlot]?: IItem[] };
 
+  // the current mission id of the pet
+  currentAdventureId: string;
+
   loop(): void;
   toSaveObject(): any;
 }

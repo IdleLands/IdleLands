@@ -10,6 +10,11 @@
     <ion-tab-button tab="astral-gate">
       <ion-icon [src]="'assets/icon/category-astralgate.svg'"></ion-icon>
       <ion-label>Astral Gate</ion-label>
+
+      <!-- tabs must request data like this or it doesn't work -->
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <ion-badge *ngIf="player.$premiumData && canDoPremium(player)" color="secondary">Free Roll</ion-badge>
+      </ng-container>
     </ion-tab-button>
 
     <ion-tab-button tab="festivals">

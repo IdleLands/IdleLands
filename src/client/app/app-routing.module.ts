@@ -143,6 +143,12 @@ const routes: Routes = [
       ]
     },
     {
+      path: 'adventures',
+      children: [
+        { path: '', loadChildren: './adventures/adventures.module#AdventuresPageModule' }
+      ]
+    },
+    {
       path: '',
       redirectTo: '/pets/current',
       pathMatch: 'full'
@@ -150,6 +156,7 @@ const routes: Routes = [
   ] },
 
   { path: '**', redirectTo: 'home' }
+
 
 ];
 

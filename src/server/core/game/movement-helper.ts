@@ -248,11 +248,19 @@ export class MovementHelper {
         return;
 
       } else {
-        const toLocData = this.locToTeleport(dest.toLoc);
-        dest.x = toLocData.x;
-        dest.y = toLocData.y;
-        dest.map = toLocData.map;
-        dest.destName = toLocData.formalName;
+        try {
+          const toLocData = this.locToTeleport(dest.toLoc);
+          dest.x = toLocData.x;
+          dest.y = toLocData.y;
+          dest.map = toLocData.map;
+          dest.destName = toLocData.formalName;
+        } catch(e) {
+          this.logger.error('PlayerMovement',
+            new Error(`Loc data is not correct for ${dest.toLoc} (${JSON.stringify(this.locToTeleport(dest.toLoc))})`));
+
+          player.setPos(10, 10, 'Norkos', 'Wilderness');
+          return;
+        }
       }
     }
 

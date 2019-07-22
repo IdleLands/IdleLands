@@ -43,4 +43,8 @@ export class RNGService {
     return this.chance.weighted(items, weights);
   }
 
+  public weightedFromLootastic(items: Array<{ result: any, chance: number }>): any {
+    return this.weighted(items.map(x => x.result), items.map(x => x.chance));
+  }
+
 }

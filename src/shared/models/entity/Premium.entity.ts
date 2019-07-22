@@ -72,6 +72,13 @@ export class Premium extends PlayerOwned {
     return this.gachaFreeRolls[gachaName] || 0;
   }
 
+  public validateAndEarnGachaRewards(player: Player, rewards: string[]): any[] {
+    rewards = this.validateRewards(player, rewards);
+    this.earnGachaRewards(player, rewards);
+
+    return rewards;
+  }
+
   doGachaRoll(player: Player, gachaName: string, numRolls = 1): false|any[] {
     if(!Gachas[gachaName]) return false;
 
@@ -93,9 +100,7 @@ export class Premium extends PlayerOwned {
       rewards.push(gacha.roll());
     }
 
-    rewards = this.validateRewards(player, rewards);
-
-    this.earnGachaRewards(player, rewards);
+    rewards = this.validateAndEarnGachaRewards(player, rewards);
 
     return rewards;
   }
@@ -105,8 +110,14 @@ export class Premium extends PlayerOwned {
 
       // we can't get the same collectible twice if we have it
       if(reward.includes('collectible')) {
-        const [x, y, color] = reward.split(':');
-        if(player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
+        const [x, sub, color] = reward.split(':');
+        if(sub === 'Soul' && player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
+        if(sub === 'historical') {
+          const collectibles = player.$collectibles.getUnfoundOwnedCollectibles();
+          if(collectibles.length === 0) return 'xp:player:max';
+          const chosenName = player.$$game.rngService.pickone(collectibles).name;
+          return `collectible:historical:${chosenName}`;
+        }
       }
 
       if(reward === GachaReward.ItemTeleportScrollRandom) {
@@ -157,6 +168,19 @@ export class Premium extends PlayerOwned {
               storyline: `Lore: Astral Gate`
             });
           }
+
+          if(sub === 'guardian') {
+
+          }
+
+          if(sub === 'historical') {
+            player.$collectibles.refindCollectible(choice);
+          }
+          break;
+        }
+
+        case 'event': {
+          player.$$game.eventManager.doEventForPlayer(player, choice);
           break;
         }
 
@@ -167,6 +191,14 @@ export class Premium extends PlayerOwned {
 
           if(sub === 'teleportscroll') {
             player.$inventory.addTeleportScroll(<TeleportItemLocation>choice);
+          }
+
+          if(sub === 'generated') {
+
+          }
+
+          if(sub === 'guardian') {
+
           }
 
           if(sub === 'buffscroll') {

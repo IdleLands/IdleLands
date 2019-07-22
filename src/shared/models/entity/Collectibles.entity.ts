@@ -48,4 +48,12 @@ export class Collectibles extends PlayerOwned {
     });
   }
 
+  public getUnfoundOwnedCollectibles() {
+    return Object.values(this.collectibles).filter(coll => coll.foundAt === 0);
+  }
+
+  public refindCollectible(collectible: string) {
+    this.collectibles[collectible].foundAt = Date.now();
+  }
+
 }

@@ -25,7 +25,7 @@ export class AstralGatePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.gachas.push(...Object.keys(Gachas).map(key => ({ key, value: new Gachas[key]() })));
 
-    this.rewardsCb = ({ rewards }) => this.showRewards(rewards);
+    this.rewardsCb = ({ rewards }) => this.gameService.showRewards('Astral Gate Rewards', rewards);
     this.socketService.register(ServerEventName.AstralGateRewards, this.rewardsCb);
   }
 
@@ -70,29 +70,6 @@ export class AstralGatePage implements OnInit, OnDestroy {
         { text: 'Yes, roll!', handler: () => {
           this.socketService.emit(ServerEventName.AstralGateRoll, { astralGateName: gachaName, numRolls });
         } }
-      ]
-    });
-
-    alert.present();
-  }
-
-  private determineRewardName(reward: string) {
-    const res = GachaNameReward[reward];
-    if(res) return res;
-
-    if(reward.includes('teleportscroll')) {
-      return `Teleport Scroll: ${reward.split(':')[2]}`;
-    }
-
-    return 'UNKNOWN REWARD!';
-  }
-
-  private async showRewards(rewards) {
-    const alert = await this.alertCtrl.create({
-      header: `Astral Gate Rewards`,
-      message: '<ol>' + rewards.map(x => this.determineRewardName(x)).map(x => '<li>' + x + '</li>').join('') + '</ol>',
-      buttons: [
-        'OK'
       ]
     });
 

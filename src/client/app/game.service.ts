@@ -11,7 +11,7 @@ import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage } from '../../shared/interfaces';
+import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage, GachaNameReward } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
@@ -367,6 +367,30 @@ export class GameService {
 
   public getPlayerLocationsInCurrentMap() {
     return this.http.get(`${this.apiUrl}/api/players?map=${encodeURIComponent(this.currentPlayer.map)}`);
+  }
+
+
+  private determineRewardName(reward: string) {
+    const res = GachaNameReward[reward];
+    if(res) return res;
+
+    if(reward.includes('teleportscroll')) {
+      return `Teleport Scroll: ${reward.split(':')[2]}`;
+    }
+
+    return 'UNKNOWN REWARD!';
+  }
+
+  public async showRewards(title: string, rewards) {
+    const alert = await this.alertCtrl.create({
+      header: title,
+      message: '<ol>' + rewards.map(x => this.determineRewardName(x)).map(x => '<li>' + x + '</li>').join('') + '</ol>',
+      buttons: [
+        'OK'
+      ]
+    });
+
+    alert.present();
   }
 
 }

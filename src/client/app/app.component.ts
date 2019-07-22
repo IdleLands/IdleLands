@@ -43,9 +43,23 @@ export class AppComponent {
 
     { name: 'Map', icon: 'map', url: '/map' },
 
-    { name: 'Pets', icon: 'allpets', url: '/pets' },
+    { name: 'Pets', icon: 'allpets', url: '/pets', badgeColor: 'success', badge: (player) => {
+      if(!player.$petsData) return false;
 
-    { name: 'Premium', icon: 'premium', url: '/premium' },
+      const anyComplete = player.$petsData.adventures.some(x => x.finishAt && x.finishAt < Date.now());
+      if(!anyComplete) return false;
+
+      return 'Complete';
+    } },
+
+    { name: 'Premium', icon: 'premium', url: '/premium', badge: (player) => {
+      if(!player.$premiumData) return false;
+
+      const canDoFree = player.$premiumData.gachaFreeRolls['Astral Gate'] < Date.now();
+      if(!canDoFree) return false;
+
+      return 'Free Roll';
+    } },
 
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;

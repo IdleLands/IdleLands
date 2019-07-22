@@ -736,6 +736,7 @@ export class Player implements IPlayer {
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.PetMissionCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.PetMissionCapBoost));
 
+    this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
   }

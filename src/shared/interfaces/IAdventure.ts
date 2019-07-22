@@ -154,3 +154,37 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.ItemIdle,                 chance: GachaChance.XXRare },
   ]
 };
+
+export const AdventureChances: Array<{ chance: GachaChance, result: AdventureType }> = [
+  { result: AdventureType.Adventure,            chance: GachaChance.Common },
+  { result: AdventureType.Combat,               chance: GachaChance.Common },
+  { result: AdventureType.BossHunt,             chance: GachaChance.Common },
+  { result: AdventureType.TimeTravel,           chance: GachaChance.Common },
+  { result: AdventureType.MerchantGuild,        chance: GachaChance.Common },
+  { result: AdventureType.EnhancementSearch,    chance: GachaChance.Common },
+  { result: AdventureType.AdventurersGraveyard, chance: GachaChance.Common },
+  { result: AdventureType.MagicalItemSearch,    chance: GachaChance.Common }
+];
+
+export const AdventureDurationChances: Array<{ chance: GachaChance, result: AdventureDuration }> = [
+  { result: AdventureDuration.VeryShort,       chance: GachaChance.Rare },
+  { result: AdventureDuration.Short,           chance: GachaChance.Uncommon },
+  { result: AdventureDuration.Medium,          chance: GachaChance.Common },
+  { result: AdventureDuration.Long,            chance: GachaChance.Uncommon },
+  { result: AdventureDuration.VeryLong,        chance: GachaChance.XRare },
+];
+
+export const BaseAdventureRewardCount: { [key in AdventureDuration]: number } = {
+  [AdventureDuration.VeryShort]:  1,
+  [AdventureDuration.Short]:      1.5,
+  [AdventureDuration.Medium]:     2,
+  [AdventureDuration.Long]:       2.5,
+  [AdventureDuration.VeryLong]:   4,
+};
+
+export interface IAdventure {
+  id: string;
+  type: AdventureType;
+  duration: AdventureDuration;
+  finishAt: number;
+}

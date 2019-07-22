@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Adventures</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="(gameService.player$ | async) as player">    
+    <ion-row *ngFor="let adventure of player.$petsData.adventures">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-row class="vertical-center">
+                <ion-col class="vertical-center">
+                  {{ adventureNames[adventure.type] }}
+                </ion-col>
+
+                <ion-col text-right>
+                  <ion-badge *ngIf="!adventure.finishAt" color="secondary">{{ adventure.duration }} hours</ion-badge>
+                  <ion-badge *ngIf="adventure.finishAt && !isAdventureDone(adventure)" color="tertiary">Done in <countdown-timer [end]="adventure.finishAt"></countdown-timer></ion-badge>
+                  <ion-badge *ngIf="adventure.finishAt && isAdventureDone(adventure)" color="success">Complete</ion-badge>
+                </ion-col>
+              </ion-row>
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-row>
+                {{ adventureDescs[adventure.type] }}
+            </ion-row>
+
+            <ion-row>
+              <br>
+            </ion-row>
+
+            <ion-row *ngIf="adventure.finishAt">
+              Undertaken by: {{ petsOnAdventure(player, adventure) }}
+            </ion-row>
+
+            <ion-row>
+              <ion-col text-right *ngIf="!adventure.finishAt">
+                <ion-button (click)="embark(adventure)">Embark</ion-button>
+              </ion-col>
+              <ion-col text-right *ngIf="adventure.finishAt && isAdventureDone(adventure)">
+                <ion-button (click)="collect(adventure)">Collect Rewards</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ng-container>
+</ion-content>

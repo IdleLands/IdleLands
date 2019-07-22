@@ -57,9 +57,11 @@ export enum GachaReward {
   ItemGoatly = 'item:generated:goatly',
   ItemOmega = 'item:generated:omega',
 
+  EventEnchantment = 'event:chosen:Enchant',
+
   GuardianItem = 'item:guardian:gear',
-  GuardianCollectible = 'item:guardian:collectible',
-  HistoricalCollectible = 'item:historical:collectible',
+  GuardianCollectible = 'collectible:guardian:random',
+  HistoricalCollectible = 'collectible:historical:random',
 
   ItemTeleportScrollRandom = 'item:teleportscroll:random',
   ItemBuffScrollRandom = 'item:buffscroll:random'
@@ -90,6 +92,8 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.ItemGodly]: 'Item (Godly)',
   [GachaReward.ItemGoatly]: 'Item (Goatly)',
   [GachaReward.ItemOmega]: 'Item (Omega)',
+
+  [GachaReward.EventEnchantment]: 'Item Enchantment',
 
   [GachaReward.GuardianItem]: 'Item (Guardian)',
   [GachaReward.GuardianCollectible]: 'Collectible (Guardian)',

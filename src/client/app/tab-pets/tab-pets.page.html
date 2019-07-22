@@ -21,5 +21,14 @@
       </ng-container>
 
     </ion-tab-button>
+
+    <ion-tab-button tab="adventures">
+      <ion-icon [src]="'assets/icon/category-adventures.svg'"></ion-icon>
+      <ion-label>Adventures</ion-label>
+
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <ion-badge color="success" *ngIf="player.$petsData && isAnyAdventureComplete(player.$petsData.adventures)">Complete</ion-badge>
+      </ng-container>
+    </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
