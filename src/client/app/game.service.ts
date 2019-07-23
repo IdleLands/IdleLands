@@ -366,7 +366,8 @@ export class GameService {
   }
 
   public getPlayerLocationsInCurrentMap() {
-    return this.http.get(`${this.apiUrl}/api/players?map=${encodeURIComponent(this.currentPlayer.map)}`);
+    const map = this.currentPlayer.map;
+    return this.allPlayers.filter(x => x.map === map);
   }
 
 

@@ -180,22 +180,22 @@ class GameState extends Phaser.State {
     this.playerTimer$ = timer(0, 5000).subscribe(() => {
       if(!this.stored.gameService.loggedInAndConnected) return;
 
-      this.stored.gameService.getPlayerLocationsInCurrentMap().subscribe(players => {
-        const curPlayers = Object.keys(this.allPlayerSprites);
-        const newPlayers = players.map(x => x.name);
+      const players = this.stored.gameService.getPlayerLocationsInCurrentMap();
 
-        players.forEach(player => {
-          if(player.name === this.player.name) return;
+      const curPlayers = Object.keys(this.allPlayerSprites);
+      const newPlayers = players.map(x => x.name);
 
-          this.updatePlayerSprite(player);
-        });
+      players.forEach(player => {
+        if(player.name === this.player.name) return;
 
-        difference(curPlayers, newPlayers).forEach(removePlayer => {
-          if(!this.allPlayerSprites[removePlayer] || removePlayer === this.player.name) return;
-          this.allPlayerSprites[removePlayer].destroy();
-        });
-
+        this.updatePlayerSprite(player);
       });
+
+      difference(curPlayers, newPlayers).forEach(removePlayer => {
+        if(!this.allPlayerSprites[removePlayer] || removePlayer === this.player.name) return;
+        this.allPlayerSprites[removePlayer].destroy();
+      });
+
     });
   }
 
