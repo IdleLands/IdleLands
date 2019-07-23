@@ -207,17 +207,17 @@ export class ItemGenerator {
 
   public generateItemForPlayer(
     player: Player,
-    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number }
+    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number, forceClass?: ItemClass }
   ): Item {
-    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total }, opts);
+    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total, forceClass: '' }, opts);
     return this.generateItem(opts);
   }
 
   public generateItem(
-    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number }
+    opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number, forceClass?: ItemClass }
   ): Item {
 
-    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1 }, opts);
+    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1, forceClass: '' }, opts);
 
     if(!opts.forceType) opts.forceType = this.rng.pickone(GenerateableItemSlot);
     opts.forceType = opts.forceType.toLowerCase();
@@ -239,7 +239,7 @@ export class ItemGenerator {
       possibleItemClasses.shift();
     }
 
-    const itemClassChosen = this.rng.pickone(possibleItemClasses);
+    const itemClassChosen = opts.forceClass || this.rng.pickone(possibleItemClasses);
 
     let name = '';
     const allStatAssets = [];

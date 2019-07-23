@@ -228,7 +228,8 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'generated') {
-
+            const generatedItem = player.$$game.itemGenerator.generateItem({ forceClass: choice });
+            player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPet: true, item: generatedItem });
           }
 
           if(sub === 'guardian') {
