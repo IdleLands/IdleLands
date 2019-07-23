@@ -13,6 +13,8 @@ export class AssetManager {
   private objectAssets: any;
   private petAssets: any;
   private mapAssets: any;
+  private bossAssets: any;
+  private treasureAssets: any;
   private mapInfoAssets: any;
   private teleports: any;
 
@@ -28,6 +30,14 @@ export class AssetManager {
     return this.petAssets;
   }
 
+  public get allBossAssets() {
+    return this.bossAssets;
+  }
+
+  public get allTreasureAssets() {
+    return this.treasureAssets;
+  }
+
   public get allMapAssets() {
     return { maps: this.mapAssets, mapInfo: this.mapInfoAssets };
   }
@@ -37,12 +47,14 @@ export class AssetManager {
   }
 
   public async init(assets) {
-    const { stringAssets, objectAssets, mapAssets, petAssets, mapInformation, teleports } = assets;
+    const { stringAssets, objectAssets, mapAssets, petAssets, bossAssets, treasureAssets, mapInformation, teleports } = assets;
 
     this.stringAssets = stringAssets;
     this.objectAssets = objectAssets;
     this.mapAssets = mapAssets;
     this.petAssets = petAssets;
+    this.bossAssets = bossAssets;
+    this.treasureAssets = treasureAssets;
     this.mapInfoAssets = mapInformation;
     this.teleports = teleports;
   }

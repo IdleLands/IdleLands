@@ -13,6 +13,8 @@ const MapInformation = {};
 const GlobalMapInformation = {};
 const Pets = {};
 const Teleports = {};
+const Treasures = {};
+const Bosses = {};
 
 const replaceMultiSpaces = (string) => {
   return string.replace(/ {2,}/g, ' ');
@@ -289,12 +291,25 @@ const loadTeleportData = () => {
       Teleports[subkey] = teleports[key][subkey];
     }
   }
-}
+};
+
+const loadBossData = () => {
+  Bosses.creatures = YAML.load('src/content/boss.yml');
+  Bosses.items = YAML.load('src/content/bossitems.yml');
+  Bosses.parties = YAML.load('src/content/bossparties.yml');
+};
+
+const loadTreasureData = () => {
+  Treasures.chests = YAML.load('src/content/chest.yml');
+  Treasures.items = YAML.load('src/content/chestitems.yml');
+};
 
 const init = async () => {
   loadMapsInFolder();
   loadPetData();
   loadTeleportData();
+  loadBossData();
+  loadTreasureData();
 
   const url = process.env.TYPEORM_URL;
   const client = await MongoClient.connect(url, { useNewUrlParser: true });
@@ -311,6 +326,8 @@ const init = async () => {
     mapAssets: MapAssets,
     petAssets: Pets,
     teleports: Teleports,
+    treasureAssets: Treasures,
+    bossAssets: Bosses,
     mapInformation: MapInformation,
     globalMapInformation: GlobalMapInformation
   });

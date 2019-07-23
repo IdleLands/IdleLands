@@ -111,7 +111,9 @@ export class Premium extends PlayerOwned {
       // we can't get the same collectible twice if we have it
       if(reward.includes('collectible')) {
         const [x, sub, color] = reward.split(':');
+
         if(sub === 'Soul' && player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
+
         if(sub === 'historical') {
           const collectibles = player.$collectibles.getUnfoundOwnedCollectibles();
           if(collectibles.length === 0) return 'xp:player:max';
@@ -121,7 +123,15 @@ export class Premium extends PlayerOwned {
       }
 
       if(reward === GachaReward.ItemTeleportScrollRandom) {
-        const chosenLocation = player.$$game.rngService.pickone(['Norkos Town', 'Maeles Town', 'Vocalnus Town', 'Frigri Town']);
+        const towns = ['Norkos Town', 'Maeles Town', 'Vocalnus Town', 'Frigri Town'];
+
+        const otherTowns = ['Raburro Town', 'Homlet Town', 'Astral Town'];
+        otherTowns.forEach(town => {
+          if(!player.$statistics.get(`Map/${town}`)) return;
+          towns.push(town);
+        });
+
+        const chosenLocation = player.$$game.rngService.pickone(towns);
         return `item:teleportscroll:${chosenLocation}`;
       }
 

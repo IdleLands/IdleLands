@@ -10,6 +10,8 @@ export class Assets {
   @Column() public objectAssets: any;
   @Column() public petAssets: any;
   @Column() public mapAssets: any;
+  @Column() public bossAssets: any;
+  @Column() public treasureAssets: any;
   @Column() public mapInformation: any;
   @Column() public teleports: any;
 }
