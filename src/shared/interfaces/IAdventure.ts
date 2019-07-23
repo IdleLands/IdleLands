@@ -89,7 +89,7 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.GoldMD,                   chance: GachaChance.Common },
     { result: GachaReward.GoldLG,                   chance: GachaChance.Uncommon },
 
-    { result: GachaReward.GuardianCollectible,      chance: GachaChance.UnbelievablyCommon },
+    { result: GachaReward.GuardianCollectible,      chance: GachaChance.Rare },
     { result: GachaReward.GuardianItem,             chance: GachaChance.Rare }
   ],
   [AdventureType.TimeTravel]: [

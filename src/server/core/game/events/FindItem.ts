@@ -39,7 +39,7 @@ export class FindItem extends Event {
     }
   }
 
-  public operateOn(player: Player, opts: any = { item: null, fromPet: false, fromPillage: false }) {
+  public operateOn(player: Player, opts: any = { item: null, fromPet: false, fromGuardian: false, fromPillage: false }) {
     const item = opts.item || this.itemGenerator.generateItemForPlayer(player);
     if(!item) {
       player.increaseStatistic(`Event/FindItem/Nothing`, 1);
@@ -57,6 +57,10 @@ export class FindItem extends Event {
 
     player.$choices.addChoice(player, choice);
 
+    const guardianText = opts.fromGuardian
+      ? this._parseText(`%player found %item on the carcass of a Realm Guardian!`, player, { item: item.fullName() })
+      : '';
+
     const pillageText = opts.fromPillage
       ? this._parseText(`%player pillaged %item from a nearby town!`, player, { item: item.fullName() })
       : '';
@@ -65,7 +69,10 @@ export class FindItem extends Event {
       ? this._parseText(`${player.$pets.$activePet.name} found %item while digging around!`, player, { item: item.fullName() })
       : '';
 
-    const eventText = pillageText || petText || this.eventText(EventMessageType.FindItem, player, { item: item.fullName() });
+    const eventText = guardianText
+                   || pillageText
+                   || petText
+                   || this.eventText(EventMessageType.FindItem, player, { item: item.fullName() });
 
     this.emitMessage([player], eventText, AdventureLogEventType.Item);
   }

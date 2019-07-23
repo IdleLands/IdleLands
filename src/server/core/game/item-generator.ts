@@ -3,7 +3,7 @@ import { random, sample, get, zip, extend } from 'lodash';
 
 import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
-import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot } from '../../../shared/interfaces';
+import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 
 @Singleton
@@ -184,6 +184,25 @@ export class ItemGenerator {
     });
 
     return equipment;
+  }
+
+  public generateGuardianItem(player: Player, name: string, type: ItemSlot, proto: any): Item {
+    const item = new Item();
+
+    const stats = {};
+    Object.values(Stat).forEach(stat => {
+      if(!proto[stat]) return;
+      stats[stat] = proto[stat];
+    });
+
+    item.init({
+      name,
+      type,
+      itemClass: ItemClass.Guardian,
+      stats
+    });
+
+    return item;
   }
 
   public generateItemForPlayer(

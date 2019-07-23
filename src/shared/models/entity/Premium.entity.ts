@@ -6,6 +6,7 @@ import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward, Te
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
+import { EventName } from '../../../server/core/game/events/Event';
 
 @Entity()
 export class Premium extends PlayerOwned {
@@ -113,8 +114,6 @@ export class Premium extends PlayerOwned {
 
     return rewards.map(reward => {
 
-      console.log(reward);
-
       // we can't get the same collectible twice if we have it
       if(reward.includes('collectible')) {
         const [x, sub, color] = reward.split(':');
@@ -132,6 +131,11 @@ export class Premium extends PlayerOwned {
           const chosenName = player.$$game.rngService.pickone(collectibles).name;
           return `collectible:historical:${chosenName}`;
         }
+      }
+
+      if(reward === GachaReward.GuardianItem) {
+        if(!boss || !boss.items || !boss.items.length) return `xp:player:sm`;
+        return `item:guardian:${boss.items[0].name}`;
       }
 
       if(reward === GachaReward.ItemTeleportScrollRandom) {
@@ -228,7 +232,9 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'guardian') {
-
+            const item = items[choice];
+            const generatedItem = player.$$game.itemGenerator.generateGuardianItem(player, choice, item.type, item);
+            player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuardian: true, item: generatedItem });
           }
 
           if(sub === 'buffscroll') {
