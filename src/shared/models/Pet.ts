@@ -300,4 +300,8 @@ export class Pet implements IPet {
     this.rating++;
   }
 
+  public getSkills() {
+    return [];
+  }
+
 }

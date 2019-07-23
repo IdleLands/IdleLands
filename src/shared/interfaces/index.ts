@@ -7,6 +7,7 @@ export * from './IAdventureLog';
 export * from './IBuff';
 export * from './IChoice';
 export * from './ICollectible';
+export * from './ICombat';
 export * from './IGacha';
 export * from './IGame';
 export * from './IItem';
@@ -17,5 +18,6 @@ export * from './IPet';
 export * from './IPlayer';
 export * from './IPremium';
 export * from './IProfession';
+export * from './ISkill';
 
 export * from './Stat';

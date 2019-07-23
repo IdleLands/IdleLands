@@ -6,6 +6,7 @@ import { IProfession } from './IProfession';
 import { IBuff } from './IBuff';
 import { IParty } from './IParty';
 import { Stat } from './Stat';
+import { ISkill } from './ISkill';
 
 export enum Direction {
   Southwest = 1,
@@ -33,6 +34,7 @@ export interface ICharacter {
 
   init(): void;
   recalculateStats(): void;
+  getSkills(): ISkill[];
 
   equip(item: IItem): void;
   unequip(item: IItem): void;

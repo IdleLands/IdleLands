@@ -883,4 +883,8 @@ export class Player implements IPlayer {
 
     this.$game.doStartingPlayerStuff(this);
   }
+
+  public getSkills() {
+    return [];
+  }
 }

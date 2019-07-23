@@ -1,4 +1,5 @@
 towns:
+
   Astral Town:
     map: The Astral Plane
     x: 13
@@ -49,6 +50,62 @@ towns:
     cost: 7500000
     requiredRegionVisit: Desert Town
   Tree Town:
+    map: Tree Town
+    x: 13
+    y: 17
+    cost: 7500000
+    requiredRegionVisit: Tree Town
+    
+  astral:
+    map: The Astral Plane
+    x: 13
+    y: 60
+    cost: 5000000
+    requiredRegionVisit: Astral Town
+  frigri:
+    map: Norkos
+    x: 133
+    y: 160
+    cost: 500000
+    requiredRegionVisit: Frigri Town
+  homlet:
+    map: Homlet Caves
+    x: 60
+    y: 7
+    cost: 550000
+    requiredRegionVisit: Homlet Town
+  maeles:
+    map: Norkos
+    x: 51
+    y: 115
+    cost: 250000
+    requiredRegionVisit: Maeles Town
+  norkos:
+    map: Norkos
+    x: 34
+    y: 14
+    cost: 50000
+    requiredRegionVisit: Norkos Town
+  raburro:
+    map: Norkos Dungeon -5
+    x: 37
+    y: 39
+    cost: 750000
+    requiredRegionVisit: Raburro Town
+  vocalnus:
+    map: Vocalnus
+    formalName: Vocalnus Town
+    x: 31
+    y: 41
+    cost: 350000
+    requiredRegionVisit: Vocalnus Town
+  desert:
+    map: Cabran
+    x: 195
+    y: 11
+    cost: 7500000
+    requiredRegionVisit: Desert Town
+  tree:
     map: Tree Town
     x: 13
     y: 17

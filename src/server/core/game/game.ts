@@ -24,6 +24,7 @@ import { BuffManager } from './buff-manager';
 import { EventName } from './events/Event';
 import { PetHelper } from './pet-helper';
 import { RNGService } from './rng-service';
+import { CombatHelper } from '../../../shared/combat/combat-simulator';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
