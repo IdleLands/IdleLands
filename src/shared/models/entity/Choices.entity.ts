@@ -63,7 +63,7 @@ export class Choices extends PlayerOwned {
     if(this.choices.length > this.size) {
       const poppedChoice = last(this.choices);
       player.increaseStatistic(`Character/Choose/Ignore`, 1);
-      this.makeDecision(player, choice, choice.choices.indexOf(poppedChoice.defaultChoice));
+      this.makeDecision(player, poppedChoice, poppedChoice.choices.indexOf(poppedChoice.defaultChoice));
     }
   }
 
