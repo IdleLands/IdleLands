@@ -5,6 +5,7 @@ export enum GachaFreeReset {
 }
 
 export enum GachaChance {
+  UnbelievablyCommon = 2000,
   VeryCommon = 600,
   Common = 450,
   Uncommon = 300,

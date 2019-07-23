@@ -815,6 +815,9 @@ export class Player implements IPlayer {
 
     // always touch it
     currentCollectible.touched++;
+    currentCollectible.rarity = rarity;
+    currentCollectible.description = description;
+    currentCollectible.storyline = storyline;
   }
 
   public hasCollectible(coll: string): boolean {

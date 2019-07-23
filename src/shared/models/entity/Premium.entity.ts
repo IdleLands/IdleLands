@@ -106,13 +106,25 @@ export class Premium extends PlayerOwned {
   }
 
   private validateRewards(player: Player, rewards: string[]): string[] {
+
+    const { creatures, items } = player.$$game.assetManager.allBossAssets;
+    const randomBoss = player.$$game.rngService.pickone(Object.keys(creatures));
+    const boss = player.level.total >= creatures[randomBoss].stats.level ? creatures[randomBoss] : null;
+
     return rewards.map(reward => {
+
+      console.log(reward);
 
       // we can't get the same collectible twice if we have it
       if(reward.includes('collectible')) {
         const [x, sub, color] = reward.split(':');
 
         if(sub === 'Soul' && player.$collectibles.hasCurrently(`Pet Soul: ${color}`)) return `item:Crystal:${color}`;
+
+        if(sub === 'guardian') {
+          if(!boss || !boss.collectibles || !boss.collectibles.length) return `xp:player:sm`;
+          return `collectible:guardian:${randomBoss}`;
+        }
 
         if(sub === 'historical') {
           const collectibles = player.$collectibles.getUnfoundOwnedCollectibles();
@@ -140,6 +152,8 @@ export class Premium extends PlayerOwned {
   }
 
   private earnGachaRewards(player: Player, rewards: string[]): void {
+    const { creatures, items } = player.$$game.assetManager.allBossAssets;
+
     rewards.forEach(reward => {
       const [main, sub, choice] = reward.split(':');
 
@@ -180,7 +194,13 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'guardian') {
-
+            const collectible = creatures[choice].collectibles[0];
+            player.tryFindCollectible({
+              name: collectible.name,
+              rarity: ItemClass.Guardian,
+              description: collectible.flavorText,
+              storyline: collectible.storyline
+            });
           }
 
           if(sub === 'historical') {

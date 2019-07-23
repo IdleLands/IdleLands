@@ -379,6 +379,10 @@ export class GameService {
       return `Teleport Scroll: ${reward.split(':')[2]}`;
     }
 
+    if(reward.includes('collectible:guardian')) {
+      return `Collectible (${reward.split(':')[2]})`;
+    }
+
     return 'UNKNOWN REWARD!';
   }
 

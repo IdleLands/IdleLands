@@ -24,7 +24,8 @@ export enum ItemClass {
   Idle = 'idle',
   Godly = 'godly',
   Goatly = 'goatly',
-  Omega = 'omega'
+  Omega = 'omega',
+  Guardian = 'guardian'
 }
 
 export const GenerateableItemSlot = Object
