@@ -1,5 +1,5 @@
-import { PartialSkill, ICombatCharacter, ICombat } from '../../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat } from '../../interfaces';
 
-export const StatScale = () => (skill: PartialSkill, caster: ICombatCharacter, combat: ICombat): PartialSkill => {
+export const StatScale = () => (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
   return skill;
 };

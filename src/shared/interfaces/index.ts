@@ -18,6 +18,6 @@ export * from './IPet';
 export * from './IPlayer';
 export * from './IPremium';
 export * from './IProfession';
-export * from './ISkill';
+export * from './ICombatSkill';
 
 export * from './Stat';

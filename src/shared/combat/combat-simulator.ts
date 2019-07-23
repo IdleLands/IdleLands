@@ -1,14 +1,14 @@
-import { PartialSkill, ICombatCharacter, ICombat, ISkillCombinator } from '../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator } from '../interfaces';
 
 export class CombatSimulator {
 
   formSkillResult(
     caster: ICombatCharacter,
     combat: ICombat,
-    ...combinators: ISkillCombinator[]
-  ): PartialSkill {
+    ...combinators: ICombatSkillCombinator[]
+  ): PartialCombatSkill {
 
-    const baseSkill: PartialSkill = {};
+    const baseSkill: PartialCombatSkill = {};
 
     return combinators.reduce((prev, cur) => {
       return cur(prev, caster, combat);
@@ -16,7 +16,7 @@ export class CombatSimulator {
 
   }
 
-  formAllSkillResults(caster: ICombatCharacter, combat: ICombat, allCombinators: Array<ISkillCombinator[]>): PartialSkill[] {
+  formAllSkillResults(caster: ICombatCharacter, combat: ICombat, allCombinators: Array<ICombatSkillCombinator[]>): PartialCombatSkill[] {
     return allCombinators.map(x => this.formSkillResult(caster, combat, ...x));
   }
 
