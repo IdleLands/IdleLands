@@ -17,6 +17,7 @@ export interface ICombatSkill {
   cost: number;
   costStat: Stat;
 
+  targets: string[];
   targetEffects: { [id: string]: ICombatSkillEffect[] };
 }
 
