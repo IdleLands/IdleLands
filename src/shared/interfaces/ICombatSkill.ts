@@ -4,6 +4,7 @@ import { Stat } from './Stat';
 export type ICombatSkillCombinator = (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat) => PartialCombatSkill;
 
 export interface ICombatSkillEffect {
+  accuracy: number;
   modifyStat: Stat;
   modifyStatValue: number;
   turnsUntilEffect: number;
@@ -13,11 +14,10 @@ export interface ICombatSkillEffect {
 export interface ICombatSkill {
   desc: string;
 
-  accuracy: number;
   cost: number;
   costStat: Stat;
 
-  targets: string[];
+  targets: number[];
   targetEffects: { [id: string]: ICombatSkillEffect[] };
 }
 

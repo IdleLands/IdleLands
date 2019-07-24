@@ -9,12 +9,13 @@ export enum Targetting {
 
 const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, combat: ICombat) => ICombatCharacter[] } = {
   [Targetting.Self]:        (caster, combat) => [caster],
-  [Targetting.Single]:      (caster, combat) => [caster],
-  [Targetting.SingleEnemy]: (caster, combat) => [caster],
-  [Targetting.All]:         (caster, combat) => [caster]
+  [Targetting.Single]:      (caster, combat) => [combat.chance.pickone(Object.values(combat.characters))],
+  [Targetting.SingleEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters).filter(x => x !== caster))],
+  [Targetting.All]:         (caster, combat) => Object.values(combat.characters)
 };
 
-export const Targets = (targets: Targetting) =>
+export const Targets = (targetFunc: Targetting) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
+    skill.targets = TargettingFunctions[targetFunc](caster, combat).map(x => x.combatId);
     return skill;
   };

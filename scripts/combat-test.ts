@@ -22,7 +22,10 @@ const parties: ICombatParty[] = [
 const combat: ICombat = {
   seed: 1,
   chance: null,
-  characters,
+  characters: characters.reduce((prev, cur) => {
+    prev[cur.combatId] = cur;
+    return prev;
+  }, {}),
   parties
 };
 
