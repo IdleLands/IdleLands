@@ -21,6 +21,7 @@ const parties: ICombatParty[] = [
 
 const combat: ICombat = {
   seed: 1,
+  currentRound: 0,
   chance: null,
   characters: characters.reduce((prev, cur) => {
     prev[cur.combatId] = cur;
@@ -31,4 +32,4 @@ const combat: ICombat = {
 
 const simulator = new CombatSimulator(combat);
 
-console.log(simulator.formSkillResult(characters[0], Attack));
+console.log(JSON.stringify(simulator.formSkillResult(characters[0], Attack)));

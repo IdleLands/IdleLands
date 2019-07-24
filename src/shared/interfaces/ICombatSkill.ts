@@ -1,7 +1,11 @@
 import { ICombatCharacter, ICombat } from './ICombat';
 import { Stat } from './Stat';
 
-export type ICombatSkillCombinator = (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat) => PartialCombatSkill;
+export type ICombatSkillCombinator =
+  (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat) => PartialCombatSkill;
+
+export type InternalCombatSkillFunction =
+  (caster: ICombatCharacter, target: ICombatCharacter, combat: ICombat) => number;
 
 export interface ICombatSkillEffect {
   accuracy: number;

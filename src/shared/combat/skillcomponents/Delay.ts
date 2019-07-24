@@ -1,8 +1,6 @@
-import { PartialCombatSkill, ICombatCharacter, ICombat, Stat } from '../../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, InternalCombatSkillFunction } from '../../interfaces';
 
-type DelayFunction = (caster: ICombatCharacter, target: ICombatCharacter) => number;
-
-export const Delay = (delay: number|DelayFunction) =>
+export const Delay = (delay: number|InternalCombatSkillFunction) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
     if(skill.targets.length === 0 || !skill.targetEffects) {
@@ -15,7 +13,7 @@ export const Delay = (delay: number|DelayFunction) =>
         effect.turnsUntilEffect = <number>delay;
 
         if(delay instanceof Function) {
-          effect.turnsUntilEffect = delay(caster, combat.characters[characterId]);
+          effect.turnsUntilEffect = delay(caster, combat.characters[characterId], combat);
         }
 
       });

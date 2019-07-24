@@ -5,9 +5,13 @@ import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator }
 
 export class CombatSimulator {
 
+  private chance: Chance;
+
   constructor(private combat: ICombat) {
     if(!combat.seed) combat.seed = Date.now();
-    if(!combat.chance) combat.chance = new Chance(combat.seed);
+
+    this.chance = new Chance(combat.seed);
+    combat.chance = this.chance;
   }
 
   formSkillResult(

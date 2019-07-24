@@ -1,8 +1,6 @@
-import { PartialCombatSkill, ICombatCharacter, ICombat, Stat } from '../../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, InternalCombatSkillFunction } from '../../interfaces';
 
-type LastingEffectFunction = (caster: ICombatCharacter, target: ICombatCharacter) => number;
-
-export const LastingEffect = (duration: number|LastingEffectFunction) =>
+export const LastingEffect = (duration: number|InternalCombatSkillFunction) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
     if(skill.targets.length === 0 || !skill.targetEffects) {
@@ -15,7 +13,7 @@ export const LastingEffect = (duration: number|LastingEffectFunction) =>
         effect.turnsEffectLasts = <number>duration;
 
         if(duration instanceof Function) {
-          effect.turnsEffectLasts = duration(caster, combat.characters[characterId]);
+          effect.turnsEffectLasts = duration(caster, combat.characters[characterId], combat);
         }
 
       });

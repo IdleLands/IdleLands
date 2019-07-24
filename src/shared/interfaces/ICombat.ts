@@ -24,6 +24,7 @@ export interface ICombatParty {
 export interface ICombat {
   seed: number;
   chance: any;
+  currentRound: number;
   characters: { [id: string]: ICombatCharacter };
   parties: ICombatParty[];
 }

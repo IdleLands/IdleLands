@@ -1,11 +1,11 @@
-import { PartialCombatSkill, ICombatCharacter, ICombat, Stat } from '../../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, Stat, InternalCombatSkillFunction } from '../../interfaces';
 
 export enum AttackAccuracy {
   STR = 'str',
   INT = 'int'
 }
 
-const AttackAccuracyFunctions: { [key in AttackAccuracy]: (caster: ICombatCharacter, target: ICombatCharacter) => number } = {
+const AttackAccuracyFunctions: { [key in AttackAccuracy]: InternalCombatSkillFunction } = {
   [AttackAccuracy.STR]: (caster, target) => caster.stats[Stat.STR] / target.stats[Stat.AGI] * 100,
   [AttackAccuracy.INT]: (caster, target) => caster.stats[Stat.INT] / target.stats[Stat.CON] * 100
 };
@@ -22,7 +22,7 @@ export const Accuracy = (accuracy: AttackAccuracy|number) =>
 
         let totalAccuracy = <number>accuracy;
         if(AttackAccuracyFunctions[accuracy]) {
-          totalAccuracy = AttackAccuracyFunctions[accuracy](caster, combat.characters[characterId]);
+          totalAccuracy = AttackAccuracyFunctions[accuracy](caster, combat.characters[characterId], combat);
         }
 
         effect.accuracy = totalAccuracy;
