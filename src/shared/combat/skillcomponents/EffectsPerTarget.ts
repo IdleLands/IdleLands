@@ -13,7 +13,7 @@ export const EffectsPerTarget = (times: number) =>
       for(let i = 0; i < times; i++) {
         skill.targetEffects[target].push({
           accuracy: 0,
-          modifyStat: Stat.HP,
+          modifyStat: null,
           modifyStatValue: 0,
           turnsUntilEffect: 0,
           turnsEffectLasts: 0
