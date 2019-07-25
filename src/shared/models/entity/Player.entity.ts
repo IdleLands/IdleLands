@@ -12,7 +12,7 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentUpgrade, ItemClass } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -67,7 +67,7 @@ export class Player implements IPlayer {
   @Column() public lastAscension: number;
   @Column() public level: RestrictedNumber;
   @Column() public xp: RestrictedNumber;
-  @Column() public profession: string;
+  @Column() public profession: Profession;
   @Column() public gender: string;
   @Column() public title: string;
   @Column() public map: string;
@@ -147,7 +147,7 @@ export class Player implements IPlayer {
     if(!this.availableTitles) this.availableTitles = [];
     if(!this.level) this.level = new RestrictedNumber(1, 100, 1);
     if(!this.xp) this.xp = new RestrictedNumber(0, 100, 0);
-    if(!this.profession) this.profession = 'Generalist';
+    if(!this.profession) this.profession = Profession.Generalist;
     if(!this.gender) this.gender = sample(this.availableGenders);
     if(!this.map) this.map = 'Norkos';
     if(!this.x) this.x = 10;
@@ -882,9 +882,5 @@ export class Player implements IPlayer {
     if(!canDo) return;
 
     this.$game.doStartingPlayerStuff(this);
-  }
-
-  public getSkills() {
-    return [];
   }
 }

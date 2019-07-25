@@ -27,6 +27,24 @@ export enum MovementType {
   Teleport = 'teleport'
 }
 
+export enum Profession {
+  Archer = 'Archer',
+  Barbarian = 'Barbarian',
+  Bard = 'Bard',
+  Bitomancer = 'Bitomancer',
+  Cleric = 'Cleric',
+  Fighter = 'Fighter',
+  Generalist = 'Generalist',
+  Jester = 'Jester',
+  Mage = 'Mage',
+  MagicalMonster = 'MagicalMonster',
+  Monster = 'Monster',
+  Necromancer = 'Necromancer',
+  Pirate = 'Pirate',
+  Rogue = 'Rogue',
+  SandwichArtist = 'SandwichArtist'
+}
+
 export interface ICharacter {
   name: string;
   level: RestrictedNumber;
@@ -34,7 +52,6 @@ export interface ICharacter {
 
   init(): void;
   recalculateStats(): void;
-  getSkills(): ICombatSkill[];
 
   equip(item: IItem): void;
   unequip(item: IItem): void;
@@ -51,7 +68,7 @@ export interface IPlayer extends ICharacter {
 
   createdAt: number;
 
-  profession: string;
+  profession: Profession;
 
   xp: RestrictedNumber;
 

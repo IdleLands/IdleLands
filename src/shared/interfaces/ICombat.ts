@@ -1,4 +1,5 @@
 import { Stat } from './Stat';
+import { ICombatSkillEffect } from './ICombatSkill';
 
 export interface ICombatCharacter {
   combatId: number;
@@ -8,12 +9,15 @@ export interface ICombatCharacter {
   level: number;
   stats: { [key in Stat]: number };
 
+  effects?: Array<ICombatSkillEffect[]>;
+
   // specified for players
   profession?: string;
 
   // specified for pets
   affinity?: string;
   attribute?: string;
+  rating?: number;
 }
 
 export interface ICombatParty {
