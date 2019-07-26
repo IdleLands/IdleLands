@@ -9,6 +9,7 @@ export type InternalCombatSkillFunction =
 
 export interface ICombatSkillEffect {
   accuracy: number;
+  desc: string;
   modifyStat: Stat;
   modifyStatValue: number;
   turnsUntilEffect: number;
@@ -16,11 +17,6 @@ export interface ICombatSkillEffect {
 }
 
 export interface ICombatSkill {
-  desc: string;
-
-  cost: number;
-  costStat: Stat;
-
   targets: number[];
   targetEffects: { [id: string]: ICombatSkillEffect[] };
 }

@@ -89,6 +89,9 @@ export class CombatSimulator {
     if(!effects || !effects.length) return;
 
     console.log(effects);
+
+    // apply each effect, roll accuracy, if accuracy roll fails set modifystatvalue to 0
+    // display message
   }
 
   beginCombat() {

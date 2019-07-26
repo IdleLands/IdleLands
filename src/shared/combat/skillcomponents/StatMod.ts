@@ -3,7 +3,7 @@ import { PartialCombatSkill, ICombatCharacter, ICombat, Stat, InternalCombatSkil
 export const StatMod = (stat: Stat, statMod: number|InternalCombatSkillFunction) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
-    if(skill.targets.length === 0 || !skill.targetEffects) {
+    if(!skill.targets || skill.targets.length === 0 || !skill.targetEffects) {
       throw new Error(`Skill ${JSON.stringify(skill)} is trying to StatMod but has no targets.`);
     }
 
