@@ -199,7 +199,7 @@ export class CombatSimulator {
       .filter(char => char.combatPartyId === args.winningParty)
       .map(char => char.name);
 
-    const winningParty = find(this.combat.parties, { id: args.winningParty });
+    const winningParty = this.combat.parties[args.winningParty];
 
     this.events$.next({
       action: CombatAction.SummaryMessage,

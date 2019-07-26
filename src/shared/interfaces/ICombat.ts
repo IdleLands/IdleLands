@@ -32,5 +32,5 @@ export interface ICombat {
   chance: any;
   currentRound: number;
   characters: { [id: string]: ICombatCharacter };
-  parties: ICombatParty[];
+  parties: { [id: string]: ICombatParty };
 }

@@ -28,7 +28,10 @@ const combat: ICombat = {
     prev[cur.combatId] = cur;
     return prev;
   }, {}),
-  parties
+  parties: parties.reduce((prev, cur) => {
+    prev[cur.id] = cur;
+    return prev;
+  }, {})
 };
 
 const simulator = new CombatSimulator(combat);
