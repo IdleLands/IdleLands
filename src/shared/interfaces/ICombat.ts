@@ -26,6 +26,8 @@ export interface ICombatParty {
 }
 
 export interface ICombat {
+  name: string;
+  timestamp: number;
   seed: number;
   chance: any;
   currentRound: number;

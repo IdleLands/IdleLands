@@ -1,4 +1,4 @@
-import { PartialCombatSkill, ICombatCharacter, ICombat, Stat } from '../../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat } from '../../interfaces';
 
 export const EffectsPerTarget = (times: number) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
@@ -14,6 +14,7 @@ export const EffectsPerTarget = (times: number) =>
         skill.targetEffects[target].push({
           accuracy: 0,
           desc: '',
+          source: caster.combatId,
           modifyStat: null,
           modifyStatValue: 0,
           turnsUntilEffect: 0,

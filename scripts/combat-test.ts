@@ -5,11 +5,11 @@ import { ICombat, ICombatCharacter, ICombatParty, Profession, PetAttribute, PetA
 const characters: ICombatCharacter[] = [
   { combatId: 1, combatPartyId: 1, name: 'Test Left',
     profession: Profession.Fighter,
-    level: 10, stats: { str: 100, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 0, gold: 10, xp: 10 }
+    level: 10, stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 0, gold: 10, xp: 10 }
   },
   { combatId: 2, combatPartyId: 2, name: 'Super Tester',
     attribute: PetAttribute.Alchemist, affinity: PetAffinity.Healer,
-    level: 10, stats: { str: 100, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 }
+    level: 10, stats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 }
   }
 ];
 
@@ -19,6 +19,8 @@ const parties: ICombatParty[] = [
 ];
 
 const combat: ICombat = {
+  name: 'The Forsaken Combat',
+  timestamp: Date.now(),
   seed: 1,
   currentRound: 0,
   chance: null,
