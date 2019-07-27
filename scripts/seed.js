@@ -39,7 +39,7 @@ class JSONParser {
       let newVal = 0;
       if(_.isNaN(testVal) && _.isUndefined(arr[1])) {
         newVal = 1;
-      } else if(_.includes(['class','gender','link','expiration','zone','type'], arr[0])) {
+      } else if(_.includes(['class', 'gender', 'link', 'expiration', 'zone', 'type'], arr[0])) {
         newVal = arr[1];
       } else {
         newVal = testVal;
@@ -59,6 +59,7 @@ class JSONParser {
     if(!_.includes(str, 'level')) return;
     const [name, parameters] = this._parseInitialArgs(str);
     if(!parameters) return;
+
     const monsterData = this._parseParameters({ name }, parameters);
     return monsterData;
   }
@@ -136,21 +137,19 @@ const validItemKeys = {
   type: true,
   name: true,
 
-  str: true,
-  con: true,
-  dex: true,
-  int: true,
-  agi: true,
-  luk: true,
+  level: true,
 
-  xp: true,
-  gold: true,
-  hp: true,
+  // all stats are added below
 
   // monster specific traits
   zone: true,
   class: true
 };
+
+const validStats = ['str', 'con', 'dex', 'int', 'agi', 'luk', 'xp', 'gold', 'hp'];
+validStats.forEach(stat => {
+  validItemKeys[stat] = true;
+});
 
 Object.keys(ObjectAssets).forEach(itemType => {
   ObjectAssets[itemType].forEach((item, idx) => {    
@@ -165,6 +164,17 @@ Object.keys(ObjectAssets).forEach(itemType => {
   });
 
   ObjectAssets[itemType] = _.compact(ObjectAssets[itemType]);
+});
+
+ObjectAssets.monster.forEach(mon => {
+  validStats.forEach(stat => {
+    mon.stats = mon.stats || {};
+
+    if(mon[stat]) {
+      mon.stats[stat] = mon[stat];
+      delete mon[stat];
+    }
+  });
 });
 
 const getMapsInFolder = (dir) => {

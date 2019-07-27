@@ -93,4 +93,9 @@ export class AssetManager {
     const grammar = sample(this.stringAssets.partyGrammar);
     return this.stringFromGrammar(grammar);
   }
+
+  public createBattleMonster() {
+    const monsterBase = sample(this.objectAssets.monster);
+
+  }
 }
