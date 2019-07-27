@@ -1,14 +1,14 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { sample, includes } from 'lodash';
 
-import { DatabaseManager } from './database-manager';
-import { ICombatCharacter } from '../../../shared/interfaces';
+import { ICombatCharacter, ItemSlot, Stat } from '../../../shared/interfaces';
+import { ItemGenerator } from './item-generator';
 
 @Singleton
 @AutoWired
 export class AssetManager {
 
-  @Inject private databaseManager: DatabaseManager;
+  @Inject private itemGenerator: ItemGenerator;
 
   private stringAssets: any;
   private objectAssets: any;
@@ -97,6 +97,23 @@ export class AssetManager {
 
   public createBattleMonster(): ICombatCharacter {
     const monsterBase = sample(this.objectAssets.monster);
-    return null;
+
+    const items = [
+      ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
+      ItemSlot.Head, ItemSlot.Legs, ItemSlot.Mainhand, ItemSlot.Neck, ItemSlot.Offhand
+    ].map(itemSlot => {
+      return this.itemGenerator.generateItem({
+        generateLevel: monsterBase.level,
+        forceType: itemSlot
+      });
+    });
+
+    items.forEach(item => {
+      Object.keys(Stat).forEach(stat => {
+        monsterBase.stats[stat] += (item.stats[stat] || 0);
+      });
+    });
+
+    return monsterBase;
   }
 }
