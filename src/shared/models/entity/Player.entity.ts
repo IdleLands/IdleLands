@@ -92,6 +92,10 @@ export class Player implements IPlayer {
   public sessionId: string;
 
   private stats: any;
+  public get currentStats() {
+    return this.stats;
+  }
+
   public $statTrail: any;
 
   // joined vars

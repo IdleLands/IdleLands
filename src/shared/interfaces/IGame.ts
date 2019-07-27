@@ -19,6 +19,7 @@ export interface IGame {
   rngService: any;
   partyHelper: any;
   petHelper: any;
+  combatHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;
   doStartingPlayerStuff(player: IPlayer): void;

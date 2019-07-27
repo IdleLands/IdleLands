@@ -1,7 +1,6 @@
 import { CombatSimulator } from '../src/shared/combat/combat-simulator';
 import { ICombat, ICombatCharacter, ICombatParty, Profession, PetAttribute, PetAffinity } from '../src/shared/interfaces';
 
-
 const characters: ICombatCharacter[] = [
   { combatId: 1, combatPartyId: 1, name: 'Test Left',
     profession: Profession.Fighter,

@@ -29,6 +29,8 @@ export class CombatSimulator {
 
   constructor(private combat: ICombat) {
     if(!combat.seed) combat.seed = Date.now();
+    if(!combat.currentRound) combat.currentRound = 0;
+    if(!combat.timestamp) combat.timestamp = Date.now();
 
     this.chance = new Chance(combat.seed);
     combat.chance = this.chance;

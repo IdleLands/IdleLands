@@ -89,6 +89,10 @@ export class PlayerManager {
     });
   }
 
+  public getSimplePlayer(playerName: string) {
+    return this.allPlayersSimple[playerName];
+  }
+
   private subscribeToPlayerMessages() {
     this.subscriptionManager.subscribeToChannel(Channel.PlayerAdventureLog, ({ playerNames, data }) => {
       if(!playerNames || !data) throw new Error('Cannot send an adventure log message without player names or data!');

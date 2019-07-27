@@ -2,8 +2,8 @@ import { Stat } from './Stat';
 import { ICombatSkillEffect } from './ICombatSkill';
 
 export interface ICombatCharacter {
-  combatId: number;
-  combatPartyId: number;
+  combatId?: number;
+  combatPartyId?: number;
 
   name: string;
   level: number;
@@ -27,10 +27,10 @@ export interface ICombatParty {
 
 export interface ICombat {
   name: string;
-  timestamp: number;
-  seed: number;
-  chance: any;
-  currentRound: number;
+  timestamp?: number;
+  seed?: number;
+  chance?: any;
+  currentRound?: number;
   characters: { [id: string]: ICombatCharacter };
   parties: { [id: string]: ICombatParty };
 }
