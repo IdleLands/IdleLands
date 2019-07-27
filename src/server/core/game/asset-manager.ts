@@ -1,7 +1,7 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { sample, includes } from 'lodash';
 
-import { ICombatCharacter, ItemSlot, Stat } from '../../../shared/interfaces';
+import { ICombatCharacter, ItemSlot, Stat, Profession } from '../../../shared/interfaces';
 import { ItemGenerator } from './item-generator';
 
 @Singleton
@@ -95,15 +95,29 @@ export class AssetManager {
     return this.stringFromGrammar(grammar);
   }
 
-  public createBattleMonster(): ICombatCharacter {
-    const monsterBase = sample(this.objectAssets.monster);
+  public createBattleMonster(generateLevel: number): ICombatCharacter {
+    let monsterBase = sample(
+      this.objectAssets.monster
+        .filter(x => x.level >= generateLevel - 25 && x.level <= generateLevel + 25)
+    );
+
+    if(!monsterBase) {
+      const monsterProfession = sample(Object.values(Profession));
+
+      monsterBase = {
+        name: `Vector ${monsterProfession}`,
+        profession: monsterProfession,
+        level: generateLevel,
+        stats: {}
+      };
+    }
 
     const items = [
       ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
       ItemSlot.Head, ItemSlot.Legs, ItemSlot.Mainhand, ItemSlot.Neck, ItemSlot.Offhand
     ].map(itemSlot => {
       return this.itemGenerator.generateItem({
-        generateLevel: monsterBase.level,
+        generateLevel,
         forceType: itemSlot
       });
     });
