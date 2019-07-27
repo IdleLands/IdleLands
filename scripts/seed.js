@@ -167,6 +167,9 @@ Object.keys(ObjectAssets).forEach(itemType => {
 });
 
 ObjectAssets.monster.forEach(mon => {
+  mon.profession = mon.class;
+  delete mon.class;
+  
   validStats.forEach(stat => {
     mon.stats = mon.stats || {};
 

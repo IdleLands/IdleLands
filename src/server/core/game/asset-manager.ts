@@ -2,6 +2,7 @@ import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { sample, includes } from 'lodash';
 
 import { DatabaseManager } from './database-manager';
+import { ICombatCharacter } from '../../../shared/interfaces';
 
 @Singleton
 @AutoWired
@@ -94,8 +95,8 @@ export class AssetManager {
     return this.stringFromGrammar(grammar);
   }
 
-  public createBattleMonster() {
+  public createBattleMonster(): ICombatCharacter {
     const monsterBase = sample(this.objectAssets.monster);
-
+    return null;
   }
 }
