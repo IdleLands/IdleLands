@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Combat - {{ combat.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  {{ combat | json }}
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider>{{ combat.name }} ({{ combat.timestamp | date:'medium' }})</ion-item-divider>
+      <ion-item>
+        <ion-row class="full-width">
+          <ion-col *ngFor="let combatParty of combat.parties | keyvalue">
+            <div>
+              <strong>{{ combatParty.value.name }}</strong>
+            </div>
+            <div *ngFor="let combatCharacter of combat.characters | keyvalue" [class.ion-hide]="combatCharacter.key !== combatParty.key">
+              {{ combatCharacter.value.name }} (Level {{ combatCharacter.value.level | number }} 
+              {{ combatCharacter.value.attribute }} {{ combatCharacter.value.affinity }} {{ combatCharacter.value.profession }})
+              [HP {{ combatCharacter.value.stats.hp | number }}]
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider>Combat Log</ion-item-divider>
+      <ion-item *ngFor="let message of combatMessages">
+        <ng-container [ngSwitch]="message.message">
+          <ng-container *ngSwitchCase="'__summary'">
+            <ng-container *ngTemplateOutlet="summary; context: { combat: message.data }"></ng-container>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            {{ message.message }}
+          </ng-container>
+        </ng-container>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider>Results</ion-item-divider>
+      <ion-item *ngFor="let message of summaryMessages">
+        {{ message }}
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ng-template #summary let-combat="combat">
+  <ion-row>
+    <ion-col class="ion-text-center">
+      «Round {{ combat.currentRound + 1 }}»
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let combatCharacter of combat.characters | keyvalue">
+    <ion-col>
+      <div>
+        <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}]
+      </div>
+    </ion-col>
+  </ion-row>
+</ng-template>

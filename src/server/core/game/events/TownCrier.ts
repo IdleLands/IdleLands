@@ -31,6 +31,6 @@ export class TownCrier extends Event {
 
   public operateOn(player: Player) {
     const message = this.rng.pickone(townCrierMessages);
-    this.emitMessage([player], message.message, AdventureLogEventType.TownCrier, message.link);
+    this.emitMessage([player], message.message, AdventureLogEventType.TownCrier, { link: message.link });
   }
 }

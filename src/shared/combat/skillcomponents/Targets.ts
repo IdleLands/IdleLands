@@ -2,15 +2,19 @@ import { PartialCombatSkill, ICombatCharacter, ICombat } from '../../interfaces'
 
 export enum Targetting {
   Self,
-  Single,
+  Anyone,
+  SingleAlly,
   SingleEnemy,
   All
 }
 
 const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, combat: ICombat) => ICombatCharacter[] } = {
   [Targetting.Self]:        (caster, combat) => [caster],
-  [Targetting.Single]:      (caster, combat) => [combat.chance.pickone(Object.values(combat.characters))],
-  [Targetting.SingleEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters).filter(x => x !== caster))],
+  [Targetting.Anyone]:      (caster, combat) => [combat.chance.pickone(Object.values(combat.characters))],
+  [Targetting.SingleEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x !== caster))],
+  [Targetting.SingleAlly]:  (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x.combatPartyId === caster.combatPartyId))],
   [Targetting.All]:         (caster, combat) => Object.values(combat.characters)
 };
 

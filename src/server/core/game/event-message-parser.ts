@@ -65,7 +65,7 @@ export class EventMessageParser {
   public combatParty(props: any[], cache: EventVariableCache, partyData): string {
     const { funct, cacheNum } = props[0];
     if(funct === 'member') {
-      return partyData.players[cacheNum] ? partyData.players[cacheNum].fullName() : this.placeholder();
+      return partyData.players[cacheNum] ? partyData.players[cacheNum] : this.placeholder();
     }
 
     return this.placeholder();

@@ -58,8 +58,8 @@ export class BaseAffinity implements IAffinity {
     [Stat.GOLD]: 0
   };
 
-  public calcLevelStat(player: ICharacter, stat: Stat) {
-    return player.level.total * this.statsPerLevel[stat];
+  public calcLevelStat(playerLevel: number, stat: Stat) {
+    return playerLevel * this.statsPerLevel[stat];
   }
 
   public calcStatMultiplier(stat: Stat) {

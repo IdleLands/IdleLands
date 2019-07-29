@@ -155,7 +155,10 @@ const routes: Routes = [
     }
   ] },
 
+  { path: 'combat/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
+
   { path: '**', redirectTo: 'home' }
+
 
 
 ];

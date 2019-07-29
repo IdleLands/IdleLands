@@ -447,7 +447,7 @@ export class Player implements IPlayer {
       });
 
       // stats per level boost
-      const profBasePerLevel = this.$profession.calcLevelStat(this, stat);
+      const profBasePerLevel = this.$profession.calcLevelStat(this.level.total, stat);
       this.addStatTrail(stat, profBasePerLevel, `${this.profession}: Base / Lv. (${profBasePerLevel / this.level.total})`);
 
 

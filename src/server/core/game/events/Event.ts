@@ -118,16 +118,32 @@ export abstract class Event {
     return this.rng.pickone(this.validItems(player).filter(i => i.isUnderBoostablePercent(player)));
   }
 
-  protected emitMessage(players: Player[], message: string, type: AdventureLogEventType, link?: string) {
-    this.emitMessageToNames(players.map(x => x.name), message, type, link);
+  protected emitMessage(
+    players: Player[],
+    message: string,
+    type: AdventureLogEventType,
+    extraData: {
+      link?: string,
+      combatString?: string
+    } = {}
+  ) {
+    this.emitMessageToNames(players.map(x => x.name), message, type, extraData);
   }
 
-  protected emitMessageToNames(playerNames: string[], message: string, type: AdventureLogEventType, link?: string) {
+  protected emitMessageToNames(
+    playerNames: string[],
+    message: string,
+    type: AdventureLogEventType,
+    extraData: {
+      link?: string,
+      combatString?: string
+    } = {}
+  ) {
     const messageData: IAdventureLog = {
       when: Date.now(),
       type,
       message,
-      link
+      ...extraData
     };
 
     this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });

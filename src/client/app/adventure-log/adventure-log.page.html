@@ -23,6 +23,7 @@
         </ion-label>
 
         <ion-button *ngIf="item.link" (click)="openLink(item.link)">View URL</ion-button>
+        <ion-button *ngIf="item.combatString" (click)="openCombat(item.combatString)">View Combat</ion-button>
       </ion-item>
     </ion-list>
   </ng-container>

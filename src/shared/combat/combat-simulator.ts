@@ -1,6 +1,6 @@
 
 import * as Chance from 'chance';
-import { sortBy, size, find } from 'lodash';
+import { sortBy, size, cloneDeep } from 'lodash';
 import { Subject } from 'rxjs';
 
 import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap } from './skillgroups';
@@ -28,12 +28,14 @@ export class CombatSimulator {
   }
 
   constructor(private combat: ICombat) {
-    if(!combat.seed) combat.seed = Date.now();
-    if(!combat.currentRound) combat.currentRound = 0;
-    if(!combat.timestamp) combat.timestamp = Date.now();
+    this.combat = cloneDeep(this.combat);
 
-    this.chance = new Chance(combat.seed);
-    combat.chance = this.chance;
+    if(!this.combat.seed) this.combat.seed = Date.now();
+    if(!this.combat.currentRound) this.combat.currentRound = 0;
+    if(!this.combat.timestamp) this.combat.timestamp = Date.now();
+
+    this.chance = new Chance(this.combat.seed);
+    this.combat.chance = this.chance;
   }
 
   private chance: Chance;
@@ -61,9 +63,7 @@ export class CombatSimulator {
   }
 
   private formatCombat(combat: ICombat): any {
-    const res = {
-      ...combat
-    };
+    const res = cloneDeep(combat);
 
     delete res.chance;
     return res;
@@ -79,7 +79,7 @@ export class CombatSimulator {
     return arr;
   }
 
-  // currently, if any stat <= 0, the character is dead
+  // currently, if hp <= 0, the character is dead
   private isDead(character: ICombatCharacter): boolean {
     return character.stats[Stat.HP] <= 0;
   }
@@ -142,7 +142,7 @@ export class CombatSimulator {
     // display stuff
     this.emitAction({
       action: CombatAction.PrintStatistics,
-      data: this.combat
+      data: this.formatCombat(this.combat)
     });
 
     this.beginRound();
@@ -192,10 +192,22 @@ export class CombatSimulator {
     // check if only one team is alive
     if(size(livingParties) === 1) return this.endCombat({ winningParty: +Object.keys(livingParties)[0] });
 
+    // arbitrary round timer just in case
+    if(this.combat.currentRound > 300) return this.endCombat({ wasTie: true });
+
     this.beginRound();
   }
 
   endCombat(args: { wasTie?: boolean, winningParty?: number } = {}) {
+    if(args.wasTie) {
+      this.events$.next({
+        action: CombatAction.Victory,
+        data: `It was a draw! No winners! No rewards!`
+      });
+
+      return;
+    }
+
     const winningPlayers = Object
       .values(this.combat.characters)
       .filter(char => char.combatPartyId === args.winningParty)

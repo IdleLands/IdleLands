@@ -209,7 +209,7 @@ export class Pet implements IPet {
         });
       });
 
-      const profBasePerLevel = this.$affinity.calcLevelStat(this, stat);
+      const profBasePerLevel = this.$affinity.calcLevelStat(this.level.total, stat);
       this.addStatTrail(stat, profBasePerLevel, `${this.affinity}: Base / Lv. (${profBasePerLevel / this.level.total})`);
 
       // make sure it is 0. no super negatives.

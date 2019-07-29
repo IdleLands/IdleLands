@@ -1,4 +1,4 @@
-import { IPlayer, ICharacter } from './IPlayer';
+import { IPlayer } from './IPlayer';
 import { Stat } from './Stat';
 
 export interface IAffinity {
@@ -6,7 +6,7 @@ export interface IAffinity {
   readonly statMultipliers: { [key in Stat]?: number };
   readonly statsPerLevel: { [key in Stat]?: number };
 
-  calcLevelStat(player: ICharacter, stat: Stat): number;
+  calcLevelStat(playerLevel: number, stat: Stat): number;
   calcStatMultiplier(stat: Stat): number;
   calcStatsForStats(stats: { [key in Stat]: number }, chosenStat: Stat): Array<{ stat: Stat, boost: number, tinyBoost: number }>;
 }
