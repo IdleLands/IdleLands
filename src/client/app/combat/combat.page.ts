@@ -13,6 +13,8 @@ import { CombatAction, CombatSimulator } from '../../../shared/combat/combat-sim
 })
 export class CombatPage implements OnInit {
 
+  public isLoaded: boolean;
+
   public combat: ICombat;
   public combatMessages: Array<{ message: string, data?: ICombat }> = [];
   public summaryMessages: string[] = [];
@@ -33,7 +35,9 @@ export class CombatPage implements OnInit {
       return;
     }
 
-    this.beginCombat();
+    setTimeout(() => {
+      this.beginCombat();
+    }, 1000);
   }
 
   private beginCombat() {
@@ -50,6 +54,10 @@ export class CombatPage implements OnInit {
 
       if(action === CombatAction.SummaryMessage) {
         this.summaryMessages.push(data);
+      }
+
+      if(action === CombatAction.Victory) {
+        this.isLoaded = true;
       }
     });
 

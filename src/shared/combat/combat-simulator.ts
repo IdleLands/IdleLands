@@ -217,7 +217,7 @@ export class CombatSimulator {
 
     this.events$.next({
       action: CombatAction.SummaryMessage,
-      data: `${winningPlayers.join(', ')} (${winningParty.name}) have won the battle!`
+      data: `${winningParty.name} (${winningPlayers.join(', ')}) have won the battle!`
     });
 
     this.events$.next({

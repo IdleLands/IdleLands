@@ -8,13 +8,21 @@
 </ion-header>
 
 <ion-content padding>
-  {{ combat | json }}
+
+  <div class="blank-slate" *ngIf="!isLoaded">
+    <ion-spinner></ion-spinner> &nbsp; Loading...
+  </div>
+
   <ion-list>
     <ion-item-group>
-      <ion-item-divider>{{ combat.name }} ({{ combat.timestamp | date:'medium' }})</ion-item-divider>
+      <ion-item-divider>
+        {{ combat.name }}
+        <br>
+        ({{ combat.timestamp | date:'medium' }})
+      </ion-item-divider>
       <ion-item>
-        <ion-row class="full-width">
-          <ion-col *ngFor="let combatParty of combat.parties | keyvalue">
+        <ion-row class="full-width ion-flex-wrap">
+          <ion-col *ngFor="let combatParty of combat.parties | keyvalue" size-xs="12" size-md="6">
             <div>
               <strong>{{ combatParty.value.name }}</strong>
             </div>
@@ -53,16 +61,25 @@
 </ion-content>
 
 <ng-template #summary let-combat="combat">
-  <ion-row>
-    <ion-col class="ion-text-center">
-      «Round {{ combat.currentRound + 1 }}»
-    </ion-col>
-  </ion-row>
-  <ion-row *ngFor="let combatCharacter of combat.characters | keyvalue">
+  <ion-row class="full-width">
     <ion-col>
-      <div>
-        <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}]
-      </div>
+      <ion-row class="ion-flex-wrap">
+        <ion-col class="ion-text-center">
+          «Round {{ combat.currentRound + 1 }}»
+        </ion-col>
+      </ion-row>
+      
+      <ion-row class="ion-flex-wrap">
+        <ion-col size-xs="12" 
+                 size-md="6" 
+                 *ngFor="let combatCharacter of combat.characters | keyvalue" 
+                 class="ion-text-center"
+                 [class.dead-combatant]="combatCharacter.value.stats.hp <= 0">
+          <div>
+            <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}]
+          </div>
+        </ion-col>
+      </ion-row>
     </ion-col>
   </ion-row>
 </ng-template>

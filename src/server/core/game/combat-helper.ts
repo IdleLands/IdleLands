@@ -114,8 +114,8 @@ export class CombatHelper {
       });
     });
 
-    const professionInstance = monsterBase.profession ? new Professions[monsterBase.profession]() : null;
-    const affinityInstance = monsterBase.affinity ? new Affinities[monsterBase.attribute]() : null;
+    const professionInstance = Professions[monsterBase.profession] ? new Professions[monsterBase.profession]() : null;
+    const affinityInstance = Affinities[monsterBase.attribute] ? new Affinities[monsterBase.attribute]() : null;
 
     Object.values(Stat).forEach(stat => {
       monsterBase.stats[stat] = monsterBase.stats[stat] || 0;
