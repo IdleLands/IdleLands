@@ -39,7 +39,14 @@
     <ion-item-group>
       <ion-item-divider>Combat Rewards</ion-item-divider>
       <ion-item>
-        {{ combat.ante | json }}
+        <ion-row class="full-width">
+          <ion-col class="ion-text-center">
+            {{ combatAnte.xp | number }} XP
+          </ion-col>
+          <ion-col class="ion-text-center">
+            {{ combatAnte.gold | number }} Gold
+          </ion-col>
+        </ion-row>
       </ion-item>
     </ion-item-group>
 

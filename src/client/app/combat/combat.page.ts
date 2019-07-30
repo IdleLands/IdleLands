@@ -16,6 +16,7 @@ export class CombatPage implements OnInit {
   public isLoaded: boolean;
 
   public combat: ICombat;
+  public combatAnte = { xp: 0, gold: 0 };
   public combatMessages: Array<{ message: string, data?: ICombat }> = [];
   public summaryMessages: string[] = [];
 
@@ -41,6 +42,9 @@ export class CombatPage implements OnInit {
   }
 
   private beginCombat() {
+
+    this.combatAnte.xp = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
+    this.combatAnte.gold = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.gold, 0);
 
     const simulator = new CombatSimulator(this.combat);
     simulator.events$.subscribe(({ action, data }) => {
