@@ -161,7 +161,6 @@ export class Inventory extends PlayerOwned {
 
   public useBuffScroll(player: Player, scrollId: string): boolean {
     const scroll = find(this.buffScrolls, { id: scrollId });
-    console.log(scroll, scrollId, this.buffScrolls);
     if(!scroll || scroll.expiresAt < Date.now()) return false;
 
     player.addBuff({

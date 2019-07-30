@@ -238,17 +238,11 @@ export class CombatHelper {
     Object.values(combat.characters).forEach(x => {
       if(x.combatPartyId === winningParty) return;
 
-      console.log('loser', x.name);
-
       const player = this.playerManager.getPlayer(x.realName);
       if(!player) return;
 
-      console.log('has real player');
-
       const ante = combat.ante[x.combatId];
       if(!ante) return;
-
-      console.log('has ante');
 
       player.gainGold(-ante.gold);
       player.gainXP(-ante.xp);
