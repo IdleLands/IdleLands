@@ -7,6 +7,16 @@ export class Battle extends Event {
   public static readonly WEIGHT = 18;
 
   public operateOn(player: Player) {
+
+    const allPlayers = player.$party ? player.$party.members : [player.name];
+
+    if(!player.$$game.combatHelper.canDoCombat(player)) {
+      this.emitMessageToNames(allPlayers,
+        'Someone in your party is too injured to fight!',
+        AdventureLogEventType.Combat);
+      return;
+    }
+
     const combatInst: ICombat = player.$$game.combatHelper.createAndRunMonsterCombat(player);
 
     const emitString = player.$$game.combatHelper.getCompressedCombat(combatInst);
@@ -25,6 +35,6 @@ export class Battle extends Event {
     const eventText = this.eventText(EventMessageType.Battle, player, { _eventData: { parties: displayPartyFormat } });
     const allText = `${eventText}`;
 
-    this.emitMessage([player], allText, AdventureLogEventType.Combat, { combatString: emitString });
+    this.emitMessageToNames(allPlayers, allText, AdventureLogEventType.Combat, { combatString: emitString });
   }
 }

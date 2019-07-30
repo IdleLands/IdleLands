@@ -12,7 +12,8 @@ export enum AdventureLogEventType {
   Pet = 'pet',
   Profession = 'profession',
   TownCrier = 'crier',
-  XP = 'xp'
+  XP = 'xp',
+  Witch = 'witch'
 }
 
 export interface IAdventureLog {

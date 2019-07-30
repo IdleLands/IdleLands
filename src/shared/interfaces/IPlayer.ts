@@ -161,4 +161,7 @@ export interface IPlayer extends ICharacter {
   petOOCAction(): string;
 
   addBuff(buff: IBuff): void;
+
+  injuryCount(): number;
+  cureInjury(): void;
 }

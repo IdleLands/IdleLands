@@ -23,6 +23,11 @@ export class CombatHelper {
   @Inject private playerManager: PlayerManager;
   @Inject private calculatorHelper: CalculatorHelper;
 
+  canDoCombat(player: Player): boolean {
+    const players = player.$party ? player.$party.members.map(x => this.playerManager.getPlayer(x)) : [player];
+    return !players.some((checkPlayer) => checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold'));
+  }
+
   createAndRunMonsterCombat(player: Player): ICombat {
 
     // if no party, just make a random name for this single person

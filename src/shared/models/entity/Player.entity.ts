@@ -438,7 +438,7 @@ export class Player implements IPlayer {
       Object.keys(this.buffWatches).forEach(buffKey => {
         this.buffWatches[buffKey].forEach((buff: IBuff) => {
           if(!buff.stats[stat]) return;
-          this.addStatTrail(stat, buff.stats[stat], `Buff: ${buff.name}`);
+          this.addStatTrail(stat, buff.stats[stat], `${buff.booster ? 'Booster' : 'Injury'}: ${buff.name}`);
         });
       });
 
@@ -736,6 +736,8 @@ export class Player implements IPlayer {
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.PetMissionCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.PetMissionCapBoost));
 
+    this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold', 3);
+
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
@@ -882,5 +884,38 @@ export class Player implements IPlayer {
     if(!canDo) return;
 
     this.$game.doStartingPlayerStuff(this);
+  }
+
+  private getAllInjuries(): IBuff[] {
+    const allInjuries = [];
+
+    Object.values(this.buffWatches).forEach(buffList => {
+      allInjuries.push(...buffList.filter(x => !x.booster));
+    });
+
+    return allInjuries;
+  }
+
+  public injuryCount(): number {
+    return this.getAllInjuries().length;
+  }
+
+  public cureInjury() {
+    let hasCured = false;
+
+    Object.keys(this.buffWatches).forEach(buffKey => {
+      if(hasCured) return;
+      
+      this.buffWatches[buffKey] = this.buffWatches[buffKey].filter(buff => {
+        if(hasCured || buff.booster) return true;
+
+        hasCured = true;
+        return false;
+      });
+    });
+
+    if(hasCured) {
+      this.recalculateStats();
+    }
   }
 }

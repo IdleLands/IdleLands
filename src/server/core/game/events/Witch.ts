@@ -34,13 +34,21 @@ export class Witch extends Event {
 
   public operateOn(player: Player) {
 
+    if(player.injuryCount() >= player.$statistics.get('Game/Premium/Upgrade/InjuryThreshold')) {
+      this.emitMessage([player],
+        'You met with a witch who graciously offered to cure one of your injuries!',
+        AdventureLogEventType.Witch);
+      player.cureInjury();
+      return;
+    }
+
     const buffType = this.pickBuffType();
     const buff = this.pickBuffStats(player);
 
     if(buff.statMod === 0) {
       this.emitMessage([player],
         'You almost had a fatal encounter with a Witch! Luckily, it wanted to give you something that didn\'t exist.',
-        AdventureLogEventType.Meta);
+        AdventureLogEventType.Witch);
       return;
     }
 
@@ -59,6 +67,6 @@ export class Witch extends Event {
       }
     });
 
-    this.emitMessage([player], allText, AdventureLogEventType.Meta);
+    this.emitMessage([player], allText, AdventureLogEventType.Witch);
   }
 }
