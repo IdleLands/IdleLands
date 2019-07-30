@@ -148,11 +148,11 @@ export class CombatSimulator {
         const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
         const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
 
-        this.incrementStatistic(giver, `Combat/Give/${type}`, incrementValue);
-        this.incrementStatistic(character, `Combat/Receive/${type}`, incrementValue);
+        this.incrementStatistic(giver, `Combat/All/Give/${type}`, incrementValue);
+        this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
 
         if(character.stats[Stat.HP] <= 0) {
-          this.incrementStatistic(giver, `Combat/Kill/${character.realName ? 'Player' : 'Monster'}`);
+          this.incrementStatistic(giver, `Combat/All/Kill/${character.realName ? 'Player' : 'Monster'}`);
         }
       }
 
@@ -249,9 +249,8 @@ export class CombatSimulator {
       const didWin = char.combatPartyId === args.winningParty;
       const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
 
-      this.incrementStatistic(char, `Combat/Times/Total`);
-      this.incrementStatistic(char, `Combat/Times/${combatType}`);
-      this.incrementStatistic(char, `Combat/Profession/${char.profession}/${combatType}`);
+      this.incrementStatistic(char, `Combat/All/Times/Total`);
+      this.incrementStatistic(char, `Combat/All/Times/${combatType}`);
     });
   }
 
@@ -268,6 +267,11 @@ export class CombatSimulator {
     this.events$.next({
       action: CombatAction.IncrementStatistic,
       data: { statistic, value, name: char.realName }
+    });
+
+    this.events$.next({
+      action: CombatAction.IncrementStatistic,
+      data: { statistic: statistic.split('All').join(`Profession/${char.profession}`), value, name: char.realName }
     });
   }
 }
