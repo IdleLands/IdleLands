@@ -62,6 +62,9 @@ export class CombatPage implements OnInit {
 
       if(action === CombatAction.Victory) {
         this.isLoaded = true;
+
+        // TODO: take data.combat and data.winningParty and display who earned how much gold and xp (based on real name being set)
+        //       if real name, display injury as well
       }
     });
 
