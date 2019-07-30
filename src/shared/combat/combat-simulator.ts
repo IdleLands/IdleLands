@@ -147,7 +147,7 @@ export class CombatSimulator {
 
         const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
         const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
-        
+
         this.incrementStatistic(giver, `Combat/Give/${type}`, incrementValue);
         this.incrementStatistic(character, `Combat/Receive/${type}`, incrementValue);
 
@@ -155,7 +155,7 @@ export class CombatSimulator {
           this.incrementStatistic(giver, `Combat/Kill/${character.realName ? 'Player' : 'Monster'}`);
         }
       }
-      
+
     });
   }
 
@@ -249,6 +249,7 @@ export class CombatSimulator {
       const didWin = char.combatPartyId === args.winningParty;
       const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
 
+      this.incrementStatistic(char, `Combat/Times/Total`);
       this.incrementStatistic(char, `Combat/Times/${combatType}`);
       this.incrementStatistic(char, `Combat/Profession/${char.profession}/${combatType}`);
     });
