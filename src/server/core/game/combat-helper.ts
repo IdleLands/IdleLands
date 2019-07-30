@@ -135,8 +135,10 @@ export class CombatHelper {
         .filter(x => x.level >= generateLevel - 25 && x.level <= generateLevel + 25)
     );
 
+    const randomProfession = sample(Object.values(Profession));
+
     if(!monsterBase) {
-      const monsterProfession = sample(Object.values(Profession));
+      const monsterProfession = randomProfession;
 
       monsterBase = {
         name: `Vector ${monsterProfession}`,
@@ -145,6 +147,8 @@ export class CombatHelper {
         stats: {}
       };
     }
+    
+    if(monsterBase.profession === 'Random') monsterBase.profession = randomProfession;
 
     const items = [
       ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
