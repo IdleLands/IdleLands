@@ -117,6 +117,8 @@ export class GameService {
   }
 
   private setCurrentPlayer(player: IPlayer) {
+    if(this.currentPlayer && !player.$achievementsData) return;
+
     this.currentPlayer = player;
     this.setSessionId(this.currentPlayer.sessionId);
     this.setLoggedInId(this.currentPlayer._id);
