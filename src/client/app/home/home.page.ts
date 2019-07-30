@@ -69,7 +69,10 @@ export class HomePage implements OnInit, OnDestroy {
         this.loading = true;
         this.player = null;
         this.needsSignUp = false;
-        this.socketService.emit(ServerEventName.AuthSignIn, { userId });
+
+        setTimeout(() => {
+          this.socketService.emit(ServerEventName.AuthSignIn, { userId });
+        }, 1000);
       }
     });
 

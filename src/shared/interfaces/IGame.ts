@@ -20,6 +20,7 @@ export interface IGame {
   partyHelper: any;
   petHelper: any;
   combatHelper: any;
+  calculatorHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;
   doStartingPlayerStuff(player: IPlayer): void;

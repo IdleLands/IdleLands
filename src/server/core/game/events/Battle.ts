@@ -7,7 +7,7 @@ export class Battle extends Event {
   public static readonly WEIGHT = 18;
 
   public operateOn(player: Player) {
-    const combatInst: ICombat = player.$$game.combatHelper.createAndRunCombat(player);
+    const combatInst: ICombat = player.$$game.combatHelper.createAndRunMonsterCombat(player);
 
     const emitString = player.$$game.combatHelper.getCompressedCombat(combatInst);
 

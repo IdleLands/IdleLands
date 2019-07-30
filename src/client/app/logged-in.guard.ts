@@ -22,6 +22,7 @@ export class LoggedInGuard implements CanActivate {
 
       // but if we don't have an id, we're probably not logged in at all
       this.router.navigate(['/home']);
+      return false;
     }
 
     return hasPlayer;

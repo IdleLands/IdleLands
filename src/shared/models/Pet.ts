@@ -155,10 +155,6 @@ export class Pet implements IPet {
     return remainingGold;
   }
 
-  private calcLevelMaxXP(level: number): number {
-    return Math.floor(100 + (50 * Math.pow(level, 1.65)));
-  }
-
   private tryLevelUp(): void {
     if(!this.xp.atMaximum()) return;
     this.level.add(1);
@@ -168,7 +164,7 @@ export class Pet implements IPet {
   }
 
   public resetMaxXP(): void {
-    this.xp.maximum = this.calcLevelMaxXP(this.level.total);
+    this.xp.maximum = this.$$game.calculatorHelper.calcLevelMaxXP(this.level.total);
   }
 
   private addStatTrail(stat: Stat, val: number, reason?: string) {

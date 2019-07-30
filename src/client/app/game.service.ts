@@ -146,19 +146,23 @@ export class GameService {
         return;
       }
 
-      this.socketService.emit(ServerEventName.PlayGame, {
-        userId: this.userId$.value,
-        relogin: true
-      });
+      setTimeout(() => {
+        this.socketService.emit(ServerEventName.PlayGame, {
+          userId: this.userId$.value,
+          relogin: true
+        });
+      }, 1000);
     });
 
     this.initCharacterWatches();
 
     if(this.sessionId) {
-      this.socketService.emit(ServerEventName.PlayGame, {
-        sessionId: this.sessionId,
-        userId: this.userId$.value
-      });
+      setTimeout(() => {
+        this.socketService.emit(ServerEventName.PlayGame, {
+          sessionId: this.sessionId,
+          userId: this.userId$.value
+        });
+      }, 1000);
     }
   }
 

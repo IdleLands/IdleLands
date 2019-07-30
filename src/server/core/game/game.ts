@@ -25,6 +25,7 @@ import { EventName } from './events/Event';
 import { PetHelper } from './pet-helper';
 import { RNGService } from './rng-service';
 import { CombatHelper } from './combat-helper';
+import { CalculatorHelper } from './calculator-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -52,6 +53,7 @@ export class Game implements IGame {
   @Inject public petHelper: PetHelper;
   @Inject public rngService: RNGService;
   @Inject public combatHelper: CombatHelper;
+  @Inject public calculatorHelper: CalculatorHelper;
   @Inject public world: World;
 
   private ticks = 0;

@@ -67,6 +67,10 @@ export class AssetManager {
     .join(' ');
   }
 
+  public injury() {
+    return sample(this.stringAssets.injury);
+  }
+
   public witch() {
     const grammar = sample(this.stringAssets.providenceGrammar);
     return this.stringFromGrammar(grammar);

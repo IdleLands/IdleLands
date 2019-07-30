@@ -6,6 +6,7 @@ export interface ICombatCharacter {
   combatPartyId?: number;
 
   name: string;
+  realName?: string;
   level: number;
   stats: { [key in Stat]: number };
 
@@ -31,6 +32,7 @@ export interface ICombat {
   seed?: number;
   chance?: any;
   currentRound?: number;
+  ante?: { [id: string]: { gold: number, xp: number } };
   characters: { [id: string]: ICombatCharacter };
   parties: { [id: string]: ICombatParty };
 }

@@ -42,7 +42,7 @@ export class SignInEvent extends ServerSocketEvent implements ServerEvent {
       character.sessionId = loggedInPlayer.sessionId;
     }
 
-    this.emit(ServerEventName.CharacterSync, character);
+    this.emit(ServerEventName.CharacterSync, loggedInPlayer || character);
   }
 }
 

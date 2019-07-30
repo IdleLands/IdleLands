@@ -37,6 +37,13 @@
     </ion-item-group>
 
     <ion-item-group>
+      <ion-item-divider>Combat Rewards</ion-item-divider>
+      <ion-item>
+        {{ combat.ante | json }}
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
       <ion-item-divider>Combat Log</ion-item-divider>
       <ion-item *ngFor="let message of combatMessages">
         <ng-container [ngSwitch]="message.message">

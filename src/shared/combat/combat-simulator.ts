@@ -3,7 +3,7 @@ import * as Chance from 'chance';
 import { sortBy, size, cloneDeep } from 'lodash';
 import { Subject } from 'rxjs';
 
-import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap } from './skillgroups';
+import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap, Attack } from './skillgroups';
 
 import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect } from '../interfaces';
 
@@ -75,6 +75,10 @@ export class CombatSimulator {
     if(ProfessionSkillMap[character.profession])                        arr.push(...ProfessionSkillMap[character.profession]);
     if(AffinitySkillMap[character.affinity])                            arr.push(...AffinitySkillMap[character.affinity]);
     if(AttributeSkillMap[character.attribute] && character.rating >= 5) arr.push(...AttributeSkillMap[character.attribute]);
+
+    if(arr.length === 0) {
+      arr.push({ weight: 1, skills: [Attack] });
+    }
 
     return arr;
   }
@@ -215,10 +219,7 @@ export class CombatSimulator {
 
     const winningParty = this.combat.parties[args.winningParty];
 
-    this.events$.next({
-      action: CombatAction.SummaryMessage,
-      data: `${winningParty.name} (${winningPlayers.join(', ')}) have won the battle!`
-    });
+    this.addSummaryMessage(`${winningParty.name} (${winningPlayers.join(', ')}) have won the battle!`);
 
     this.events$.next({
       action: CombatAction.Victory,
@@ -226,4 +227,10 @@ export class CombatSimulator {
     });
   }
 
+  addSummaryMessage(message: string) {
+    this.events$.next({
+      action: CombatAction.SummaryMessage,
+      data: message
+    });
+  }
 }
