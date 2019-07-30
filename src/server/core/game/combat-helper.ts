@@ -93,6 +93,15 @@ export class CombatHelper {
         if(data.wasTie) return;
         this.handleRewards(data.combat, data.winningParty);
       }
+
+      if(action === CombatAction.IncrementStatistic) {
+        const { statistic, value, name } = data;
+
+        const playerRef = this.playerManager.getPlayer(name);
+        if(!playerRef) return;
+
+        playerRef.increaseStatistic(statistic, value);
+      }
     });
 
     simulator.beginCombat();
@@ -147,7 +156,7 @@ export class CombatHelper {
         stats: {}
       };
     }
-    
+
     if(monsterBase.profession === 'Random') monsterBase.profession = randomProfession;
 
     const items = [

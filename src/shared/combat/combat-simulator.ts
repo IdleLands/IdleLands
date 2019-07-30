@@ -19,7 +19,10 @@ export enum CombatAction {
   SummaryMessage,
 
   // all the data that signifies the end of combat
-  Victory
+  Victory,
+
+  // increment a particular statistic for a player
+  IncrementStatistic
 }
 
 export class CombatSimulator {
@@ -138,6 +141,21 @@ export class CombatSimulator {
 
       const message = this.formatMessage(effect, character);
       this.events$.next({ action: CombatAction.Message, data: message });
+
+      if(effect.modifyStat === Stat.HP) {
+        const giver = this.combat.characters[effect.source];
+
+        const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
+        const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
+        
+        this.incrementStatistic(giver, `Combat/Give/${type}`, incrementValue);
+        this.incrementStatistic(character, `Combat/Receive/${type}`, incrementValue);
+
+        if(character.stats[Stat.HP] <= 0) {
+          this.incrementStatistic(giver, `Combat/Kill/${character.realName ? 'Player' : 'Monster'}`);
+        }
+      }
+      
     });
   }
 
@@ -216,16 +234,23 @@ export class CombatSimulator {
 
     const winningPlayers = Object
       .values(this.combat.characters)
-      .filter(char => char.combatPartyId === args.winningParty)
-      .map(char => char.name);
+      .filter(char => char.combatPartyId === args.winningParty);
 
     const winningParty = this.combat.parties[args.winningParty];
 
-    this.addSummaryMessage(`${winningParty.name} (${winningPlayers.join(', ')}) have won the battle!`);
+    this.addSummaryMessage(`${winningParty.name} (${winningPlayers.map(char => char.name).join(', ')}) have won the battle!`);
 
     this.events$.next({
       action: CombatAction.Victory,
       data: { wasTie: args.wasTie, combat: this.formatCombat(this.combat), winningParty: args.winningParty }
+    });
+
+    Object.values(this.combat.characters).forEach(char => {
+      const didWin = char.combatPartyId === args.winningParty;
+      const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
+
+      this.incrementStatistic(char, `Combat/Times/${combatType}`);
+      this.incrementStatistic(char, `Combat/Profession/${char.profession}/${combatType}`);
     });
   }
 
@@ -233,6 +258,15 @@ export class CombatSimulator {
     this.events$.next({
       action: CombatAction.SummaryMessage,
       data: message
+    });
+  }
+
+  incrementStatistic(char: ICombatCharacter, statistic: string, value = 1) {
+    if(!char.realName) return;
+
+    this.events$.next({
+      action: CombatAction.IncrementStatistic,
+      data: { statistic, value, name: char.realName }
     });
   }
 }
