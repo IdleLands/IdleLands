@@ -204,9 +204,11 @@ export class CombatSimulator {
 
   endCombat(args: { wasTie?: boolean, winningParty?: number } = {}) {
     if(args.wasTie) {
+      this.addSummaryMessage(`It was a draw! No winners! No rewards!`);
+
       this.events$.next({
         action: CombatAction.Victory,
-        data: `It was a draw! No winners! No rewards!`
+        data: { wasTie: true, combat: this.formatCombat(this.combat) }
       });
 
       return;
