@@ -157,7 +157,7 @@ export class CombatSimulator {
     this.combat.currentRound++;
 
     // order combatants by agi
-    const combatantOrder = sortBy(Object.values(this.combat.characters), (char) => char.stats[Stat.AGI]);
+    const combatantOrder = sortBy(Object.values(this.combat.characters), (char) => char.stats[Stat.AGI]).filter(x => x.stats[Stat.HP] > 0);
     combatantOrder.forEach(comb => {
       const skills = this.getSkillsForCharacter(comb);
 
