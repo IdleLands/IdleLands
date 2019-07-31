@@ -163,6 +163,9 @@ export class CombatHelper {
     }
 
     if(monsterBase.profession === 'Random') monsterBase.profession = randomProfession;
+    if(!monsterBase.profession) {
+      monsterBase.profession = sample(['Monster', 'MagicalMonster']);
+    }
 
     const items = [
       ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
@@ -222,25 +225,26 @@ export class CombatHelper {
     monsterBase.stats[Stat.HP] = Math.max(1, monsterBase.stats[Stat.HP]);
     monsterBase.stats[Stat.HP] += (monsterBase.level * 100);
 
-    monsterBase.maxStats = {
-      [Stat.HP]: monsterBase.stats[Stat.HP]
-    };
+    monsterBase.maxStats = clone(monsterBase.stats);
 
     return monsterBase;
   }
 
   private createCombatCharacter(player: Player): ICombatCharacter {
 
-    const maxStats = {
-      [Stat.HP]: player.currentStats[Stat.HP]
-    };
+    const stats = clone(player.currentStats);
+    const maxStats = clone(player.currentStats);
+
+    stats[Stat.SPECIAL] = player.$profession.determineStartingSpecial(player);
+    maxStats[Stat.SPECIAL] = player.$profession.determineMaxSpecial(player);
 
     return {
       name: player.fullName(),
       realName: player.name,
       level: player.level.total,
+      specialName: player.$profession.specialStatName,
       maxStats,
-      stats: Object.assign({}, player.currentStats),
+      stats,
       profession: player.profession
     };
   }

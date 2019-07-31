@@ -17,10 +17,10 @@ export class Witch extends Event {
       { name: 'Events', stat: 'Character/Events', duration: 15 },
       { name: 'Events', stat: 'Character/Events', duration: 30 },
 
-      { name: 'Combats', stat: 'Combat/Times/Total', duration: 3 },
-      { name: 'Combats', stat: 'Combat/Times/Total', duration: 5 },
-      { name: 'Combats', stat: 'Combat/Times/Total', duration: 7 },
-      { name: 'Combats', stat: 'Combat/Times/Total', duration: 10 }
+      { name: 'Combats', stat: 'Combat/All/Times/Total', duration: 3 },
+      { name: 'Combats', stat: 'Combat/All/Times/Total', duration: 5 },
+      { name: 'Combats', stat: 'Combat/All/Times/Total', duration: 7 },
+      { name: 'Combats', stat: 'Combat/All/Times/Total', duration: 10 }
     ]);
   }
 

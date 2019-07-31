@@ -5,8 +5,9 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Necromancer extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Minion';
   public readonly oocAbilityName = 'Minion Spawn';
-  public readonly oocAbilityDesc = 'Summon minions to join you in your next few combats.';
+  public readonly oocAbilityDesc = 'Summon extra minions to join you in your next few combats.';
   public readonly oocAbilityCost = 999;
 
   public readonly statForStats = {
@@ -48,5 +49,13 @@ export class Necromancer extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     return `Not yet implemented!`;
+  }
+
+  public determineStartingSpecial(): number {
+    return 0;
+  }
+
+  public determineMaxSpecial(): number {
+    return 3;
   }
 }

@@ -6,6 +6,7 @@ import { EventName } from '../events/Event';
 
 export class Pirate extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Bottle';
   public readonly oocAbilityName = 'Pillage';
   public readonly oocAbilityDesc = 'Acquire a random item.';
   public readonly oocAbilityCost = 50;
@@ -40,7 +41,7 @@ export class Pirate extends BaseProfession implements IProfession {
     [Stat.AGI]: 1,
     [Stat.LUK]: 0,
 
-    [Stat.SPECIAL]:  0,
+    [Stat.SPECIAL]:  1,
 
     [Stat.XP]:   0,
     [Stat.GOLD]: 0

@@ -1,4 +1,4 @@
-import { IPlayer } from './IPlayer';
+import { IPlayer, ICharacter } from './IPlayer';
 import { Stat } from './Stat';
 
 export interface IAffinity {
@@ -23,4 +23,7 @@ export interface IProfession {
   readonly specialStatName: string;
 
   $professionData: { oocAbilityName: string, oocAbilityDesc: string, oocAbilityCost: number };
+
+  determineStartingSpecial(character: ICharacter): number;
+  determineMaxSpecial(character: ICharacter): number;
 }

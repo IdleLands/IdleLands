@@ -5,6 +5,7 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Bitomancer extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Bit';
   public readonly oocAbilityName = 'Hack';
   public readonly oocAbilityDesc = 'Decrease your Forsake event rate significantly.';
   public readonly oocAbilityCost = 999;
@@ -39,7 +40,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
     [Stat.AGI]: 1,
     [Stat.LUK]: 1,
 
-    [Stat.SPECIAL]:  0,
+    [Stat.SPECIAL]:  4,
 
     [Stat.XP]:   0,
     [Stat.GOLD]: 0

@@ -49,6 +49,7 @@ export class CombatPage implements OnInit {
     const simulator = new CombatSimulator(this.combat);
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Message) {
+        if(!data) return;
         this.combatMessages.push({ message: data });
       }
 

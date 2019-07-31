@@ -99,4 +99,12 @@ export class BaseProfession extends BaseAffinity implements IAffinity, IAttribut
     return '';
   }
 
+  public determineStartingSpecial(player: ICharacter): number {
+    return player.getStat(Stat.SPECIAL);
+  }
+
+  public determineMaxSpecial(player: ICharacter): number {
+    return player.getStat(Stat.SPECIAL);
+  }
+
 }

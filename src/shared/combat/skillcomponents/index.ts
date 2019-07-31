@@ -1,6 +1,7 @@
 
 export * from './Accuracy';
 export * from './AccuracyScale';
+export * from './CombatEffect';
 export * from './Delay';
 export * from './DelayScale';
 export * from './Description';

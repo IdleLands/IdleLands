@@ -73,7 +73,8 @@ export class CombatSimulator {
   }
 
   private getPreRoundSkillsForCharacter(character: ICombatCharacter) {
-    return ProfessionPreRoundSkillMap[character.profession] || [];
+    return (ProfessionPreRoundSkillMap[character.profession] || [])
+            .filter(x => x.canUse ? x.canUse(character, this.combat) : true);
   }
 
   private getSkillsForCharacter(character: ICombatCharacter) {
@@ -87,7 +88,8 @@ export class CombatSimulator {
       arr.push({ weight: 1, skills: [Attack] });
     }
 
-    return arr;
+    return arr
+           .filter(x => x.canUse ? x.canUse(character, this.combat) : true);
   }
 
   // currently, if hp <= 0, the character is dead
@@ -97,10 +99,17 @@ export class CombatSimulator {
 
   private addCombatEffect(character: ICombatCharacter, effect: ICombatSkillEffect): void {
     const delay = effect.turnsUntilEffect || 0;
+    const duration = effect.turnsEffectLasts || 0;
 
     character.effects = character.effects || [];
-    character.effects[delay] = character.effects[delay] || [];
-    character.effects[delay].push(effect);
+
+    let turn = delay;
+    do {
+      character.effects[turn] = character.effects[turn] || [];
+      character.effects[turn].push(effect);
+
+      turn++;
+    } while(turn < delay + duration);
   }
 
   private doSkill(caster: ICombatCharacter, skill: Array<ICombatSkillCombinator[]>) {
@@ -129,9 +138,10 @@ export class CombatSimulator {
     if(!skillEffect.desc) return '';
 
     const replacements: Array<{ replace: string, with: string }> = [
-      { replace: 'source', with: this.combat.characters[skillEffect.source].name },
-      { replace: 'value',  with: Math.abs(skillEffect.modifyStatValue).toLocaleString() },
-      { replace: 'target', with: forCharacter.name }
+      { replace: 'source',  with: this.combat.characters[skillEffect.source].name },
+      { replace: 'value',   with: Math.abs(skillEffect.modifyStatValue).toLocaleString() },
+      { replace: 'target',  with: forCharacter.name },
+      { replace: 'special', with: forCharacter.specialName || 'special' }
     ];
 
     return replacements.reduce((prev, cur) => {
@@ -156,6 +166,12 @@ export class CombatSimulator {
       }
     }
 
+    if(effect.modifyStat === Stat.SPECIAL) {
+      if(effect.modifyStatValue + character.stats[Stat.SPECIAL] > character.maxStats[Stat.SPECIAL]) {
+        effect.modifyStatValue = character.maxStats[Stat.SPECIAL] - character.stats[Stat.SPECIAL];
+      }
+    }
+
     // apply the value to the stat
     character.stats[effect.modifyStat] += effect.modifyStatValue;
 
@@ -170,7 +186,9 @@ export class CombatSimulator {
       const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
       const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
 
+      this.incrementStatistic(giver, `Combat/All/Give/Attack/Times`, 1);
       this.incrementStatistic(giver, `Combat/All/Give/${type}`, incrementValue);
+      this.incrementStatistic(giver, `Combat/All/Receive/Attack/Times`, 1);
       this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
 
       if(character.stats[Stat.HP] <= 0) {
@@ -260,7 +278,7 @@ export class CombatSimulator {
     if(size(livingParties) === 1) return this.endCombat({ winningParty: +Object.keys(livingParties)[0] });
 
     // arbitrary round timer just in case
-    if(this.combat.currentRound > 300) return this.endCombat({ wasTie: true });
+    if(this.combat.currentRound >= 300) return this.endCombat({ wasTie: true });
 
     this.beginRound();
   }

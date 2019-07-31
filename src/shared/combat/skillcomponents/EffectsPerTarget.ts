@@ -12,7 +12,7 @@ export const EffectsPerTarget = (times: number) =>
       skill.targetEffects[target] = skill.targetEffects[target] || [];
       for(let i = 0; i < times; i++) {
         skill.targetEffects[target].push({
-          accuracy: 0,
+          accuracy: 100,
           desc: '',
           source: caster.combatId,
           modifyStat: null,

@@ -5,6 +5,7 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Archer extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Arrow';
   public readonly oocAbilityName = 'Pet Phenomenon';
   public readonly oocAbilityDesc = 'Bring more pets to aid you in combat.';
   public readonly oocAbilityCost = 999;
@@ -43,7 +44,7 @@ export class Archer extends BaseProfession implements IProfession {
     [Stat.AGI]: 1,
     [Stat.LUK]: 1,
 
-    [Stat.SPECIAL]:  0,
+    [Stat.SPECIAL]:  1,
 
     [Stat.XP]:   0,
     [Stat.GOLD]: 0

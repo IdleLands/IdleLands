@@ -53,6 +53,8 @@ export interface ICharacter {
   init(): void;
   recalculateStats(): void;
 
+  getStat(stat: Stat): number;
+
   equip(item: IItem): void;
   unequip(item: IItem): void;
 }
@@ -145,6 +147,7 @@ export interface IPlayer extends ICharacter {
 
   forceUnequip(item: IItem): void;
 
+  addBuff(buff: IBuff): void;
   grantBuff(buff: IBuff, canShare: boolean): void;
 
   gainILP(ilp: number): void;
@@ -159,8 +162,6 @@ export interface IPlayer extends ICharacter {
 
   oocAction(): string;
   petOOCAction(): string;
-
-  addBuff(buff: IBuff): void;
 
   injuryCount(): number;
   cureInjury(): void;

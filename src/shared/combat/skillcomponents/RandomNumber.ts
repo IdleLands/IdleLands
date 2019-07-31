@@ -14,5 +14,7 @@ export const RandomNumber =
         max = maxEval(caster, target, combat);
       }
 
+      if(max < min) max = min;
+
       return Math.floor(combat.chance.integer({ min, max })) * (isPositive ? 1 : -1);
     };

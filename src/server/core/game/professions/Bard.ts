@@ -5,6 +5,7 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Bard extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Song';
   public readonly oocAbilityName = 'Orchestra';
   public readonly oocAbilityDesc = 'Start a festival that lasts an hour.';
   public readonly oocAbilityCost = 1;
@@ -16,7 +17,7 @@ export class Bard extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  15,
+    [Stat.HP]:  10,
     [Stat.STR]: 1,
     [Stat.DEX]: 5,
     [Stat.INT]: 4,
@@ -48,5 +49,13 @@ export class Bard extends BaseProfession implements IProfession {
   public oocAbility(player: Player): string {
     player.$$game.eventManager.doEventFor(player, 'Battle');
     return `Not yet implemented!`;
+  }
+
+  public determineStartingSpecial(): number {
+    return 0;
+  }
+
+  public determineMaxSpecial(): number {
+    return 3;
   }
 }

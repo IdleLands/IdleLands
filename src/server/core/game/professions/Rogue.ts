@@ -5,6 +5,7 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Rogue extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Energy';
   public readonly oocAbilityName = 'Pilfer';
   public readonly oocAbilityDesc = 'Steal a random amount of gold from a random player.';
   public readonly oocAbilityCost = 999;
@@ -47,5 +48,13 @@ export class Rogue extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     return `Not yet implemented!`;
+  }
+
+  public determineStartingSpecial(): number {
+    return 100;
+  }
+
+  public determineMaxSpecial(): number {
+    return 100;
   }
 }

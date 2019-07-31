@@ -5,6 +5,7 @@ import { IProfession } from '../../../../shared/interfaces';
 
 export class Barbarian extends BaseProfession implements IProfession {
 
+  public readonly specialStatName = 'Rage';
   public readonly oocAbilityName = 'Duel';
   public readonly oocAbilityDesc = 'Begin a duel with a random player.';
   public readonly oocAbilityCost = 999;
@@ -12,7 +13,8 @@ export class Barbarian extends BaseProfession implements IProfession {
   public readonly statForStats = {
     [Stat.HP]: {
       [Stat.CON]: 10,
-      [Stat.STR]: 5
+      [Stat.STR]: 5,
+      [Stat.INT]: -2
     }
   };
 
@@ -48,5 +50,13 @@ export class Barbarian extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     return `Not yet implemented!`;
+  }
+
+  public determineStartingSpecial(): number {
+    return 0;
+  }
+
+  public determineMaxSpecial(): number {
+    return 100;
   }
 }

@@ -7,6 +7,7 @@ export interface ICombatCharacter {
 
   name: string;
   realName?: string;
+  specialName?: string;
   level: number;
   maxStats: { [key in Stat]?: number };
   stats: { [key in Stat]: number };
