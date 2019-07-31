@@ -5,44 +5,76 @@ export enum Targetting {
   Anyone,
   SingleAlly,
   SingleEnemy,
+  InjuredAlly,
+  InjuredEnemy,
+  DeadAlly,
+  DeadEnemy,
   AllAllies,
   AllEnemies,
   All
 }
 
+const Dead = (char: ICombatCharacter) => char.stats[Stat.HP] <= 0;
 const NotDead = (char: ICombatCharacter) => char.stats[Stat.HP] > 0;
+const Injured = (char: ICombatCharacter) => char.stats[Stat.HP] < char.maxStats[Stat.HP];
 
 const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, combat: ICombat) => ICombatCharacter[] } = {
   [Targetting.Self]:        (caster, combat) => [caster],
 
-  [Targetting.Anyone]:      (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+  [Targetting.Anyone]:       (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
                                                   .filter(NotDead)
                                                 )],
 
-  [Targetting.SingleEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+  [Targetting.SingleEnemy]:  (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
                                                   .filter(x => x !== caster)
                                                   .filter(NotDead)
                                                 )],
 
-  [Targetting.SingleAlly]:  (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+  [Targetting.SingleAlly]:   (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
                                                   .filter(x => x.combatPartyId === caster.combatPartyId)
                                                   .filter(NotDead)
                                                 )],
 
-  [Targetting.AllEnemies]:  (caster, combat) => Object.values(combat.characters)
+  [Targetting.InjuredEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x !== caster)
+                                                  .filter(Injured)
+                                                )],
+
+  [Targetting.InjuredAlly]:  (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x.combatPartyId === caster.combatPartyId)
+                                                  .filter(Injured)
+                                                )],
+
+  [Targetting.DeadEnemy]:    (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x !== caster)
+                                                  .filter(Dead)
+                                                )],
+
+  [Targetting.DeadAlly]:     (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
+                                                  .filter(x => x.combatPartyId === caster.combatPartyId)
+                                                  .filter(Dead)
+                                                )],
+
+  [Targetting.AllEnemies]:   (caster, combat) => Object.values(combat.characters)
                                                   .filter(x => x.combatPartyId !== caster.combatPartyId)
                                                   .filter(NotDead),
 
-  [Targetting.AllAllies]:   (caster, combat) => Object.values(combat.characters)
+  [Targetting.AllAllies]:    (caster, combat) => Object.values(combat.characters)
                                                   .filter(x => x.combatPartyId === caster.combatPartyId)
                                                   .filter(NotDead),
 
-  [Targetting.All]:         (caster, combat) => Object.values(combat.characters)
+  [Targetting.All]:          (caster, combat) => Object.values(combat.characters)
                                                   .filter(NotDead)
 };
 
 export const NumberOfTargets: (f: Targetting, caster, combat) => number =
-  (func: Targetting, caster, combat) => TargettingFunctions[func](caster, combat).length;
+  (func: Targetting, caster, combat) => {
+    try {
+      return TargettingFunctions[func](caster, combat).length;
+    } catch(e) {
+      return 0;
+    }
+  };
 
 export const Targets = (targetFunc: Targetting) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {

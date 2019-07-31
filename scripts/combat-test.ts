@@ -3,11 +3,18 @@ import { ICombat, ICombatCharacter, ICombatParty, Profession, PetAttribute, PetA
 
 const characters: ICombatCharacter[] = [
   { combatId: 1, combatPartyId: 1, name: 'Watch My Stuff',
-    profession: Profession.Bitomancer,
+    profession: Profession.Jester,
     level: 10,
-    specialName: 'Bit',
+    specialName: 'Mana',
     stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 2048, gold: 10, xp: 10 },
     maxStats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 2048, gold: 10, xp: 10 }
+  },
+  { combatId: 4, combatPartyId: 1, name: 'I Die',
+    profession: Profession.Bitomancer,
+    level: 1,
+    specialName: 'Bit',
+    stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 1, special: 2048, gold: 10, xp: 10 },
+    maxStats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 1, special: 2048, gold: 10, xp: 10 }
   },
   { combatId: 2, combatPartyId: 2, name: 'Super Tester',
     attribute: PetAttribute.Alchemist, affinity: PetAffinity.Healer,
@@ -47,12 +54,12 @@ const combat: ICombat = {
 const simulator = new CombatSimulator(combat);
 simulator.events$.subscribe(({ action, data }) => {
   if(action === CombatAction.Message) {
-    if(!data) return;
-    console.log(data);
+    if(!data.message) return;
+    console.log(`[Round ${data.combat.currentRound}]`, data.message);
   }
 
   if(action === CombatAction.PrintStatistics) {
-    console.log(`Round ${data.currentRound}`,
+    console.log(`[Round ${data.currentRound}]`,
       Object.values(data.characters)
         .map((x: any) => `${x.name} (HP ${x.stats.hp} | ${x.specialName || '???'} ${x.stats.special})`)
     );

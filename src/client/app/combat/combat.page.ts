@@ -50,7 +50,7 @@ export class CombatPage implements OnInit {
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Message) {
         if(!data) return;
-        this.combatMessages.push({ message: data });
+        this.combatMessages.push({ message: data.message });
       }
 
       if(action === CombatAction.PrintStatistics) {

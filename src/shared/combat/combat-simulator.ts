@@ -140,6 +140,7 @@ export class CombatSimulator {
     const replacements: Array<{ replace: string, with: string }> = [
       { replace: 'source',  with: this.combat.characters[skillEffect.source].name },
       { replace: 'value',   with: Math.abs(skillEffect.modifyStatValue).toLocaleString() },
+      { replace: 'rvalue',  with: skillEffect.modifyStatValue.toLocaleString() },
       { replace: 'target',  with: forCharacter.name },
       { replace: 'special', with: forCharacter.specialName || 'special' }
     ];
@@ -177,7 +178,7 @@ export class CombatSimulator {
 
     // share what happened with the world
     const message = this.formatMessage(effect, character);
-    this.events$.next({ action: CombatAction.Message, data: message });
+    this.events$.next({ action: CombatAction.Message, data: { message, combat: this.formatCombat(this.combat) } });
 
     // do statistic modifications
     if(effect.modifyStat === Stat.HP) {
@@ -192,6 +193,8 @@ export class CombatSimulator {
       this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
 
       if(character.stats[Stat.HP] <= 0) {
+        character.stats[Stat.HP] = 0;
+        character.effects = [];
         this.incrementStatistic(giver, `Combat/All/Kill/${character.realName ? 'Player' : 'Monster'}`);
       }
     }
@@ -225,12 +228,14 @@ export class CombatSimulator {
     this.combat.currentRound++;
 
     // get valid combatants
-    const validCombatants = Object.values(this.combat.characters).filter(x => x.stats[Stat.HP] > 0);
+    const validCombatants = Object.values(this.combat.characters);
 
     // order combatants by agi
     const combatantOrder = sortBy(validCombatants, (char) => char.stats[Stat.AGI]);
 
-    combatantOrder.forEach(comb => {
+    // only living people get to do skills
+    combatantOrder.filter(x => x.stats[Stat.HP] > 0).forEach(comb => {
+
       // get pre-round skills if any and cast them
       const preroundSkills = this.getPreRoundSkillsForCharacter(comb);
       if(preroundSkills.length > 0) {
@@ -250,6 +255,7 @@ export class CombatSimulator {
       this.doSkill(comb, chosenSkill);
     });
 
+    // buuuuttt... dead people may have effects cast on them that we have to consider
     combatantOrder.forEach(comb => {
       this.applyNextEffects(comb);
     });

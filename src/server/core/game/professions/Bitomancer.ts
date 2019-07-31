@@ -13,6 +13,9 @@ export class Bitomancer extends BaseProfession implements IProfession {
   public readonly statForStats = {
     [Stat.HP]: {
       [Stat.CON]: 5
+    },
+    [Stat.SPECIAL]: {
+      [Stat.INT]: 2
     }
   };
 
@@ -48,5 +51,9 @@ export class Bitomancer extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     return `Not yet implemented!`;
+  }
+
+  public determineStartingSpecial(): number {
+    return 0;
   }
 }

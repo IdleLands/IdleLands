@@ -1,7 +1,8 @@
 
 import { Profession, Stat, ICombatWeightedSkillChoice } from '../../interfaces';
 import { Attack, RegenerateHP, RegenerateSpecial } from './all';
-import { Targets, EffectsPerTarget, Description, Accuracy, StatMod, Targetting, Delay, Duration, NumberOfTargets, CombatEffect } from '../skillcomponents';
+import { Targets, EffectsPerTarget, Description, Accuracy, StatMod, Targetting,
+  Delay, Duration, NumberOfTargets, CombatEffect } from '../skillcomponents';
 import { RandomNumber } from '../skillcomponents/RandomNumber';
 
 /**
@@ -242,10 +243,10 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     { weight: 1, skills: [Attack()] },
 
     // hack time
-    { weight: 1, canUse: (caster) => caster.stats[Stat.SPECIAL] >= 4, skills: [
+    { weight: 1, canUse: (caster) => caster.stats[Stat.SPECIAL] >= 128, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
-        StatMod(Stat.SPECIAL, -4)
+        StatMod(Stat.SPECIAL, -128)
       ],
       [
         Targets(Targetting.Self), EffectsPerTarget(1), Accuracy(100),
@@ -254,53 +255,267 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
       ]
     ] },
 
-    // bit (scales in damage from powers of 2, base of int), freeleech (target int -10%, my int + lost int)
+    // take a byte
+    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] > 0, skills: [
+      [
+        Targets(Targetting.Self), EffectsPerTarget(1),
+        StatMod(Stat.SPECIAL, (caster) => -caster.stats[Stat.SPECIAL])
+      ],
+      [
+        Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
+        Description('%source took a byte out of %target and dealt %value damage!'),
+        StatMod(Stat.HP, (caster) => caster.stats[Stat.SPECIAL])
+      ]
+    ] },
+
+    // freeleech
+    { weight: 4, skills: [
+      [
+        Targets(Targetting.Self), EffectsPerTarget(1),
+        StatMod(Stat.SPECIAL, (caster) => caster.maxStats[Stat.INT] / 10)
+      ],
+      [
+        Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(80),
+        Description('%source freeleeched %value INT from %target!'),
+        StatMod(Stat.INT, (caster, target) => -target.maxStats[Stat.INT] / 10)
+      ]
+    ] }
   ],
 
   [Profession.Cleric]: [
     { weight: 1, skills: [Attack(
       1,
       (attacker) => attacker.stats[Stat.STR] * 0.5
-    )] }
+    )] },
 
-    // revive (dead ally, 10% cost 50%), heal (ally, int, cost 5%, only works if any allys unhurt), holybolt (target, int, cost 5%), regen int/20
+    // holy bolt
+    { weight: 4,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 10,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 10)
+        ],
+        [
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
+          Description('%source flung a holy bolt at %target and dealt %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.INT] * 1.5,
+            (caster) => caster.stats[Stat.INT] * 2.0
+          ))
+        ]
+    ] },
+
+    // heal
+    { weight: 2,
+      canUse: (caster, combat) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 20
+                               && NumberOfTargets(Targetting.InjuredAlly, caster, combat) > 0,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 20)
+        ],
+        [
+          Targets(Targetting.InjuredAlly), EffectsPerTarget(1), Accuracy(90),
+          Description('%source surrounded %target with a holy aura and healed %value health!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.INT] * 2.0,
+            (caster) => caster.stats[Stat.INT] * 3.0,
+            true
+          ))
+        ]
+    ] },
+
+    // revive
+    { weight: 2,
+      canUse: (caster, combat) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 3
+                               && NumberOfTargets(Targetting.DeadAlly, caster, combat) > 0,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 3)
+        ],
+        [
+          Targets(Targetting.DeadAlly), EffectsPerTarget(1), Accuracy(100),
+          Description('%source revived %target from their untimely demise!'),
+          StatMod(Stat.HP, (caster, target) => Math.max(1, target.maxStats[Stat.HP] / 10))
+        ]
+    ] },
   ],
 
   [Profession.Fighter]: [
-    { weight: 1, skills: [Attack(
+    { weight: 5, skills: [Attack(
       (attacker) => attacker.stats[Stat.STR] * 0.1,
       (attacker) => attacker.stats[Stat.STR]
-    )] }
+    )] },
 
-    // double strike (same target 2x), self str + 10% of max, multistrike (aoe, X random hits, 60% damage per hit)
+    // double attack
+    { weight: 3, skills: [
+      [
+        Targets(Targetting.SingleEnemy), EffectsPerTarget(2), Accuracy(75),
+        Description('%source attacked %target for %value damage!'),
+        StatMod(Stat.HP, RandomNumber(
+          (attacker) => attacker.stats[Stat.STR] * 0.1,
+          (attacker) => attacker.stats[Stat.STR] * 0.9)
+        )
+      ]
+    ] },
+
+    // wild arms
+    { weight: 1, skills: [
+      [
+        Targets(Targetting.Self), EffectsPerTarget(1),
+        Description('%source bulked up and gained %value STR!'),
+        StatMod(Stat.STR, (caster) => caster.maxStats[Stat.STR] / 10)
+      ]
+    ] },
+
+    // multistrike
+    { weight: 2,
+      skills: [
+        ...Array(5).fill([
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(50),
+          Description('%source began swinging wildly at %target and dealt %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.STR] * 0.7,
+            (caster) => caster.stats[Stat.STR] * 0.9
+          ))
+        ])
+    ] }
   ],
 
   [Profession.Generalist]: [
-    { weight: 1, skills: [Attack(
+    { weight: 5, skills: [Attack(
       1,
       (attacker) => (attacker.stats[Stat.STR] + attacker.stats[Stat.DEX] + attacker.stats[Stat.INT]
                    + attacker.stats[Stat.CON] + attacker.stats[Stat.AGI] + attacker.stats[Stat.LUK]) / 6
-    )] }
+    )] },
 
-    // aoe all (all stats avg), buff all for one person (all stats, 5% of their max), heal all (5% of max)
+    // sweeping generalization
+    { weight: 3,
+      canUse: (caster, combat) => NumberOfTargets(Targetting.AllEnemies, caster, combat) > 1,
+      skills: [
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1), Accuracy(90),
+          Description('%source hit %target with a sweeping generalization and dealt %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => (caster.stats[Stat.STR] + caster.stats[Stat.DEX] + caster.stats[Stat.INT]
+                       + caster.stats[Stat.CON] + caster.stats[Stat.AGI] + caster.stats[Stat.LUK]) / 12,
+            (caster) => (caster.stats[Stat.STR] + caster.stats[Stat.DEX] + caster.stats[Stat.INT]
+                       + caster.stats[Stat.CON] + caster.stats[Stat.AGI] + caster.stats[Stat.LUK]) / 4,
+          ))
+        ]
+    ] },
+
+    // fortify
+    { weight: 1, skills: [
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.STR, (caster, target) => target.maxStats[Stat.STR] / 20),
+        Description('%source swept %target under the rug and boosted their STR by %value!'),
+      ],
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.INT, (caster, target) => target.maxStats[Stat.INT] / 20),
+        Description('%source swept %target under the rug and boosted their INT by %value!'),
+      ],
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.AGI, (caster, target) => target.maxStats[Stat.AGI] / 20),
+        Description('%source swept %target under the rug and boosted their AGI by %value!'),
+      ],
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.DEX, (caster, target) => target.maxStats[Stat.DEX] / 20),
+        Description('%source swept %target under the rug and boosted their DEX by %value!'),
+      ],
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.CON, (caster, target) => target.maxStats[Stat.CON] / 20),
+        Description('%source swept %target under the rug and boosted their CON by %value!'),
+      ],
+      [
+        Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+        StatMod(Stat.LUK, (caster, target) => target.maxStats[Stat.LUK] / 20),
+        Description('%source swept %target under the rug and boosted their LUK by %value!'),
+      ]
+    ] },
+
+    // restore
+    { weight: 3, skills: [
+      [
+        Targets(Targetting.AllAllies), EffectsPerTarget(1), Accuracy(95),
+        Description('%source let out a sweeping sigh and healed %target for %value health!'),
+        StatMod(Stat.HP, (caster, target) => target.maxStats[Stat.HP] / 20)
+      ]
+    ] },
   ],
 
   [Profession.Jester]: [
-    { weight: 1, skills: [Attack(
+    { weight: 5, skills: [Attack(
       1,
       (attacker) => attacker.stats[Stat.LUK] * 0.5
-    )] }
+    )] },
 
-    // aoe luk boost 25% for allies, -25% for foes, randomly heal or damage people based on LUK, 25% chance to hit for luk*5, 75% chance to miss
+    // luck surge
+    { weight: 1, skills: [
+      [
+        Targets(Targetting.AllAllies), EffectsPerTarget(1),
+        StatMod(Stat.LUK, (caster, target) => target.maxStats[Stat.LUK] / 20),
+        Description('%source surged their immense luck into %target, boosting their LUK by %value!'),
+      ],
+      [
+        Targets(Targetting.AllEnemies), EffectsPerTarget(1),
+        StatMod(Stat.LUK, (caster, target) => target.maxStats[Stat.LUK] / 20),
+        Description('%source surged their immense luck through %target, decreasing their LUK by %value!'),
+      ]
+    ] },
+
+    // luck roulette
+    { weight: 3, skills: [
+      [
+        Targets(Targetting.All), EffectsPerTarget(1),
+        StatMod(Stat.LUK, RandomNumber(
+          (caster) => -caster.stats[Stat.LUK],
+          (caster) => caster.stats[Stat.LUK],
+          true
+        )),
+        Description('%source rolled the dice for %target, modifying their HP by %rvalue!'),
+      ]
+    ] },
+
+    // lucky slap
+    { weight: 4, skills: [
+      [
+        Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(25),
+        StatMod(Stat.LUK, RandomNumber(
+          (caster) => caster.stats[Stat.LUK] * 3,
+          (caster) => caster.stats[Stat.LUK] * 5
+        )),
+        Description('%source slapped %target which dealt %value damage!'),
+      ]
+    ] },
+
   ],
 
   [Profession.Mage]: [
     { weight: 1, skills: [Attack(
       (attacker) => attacker.stats[Stat.INT] * 0.25,
       (attacker) => attacker.stats[Stat.INT] * 0.75
-    )] }
+    )] },
 
-    // fireball X times (int*0.5...int cost 10%), frostbite (single target, high damage, dex/agi debuff 5%, cost 15%), self int +10% of max,regen 5%
+    // TODO: maybe make an effect container that localizes a target or set of targets that can be carried between effects
+    // fireball X times (int*0.5...int cost 10%), frostbite (single target, high damage, dex/agi debuff 5%, cost 15%)
+
+
+    // wild brain
+    { weight: 1, skills: [
+      [
+        Targets(Targetting.Self), EffectsPerTarget(1),
+        Description('%source brained up and gained %value INT!'),
+        StatMod(Stat.INT, (caster) => caster.maxStats[Stat.INT] / 10)
+      ]
+    ] },
   ],
 
   [Profession.MagicalMonster]: [
