@@ -5,3 +5,4 @@ export * from './Cursed';
 export * from './Fateful';
 export * from './Golden';
 export * from './Surging';
+export * from './Trueseer';

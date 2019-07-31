@@ -70,7 +70,7 @@ export enum PetAttribute {
   // Mischievous = 'Mischievous', // TODO: force a battle between this pet and another random pet
   Surging = 'Surging',
   // Thief = 'Thief', // TODO: steal gold from another player
-  // Trueseer = 'Trueseer' // TODO: teleport to a random, predetermined location (maeles, vocalnus, norkos, etc)
+  Trueseer = 'Trueseer'
 }
 
 export enum PetUpgradeMaterial {

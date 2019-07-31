@@ -17,4 +17,6 @@ export const AttributeSkillMap: { [key in PetAttribute]: Array<{ weight: number,
   ],
   [PetAttribute.Surging]: [
   ],
+  [PetAttribute.Trueseer]: [
+  ]
 };
