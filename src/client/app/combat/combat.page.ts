@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { decompress } from 'lzutf8';
 
-import { ICombat } from '../../../shared/interfaces';
+import { ICombat, ICombatCharacter } from '../../../shared/interfaces';
 import { CombatAction, CombatSimulator } from '../../../shared/combat/combat-simulator';
 
 @Component({
@@ -63,12 +63,30 @@ export class CombatPage implements OnInit {
       if(action === CombatAction.Victory) {
         this.isLoaded = true;
 
-        // TODO: take data.combat and data.winningParty and display who earned how much gold and xp (based on real name being set)
-        //       if real name, display injury as well
+        this.loadVictoryRewardMessages(data);
       }
     });
 
     simulator.beginCombat();
+  }
+
+  private loadVictoryRewardMessages({ combat, winningParty }) {
+    const potSplitTotal = Object.values(combat.characters)
+      .filter((x: ICombatCharacter) => x.combatPartyId === winningParty && x.realName)
+      .length;
+
+    const xpPerChar = Math.floor(this.combatAnte.xp / potSplitTotal);
+    const goldPerChar = Math.floor(this.combatAnte.gold / potSplitTotal);
+
+    Object.values(combat.characters).forEach((char: ICombatCharacter) => {
+      if(!char.realName) return;
+
+      if(char.combatPartyId !== winningParty) {
+        this.summaryMessages.push(`${char.name} was injured!`);
+      } else {
+        this.summaryMessages.push(`${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`);
+      }
+    });
   }
 
 }
