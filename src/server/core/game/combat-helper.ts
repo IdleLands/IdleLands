@@ -222,14 +222,24 @@ export class CombatHelper {
     monsterBase.stats[Stat.HP] = Math.max(1, monsterBase.stats[Stat.HP]);
     monsterBase.stats[Stat.HP] += (monsterBase.level * 100);
 
+    monsterBase.maxStats = {
+      [Stat.HP]: monsterBase.stats[Stat.HP]
+    };
+
     return monsterBase;
   }
 
   private createCombatCharacter(player: Player): ICombatCharacter {
+
+    const maxStats = {
+      [Stat.HP]: player.currentStats[Stat.HP]
+    };
+
     return {
       name: player.fullName(),
       realName: player.name,
       level: player.level.total,
+      maxStats,
       stats: Object.assign({}, player.currentStats),
       profession: player.profession
     };

@@ -3,7 +3,7 @@ import * as Chance from 'chance';
 import { sortBy, size, cloneDeep } from 'lodash';
 import { Subject } from 'rxjs';
 
-import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap, Attack } from './skillgroups';
+import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap, Attack, ProfessionPreRoundSkillMap } from './skillgroups';
 
 import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect } from '../interfaces';
 
@@ -72,6 +72,10 @@ export class CombatSimulator {
     return res;
   }
 
+  private getPreRoundSkillsForCharacter(character: ICombatCharacter) {
+    return ProfessionPreRoundSkillMap[character.profession] || [];
+  }
+
   private getSkillsForCharacter(character: ICombatCharacter) {
     const arr = [];
 
@@ -110,6 +114,17 @@ export class CombatSimulator {
     });
   }
 
+  private doSkillImmediately(caster: ICombatCharacter, skill: Array<ICombatSkillCombinator[]>) {
+    const effects = this.formAllSkillResults(caster, skill);
+    effects.forEach(effect => {
+      effect.targets.forEach(target => {
+        effect.targetEffects[target].forEach(targetEffect => {
+          this.applySingleEffect(this.combat.characters[target], targetEffect);
+        });
+      });
+    });
+  }
+
   private formatMessage(skillEffect: ICombatSkillEffect, forCharacter: ICombatCharacter): string {
     if(!skillEffect.desc) return '';
 
@@ -124,6 +139,47 @@ export class CombatSimulator {
     }, skillEffect.desc);
   }
 
+  private applySingleEffect(character: ICombatCharacter, effect: ICombatSkillEffect) {
+
+    // roll accuracy, if it fails, set the value to 0
+    if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) })) {
+      effect.modifyStatValue = 0;
+    }
+
+    // round modifyStatValue always
+    effect.modifyStatValue = Math.floor(effect.modifyStatValue);
+
+    // special cap handling for HP and Special
+    if(effect.modifyStat === Stat.HP) {
+      if(effect.modifyStatValue + character.stats[Stat.HP] > character.maxStats[Stat.HP]) {
+        effect.modifyStatValue = character.maxStats[Stat.HP] - character.stats[Stat.HP];
+      }
+    }
+
+    // apply the value to the stat
+    character.stats[effect.modifyStat] += effect.modifyStatValue;
+
+    // share what happened with the world
+    const message = this.formatMessage(effect, character);
+    this.events$.next({ action: CombatAction.Message, data: message });
+
+    // do statistic modifications
+    if(effect.modifyStat === Stat.HP) {
+      const giver = this.combat.characters[effect.source];
+
+      const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
+      const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
+
+      this.incrementStatistic(giver, `Combat/All/Give/${type}`, incrementValue);
+      this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
+
+      if(character.stats[Stat.HP] <= 0) {
+        this.incrementStatistic(giver, `Combat/All/Kill/${character.realName ? 'Player' : 'Monster'}`);
+      }
+    }
+
+  }
+
   private applyNextEffects(character: ICombatCharacter) {
     if(!character.effects) return;
 
@@ -131,31 +187,7 @@ export class CombatSimulator {
     if(!effects || !effects.length) return;
 
     effects.forEach(effect => {
-
-      // roll accuracy, if it fails, set the value to 0
-      if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) })) {
-        effect.modifyStatValue = 0;
-      }
-
-      character.stats[effect.modifyStat] += effect.modifyStatValue;
-
-      const message = this.formatMessage(effect, character);
-      this.events$.next({ action: CombatAction.Message, data: message });
-
-      if(effect.modifyStat === Stat.HP) {
-        const giver = this.combat.characters[effect.source];
-
-        const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
-        const incrementValue = effect.modifyStatValue === 0 ? 1 : Math.abs(effect.modifyStatValue);
-
-        this.incrementStatistic(giver, `Combat/All/Give/${type}`, incrementValue);
-        this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
-
-        if(character.stats[Stat.HP] <= 0) {
-          this.incrementStatistic(giver, `Combat/All/Kill/${character.realName ? 'Player' : 'Monster'}`);
-        }
-      }
-
+      this.applySingleEffect(character, effect);
     });
   }
 
@@ -174,14 +206,27 @@ export class CombatSimulator {
     // increment round for tracking purposes
     this.combat.currentRound++;
 
+    // get valid combatants
+    const validCombatants = Object.values(this.combat.characters).filter(x => x.stats[Stat.HP] > 0);
+
     // order combatants by agi
-    const combatantOrder = sortBy(Object.values(this.combat.characters), (char) => char.stats[Stat.AGI]).filter(x => x.stats[Stat.HP] > 0);
+    const combatantOrder = sortBy(validCombatants, (char) => char.stats[Stat.AGI]);
+
     combatantOrder.forEach(comb => {
-      const skills = this.getSkillsForCharacter(comb);
+      // get pre-round skills if any and cast them
+      const preroundSkills = this.getPreRoundSkillsForCharacter(comb);
+      if(preroundSkills.length > 0) {
+        preroundSkills.forEach(({ skills }) => {
+          this.doSkillImmediately(comb, skills);
+        });
+      }
+
+      // get skill from other skills and use it
+      const validSkills = this.getSkillsForCharacter(comb);
 
       const chosenSkill: Array<ICombatSkillCombinator[]> = this.chance.weighted(
-        skills.map(x => x.skills),
-        skills.map(x => x.weight)
+        validSkills.map(x => x.skills),
+        validSkills.map(x => x.weight)
       );
 
       this.doSkill(comb, chosenSkill);

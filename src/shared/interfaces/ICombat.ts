@@ -8,6 +8,7 @@ export interface ICombatCharacter {
   name: string;
   realName?: string;
   level: number;
+  maxStats: { [key in Stat]?: number };
   stats: { [key in Stat]: number };
 
   effects?: Array<ICombatSkillEffect[]>;

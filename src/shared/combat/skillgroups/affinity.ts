@@ -7,30 +7,30 @@ import { Attack } from './all';
  */
 export const AffinitySkillMap: { [key in PetAffinity]: Array<{ weight: number, skills: ICombatSkillCombinator[][] }> } = {
   [PetAffinity.None]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Attacker]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Buffer]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Caster]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Defender]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Healer]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ],
 
   [PetAffinity.Hunter]: [
-    { weight: 1, skills: [Attack] }
+    { weight: 1, skills: [Attack()] }
   ]
 };
