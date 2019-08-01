@@ -1,5 +1,5 @@
 
-import { ICombatSkillCombinator, Stat, InternalCombatSkillFunction } from '../../interfaces';
+import { ICombatSkillCombinator, Stat, InternalCombatSkillFunction, ICombat, ICombatCharacter } from '../../interfaces';
 import { Targetting, Description, Targets, EffectsPerTarget, Accuracy, StatMod } from '../skillcomponents';
 import { RandomNumber } from '../skillcomponents/RandomNumber';
 
@@ -35,3 +35,7 @@ export const RegenerateSpecial: (val: number|InternalCombatSkillFunction) => ICo
   Accuracy(100),
   StatMod(Stat.SPECIAL, val)
 ];
+
+export const SummonCreature = () => (combat: ICombat, caster: ICombatCharacter) => {
+
+};

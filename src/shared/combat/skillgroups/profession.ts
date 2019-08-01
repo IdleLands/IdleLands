@@ -1,9 +1,8 @@
 
 import { Profession, Stat, ICombatWeightedSkillChoice } from '../../interfaces';
-import { Attack, RegenerateHP, RegenerateSpecial } from './all';
+import { Attack, RegenerateHP, RegenerateSpecial, SummonCreature } from './all';
 import { Targets, EffectsPerTarget, Description, Accuracy, StatMod, Targetting,
-  Delay, Duration, NumberOfTargets, CombatEffect } from '../skillcomponents';
-import { RandomNumber } from '../skillcomponents/RandomNumber';
+  Delay, Duration, NumberOfTargets, CombatEffect, RandomNumber, SameTarget } from '../skillcomponents';
 
 /**
  * These skills always happen. All of them. Each round. Used for regen effects and the like.
@@ -54,6 +53,7 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
   ],
 
   [Profession.Necromancer]: [
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 1)] }
   ],
 
   [Profession.Pirate]: [
@@ -135,7 +135,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Barbarian]: [
-    { weight: 1, skills: [
+    { weight: 3, skills: [
       Attack(
         (attacker) => attacker.stats[Stat.STR] * 0.25,
         (attacker) => attacker.stats[Stat.STR] * 1.5
@@ -249,7 +249,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
         StatMod(Stat.SPECIAL, -128)
       ],
       [
-        Targets(Targetting.Self), EffectsPerTarget(1), Accuracy(100),
+        Targets(Targetting.Self), EffectsPerTarget(1),
         Description('%source hacked time!'),
         CombatEffect((combat) => combat.currentRound += 5)
       ]
@@ -504,9 +504,49 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
       (attacker) => attacker.stats[Stat.INT] * 0.75
     )] },
 
-    // TODO: maybe make an effect container that localizes a target or set of targets that can be carried between effects
-    // fireball X times (int*0.5...int cost 10%), frostbite (single target, high damage, dex/agi debuff 5%, cost 15%)
+    // firestorm
+    { weight: 2,
+      skills: [
+        ...Array(5).fill([
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(75),
+          Description('%source flung a fireball at %target and dealt %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.INT] * 0.5,
+            (caster) => caster.stats[Stat.INT]
+          ))
+        ])
+    ] },
 
+    // frostbite
+    { weight: 2,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 15,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 15)
+        ],
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1),
+              Description('%source gave %target frostbite and dealt %value damage!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.INT] * 1.5,
+                (caster) => caster.stats[Stat.INT] * 2.0
+              ))
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.DEX, (caster, target) => target.maxStats[Stat.DEX] / 5)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.AGI, (caster, target) => target.maxStats[Stat.AGI] / 5)
+            ]
+          )
+        ]
+    ] },
 
     // wild brain
     { weight: 1, skills: [
@@ -521,7 +561,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   [Profession.MagicalMonster]: [
     { weight: 1, skills: [Attack()] }
 
-    // mini fireball, mini cure, mini drain, regen 1% (all free)
+    // mini fireball, mini cure, mini drain
   ],
 
   [Profession.Monster]: [
@@ -531,9 +571,78 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Necromancer]: [
-    { weight: 1, skills: [Attack()] }
+    { weight: 5, skills: [Attack()] },
 
-    // (all stats -5%, one enemy, cost 5% hp), drain int hp, regen it, summon minion (cost 1 minion), regen 2%
+    // drain stats
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.HP, (caster) => -caster.maxStats[Stat.HP] / 20)
+        ],
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1),
+              Description('%source drained %target of their stats!')
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.STR, (caster, target) => target.maxStats[Stat.STR] / 20)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.INT, (caster, target) => target.maxStats[Stat.INT] / 20)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.AGI, (caster, target) => target.maxStats[Stat.AGI] / 20)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.DEX, (caster, target) => target.maxStats[Stat.DEX] / 20)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.CON, (caster, target) => target.maxStats[Stat.CON] / 20)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.LUK, (caster, target) => target.maxStats[Stat.LUK] / 20)
+            ]
+          )
+        ]
+    ] },
+
+    // drain hp
+    { weight: 2,
+      canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
+      skills: [
+        [
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
+          Description('%source drained %target of %value of their health!'),
+          StatMod(Stat.HP, (caster, target) => caster.stats[Stat.INT])
+        ]
+    ] },
+
+    // summon
+    { weight: 1,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] < caster.maxStats[Stat.SPECIAL],
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          Description('%source summmoned a minion!'),
+          StatMod(Stat.SPECIAL, 1)
+        ],
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          CombatEffect(SummonCreature())
+        ]
+    ] }
+
+    // summon minion (cost 1 minion)
   ],
 
   [Profession.Pirate]: [
@@ -551,7 +660,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
       (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2)
     )] }
 
-    // poison stab: dex damage + dex/str/agi debuff (cost: 10), smoke bomb (all enemies -20% dex/agi for 3 turns) (cost: 30), recover (+15 energy)
+    // poison stab: dex damage + 10-round debuff, (cost: 10), smoke bomb (all enemies -20% dex/agi for 3 turns) (cost: 30), recover (+15 energy)
   ],
 
   [Profession.SandwichArtist]: [
