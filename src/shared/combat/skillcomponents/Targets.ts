@@ -2,6 +2,7 @@ import { PartialCombatSkill, ICombatCharacter, ICombat, Stat } from '../../inter
 
 export enum Targetting {
   Self,
+  InjuredSelf,
   Anyone,
   SingleAlly,
   SingleEnemy,
@@ -19,7 +20,9 @@ const NotDead = (char: ICombatCharacter) => char.stats[Stat.HP] > 0;
 const Injured = (char: ICombatCharacter) => char.stats[Stat.HP] < char.maxStats[Stat.HP];
 
 const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, combat: ICombat) => ICombatCharacter[] } = {
-  [Targetting.Self]:        (caster, combat) => [caster],
+  [Targetting.Self]:         (caster, combat) => [caster],
+
+  [Targetting.InjuredSelf]:  (caster, combat) => [caster].filter(Injured),
 
   [Targetting.Anyone]:       (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
                                                   .filter(NotDead)

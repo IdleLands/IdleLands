@@ -106,6 +106,8 @@ export const ProfessionPostRoundSkillMap: { [key in Profession]: ICombatWeighted
   ],
 
   [Profession.Necromancer]: [
+
+    // set special to # minions
     { skills: [RegenerateSpecial((skill, caster, combat) => {
       const cur = caster.stats[Stat.SPECIAL];
       const setTo = Object.values(combat.characters).filter(x => x.ownerId === caster.combatId).length;
@@ -615,15 +617,127 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.MagicalMonster]: [
-    { weight: 1, skills: [Attack()] }
+    { weight: 5, skills: [Attack()] },
 
-    // mini fireball, mini cure, mini drain
+    // drain stats
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 100,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.HP, (caster) => -caster.maxStats[Stat.HP] / 100)
+        ],
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1),
+              Description('%source drained %target of their stats!')
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.STR, (caster, target) => target.maxStats[Stat.STR] / 50)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.INT, (caster, target) => target.maxStats[Stat.INT] / 50)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.AGI, (caster, target) => target.maxStats[Stat.AGI] / 50)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.DEX, (caster, target) => target.maxStats[Stat.DEX] / 50)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.CON, (caster, target) => target.maxStats[Stat.CON] / 50)
+            ],
+            [
+              EffectsPerTarget(1),
+              StatMod(Stat.LUK, (caster, target) => target.maxStats[Stat.LUK] / 50)
+            ]
+          )
+        ]
+    ] },
+
+    // heal
+    { weight: 2,
+      canUse: (caster, combat) => NumberOfTargets(Targetting.InjuredAlly, caster, combat) > 0,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 20)
+        ],
+        [
+          Targets(Targetting.InjuredAlly), EffectsPerTarget(1), Accuracy(90),
+          Description('%source surrounded %target with a holy aura and healed %value health!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.INT] * 1.0,
+            (caster) => caster.stats[Stat.INT] * 1.5,
+            true
+          ))
+        ]
+    ] },
+
+    // firestorm
+    { weight: 2,
+      skills: [
+        ...Array(3).fill([
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(75),
+          Description('%source flung a fireball at %target and dealt %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.INT] * 0.3,
+            (caster) => caster.stats[Stat.INT] * 0.8
+          ))
+        ])
+    ] }
   ],
 
   [Profession.Monster]: [
-    { weight: 1, skills: [Attack()] }
+    { weight: 5, skills: [Attack()] },
 
-    // self hp boost (20% of max, heal half of it), deal damage based on hp and take 10% of damage back, self skill to heal 5% hp
+    // darkside
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.HP] > 10,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.HP, (caster) => -caster.stats[Stat.HP] * 0.1)
+        ],
+        [
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
+          Description('%source unleashed their dark side on %target and dealt %value damage!'),
+          StatMod(Stat.HP, (caster) => -caster.stats[Stat.HP] * 0.3)
+        ]
+    ] },
+
+    // self heal
+    { weight: 4,
+      canUse: (caster, combat) => NumberOfTargets(Targetting.InjuredSelf, caster, combat) > 0,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          Description('%source went into stasis and recovered %value health!'),
+          StatMod(Stat.HP, (caster) => caster.maxStats[Stat.HP] / 20)
+        ]
+    ] },
+
+    // life force bomb
+    { weight: 1,
+      canUse: (caster) => caster.stats[Stat.HP] > 10,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.HP, (caster) => -caster.stats[Stat.HP] * 0.5)
+        ],
+        [
+          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(80),
+          Description('%source channeled a massive life force bomb at %target and dealt %value damage!'),
+          StatMod(Stat.HP, (caster) => -caster.stats[Stat.HP] * 0.5)
+        ]
+    ] },
   ],
 
   [Profession.Necromancer]: [
