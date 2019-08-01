@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap,
          Attack, ProfessionPreRoundSkillMap, ProfessionPostRoundSkillMap } from './skillgroups';
 
-import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect } from '../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect, SkillCombinatorFunction } from '../interfaces';
 
 export enum CombatAction {
 
@@ -58,8 +58,16 @@ export class CombatSimulator {
 
   }
 
-  private formAllSkillResults(caster: ICombatCharacter, allCombinators: Array<ICombatSkillCombinator[]>): PartialCombatSkill[] {
-    return allCombinators.map(x => this.formSkillResult(caster, x));
+  private formAllSkillResults(
+    caster: ICombatCharacter,
+    allCombinators: Array<ICombatSkillCombinator[]> | SkillCombinatorFunction
+  ): PartialCombatSkill[] {
+    let allSkills = allCombinators;
+    if(allSkills instanceof Function) {
+      allSkills = (allCombinators as SkillCombinatorFunction)(this.combat);
+    }
+
+    return allSkills.map(x => this.formSkillResult(caster, x));
   }
 
   private emitAction(action: { action: CombatAction, data: any }) {

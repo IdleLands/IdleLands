@@ -565,7 +565,12 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
 
     // firestorm
     { weight: 2,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 10,
       skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 10)
+        ],
         ...Array(5).fill([
           Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(75),
           Description('%source flung a fireball at %target and dealt %value damage!'),
@@ -820,9 +825,61 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     { weight: 1, skills: [Attack(
       (attacker) => attacker.stats[Stat.STR] * 0.25,
       (attacker) => attacker.stats[Stat.STR] * 1.5
-    )] }
+    )] },
 
-    // boost all ally str +10% of my max, throw bottles (random amount of bottles thrown, each deals 1% of target hp), vomit (recovers bottles, does aoe damage based on con req 25% bottles gone)
+    // wild arms 2: pirate boogaloo
+    { weight: 1,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 10,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => -caster.maxStats[Stat.SPECIAL] / 10)
+        ],
+        [
+          Targets(Targetting.SingleAlly), EffectsPerTarget(1),
+          Description('%target got fed spinach beer by %source and gained %value STR!'),
+          StatMod(Stat.STR, (caster) => caster.maxStats[Stat.STR] / 10)
+        ]
+    ] },
+
+    // vomit
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] <= caster.maxStats[Stat.SPECIAL] * 0.35,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, (caster) => caster.maxStats[Stat.SPECIAL] * 0.2)
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1),
+          Description('%source vomited all over %target dealing %value damage!'),
+          StatMod(Stat.HP, RandomNumber(
+            (caster) => caster.stats[Stat.CON],
+            (caster) => caster.stats[Stat.CON] * 2.0
+          ))
+        ]
+    ] },
+
+    // throw bottles
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] > 50,
+      skills: (combat) => {
+
+        const bottleCount = combat.chance.integer({ min: 10, max: 50 });
+
+        return [
+          [
+            Targets(Targetting.Self), EffectsPerTarget(1),
+            StatMod(Stat.SPECIAL, -bottleCount)
+          ],
+          [
+            Targets(Targetting.SingleEnemy), EffectsPerTarget(1),
+            Description(`%source threw ${bottleCount} empty bottles at %target dealing %value damage!`),
+            StatMod(Stat.HP, (caster, target) => target.stats[Stat.HP] * (bottleCount / 200))
+          ]
+        ];
+      }
+    },
   ],
 
   [Profession.Rogue]: [

@@ -2,10 +2,13 @@ import { ICombatCharacter, ICombat } from './ICombat';
 import { Stat } from './Stat';
 
 export interface ICombatWeightedSkillChoice {
-  skills: ICombatSkillCombinator[][];
+  skills: ICombatSkillCombinator[][] | SkillCombinatorFunction;
   weight?: number;
   canUse?: (caster: ICombatCharacter, combat: ICombat) => boolean;
 }
+
+export type SkillCombinatorFunction =
+  (combat: ICombat) => ICombatSkillCombinator[][];
 
 export type ICombatSkillCombinator =
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat) => PartialCombatSkill;
