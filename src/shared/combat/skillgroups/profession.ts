@@ -795,13 +795,25 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     // drain hp
     { weight: 3,
       canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
-      skills: [
-        [
-          Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
-          Description('%source drained %target of %value of their health!'),
-          StatMod(Stat.HP, (caster, target) => caster.stats[Stat.INT])
-        ]
-    ] },
+      skills: (combat, caster) => {
+
+        const damage = combat.chance.integer({
+          min: caster.stats[Stat.INT] * 0.1,
+          max: caster.stats[Stat.INT] * 0.5
+        });
+
+        return [
+          [
+            Targets(Targetting.Self), EffectsPerTarget(1),
+            StatMod(Stat.HP, damage)
+          ],
+          [
+            Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(90),
+            Description('%source drained %target of %value of their health!'),
+            StatMod(Stat.HP, () => -damage)
+          ]
+        ];
+    } },
 
     // summon
     { weight: 1,
@@ -817,8 +829,6 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
           CombatEffect(SummonCreature(0.3))
         ]
     ] }
-
-    // summon minion (cost 1 minion)
   ],
 
   [Profession.Pirate]: [

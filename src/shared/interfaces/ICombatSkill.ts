@@ -8,7 +8,7 @@ export interface ICombatWeightedSkillChoice {
 }
 
 export type SkillCombinatorFunction =
-  (combat: ICombat) => ICombatSkillCombinator[][];
+  (combat: ICombat, caster: ICombatCharacter) => ICombatSkillCombinator[][];
 
 export type ICombatSkillCombinator =
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat) => PartialCombatSkill;

@@ -64,7 +64,7 @@ export class CombatSimulator {
   ): PartialCombatSkill[] {
     let allSkills = allCombinators;
     if(allSkills instanceof Function) {
-      allSkills = (allCombinators as SkillCombinatorFunction)(this.combat);
+      allSkills = (allCombinators as SkillCombinatorFunction)(this.combat, caster);
     }
 
     return allSkills.map(x => this.formSkillResult(caster, x));

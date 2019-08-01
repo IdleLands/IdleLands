@@ -4,8 +4,9 @@ import { Stat } from '../../../../shared/interfaces';
 export class Defender extends BaseAffinity {
   public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
-      [Stat.CON]: 10
-    }
+      [Stat.CON]: 50,
+      [Stat.STR]: 10
+    },
   };
 
   public readonly statMultipliers: { [key in Stat]?: number } = {

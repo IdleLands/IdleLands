@@ -738,6 +738,8 @@ export class Player implements IPlayer {
 
     this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold', 3);
 
+    this.$statistics.set('Game/Premium/Upgrade/MaxPetsInCombat', 1);
+
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
@@ -905,7 +907,7 @@ export class Player implements IPlayer {
 
     Object.keys(this.buffWatches).forEach(buffKey => {
       if(hasCured) return;
-      
+
       this.buffWatches[buffKey] = this.buffWatches[buffKey].filter(buff => {
         if(hasCured || buff.booster) return true;
 

@@ -22,6 +22,8 @@ export class BaseAttribute implements IAttribute {
 
 export class BaseAffinity implements IAffinity {
 
+  public readonly specialStatName: string;
+
   public readonly statForStats: { [key in Stat]?: { [key2 in Stat]?: number } } = {
     [Stat.HP]: {
       [Stat.CON]: 1
@@ -82,7 +84,6 @@ export class BaseAffinity implements IAffinity {
 
 export class BaseProfession extends BaseAffinity implements IAffinity, IAttribute, IProfession {
 
-  public readonly specialStatName: string;
   public readonly oocAbilityName: string;
   public readonly oocAbilityDesc: string;
   public readonly oocAbilityCost: number;
