@@ -21,6 +21,8 @@ export interface ICombatSkillEffect {
   modifyStatValue: number;
   turnsUntilEffect: number;
   turnsEffectLasts: number;
+
+  immediate?: boolean;
 }
 
 export interface ICombatSkill {

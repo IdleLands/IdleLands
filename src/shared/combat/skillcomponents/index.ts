@@ -11,6 +11,7 @@ export * from './EffectsPerTarget';
 export * from './MaxStat';
 export * from './MinStat';
 export * from './RandomNumber';
+export * from './SameStatMod';
 export * from './SameTarget';
 export * from './StatMod';
 export * from './StatScale';

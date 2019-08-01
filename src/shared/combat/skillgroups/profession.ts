@@ -3,6 +3,7 @@ import { Profession, Stat, ICombatWeightedSkillChoice } from '../../interfaces';
 import { Attack, RegenerateHP, RegenerateSpecial, SummonCreature } from './all';
 import { Targets, EffectsPerTarget, Description, Accuracy, StatMod, Targetting,
   Delay, Duration, NumberOfTargets, CombatEffect, RandomNumber, SameTarget } from '../skillcomponents';
+import { Immediate } from '../skillcomponents/Immediate';
 
 /**
  * These skills always happen. All of them. Each round. Used for regen effects and the like.
@@ -825,17 +826,200 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Rogue]: [
-    { weight: 1, skills: [Attack(
+    { weight: 4, skills: [Attack(
       (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2) * 0.1,
       (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2)
-    )] }
+    )] },
 
-    // poison stab: dex damage + 10-round debuff, (cost: 10), smoke bomb (all enemies -20% dex/agi for 3 turns) (cost: 30), recover (+15 energy)
+    // poison stab
+    { weight: 2,
+      canUse: (caster, combat) => caster.stats[Stat.SPECIAL] >= 15,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, -15)
+        ],
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1), Accuracy(90),
+              Description('%source stabbed %target with a poison dagger and dealt %value damage!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.DEX] * 1.0,
+                (caster) => caster.stats[Stat.DEX] * 1.5
+              ))
+            ],
+            [
+              EffectsPerTarget(1), Accuracy(90), Delay(1), Duration(10),
+              Description('%target took %value damage from %source\'s poison!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.DEX] * 0.4,
+                (caster) => caster.stats[Stat.DEX] * 0.6
+              ))
+            ]
+          )
+        ]
+    ] },
+
+
+    // self recover
+    { weight: 3,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] < 20,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          Description('%source took a quick nap and recovered %value energy!'),
+          StatMod(Stat.SPECIAL, 15)
+        ]
+    ] },
+
+    { weight: 1,
+      canUse: (caster) => caster.stats[Stat.SPECIAL] > 30,
+      skills: [
+        [
+          Targets(Targetting.Self), EffectsPerTarget(1),
+          StatMod(Stat.SPECIAL, -30)
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1),
+          Description('%source threw a smoke bomb at %target!')
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1),
+          StatMod(Stat.DEX, (caster, target) => -target.stats[Stat.DEX] * 0.2)
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1),
+          StatMod(Stat.AGI, (caster, target) => -target.stats[Stat.AGI] * 0.2)
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1), Delay(3),
+          Description('The smoke around %target has cleared!')
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1), Delay(3),
+          StatMod(Stat.DEX, (caster, target) => target.stats[Stat.DEX] * 0.2)
+        ],
+        [
+          Targets(Targetting.AllEnemies), EffectsPerTarget(1), Delay(3),
+          StatMod(Stat.AGI, (caster, target) => target.stats[Stat.AGI] * 0.2)
+        ]
+    ] }
   ],
 
   [Profession.SandwichArtist]: [
-    { weight: 1, skills: [Attack()] }
+    { weight: 5, skills: [Attack()] },
 
-    // food fight (Attack everyone, +- random stats 5%), burnt sandwich (attack enemy with a sandwich for dex damage, lasts X turns), feed sandwich (heal/buff (con) ally)
+    // food fight
+    { weight: 1, skills: [
+      [
+        Targets(Targetting.Self), EffectsPerTarget(1),
+        Description('%source started a food fight!'),
+        Immediate()
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(75),
+        StatMod(Stat.HP, RandomNumber(
+          (caster) => caster.stats[Stat.LUK],
+          (caster) => caster.stats[Stat.LUK] * 2
+        )),
+        Description('%source hit %target with a sandwich for %value damage!'),
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.STR, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.STR] / 20,
+          (caster, target) => target.maxStats[Stat.STR] / 20
+        ))
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.INT, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.INT] / 20,
+          (caster, target) => target.maxStats[Stat.INT] / 20
+        ))
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.AGI, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.AGI] / 20,
+          (caster, target) => target.maxStats[Stat.AGI] / 20
+        ))
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.DEX, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.DEX] / 20,
+          (caster, target) => target.maxStats[Stat.DEX] / 20
+        ))
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.CON, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.CON] / 20,
+          (caster, target) => target.maxStats[Stat.CON] / 20
+        ))
+      ],
+      [
+        Targets(Targetting.AllButSelf), EffectsPerTarget(1), Accuracy(45),
+        StatMod(Stat.LUK, RandomNumber(
+          (caster, target) => -target.maxStats[Stat.LUK] / 20,
+          (caster, target) => target.maxStats[Stat.LUK] / 20
+        ))
+      ]
+    ] },
+
+    // burnt sandwich
+    { weight: 4,
+      skills: [
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1), Accuracy(90),
+              Description('%source forced %target to eat a burnt sandwich which dealt %value damage!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.STR] * 1.0,
+                (caster) => caster.stats[Stat.STR] * 1.5
+              ))
+            ],
+            [
+              EffectsPerTarget(1), Accuracy(90), Delay(1), Duration(RandomNumber(2, 4)),
+              Description('%target took %value heartburn damage from %source\'s burnt sandwich!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster, target) => target.stats[Stat.CON] * 0.4,
+                (caster, target) => target.stats[Stat.CON] * 0.6
+              ))
+            ]
+          )
+        ]
+    ] },
+
+    // heavenly sandwich
+    { weight: 4,
+      skills: [
+        [
+          Targets(Targetting.SingleAlly),
+          SameTarget(
+            [
+              EffectsPerTarget(1), Accuracy(100),
+              Description('%source fed a heavenly sandwich to %target which healed %value health!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.CON] * 1.0,
+                (caster) => caster.stats[Stat.CON] * 1.5,
+                true
+              ))
+            ],
+            [
+              EffectsPerTarget(1), Accuracy(90),
+              StatMod(Stat.CON, RandomNumber(
+                (caster) => caster.stats[Stat.CON] * 0.5,
+                (caster) => caster.stats[Stat.CON] * 1.5
+              ))
+            ]
+          )
+        ]
+    ] },
   ]
 };

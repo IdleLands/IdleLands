@@ -123,6 +123,14 @@ export class CombatSimulator {
     effects.forEach(effect => {
       effect.targets.forEach(target => {
         effect.targetEffects[target].forEach(targetEffect => {
+
+          // if an effect happens to suggest it is immediate, we can do this.
+          // this would typically be a message that would look weird showing up later
+          if(targetEffect.immediate) {
+            this.applySingleEffect(this.combat.characters[target], targetEffect);
+            return;
+          }
+
           this.addCombatEffect(this.combat.characters[target], targetEffect);
         });
       });

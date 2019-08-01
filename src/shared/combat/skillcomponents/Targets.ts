@@ -12,7 +12,8 @@ export enum Targetting {
   DeadEnemy,
   AllAllies,
   AllEnemies,
-  All
+  All,
+  AllButSelf
 }
 
 const Dead = (char: ICombatCharacter) => char.stats[Stat.HP] <= 0;
@@ -67,6 +68,10 @@ const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, com
                                                   .filter(NotDead),
 
   [Targetting.All]:          (caster, combat) => Object.values(combat.characters)
+                                                  .filter(NotDead),
+
+  [Targetting.AllButSelf]:   (caster, combat) => Object.values(combat.characters)
+                                                  .filter(x => x !== caster)
                                                   .filter(NotDead)
 };
 
