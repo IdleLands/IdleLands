@@ -3,7 +3,8 @@ import * as Chance from 'chance';
 import { sortBy, size, cloneDeep } from 'lodash';
 import { Subject } from 'rxjs';
 
-import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap, Attack, ProfessionPreRoundSkillMap } from './skillgroups';
+import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap,
+         Attack, ProfessionPreRoundSkillMap, ProfessionPostRoundSkillMap } from './skillgroups';
 
 import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect } from '../interfaces';
 
@@ -74,6 +75,11 @@ export class CombatSimulator {
 
   private getPreRoundSkillsForCharacter(character: ICombatCharacter) {
     return (ProfessionPreRoundSkillMap[character.profession] || [])
+            .filter(x => x.canUse ? x.canUse(character, this.combat) : true);
+  }
+
+  private getPostRoundSkillsForCharacter(character: ICombatCharacter) {
+    return (ProfessionPostRoundSkillMap[character.profession] || [])
             .filter(x => x.canUse ? x.canUse(character, this.combat) : true);
   }
 
@@ -152,29 +158,31 @@ export class CombatSimulator {
 
   private applySingleEffect(character: ICombatCharacter, effect: ICombatSkillEffect) {
 
-    // roll accuracy, if it fails, set the value to 0
-    if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) })) {
-      effect.modifyStatValue = 0;
-    }
-
-    // round modifyStatValue always
-    effect.modifyStatValue = Math.floor(effect.modifyStatValue);
-
-    // special cap handling for HP and Special
-    if(effect.modifyStat === Stat.HP) {
-      if(effect.modifyStatValue + character.stats[Stat.HP] > character.maxStats[Stat.HP]) {
-        effect.modifyStatValue = character.maxStats[Stat.HP] - character.stats[Stat.HP];
+    if(effect.modifyStat) {
+      // roll accuracy, if it fails, set the value to 0
+      if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) })) {
+        effect.modifyStatValue = 0;
       }
-    }
 
-    if(effect.modifyStat === Stat.SPECIAL) {
-      if(effect.modifyStatValue + character.stats[Stat.SPECIAL] > character.maxStats[Stat.SPECIAL]) {
-        effect.modifyStatValue = character.maxStats[Stat.SPECIAL] - character.stats[Stat.SPECIAL];
+      // round modifyStatValue always
+      effect.modifyStatValue = Math.floor(effect.modifyStatValue);
+
+      // special cap handling for HP and Special
+      if(effect.modifyStat === Stat.HP) {
+        if(effect.modifyStatValue + character.stats[Stat.HP] > character.maxStats[Stat.HP]) {
+          effect.modifyStatValue = character.maxStats[Stat.HP] - character.stats[Stat.HP];
+        }
       }
-    }
 
-    // apply the value to the stat
-    character.stats[effect.modifyStat] += effect.modifyStatValue;
+      if(effect.modifyStat === Stat.SPECIAL) {
+        if(effect.modifyStatValue + character.stats[Stat.SPECIAL] > character.maxStats[Stat.SPECIAL]) {
+          effect.modifyStatValue = character.maxStats[Stat.SPECIAL] - character.stats[Stat.SPECIAL];
+        }
+      }
+
+      // apply the value to the stat
+      character.stats[effect.modifyStat] += effect.modifyStatValue;
+    }
 
     // share what happened with the world
     const message = this.formatMessage(effect, character);
@@ -209,6 +217,17 @@ export class CombatSimulator {
 
     effects.forEach(effect => {
       this.applySingleEffect(character, effect);
+    });
+  }
+
+  private cleanUpDeadSummons() {
+    Object.keys(this.combat.characters).forEach(combatId => {
+      const check = this.combat.characters[combatId];
+
+      if(!check.ownerId) return;
+      if(check.stats[Stat.HP] > 0) return;
+
+      delete this.combat.characters[combatId];
     });
   }
 
@@ -258,6 +277,20 @@ export class CombatSimulator {
     // buuuuttt... dead people may have effects cast on them that we have to consider
     combatantOrder.forEach(comb => {
       this.applyNextEffects(comb);
+    });
+
+    this.cleanUpDeadSummons();
+
+    // do post-round skills too
+    combatantOrder.filter(x => x.stats[Stat.HP] > 0).forEach(comb => {
+
+      // get pre-round skills if any and cast them
+      const postroundSkills = this.getPostRoundSkillsForCharacter(comb);
+      if(postroundSkills.length > 0) {
+        postroundSkills.forEach(({ skills }) => {
+          this.doSkillImmediately(comb, skills);
+        });
+      }
     });
 
     this.endRound();

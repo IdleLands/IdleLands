@@ -26,7 +26,7 @@ const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, com
                                                 )],
 
   [Targetting.SingleEnemy]:  (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
-                                                  .filter(x => x !== caster)
+                                                  .filter(x => x.combatPartyId !== caster.combatPartyId)
                                                   .filter(NotDead)
                                                 )],
 
@@ -36,7 +36,7 @@ const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, com
                                                 )],
 
   [Targetting.InjuredEnemy]: (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
-                                                  .filter(x => x !== caster)
+                                                  .filter(x => x.combatPartyId !== caster.combatPartyId)
                                                   .filter(Injured)
                                                 )],
 
@@ -46,7 +46,7 @@ const TargettingFunctions: { [key in Targetting]: (caster: ICombatCharacter, com
                                                 )],
 
   [Targetting.DeadEnemy]:    (caster, combat) => [combat.chance.pickone(Object.values(combat.characters)
-                                                  .filter(x => x !== caster)
+                                                  .filter(x => x.combatPartyId !== caster.combatPartyId)
                                                   .filter(Dead)
                                                 )],
 

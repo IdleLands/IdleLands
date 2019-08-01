@@ -69,6 +69,62 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
 };
 
 /**
+ * These skills also always happen, just at the end of the round. Mostly to sync numbers.
+ */
+export const ProfessionPostRoundSkillMap: { [key in Profession]: ICombatWeightedSkillChoice[] } = {
+  [Profession.Archer]: [
+  ],
+
+  [Profession.Barbarian]: [
+  ],
+
+  [Profession.Bard]: [
+  ],
+
+  [Profession.Bitomancer]: [
+  ],
+
+  [Profession.Cleric]: [
+  ],
+
+  [Profession.Fighter]: [
+  ],
+
+  [Profession.Generalist]: [
+  ],
+
+  [Profession.Jester]: [
+  ],
+
+  [Profession.Mage]: [
+  ],
+
+  [Profession.MagicalMonster]: [
+  ],
+
+  [Profession.Monster]: [
+  ],
+
+  [Profession.Necromancer]: [
+    { skills: [RegenerateSpecial((skill, caster, combat) => {
+      const cur = caster.stats[Stat.SPECIAL];
+      const setTo = Object.values(combat.characters).filter(x => x.ownerId === caster.combatId).length;
+
+      return setTo - cur;
+    }, true) ] }
+  ],
+
+  [Profession.Pirate]: [
+  ],
+
+  [Profession.Rogue]: [
+  ],
+
+  [Profession.SandwichArtist]: [
+  ]
+};
+
+/**
  * These abilities are locked to player professions.
  */
 export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoice[] } = {
@@ -571,10 +627,10 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Necromancer]: [
-    { weight: 5, skills: [Attack()] },
+    { weight: 10, skills: [Attack()] },
 
     // drain stats
-    { weight: 3,
+    { weight: 5,
       canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
       skills: [
         [
@@ -617,7 +673,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // drain hp
-    { weight: 2,
+    { weight: 3,
       canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
       skills: [
         [
@@ -638,7 +694,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
         ],
         [
           Targets(Targetting.Self), EffectsPerTarget(1),
-          CombatEffect(SummonCreature())
+          CombatEffect(SummonCreature(0.3))
         ]
     ] }
 
