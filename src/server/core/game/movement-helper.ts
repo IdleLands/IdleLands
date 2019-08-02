@@ -298,7 +298,7 @@ export class MovementHelper {
   }
 
   private handleTileBossParty(player: Player, tileData: any) {
-    this.eventManager.doEventFor(player, EventName.BattleBoss, { bossName: tileData.object.name });
+    this.eventManager.doEventFor(player, EventName.BattleBoss, { bossParty: tileData.object.name });
   }
 
   private handleTileTreasure(player: Player, tileData: any) {

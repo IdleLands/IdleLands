@@ -1,40 +1,43 @@
 Goblin Lord:
   respawn: 7200
   availableScore: 1000
-  stats:
-    class: Monster
-    hp: 1000
+  attributes:
+    profession: Monster
     level: 10
-    agi: 200
-    dex: 200
-    str: 300
+    stats:
+      hp: 1000
+      agi: 200
+      dex: 200
+      str: 300
   items:
   - name: Goblin Lord Shortsword
     dropPercent: 95
 dChicken Problem Solver:
   respawn: 4200
   availableScore: 1500
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 3000
     level: 1
-    con: 100
-    dex: 100
-    str: 100
+    stats:
+      hp: 3000
+      con: 100
+      dex: 100
+      str: 100
   items:
   - name: dSolver's Feather
     dropPercent: 85
 Mummy Lord:
   respawn: 7200
   availableScore: 1500
-  stats:
-    class: Fighter
-    hp: 3000
+  attributes:
+    profession: Fighter
     level: 15
-    con: 200
-    dex: 200
-    str: 300
+    stats:
+      hp: 3000
+      con: 200
+      dex: 200
+      str: 300
   items:
   - name: Mummy Lord Greatsword
     dropPercent: 85
@@ -47,15 +50,15 @@ Mummy Lord:
 Lizard King:
   respawn: 10800
   availableScore: 2500
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: male
-    hp: 5000
-    mp: 10000
     level: 20
-    con: 200
-    str: 200
-    int: 300
+    stats:
+      hp: 5000
+      con: 200
+      str: 200
+      int: 300
   items:
   - name: Lizard King Staff
     dropPercent: 80
@@ -68,15 +71,15 @@ Lizard King:
 Warden of Norkos:
   respawn: 10800
   availableScore: 3200
-  stats:
-    class: Barbarian
-    hp: 72468
-    mp: 1000
+  attributes:
+    profession: Barbarian
     level: 60
-    con: 1000
-    str: 3900
-    int: 100
-    luk: 800
+    stats:
+      hp: 72468
+      con: 1000
+      str: 3900
+      int: 100
+      luk: 800
   items:
   - name: Wardens Gavel
     dropPercent: 95
@@ -85,15 +88,15 @@ Warden of Norkos:
 Maelian Ninja Master:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Rogue
-    hp: 14740
+  attributes:
+    profession: Rogue
     level: 30
-    str: 1800
-    con: 400
-    dex: 1600
-    agi: 1500
-    poison: 1
+    stats:
+      hp: 14740
+      str: 1800
+      con: 400
+      dex: 1600
+      agi: 1500
   items:
   - name: Super Shuriken
     dropPercent: 80
@@ -106,112 +109,119 @@ Maelian Ninja Master:
 Emeriss the Guardian:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: not a bear
-    hp: 7370
     level: 20
-    int: 400
-    agi: 50
+    stats:
+      hp: 7370
+      int: 400
+      agi: 50
   items:
   - name: Staff of the Prophet
     dropPercent: 80
 Trustee Rakshasha:
   respawn: 10800
   availableScore: 1000
-  stats:
-    class: Monster
-    hp: 7370
+  attributes:
+    profession: Monster
     level: 10
-    agi: 50
-    dex: 75
-    str: 100
+    stats:
+      hp: 7370
+      agi: 50
+      dex: 75
+      str: 100
   items:
   - name: Moonlight Signet
     dropPercent: 80
 Black Dragon King:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Monster
+  attributes:
+    profession: Monster
     gender: male
-    hp: 21200
     level: 40
-    str: 1800
-    dex: 1750
-    con: 1000
+    stats:
+      hp: 21200
+      str: 1800
+      dex: 1750
+      con: 1000
   items:
   - name: Ward of the Black Dragon King
     dropPercent: 60
 Child Minotaur:
   respawn: 10800
   availableScore: 2500
-  stats:
-    class: Fighter
-    hp: 5120
+  attributes:
+    profession: Fighter
     level: 20
-    str: 300
-    dex: 250
-    agi: 275
+    stats:
+      hp: 5120
+      str: 300
+      dex: 250
+      agi: 275
   items:
   - name: Oversized Locket
     dropPercent: 60
 Sibling Minotaur:
   respawn: 10800
   availableScore: 4000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: female
-    hp: 13745
     level: 25
-    str: 575
-    dex: 545
-    agi: 350
-    con: 50
+    stats:
+      hp: 13745
+      str: 575
+      dex: 545
+      agi: 350
+      con: 50
   items:
   - name: Hand-Me-Down Battleaxe
     dropPercent: 65
 Elder Minotaur:
   respawn: 10800
   availableScore: 6000
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: male
-    hp: 12580
     level: 30
-    int: 1100
-    agi: 50
+    stats:
+      hp: 12580
+      int: 1100
+      agi: 50
   items:
   - name: Wizard Hat with Horns
     dropPercent: 70
 King Minotaur:
   respawn: 10800
   availableScore: 11400
-  stats:
-    class: Barbarian
+  attributes:
+    profession: Barbarian
     gender: male
-    hp: 21000
     level: 40
-    str: 2100
-    dex: 750
-    con: 1200
-    agi: 100
+    stats:
+      hp: 21000
+      str: 2100
+      dex: 750
+      con: 1200
+      agi: 100
   items:
   - name: King Minotaur's Axe
     dropPercent: 85
 Vampire Lord:
   respawn: 10800
   availableScore: 4000
-  stats:
-    class: Rogue
-    hp: 13666
+  attributes:
+    profession: Rogue
     level: 42
-    str: 750
-    dex: 1000
-    con: 250
-    agi: 1000
-    int: 500
-    vampire: 2
+    stats:
+      hp: 13666
+      str: 750
+      dex: 1000
+      con: 250
+      agi: 1000
+      int: 500
   items:
   - name: Golden Vampire Gauntlets
     dropPercent: 80
@@ -223,15 +233,16 @@ Vampire Lord:
 Cloud Giant:
   respawn: 10800
   availableScore: 11400
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 14777
     level: 45
-    str: 2000
-    dex: 500
-    con: 1200
-    agi: 100
+    stats:
+      hp: 14777
+      str: 2000
+      dex: 500
+      con: 1200
+      agi: 100
   items:
   - name: Halberd of the Giants
     dropPercent: 80
@@ -243,29 +254,29 @@ Cloud Giant:
 Ghostly Pirate Captain:
   respawn: 10800
   availableScore: 1200
-  stats:
-    class: Pirate
-    hp: 1750
+  attributes:
+    profession: Pirate
     level: 15
-    luk: 33
-    dex: 200
-    agi: 200
+    stats:
+      hp: 1750
+      luk: 33
+      dex: 200
+      agi: 200
   items:
   - name: Incorporeal Cutlass
     dropPercent: 70
 Baby Red Dragon:
   respawn: 10800
   availableScore: 3000
-  stats:
-    class: Barbarian
-    hp: 16999
+  attributes:
+    profession: Barbarian
     level: 30
-    luk: 33
-    dex: 600
-    agi: 900
-    str: 2000
-    prone: 1
-    glowing: 1
+    stats:
+      hp: 16999
+      luk: 33
+      dex: 600
+      agi: 900
+      str: 2000
   items:
   - name: Fire Infused Dragon Tooth
     dropPercent: 75
@@ -277,135 +288,122 @@ Baby Red Dragon:
 Mama Red Dragon:
   respawn: 10800
   availableScore: 5000
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: female
-    hp: 39212
-    mp: 77777
     level: 55
-    luk: 77
-    dex: 1600
-    con: 1300
-    agi: 500
-    str: 3900
-    int: 2900
-    defense: 2
+    stats:
+      hp: 39212
+      luk: 77
+      dex: 1600
+      con: 1300
+      agi: 500
+      str: 3900
+      int: 2900
   items:
   - name: Breastplate of Wrath
     dropPercent: 80
 Lich Brother of Anger:
   respawn: 10800
   availableScore: 1000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 12999
-    mp: 3000
     level: 35
-    luk: 30
-    dex: 1300
-    con: 888
-    agi: 750
-    int: 1000
-    str: 2000
-    offense: 2
-    lethal: 1
+    stats:
+      hp: 12999
+      luk: 30
+      dex: 1300
+      con: 888
+      agi: 750
+      int: 1000
+      str: 2000
   items:
   - name: Amulet of Anger
     dropPercent: 80
 Lich Brother of Fear:
   respawn: 10800
   availableScore: 2000
-  stats:
-    class: Monster
+  attributes:
+    profession: Monster
     gender: male
-    hp: 14999
-    mp: 15000
     level: 40
-    luk: 10
-    dex: 1000
-    con: 1000
-    agi: 1000
-    str: 1000
-    int: 1000
-    defense: 2
+    stats:
+      hp: 14999
+      luk: 10
+      dex: 1000
+      con: 1000
+      agi: 1000
+      str: 1000
+      int: 1000
   items:
   - name: Amulet of Fear
     dropPercent: 80
 Lich Brother of Decay:
   respawn: 10800
   availableScore: 3000
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: male
-    hp: 16221
-    mp: 53000
     level: 45
-    luk: 33
-    agi: 888
-    con: 150
-    int: 2200
-    defense: 2
-    shatter: 1
-    poison: 2
+    stats:
+      hp: 16221
+      luk: 33
+      agi: 888
+      con: 150
+      int: 2200
   items:
   - name: Amulet of Decay
     dropPercent: 80
 Lich Brother of Insanity:
   respawn: 10800
   availableScore: 4000
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: male
-    hp: 19381
-    mp: 55555
     level: 50
-    luk: 200
-    dex: 700
-    con: 621
-    agi: 1200
-    str: 1000
-    int: 2500
-    defense: 1
-    dance: 1
+    stats:
+      hp: 19381
+      luk: 200
+      dex: 700
+      con: 621
+      agi: 1200
+      str: 1000
+      int: 2500
   items:
   - name: Amulet of Insanity
     dropPercent: 80
 Lich Brother of Death:
   respawn: 10800
   availableScore: 5000
-  stats:
-    class: Lich
+  attributes:
+    profession: Lich
     gender: male
-    hp: 23090
-    mp: 75000
     level: 55
-    dex: 1500
-    con: 1500
-    agi: 1000
-    str: 2000
-    int: 2000
-    vampire: 1
+    stats:
+      hp: 23090
+      dex: 1500
+      con: 1500
+      agi: 1000
+      str: 2000
+      int: 2000
   items:
   - name: Amulet of Death
     dropPercent: 80
 The Lich Lord:
   respawn: 10800
   availableScore: 6000
-  stats:
-    class: Lich
-    hp: 26930
-    mp: 100000
+  attributes:
+    profession: Lich
     level: 65
-    luk: 1
-    dex: 1025
-    con: 1500
-    agi: 975
-    str: 2001
-    int: 2001
-    shatter: 1
-    lethal: 1
-    glowing: 1
+    stats:
+      hp: 26930
+      luk: 1
+      dex: 1025
+      con: 1500
+      agi: 975
+      str: 2001
+      int: 2001
   items:
   - name: Lich Lord's Phylactery
     dropPercent: 80
@@ -419,18 +417,18 @@ The Lich Lord:
 Venerable Dwarven Lord:
   respawn: 10800
   availableScore: 5000
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: male
-    hp: 17580
-    mp: 75000
     level: 50
-    luk: 12
-    dex: 900
-    con: 1120
-    agi: 950
-    str: 2300
-    int: 1500
+    stats:
+      hp: 17580
+      luk: 12
+      dex: 900
+      con: 1120
+      agi: 950
+      str: 2300
+      int: 1500
   items:
   - name: Jewel-Encrusted Pick Axe
     dropPercent: 80
@@ -443,58 +441,58 @@ Venerable Dwarven Lord:
 Mushroom Beast:
   respawn: 10800
   availableScore: 5000
-  stats:
-    class: Archer
+  attributes:
+    profession: Archer
     gender: not a bear
-    hp: 13790
-    mp: 10000
     level: 38
-    luk: 20
-    dex: 1800
-    con: 900
-    agi: 1001
-    str: 1000
-    int: 150
-    glowing: 1
-    venom: 1
+    stats:
+      hp: 13790
+      mp: 10000
+      luk: 20
+      dex: 1800
+      con: 900
+      agi: 1001
+      str: 1000
+      int: 150
   items:
   - name: Mushroom Shaped Charm
     dropPercent: 80
 Elf Administrator:
   respawn: 10800
   availableScore: 1500
-  stats:
-    class: Generalist
-    hp: 1600
-    mp: 1500
+  attributes:
+    profession: Generalist
     level: 15
-    luk: 25
-    dex: 125
-    con: 105
-    agi: 125
-    str: 275
-    int: 200
+    stats:
+      hp: 1600
+      luk: 25
+      dex: 125
+      con: 105
+      agi: 125
+      str: 275
+      int: 200
   items:
   - name: The Nice List
     dropPercent: 80
 Angry Elf:
   respawn: 10800
   availableScore: 0
-  stats:
-    class: Barbarian
-    hp: 1600
+  attributes:
+    profession: Barbarian
     level: 12
-    luk: 25
-    dex: 120
-    con: 175
-    agi: 75
-    str: 375
-    offense: 1
+    stats:
+      hp: 1600
+      luk: 25
+      dex: 120
+      con: 175
+      agi: 75
+      str: 375
 Toy Maker Elf:
   respawn: 10800
   availableScore: 0
-  stats:
-    class: Jester
+  attributes:
+    profession: Jester
+    stats:
     hp: 1225
     mp: 1500
     level: 12
@@ -502,198 +500,178 @@ Toy Maker Elf:
 Reindeer Warden:
   respawn: 10800
   availableScore: 5000
-  stats:
-    class: Mage
-    hp: 21005
-    mp: 36000
+  attributes:
+    profession: Mage
     level: 40
-    str: 2200
-    int: 2300
-    luk: 25
-    dex: 850
-    con: 1200
-    agi: 670
+    stats:
+      hp: 21005
+      str: 2200
+      int: 2300
+      luk: 25
+      dex: 850
+      con: 1200
+      agi: 670
   items:
   - name: Snow Covered Antlers
     dropPercent: 80
 Santa, Lord of Presents:
   respawn: 10800
   availableScore: 9000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 75800
-    mp: 10000
     level: 80
-    luk: 25
-    dex: 2300
-    con: 3500
-    agi: 1701
-    str: 4400
-    int: 900
-    glowing: 1
-    silver: 1
+    stats:
+      hp: 75800
+      luk: 25
+      dex: 2300
+      con: 3500
+      agi: 1701
+      str: 4400
+      int: 900
   items:
   - name: The Naughty List
     dropPercent: 80
 Lucifer the Flame-Born:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: male
-    hp: 23200
-    mp: 28200
     level: 40
-    str: 1800
-    int: 1750
-    con: 900
+    stats:
+      hp: 23200
+      str: 1800
+      int: 1750
+      con: 900
 Green Dragon:
   respawn: 10800
   availableScore: 5150
-  stats:
-    class: Mage
-    hp: 28312
-    mp: 53000
+  attributes:
+    profession: Mage
     level: 53
-    str: 230
-    int: 3370
-    agi: 570
-    con: 876
-    venom: 2
-    poison: 2
+    stats:
+      hp: 28312
+      str: 230
+      int: 3370
+      agi: 570
+      con: 876
   items:
   - name: Noxious Amulet
     dropPercent: 80
 Fighter Guardian:
   respawn: 10800
   availableScore: 3700
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: not a bear
-    hp: 23200
     level: 40
-    str: 2000
-    con: 1120
-    dex: 450
-    agi: 300
-    defense: 1
-    offense: 1
-    glowing: 1
+    stats:
+      hp: 23200
+      str: 2000
+      con: 1120
+      dex: 450
+      agi: 300
   items:
   - name: Guardian Longsword
     dropPercent: 80
 Mage Guardian:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: not a bear
-    hp: 26705
-    mp: 44000
     level: 44
-    str: 400
-    int: 2015
-    con: 100
-    crit: 3
-    lethal: 1
-    glowing: 1
+    stats:
+      hp: 26705
+      str: 400
+      int: 2015
+      con: 100
   items:
   - name: Guardian Staff
     dropPercent: 80
 Cleric Guardian:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Cleric
+  attributes:
+    profession: Cleric
     gender: not a bear
-    hp: 35000
-    mp: 48000
     level: 48
-    str: 1950
-    int: 1000
-    dex: 600
-    agi: 500
-    con: 825
-    defense: 2
-    glowing: 1
+    stats:
+      hp: 35000
+      str: 1950
+      int: 1000
+      dex: 600
+      agi: 500
+      con: 825
   items:
   - name: Guardian Mace
     dropPercent: 80
 Generalist Guardian:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Generalist
+  attributes:
+    profession: Generalist
     gender: not a bear
-    hp: 35000
-    mp: 15000
     level: 52
-    str: 1800
-    int: 1800
-    dex: 1500
-    agi: 1200
-    con: 900
-    luk: 100
-    crit: 1
-    glowing: 1
+    stats:
+      hp: 35000
+      str: 1800
+      int: 1800
+      dex: 1500
+      agi: 1200
+      con: 900
+      luk: 100
   items:
   - name: Guardian Guidebook
     dropPercent: 80
 Guardian Lord:
   respawn: 10800
   availableScore: 5150
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: not a bear
-    hp: 73000
     level: 60
-    str: 2500
-    dex: 1500
-    agi: 1500
-    con: 2000
-    luk: 100
-    defense: 1
-    offense: 1
-    crit: 2
-    glowing: 2
+    stats:
+      hp: 73000
+      str: 2500
+      dex: 1500
+      agi: 1500
+      con: 2000
+      luk: 100
   items:
   - name: Guardian Tower Shield
     dropPercent: 80
 Barney:
   respawn: 10800
   availableScore: 5150
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 22500
-    mp: 3700
     level: 51
-    str: 1666
-    dex: 1285
-    agi: 1285
-    con: 481
-    luk: 26
-    prone: 1
-    poison: 1
-    venom: 1
+    stats:
+      hp: 22500
+      str: 1666
+      dex: 1285
+      agi: 1285
+      con: 481
+      luk: 26
   items:
   - name: Acid Amulet Shard
     dropPercent: 75
 Necromancer Guardian:
   respawn: 10800
   availableScore: 6700
-  stats:
-    class: Necromancer
+  attributes:
+    profession: Necromancer
     gender: not a bear
-    hp: 185000
-    mp: 54320
     level: 90
-    str: 2200
-    dex: 2200
-    int: 5000
-    luk: -10
-    power: 1
+    stats:
+      hp: 185000
+      str: 2200
+      dex: 2200
+      int: 5000
+      luk: -10
   items:
   - name: Necromantic Essence
     dropPercent: 75
@@ -705,39 +683,32 @@ Necromancer Guardian:
 Fire Giant:
   respawn: 10800
   availableScore: 6150
-  stats:
-    class: Fighter
-    hp: 80000
-    mp: 600
+  attributes:
+    profession: Fighter
     level: 75
-    str: 3400
-    dex: 2200
-    agi: 1990
-    con: 2700
-    luk: 15
-    prone: 1
-    defense: 1
-    offense: 1
-    vorpal: 1
+    stats:
+      hp: 80000
+      str: 3400
+      dex: 2200
+      agi: 1990
+      con: 2700
+      luk: 15
   items:
   - name: Halberd of the Fire Giants
     dropPercent: 75
 Spot, the Dragon:
   respawn: 10800
   availableScore: 5150
-  stats:
-    class: Mage
-    hp: 39000
-    mp: 27000
+  attributes:
+    profession: Mage
     level: 65
-    str: 1500
-    dex: 1550
-    agi: 1905
-    int: 2000
-    mpregen: 100
-    con: 400
-    lethal: 1
-    offense: 2
+    stats:
+      hp: 39000
+      str: 1500
+      dex: 1550
+      agi: 1905
+      int: 2000
+      con: 400
   items:
   - name: Flame Polished Gauntlets
     dropPercent: 75
@@ -749,32 +720,30 @@ Spot, the Dragon:
 Little Yeti:
   respawn: 10800
   availableScore: 400
-  stats:
-    class: Monster
-    hp: 500
-    mp: 300
+  attributes:
+    profession: Monster
     level: 5
-    str: 100
-    dex: 100
-    agi: 100
+    stats:
+      hp: 500
+      str: 100
+      dex: 100
+      agi: 100
   items:
   - name: Yeti Sized Club
     dropPercent: 80
 Leviathan:
   respawn: 10800
   availableScore: 2000
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: female
-    hp: 13652
-    mp: 20000
     level: 34
-    str: 1200
-    int: 1000
-    dex: 805
-    agi: 620
-    poison: 4
-    prone: 1
+    stats:
+      hp: 13652
+      str: 1200
+      int: 1000
+      dex: 805
+      agi: 620
   items:
   - name: Leviathan Claw
     dropPercent: 80
@@ -787,16 +756,16 @@ Leviathan:
 Snowbeast:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Mage
-    hp: 16350
-    mp: 15000
+  attributes:
+    profession: Mage
     level: 45
-    str: 1500
-    int: 1750
-    dex: 1000
-    agi: 1200
-    deadeye: 1
+    stats:
+      hp: 16350
+      mp: 15000
+      str: 1500
+      int: 1750
+      dex: 1000
+      agi: 1200
   collectibles:
   - name: Snowbeast Skull
     dropPercent: 90
@@ -805,37 +774,30 @@ Snowbeast:
 Unspeakably Horrible Cave Creature:
   respawn: 10800
   availableScore: 666
-  stats:
-    class: Monster
+  attributes:
+    profession: Monster
     gender: not a bear
-    hp: 17666
-    mp: 333
     level: 25
-    str: 730
-    dex: 400
-    agi: 400
-    int: 100
-    poison: 1
-    vampire: 1
-    lethal: 1
-    hpregen: 50
+    stats:
+      hp: 17666
+      str: 730
+      dex: 400
+      agi: 400
+      int: 100
   items:
   - name: Slime Covered Jerkin
     dropPercent: 80
 Basilisk:
   respawn: 10800
   availableScore: 1000
-  stats:
-    class: Monster
-    hp: 7400
-    mp: 1000
+  attributes:
+    profession: Monster
     level: 15
-    str: 475
-    dex: 300
-    agi: 210
-    prone: 3
-    defense: 1
-    venom: 1
+    stats:
+      hp: 7400
+      str: 475
+      dex: 300
+      agi: 210
   collectibles:
   - name: Gorgon Snake
     dropPercent: 5
@@ -849,250 +811,206 @@ Basilisk:
 Slicer:
   respawn: 10800
   availableScore: 3400
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 39000
     level: 55
-    str: 2400
-    dex: 1000
-    con: 800
-    agi: 1000
-    int: 250
-    glowing: 1
-    silver: 1
-    power: 1
-    defense: 1
-    vorpal: 1
+    stats:
+      hp: 39000
+      str: 2400
+      dex: 1000
+      con: 800
+      agi: 1000
+      int: 250
   items:
   - name: Slicer's Sabre
     dropPercent: 80
 Smasher:
   respawn: 10800
   availableScore: 3400
-  stats:
-    class: Barbarian
+  attributes:
+    profession: Barbarian
     gender: male
-    hp: 39000
     level: 55
-    str: 2670
-    dex: 900
-    con: 1400
-    agi: 900
-    int: -123
-    glowing: 1
-    prone: 1
-    power: 1
-    defense: 2
+    stats:
+      hp: 39000
+      str: 2670
+      dex: 900
+      con: 1400
+      agi: 900
+      int: -123
   items:
   - name: Smasher's Smashin' Club
     dropPercent: 75
 Naga Necromancer:
   respawn: 10800
   availableScore: 10000
-  stats:
-    class: Necromancer
+  attributes:
+    profession: Necromancer
     gender: female
-    hp: 230000
-    mp: 200000
     level: 100
-    str: 6900
-    dex: 4000
-    con: 3000
-    agi: 2100
-    int: 6700
-    aegis: 1
-    crit: 5
-    dance: 1
-    deadeye: 1
-    lethal: 1
-    offense: 1
-    poison: 4
-    prone: 1
-    silver: 1
-    vorpal: 1
+    stats:
+      hp: 230000
+      str: 6900
+      dex: 4000
+      con: 3000
+      agi: 2100
+      int: 6700
   items:
   - name: Naga Resurrection Trident
     dropPercent: 60
 Lord Waxington:
   respawn: 10800
   availableScore: 1500
-  stats:
-    class: Rogue
+  attributes:
+    profession: Rogue
     gender: male
-    hp: 4995
     level: 20
-    str: 250
-    con: 130
-    dex: 600
-    agi: 250
-    luk: 15
-    crit: 10
+    stats:
+      hp: 4995
+      str: 250
+      con: 130
+      dex: 600
+      agi: 250
+      luk: 15
   items:
   - name: Lord Waxington's Top Hat
     dropPercent: 80
 Andy the Skeleton:
   respawn: 10800
   availableScore: 0
-  stats:
-    class: Monster
+  attributes:
+    profession: Monster
     gender: male
-    hp: 2500
     level: 23
-    luk: 30
-    dex: 225
-    con: 175
-    agi: 255
-    str: 500
-    int: 300
-    offense: 1
+    stats:
+      hp: 2500
+      luk: 30
+      dex: 225
+      con: 175
+      agi: 255
+      str: 500
+      int: 300
 Goldy the Skeleton:
   respawn: 10800
   availableScore: 0
-  stats:
-    class: MagicalMonster
+  attributes:
+    profession: MagicalMonster
     gender: female
-    hp: 2500
-    mp: 2500
     level: 23
-    luk: 30
-    dex: 225
-    con: 175
-    agi: 255
-    str: 500
-    int: 300
-    lethal: 1
+    stats:
+      hp: 2500
+      luk: 30
+      dex: 225
+      con: 175
+      agi: 255
+      str: 500
+      int: 300
 Mr Bones:
   respawn: 10800
   availableScore: 0
-  stats:
-    class: Bard
+  attributes:
+    profession: Bard
     gender: male
-    hp: 2500
-    mp: 2500
     level: 23
-    luk: 30
-    dex: 225
-    con: 175
-    agi: 255
-    str: 500
-    int: 300
-    hpregen: 100
+    stats:
+      hp: 2500
+      luk: 30
+      dex: 225
+      con: 175
+      agi: 255
+      str: 500
+      int: 300
 Norkian Necromancer:
   respawn: 10800
   availableScore: 2500
-  stats:
-    class: Necromancer
-    hp: 17324
+  attributes:
+    profession: Necromancer
     level: 35
-    str: 1100
-    con: 60
-    dex: 500
-    agi: 300
-    int: 1500
-    lethal: 1
+    stats:
+      hp: 17324
+      str: 1100
+      con: 60
+      dex: 500
+      agi: 300
+      int: 1500
 Living Crystal:
   respawn: 10800
   availableScore: 9000
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: not a bear
-    hp: 265000
     level: 125
-    str: 10000
-    con: 7000
-    dex: 7000
-    agi: 7000
-    int: 10000
-    luk: 150
-    poison: 4
-    venom: 3
-    glowing: 1
-    hpregen: 500
+    stats:
+      hp: 265000
+      str: 10000
+      con: 7000
+      dex: 7000
+      agi: 7000
+      int: 10000
+      luk: 150
   items:
   - name: Crystal Crown
     dropPercent: 75
 Astral Guard:
   respawn: 10800
   availableScore: 1500
-  stats:
-    class: Fighter
-    hp: 500000
+  attributes:
+    profession: Fighter
     level: 150
-    str: 15000
-    con: 15000
-    dex: 9000
-    agi: 9000
-    luk: 200
-    crit: 2
-    aegis: 1
-    prone: 1
-    vorpal: 1
-    offense: 2
-    defense: 2
+    stats:
+      hp: 500000
+      str: 15000
+      con: 15000
+      dex: 9000
+      agi: 9000
+      luk: 200
   items:
   - name: Astral Boots
     dropPercent: 20
 Astral Beast:
   respawn: 10800
   availableScore: 15555
-  stats:
-    class: Random
-    hp: 5000000
+  attributes:
+    profession: Random
     level: 200
-    str: 80000
-    con: 25000
-    dex: 27000
-    int: 60000
-    agi: 30000
-    luk: 2000
-    crit: 9
-    aegis: 1
-    prone: 1
-    vorpal: 1
-    offense: 3
-    defense: 4
-    damageReduction: 300
-    dance: 1
-    deadeye: 1
-    glowing: 1
-    lethal: 1
-    poison: 5
-    venom: 5
-    power: 1
-    shatter: 1
-    silver: 1
-    vampire: 1
-    hpregen: 666
+    stats:
+      hp: 5000000
+      str: 80000
+      con: 25000
+      dex: 27000
+      int: 60000
+      agi: 30000
+      luk: 2000
   items:
   - name: Astral Stabilizer
     dropPercent: 75
 Gryffyndor House Representative:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Monster
-    hp: 23200
-    mp: 28200
+  attributes:
+    profession: Monster
     level: 40
-    str: 1800
-    dex: 1500
-    agi: 1400
-    con: 1000
+    stats:
+      hp: 23200
+      str: 1800
+      dex: 1500
+      agi: 1400
+      con: 1000
   items:
   - name: Gryffyndor Sword
     dropPercent: 80
 Sky Dragon of Vocalnus:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Bard
-    hp: 23200
-    mp: 28200
+  attributes:
+    profession: Bard
     level: 40
-    str: 1800
-    int: 1400
-    con: 1000
+    stats:
+      hp: 23200
+      str: 1800
+      int: 1400
+      con: 1000
   items:
   - name: Nimbus Cloud Mace
     dropPercent: 80
@@ -1105,22 +1023,17 @@ Sky Dragon of Vocalnus:
 Fate-Twisted Lake Monstrosity:
   respawn: 7200
   availableScore: 2400
-  stats:
-    class: Random
-    hp: 150000
-    mp: 100000
+  attributes:
+    profession: Random
     level: 81
-    str: 13000
-    int: 10000
-    con: 4000
-    dex: 4000
-    agi: 4000
-    luk: 4000
-    crit: 6
-    deadeye: 1
-    defense: 2
-    poison: 2
-    shatter: 1
+    stats:
+      hp: 150000
+      str: 13000
+      int: 10000
+      con: 4000
+      dex: 4000
+      agi: 4000
+      luk: 4000
   items:
   - name: Fate-Fueled Flame Breath
     dropPercent: 80
@@ -1133,48 +1046,33 @@ Fate-Twisted Lake Monstrosity:
 Blood Ooze:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Monster
+  attributes:
+    profession: Monster
     gender: not a bear
-    hp: 21995
-    mp: 1000
     level: 25
-    str: 720
-    dex: 405
-    agi: 450
-    int: 500
-    poison: 2
-    venom: 1
-    damageReduction: 350
-    defense: 1
-    hpregen: 350
+    stats:
+      hp: 21995
+      str: 720
+      dex: 405
+      agi: 450
+      int: 500
   items:
   - name: Acid Wash Pantaloons
     dropPercent: 90
 The Bloodkeeper:
   respawn: 10800
   availableScore: 6000
-  stats:
-    class: Necromancer
-    hp: 1100000
+  attributes:
+    profession: Necromancer
     level: 150
-    str: 15000
-    con: 15000
-    dex: 9000
-    agi: 9000
-    int: 30000
-    luk: 150
-    aegis: 1
-    dance: 1
-    prone: 1
-    deadeye: 1
-    shatter: 2
-    silver: 1
-    glowing: 1
-    vorpal: 1
-    offense: 2
-    defense: 2
-    hpregen: 4000
+    stats:
+      hp: 1100000
+      str: 15000
+      con: 15000
+      dex: 9000
+      agi: 9000
+      int: 30000
+      luk: 150
   items:
   - name: Dripping Kris
     dropPercent: 80
@@ -1183,47 +1081,35 @@ The Bloodkeeper:
 Doppleganger:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Random
-    hp: 21995
-    mp: 1000
+  attributes:
+    profession: Random
     level: 37
-    str: 500
-    dex: 800
-    agi: 750
-    int: 405
-    luk: 60
-    con: 600
-    poison: 2
-    mirror: 1
-    dance: 1
-    defense: 1
-    prone: 1
+    stats:
+      hp: 21995
+      str: 500
+      dex: 800
+      agi: 750
+      int: 405
+      luk: 60
+      con: 600
   items:
   - name: Doppleganger Skin
     dropPercent: 70
 Vault Guardian:
   respawn: 10800
   availableScore: 10000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: not a bear
-    hp: 5000000
     level: 235
-    str: 100000
-    con: 38000
-    dex: 48000
-    int: 1200
-    agi: 22980
-    luk: 1000
-    crit: 6
-    prone: 1
-    offense: 4
-    defense: 1
-    deadeye: 1
-    lethal: 1
-    power: 1
-    shatter: 1
+    stats:
+      hp: 5000000
+      str: 100000
+      con: 38000
+      dex: 48000
+      int: 1200
+      agi: 22980
+      luk: 1000
   items:
   - name: Radiant Ruby
     dropPercent: 25
@@ -1232,94 +1118,69 @@ Vault Guardian:
 Ukad-Aghag the Exile:
   respawn: 10800
   availableScore: 10000
-  stats:
-    class: Cleric
+  attributes:
+    profession: Cleric
     gender: male
-    hp: 4500000
-    mp: 4500000
     level: 210
-    str: 40000
-    dex: 2000
-    agi: 9000
-    int: 32000
-    luk: 2111
-    con: 10001
-    poison: 12
-    deadeye: 1
-    defense: 2
-    prone: 1
+    stats:
+      hp: 4500000
+      str: 40000
+      dex: 2000
+      agi: 9000
+      int: 32000
+      luk: 2111
+      con: 10001
   items:
   - name: Mercy Walkers
     dropPercent: 71
 White Dragon:
   respawn: 10800
   availableScore: 9000
-  stats:
-    class: Barbarian
-    hp: 6000000
-    mp: 1400000
+  attributes:
+    profession: Barbarian
     level: 220
-    str: 69760
-    dex: 13000
-    agi: 11005
-    int: 680
-    luk: 3850
-    con: 20000
-    offense: 4
-    power: 1
-    dance: 1
-    defense: 3
-    prone: 1
-    damageReduction: 350
+    stats:
+      hp: 6000000
+      str: 69760
+      dex: 13000
+      agi: 11005
+      int: 680
+      luk: 3850
+      con: 20000
   items:
   - name: Unwieldy Claymore of Malice
     dropPercent: 75
 Blue Dragon:
   respawn: 10800
   availableScore: 11000
-  stats:
-    class: Mage
-    hp: 5800000
-    mp: 5800000
+  attributes:
+    profession: Mage
     level: 225
-    str: 3300
-    dex: 800
-    agi: 750
-    int: 45000
-    luk: 6700
-    con: 6000
-    aegis: 1
-    crit: 4
-    dance: 1
-    defense: 2
-    prone: 1
-    power: 1
-    glowing: 1
-    shatter: 1
-    vampire: 1
+    stats:
+      hp: 5800000
+      str: 3300
+      dex: 800
+      agi: 750
+      int: 45000
+      luk: 6700
+      con: 6000
   items:
   - name: Blue Dragon Head
     dropPercent: 90
 Old Copper Dragon:
   respawn: 10800
   availableScore: 12200
-  stats:
-    class: Random
-    hp: 5950000
-    mp: 5000000
+  attributes:
+    profession: Random
     level: 230
-    str: 15000
-    dex: 12000
-    agi: 20000
-    int: 19520
-    luk: 8000
-    con: 10000
-    glowing: 2
-    silver: 1
-    offense: 2
-    defense: 2
-    prone: 1
-    lethal: 1
+    stats:
+      hp: 5950000
+      str: 15000
+      dex: 12000
+      agi: 20000
+      int: 19520
+      luk: 8000
+      con: 10000
   items:
   - name: Rune of Imprisonment
     dropPercent: 80
@@ -1332,27 +1193,17 @@ Old Copper Dragon:
 Drunken Dragon:
   respawn: 10800
   availableScore: 13400
-  stats:
-    class: Pirate
-    hp: 6105000
-    mp: 999999
+  attributes:
+    profession: Pirate
     level: 240
-    str: 60000
-    dex: 30000
-    agi: 50000
-    int: 12000
-    luk: 7777
-    con: 22000
-    poison: 2
-    offense: 5
-    dance: 1
-    defense: 1
-    prone: 1
-    power: 1
-    damageReduction: 750
-    hpregen: 450
-    glowing: 1
-    shatter: 1
+    stats:
+      hp: 6105000
+      str: 60000
+      dex: 30000
+      agi: 50000
+      int: 12000
+      luk: 7777
+      con: 22000
   collectibles:
   - name: Overflowing Stein
     dropPercent: 75
@@ -1362,138 +1213,104 @@ Drunken Dragon:
 Branor the Hungry:
   respawn: 10800
   availableScore: 15000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 6257500
-    mp: 3500000
     level: 245
-    str: 63000
-    dex: 43000
-    agi: 39000
-    int: 19000
-    luk: 7200
-    con: 26000
-    glowing: 2
-    deadeye: 1
-    offense: 6
-    power: 1
-    prone: 1
-    crit: 3
-    damageReduction: 450
-    venom: 3
+    stats:
+      hp: 6257500
+      str: 63000
+      dex: 43000
+      agi: 39000
+      int: 19000
+      luk: 7200
+      con: 26000
   items:
   - name: Branor's Claws
     dropPercent: 75
 Dragon-kin Defender:
   respawn: 10800
   availableScore: 2400
-  stats:
-    class: Random
-    hp: 3500000
-    mp: 2000000
+  attributes:
+    profession: Random
     level: 245
-    str: 39000
-    dex: 39000
-    agi: 59000
-    int: 19999
-    luk: 12000
-    con: 29000
-    poison: 3
-    shatter: 1
-    dance: 1
-    defense: 1
-    prone: 1
+    stats:
+      hp: 3500000
+      str: 39000
+      dex: 39000
+      agi: 59000
+      int: 19999
+      luk: 12000
+      con: 29000
 Barbarian Guardian:
   respawn: 9000
   availableScore: 5300
-  stats:
-    class: Barbarian
+  attributes:
+    profession: Barbarian
     gender: not a bear
-    hp: 78000
     level: 60
-    str: 2900
-    dex: 800
-    agi: 800
-    con: 2900
-    int: -600
-    luk: -1
-    defense: 1
-    offense: 2
-    crit: 1
-    glowing: 1
-    power: 1
-    silver: 1
-    aegis: 1
+    stats:
+      hp: 78000
+      str: 2900
+      dex: 800
+      agi: 800
+      con: 2900
+      int: -600
+      luk: -1
   items:
   - name: Armored Guardian Fist
     dropPercent: 80
 Hulking Beast:
   respawn: 10800
   availableScore: 5600
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: not a bear
-    hp: 80000
-    mp: 30000
     level: 70
-    str: 3330
-    dex: 2100
-    agi: 1900
-    con: 2500
-    int: 690
-    luk: 300
-    prone: 1
-    defense: -1
-    offense: 2
-    shatter: 2
+    stats:
+      hp: 80000
+      str: 3330
+      dex: 2100
+      agi: 1900
+      con: 2500
+      int: 690
+      luk: 300
   items:
   - name: Unbreakable Chains
     dropPercent: 80
 Golden Mushroom Statue:
   respawn: 10800
   availableScore: 5900
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: not a bear
-    hp: 74000
-    mp: 58000
     level: 80
-    str: 2000
-    dex: 20
-    agi: 20
-    int: 3975
-    luk: 950
-    con: 3001
-    poison: 3
-    venom: 1
-    vampire: 1
-    defense: 3
-    shatter: 1
-    hpregen: 25
-    mpregen: 250
+    stats:
+      hp: 74000
+      str: 2000
+      dex: 20
+      agi: 20
+      int: 3975
+      luk: 950
+      con: 3001
   items:
   - name: Rot-resistant Wand
     dropPercent: 75
 Snake Guard Jaunthes:
   respawn: 10800
   availableScore: 6200
-  stats:
-    class: MagicalMonster
+  attributes:
+    profession: MagicalMonster
     gender: male
-    hp: 84000
-    mp: 44000
     level: 90
-    str: 2900
-    dex: 1800
-    agi: 2321
-    int: 1780
-    luk: 1100
-    con: 2000
-    venom: 4
-    dance: 1
-    prone: 1
-    lethal: 1
+    stats:
+      hp: 84000
+      str: 2900
+      dex: 1800
+      agi: 2321
+      int: 1780
+      luk: 1100
+      con: 2000
   items:
   - name: Snake Fangs
     dropPercent: 75
@@ -1506,122 +1323,89 @@ Snake Guard Jaunthes:
 Peglegged Ogre:
   respawn: 10800
   availableScore: 6500
-  stats:
-    class: Pirate
-    hp: 100000
-    mp: 78650
+  attributes:
+    profession: Pirate
     level: 100
-    str: 7300
-    dex: 4100
-    con: 6600
-    agi: 7000
-    int: 1700
-    luk: 2100
-    crit: 5
-    dance: 1
-    deadeye: 1
-    lethal: 1
-    offense: 1
-    prone: 1
-    vorpal: 1
+    stats:
+      hp: 100000
+      str: 7300
+      dex: 4100
+      con: 6600
+      agi: 7000
+      int: 1700
+      luk: 2100
   items:
   - name: Peglegs
     dropPercent: 77
 Gnome Lord:
   respawn: 10800
   availableScore: 6800
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: male
-    hp: 101010
-    mp: 101010
     level: 110
-    str: 5500
-    dex: 5500
-    agi: 11500
-    int: 5500
-    luk: 4400
-    con: 5900
-    dance: 5
-    deadeye: 5
-    defense: 1
-    prone: 1
-    glowing: 1
-    crit: 2
+    stats:
+      hp: 101010
+      str: 5500
+      dex: 5500
+      agi: 11500
+      int: 5500
+      luk: 4400
+      con: 5900
   items:
   - name: Jeweled Gnomish Pipe
     dropPercent: 70
 Ogre Lord:
   respawn: 10800
   availableScore: 7100
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: male
-    hp: 150000
-    mp: 150000
     level: 120
-    str: 8000
-    dex: 5900
-    agi: 9900
-    int: 7500
-    luk: 4550
-    con: 7550
-    poison: 3
-    shatter: 1
-    defense: 3
-    offense: 3
-    prone: 1
-    deadeye: 2
+    stats:
+      hp: 150000
+      str: 8000
+      dex: 5900
+      agi: 9900
+      int: 7500
+      luk: 4550
+      con: 7550
   items:
   - name: Pilfered Halberd
     dropPercent: 75
 Troll Lord:
   respawn: 10800
   availableScore: 7400
-  stats:
-    class: Rogue
+  attributes:
+    profession: Rogue
     gender: female
-    hp: 220000
-    mp: 220000
     level: 130
-    str: 7800
-    con: 3999
-    dex: 17000
-    agi: 17000
-    int: 3250
-    luk: 150
-    poison: 4
-    power: 1
-    lethal: 1
-    deadeye: 1
-    glowing: 3
-    hpregen: 3750
+    stats:
+      hp: 220000
+      str: 7800
+      con: 3999
+      dex: 17000
+      agi: 17000
+      int: 3250
+      luk: 150
   items:
   - name: Crown of the Swamp Queen
     dropPercent: 74
 The Transmuter:
   respawn: 10800
   availableScore: 7700
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: female
-    hp: 375000
-    mp: 200000
     level: 140
-    str: 1000
-    dex: 1000
-    agi: 10000
-    int: 24500
-    luk: 7300
-    con: 6300
-    mpregen: 2550
-    hpregen: 2500
-    shatter: 3
-    dance: 1
-    defense: 1
-    prone: 1
-    vampire: 1
-    crit: 3
+    stats:
+      hp: 375000
+      str: 1000
+      dex: 1000
+      agi: 10000
+      int: 24500
+      luk: 7300
+      con: 6300
   items:
   - name: 'Book: Magnum Opus of Transmutation'
     dropPercent: 69
@@ -1634,311 +1418,238 @@ The Transmuter:
 Cave Troll-kin:
   respawn: 10800
   availableScore: 7250
-  stats:
-    class: Druid
+  attributes:
+    profession: Druid
     gender: male
-    hp: 255555
-    mp: 75000
     level: 125
-    str: 8000
-    dex: 5900
-    agi: 9900
-    int: 17500
-    luk: 4000
-    con: 17550
-    shatter: 1
-    defense: 3
-    offense: 3
-    prone: 1
-    deadeye: 2
-    hpregen: 1500
+    stats:
+      hp: 255555
+      str: 8000
+      dex: 5900
+      agi: 9900
+      int: 17500
+      luk: 4000
+      con: 17550
   items:
   - name: Rudimentary Troll-kin Totem
     dropPercent: 78
 Evil Twin:
   respawn: 10800
   availableScore: 7750
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: not a bear
-    hp: 220000
-    mp: 225000
     level: 135
-    str: 7800
-    con: 5000
-    dex: 17000
-    agi: 17000
-    int: 3250
-    luk: 1525
-    power: 1
-    lethal: 1
-    deadeye: 1
-    prone: 1
-    vampire: 1
-    glowing: 1
-    hpregen: 2000
+    stats:
+      hp: 220000
+      str: 7800
+      con: 5000
+      dex: 17000
+      agi: 17000
+      int: 3250
+      luk: 1525
   items:
   - name: Evil Twin Goatee
     dropPercent: 81
 Shimmering Specter:
   respawn: 10800
   availableScore: 5500
-  stats:
-    class: Random
+  attributes:
+    profession: Random
     gender: female
-    hp: 72000
-    mp: 42000
     level: 68
-    str: 4500
-    dex: 650
-    agi: 2000
-    con: 600
-    int: 3600
-    luk: 325
-    power: 1
-    deadeye: 1
-    shatter: 1
-    vampire: 1
-    glowing: 2
-    damageReduction: 666
+    stats:
+      hp: 72000
+      str: 4500
+      dex: 650
+      agi: 2000
+      con: 600
+      int: 3600
+      luk: 325
   items:
   - name: Spectral Riding Horse
     dropPercent: 80
 Small Yeti:
   respawn: 10800
   availableScore: 5500
-  stats:
-    class: Barbarian
-    hp: 76000
+  attributes:
+    profession: Barbarian
     level: 73
-    str: 3510
-    dex: 1200
-    agi: 2000
-    con: 2800
-    int: 125
-    luk: 325
-    power: 1
-    silver: 1
-    shatter: 1
-    glowing: 1
-    offense: 2
-    damageReduction: 50
+    stats:
+      hp: 76000
+      str: 3510
+      dex: 1200
+      agi: 2000
+      con: 2800
+      int: 125
+      luk: 325
   items:
   - name: Warm Yeti Mittens
     dropPercent: 76
 Large Yeti:
   respawn: 10800
   availableScore: 5500
-  stats:
-    class: Barbarian
-    hp: 72000
-    mp: 42000
+  attributes:
+    profession: Barbarian
     level: 83
-    str: 4260
-    dex: 1250
-    agi: 1950
-    int: 250
-    luk: 658
-    con: 3500
-    power: 2
-    silver: 2
-    defense: 2
-    deadeye: 1
-    shatter: 1
-    damageReduction: 500
+    stats:
+      hp: 72000
+      str: 4260
+      dex: 1250
+      agi: 1950
+      int: 250
+      luk: 658
+      con: 3500
   items:
   - name: Rucksack of the Runaway Yeti
     dropPercent: 75
 Shackles Lieutenant:
   respawn: 10800
   availableScore: 5650
-  stats:
-    class: Archer
-    hp: 69850
+  attributes:
+    profession: Archer
     level: 86
-    str: 1900
-    dex: 2500
-    agi: 2500
-    con: 1580
-    int: 1000
-    luk: 950
-    power: 1
-    silver: 1
-    glowing: 1
-    offense: 1
+    stats:
+      hp: 69850
+      str: 1900
+      dex: 2500
+      agi: 2500
+      con: 1580
+      int: 1000
+      luk: 950
 Shackles Captain of the Guard:
   respawn: 10800
   availableScore: 6300
-  stats:
-    class: Archer
-    hp: 75000
+  attributes:
+    profession: Archer
     level: 91
-    str: 2200
-    dex: 3000
-    agi: 3000
-    int: 1000
-    luk: 980
-    con: 1954
-    power: 1
-    silver: 2
-    glowing: 1
-    offense: 1
-    deadeye: 1
-    defense: 1
-    poison: 2
+    stats:
+      hp: 75000
+      str: 2200
+      dex: 3000
+      agi: 3000
+      int: 1000
+      luk: 980
+      con: 1954
   items:
   - name: Poison-Tipped Arrows
     dropPercent: 70
 Shackles Commander:
   respawn: 10800
   availableScore: 6800
-  stats:
-    class: Rogue
-    hp: 100000
+  attributes:
+    profession: Rogue
     level: 97
-    str: 3510
-    dex: 4000
-    agi: 4250
-    con: 3000
-    int: 1408
-    luk: 1025
-    power: 1
-    crit: 2
-    silver: 1
-    shatter: 1
-    glowing: 2
-    offense: 2
-    poison: 2
-    damageReduction: 500
+    stats:
+      hp: 100000
+      str: 3510
+      dex: 4000
+      agi: 4250
+      con: 3000
+      int: 1408
+      luk: 1025
   items:
   - name: Hand Crossbow of the Shackles
     dropPercent: 70
 Mayhem Pit Champion:
   respawn: 10800
   availableScore: 7075
-  stats:
-    class: Random
-    hp: 140000
+  attributes:
+    profession: Random
     level: 113
-    str: 10000
-    dex: 10000
-    agi: 10000
-    int: 10000
-    luk: 11000
-    con: 10000
-    prone: 5
-    crit: 1
-    silver: 1
-    shatter: 1
-    offense: 2
+    stats:
+      hp: 140000
+      str: 10000
+      dex: 10000
+      agi: 10000
+      int: 10000
+      luk: 11000
+      con: 10000
   items:
   - name: Reinforced Throwing Net
     dropPercent: 70
 Defensive Roc:
   respawn: 10800
   availableScore: 7075
-  stats:
-    class: Barbarian
-    hp: 109000
+  attributes:
+    profession: Barbarian
     level: 103
-    str: 8000
-    dex: 4000
-    con: 7000
-    agi: 7000
-    int: 300
-    luk: 2000
-    crit: 1
-    aegis: 1
-    shatter: 1
-    defense: 5
-    dance: 1
-    damageReduction: 200
+    stats:
+      hp: 109000
+      str: 8000
+      dex: 4000
+      con: 7000
+      agi: 7000
+      int: 300
+      luk: 2000
   items:
   - name: Wings of the Roc
     dropPercent: 55
 Cave Hermit:
   respawn: 10800
   availableScore: 5415
-  stats:
-    class: Druid
-    hp: 70000
+  attributes:
+    profession: Druid
     level: 62
-    str: 2900
-    dex: 1600
-    agi: 1800
-    con: 3500
-    int: 3500
-    luk: 500
-    crit: 1
-    aegis: 1
-    power: 3
-    defense: 1
-    mpregen: 500
-    hpregen: 500
+    stats:
+      hp: 70000
+      str: 2900
+      dex: 1600
+      agi: 1800
+      con: 3500
+      int: 3500
+      luk: 500
   items:
   - name: Potent Cave Remedies
     dropPercent: 84
 Glop the Grub:
   respawn: 10800
   availableScore: 6925
-  stats:
-    class: Monster
-    hp: 159000
+  attributes:
+    profession: Monster
     level: 95
-    str: 6700
-    dex: 1500
-    agi: 2000
-    con: 5900
-    int: 9500
-    luk: 900
-    crit: 2
-    aegis: 1
-    defense: 2
-    glowing: 3
-    hpregen: 575
+    stats:
+      hp: 159000
+      str: 6700
+      dex: 1500
+      agi: 2000
+      con: 5900
+      int: 9500
+      luk: 900
   items:
   - name: Golden Glow of Glop
     dropPercent: 70
 Salamander Lord:
   respawn: 10800
   availableScore: 6925
-  stats:
-    class: Fighter
-    hp: 160000
+  attributes:
+    profession: Fighter
     level: 99
-    str: 7000
-    dex: 3150
-    agi: 5000
-    con: 6000
-    int: 5000
-    luk: 1040
-    offense: 1
-    lethal: 1
-    dance: 1
-    prone: 1
-    hpregen: 250
+    stats:
+      hp: 160000
+      str: 7000
+      dex: 3150
+      agi: 5000
+      con: 6000
+      int: 5000
+      luk: 1040
   items:
   - name: Searing Sword
     dropPercent: 90
 Weathered Monk:
   respawn: 10800
   availableScore: 7025
-  stats:
-    class: Rogue
-    hp: 200000
+  attributes:
+    profession: Rogue
     level: 109
-    str: 5600
-    dex: 9500
-    agi: 18895
-    int: 7000
-    luk: 4400
-    con: 5500
-    dance: 3
-    damageReduction: 450
-    deadeye: 1
-    defense: 2
-    prone: 1
-    crit: 5
+    stats:
+      hp: 200000
+      str: 5600
+      dex: 9500
+      agi: 18895
+      int: 7000
+      luk: 4400
+      con: 5500
   items:
   - name: Spider-Climb Bandana
     dropPercent: 79
@@ -1951,31 +1662,17 @@ Weathered Monk:
 Mechanical Dragon:
   respawn: 21600
   availableScore: 50000
-  stats:
-    class: Mage
-    hp: 10000000
-    mp: 3000000
+  attributes:
+    profession: Mage
     level: 330
-    str: 130000
-    dex: 250000
-    agi: 145010
-    int: 298500
-    luk: 12000
-    con: 80000
-    poison: 4
-    shatter: 2
-    dance: 4
-    defense: 4
-    prone: 4
-    damageReduction: 15000
-    deadeye: 1
-    silver: 1
-    venom: 4
-    power: 1
-    glowing: 4
-    hpregen: 7500
-    mpregen: 15000
-    vampire: 1
+    stats:
+      hp: 10000000
+      str: 130000
+      dex: 250000
+      agi: 145010
+      int: 298500
+      luk: 12000
+      con: 80000
   items:
   - name: Bionic Dragon Legs
     dropPercent: 88
@@ -1988,68 +1685,51 @@ Mechanical Dragon:
 Snake-headed Guardsman:
   respawn: 10800
   availableScore: 6200
-  stats:
-    class: Rogue
+  attributes:
+    profession: Rogue
     gender: male
-    hp: 80000
-    mp: 40000
     level: 90
-    str: 1800
-    dex: 2800
-    agi: 2400
-    int: 1560
-    luk: 1100
-    con: 1980
-    venom: 4
-    dance: 1
-    lethal: 1
+    stats:
+      hp: 80000
+      str: 1800
+      dex: 2800
+      agi: 2400
+      int: 1560
+      luk: 1100
+      con: 1980
 Snake Lord:
   respawn: 10800
   availableScore: 7500
-  stats:
-    class: Cleric
+  attributes:
+    profession: Cleric
     gender: male
-    hp: 218000
-    mp: 250000
     level: 128
-    str: 7500
-    con: 4300
-    dex: 8000
-    agi: 8000
-    int: 18050
-    luk: 5743
-    venom: 3
-    shatter: 1
-    lethal: 1
-    deadeye: 1
-    glowing: 1
-    hpregen: 1000
+    stats:
+      hp: 218000
+      str: 7500
+      con: 4300
+      dex: 8000
+      agi: 8000
+      int: 18050
+      luk: 5743
   items:
   - name: Staff of the Living Snake
     dropPercent: 90
 Alchemist's Apprentice:
   respawn: 10800
   availableScore: 8000
-  stats:
-    class: Mage
+  attributes:
+    profession: Mage
     gender: female
-    hp: 218000
-    mp: 250000
     level: 135
-    str: 4000
-    con: 5000
-    dex: 18000
-    agi: 10000
-    int: 27680
-    luk: 1099
-    lethal: 1
-    aegis: 1
-    prone: 1
-    vampire: 1
-    poison: 1
-    silver: 1
-    hpregen: 2000
-    mpregen: 2000
+    stats:
+      hp: 218000
+      str: 4000
+      con: 5000
+      dex: 18000
+      agi: 10000
+      int: 27680
+      luk: 1099
   items:
   - name: Wild Magic Brew
     dropPercent: 99
@@ -2061,26 +1741,18 @@ Alchemist's Apprentice:
 Maigervex of Old:
   respawn: 10800
   availableScore: 35000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: female
-    hp: 8357000
-    mp: 4357000
     level: 290
-    str: 133000
-    dex: 73000
-    agi: 79000
-    int: 29000
-    luk: 19200
-    con: 30000
-    glowing: 10
-    deadeye: 1
-    offense: 6
-    power: 1
-    prone: 1
-    aegis: 1
-    damageReduction: 4500
-    shatter: 3
+    stats:
+      hp: 8357000
+      str: 133000
+      dex: 73000
+      agi: 79000
+      int: 29000
+      luk: 19200
+      con: 30000
   items:
   - name: Electric Eel Gland
     dropPercent: 90
@@ -2092,103 +1764,71 @@ Maigervex of Old:
 Well Fed Cave Spider:
   respawn: 10800
   availableScore: 30000
-  stats:
-    class: Fighter
+  attributes:
+    profession: Fighter
     gender: female
-    hp: 5800000
-    mp: 5400000
     level: 255
-    str: 100500
-    dex: 70000
-    agi: 70000
-    int: 1000
-    luk: 10000
-    con: 14000
-    deadeye: 1
-    offense: 6
-    dance: 1
-    power: 1
-    prone: 2
-    vampire: 2
-    venom: 6
-    silver: 1
-    lethal: 1
+    stats:
+      hp: 5800000
+      str: 100500
+      dex: 70000
+      agi: 70000
+      int: 1000
+      luk: 10000
+      con: 14000
   items:
   - name: Cave Spider Spinneret
     dropPercent: 77
 Deep Well Engineer:
   respawn: 10800
   availableScore: 36000
-  stats:
-    class: Clockborg
+  attributes:
+    profession: Clockborg
     gender: not a bear
-    hp: 5500000
-    mp: 5500000
     level: 300
-    str: 100000
-    dex: 20000
-    agi: 18000
-    int: 40000
-    luk: 10000
-    con: 14000
-    offense: 3
-    defense: 6
-    power: 1
-    prone: 2
-    silver: 1
-    lethal: 1
-    hpregen: 5555
+    stats:
+      hp: 5500000
+      str: 100000
+      dex: 20000
+      agi: 18000
+      int: 40000
+      luk: 10000
+      con: 14000
   items:
   - name: Deep Well Access Card
     dropPercent: 25
 Clockborg Defense Archer:
   respawn: 10800
   availableScore: 36000
-  stats:
-    class: Archer
+  attributes:
+    profession: Archer
     gender: not a bear
-    hp: 8000000
-    mp: 3000000
     level: 315
-    str: 66000
-    dex: 130000
-    agi: 100000
-    int: 20000
-    luk: 10000
-    con: 30000
-    offense: 4
-    defense: 6
-    dance: 1
-    power: 1
-    prone: 2
-    silver: 1
-    glowing: 1
-    damageReduction: 5555
+    stats:
+      hp: 8000000
+      str: 66000
+      dex: 130000
+      agi: 100000
+      int: 20000
+      luk: 10000
+      con: 30000
   items:
   - name: Repeating Clockborg Arrow Launcher
     dropPercent: 81
 Five-Legged Beetle Lord:
   respawn: 10800
   availableScore: 9000
-  stats:
-    class: Fighter
-    hp: 1759000
+  attributes:
+    profession: Fighter
     level: 160
-    str: 15250
-    con: 16000
-    dex: 9000
-    agi: 9000
-    int: 8000
-    luk: 4800
-    power: 1
-    aegis: 1
-    dance: 1
-    prone: 1
-    silver: 1
-    glowing: 1
-    crit: 3
-    offense: 1
-    defense: 5
+    stats:
+      hp: 1759000
+      str: 15250
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 8000
+      luk: 4800
   items:
   - name: Gnarled Mandibles
     dropPercent: 85
