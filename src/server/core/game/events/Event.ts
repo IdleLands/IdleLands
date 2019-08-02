@@ -35,6 +35,7 @@ export enum EventMessageType {
 
 export enum EventName {
   Battle = 'Battle',
+  BattlePvP = 'BattlePvP',
   BattleBoss = 'BattleBoss',
   BlessGold = 'BlessGold',
   BlessGoldParty = 'BlessGoldParty',

@@ -11,6 +11,7 @@ export * from './BlessItem';
 export * from './ForsakeItem';
 
 export * from './Battle';
+export * from './BattlePvP';
 export * from './BattleBoss';
 
 export * from './Party';

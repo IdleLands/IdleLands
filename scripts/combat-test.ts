@@ -3,7 +3,7 @@ import { ICombat, ICombatCharacter, ICombatParty, Profession, PetAttribute, PetA
 
 const characters: ICombatCharacter[] = [
   { combatId: 1, combatPartyId: 1, name: 'Watch My Stuff',
-    profession: Profession.Pirate,
+    profession: 'Luch',
     level: 10,
     specialName: 'Bottle',
     stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 500, gold: 10, xp: 10 },

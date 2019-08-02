@@ -1,6 +1,6 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { sample, clone } from 'lodash';
+import { sample, clone, cloneDeep } from 'lodash';
 import { compress } from 'lzutf8';
 
 import { Player } from '../../../shared/models';
@@ -60,14 +60,11 @@ export class CombatHelper {
       currentId++;
     });
 
-    // figure out the average party level for monster generation
-    const averagePartyLevel = Math.floor(playerParty.reduce((prev, cur) => prev + cur.level, 0) / playerParty.length);
-
     const monsters = [];
 
-    // generate monsters to fight against
+    // generate monsters to fight against (each player gets one for their level)
     for(let i = 0; i < playerParty.length; i++) {
-      const monster = this.createBattleMonster(averagePartyLevel);
+      const monster = this.createBattleMonster(playerParty[i].level);
       monster.combatId = currentId;
       monster.combatPartyId = 1;
       monsters.push(monster);
@@ -78,6 +75,67 @@ export class CombatHelper {
 
     const monsterAntes = this.getGenericAntes(monsters);
     Object.assign(ante, monsterAntes);
+
+    const combat: ICombat = {
+      timestamp: Date.now(),
+      seed: Date.now(),
+      name: this.assets.battle(),
+      characters,
+      parties,
+      ante
+    };
+
+    return this.startCombat(combat);
+  }
+
+  createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
+
+    // if no party, just make a random name for this single person
+    const characters = {};
+    const parties = {};
+    const ante = {};
+
+    // player party
+    if(player.$party) {
+      parties[0] = { id: 0, name: player.$party.name };
+    } else {
+      parties[0] = { id: 0, name: this.assets.party() };
+    }
+
+    if(targeted.$party) {
+      parties[1] = { id: 1, name: targeted.$party.name };
+    } else {
+      parties[1] = { id: 1, name: this.assets.party() };
+    }
+
+    // give players ids
+    let currentId = 0;
+
+    // first party
+    const playerPartyPlayers = this.getAllPlayerPartyMembers(player);
+    const antes = this.getPlayerAntes(playerPartyPlayers);
+
+    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers);
+    playerParty.forEach(combatPlayer => {
+      combatPlayer.combatId = currentId;
+      combatPlayer.combatPartyId = 0;
+      characters[currentId] = combatPlayer;
+      ante[currentId] = antes[combatPlayer.realName];
+      currentId++;
+    });
+
+    // second party
+    const playerParty2Players = this.getAllPlayerPartyMembers(targeted);
+    const antes2 = this.getPlayerAntes(playerParty2Players);
+
+    const playerParty2 = this.getAllPartyCombatMembers(playerParty2Players);
+    playerParty2.forEach(combatPlayer => {
+      combatPlayer.combatId = currentId;
+      combatPlayer.combatPartyId = 1;
+      characters[currentId] = combatPlayer;
+      ante[currentId] = antes2[combatPlayer.realName];
+      currentId++;
+    });
 
     const combat: ICombat = {
       timestamp: Date.now(),
@@ -144,10 +202,10 @@ export class CombatHelper {
   }
 
   private createBattleMonster(generateLevel: number): ICombatCharacter {
-    let monsterBase = sample(
+    let monsterBase = cloneDeep(sample(
       this.assets.allObjectAssets.monster
         .filter(x => x.level >= generateLevel - 25 && x.level <= generateLevel + 25)
-    );
+    ));
 
     const randomProfession = sample(Object.values(Profession));
 
@@ -225,6 +283,10 @@ export class CombatHelper {
     monsterBase.stats[Stat.HP] = Math.max(1, monsterBase.stats[Stat.HP]);
     monsterBase.stats[Stat.HP] += (monsterBase.level * 100);
 
+    Object.keys(monsterBase.stats).forEach(statKey => {
+      monsterBase.stats[statKey] = Math.max(monsterBase.stats[statKey], 10);
+    });
+
     monsterBase.maxStats = clone(monsterBase.stats);
 
     return monsterBase;
@@ -255,10 +317,12 @@ export class CombatHelper {
       .map(x => this.playerManager.getPlayer(x.realName))
       .filter(x => x);
 
+    // remove winner ante so they don't cash in hard or lose too hard
+    Object.values(combat.characters).filter(x => x.combatPartyId === winningParty).forEach(char => delete combat.ante[char.combatId]);
     const totalXPAnte = Object.values(combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
     const totalGoldAnte = Object.values(combat.ante).reduce((prev, cur) => prev + cur.gold, 0);
 
-    // split rewards evenly
+    // split rewards evenly amongst the winners
     winningPlayers.forEach((char) => {
       const earnedGold = Math.floor(totalGoldAnte / winningPlayers.length);
       const earnedXP = Math.floor(totalXPAnte / winningPlayers.length);
@@ -267,8 +331,9 @@ export class CombatHelper {
       char.gainXP(earnedXP);
     });
 
+    // assign penalties
     Object.values(combat.characters).forEach(x => {
-      if(x.combatPartyId === winningParty) return;
+      if(x.combatPartyId !== winningParty) return;
 
       const player = this.playerManager.getPlayer(x.realName);
       if(!player) return;
@@ -280,6 +345,7 @@ export class CombatHelper {
       player.gainXP(-ante.xp);
 
       player.addBuff(this.createRandomInjury(player));
+
     });
 
   }

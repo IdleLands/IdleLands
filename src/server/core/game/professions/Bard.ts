@@ -47,6 +47,7 @@ export class Bard extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
+    // player.$$game.eventManager.doEventFor(player, 'Party');
     player.$$game.eventManager.doEventFor(player, 'Battle');
     return `Not yet implemented!`;
   }

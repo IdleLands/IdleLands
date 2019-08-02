@@ -6,7 +6,8 @@ import { Subject } from 'rxjs';
 import { ProfessionSkillMap, AttributeSkillMap, AffinitySkillMap,
          Attack, ProfessionPreRoundSkillMap, ProfessionPostRoundSkillMap } from './skillgroups';
 
-import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator, Stat, ICombatSkillEffect, SkillCombinatorFunction } from '../interfaces';
+import { PartialCombatSkill, ICombatCharacter, ICombat, ICombatSkillCombinator,
+  Stat, ICombatSkillEffect, SkillCombinatorFunction, ICombatWeightedSkillChoice } from '../interfaces';
 
 export enum CombatAction {
 
@@ -92,14 +93,14 @@ export class CombatSimulator {
   }
 
   private getSkillsForCharacter(character: ICombatCharacter) {
-    const arr = [];
+    const arr: ICombatWeightedSkillChoice[] = [];
 
     if(ProfessionSkillMap[character.profession])                        arr.push(...ProfessionSkillMap[character.profession]);
     if(AffinitySkillMap[character.affinity])                            arr.push(...AffinitySkillMap[character.affinity]);
     if(AttributeSkillMap[character.attribute] && character.rating >= 5) arr.push(...AttributeSkillMap[character.attribute]);
 
     if(arr.length === 0) {
-      arr.push({ weight: 1, skills: [Attack] });
+      arr.push({ weight: 1, skills: [Attack()] });
     }
 
     return arr
@@ -176,7 +177,7 @@ export class CombatSimulator {
 
     if(effect.modifyStat) {
       // roll accuracy, if it fails, set the value to 0
-      if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) })) {
+      if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) }) || isNaN(effect.modifyStatValue)) {
         effect.modifyStatValue = 0;
       }
 

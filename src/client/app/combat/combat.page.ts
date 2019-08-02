@@ -49,7 +49,7 @@ export class CombatPage implements OnInit {
     const simulator = new CombatSimulator(this.combat);
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Message) {
-        if(!data) return;
+        if(!data.message) return;
         this.combatMessages.push({ message: data.message });
       }
 
@@ -76,16 +76,27 @@ export class CombatPage implements OnInit {
       .filter((x: ICombatCharacter) => x.combatPartyId === winningParty && x.realName)
       .length;
 
-    const xpPerChar = Math.floor(this.combatAnte.xp / potSplitTotal);
-    const goldPerChar = Math.floor(this.combatAnte.gold / potSplitTotal);
+    Object.values(combat.characters)
+      .filter((x: ICombatCharacter) => x.combatPartyId === winningParty)
+      .forEach((char: ICombatCharacter) => delete combat.ante[char.combatId]);
+    const totalXPAnte = Object.values(combat.ante).reduce((prev, cur: any) => prev + cur.xp, 0);
+    const totalGoldAnte = Object.values(combat.ante).reduce((prev, cur: any) => prev + cur.gold, 0);
+
+    const xpPerChar = Math.floor(totalXPAnte as number / potSplitTotal);
+    const goldPerChar = Math.floor(totalGoldAnte as number / potSplitTotal);
 
     Object.values(combat.characters).forEach((char: ICombatCharacter) => {
       if(!char.realName) return;
 
+      const ante = combat.ante[char.combatId];
+
       if(char.combatPartyId !== winningParty) {
+        this.summaryMessages.push(`${char.name} lost ${ante.xp.toLocaleString()} XP and ${ante.gold.toLocaleString()} gold!`);
         this.summaryMessages.push(`${char.name} was injured!`);
       } else {
-        this.summaryMessages.push(`${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`);
+        this.summaryMessages.push(
+          `${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`
+        );
       }
     });
   }
