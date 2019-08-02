@@ -26,9 +26,10 @@
             <div>
               <strong>{{ combatParty.value.name }}</strong>
             </div>
-            <div *ngFor="let combatCharacter of combat.characters | keyvalue" [class.ion-hide]="combatCharacter.key !== combatParty.key">
+            <div *ngFor="let combatCharacter of combat.characters | keyvalue" [class.ion-hide]="combatCharacter.value.combatPartyId !== combatParty.value.id">
               {{ combatCharacter.value.name }} (Level {{ combatCharacter.value.level | number }} 
-              {{ combatCharacter.value.attribute }} {{ combatCharacter.value.affinity }} {{ combatCharacter.value.profession }})
+              <span *ngIf="combatCharacter.value.attribute">{{ combatCharacter.value.attribute }} {{ combatCharacter.value.affinity }}</span>
+              <span *ngIf="combatCharacter.value.profession">{{ combatCharacter.value.profession }}</span>)
               [HP {{ combatCharacter.value.stats.hp | number }}]
             </div>
           </ion-col>

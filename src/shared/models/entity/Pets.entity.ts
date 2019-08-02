@@ -94,6 +94,10 @@ export class Pets extends PlayerOwned {
     return Object.values(this.allPets).reduce((prev, cur) => prev + (cur.permanentUpgrades[upgradeAttr] || 0), 0);
   }
 
+  public getCurrentValueForUpgrade(upgrade: PetUpgrade): number {
+    return this.$activePet.$$game.petHelper.getPetUpgradeValue(this.$activePet, upgrade);
+  }
+
   private addNewPet(pet: Pet, setActive?: boolean) {
     this.allPets[pet.typeName] = pet;
 

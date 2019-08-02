@@ -5,7 +5,7 @@ import { compress } from 'lzutf8';
 
 import { Player } from '../../../shared/models';
 import { CombatSimulator, CombatAction } from '../../../shared/combat/combat-simulator';
-import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff } from '../../../shared/interfaces';
+import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade } from '../../../shared/interfaces';
 import { AssetManager } from './asset-manager';
 import { PlayerManager } from './player-manager';
 import { ItemGenerator } from './item-generator';
@@ -13,6 +13,7 @@ import { CalculatorHelper } from './calculator-helper';
 
 import * as Affinities from './affinities';
 import * as Professions from './professions';
+import { Pet } from '../../../shared/models/Pet';
 
 @Singleton
 @AutoWired
@@ -51,12 +52,14 @@ export class CombatHelper {
     const playerPartyPlayers = this.getAllPlayerPartyMembers(player);
     const antes = this.getPlayerAntes(playerPartyPlayers);
 
-    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers);
+    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers)
+      .concat(this.getAllPartyCombatPets(playerPartyPlayers));
+
     playerParty.forEach(combatPlayer => {
       combatPlayer.combatId = currentId;
       combatPlayer.combatPartyId = 0;
       characters[currentId] = combatPlayer;
-      ante[currentId] = antes[combatPlayer.realName];
+      ante[currentId] = antes[combatPlayer.realName] || { xp: 0, gold: 0 };
       currentId++;
     });
 
@@ -115,7 +118,8 @@ export class CombatHelper {
     const playerPartyPlayers = this.getAllPlayerPartyMembers(player);
     const antes = this.getPlayerAntes(playerPartyPlayers);
 
-    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers);
+    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers)
+      .concat(this.getAllPartyCombatPets(playerPartyPlayers));
     playerParty.forEach(combatPlayer => {
       combatPlayer.combatId = currentId;
       combatPlayer.combatPartyId = 0;
@@ -128,7 +132,8 @@ export class CombatHelper {
     const playerParty2Players = this.getAllPlayerPartyMembers(targeted);
     const antes2 = this.getPlayerAntes(playerParty2Players);
 
-    const playerParty2 = this.getAllPartyCombatMembers(playerParty2Players);
+    const playerParty2 = this.getAllPartyCombatMembers(playerParty2Players)
+      .concat(this.getAllPartyCombatPets(playerParty2Players));
     playerParty2.forEach(combatPlayer => {
       combatPlayer.combatId = currentId;
       combatPlayer.combatPartyId = 1;
@@ -199,6 +204,15 @@ export class CombatHelper {
 
   private getAllPartyCombatMembers(players: Player[]): ICombatCharacter[] {
     return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
+  }
+
+  private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
+    return players.map(player => {
+      if(!player.$$game.rngService.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
+
+      const pet = player.$pets.$activePet;
+      return this.createCombatPet(pet);
+    }).filter(x => x);
   }
 
   private createBattleMonster(generateLevel: number): ICombatCharacter {
@@ -308,6 +322,21 @@ export class CombatHelper {
       maxStats,
       stats,
       profession: player.profession
+    };
+  }
+
+  private createCombatPet(pet: Pet): ICombatCharacter {
+    const stats = clone(pet.currentStats);
+    const maxStats = clone(pet.currentStats);
+
+    return {
+      name: `${pet.name} (${pet.$$player.name}'s Pet)`,
+      level: pet.level.total,
+      stats,
+      maxStats,
+      affinity: pet.affinity,
+      attribute: pet.attribute,
+      rating: pet.rating
     };
   }
 

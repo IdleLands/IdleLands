@@ -49,6 +49,7 @@ export interface ICharacter {
   name: string;
   level: RestrictedNumber;
   gender: string;
+  currentStats: { [key in Stat]: number };
 
   init(): void;
   recalculateStats(): void;

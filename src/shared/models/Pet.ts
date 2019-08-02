@@ -44,6 +44,10 @@ export class Pet implements IPet {
   public upgradeLevels: { [key in PetUpgrade]?: number };
 
   private stats: any;
+  public get currentStats() {
+    return this.stats;
+  }
+
   private $statTrail: any;
 
   @nonenumerable
@@ -93,7 +97,7 @@ export class Pet implements IPet {
   }
 
   public toSaveObject(): any {
-    return pickBy(this, (value, key) => !key.startsWith('$'));
+    return pickBy(this, (value, key) => !key.startsWith('$') && key !== 'currentStats');
   }
 
   async loop(): Promise<void> {
