@@ -12,7 +12,7 @@ import { sample } from 'lodash';
 
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
-import { IPlayer } from '../../shared/interfaces';
+import { IPlayer, ServerEventName } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -81,6 +81,7 @@ export class AppComponent {
     this.initializeApp();
     this.watchRouteChanges();
     this.watchAppChanges();
+    this.watchSpecialEvents();
   }
 
   public playerCircleText(player: IPlayer) {
@@ -244,5 +245,28 @@ export class AppComponent {
     }
 
     if(this.clouds > 400) window.location.reload();
+  }
+
+  private watchSpecialEvents() {
+
+    // "recent combat" toast popup
+    this.socketService.register(ServerEventName.AdventureLogAdd, ({ type, combatString }) => {
+      if(type !== 'combat') return;
+
+      this.socketService.toastNotify({
+        header: 'Recent Combat!',
+        message: 'You have a new combat! Would you like to view it?',
+        duration: 5000,
+        buttons: [
+          {
+            text: 'Yes',
+            handler: () => {
+              this.router.navigate(['/combat', combatString]);
+            }
+          },
+          { text: 'No' }
+        ]
+      });
+    });
   }
 }

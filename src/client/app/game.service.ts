@@ -1,6 +1,5 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { AlertController, IonMenu } from '@ionic/angular';
 
@@ -91,7 +90,6 @@ export class GameService {
   public playerMenu: IonMenu;
 
   constructor(
-    private http: HttpClient,
     private alertCtrl: AlertController,
     private storage: Storage,
     private authService: AuthService,

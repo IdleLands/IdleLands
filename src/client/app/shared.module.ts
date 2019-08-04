@@ -19,6 +19,7 @@ import { environment } from '../environments/environment';
 import { ItemComponent } from './_shared/item/item.component';
 import { EquipSomethingElseModal } from './_shared/equipment/equipsomethingelse.modal';
 import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover'
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FilterPipeModule,
     CountdownTimerModule,
     IonicModule.forRoot(),

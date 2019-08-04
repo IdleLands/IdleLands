@@ -8,6 +8,7 @@ import * as scCodecMinBin from 'sc-codec-min-bin';
 import { environment } from './../environments/environment';
 import { ServerEventName, GameEvent, Channel } from '../../shared/interfaces';
 import { ToastController, AlertController } from '@ionic/angular';
+import { ToastOptions } from '@ionic/core';
 
 export enum Status {
   Connected = 1,
@@ -100,12 +101,14 @@ export class SocketClusterService {
   }
 
   public async toastNotify(info) {
-    const toastOpts: any = {
-      position: 'top',
-      showCloseButton: true,
+    const toastOpts: ToastOptions = {
+      header: info.header,
+      position: info.position || 'top',
+      showCloseButton: !info.buttons,
       message: info.message,
       duration: info.duration || 3000,
-      color: info.type
+      color: info.type,
+      buttons: info.buttons
     };
 
     const toast = await this.toastCtrl.create(toastOpts);
