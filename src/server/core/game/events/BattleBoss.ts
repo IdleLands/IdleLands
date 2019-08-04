@@ -1,13 +1,39 @@
-import { Event } from './Event';
+import { Event, EventMessageType } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ICombat } from '../../../../shared/interfaces';
 
-// TODO: battle boss event
 export class BattleBoss extends Event {
   public static readonly WEIGHT = 0;
 
-  public operateOn(player: Player, opts: any = { bossName: '' }) {
-    // opts.bossName
-    this.emitMessage([player], 'You should be battling a boss right now, but it is not implemented.', AdventureLogEventType.Meta);
+  public operateOn(player: Player, opts: any = { bossName: '', bossParty: '' }) {
+
+    const allPlayers = player.$party ? player.$party.members : [player.name];
+
+    if(!player.$$game.combatHelper.canDoCombat(player)) {
+      this.emitMessageToNames(allPlayers,
+        'Someone in your party is too injured to fight!',
+        AdventureLogEventType.Combat);
+      return;
+    }
+
+    const combatInst: ICombat = player.$$game.combatHelper.createAndRunBossCombat(player, opts);
+
+    const emitString = player.$$game.combatHelper.getCompressedCombat(combatInst);
+
+    const displayPartyFormat = [];
+    Object.values(combatInst.parties).forEach(({ id, name }) => {
+      const partyObj = { name, players: [] };
+      Object.values(combatInst.characters).forEach(member => {
+        if(member.combatPartyId !== id) return;
+        partyObj.players.push(member.name);
+      });
+
+      displayPartyFormat.push(partyObj);
+    });
+
+    const allText = `${player.$party ? player.$party.name : player.fullName()}
+      geared up for an epic battle against ${opts.bossName || opts.bossParty}!`;
+
+    this.emitMessageToNames(allPlayers, allText, AdventureLogEventType.Combat, { combatString: emitString });
   }
 }

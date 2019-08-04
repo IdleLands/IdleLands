@@ -5,7 +5,7 @@ import { compress } from 'lzutf8';
 
 import { Player } from '../../../shared/models';
 import { CombatSimulator, CombatAction } from '../../../shared/combat/combat-simulator';
-import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade } from '../../../shared/interfaces';
+import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade, ItemClass } from '../../../shared/interfaces';
 import { AssetManager } from './asset-manager';
 import { PlayerManager } from './player-manager';
 import { ItemGenerator } from './item-generator';
@@ -14,6 +14,8 @@ import { CalculatorHelper } from './calculator-helper';
 import * as Affinities from './affinities';
 import * as Professions from './professions';
 import { Pet } from '../../../shared/models/Pet';
+import { RNGService } from './rng-service';
+import { EventName } from './events/Event';
 
 @Singleton
 @AutoWired
@@ -22,6 +24,7 @@ export class CombatHelper {
   @Inject private assets: AssetManager;
   @Inject private itemGenerator: ItemGenerator;
   @Inject private playerManager: PlayerManager;
+  @Inject private rng: RNGService;
   @Inject private calculatorHelper: CalculatorHelper;
 
   canDoCombat(player: Player): boolean {
@@ -78,6 +81,76 @@ export class CombatHelper {
 
     const monsterAntes = this.getGenericAntes(monsters);
     Object.assign(ante, monsterAntes);
+
+    const combat: ICombat = {
+      timestamp: Date.now(),
+      seed: Date.now(),
+      name: this.assets.battle(),
+      characters,
+      parties,
+      ante
+    };
+
+    return this.startCombat(combat);
+  }
+
+  createAndRunBossCombat(player: Player, opts: any = { bossName: '', bossParty: '' }): ICombat {
+
+    // if no party, just make a random name for this single person
+    const characters = {};
+    const parties = {};
+    const ante: any = {};
+
+    // player party
+    if(player.$party) {
+      parties[0] = { id: 0, name: player.$party.name };
+    } else {
+      parties[0] = { id: 0, name: this.assets.party() };
+    }
+
+    // monster party
+    parties[1] = { id: 1, name: this.assets.party() };
+
+    // give players ids
+    let currentId = 0;
+
+    const playerPartyPlayers = this.getAllPlayerPartyMembers(player);
+    const antes = this.getPlayerAntes(playerPartyPlayers);
+
+    const playerParty = this.getAllPartyCombatMembers(playerPartyPlayers)
+      .concat(this.getAllPartyCombatPets(playerPartyPlayers));
+
+    playerParty.forEach(combatPlayer => {
+      combatPlayer.combatId = currentId;
+      combatPlayer.combatPartyId = 0;
+      characters[currentId] = combatPlayer;
+      ante[currentId] = antes[combatPlayer.realName] || { xp: 0, gold: 0 };
+      currentId++;
+    });
+
+    const allAssets = this.assets.allBossAssets;
+    const bossMonsterPrototypes = opts.bossParty
+      ? allAssets.parties[opts.bossParty].members.map(x => allAssets.creatures[x])
+      : [allAssets.creatures[opts.bossName]];
+    const monsters = [];
+
+    // generate monsters to fight against (each player gets one for their level)
+    bossMonsterPrototypes.forEach(proto => {
+      const monster = this.createBossMonster(proto);
+      monster.combatId = currentId;
+      monster.combatPartyId = 1;
+      monsters.push(monster);
+
+      characters[currentId] = monster;
+      currentId++;
+    });
+
+    const monsterAntes = this.getGenericAntes(monsters);
+    Object.assign(ante, monsterAntes);
+
+    const { collectibles, items } = this.getBossAntes(bossMonsterPrototypes);
+    ante[currentId - 1].collectibles = collectibles;
+    ante[currentId - 1].items = items;
 
     const combat: ICombat = {
       timestamp: Date.now(),
@@ -202,29 +275,50 @@ export class CombatHelper {
     }, {});
   }
 
+  private getBossAntes(bossPrototypes: any[]): { collectibles: string[], items: string[] } {
+    const collectibles = [];
+    const items = [];
+
+    bossPrototypes.forEach(proto => {
+      if(proto.items) {
+        proto.items.forEach(item => {
+          if(!this.rng.likelihood(item.dropPercent)) return;
+          items.push(item.name);
+        });
+      }
+
+      if(proto.collectibles) {
+        proto.collectibles.forEach(coll => {
+          if(!this.rng.likelihood(coll.dropPercent)) return;
+          collectibles.push(coll.name);
+        });
+      }
+    });
+
+    return { collectibles, items };
+  }
+
   private getAllPartyCombatMembers(players: Player[]): ICombatCharacter[] {
     return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
   }
 
   private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
     return players.map(player => {
-      if(!player.$$game.rngService.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
+      if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
       return this.createCombatPet(pet);
     }).filter(x => x);
   }
 
-  private createBattleMonster(generateLevel: number): ICombatCharacter {
+  private getMonsterProto(generateLevel: number): any {
     let monsterBase = cloneDeep(sample(
       this.assets.allObjectAssets.monster
         .filter(x => x.level >= generateLevel - 25 && x.level <= generateLevel + 25)
     ));
 
-    const randomProfession = sample(Object.values(Profession));
-
     if(!monsterBase) {
-      const monsterProfession = randomProfession;
+      const monsterProfession = sample(Object.values(Profession));
 
       monsterBase = {
         name: `Vector ${monsterProfession}`,
@@ -234,17 +328,36 @@ export class CombatHelper {
       };
     }
 
-    if(monsterBase.profession === 'Random') monsterBase.profession = randomProfession;
+    return monsterBase;
+  }
+
+  private createBossMonster(proto: any): ICombatCharacter {
+    const base = cloneDeep(proto);
+    base.attributes.name = base.name;
+    return this.equipBattleMonster(base.attributes);
+  }
+
+  private createBattleMonster(generateLevel: number): ICombatCharacter {
+    const monsterBase = this.getMonsterProto(generateLevel);
+
+    return this.equipBattleMonster(monsterBase);
+  }
+
+  private equipBattleMonster(monsterBase: any): ICombatCharacter {
+
+    // fix class snafu nonsense
+    if(monsterBase.profession === 'Random') monsterBase.profession = sample(Object.values(Profession));
     if(!monsterBase.profession) {
       monsterBase.profession = sample(['Monster', 'MagicalMonster']);
     }
 
+    // generate equipment
     const items = [
       ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
       ItemSlot.Head, ItemSlot.Legs, ItemSlot.Mainhand, ItemSlot.Neck, ItemSlot.Offhand
     ].map(itemSlot => {
       return this.itemGenerator.generateItem({
-        generateLevel,
+        generateLevel: monsterBase.level,
         forceType: itemSlot
       });
     });
@@ -351,6 +464,11 @@ export class CombatHelper {
     const totalXPAnte = Object.values(combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
     const totalGoldAnte = Object.values(combat.ante).reduce((prev, cur) => prev + cur.gold, 0);
 
+    const anteItems = Object.values(combat.ante).reduce((prev, cur) => prev.concat(cur.items || []), []);
+    const anteCollectibles = Object.values(combat.ante).reduce((prev, cur) => prev.concat(cur.collectibles || []), []);
+
+    const { items, collectibles } = this.assets.allBossAssets;
+
     // split rewards evenly amongst the winners
     winningPlayers.forEach((char) => {
       const earnedGold = Math.floor(totalGoldAnte / winningPlayers.length);
@@ -358,6 +476,26 @@ export class CombatHelper {
 
       char.gainGold(earnedGold);
       char.gainXP(earnedXP);
+
+      if(anteItems.length > 0) {
+        anteItems.forEach(itemName => {
+          const foundItem = this.itemGenerator.generateGuardianItem(char, itemName, items[itemName].type, items[itemName]);
+          char.$$game.eventManager.doEventFor(char, EventName.FindItem, { fromGuardian: true, item: foundItem });
+        });
+      }
+
+      if(anteCollectibles.length > 0) {
+        anteCollectibles.forEach(collName => {
+          const coll = collectibles[collName];
+
+          char.tryFindCollectible({
+            name: collName,
+            rarity: ItemClass.Guardian,
+            description: coll.flavorText,
+            storyline: coll.storyline
+          });
+        });
+      }
     });
 
     // assign penalties

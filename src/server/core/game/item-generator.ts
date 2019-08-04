@@ -5,11 +5,13 @@ import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
 import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
+import { Logger } from '../logger';
 
 @Singleton
 @AutoWired
 export class ItemGenerator {
 
+  @Inject private logger: Logger;
   @Inject private assetManager: AssetManager;
   @Inject private rng: RNGService;
 
@@ -191,8 +193,8 @@ export class ItemGenerator {
 
     const stats = {};
     Object.values(Stat).forEach(stat => {
-      if(!proto[stat]) return;
-      stats[stat] = proto[stat];
+      if(!proto.stats[stat]) return;
+      stats[stat] = proto.stats[stat];
     });
 
     item.init({
@@ -218,6 +220,8 @@ export class ItemGenerator {
   ): Item {
 
     opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1, forceClass: '' }, opts);
+
+    if(!opts.generateLevel) opts.generateLevel = 0;
 
     if(!opts.forceType) opts.forceType = this.rng.pickone(GenerateableItemSlot);
     opts.forceType = opts.forceType.toLowerCase();
@@ -245,7 +249,19 @@ export class ItemGenerator {
     const allStatAssets = [];
 
     const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>opts.forceType, itemClassChosen));
-    if(!baseAsset) throw new Error(`Error: No asset available for ${opts.forceType}:${itemClassChosen}`);
+    if(!baseAsset) {
+      this.logger.error(new Error(`No asset available for ${opts.forceType}:${itemClassChosen}`));
+
+      const itemRef = new Item();
+      itemRef.init({
+        name: 'Poorly Generated Error Item',
+        type: <ItemSlot>opts.forceType,
+        stats: { luk: -1 },
+        itemClass: ItemClass.Newbie
+      });
+
+      return itemRef;
+    }
 
     name = baseAsset.name;
     allStatAssets.push(baseAsset);
@@ -255,12 +271,16 @@ export class ItemGenerator {
 
     for(let p = 0; p < prefixCount; p++) {
       const prefix = this.rng.pickone(this.allAssetScoreSorted.prefix[itemClassChosen]);
+      if(!prefix) continue;
+
       name = `${prefix.name} ${name}`;
       allStatAssets.push(prefix);
     }
 
     for(let s = 0; s < suffixCount; s++) {
       const suffix = this.rng.pickone(this.allAssetScoreSorted.suffix[itemClassChosen]);
+      if(!suffix) continue;
+
       name = `${name} ${s > 0 ? 'and the ' + suffix.name : 'of the ' + suffix.name}`;
       allStatAssets.push(suffix);
     }

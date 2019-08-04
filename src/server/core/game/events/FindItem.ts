@@ -46,6 +46,19 @@ export class FindItem extends Event {
       return;
     }
 
+    if(opts.item) {
+      const existingChoices = player.$choicesData.choices;
+      const hasMatchingItem = existingChoices.some(x => {
+        if(!x.extraData || !x.extraData.item) return;
+        return x.extraData.item.name === opts.item.name;
+      });
+
+      if(hasMatchingItem) {
+        player.increaseStatistic(`Event/FindItem/Duplicate`, 1);
+        return;
+      }
+    }
+
     const choice = this.getChoice({
       desc: `Would you like to equip "${item.name}" (Score: ${item.score.toLocaleString()}, Type: ${item.type})?`,
       choices: ['Yes', 'No', 'Compare', 'Sell'],

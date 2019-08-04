@@ -40,14 +40,29 @@
     <ion-item-group>
       <ion-item-divider>Combat Rewards</ion-item-divider>
       <ion-item>
-        <ion-row class="full-width">
-          <ion-col class="ion-text-center">
-            {{ combatAnte.xp | number }} XP
-          </ion-col>
-          <ion-col class="ion-text-center">
-            {{ combatAnte.gold | number }} Gold
-          </ion-col>
-        </ion-row>
+        <ion-grid>
+          <ion-row class="full-width">
+            <ion-col class="ion-text-center">
+              {{ combatAnte.xp | number }} XP
+            </ion-col>
+            <ion-col class="ion-text-center">
+              {{ combatAnte.gold | number }} Gold
+            </ion-col>
+          </ion-row>
+  
+          <ion-row class="full-width">
+            <ion-col class="ion-text-center" *ngIf="combatAnte.items.length > 0">
+              <div *ngFor="let item of combatAnte.items" class="true-center">
+                <ion-icon [src]="'assets/icon/category-gear.svg'" class="ion-margin-end"></ion-icon> {{ item }}
+              </div>
+            </ion-col>
+            <ion-col class="ion-text-center" *ngIf="combatAnte.collectibles.length > 0">
+              <div *ngFor="let coll of combatAnte.collectibles" class="true-center">
+                <ion-icon [src]="'assets/icon/category-collectibles.svg'" class="ion-margin-end"></ion-icon> {{ coll }}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-item-group>
 

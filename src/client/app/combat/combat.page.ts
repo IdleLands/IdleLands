@@ -16,7 +16,7 @@ export class CombatPage implements OnInit {
   public isLoaded: boolean;
 
   public combat: ICombat;
-  public combatAnte = { xp: 0, gold: 0 };
+  public combatAnte = { xp: 0, gold: 0, items: [], collectibles: [] };
   public combatMessages: Array<{ message: string, data?: ICombat }> = [];
   public summaryMessages: string[] = [];
 
@@ -45,6 +45,9 @@ export class CombatPage implements OnInit {
 
     this.combatAnte.xp = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
     this.combatAnte.gold = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.gold, 0);
+
+    this.combatAnte.items = Object.values(this.combat.ante).reduce((prev, cur) => prev.concat(cur.items || []), []);
+    this.combatAnte.collectibles = Object.values(this.combat.ante).reduce((prev, cur) => prev.concat(cur.collectibles || []), []);
 
     const simulator = new CombatSimulator(this.combat);
     simulator.events$.subscribe(({ action, data }) => {
@@ -94,9 +97,15 @@ export class CombatPage implements OnInit {
         this.summaryMessages.push(`${char.name} lost ${ante.xp.toLocaleString()} XP and ${ante.gold.toLocaleString()} gold!`);
         this.summaryMessages.push(`${char.name} was injured!`);
       } else {
-        this.summaryMessages.push(
-          `${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`
-        );
+        this.summaryMessages.push(`${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`);
+
+        if(this.combatAnte.items.length > 0) {
+          this.summaryMessages.push(`${char.name} got a chance to find ${this.combatAnte.items.join(', ')}!`);
+        }
+
+        if(this.combatAnte.collectibles.length > 0) {
+          this.summaryMessages.push(`${char.name} got a chance to find ${this.combatAnte.collectibles.join(', ')}!`);
+        }
       }
     });
   }

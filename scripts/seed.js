@@ -309,7 +309,16 @@ const loadTeleportData = () => {
 const loadBossData = () => {
   Bosses.creatures = YAML.load('src/content/boss.yml');
   Bosses.items = YAML.load('src/content/bossitems.yml');
+  Bosses.collectibles = YAML.load('src/content/bosscollectibles.yml');
   Bosses.parties = YAML.load('src/content/bossparties.yml');
+
+  Object.keys(Bosses.creatures).forEach(key => {
+    Bosses.creatures[key].name = key;
+  });
+
+  Object.keys(Bosses.items).forEach(key => {
+    Bosses.items[key].name = key;
+  });
 };
 
 const loadTreasureData = () => {

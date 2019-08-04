@@ -66,8 +66,6 @@ export class PartyHelper {
     if(!party) return;
 
     this.disband(party);
-    // TODO: isMonsterParty should be a new function
-    // TODO: something about battle parties
   }
 
   public disband(party: IParty): void {
