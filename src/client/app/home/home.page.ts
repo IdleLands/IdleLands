@@ -12,7 +12,6 @@ import { IPlayer } from '../../../shared/interfaces/IPlayer';
 import { GameService } from '../game.service';
 import { AuthService } from '../auth.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
