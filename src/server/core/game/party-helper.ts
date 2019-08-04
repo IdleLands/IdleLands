@@ -26,11 +26,6 @@ export class PartyHelper {
     player.map = target.map;
   }
 
-  // TODO: pets join combat; player parties made for combat shouldnt exist. only do party fights if you have a party
-  public prepareForCombat(party: IParty): void {
-
-  }
-
   public createParty(): IParty {
     const party: IParty = { name: '', members: [] };
     do {
