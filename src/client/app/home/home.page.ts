@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 import { species } from 'fantastical';
 import { sample } from 'lodash';
@@ -10,6 +11,7 @@ import { ServerEventName } from '../../../shared/interfaces';
 import { IPlayer } from '../../../shared/interfaces/IPlayer';
 import { GameService } from '../game.service';
 import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-home',
@@ -38,6 +40,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private storage: Storage,
     private gameService: GameService,
     private socketService: SocketClusterService,
     public authService: AuthService
@@ -50,7 +53,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.syncPlayerCb = (p) => this.syncPlayer(p);
     this.socketService.register(ServerEventName.CharacterSync, this.syncPlayerCb);
 
-    this.playGameCb = () => this.router.navigate(['/character']);
+    this.playGameCb = async () => this.router.navigate([await this.storage.get('lastUrl') || '/character']);
     this.socketService.register(ServerEventName.PlayGame, this.playGameCb);
 
     this.user$ = combineLatest(

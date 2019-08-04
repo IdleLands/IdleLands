@@ -4,6 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { Platform, ModalController, AlertController, IonMenu } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Storage } from '@ionic/storage';
 
 import { interval } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -75,6 +76,7 @@ export class AppComponent {
     private updates: SwUpdate,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
+    private storage: Storage,
     private socketService: SocketClusterService,
     public gameService: GameService
   ) {
@@ -160,6 +162,10 @@ export class AppComponent {
         if(!isHome && !this.gameService.hasPlayer) {
           await this.router.navigate(['/home']);
           this.hiddenSplitPane = true;
+        }
+
+        if(!isHome) {
+          this.storage.set('lastUrl', x.urlAfterRedirects);
         }
       });
   }
