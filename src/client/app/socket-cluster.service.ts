@@ -101,6 +101,7 @@ export class SocketClusterService {
 
   public async toastNotify(info) {
     const toastOpts: any = {
+      position: 'top',
       showCloseButton: true,
       message: info.message,
       duration: info.duration || 3000,
