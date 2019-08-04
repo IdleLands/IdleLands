@@ -1,5 +1,5 @@
 
-import { max } from 'lodash';
+import { max as lmax } from 'lodash';
 
 import { ICombatSkillCombinator, Stat, InternalCombatSkillFunction, ICombat, ICombatCharacter, PetAffinity } from '../../interfaces';
 import { Targetting, Description, Targets, EffectsPerTarget, Accuracy, StatMod } from '../skillcomponents';
@@ -55,7 +55,7 @@ export const SummonCreature = (statMuliplier: number = 1) =>
       stats,
       maxStats,
 
-      combatId: max(Object.keys(combat.characters).map(x => +x)) + 1,
+      combatId: lmax(Object.keys(combat.characters).map(x => +x)) + 1,
       combatPartyId: caster.combatPartyId,
       ownerId: caster.combatId,
       affinity: combat.chance.pickone(Object.values(PetAffinity))

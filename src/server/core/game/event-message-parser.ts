@@ -6,6 +6,8 @@ import { RNGService } from './rng-service';
 import { PlayerManager } from './player-manager';
 import { Player } from '../../../shared/models/entity';
 import { Logger } from '../logger';
+import { PartyManager } from './party-manager';
+import { World } from './world';
 
 class EventVariableCache {
   private cache = {};
@@ -25,7 +27,9 @@ class EventVariableCache {
 @Singleton
 export class EventMessageParser {
   @Inject private playerManager: PlayerManager;
+  @Inject private partyManager: PartyManager;
   @Inject private assetManager: AssetManager;
+  @Inject private world: World;
   @Inject private rng: RNGService;
   @Inject private logger: Logger;
 
@@ -84,24 +88,26 @@ export class EventMessageParser {
     return this.placeholder();
   }
 
-  // TODO: implement this
   public town(): string {
-    return this.placeholder();
+    return sample(['Norkos', 'Maeles', 'Vocalnus', 'Raburro', 'Homlet', 'Frigri', 'Astral', 'Desert', 'Tree']) + ' Town';
   }
 
-  // TODO: implement this
   public map(): string {
-    return this.placeholder();
+    const map = sample(this.world.mapNames);
+    if(!map) return this.placeholder();
+    return map;
   }
 
-  // TODO: implement this
   public pet(): string {
-    return this.placeholder();
+    const player = sample(this.playerManager.allPlayers);
+    if(!player) return this.placeholder();
+    return sample(Object.values(player.$pets.$petsData.allPets)).name;
   }
 
-  // TODO: implement this
   public activePet(): string {
-    return this.placeholder();
+    const player = sample(this.playerManager.allPlayers);
+    if(!player) return this.placeholder();
+    return player.$pets.$activePet.name;
   }
 
   // TODO: implement this
@@ -109,9 +115,9 @@ export class EventMessageParser {
     return this.placeholder();
   }
 
-  // TODO: implement this
   public party(): string {
-    return this.placeholder();
+    const party = sample(this.partyManager.partyNames);
+    return party ? party : this.placeholder();
   }
 
   public item(): string {
@@ -138,9 +144,8 @@ export class EventMessageParser {
     return sample(this.assetManager.allObjectAssets[type]).name;
   }
 
-  // TODO: implement this
   public ownedPet(player: Player): string {
-    return this.placeholder();
+    return sample(Object.values(player.$pets.$petsData.allPets)).name;
   }
 
   // TODO: implement this

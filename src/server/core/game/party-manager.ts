@@ -10,6 +10,10 @@ export class PartyManager {
 
   private parties: { [key: string]: IParty } = {};
 
+  public get partyNames() {
+    return Object.keys(this.parties);
+  }
+
   public async init() {
     this.subscribeToPartyMods();
   }

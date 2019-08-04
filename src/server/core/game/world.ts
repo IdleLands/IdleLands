@@ -46,6 +46,9 @@ class Map {
 export class World {
 
   private maps: { [key: string]: Map } = {};
+  public get mapNames() {
+    return Object.keys(this.maps);
+  }
 
   public init({ maps, mapInfo }) {
     Object.keys(maps).forEach(mapName => {
