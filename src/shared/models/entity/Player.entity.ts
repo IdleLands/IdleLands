@@ -345,6 +345,8 @@ export class Player implements IPlayer {
 
     this.$pets.resetEquipment();
 
+    this.$$game.festivalManager.startAscensionFestival(this);
+
     this.recalculateStats();
   }
 
@@ -489,6 +491,9 @@ export class Player implements IPlayer {
         const addedValue = Math.floor((statBase * pers.statMultipliers[stat])) - statBase;
         this.addStatTrail(stat, addedValue, `Personality: ${pers.name}`);
       });
+
+      // festivals
+      this.addStatTrail(stat, Math.floor(statBase * this.$$game.festivalManager.getMultiplier(stat)), 'Festivals');
     });
 
     // next we do specific-adds from the profession

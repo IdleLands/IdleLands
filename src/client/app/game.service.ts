@@ -25,7 +25,7 @@ export class GameService {
   }
 
   public get apiUrl() {
-    return `${environment.server.protocol}://${environment.server.hostname}:${environment.server.port}`;
+    return `${environment.server.protocol}://${environment.server.hostname}:${environment.server.port}/api`;
   }
 
   private currentPlayer: IPlayer;

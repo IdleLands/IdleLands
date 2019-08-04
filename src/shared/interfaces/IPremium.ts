@@ -34,11 +34,11 @@ export enum PremiumTier {
 }
 
 export const PremiumScale = {
-  [PermanentUpgrade.AdventureLogSizeBoost]: 5,
-  [PermanentUpgrade.ChoiceLogSizeBoost]: 10,
-  [PermanentUpgrade.EnchantCapBoost]: 100,
-  [PermanentUpgrade.InventorySizeBoost]: 50,
-  [PermanentUpgrade.BuffScrollDuration]: 150,
+  [PermanentUpgrade.AdventureLogSizeBoost]: 3,
+  [PermanentUpgrade.ChoiceLogSizeBoost]: 5,
+  [PermanentUpgrade.EnchantCapBoost]: 15,
+  [PermanentUpgrade.InventorySizeBoost]: 20,
+  [PermanentUpgrade.BuffScrollDuration]: 10,
   [PermanentUpgrade.ItemStatCapBoost]: 25,
-  [PermanentUpgrade.PetMissionCapBoost]: 75
+  [PermanentUpgrade.PetMissionCapBoost]: 50
 };

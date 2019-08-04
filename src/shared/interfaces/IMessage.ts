@@ -1,6 +1,6 @@
 
 export interface IMessage {
-  timestamp: number;
+  timestamp?: number;
   message: string;
 
   playerName: string;

@@ -8,6 +8,7 @@ import * as firebaseAdmin from 'firebase-admin';
 import { Player, Assets } from '../../../shared/models';
 import { Logger } from '../logger';
 import { SHARED_FIELDS } from './shared-fields';
+import { Festivals } from '../../../shared/models/entity/Festivals.entity';
 
 const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
 const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
@@ -174,6 +175,29 @@ export class DatabaseManager {
 
     } catch(e) {
       this.logger.error(`DatabaseManager#loadAssets`, e);
+    }
+  }
+
+  // FESTIVAL FUNCTIONS
+  public async loadFestivals(): Promise<Festivals> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.findOne(Festivals);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadFestivals`, e);
+    }
+  }
+
+  public async saveFestivals(festivals: Festivals): Promise<Festivals> {
+    if(!this.connection) return null;
+
+    try {
+      return await this.connection.manager.save(Festivals, festivals);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#saveFestivals`, e);
     }
   }
 

@@ -12,11 +12,16 @@ export class ChatHelper {
 
   private onMessageCallback = (msg: string) => {};
 
+  private sortMessage(message: IMessage) {
+    if(!message.timestamp) message.timestamp = Date.now();
+  }
+
   public async init(onMessageCallback) {
     this.onMessageCallback = onMessageCallback;
   }
 
   public sendMessageFromClient(message: IMessage) {
+    this.sortMessage(message);
     message.message = censorSensor.cleanProfanity(message.message);
 
     this.sendMessageToDiscord(message);
@@ -24,10 +29,12 @@ export class ChatHelper {
   }
 
   public sendMessageToGame(message: IMessage) {
+    this.sortMessage(message);
     this.subscriptionManager.emitToClients(Channel.PlayerChat, { message });
   }
 
   public sendMessageToDiscord(message: IMessage) {
+    this.sortMessage(message);
     this.onMessageCallback(`<${message.playerName} ${message.playerAscension || 0}★${message.playerLevel}> ${message.message}`);
   }
 

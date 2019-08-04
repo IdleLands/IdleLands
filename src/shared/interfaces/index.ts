@@ -8,6 +8,7 @@ export * from './IBuff';
 export * from './IChoice';
 export * from './ICollectible';
 export * from './ICombat';
+export * from './IFestival';
 export * from './IGacha';
 export * from './IGame';
 export * from './IItem';
