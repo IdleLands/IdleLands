@@ -279,4 +279,10 @@ export class Pets extends PlayerOwned {
     return { rewards: realRewards, adventure };
   }
 
+  resetEquipment() {
+    Object.values(this.allPets).forEach(pet => {
+      pet.unequipAll();
+    });
+  }
+
 }

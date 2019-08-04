@@ -70,11 +70,11 @@ export class ChoosePetsModal implements OnInit, OnDestroy {
   }
 
   public dismissLabel() {
-    return Object.values(this.chosenPets).filter(x => x).length === 0 ? 'Cancel' : 'Embark';
+    return Object.values(this.chosenPets).filter(Boolean).length === 0 ? 'Cancel' : 'Embark';
   }
 
   public canChoosePets() {
-    return Object.values(this.chosenPets).filter(x => x).length < 3;
+    return Object.values(this.chosenPets).filter(Boolean).length < 3;
   }
 
   dismiss() {

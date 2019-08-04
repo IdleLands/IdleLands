@@ -30,6 +30,7 @@
               &nbsp;
               <ion-badge color="tertiary">{{ petHash[pet].rating }}★{{ pet }}</ion-badge>
             </p>
+            <p>{{ getPetCurrentEquipped(petHash[pet]) }}/{{ getPetMaxEquipped(petHash[pet]) }} Items Equipped</p>
           </ion-label>
   
           <ion-button slot="end" size="small" *ngIf="player.$petsData.currentPet !== pet" (click)="activate(pet)">Activate</ion-button>

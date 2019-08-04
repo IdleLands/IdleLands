@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
 import { AlertController } from '@ionic/angular';
-import { ServerEventName } from '../../../shared/interfaces';
+import { ServerEventName, IPet } from '../../../shared/interfaces';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { Subscription } from 'rxjs';
@@ -77,6 +77,15 @@ export class PetslistPage implements OnInit, OnDestroy {
     });
 
     alert.present();
+  }
+
+  // both of these are -1 to account for the soul
+  public getPetCurrentEquipped(pet: IPet) {
+    return Object.values(pet.equipment).reduce((prev, cur) => prev.concat(cur), []).filter(Boolean).length - 1;
+  }
+
+  public getPetMaxEquipped(pet: IPet) {
+    return Object.values(pet.equipment).reduce((prev, cur) => prev.concat(cur), []).length - 1;
   }
 
 }

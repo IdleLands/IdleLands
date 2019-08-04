@@ -308,7 +308,7 @@ export class CombatHelper {
 
       const pet = player.$pets.$activePet;
       return this.createCombatPet(pet);
-    }).filter(x => x);
+    }).filter(Boolean);
   }
 
   private getMonsterProto(generateLevel: number): any {
@@ -457,7 +457,7 @@ export class CombatHelper {
     const winningPlayers = Object.values(combat.characters)
       .filter(x => x.combatPartyId === winningParty)
       .map(x => this.playerManager.getPlayer(x.realName))
-      .filter(x => x);
+      .filter(Boolean);
 
     // remove winner ante so they don't cash in hard or lose too hard
     Object.values(combat.characters).filter(x => x.combatPartyId === winningParty).forEach(char => delete combat.ante[char.combatId]);

@@ -257,6 +257,12 @@ export class Pet implements IPet {
     return true;
   }
 
+  public unequipAll() {
+    this.equipment = {};
+    this.$$game.petHelper.syncPetBasedOnProto(this);
+    this.recalculateStats();
+  }
+
   public sellItem(item: Item): number {
     const value = item.score;
     const modValue = this.gainGold(value);

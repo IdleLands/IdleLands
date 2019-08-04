@@ -338,9 +338,12 @@ export class Player implements IPlayer {
     items.forEach(item => this.$inventory.equipItem(item));
     this.$inventory.clearInventory();
 
+    this.increaseStatistic('Character/Ascension/Collectibles', this.$collectibles.getFoundOwnedCollectibles().length);
+    this.$collectibles.resetFoundAts();
+
     this.increaseStatistic('Character/Ascension/Times', 1);
 
-    this.$collectibles.resetFoundAts();
+    this.$pets.resetEquipment();
 
     this.recalculateStats();
   }
