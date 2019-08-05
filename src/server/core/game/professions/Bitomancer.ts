@@ -6,9 +6,9 @@ import { IProfession } from '../../../../shared/interfaces';
 export class Bitomancer extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Bit';
-  public readonly oocAbilityName = 'Hack';
-  public readonly oocAbilityDesc = 'Decrease your Forsake event rate significantly.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityName = 'Hack The System';
+  public readonly oocAbilityDesc = 'Improve your and your partys combat stats.';
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -50,7 +50,23 @@ export class Bitomancer extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+
+    const scaler = player.getStat(Stat.LUK) + player.getStat(Stat.INT);
+
+    const stats = {};
+    Object.values([Stat.STR, Stat.INT, Stat.CON]).forEach(stat => {
+      stats[stat] = player.$$game.rngService.numberInRange(-5, Math.floor(Math.log(scaler) * player.level.total));
+    });
+
+    player.grantBuff({
+      name: 'Bitomancer Hack',
+      statistic: 'Combat/All/Times/Total',
+      booster: true,
+      duration: 3,
+      stats
+    }, true);
+
+    return `You hacked the system!`;
   }
 
   public determineStartingSpecial(): number {

@@ -1,14 +1,14 @@
 import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
-import { IProfession } from '../../../../shared/interfaces';
+import { IProfession, IFestival } from '../../../../shared/interfaces';
 
 export class Bard extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Song';
   public readonly oocAbilityName = 'Orchestra';
-  public readonly oocAbilityDesc = 'Start a festival that lasts an hour.';
-  public readonly oocAbilityCost = 1;
+  public readonly oocAbilityDesc = 'Start a random festival that lasts an hour.';
+  public readonly oocAbilityCost = 60;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -47,9 +47,22 @@ export class Bard extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    // player.$$game.eventManager.doEventFor(player, 'Party');
-    player.$$game.eventManager.doEventFor(player, 'BattleBoss', { bossName: 'Lizard King' });
-    return `Not yet implemented!`;
+
+    const stats = {};
+    Object.values(Stat).forEach(stat => {
+      stats[stat] = player.$$game.rngService.numberInRange(-10, 10);
+    });
+
+    const festival: IFestival = {
+      name: `${player.name}'s Bardic Festival`,
+      endTime: Date.now() + (1000 * 60 * 60),
+      startedBy: player.name,
+      stats
+    };
+
+    player.$$game.festivalManager.startFestival(player, festival);
+
+    return `You sing the song of your people!`;
   }
 
   public determineStartingSpecial(): number {

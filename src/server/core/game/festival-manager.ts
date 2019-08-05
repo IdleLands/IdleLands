@@ -85,6 +85,15 @@ export class FestivalManager {
     });
   }
 
+  public startFestival(player: Player, festival: IFestival) {
+    this.addFestival(festival);
+
+    this.chat.sendMessageFromClient({
+      message: `A new festival "${festival.name}" has started!`,
+      playerName: player.name
+    });
+  }
+
   private subscribeToFestivalChanges() {
     this.subscriptionManager.subscribeToChannel(Channel.Festivals, ({ festival, operation }) => {
       switch(operation) {
@@ -103,7 +112,8 @@ export class FestivalManager {
   public initiateAddFestival(festival: IFestival): boolean {
     if(!festival.id) festival.id = this.rng.id();
 
-    if(this.festivals.festivals.some(fest => fest.startedBy === festival.startedBy && !festival.startedBy.includes('☆'))) return false;
+    // only do this for ILP-created festivals
+    // if(this.festivals.festivals.some(fest => fest.startedBy === festival.startedBy && !festival.startedBy.includes('☆'))) return false;
 
     this.subscriptionManager.emitToChannel(Channel.Festivals, { festival, operation: FestivalChannelOperation.Add });
 

@@ -2,13 +2,14 @@ import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
+import { EventName } from '../events/Event';
 
 export class Barbarian extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Rage';
   public readonly oocAbilityName = 'Duel';
   public readonly oocAbilityDesc = 'Begin a duel with a random player.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -49,7 +50,8 @@ export class Barbarian extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+    player.$$game.eventManager.doEventFor(player, EventName.BattlePvP);
+    return `You seek out a worthy opponent!`;
   }
 
   public determineStartingSpecial(): number {
