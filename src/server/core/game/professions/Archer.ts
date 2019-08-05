@@ -1,14 +1,14 @@
 import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
-import { IProfession } from '../../../../shared/interfaces';
+import { IProfession, PermanentUpgrade } from '../../../../shared/interfaces';
 
 export class Archer extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Arrow';
   public readonly oocAbilityName = 'Pet Phenomenon';
   public readonly oocAbilityDesc = 'Bring more pets to aid you in combat.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -51,6 +51,17 @@ export class Archer extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+
+    player.grantBuff({
+      name: 'Pheromone',
+      statistic: 'Combat/All/Times/Total',
+      booster: true,
+      duration: 5,
+      permanentStats: {
+        [PermanentUpgrade.MaxPetsInCombat]: 1 + Math.floor(Math.log(player.ascensionLevel))
+      }
+    }, true);
+
+    return `More pets will join you in combat!`;
   }
 }

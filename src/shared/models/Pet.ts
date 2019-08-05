@@ -204,7 +204,7 @@ export class Pet implements IPet {
 
       Object.keys(this.$player.buffWatches).forEach(buffKey => {
         this.$player.buffWatches[buffKey].forEach((buff: IBuff) => {
-          if(!buff.stats[stat]) return;
+          if(!buff.stats || !buff.stats[stat]) return;
           this.addStatTrail(stat, buff.stats[stat], `Player Buff: ${buff.name}`);
         });
       });

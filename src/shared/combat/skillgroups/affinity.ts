@@ -108,9 +108,10 @@ export const AffinitySkillMap: { [key in PetAffinity]: ICombatWeightedSkillChoic
       canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
       skills: (combat, caster) => {
 
+        // 1+ because otherwise if it does (min, max) and they're both 0 it throws
         const damage = combat.chance.integer({
           min: caster.stats[Stat.INT] * 0.1,
-          max: caster.stats[Stat.INT] * 0.5
+          max: 1 + (caster.stats[Stat.INT] * 0.5)
         });
 
         return [

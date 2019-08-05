@@ -448,7 +448,7 @@ export class Player implements IPlayer {
       // buff adds
       Object.keys(this.buffWatches).forEach(buffKey => {
         this.buffWatches[buffKey].forEach((buff: IBuff) => {
-          if(!buff.stats[stat]) return;
+          if(!buff.stats || !buff.stats[stat]) return;
           this.addStatTrail(stat, buff.stats[stat], `${buff.booster ? 'Booster' : 'Injury'}: ${buff.name}`);
         });
       });
@@ -706,53 +706,78 @@ export class Player implements IPlayer {
   public syncPremium() {
     const tier = this.$premiumData.tier;
 
+    const allBuffBoosts = {};
+
+    Object.keys(this.buffWatches).forEach(buffKey => {
+      this.buffWatches[buffKey].forEach((buff: IBuff) => {
+        if(!buff.permanentStats) return;
+        Object.keys(buff.permanentStats).forEach(permanent => {
+          allBuffBoosts[permanent] = allBuffBoosts[permanent] || 0;
+          allBuffBoosts[permanent] += buff.permanentStats[permanent];
+        });
+      });
+    });
+
     this.$statistics.set('Game/Premium/Tier', tier);
 
     this.$statistics.set('Game/Premium/Upgrade/AdventureLogSize',
       25
+    + (allBuffBoosts[PermanentUpgrade.AdventureLogSizeBoost] || 0)
     + (tier * 25)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.AdventureLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.AdventureLogSizeBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/InventorySize',
       10
+    + (allBuffBoosts[PermanentUpgrade.InventorySizeBoost] || 0)
     + (tier * 10)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.InventorySizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.InventorySizeBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/BuffScrollDuration',
       0
+    + (allBuffBoosts[PermanentUpgrade.BuffScrollDuration] || 0)
     + (tier * 5)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.BuffScrollDuration)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.BuffScrollDuration));
 
     this.$statistics.set('Game/Premium/Upgrade/ChoiceLogSize',
       10
+    + (allBuffBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
     + (tier * 10)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/ItemStatCap',
       300
+    + (allBuffBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
     + (tier * 100)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/EnchantCap',
       10
+    + (allBuffBoosts[PermanentUpgrade.EnchantCapBoost] || 0)
     + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.EnchantCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.EnchantCapBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/PetMissions',
       3
+    + (allBuffBoosts[PermanentUpgrade.PetMissionCapBoost] || 0)
     + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.PetMissionCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.PetMissionCapBoost));
 
-    this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold', 3);
+    this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold',
+      3
+      + (allBuffBoosts[PermanentUpgrade.InjuryThreshold] || 0)
+    );
 
-    this.$statistics.set('Game/Premium/Upgrade/MaxPetsInCombat', 1);
+    this.$statistics.set('Game/Premium/Upgrade/MaxPetsInCombat',
+      1
+      + (allBuffBoosts[PermanentUpgrade.MaxPetsInCombat] || 0)
+    );
 
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
@@ -861,6 +886,7 @@ export class Player implements IPlayer {
     this.buffWatches[buff.statistic] = uniqBy(this.buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);
     delete buff.statistic;
 
+    this.syncPremium();
     this.recalculateStats();
     this.$pets.$activePet.recalculateStats();
   }

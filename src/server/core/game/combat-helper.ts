@@ -1,6 +1,6 @@
 
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { sample, clone, cloneDeep } from 'lodash';
+import { sample, clone, cloneDeep, pull } from 'lodash';
 import { compress } from 'lzutf8';
 
 import { Player } from '../../../shared/models';
@@ -303,12 +303,42 @@ export class CombatHelper {
   }
 
   private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
-    return players.map(player => {
+    const basePets = players.map(player => {
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
       return this.createCombatPet(pet);
     }).filter(Boolean);
+
+    const extraPets = players.reduce((prev, player) => {
+      const extraCount = player.$statistics.get('Game/Premium/Upgrade/MaxPetsInCombat');
+      if(extraCount <= 1) return prev;
+
+      if(player.profession === 'Necromancer') {
+        const necroPets = [];
+
+        for(let i = 0; i < extraCount - 1; i++) {
+          necroPets.push(this.createNecroPet(player));
+        }
+
+        return prev.concat(necroPets);
+      }
+
+      const newPets = [];
+
+      const possiblePets = Object.values(player.$petsData.allPets).filter(x => x !== player.$pets.$activePet);
+      for(let i = 0; i < extraCount - 1; i++) {
+        const pet = sample(possiblePets);
+        if(!pet) return prev.concat(newPets);
+
+        pull(possiblePets, pet);
+        newPets.push(this.createCombatPet(pet as Pet));
+      }
+
+      return prev.concat(newPets);
+    }, []);
+
+    return basePets.concat(extraPets);
   }
 
   private getMonsterProto(generateLevel: number): any {
@@ -450,6 +480,27 @@ export class CombatHelper {
       affinity: pet.affinity,
       attribute: pet.attribute,
       rating: pet.rating
+    };
+  }
+
+  private createNecroPet(player: Player): ICombatCharacter {
+
+    const multiplier = 0.75;
+
+    const stats = Object.assign({}, player.currentStats);
+    Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * multiplier));
+
+    const maxStats = Object.assign({}, stats);
+
+    const profession = sample(Object.values(Profession));
+    const prefix = sample(['Zombie', 'Skeletal', 'Bone', 'Ghostly', 'Mummy', 'Ghoulish', 'Spectral', 'Shadow']);
+
+    return {
+      name: `${prefix} ${profession} (${player.name}'s Minion)`,
+      level: Math.floor(player.level.total * multiplier),
+      stats,
+      maxStats,
+      profession
     };
   }
 

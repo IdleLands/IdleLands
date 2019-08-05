@@ -20,8 +20,13 @@ export enum PermanentUpgrade {
   ItemStatCapBoost = 'itemStatCapBoost',
 
   // the permanent item stat cap % boost for buying this pet
-  PetMissionCapBoost = 'petMissionCapBoost'
+  PetMissionCapBoost = 'petMissionCapBoost',
 
+  // the permanent injury threshold for being locked out of combat
+  InjuryThreshold = 'injuryThreshold',
+
+  // the number of pets you can bring into combat
+  MaxPetsInCombat = 'maxPetsInCombat'
 }
 
 export enum PremiumTier {

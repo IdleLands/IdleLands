@@ -42,7 +42,9 @@ export class PetcurrentPage implements OnInit {
     [PermanentUpgrade.ChoiceLogSizeBoost]: 'Choice Log Size',
     [PermanentUpgrade.EnchantCapBoost]: 'Enchant Cap',
     [PermanentUpgrade.ItemStatCapBoost]: 'Item Stat Cap',
-    [PermanentUpgrade.PetMissionCapBoost]: 'Pet Mission Cap'
+    [PermanentUpgrade.PetMissionCapBoost]: 'Pet Mission Cap',
+    [PermanentUpgrade.MaxPetsInCombat]: 'Pets in Combat',
+    [PermanentUpgrade.InjuryThreshold]: 'Injuries Cap'
   };
 
   constructor(

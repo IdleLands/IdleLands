@@ -1,14 +1,14 @@
 import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
-import { IProfession } from '../../../../shared/interfaces';
+import { IProfession, PermanentUpgrade } from '../../../../shared/interfaces';
 
 export class Necromancer extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Minion';
-  public readonly oocAbilityName = 'Minion Spawn';
+  public readonly oocAbilityName = 'Bone Minions';
   public readonly oocAbilityDesc = 'Summon extra minions to join you in your next few combats.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityCost = 60;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -48,7 +48,18 @@ export class Necromancer extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+    player.grantBuff({
+      name: 'Bone Minions',
+      statistic: 'Combat/All/Times/Total',
+      booster: true,
+      duration: 5,
+      permanentStats: {
+        [PermanentUpgrade.MaxPetsInCombat]: 1 + Math.floor(Math.log(player.ascensionLevel))
+      }
+    }, true);
+    player.$$game.eventManager.doEventFor(player, 'Battle');
+
+    return `You summoned some bone minions!`;
   }
 
   public determineStartingSpecial(): number {
