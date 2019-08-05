@@ -6,7 +6,7 @@ export class Collector extends Achievement {
   static readonly base = 25;
 
   static readonly statWatches = ['Item/Collectible/Find'];
-  static readonly type = AchievementType.Pet;
+  static readonly type = AchievementType.Progress;
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier}% to all stats for finding ${(tier * Collector.base).toLocaleString()} collectibles.`;

@@ -7,6 +7,7 @@ export * from './Collector';
 export * from './Classfluid';
 export * from './Comedian';
 export * from './Denier';
+export * from './Entitled';
 export * from './Fallen';
 export * from './Fateful';
 export * from './Frail';

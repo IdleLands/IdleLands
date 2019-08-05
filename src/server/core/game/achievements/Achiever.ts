@@ -6,7 +6,7 @@ export class Achiever extends Achievement {
   static readonly base = 30;
 
   static readonly statWatches = ['Game/Logins'];
-  static readonly type = AchievementType.Pet;
+  static readonly type = AchievementType.Progress;
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier} achievement tiers for achieving ${(tier * Achiever.base).toLocaleString()} achievements(s). Achievements.`;
