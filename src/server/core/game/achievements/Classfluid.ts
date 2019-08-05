@@ -20,12 +20,12 @@ export class Classfluid extends Achievement {
   static rewardsForTier(): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.StatMultipliers, stats: {
-        [Stat.STR]: 0.1,
-        [Stat.DEX]: 0.1,
-        [Stat.CON]: 0.1,
-        [Stat.INT]: 0.1,
-        [Stat.AGI]: 0.1,
-        [Stat.LUK]: 0.1
+        [Stat.STR]: 1.1,
+        [Stat.DEX]: 1.1,
+        [Stat.CON]: 1.1,
+        [Stat.INT]: 1.1,
+        [Stat.AGI]: 1.1,
+        [Stat.LUK]: 1.1
       } }
     ];
 

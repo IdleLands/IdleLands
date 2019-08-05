@@ -71,15 +71,15 @@ export class Choices extends PlayerOwned {
     player.increaseStatistic(`Character/Choose/Choice/${choice.choices[decisionSlot]}`, 1);
     player.increaseStatistic(`Character/Choose/Total`, 1);
 
-    if(player.hasPersonality('Affirmer')) {
+    if(player.$personalities.isActive('Affirmer')) {
       player.increaseStatistic(`Character/Choose/Personality/Affirmer`, 1);
     }
 
-    if(player.hasPersonality('Denier')) {
+    if(player.$personalities.isActive('Denier')) {
       player.increaseStatistic(`Character/Choose/Personality/Denier`, 1);
     }
 
-    if(player.hasPersonality('Indecisive')) {
+    if(player.$personalities.isActive('Indecisive')) {
       player.increaseStatistic(`Character/Choose/Personality/Indecisive`, 1);
     }
 

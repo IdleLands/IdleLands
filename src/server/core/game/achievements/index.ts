@@ -1,10 +1,16 @@
 
+export * from './Affirmer';
 export * from './BoosterSeat';
+export * from './Cheater';
 export * from './Classfluid';
 export * from './Comedian';
+export * from './Denier';
 export * from './Fallen';
+export * from './Fateful';
 export * from './Frail';
 export * from './Herder';
+export * from './Indecisive';
+export * from './Jailbird';
 export * from './Newbie';
 export * from './PetUpgrader';
 export * from './Scrambler';
