@@ -46,6 +46,14 @@ export class Achievements extends PlayerOwned {
     ach.forEach(achi => this.add(achi));
   }
 
+  public totalAchievements(): number {
+    return Object.keys(this.achievements).length;
+  }
+
+  public totalAchievementTiers(): number {
+    return Object.values(this.achievements).reduce((prev, cur) => prev + cur.tier, 0);
+  }
+
   public getPermanentUpgrades(): { [key in PermanentUpgrade]?: number } {
     return Object.values(this.achievements).reduce((prev, ach) => {
         const rewards = compact(

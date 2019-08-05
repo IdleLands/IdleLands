@@ -1,7 +1,9 @@
 
+export * from './Achiever';
 export * from './Affirmer';
 export * from './BoosterSeat';
 export * from './Cheater';
+export * from './Collector';
 export * from './Classfluid';
 export * from './Comedian';
 export * from './Denier';

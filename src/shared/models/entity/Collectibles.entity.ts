@@ -48,6 +48,10 @@ export class Collectibles extends PlayerOwned {
     });
   }
 
+  public getFoundCollectibles(): number {
+    return Object.keys(this.collectibles).length;
+  }
+
   public getUnfoundOwnedCollectibles() {
     return Object.values(this.collectibles).filter(coll => coll.foundAt === 0);
   }
