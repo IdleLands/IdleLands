@@ -942,6 +942,11 @@ export class Player implements IPlayer {
     return this.getAllInjuries().length;
   }
 
+  public giveCure() {
+    this.$$game.buffManager.cureInjury(this);
+    this.cureInjury();
+  }
+
   public cureInjury() {
     let hasCured = false;
 
@@ -957,6 +962,7 @@ export class Player implements IPlayer {
     });
 
     if(hasCured) {
+      this.increaseStatistic(`Character/Injury/Cure`, 1);
       this.recalculateStats();
     }
   }

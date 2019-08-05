@@ -16,12 +16,18 @@ export class BuffManager {
   }
 
   private subscribeToBuffs() {
-    this.subscriptionManager.subscribeToChannel(Channel.PlayerBuff, ({ memberNames, buff }) => {
+    this.subscriptionManager.subscribeToChannel(Channel.PlayerBuff, ({ memberNames, buff, cure }) => {
       memberNames.forEach(memberName => {
         const player = this.playerManager.getPlayer(memberName);
         if(!player) return;
 
-        player.addBuff(buff);
+        if(buff) {
+          player.addBuff(buff);
+        }
+
+        if(cure) {
+          player.cureInjury();
+        }
       });
     });
   }
@@ -32,6 +38,15 @@ export class BuffManager {
     this.subscriptionManager.emitToChannel(Channel.PlayerBuff, {
       memberNames: player.$party.members.filter(x => x !== player.name),
       buff
+    });
+  }
+
+  public cureInjury(player: Player): void {
+    if(!player.$party) return;
+
+    this.subscriptionManager.emitToChannel(Channel.PlayerBuff, {
+      memberNames: player.$party.members.filter(x => x !== player.name),
+      cure: true
     });
   }
 
