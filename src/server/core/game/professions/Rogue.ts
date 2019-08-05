@@ -2,13 +2,14 @@ import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession } from '../../../../shared/interfaces';
+import { EventName } from '../events/Event';
 
 export class Rogue extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Energy';
-  public readonly oocAbilityName = 'Pilfer';
-  public readonly oocAbilityDesc = 'Steal a random amount of gold from a random player.';
-  public readonly oocAbilityCost = 999;
+  public readonly oocAbilityName = '"Good Luck"';
+  public readonly oocAbilityDesc = 'Create a positively golden windfall for yourself.';
+  public readonly oocAbilityCost = 40;
 
   public readonly statForStats = {
     [Stat.HP]: {
@@ -47,7 +48,10 @@ export class Rogue extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    return `Not yet implemented!`;
+    player.$$game.eventManager.doEventFor(player, EventName.BlessGold);
+    player.$$game.eventManager.doEventFor(player, EventName.Gamble);
+    player.$$game.eventManager.doEventFor(player, EventName.Merchant);
+    return `You took a trip to the golden city!`;
   }
 
   public determineStartingSpecial(): number {
