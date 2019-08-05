@@ -257,6 +257,7 @@ export class Player implements IPlayer {
     if(this.stamina.total < this.$pets.$activePet.$attribute.oocAbilityCost) return;
 
     this.increaseStatistic('Character/Stamina/Spend', this.$pets.$activePet.$attribute.oocAbilityCost);
+    this.increaseStatistic(`Pet/AbilityUses/Total`, 1);
     this.increaseStatistic(`Pet/AbilityUses/Attribute/${this.$pets.$activePet.attribute}`, 1);
     this.increaseStatistic(`Pet/AbilityUses/Pet/${this.$pets.$activePet.typeName}`, 1);
 
@@ -638,6 +639,7 @@ export class Player implements IPlayer {
       this.syncTitles();
       this.syncGenders();
       this.syncPersonalities();
+      this.syncPremium();
 
       this.$pets.syncBuyablePets(this);
     }

@@ -95,7 +95,15 @@ export class Achievements extends PlayerOwned {
   }
 
   public getGenders(): string[] {
-    return ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+    const base = ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+
+    return base.concat(flatten(Object.values(this.achievements).map(ach => {
+      return compact(
+        ach.rewards
+          .filter(reward => reward.type === AchievementRewardType.Gender)
+          .map(reward => reward.gender)
+      );
+    })));
   }
 
   public getPetAttributes(): PetAttribute[] {

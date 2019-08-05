@@ -11,6 +11,7 @@ export enum AchievementType {
 }
 
 export enum AchievementRewardType {
+  Gender = 'gender',
   Stats = 'stat#',
   StatMultipliers = 'stat%',
   Pet = 'pet',
@@ -60,6 +61,9 @@ export abstract class Achievement {
   }
 
   static log(num: number, base: number): number {
+    // hard return case for situations where you have a stat at 0
+    if(num === 0) return 0;
+
     return +parseFloat(
       (Math.log(num) / Math.log(base)).toString()
     ).toPrecision(1);

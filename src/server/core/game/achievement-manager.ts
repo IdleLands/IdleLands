@@ -3,8 +3,47 @@ import { compact } from 'lodash';
 
 import * as Achievements from './achievements';
 import { Player } from '../../../shared/models';
-import { IAchievement, AchievementType, AchievementRewardType, IPetProto } from '../../../shared/interfaces';
+import { IAchievement, AchievementType, AchievementRewardType, IPetProto, Profession, Achievement } from '../../../shared/interfaces';
 import { AssetManager } from './asset-manager';
+
+// big thanks to Boaty for this and the class change titles.
+// you da bes!
+const StepperAchievementTitles: { [key in Profession]: string } = {
+  [Profession.Archer]: 'Sagittarian',
+  [Profession.Barbarian]: 'Barbaric',
+  [Profession.Bard]: 'Diva',
+  [Profession.Bitomancer]: 'Digistepper',
+  [Profession.Cleric]: 'Divine',
+  [Profession.Fighter]: 'Warlord',
+  [Profession.Generalist]: 'Jack of All Trades',
+  [Profession.Jester]: 'Clown',
+  [Profession.Mage]: 'Magical',
+  [Profession.MagicalMonster]: 'Minotaur',
+  [Profession.Monster]: 'Monstrous',
+  [Profession.Necromancer]: 'Hellraiser',
+  [Profession.Pirate]: 'Piratical',
+  [Profession.Rogue]: 'Roguish',
+  [Profession.SandwichArtist]: 'Artistic'
+};
+
+const ClassChangeTitles: { [key in Profession]: string[] } = {
+  [Profession.Archer]: ['Off-Target', 'Inaccurate', 'Good Shot', 'Precise', 'Exact'],
+  [Profession.Barbarian]: ['Uncouth', 'Rude', 'Lowbrow', 'Philistine', 'Uncivilized'],
+  [Profession.Bard]: ['Tone Deaf', 'Melodic', 'Harmonic', 'Symphonic', 'Operatic'],
+  [Profession.Bitomancer]: ['Beta Tester', 'Code Monkey', 'Geek', 'Cyberpunk', 'l33t h4x0r'],
+  [Profession.Cleric]: ['Sanctimonious', 'Pious', 'Devout', 'Righteous', 'Saintly'],
+  [Profession.Fighter]: ['Ornery', 'Combatative', 'Pugilistic', 'Militant', 'Bellicose'],
+  [Profession.Generalist]: ['Vague', 'Undifferentiated', 'Average', 'Versatile', 'Well-Rounded'],
+  [Profession.Jester]: ['Unfunny', 'Laughable', 'Amusing', 'Hilarious', 'Hysterical'],
+  [Profession.Mage]: ['Charlatan', 'Conjurer', 'Wizard', 'Warlock', 'Shaman'],
+  [Profession.MagicalMonster]: ['Gnome', 'Goblin', 'Centaur', 'Griffin', 'Manticore'],
+  [Profession.Monster]: ['Yucky', 'Deformed', 'Freak of Nature', 'Grotesque', 'Inhuman'],
+  [Profession.Necromancer]: ['Morbid', 'Gravedigger', 'Witch Doctor', 'Dark Artist', 'Thaumaturge'],
+  [Profession.Pirate]: ['Damp', 'Swabbie', 'Keelhauler', 'Scurvy', 'Old Salt'],
+  [Profession.Rogue]: ['Naughty', 'Bad Egg', 'Rascal', 'Rapscallion', 'Blackguard'],
+  [Profession.SandwichArtist]: ['Bologna Botticelli', 'Grilled Cheese Gaugin', 'Roast Beef Rembrandt',
+                                'Pepperoni Picasso', 'Muffuletta Michaelangelo']
+};
 
 @Singleton
 @AutoWired
@@ -29,8 +68,8 @@ export class AchievementManager {
       });
     });
 
-    const allPetAchievements = this.getAllPetAchievements();
-    allPetAchievements.forEach(petAch => {
+    const allExtraAchievements: any[] = this.getAllPetAchievements().concat(this.getAllClassSpecificAchievements() as any[]);
+    allExtraAchievements.forEach(petAch => {
       this.allAchievements[petAch.name] = petAch;
 
       petAch.statWatches.forEach(stat => {
@@ -55,6 +94,51 @@ export class AchievementManager {
         rewardsForTier: () => [{ type: AchievementRewardType.Pet, pet: pet.typeName }]
       };
     });
+  }
+
+  private getAllClassSpecificAchievements() {
+    const allClasses = Object.values(Profession);
+
+    const stepper = allClasses.map(x => {
+      return {
+        name: `Stepper: ${x}`,
+        statWatches: [`Profession/${x}/Steps`],
+        type: AchievementType.Progress,
+        descriptionForTier: () => `You've taken ${(1000000).toLocaleString()} steps as a ${x}. Title: ${StepperAchievementTitles[x]}.`,
+        calculateTier: (player: Player) => player.$statistics.get(`Profession/${x}/Steps`) > 1000000 ? 1 : 0,
+        rewardsForTier: () => [{ type: AchievementRewardType.Title, title: StepperAchievementTitles[x] }]
+      };
+    });
+
+    const becomeTierMap = [5, 15, 25, 50, 100];
+
+    const becomer = allClasses.map(x => {
+      return {
+        name: `Professional: ${x}`,
+        statWatches: [`Profession/${x}/Become`],
+        type: AchievementType.Progress,
+        descriptionForTier: (tier: number) =>
+          `You've become a ${x} ${becomeTierMap[tier - 1]} times. Titles: ${ClassChangeTitles[x].slice(0, tier).join(', ')}.`,
+        calculateTier: (player: Player) => {
+          const base = player.$statistics.get(`Profession/${x}/Become`);
+          if(base >= 100) return 5;
+          if(base >= 50)  return 4;
+          if(base >= 25)  return 3;
+          if(base >= 15)  return 2;
+          if(base >= 5)   return 1;
+          return 0;
+        },
+        rewardsForTier: (tier: number) => {
+          const rewards = [];
+          for(let i = 0; i < tier; i++) {
+            rewards.push({ type: AchievementRewardType.Title, title: ClassChangeTitles[x][i] });
+          }
+          return rewards;
+        }
+      };
+    });
+
+    return stepper.concat(becomer);
   }
 
   private getAchievementObject(player: Player, achName: string, alwaysGet = false): IAchievement {
