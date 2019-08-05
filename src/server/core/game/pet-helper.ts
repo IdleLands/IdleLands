@@ -34,7 +34,7 @@ export class PetHelper {
 
   createPet(forPlayer: IPlayer, petProto: IPetProto): IPet {
     const gender = this.rng.pickone(forPlayer.availableGenders);
-    const attribute = petProto.attribute || this.rng.pickone(Object.values(PetAttribute));
+    const attribute = petProto.attribute || this.rng.pickone(forPlayer.$achievements.getPetAttributes());
     const affinity = petProto.affinity || this.rng.pickone(Object.values(PetAffinity));
 
     const pet = new Pet();

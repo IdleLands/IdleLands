@@ -706,6 +706,8 @@ export class Player implements IPlayer {
   public syncPremium() {
     const tier = this.$premiumData.tier;
 
+    const allAchievementBoosts = this.$achievements.getPermanentUpgrades();
+
     const allBuffBoosts = {};
 
     Object.keys(this.buffWatches).forEach(buffKey => {
@@ -723,6 +725,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/AdventureLogSize',
       25
     + (allBuffBoosts[PermanentUpgrade.AdventureLogSizeBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.AdventureLogSizeBoost] || 0)
     + (tier * 25)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.AdventureLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.AdventureLogSizeBoost));
@@ -730,6 +733,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/InventorySize',
       10
     + (allBuffBoosts[PermanentUpgrade.InventorySizeBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.InventorySizeBoost] || 0)
     + (tier * 10)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.InventorySizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.InventorySizeBoost));
@@ -737,6 +741,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/BuffScrollDuration',
       0
     + (allBuffBoosts[PermanentUpgrade.BuffScrollDuration] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.BuffScrollDuration] || 0)
     + (tier * 5)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.BuffScrollDuration)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.BuffScrollDuration));
@@ -744,6 +749,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/ChoiceLogSize',
       10
     + (allBuffBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
     + (tier * 10)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
@@ -751,6 +757,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/ItemStatCap',
       300
     + (allBuffBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
     + (tier * 100)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost));
@@ -758,6 +765,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/EnchantCap',
       10
     + (allBuffBoosts[PermanentUpgrade.EnchantCapBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.EnchantCapBoost] || 0)
     + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.EnchantCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.EnchantCapBoost));
@@ -765,6 +773,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/PetMissions',
       3
     + (allBuffBoosts[PermanentUpgrade.PetMissionCapBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.PetMissionCapBoost] || 0)
     + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.PetMissionCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.PetMissionCapBoost));
@@ -772,11 +781,13 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold',
       3
       + (allBuffBoosts[PermanentUpgrade.InjuryThreshold] || 0)
+      + (allAchievementBoosts[PermanentUpgrade.InjuryThreshold] || 0)
     );
 
     this.$statistics.set('Game/Premium/Upgrade/MaxPetsInCombat',
       1
       + (allBuffBoosts[PermanentUpgrade.MaxPetsInCombat] || 0)
+      + (allAchievementBoosts[PermanentUpgrade.MaxPetsInCombat] || 0)
     );
 
     this.$pets.validatePetMissionsAndQuantity(this);

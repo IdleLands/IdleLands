@@ -17,7 +17,8 @@ export enum AchievementRewardType {
   PetAttribute = 'petattr',
   Title = 'title',
   DeathMessage = 'deathmsg',
-  Personality = 'personality'
+  Personality = 'personality',
+  PermanentUpgrade = 'permanentupgrade'
 }
 
 export interface IAchievementReward {

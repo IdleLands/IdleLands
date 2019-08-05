@@ -3,7 +3,7 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 import { get, compact, flatten, sortBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
-import { IAchievement, AchievementRewardType } from '../../interfaces';
+import { IAchievement, AchievementRewardType, PermanentUpgrade, PetAttribute } from '../../interfaces';
 import { Player } from './Player.entity';
 
 @Entity()
@@ -46,6 +46,24 @@ export class Achievements extends PlayerOwned {
     ach.forEach(achi => this.add(achi));
   }
 
+  public getPermanentUpgrades(): { [key in PermanentUpgrade]?: number } {
+    return Object.values(this.achievements).reduce((prev, ach) => {
+        const rewards = compact(
+          ach.rewards
+            .filter(reward => reward.type === AchievementRewardType.PermanentUpgrade)
+        );
+
+        rewards.forEach(reward => {
+          Object.keys(reward.upgrades).forEach(upgrade => {
+            prev[upgrade] = prev[upgrade] || 0;
+            prev[upgrade] += reward.upgrades[upgrade];
+          });
+        });
+
+        return prev;
+      }, {});
+  }
+
   public getTitles(): string[] {
     return sortBy(flatten(Object.values(this.achievements).map(ach => {
         return compact(
@@ -78,6 +96,18 @@ export class Achievements extends PlayerOwned {
 
   public getGenders(): string[] {
     return ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+  }
+
+  public getPetAttributes(): PetAttribute[] {
+    const base = [PetAttribute.Cursed];
+
+    return base.concat(flatten(Object.values(this.achievements).map(ach => {
+      return compact(
+        ach.rewards
+          .filter(reward => reward.type === AchievementRewardType.PetAttribute)
+          .map(reward => reward.petattr)
+      );
+    })));
   }
 
 }
