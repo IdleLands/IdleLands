@@ -14,6 +14,7 @@ import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation,
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,10 @@ export class GameService {
 
   public playerMenu: IonMenu;
 
+  public gameSettings: any = {};
+
   constructor(
+    private http: HttpClient,
     private alertCtrl: AlertController,
     private storage: Storage,
     private authService: AuthService,
@@ -404,6 +408,13 @@ export class GameService {
     });
 
     alert.present();
+  }
+
+  public updateOptions() {
+    this.http.get(`${this.apiUrl}/settings`)
+      .subscribe(settings => {
+        this.gameSettings = settings;
+      });
   }
 
 }

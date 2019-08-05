@@ -109,10 +109,16 @@
             <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
 
             <ion-label>
-              <h2>{{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span></h2>
+              <h2>
+                <ion-icon *ngIf="player.mutedUntil" name="mic-off"></ion-icon>
+                <ion-icon *ngIf="player.modTier === 1" name="star-outline"></ion-icon>
+                <ion-icon *ngIf="player.modTier === 2" name="star-half"></ion-icon>
+                <ion-icon *ngIf="player.modTier === 5" name="star"></ion-icon>
+                {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+              </h2>
               <p class="vertical-center">
-                {{ player.profession }} &nbsp;
-                <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>
+                <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
+                &nbsp; {{ player.profession }}
               </p>
             </ion-label>
           </ion-item>

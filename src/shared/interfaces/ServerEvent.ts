@@ -56,7 +56,12 @@ export enum ServerEventName {
 
   AdventureLogAdd = 'adventurelog:add',
 
-  TogglePersonality = 'personality:toggle'
+  TogglePersonality = 'personality:toggle',
+
+  GMSetMOTD = 'gm:setmotd',
+  GMChangeModTier = 'gm:modtier',
+  GMStartFestival = 'gm:startfestival',
+  GMToggleMute = 'gm:togglemute'
 }
 
 export enum PlayerChannelOperation {

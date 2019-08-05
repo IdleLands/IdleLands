@@ -25,6 +25,7 @@
 .header-image {
   width: 48px;
   height: 48px;
+  margin-left: 10px;
 }
 
 .big-item {
@@ -107,6 +108,6 @@ ion-alert .alert-wrapper {
 
 .menu-bottom-left {
   position: absolute;
-  bottom: 10px;
-  left: 5px;
+  bottom: 5px;
+  right: 15px;
 }

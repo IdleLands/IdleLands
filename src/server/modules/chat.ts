@@ -24,10 +24,49 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
+    // only non-mods can be muted
+    if(!player.modTier) {
+
+      // if they're currently muted
+      if(player.mutedUntil > Date.now()) {
+        return this.gameError(`You're muted, friendo. Come back at ${new Date(player.mutedUntil).toLocaleString()}`);
+      }
+
+      // reset it
+      if(player.mutedUntil) {
+        player.messageCooldown = 0;
+        player.mutedUntil = 0;
+      }
+
+      // if player has a last message sent
+      if(player.lastMessageSent) {
+
+        // and they just sent one 500ms or less from the last one, increase their cooldown
+        if(player.lastMessageSent + 500 > Date.now()) {
+          player.messageCooldown = player.messageCooldown || 0;
+          player.messageCooldown++;
+
+        // otherwise, lower their cooldown
+        } else {
+          player.messageCooldown = player.messageCooldown || 0;
+          player.messageCooldown = Math.max(player.messageCooldown, 0);
+        }
+      }
+
+      // reset message sent time
+      player.lastMessageSent = Date.now();
+
+      // if they have more than 3 strikes, they're out
+      if(player.messageCooldown > 3) {
+        player.mutedUntil = Date.now() + 1000 * 60 * 15;
+      }
+    }
+
     this.game.chatHelper.sendMessageFromClient({
       timestamp: Date.now(),
       message,
 
+      realPlayerName: player.name,
       playerName: `${player.name}${player.title ? `, the ${player.title}` : ''}`,
       playerLevel: player.level.total,
       playerAscension: player.ascensionLevel

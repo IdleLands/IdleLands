@@ -7,6 +7,7 @@ import { IBuff } from './IBuff';
 import { IParty } from './IParty';
 import { Stat } from './Stat';
 import { ICombatSkill } from './ICombatSkill';
+import { ModeratorTier } from './Moderation';
 
 export enum Direction {
   Southwest = 1,
@@ -68,6 +69,7 @@ export interface IPlayer extends ICharacter {
   authId: string;
   authType: string;
   authSyncedTo: string;
+  modTier: ModeratorTier;
 
   createdAt: number;
 

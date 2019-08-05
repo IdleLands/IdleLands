@@ -5,14 +5,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChatPage } from './chat.page';
+import { ModeratorPage } from './moderator.page';
 import { SharedModule } from '../shared.module';
-import { ModQuickPopover } from './modquick.popover';
+import { ToggleMuteModal } from './togglemute.modal';
+import { ModTierModal } from './modtier.modal';
+import { ModFestivalModal } from './modfestival.modal';
 
 const routes: Routes = [
   {
     path: '',
-    component: ChatPage
+    component: ModeratorPage
   }
 ];
 
@@ -25,7 +27,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [ChatPage, ModQuickPopover],
-  entryComponents: [ModQuickPopover]
+  declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal],
+  entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal]
 })
-export class ChatPageModule {}
+export class ModeratorPageModule {}

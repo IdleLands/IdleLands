@@ -16,20 +16,26 @@
 
   <ion-row class="chat-container">
     <ion-col class="chat-area">
+
+      <ion-row class="motd-area">
+        <ion-col [innerHTML]="gameService.gameSettings.motd || 'No MOTD set' | linkify"></ion-col>
+      </ion-row>
+
       <ion-row class="output-area" #chatArea>
         <ion-col>
+
           <div class="blank-slate" *ngIf="gameService.messages.length === 0">
             No messages sent... yet!
           </div>
           <ion-list>
-            <ion-item *ngFor="let message of gameService.messages">
+            <ion-item *ngFor="let message of gameService.messages" class="chat-message" (contextmenu)="openPopover(message.realPlayerName, $event)">
               <ion-label text-wrap>
                 <h2>
                     <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
                   <span class="chat-username">{{ message.playerName }}</span>
                   <span class="chat-timestamp">{{ message.timestamp | date:'short' }}</span>
                 </h2>
-                <p>{{ message.message }}</p>
+                <p [innerHTML]="message.message | linkify"></p>
               </ion-label>
             </ion-item>
           </ion-list>

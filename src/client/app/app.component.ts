@@ -34,6 +34,8 @@ export class AppComponent {
 
   public appPages = [
 
+    { name: 'Moderation', icon: 'moderation', url: '/moderator', hideIf: (player) => !player.modTier },
+
     { name: 'Accomplishments', icon: 'achievements', url: '/accomplishments' },
 
     { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {

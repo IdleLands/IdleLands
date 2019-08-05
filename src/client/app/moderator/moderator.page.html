@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sup Moderators</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="gameService.player$ | async as player">
+    <ion-row *ngIf="!player.modTier">
+      <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
+
+        <ion-card>
+          <ion-card-content class="error-card">
+            Like, what are you doing here?
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="player.modTier > 0">
+      <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Chat Moderator Actions</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item (click)="toggleMutes()" button><ion-icon name="egg" slot="start"></ion-icon> Toggle Player Mute</ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="player.modTier > 1">
+      <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Game Moderator Actions</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item (click)="setMOTD()" button><ion-icon name="paper" slot="start"></ion-icon> Set MOTD</ion-item>
+              <ion-item (click)="createFestival()" button><ion-icon name="planet" slot="start"></ion-icon> Start Festival</ion-item>
+              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Statistic</ion-item>
+              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Name</ion-item>
+              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Level</ion-item>
+              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give ILP</ion-item>
+              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Gold</ion-item>
+              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Item</ion-item>
+              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Event</ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="player.modTier > 4">
+      <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Admin Actions</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item (click)="toggleMods()" button>
+                <ion-icon name="star-outline" slot="start"></ion-icon><ion-icon name="star-half" slot="start"></ion-icon> Manage Chat/Game Mods
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+
+</ion-content>

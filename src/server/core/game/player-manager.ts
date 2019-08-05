@@ -113,7 +113,9 @@ export class PlayerManager {
       map: player.map,
       ascensionLevel: player.ascensionLevel,
       gender: player.gender,
-      profession: player.profession
+      profession: player.profession,
+      mutedUntil: player.mutedUntil,
+      modTier: player.modTier
     };
   }
 

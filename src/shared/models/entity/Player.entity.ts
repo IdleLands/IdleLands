@@ -12,7 +12,7 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -56,6 +56,10 @@ export class Player implements IPlayer {
   @Column() public authId: string;
   @Column() public authSyncedTo: string;
   @Column() public authType: string;
+  @Column() public modTier: ModeratorTier;
+  @Column() public mutedUntil: number;
+  @Column() public lastMessageSent: number;
+  @Column() public messageCooldown: number;
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
@@ -227,6 +231,8 @@ export class Player implements IPlayer {
       this.divineDirection.steps--;
       if(this.divineDirection.steps <= 0) this.divineDirection = null;
     }
+
+    if(this.mutedUntil < Date.now()) this.mutedUntil = 0;
 
     this.$pets.loop();
 

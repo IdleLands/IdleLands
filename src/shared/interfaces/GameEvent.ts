@@ -29,5 +29,8 @@ export enum Channel {
   PlayerEvent = 'internal:playerEvents',
 
   // internal: used to sync festivals between servers
-  Festivals = 'internal:festivals'
+  Festivals = 'internal:festivals',
+
+  // internal: used to sync game settings between servers
+  GameSettings = 'internal:gamesettings',
 }

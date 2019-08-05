@@ -5,7 +5,7 @@ import { extend } from 'lodash';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Assets } from '../../../shared/models';
+import { Player, Assets, GameSettings } from '../../../shared/models';
 import { Logger } from '../logger';
 import { SHARED_FIELDS } from './shared-fields';
 import { Festivals } from '../../../shared/models/entity/Festivals.entity';
@@ -198,6 +198,29 @@ export class DatabaseManager {
 
     } catch(e) {
       this.logger.error(`DatabaseManager#saveFestivals`, e);
+    }
+  }
+
+  // SETTINGS FUNCTIONS
+  public async loadSettings(): Promise<GameSettings> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.findOne(GameSettings);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadSettings`, e);
+    }
+  }
+
+  public async saveSettings(settings: GameSettings): Promise<GameSettings> {
+    if(!this.connection) return null;
+
+    try {
+      return await this.connection.manager.save(GameSettings, settings);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#saveSettings`, e);
     }
   }
 

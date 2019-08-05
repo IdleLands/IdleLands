@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GameService } from '../game.service';
@@ -8,12 +8,16 @@ import { GameService } from '../game.service';
   templateUrl: './adventure-log.page.html',
   styleUrls: ['./adventure-log.page.scss'],
 })
-export class AdventureLogPage {
+export class AdventureLogPage implements OnInit {
 
   constructor(
     private router: Router,
     public gameService: GameService
   ) { }
+
+  ngOnInit() {
+    this.gameService.updateOptions();
+  }
 
   openLink(link: string) {
     window.open(link, '_blank');

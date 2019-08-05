@@ -21,4 +21,5 @@ export * from './IPremium';
 export * from './IProfession';
 export * from './ICombatSkill';
 
+export * from './Moderation';
 export * from './Stat';

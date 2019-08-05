@@ -27,6 +27,7 @@ import { RNGService } from './rng-service';
 import { CombatHelper } from './combat-helper';
 import { CalculatorHelper } from './calculator-helper';
 import { FestivalManager } from './festival-manager';
+import { GMHelper } from './gm-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -56,6 +57,7 @@ export class Game implements IGame {
   @Inject public combatHelper: CombatHelper;
   @Inject public calculatorHelper: CalculatorHelper;
   @Inject public festivalManager: FestivalManager;
+  @Inject public gmHelper: GMHelper;
   @Inject public world: World;
 
   private ticks = 0;
@@ -102,6 +104,9 @@ export class Game implements IGame {
 
     this.logger.log('Game', 'Festival manager initializing...');
     await this.festivalManager.init();
+
+    this.logger.log('Game', 'GM helper initializing...');
+    await this.gmHelper.init();
 
     this.logger.log('Game', 'Chat helper initializing...');
     await this.chatHelper.init((msg: string) => {

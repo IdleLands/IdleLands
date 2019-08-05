@@ -4,6 +4,7 @@ export interface IMessage {
   message: string;
 
   playerName: string;
+  realPlayerName?: string;
   playerLevel?: number;
   playerAscension?: number;
 

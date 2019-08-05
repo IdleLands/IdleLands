@@ -1,6 +1,6 @@
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { DatabaseManager } from './database-manager';
-import { Festivals } from '../../../shared/models/entity/Festivals.entity';
+import { Festivals } from '../../../shared/models/entity';
 import { IFestival, Stat, Channel, FestivalChannelOperation } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { Player } from '../../../shared/models';
@@ -70,6 +70,18 @@ export class FestivalManager {
     this.chat.sendMessageFromClient({
       message: `A new festival "${festival.name}" has started!`,
       playerName: '☆System'
+    });
+  }
+
+  public startGMFestival(player: Player, festival: IFestival) {
+
+    const addedFestival = this.makeSystemFestival(festival);
+
+    this.addFestival(addedFestival);
+
+    this.chat.sendMessageFromClient({
+      message: `A new festival "${addedFestival.name}" has started!`,
+      playerName: `☆${player.name}`
     });
   }
 

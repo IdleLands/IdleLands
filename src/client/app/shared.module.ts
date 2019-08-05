@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule } from '@ionic/angular';
 
+import { NgxLinkifyjsModule, NgxLinkifyjsPipe } from 'ngx-linkifyjs';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { CountdownTimerModule, CountdownTimer } from 'ngx-countdown-timer';
 
@@ -64,6 +65,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
+    NgxLinkifyjsModule.forRoot(),
     FilterPipeModule,
     CountdownTimerModule,
     IonicModule.forRoot(),
@@ -72,6 +74,7 @@ import { RouterModule } from '@angular/router';
     AngularFireAuthModule
   ],
   exports: [
+    NgxLinkifyjsPipe,
     GendervatarComponent,
     ItemComponent,
     EquipSomethingElseModal,

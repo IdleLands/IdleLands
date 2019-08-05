@@ -14,6 +14,10 @@
     </div>
 
     <ion-list>
+      <ion-item *ngIf="gameService.gameSettings.motd" color="medium">
+        <ion-label [innerHTML]="gameService.gameSettings.motd | linkify"></ion-label>
+      </ion-item>
+
       <ion-item *ngFor="let item of log">
         <ion-icon slot="start" [src]="'assets/icon/symbol-' + item.type + '.svg'"></ion-icon>
 

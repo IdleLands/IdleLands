@@ -101,6 +101,8 @@ export class SocketClusterService {
   }
 
   public async toastNotify(info) {
+    if(!document.hasFocus()) return;
+
     const toastOpts: ToastOptions = {
       header: info.header,
       position: info.position || 'top',

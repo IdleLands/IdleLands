@@ -2,7 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
-import { IonList } from '@ionic/angular';
+import { IonList, PopoverController } from '@ionic/angular';
+import { ModQuickPopover } from './modquick.popover';
 
 @Component({
   selector: 'app-chat',
@@ -18,11 +19,15 @@ export class ChatPage implements OnInit {
   public message: string;
 
   constructor(
+    private popoverCtrl: PopoverController,
     private gameService: GameService,
     private socketService: SocketClusterService
   ) { }
 
   async ngOnInit() {
+
+    this.gameService.updateOptions();
+
     this.mutationObserver = new MutationObserver(() => {
       setTimeout(() => {
         this.chatArea.el.scrollTop = this.chatArea.el.scrollHeight;
@@ -48,6 +53,24 @@ export class ChatPage implements OnInit {
 
     this.socketService.emit(ServerEventName.ChatMessage, { message });
     this.message = '';
+  }
+
+  async openPopover(playerName: string, $event) {
+    if(!this.gameService.playerRef.modTier || !playerName) return;
+
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    const popover = await this.popoverCtrl.create({
+      component: ModQuickPopover,
+      componentProps: {
+        playerName
+      },
+      event: $event,
+      translucent: true
+    });
+
+    return await popover.present();
   }
 
 }

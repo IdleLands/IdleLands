@@ -197,7 +197,7 @@ export class CombatHelper {
       combatPlayer.combatId = currentId;
       combatPlayer.combatPartyId = 0;
       characters[currentId] = combatPlayer;
-      ante[currentId] = antes[combatPlayer.realName];
+      ante[currentId] = antes[combatPlayer.realName] || { xp: 0, gold: 0 };
       currentId++;
     });
 

@@ -1,6 +1,10 @@
 
 .chat-container {
   height: 100%;
+
+  .motd-area {
+    border-bottom: 1px solid #000;
+  }
   
   .chat-area {
     display: flex;
@@ -13,6 +17,10 @@
 
       overflow-x: hidden;
       overflow-y: scroll;
+
+      .chat-message:last-child {
+        --inner-border-width: 0 0 0 0;
+      }
     }
     
     .input-area {
