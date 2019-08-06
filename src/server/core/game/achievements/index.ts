@@ -1,12 +1,16 @@
 
 export * from './Achiever';
 export * from './Affirmer';
+export * from './Ascended';
 export * from './BoosterSeat';
+export * from './Camper';
 export * from './Cheater';
 export * from './Collector';
+export * from './Consumerist';
 export * from './Classfluid';
 export * from './Comedian';
 export * from './Denier';
+export * from './Drunk';
 export * from './Entitled';
 export * from './Fallen';
 export * from './Fateful';

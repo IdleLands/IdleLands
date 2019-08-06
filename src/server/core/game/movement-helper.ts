@@ -377,6 +377,10 @@ export class MovementHelper {
     if(player.$personalities.isActive('Drunk')) {
       player.increaseStatistic(`Character/Movement/Steps/Drunk`, 1);
     }
+
+    if(player.$personalities.isActive('Solo')) {
+      player.increaseStatistic(`Character/Movement/Steps/Solo`, 1);
+    }
   }
 
 }

@@ -4,7 +4,7 @@ import { Player } from '../../../../shared/models';
 export class Fateful extends Achievement {
 
   static readonly statWatches = ['Event/Providence/Times'];
-  static readonly type = AchievementType.Explore;
+  static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain a title and pet attribute (Fateful) for using the Fate Pools 500 times.`;

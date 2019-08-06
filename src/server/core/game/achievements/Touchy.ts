@@ -6,7 +6,7 @@ export class Touchy extends Achievement {
   static readonly base = 10;
 
   static readonly statWatches = ['Item/Collectible/Touch'];
-  static readonly type = AchievementType.Progress;
+  static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier}% XP for touching ${Math.pow(Touchy.base, tier).toLocaleString()} collectibles.`;
