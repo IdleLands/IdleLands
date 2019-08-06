@@ -381,6 +381,10 @@ export class MovementHelper {
     if(player.$personalities.isActive('Solo')) {
       player.increaseStatistic(`Character/Movement/Steps/Solo`, 1);
     }
+
+    if(player.$party) {
+      player.increaseStatistic(`Character/Movement/Steps/Party`, 1);
+    }
   }
 
 }
