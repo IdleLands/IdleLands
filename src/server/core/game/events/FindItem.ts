@@ -1,6 +1,6 @@
 import { Event, EventMessageType } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
-import { AdventureLogEventType, ServerEventName } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ServerEventName, Stat } from '../../../../shared/interfaces';
 
 export class FindItem extends Event {
   public static readonly WEIGHT = 30;
@@ -40,7 +40,7 @@ export class FindItem extends Event {
   }
 
   public operateOn(player: Player, opts: any = { item: null, fromPet: false, fromGuardian: false, fromPillage: false, fromChest: false }) {
-    const item = opts.item || this.itemGenerator.generateItemForPlayer(player);
+    const item: Item = opts.item || this.itemGenerator.generateItemForPlayer(player);
     if(!item) {
       player.increaseStatistic(`Event/FindItem/Nothing`, 1);
       return;
@@ -68,7 +68,33 @@ export class FindItem extends Event {
       }
     });
 
-    player.$choices.addChoice(player, choice);
+    const autoEquipPersonalities = [
+      { name: 'Strong',       stat: Stat.STR },
+      { name: 'Intelligent',  stat: Stat.INT },
+      { name: 'Fortuitous',   stat: Stat.CON },
+      { name: 'Dextrous',     stat: Stat.DEX },
+      { name: 'Agile',        stat: Stat.AGI },
+      { name: 'Lucky',        stat: Stat.LUK }
+    ];
+
+    const didAutoEquip = autoEquipPersonalities.some(({ name, stat }) => {
+      if(!player.$personalities.isActive(name)) return false;
+
+      const currentItem = player.$inventory.itemInEquipmentSlot(item.type);
+
+      if(!currentItem) return true;
+
+      if(!item.stats[stat]) return false;
+      if(item.stats[stat] <= currentItem.stats[stat]) return false;
+
+      return true;
+    });
+
+    if(didAutoEquip) {
+      this.doChoice(player.$$game.eventManager, player, choice, 'Yes');
+    } else {
+      player.$choices.addChoice(player, choice);
+    }
 
     const chestText = opts.fromChest
       ? this._parseText(`%player found %item on in a treasure chest!`, player, { item: item.fullName() })

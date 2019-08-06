@@ -11,6 +11,10 @@ export class Comedian extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier} achievement(s) for jesting ${Math.pow(Comedian.base, tier).toLocaleString()} times.`;
 
+    if(tier >= 2) {
+      baseStr = `${baseStr} Personality: Lucky.`;
+    }
+
     if(tier >= 6) {
       baseStr = `${baseStr} Title: Comedian.`;
     }
@@ -25,6 +29,10 @@ export class Comedian extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [];
+
+    if(tier >= 2) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Lucky' });
+    }
 
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Comedian' });

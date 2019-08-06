@@ -64,8 +64,6 @@ export abstract class Achievement {
     // hard return case for situations where you have a stat at 0
     if(num === 0) return 0;
 
-    return +parseFloat(
-      (Math.log(num) / Math.log(base)).toString()
-    ).toPrecision(1);
+    return Math.log(num) / Math.log(base);
   }
 }

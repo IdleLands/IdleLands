@@ -11,6 +11,10 @@ export class Sponge extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 5}% CON for taking ${Math.pow(Sponge.base, tier).toLocaleString()} damage.`;
 
+    if(tier >= 3) {
+      baseStr = `${baseStr} Personality: Fortuitous.`;
+    }
+
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Porifera.`;
     }
@@ -29,6 +33,10 @@ export class Sponge extends Achievement {
         [Stat.CON]: 1 + (tier * 0.05)
        } }
     ];
+
+    if(tier >= 3) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Fortuitous' });
+    }
 
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Porifera' });
