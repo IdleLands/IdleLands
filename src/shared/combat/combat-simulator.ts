@@ -160,8 +160,10 @@ export class CombatSimulator {
   private formatMessage(skillEffect: ICombatSkillEffect, forCharacter: ICombatCharacter): string {
     if(!skillEffect.desc) return '';
 
+    const refChar = this.combat.characters[skillEffect.source];
+
     const replacements: Array<{ replace: string, with: string }> = [
-      { replace: 'source',  with: this.combat.characters[skillEffect.source].name },
+      { replace: 'source',  with: refChar ? refChar.name : 'a mysterious force' },
       { replace: 'value',   with: Math.abs(skillEffect.modifyStatValue).toLocaleString() },
       { replace: 'rvalue',  with: skillEffect.modifyStatValue.toLocaleString() },
       { replace: 'target',  with: forCharacter.name },

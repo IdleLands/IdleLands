@@ -1634,7 +1634,6 @@
 
     gatherTime:
       - { v: 0,       c: 0 }
-      - { v: 86400,   c: 10000 }
     
     itemFindQualityBoost:
       - { v: 0, c: 0 }
@@ -1680,3 +1679,501 @@
     - CrystalPurple: 10
       CrystalBlue: 10
       CrystalAstral: 3
+
+- typeName: Ghostly Sword
+  affinity: Hunter
+  cost: 50000000
+
+  equipmentSlots:
+    mainhand: 3
+  
+  soulStats:
+    str: 3000
+
+  maxLevelPerAscension:
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+
+  requirements:
+    statistics:
+      Combat/Profession/All/Give/Damage: 10000000
+      BossKill/Boss/Cloud Giant: 1
+      BossKill/Boss/Ghostly Pirate Captain: 1
+      BossKill/Boss/Goblin lord: 1
+      BossKill/Boss/King Minotaur: 1
+      BossKill/Boss/Lord Waxington: 1
+      BossKill/Boss/Warden of Norkos: 1
+      BossKill/Boss/Maelian Ninja Master: 1
+      BossKill/Boss/Smasher: 1
+      BossKill/Boss/Slicer: 1
+      BossKill/Boss/Fire Giant: 1
+    collectibles:
+      - Orcish Blade
+      - Pretty Cool Looking Dagger
+      - Shattered Shortsword
+      - Smashed Mace
+
+  upgrades:
+    goldStorage:
+      - { v: 0,     c: 0 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 100000 }
+      - { v: 70,  c: 200000,  a: 2 }
+      - { v: 80,  c: 300000,  a: 3 }
+      - { v: 90,  c: 400000,  a: 4 }
+      - { v: 100, c: 500000,  a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 20,   c: 100000,   a: 1 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalRed: 2
+      CrystalYellow: 2
+      CrystalAstral: 3
+    - CrystalRed: 4
+      CrystalYellow: 4
+      CrystalAstral: 3
+    - CrystalRed: 6
+      CrystalYellow: 6
+      CrystalAstral: 3
+    - CrystalRed: 8
+      CrystalYellow: 8
+      CrystalAstral: 3
+    - CrystalRed: 10
+      CrystalYellow: 10
+      CrystalAstral: 3
+
+- typeName: Ghostly Shield
+  affinity: Defender
+  cost: 50000000
+
+  equipmentSlots:
+    offhand: 3
+  
+  soulStats:
+    con: 3000
+
+  maxLevelPerAscension:
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+
+  requirements:
+    statistics:
+      Combat/Profession/All/Take/Damage: 10000000
+      BossKill/Boss/Basilisk: 1
+      BossKill/Boss/Necromancer Guardian: 1
+      BossKill/Boss/Mage Guardian: 1
+      BossKill/Boss/Fighter Guardian: 1
+      BossKill/Boss/Generalist Guardian: 1
+      BossKill/Boss/Cleric Guardian: 1
+      BossKill/Boss/Guardian Lord: 1
+    collectibles:
+      - Black Shroud
+      - Guardian Fragment
+      - Norkian Buckler
+
+  upgrades:
+    goldStorage:
+      - { v: 0,     c: 0 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 100000 }
+      - { v: 70,  c: 200000,  a: 2 }
+      - { v: 80,  c: 300000,  a: 3 }
+      - { v: 90,  c: 400000,  a: 4 }
+      - { v: 100, c: 500000,  a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 20,   c: 100000,   a: 1 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalOrange: 2
+      CrystalYellow: 2
+      CrystalAstral: 3
+    - CrystalOrange: 4
+      CrystalYellow: 4
+      CrystalAstral: 3
+    - CrystalOrange: 6
+      CrystalYellow: 6
+      CrystalAstral: 3
+    - CrystalOrange: 8
+      CrystalYellow: 8
+      CrystalAstral: 3
+    - CrystalOrange: 10
+      CrystalYellow: 10
+      CrystalAstral: 3
+
+- typeName: Digipet
+  cost: 250000000
+
+  equipmentSlots:
+    body: 1
+    charm: 1
+    feet: 1
+    finger: 1
+    legs: 1
+    hands: 1
+    head: 1
+    mainhand: 1
+    neck: 1
+    offhand: 1
+  
+  soulStats:
+    str: 500
+    dex: 500
+    con: 500
+    int: 500
+    agi: 500
+    luk: 500
+
+  maxLevelPerAscension:
+    - 100
+    - 200
+    - 400
+    - 600
+    - 800
+    - 1000
+
+  requirements:
+    statistics:
+      Profession/Archer/Become: 1
+      Profession/Barbarian/Become: 1
+      Profession/Bard/Become: 1
+      Profession/Bitomancer/Become: 1
+      Profession/Cleric/Become: 1
+      Profession/Fighter/Become: 1
+      Profession/Generalist/Become: 1
+      Profession/Jester/Become: 1
+      Profession/Mage/Become: 1
+      Profession/MagicalMonster/Become: 1
+      Profession/Monster/Become: 1
+      Profession/Necromancer/Become: 1
+      Profession/Pirate/Become: 1
+      Profession/Rogue/Become: 1
+    collectibles:
+      - Giant Sized Flask
+      - Vial of Liquid Fate
+
+  upgrades:
+    goldStorage:
+      - { v: 0,         c: 0 }
+      - { v: 5000000,   c: 500000 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 100000 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 1800,    c: 1500000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0,    c: 0 }
+      - { v: 150,  c: 10000000 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,   c: 0 }
+      - { v: 10,  c: 1000000 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+      - { v: 3, c: 10000000 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 100,  c: 100000,   a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalBlue: 2
+      CrystalGreen: 2
+      CrystalYellow: 2
+      CrystalOrange: 2
+      CrystalRed: 2
+      CrystalPurple: 2
+      CrystalAstral: 4
+    - CrystalBlue: 4
+      CrystalGreen: 4
+      CrystalYellow: 4
+      CrystalOrange: 4
+      CrystalRed: 4
+      CrystalPurple: 4
+      CrystalAstral: 4
+    - CrystalBlue: 6
+      CrystalGreen: 6
+      CrystalYellow: 6
+      CrystalOrange: 6
+      CrystalRed: 6
+      CrystalPurple: 6
+      CrystalAstral: 4
+    - CrystalBlue: 8
+      CrystalGreen: 8
+      CrystalYellow: 8
+      CrystalOrange: 8
+      CrystalRed: 8
+      CrystalPurple: 8
+      CrystalAstral: 4
+    - CrystalBlue: 10
+      CrystalGreen: 10
+      CrystalYellow: 10
+      CrystalOrange: 10
+      CrystalRed: 10
+      CrystalPurple: 10
+      CrystalAstral: 4
+      
+- typeName: Golden Floating Broom
+  cost: 5000
+
+  equipmentSlots:
+    charm: 1
+    neck: 1
+  
+  soulStats:
+    str: 200
+    con: 200
+    int: 200
+    gold: 200
+
+  maxLevelPerAscension:
+    - 50
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+
+  requirements:
+    statistics:
+      Game/Premium/Tier: 1
+
+  upgrades:
+    goldStorage:
+      - { v: 20000,    c: 0 }
+      - { v: 200000,   c: 20000 }
+      - { v: 1000000,  c: 100000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 15,  c: 10000 }
+      - { v: 30,  c: 100000 }
+      - { v: 45,  c: 500000,   a: 2 }
+      - { v: 60,  c: 5000000,  a: 4 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 43200,   c: 150000,    a: 1 }
+      - { v: 21600,   c: 450000,    a: 3 }
+      - { v: 10800,   c: 950000,    a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 5,   c: 5000 }
+      - { v: 10,  c: 25000,   a: 1 }
+      - { v: 15,  c: 50000,   a: 2 }
+      - { v: 20,  c: 150000,  a: 3 }
+      - { v: 25,  c: 250000,  a: 4 }
+      - { v: 50,  c: 950000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+      - { v: 10, c: 100000 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 100000, a: 3 }
+      - { v: 100, c: 100000, a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalAstral: 1
+    - CrystalAstral: 2
+    - CrystalAstral: 3
+    - CrystalAstral: 4
+    - CrystalAstral: 5
+
+- typeName: Goat
+  affinity: None
+  cost: 50000000
+
+  equipmentSlots:
+    charm: 3
+  
+  soulStats:
+    luk: 3000
+
+  maxLevelPerAscension:
+    - 500
+    - 600
+    - 700
+    - 800
+    - 900
+    - 1000
+
+  requirements:
+    statistics:
+      Combat/Item/Salvage: 100000
+    collectibles:
+      - Twisted Turnip
+      - Leviathan Egg
+
+  upgrades:
+    goldStorage:
+      - { v: 0,     c: 0 }
+      - { v: 100000,    c: 10000 }
+      - { v: 500000,    c: 50000 }
+      - { v: 1000000,   c: 100000 }
+      - { v: 5000000,   c: 500000 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 21300,   c: 150000 }
+      - { v: 7100,    c: 1500000,  a: 3 }
+      - { v: 2700,    c: 15000000, a: 4 }
+      - { v: 300,     c: 45000000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 1000000 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+      - { v: 50,   c: 150000 }
+      - { v: 100,  c: 1250000,  a: 2 }
+      - { v: 150,  c: 3500000,  a: 3 }
+      - { v: 200,  c: 6500000,  a: 4 }
+      - { v: 250,  c: 7500000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+      - { v: 10, c: 1000000, a: 3 }
+      - { v: 20, c: 10000000, a: 4 }
+      - { v: 30, c: 100000000, a: 5 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000 }
+      - { v: 5, c: 10000000 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 50,   c: 100000,   a: 1 }
+      - { v: 75,   c: 1000000,  a: 3 }
+      - { v: 100,  c: 10000000, a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalAstral: 2
+    - CrystalAstral: 4
+    - CrystalAstral: 6
+    - CrystalAstral: 8
+    - CrystalAstral: 10
