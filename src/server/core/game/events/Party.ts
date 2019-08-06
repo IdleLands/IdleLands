@@ -7,7 +7,7 @@ export class Party extends Event {
   public static readonly WEIGHT = 9;
 
   public operateOn(player: Player) {
-    if(player.$personalities.isActive('Solo')) {
+    if(player.$personalities.isActive('Solo') || player.$personalities.isActive('Follower')) {
       this.emitMessage([player],
         'You almost started looking for a party before you realized you did not want one!', AdventureLogEventType.Party);
       return;
@@ -27,6 +27,7 @@ export class Party extends Event {
       && x !== player
       && !x.$personalities.isActive('Solo')
       && !x.$personalities.isActive('Camper')
+      && !x.$personalities.isActive('Leader')
     );
     if(checkPlayers.length < 3) {
       this.emitMessage([player], 'You almost found enough people for a group!', AdventureLogEventType.Party);

@@ -7,7 +7,7 @@ export class Partier extends Achievement {
   static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain a personality (Solo) for party-stepping 10,000 times.`;
+    let baseStr = `Gain three personalities (Solo, Leader, Follower) for party-stepping 10,000 times.`;
 
     if(tier >= 2) {
       baseStr = `${baseStr} Title: Synergistic. +5 max stamina.`;
@@ -30,7 +30,9 @@ export class Partier extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
-      { type: AchievementRewardType.Personality, personality: 'Solo' }
+      { type: AchievementRewardType.Personality, personality: 'Solo' },
+      { type: AchievementRewardType.Personality, personality: 'Leader' },
+      { type: AchievementRewardType.Personality, personality: 'Follower' }
     ];
 
     if(tier >= 2) {
