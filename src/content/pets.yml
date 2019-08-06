@@ -265,3 +265,1418 @@
     - CrystalRed: 15
       CrystalAstral: 3
 
+- typeName: Red Spirit
+  affinity: Attacker
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    hands: 1
+    mainhand: 2
+  
+  soulStats:
+    str: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Red"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,  c: 0 }
+      - { v: 500000, c: 50000 }
+
+    battleJoinPercent:
+      - { v: 25,  c: 0 }
+      - { v: 35,  c: 10000 }
+      - { v: 50,  c: 100000 }
+      - { v: 75,  c: 5000000, a: 3 }
+      - { v: 100, c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,    a: 2 }
+      - { v: 43200,   c: 150000,   a: 3 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 1000000, a: 3 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 25,  c: 250000 }
+      - { v: 50,  c: 1250000,  a: 1 }
+      - { v: 75,  c: 5250000,  a: 3 }
+      - { v: 100, c: 15250000, a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalRed: 2
+      CrystalAstral: 2
+    - CrystalRed: 4
+      CrystalAstral: 2
+    - CrystalRed: 6
+      CrystalAstral: 2
+    - CrystalRed: 8
+      CrystalAstral: 2
+    - CrystalRed: 10
+      CrystalAstral: 2
+
+- typeName: Blue Spirit
+  affinity: Buffer
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    offhand: 1
+    charm: 2
+  
+  soulStats:
+    agi: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Blue"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,  c: 0 }
+      - { v: 500000, c: 50000 }
+      - { v: 5000000, c: 500000, a: 1 }
+
+    battleJoinPercent:
+      - { v: 25,  c: 0 }
+      - { v: 35,  c: 10000 }
+      - { v: 50,  c: 100000 }
+      - { v: 75,  c: 5000000, a: 3 }
+      - { v: 85,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,    a: 2 }
+      - { v: 43200,   c: 150000,   a: 3 }
+      - { v: 21600,   c: 450000,   a: 4 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 1000000, a: 3 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 250000 }
+      - { v: 75,  c: 1250000,  a: 1 }
+      - { v: 100, c: 5250000,  a: 3 }
+      - { v: 125, c: 15250000, a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalBlue: 2
+      CrystalAstral: 2
+    - CrystalBlue: 4
+      CrystalAstral: 2
+    - CrystalBlue: 6
+      CrystalAstral: 2
+    - CrystalBlue: 8
+      CrystalAstral: 2
+    - CrystalBlue: 10
+      CrystalAstral: 2
+
+- typeName: Purple Spirit
+  affinity: Caster
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    mainhand: 1
+    neck: 2
+  
+  soulStats:
+    int: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Purple"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,  c: 0 }
+      - { v: 500000, c: 50000 }
+
+    battleJoinPercent:
+      - { v: 45,  c: 0 }
+      - { v: 55,  c: 10000 }
+      - { v: 65,  c: 100000 }
+      - { v: 75,  c: 5000000, a: 3 }
+      - { v: 90,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,    a: 2 }
+      - { v: 43200,   c: 150000,   a: 3 }
+      - { v: 21600,   c: 450000,   a: 4 }
+      - { v: 10800,   c: 450000,   a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 250000 }
+      - { v: 75,  c: 1250000,  a: 1 }
+      - { v: 100, c: 5250000,  a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalPurple: 2
+      CrystalAstral: 2
+    - CrystalPurple: 4
+      CrystalAstral: 2
+    - CrystalPurple: 6
+      CrystalAstral: 2
+    - CrystalPurple: 8
+      CrystalAstral: 2
+    - CrystalPurple: 10
+      CrystalAstral: 2
+
+- typeName: Yellow Spirit
+  affinity: Defender
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    legs: 1
+    offhand: 2
+  
+  soulStats:
+    con: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Yellow"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,    c: 0 }
+      - { v: 500000,   c: 50000 }
+      - { v: 5000000,  c: 500000 }
+      - { v: 50000000, c: 5000000, a: 3 }
+
+    battleJoinPercent:
+      - { v: 40,  c: 0 }
+      - { v: 50,  c: 10000 }
+      - { v: 60,  c: 100000 }
+      - { v: 70,  c: 5000000, a: 3 }
+      - { v: 80,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,    a: 2 }
+      - { v: 43200,   c: 150000,   a: 3 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 250000 }
+      - { v: 75,  c: 1250000,  a: 1 }
+      - { v: 100, c: 5250000,  a: 3 }
+      - { v: 150, c: 5250000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalYellow: 2
+      CrystalAstral: 2
+    - CrystalYellow: 4
+      CrystalAstral: 2
+    - CrystalYellow: 6
+      CrystalAstral: 2
+    - CrystalYellow: 8
+      CrystalAstral: 2
+    - CrystalYellow: 10
+      CrystalAstral: 2
+      
+- typeName: Orange Spirit
+  affinity: Hunter
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    mainhand: 1
+    hands: 2
+  
+  soulStats:
+    dex: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Orange"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,    c: 0 }
+      - { v: 500000,   c: 50000 }
+
+    battleJoinPercent:
+      - { v: 40,  c: 0 }
+      - { v: 50,  c: 10000 }
+      - { v: 60,  c: 100000 }
+      - { v: 70,  c: 5000000, a: 3 }
+      - { v: 85,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,     a: 1 }
+      - { v: 43200,   c: 150000,    a: 2 }
+      - { v: 21600,   c: 1500000,   a: 3 }
+      - { v: 10800,   c: 15000000,  a: 4 }
+      - { v: 5400,    c: 150000000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 250000 }
+      - { v: 75,  c: 1250000,  a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalOrange: 2
+      CrystalAstral: 2
+    - CrystalOrange: 4
+      CrystalAstral: 2
+    - CrystalOrange: 6
+      CrystalAstral: 2
+    - CrystalOrange: 8
+      CrystalAstral: 2
+    - CrystalOrange: 10
+      CrystalAstral: 2
+      
+- typeName: Green Spirit
+  affinity: Healer
+  cost: 100000
+
+  equipmentSlots:
+    body: 1
+    neck: 1
+    charm: 2
+  
+  soulStats:
+    luk: 100
+
+  maxLevelPerAscension:
+    - 75
+    - 150
+    - 225
+    - 300
+    - 375
+    - 450
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    collectibles:
+      - "Pet Soul: Green"
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,    c: 0 }
+      - { v: 500000,   c: 50000 }
+      - { v: 5000000,  c: 500000 }
+
+    battleJoinPercent:
+      - { v: 40,  c: 0 }
+      - { v: 50,  c: 10000 }
+      - { v: 60,  c: 100000 }
+      - { v: 70,  c: 5000000,  a: 2 }
+      - { v: 85,  c: 50000000, a: 4 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000,     a: 1 }
+      - { v: 43200,   c: 150000,    a: 2 }
+      - { v: 21600,   c: 1500000,   a: 3 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 250000 }
+      - { v: 75,  c: 1250000,  a: 3 }
+      - { v: 125, c: 12500000, a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 1,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalGreen: 2
+      CrystalAstral: 2
+    - CrystalGreen: 4
+      CrystalAstral: 2
+    - CrystalGreen: 6
+      CrystalAstral: 2
+    - CrystalGreen: 8
+      CrystalAstral: 2
+    - CrystalGreen: 10
+      CrystalAstral: 2
+      
+- typeName: Corgi
+  cost: 5000
+
+  equipmentSlots:
+    body: 1
+    feet: 2
+    head: 1
+  
+  soulStats:
+    str: 200
+    dex: 200
+    int: 200
+
+  maxLevelPerAscension:
+    - 50
+    - 75
+    - 100
+    - 125
+    - 150
+    - 175
+
+  requirements:
+    statistics:
+      Item/Collectible/Find: 25
+
+  upgrades:
+    goldStorage:
+      - { v: 2000,    c: 0 }
+      - { v: 20000,   c: 20000 }
+      - { v: 100000,  c: 100000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 15,  c: 10000 }
+      - { v: 30,  c: 100000 }
+      - { v: 45,  c: 500000,   a: 2 }
+      - { v: 60,  c: 5000000,  a: 4 }
+      - { v: 75,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 43200,   c: 150000,    a: 1 }
+      - { v: 21600,   c: 450000,    a: 2 }
+      - { v: 10800,   c: 950000,    a: 3 }
+      - { v: 3600,    c: 1500000,   a: 4 }
+      - { v: 1800,    c: 4500000,   a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 5,   c: 5000 }
+      - { v: 10,  c: 25000,   a: 1 }
+      - { v: 15,  c: 50000,   a: 2 }
+      - { v: 20,  c: 150000,  a: 3 }
+      - { v: 25,  c: 250000,  a: 4 }
+      - { v: 50,  c: 950000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+      - { v: 40,  c: 100000, a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalGreen: 2
+      CrystalRed: 2
+      CrystalAstral: 1
+    - CrystalGreen: 4
+      CrystalRed: 4
+      CrystalAstral: 1
+    - CrystalGreen: 6
+      CrystalRed: 6
+      CrystalAstral: 1
+    - CrystalGreen: 8
+      CrystalRed: 8
+      CrystalAstral: 1
+    - CrystalGreen: 10
+      CrystalRed: 10
+      CrystalAstral: 1
+      
+- typeName: Moose
+  cost: 5000
+
+  equipmentSlots:
+    feet: 2
+    legs: 2
+  
+  soulStats:
+    str: 400
+    con: 400
+
+  maxLevelPerAscension:
+    - 50
+    - 75
+    - 100
+    - 125
+    - 150
+    - 175
+
+  requirements:
+    statistics:
+      Environment/Terrain/Grass: 100000
+    collectibles:
+      - Timmy's Twig
+
+  upgrades:
+    goldStorage:
+      - { v: 10000,  c: 0 }
+      - { v: 20000,  c: 20000 }
+      - { v: 30000,  c: 30000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 15,  c: 10000 }
+      - { v: 30,  c: 100000 }
+      - { v: 45,  c: 500000,   a: 2 }
+      - { v: 60,  c: 5000000,  a: 3 }
+      - { v: 75,  c: 50000000, a: 4 }
+      - { v: 85,  c: 50000000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 43200,   c: 150000 }
+      - { v: 21600,   c: 450000,    a: 1 }
+      - { v: 10800,   c: 950000,    a: 3 }
+      - { v: 7200,    c: 1500000,   a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 5,   c: 5000 }
+      - { v: 10,  c: 25000,   a: 2 }
+      - { v: 15,  c: 50000,   a: 3 }
+      - { v: 20,  c: 150000,  a: 4 }
+      - { v: 25,  c: 250000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 3 }
+      - { v: 40,  c: 100000, a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalGreen: 2
+      CrystalRed: 2
+      CrystalAstral: 1
+    - CrystalGreen: 4
+      CrystalRed: 4
+      CrystalAstral: 1
+    - CrystalGreen: 6
+      CrystalRed: 6
+      CrystalAstral: 1
+    - CrystalGreen: 8
+      CrystalRed: 8
+      CrystalAstral: 1
+    - CrystalGreen: 10
+      CrystalRed: 10
+      CrystalAstral: 1
+
+- typeName: Raven
+  cost: 50000
+
+  equipmentSlots:
+    body: 1
+    feet: 1
+    hands: 1
+  
+  soulStats:
+    int: 500
+    gold: 1000
+
+  maxLevelPerAscension:
+    - 75
+    - 100
+    - 125
+    - 150
+    - 175
+    - 200
+
+  requirements:
+    statistics:
+      Environment/Terrain/Grass: 100000
+    collectibles:
+      - Gold Bank Coin
+      - Medium Sized Bank Coin
+      - Rather Large Bank Coin
+      - Weirdly Sized Bank Coin
+      - Evil Bank Coin
+      - Ashen Bank Coin
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,     c: 0 }
+      - { v: 100000,    c: 10000 }
+      - { v: 500000,    c: 50000 }
+      - { v: 5000000,   c: 500000, a: 1 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 10,  c: 100000 }
+      - { v: 20,  c: 200000,  a: 2 }
+      - { v: 30,  c: 300000,  a: 3 }
+      - { v: 40,  c: 400000,  a: 4 }
+      - { v: 50,  c: 500000,  a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 21600,   c: 1500 }
+      - { v: 10800,   c: 15000 }
+      - { v: 5400,    c: 150000,  a: 3 }
+      - { v: 2700,    c: 1500000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 15000 }
+      - { v: 60,  c: 25000,   a: 2 }
+      - { v: 75,  c: 50000,   a: 3 }
+      - { v: 80,  c: 150000,  a: 4 }
+      - { v: 95,  c: 250000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000, a: 1 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalBlue: 2
+      CrystalRed: 2
+      CrystalAstral: 1
+    - CrystalBlue: 4
+      CrystalRed: 4
+      CrystalAstral: 1
+    - CrystalBlue: 6
+      CrystalRed: 6
+      CrystalAstral: 1
+    - CrystalBlue: 8
+      CrystalRed: 8
+      CrystalAstral: 1
+    - CrystalBlue: 10
+      CrystalRed: 10
+      CrystalAstral: 1
+
+- typeName: Parrot
+  cost: 75000
+
+  equipmentSlots:
+    body: 1
+    feet: 1
+    legs: 1
+  
+  soulStats:
+    int: 500
+    str: 500
+    dex: 500
+    luk: 500
+
+  maxLevelPerAscension:
+    - 25
+    - 75
+    - 125
+    - 175
+    - 225
+    - 275
+
+  requirements:
+    statistics:
+      Character/Movement/Steps/Drunk: 50000
+    collectibles:
+      - Haunted Eye Patch
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,     c: 0 }
+      - { v: 100000,    c: 10000 }
+      - { v: 5000000,   c: 500000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+      - { v: 10,  c: 100000 }
+      - { v: 20,  c: 200000,  a: 2 }
+      - { v: 30,  c: 300000,  a: 3 }
+      - { v: 40,  c: 400000,  a: 4 }
+      - { v: 50,  c: 500000,  a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,   c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0,   c: 0 } 
+      - { v: 1,   c: 100000,    a: 1 }
+      - { v: 2,   c: 500000,    a: 2 }
+      - { v: 3,   c: 1000000,   a: 3 }
+      - { v: 4,   c: 50000000,  a: 4 }
+      - { v: 5,   c: 150000000, a: 5 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalBlue: 2
+      CrystalGreen: 2
+      CrystalAstral: 1
+    - CrystalBlue: 4
+      CrystalGreen: 4
+      CrystalAstral: 1
+    - CrystalBlue: 6
+      CrystalGreen: 6
+      CrystalAstral: 1
+    - CrystalBlue: 8
+      CrystalGreen: 8
+      CrystalAstral: 1
+    - CrystalBlue: 10
+      CrystalGreen: 10
+      CrystalAstral: 1
+
+- typeName: Dolphin
+  affinity: None
+  cost: 750000
+
+  equipmentSlots:
+    charm: 1
+  
+  soulStats:
+    luk: 500
+
+  maxLevelPerAscension:
+    - 50
+    - 150
+    - 200
+    - 250
+    - 300
+    - 350
+
+  requirements:
+    statistics:
+      Environment/Terrain/Water: 150000
+    collectibles:
+      - Dried Up, Not Tasty Fish
+      - Small, Tasty Fish
+      - Jar of Norkian Water
+
+  upgrades:
+    goldStorage:
+      - { v: 50000,     c: 0 }
+      - { v: 100000,    c: 10000 }
+      - { v: 500000,    c: 50000 }
+      - { v: 1000000,   c: 100000 }
+      - { v: 5000000,   c: 500000 }
+
+    battleJoinPercent:
+      - { v: 0,  c: 0 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 21600,   c: 1500 }
+      - { v: 10800,   c: 15000 }
+      - { v: 5400,    c: 150000,  a: 3 }
+      - { v: 2700,    c: 1500000, a: 4 }
+      - { v: 900,     c: 4500000, a: 5 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+      - { v: 75,   c: 150000 }
+      - { v: 125,  c: 1250000,  a: 2 }
+      - { v: 225,  c: 3500000,  a: 3 }
+      - { v: 350,  c: 6500000,  a: 4 }
+      - { v: 425,  c: 7500000,  a: 5 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+      - { v: 10, c: 1000000, a: 3 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,   c: 0 }
+      - { v: 20,  c: 100000 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalBlue: 2
+      CrystalPurple: 2
+      CrystalAstral: 1
+    - CrystalBlue: 4
+      CrystalPurple: 4
+      CrystalAstral: 1
+    - CrystalBlue: 6
+      CrystalPurple: 6
+      CrystalAstral: 1
+    - CrystalBlue: 8
+      CrystalPurple: 8
+      CrystalAstral: 1
+    - CrystalBlue: 10
+      CrystalPurple: 10
+      CrystalAstral: 1
+
+- typeName: Minitaur
+  affinity: Attacker
+  cost: 250000
+
+  equipmentSlots:
+    body: 1
+    feet: 1
+    legs: 1
+    hands: 1
+    head: 1
+    mainhand: 1
+    offhand: 1
+  
+  soulStats:
+    str: 500
+    dex: 500
+    con: 500
+
+  maxLevelPerAscension:
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+
+  requirements:
+    statistics:
+      BossKill/Boss/Child Minotaur: 1
+      BossKill/Boss/Sibling Minotaur: 1
+      BossKill/Boss/Elder Minotaur: 1
+      BossKill/Boss/King Minotaur: 1
+    collectibles:
+      - Old Minotaur Axe Shard
+      - Slightly Newer Minotaur Axe Piece
+      - Poorly Drawn Map
+      - Chewtoy
+
+  upgrades:
+    goldStorage:
+      - { v: 5000,     c: 0 }
+      - { v: 10000,    c: 10000 }
+      - { v: 50000,    c: 50000 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 50,  c: 100000 }
+      - { v: 75,  c: 500000,  a: 1 }
+      - { v: 85,  c: 1000000, a: 3 }
+      - { v: 100, c: 1500000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 50,   c: 100000,  a: 3 }
+      - { v: 100,  c: 100000,  a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalRed: 2
+      CrystalPurple: 2
+      CrystalAstral: 1
+    - CrystalRed: 4
+      CrystalPurple: 4
+      CrystalAstral: 1
+    - CrystalRed: 6
+      CrystalPurple: 6
+      CrystalAstral: 1
+    - CrystalRed: 8
+      CrystalPurple: 8
+      CrystalAstral: 1
+    - CrystalRed: 10
+      CrystalPurple: 10
+      CrystalAstral: 1
+
+- typeName: Chimera Dragon
+  affinity: Caster
+  cost: 350000
+
+  equipmentSlots:
+    body: 1
+    feet: 2
+    legs: 2
+    head: 3
+  
+  soulStats:
+    int: 1500
+
+  maxLevelPerAscension:
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+
+  requirements:
+    statistics:
+      BossKill/Boss/Sky Dragon of Vocalnus: 1
+      BossKill/Boss/Black Dragon King: 1
+      BossKill/Boss/Green Dragon: 1
+      BossKill/Boss/Mama Red Dragon: 1
+      BossKill/Boss/Baby Red Dragon: 1
+    collectibles:
+      - Black Dragon Scale
+      - Silver Dragon Scale
+      - Red Dragon Scale
+      - Mama Red Dragon Scale
+      - Green Dragon Scale
+      - Undead Dragon Scale
+
+  upgrades:
+    goldStorage:
+      - { v: 5000,     c: 0 }
+      - { v: 10000,    c: 10000 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 35,  c: 100000 }
+      - { v: 45,  c: 500000,  a: 1 }
+      - { v: 55,  c: 1000000, a: 3 }
+      - { v: 65,  c: 1500000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000 }
+      - { v: 43200,   c: 150000 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+      - { v: 50,   c: 100000 }
+      - { v: 100,  c: 500000 }
+      - { v: 150,  c: 900000, a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 25,   c: 100000,   a: 1 }
+      - { v: 50,   c: 200000,   a: 3 }
+      - { v: 75,   c: 300000,   a: 4 }
+      - { v: 100,  c: 1000000,  a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalOrange: 2
+      CrystalPurple: 2
+      CrystalAstral: 1
+    - CrystalOrange: 4
+      CrystalPurple: 4
+      CrystalAstral: 1
+    - CrystalOrange: 6
+      CrystalPurple: 6
+      CrystalAstral: 1
+    - CrystalOrange: 8
+      CrystalPurple: 8
+      CrystalAstral: 1
+    - CrystalOrange: 10
+      CrystalPurple: 10
+      CrystalAstral: 1
+
+- typeName: Octopus
+  affinity: Caster
+  cost: 350000
+
+  equipmentSlots:
+    mainhand: 4
+    offhand: 4
+  
+  soulStats:
+    int: 1200
+    str: 1200
+    con: 1200
+    dex: 1200
+    agi: -1200
+
+  maxLevelPerAscension:
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+
+  requirements:
+    statistics:
+      Environment/Terrain/Water: 300000
+      Environment/Terrain/Swamp: 5000
+      Environment/Terrain/Acid: 100
+
+  upgrades:
+    goldStorage:
+      - { v: 5000,     c: 0 }
+      - { v: 10000,    c: 10000 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 16,  c: 1000 }
+      - { v: 32,  c: 50000,   a: 1 }
+      - { v: 48,  c: 250000,  a: 2 }
+      - { v: 64,  c: 500000,  a: 3 }
+      - { v: 80,  c: 1000000, a: 4 }
+      - { v: 96,  c: 1500000, a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+      - { v: 64800,   c: 50000 }
+      - { v: 43200,   c: 150000 }
+      - { v: 21600,   c: 550000 }
+      - { v: 10800,   c: 1500000, a: 3 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+      - { v: 50,   c: 100000 }
+      - { v: 100,  c: 500000 }
+      - { v: 150,  c: 900000, a: 3 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 16,   c: 100000,   a: 1 }
+      - { v: 32,   c: 200000,   a: 3 }
+      - { v: 64,   c: 300000,   a: 4 }
+      - { v: 128,  c: 1000000,  a: 5 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalOrange: 2
+      CrystalBlue: 2
+      CrystalAstral: 2
+    - CrystalOrange: 4
+      CrystalBlue: 4
+      CrystalAstral: 2
+    - CrystalOrange: 6
+      CrystalBlue: 6
+      CrystalAstral: 2
+    - CrystalOrange: 8
+      CrystalBlue: 8
+      CrystalAstral: 2
+    - CrystalOrange: 10
+      CrystalBlue: 10
+      CrystalAstral: 2
+
+- typeName: Spellbook
+  affinity: Caster
+  cost: 50000000
+
+  equipmentSlots:
+    charm: 3
+  
+  soulStats:
+    int: 3000
+
+  maxLevelPerAscension:
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+
+  requirements:
+    statistics:
+      Combat/Profession/Mage/Give/Damage: 100000
+      Combat/Profession/Necromancer/Give/Damage: 100000
+      Combat/Profession/Bard/Give/Damage: 100000
+      BossKill/Boss/Lich Brother of Anger: 1
+      BossKill/Boss/Lich Brother of Death: 1
+      BossKill/Boss/Lich Brother of Fear: 1
+      BossKill/Boss/Lich Brother of Decay: 1
+      BossKill/Boss/Lich Brother of Insanity: 1
+      BossKill/Boss/The Lich Lord: 1
+    collectibles:
+      - Norkian Spellbook
+      - Jar of Magic Dust
+
+  upgrades:
+    goldStorage:
+      - { v: 0,     c: 0 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+      - { v: 30,  c: 100000 }
+      - { v: 40,  c: 200000,  a: 2 }
+      - { v: 50,  c: 300000,  a: 3 }
+      - { v: 60,  c: 400000,  a: 4 }
+      - { v: 70,  c: 500000,  a: 5 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+      - { v: 86400,   c: 10000 }
+    
+    itemFindQualityBoost:
+      - { v: 0, c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,  c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+      - { v: 1, c: 10000 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 0,    c: 0 }
+      - { v: 20,   c: 100000,   a: 1 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalPurple: 2
+      CrystalBlue: 2
+      CrystalAstral: 3
+    - CrystalPurple: 4
+      CrystalBlue: 4
+      CrystalAstral: 3
+    - CrystalPurple: 6
+      CrystalBlue: 6
+      CrystalAstral: 3
+    - CrystalPurple: 8
+      CrystalBlue: 8
+      CrystalAstral: 3
+    - CrystalPurple: 10
+      CrystalBlue: 10
+      CrystalAstral: 3

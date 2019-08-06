@@ -90,7 +90,18 @@ export class AchievementManager {
         descriptionForTier: () => `You earned a new pet: ${pet.typeName}.
           It offers the following permanent bonuses for ${pet.cost.toLocaleString()} gold:
           ${Object.keys(pet.permanentUpgrades).map(x => `${x} +${pet.permanentUpgrades[x]}`).join(', ')}`,
-        calculateTier: () => 1,
+        calculateTier: (player: Player) => {
+          const meetsStatistics = Object.keys(pet.requirements.statistics).every(stat => {
+            const val = player.$statistics.get(stat);
+            return val >= pet.requirements.statistics[stat];
+          });
+
+          const meetsCollectibles = pet.requirements.collectibles ? pet.requirements.collectibles.every(coll => {
+            return player.$collectibles.has(coll);
+          }) : true;
+
+          return meetsStatistics && meetsCollectibles ? 1 : 0;
+        },
         rewardsForTier: () => [{ type: AchievementRewardType.Pet, pet: pet.typeName }]
       };
     });
