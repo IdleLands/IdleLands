@@ -11,6 +11,10 @@ export class Walker extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 2}% XP and +${tier} GOLD for walking ${Math.pow(Walker.base, tier).toLocaleString()} steps.`;
 
+    if(tier >= 3) {
+      baseStr = `${baseStr} Title: Camping.`;
+    }
+
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Walker.`;
     }
@@ -28,6 +32,10 @@ export class Walker extends Achievement {
       { type: AchievementRewardType.Stats, stats: { [Stat.GOLD]: tier } },
       { type: AchievementRewardType.StatMultipliers, stats: { [Stat.XP]: 1 + (tier * 0.02) } }
     ];
+
+    if(tier >= 3) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Camping' });
+    }
 
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.DeathMessage, message: '%player stepped away into death.' });

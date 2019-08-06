@@ -20,6 +20,7 @@ export * from './Entitled';
 export * from './Explorer';
 export * from './Fallen';
 export * from './Fateful';
+export * from './Fool';
 export * from './Frail';
 export * from './Gambler';
 export * from './Golden';
