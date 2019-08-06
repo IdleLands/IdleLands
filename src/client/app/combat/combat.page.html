@@ -106,7 +106,7 @@
                  class="ion-text-center"
                  [class.dead-combatant]="combatCharacter.value.stats.hp <= 0">
           <div>
-            <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}<span *ngIf="combatCharacter.value.specialName"> | {{ combatCharacter.value.stats.special }} {{ combatCharacter.value.specialName }}</span>]
+            <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}<span *ngIf="combatCharacter.value.specialName"> | {{ combatCharacter.value.stats.special | number }} {{ combatCharacter.value.specialName }}</span>]
           </div>
         </ion-col>
       </ion-row>

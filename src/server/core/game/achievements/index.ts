@@ -5,6 +5,7 @@ export * from './Affirmer';
 export * from './Ascended';
 export * from './Blessed';
 export * from './BoosterSeat';
+export * from './Bossy';
 export * from './Camper';
 export * from './Cheater';
 export * from './Collector';

@@ -166,7 +166,7 @@ export class AppComponent {
           this.hiddenSplitPane = true;
         }
 
-        if(!isHome) {
+        if(!isHome && !x.urlAfterRedirects.includes('/combat')) {
           this.storage.set('lastUrl', x.urlAfterRedirects);
         }
       });

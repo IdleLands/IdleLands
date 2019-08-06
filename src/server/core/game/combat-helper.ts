@@ -82,7 +82,7 @@ export class CombatHelper {
     const monsterAntes = this.getGenericAntes(monsters);
     Object.assign(ante, monsterAntes);
 
-    const combat: ICombat = {
+    const doCombat: ICombat = {
       timestamp: Date.now(),
       seed: Date.now(),
       name: this.assets.battle(),
@@ -91,7 +91,9 @@ export class CombatHelper {
       ante
     };
 
-    return this.startCombat(combat);
+    const { combat, simulator } = this.startCombat(doCombat);
+    simulator.beginCombat();
+    return combat;
   }
 
   createAndRunBossCombat(player: Player, opts: any = { bossName: '', bossParty: '' }): ICombat {
@@ -152,7 +154,7 @@ export class CombatHelper {
     ante[currentId - 1].collectibles = collectibles;
     ante[currentId - 1].items = items;
 
-    const combat: ICombat = {
+    const doCombat: ICombat = {
       timestamp: Date.now(),
       seed: Date.now(),
       name: this.assets.battle(),
@@ -161,7 +163,31 @@ export class CombatHelper {
       ante
     };
 
-    return this.startCombat(combat);
+    const { combat, simulator } = this.startCombat(doCombat);
+
+    simulator.events$.subscribe(({ action, data }) => {
+      if(action === CombatAction.Victory) {
+        if(data.wasTie || data.winningParty !== 0) return;
+
+        Object.values(combat.characters)
+          .filter(char => char.combatPartyId === 0)
+          .forEach(char => {
+
+            const playerRef = this.playerManager.getPlayer(char.realName);
+            if(!playerRef) return;
+
+            Object.values(combat.characters)
+              .filter(potBoss => potBoss.combatPartyId !== 0)
+              .forEach(potBoss => {
+                playerRef.increaseStatistic(`BossKill/Total`, 1);
+                playerRef.increaseStatistic(`BossKill/Boss/${potBoss.name}`, 1);
+              });
+          });
+      }
+    });
+
+    simulator.beginCombat();
+    return combat;
   }
 
   createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
@@ -215,7 +241,7 @@ export class CombatHelper {
       currentId++;
     });
 
-    const combat: ICombat = {
+    const doCombat: ICombat = {
       timestamp: Date.now(),
       seed: Date.now(),
       name: this.assets.battle(),
@@ -224,10 +250,12 @@ export class CombatHelper {
       ante
     };
 
-    return this.startCombat(combat);
+    const { combat, simulator } = this.startCombat(doCombat);
+    simulator.beginCombat();
+    return combat;
   }
 
-  private startCombat(combat: ICombat): ICombat {
+  private startCombat(combat: ICombat): { combat: ICombat, simulator: CombatSimulator } {
     const simulator = new CombatSimulator(combat);
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Victory) {
@@ -245,9 +273,7 @@ export class CombatHelper {
       }
     });
 
-    simulator.beginCombat();
-
-    return combat;
+    return { combat, simulator };
   }
 
   private getAllPlayerPartyMembers(player: Player): Player[] {
