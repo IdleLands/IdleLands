@@ -38,6 +38,7 @@ export * from './Scrambler';
 export * from './Slayer';
 export * from './SoloStepper';
 export * from './Sponge';
+export * from './ThatDayOfTheYear';
 export * from './Tired';
 export * from './Touchy';
 export * from './Unstoppable';

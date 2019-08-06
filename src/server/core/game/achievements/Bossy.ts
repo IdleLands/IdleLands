@@ -11,6 +11,10 @@ export class Bossy extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 3}% CON/AGI for killing ${(tier * Bossy.base).toLocaleString()} bosses.`;
 
+    if(tier >= 2) {
+      baseStr = `${baseStr} Personality: Seeker.`;
+    }
+
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Bossy.`;
     }
@@ -38,6 +42,10 @@ export class Bossy extends Achievement {
         [Stat.AGI]: 1 + (tier * 0.03)
       } }
     ];
+
+    if(tier >= 5) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Seeker' });
+    }
 
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Bossy' });
