@@ -13,13 +13,14 @@ export class PremiumPage implements OnInit {
   public scale = PremiumScale;
 
   public upgrades = [
-    { name: 'Adventure Log',   upgrade: PermanentUpgrade.AdventureLogSizeBoost },
-    { name: 'Choice Log',      upgrade: PermanentUpgrade.ChoiceLogSizeBoost },
-    { name: 'Enchant Cap',     upgrade: PermanentUpgrade.EnchantCapBoost },
-    { name: 'Inventory Size',  upgrade: PermanentUpgrade.InventorySizeBoost },
-    { name: 'Item Stat Cap',   upgrade: PermanentUpgrade.ItemStatCapBoost },
-    { name: 'Buff Duration',   upgrade: PermanentUpgrade.BuffScrollDuration },
-    { name: 'Pet Mission Cap', upgrade: PermanentUpgrade.PetMissionCapBoost },
+    { name: 'Adventure Log',     upgrade: PermanentUpgrade.AdventureLogSizeBoost },
+    { name: 'Choice Log',        upgrade: PermanentUpgrade.ChoiceLogSizeBoost },
+    { name: 'Enchant Cap',       upgrade: PermanentUpgrade.EnchantCapBoost },
+    { name: 'Inventory Size',    upgrade: PermanentUpgrade.InventorySizeBoost },
+    { name: 'Item Stat Cap',     upgrade: PermanentUpgrade.ItemStatCapBoost },
+    { name: 'Buff Duration',     upgrade: PermanentUpgrade.BuffScrollDuration },
+    { name: 'Pet Mission Cap',   upgrade: PermanentUpgrade.PetMissionCapBoost },
+    { name: 'Max Stamina Boost', upgrade: PermanentUpgrade.MaxStaminaBoost },
   ];
 
   constructor(

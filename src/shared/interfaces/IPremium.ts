@@ -26,7 +26,10 @@ export enum PermanentUpgrade {
   InjuryThreshold = 'injuryThreshold',
 
   // the number of pets you can bring into combat
-  MaxPetsInCombat = 'maxPetsInCombat'
+  MaxPetsInCombat = 'maxPetsInCombat',
+
+  // the maximum stamina boost you get. stacks with other sources.
+  MaxStaminaBoost = 'maxStaminaBoost'
 }
 
 export enum PremiumTier {
@@ -47,5 +50,6 @@ export const PremiumScale = {
   [PermanentUpgrade.InventorySizeBoost]: 20,
   [PermanentUpgrade.BuffScrollDuration]: 10,
   [PermanentUpgrade.ItemStatCapBoost]: 25,
-  [PermanentUpgrade.PetMissionCapBoost]: 50
+  [PermanentUpgrade.PetMissionCapBoost]: 50,
+  [PermanentUpgrade.MaxStaminaBoost]: 2
 };

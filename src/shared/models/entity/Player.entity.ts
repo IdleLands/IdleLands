@@ -383,6 +383,9 @@ export class Player implements IPlayer {
     // ascensionLevel^2 bonus to stamina
     staminaTotal += this.ascensionLevel * this.ascensionLevel;
 
+    // the permanent boosted upgrade value
+    staminaTotal += this.$statistics.get('Game/Premium/Upgrade/MaxStaminaBoost');
+
     this.stamina.maximum = staminaTotal;
   }
 
@@ -779,6 +782,14 @@ export class Player implements IPlayer {
     + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.PetMissionCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.PetMissionCapBoost));
+
+    this.$statistics.set('Game/Premium/Upgrade/MaxStaminaBoost',
+      0
+    + (allBuffBoosts[PermanentUpgrade.MaxStaminaBoost] || 0)
+    + (allAchievementBoosts[PermanentUpgrade.MaxStaminaBoost] || 0)
+    + (tier * 3)
+    + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxStaminaBoost)
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.MaxStaminaBoost));
 
     this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold',
       3

@@ -9,7 +9,7 @@ export class Achiever extends Achievement {
   static readonly type = AchievementType.Progress;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier} achievement tiers for achieving ${(tier * Achiever.base).toLocaleString()} achievements(s). Achievements.`;
+    let baseStr = `Gain +${tier} achievement tiers for achieving ${(tier * Achiever.base).toLocaleString()} achievements. Achievements.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Overachiever.`;

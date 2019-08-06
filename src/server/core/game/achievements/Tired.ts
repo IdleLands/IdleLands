@@ -9,7 +9,8 @@ export class Tired extends Achievement {
   static readonly type = AchievementType.Special;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier} Adventure Log Capacity for using ${Math.pow(Tired.base, tier).toLocaleString()} stamina.`;
+    let baseStr = `Gain +${tier} Adventure Log Capacity
+                   and +${tier * 2} Max Stamina for using ${Math.pow(Tired.base, tier).toLocaleString()} stamina.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Exhausted.`;
@@ -25,7 +26,8 @@ export class Tired extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
-      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.AdventureLogSizeBoost]: tier } }
+      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.AdventureLogSizeBoost]: tier } },
+      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: tier * 2 } }
     ];
 
     if(tier >= 5) {

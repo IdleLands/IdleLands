@@ -7,7 +7,7 @@ export class Drunk extends Achievement {
   static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain a title for drunk-stepping 100,000 times.`;
+    let baseStr = `Gain a title and +5 max stamina for drunk-stepping 100,000 times.`;
 
     if(tier >= 2) {
       baseStr = `${baseStr} Title: Lush Lemming.`;
@@ -25,6 +25,7 @@ export class Drunk extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
+      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: 5 } },
       { type: AchievementRewardType.Title, title: 'Drunk' }
     ];
 

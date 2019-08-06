@@ -9,7 +9,7 @@ export class Affirmer extends Achievement {
   static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
-    const baseStr = `Gain a title and +2 base XP for choosing Yes many times.`;
+    const baseStr = `Gain a title, +1 Choice Log Size and +2 base XP for choosing Yes many times.`;
 
     return baseStr;
   }
@@ -21,6 +21,7 @@ export class Affirmer extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
+      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.ChoiceLogSizeBoost]: 1 } },
       { type: AchievementRewardType.Stats, stats: { [Stat.XP]: 2 } },
       { type: AchievementRewardType.Title, title: 'Yes-Person' }
     ];

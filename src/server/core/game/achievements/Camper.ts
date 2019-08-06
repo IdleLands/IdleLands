@@ -7,7 +7,7 @@ export class Camper extends Achievement {
   static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain a title for camp-sleeping 100,000 times.`;
+    let baseStr = `Gain a title and +5 max stamina for camp-sleeping 100,000 times.`;
 
     if(tier >= 2) {
       baseStr = `${baseStr} Title: Camping Camel.`;
@@ -25,6 +25,7 @@ export class Camper extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
+      { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: 5 } },
       { type: AchievementRewardType.Title, title: 'Happy Camper' }
     ];
 
