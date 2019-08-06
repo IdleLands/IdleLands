@@ -169,6 +169,12 @@ export class CombatHelper {
       if(action === CombatAction.Victory) {
         if(data.wasTie || data.winningParty !== 0) return;
 
+        const respawn = opts.bossParty
+          ? allAssets.parties[opts.bossParty].respawn
+          : allAssets.creatures[opts.bossName].respawn;
+
+        player.bossTimers[opts.bossParty || opts.bossName] = Date.now() + (respawn * 1000);
+
         Object.values(combat.characters)
           .filter(char => char.combatPartyId === 0)
           .forEach(char => {

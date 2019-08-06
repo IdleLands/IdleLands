@@ -90,6 +90,7 @@ export class Player implements IPlayer {
   @Column() public divineDirection: { x: number, y: number, steps: number };
 
   @Column() public buffWatches: { [key in Stat]?: IBuff[] };
+  @Column() public bossTimers: { [key: string]: number };
 
   // non-saved player vars
   // still serialized to the client
@@ -167,6 +168,7 @@ export class Player implements IPlayer {
     if(!this.stats) this.stats = {};
     if(!this.$statTrail) this.$statTrail = {};
     if(!this.buffWatches) this.buffWatches = {};
+    if(!this.bossTimers) this.bossTimers = {};
 
     if(!this.$profession) {
       this.changeProfessionWithRef(this.profession);

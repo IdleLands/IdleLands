@@ -259,7 +259,7 @@ export class AppComponent {
 
     // "recent combat" toast popup
     this.socketService.register(ServerEventName.AdventureLogAdd, ({ type, combatString }) => {
-      if(type !== 'combat') return;
+      if(type !== 'combat' || !combatString) return;
 
       this.socketService.toastNotify({
         header: 'Recent Combat!',

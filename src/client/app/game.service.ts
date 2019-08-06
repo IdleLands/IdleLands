@@ -359,8 +359,6 @@ export class GameService {
 
     const finalString = top + '<table class="item-compare-table">' + baseString + '</table>' + bottom;
 
-    console.log(finalString);
-
     const alert = await this.alertCtrl.create({
       header: `Item Compare (${newItem.type})`,
       cssClass: 'item-compare-modal',

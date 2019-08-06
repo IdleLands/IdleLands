@@ -1,4 +1,4 @@
-import { Event, EventMessageType } from './Event';
+import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, ICombat } from '../../../../shared/interfaces';
 
@@ -15,6 +15,16 @@ export class BattleBoss extends Event {
         AdventureLogEventType.Combat);
       return;
     }
+
+    const curTimer = player.bossTimers[opts.bossParty || opts.bossName];
+    if(Date.now() < curTimer) {
+      this.emitMessageToNames(allPlayers,
+        `You could not encounter ${opts.bossParty || opts.bossName} because they were not alive! Check back at ${new Date(curTimer)}.`,
+        AdventureLogEventType.Combat);
+      return;
+    }
+
+    delete player.bossTimers[opts.bossParty || opts.bossName];
 
     const combatInst: ICombat = player.$$game.combatHelper.createAndRunBossCombat(player, opts);
 
