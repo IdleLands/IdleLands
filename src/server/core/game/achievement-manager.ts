@@ -96,11 +96,16 @@ export class AchievementManager {
             return val >= pet.requirements.statistics[stat];
           });
 
+          const meetsAchievements = pet.requirements.achievements ? Object.keys(pet.requirements.achievements).every(ach => {
+            const achTier = player.$achievements.getAchievementTier(ach);
+            return achTier >= pet.requirements.achievements[ach];
+          }) : true;
+
           const meetsCollectibles = pet.requirements.collectibles ? pet.requirements.collectibles.every(coll => {
             return player.$collectibles.has(coll);
           }) : true;
 
-          return meetsStatistics && meetsCollectibles ? 1 : 0;
+          return meetsStatistics && meetsCollectibles && meetsAchievements ? 1 : 0;
         },
         rewardsForTier: () => [{ type: AchievementRewardType.Pet, pet: pet.typeName }]
       };

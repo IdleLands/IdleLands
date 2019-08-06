@@ -2177,3 +2177,149 @@
     - CrystalAstral: 6
     - CrystalAstral: 8
     - CrystalAstral: 10
+
+- typeName: Ghostly Fisticuffs
+  affinity: Attacker
+  cost: 1000000000
+
+  equipmentSlots:
+    charm: 1
+    finger: 6
+    hands: 1
+    mainhand: 1
+    offhand: 1
+  
+  soulStats:
+    str: 10000
+    dex: 10000
+    con: 10000
+    int: 10000
+    agi: 10000
+
+  maxLevelPerAscension:
+    - 100
+    - 300
+    - 600
+    - 900
+    - 1200
+    - 1500
+
+  requirements:
+    statistics:
+      Item/Collectible/Touch: 1
+    achievements:
+      Spiritualist: 1      
+
+  upgrades:
+    goldStorage:
+      - { v: 0,         c: 0 }
+
+    battleJoinPercent:
+      - { v: 100,   c: 0 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,   c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 100,    c: 0 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalAstral: 5
+    - CrystalAstral: 10
+    - CrystalAstral: 15
+    - CrystalAstral: 20
+    - CrystalAstral: 25
+
+- typeName: Talking Spirit Wisp
+  affinity: None
+  cost: 1
+
+  equipmentSlots:
+  
+  soulStats:
+    str: 5000
+    dex: 5000
+    con: 5000
+    int: 5000
+    agi: 5000
+    luk: 5000
+    gold: 500
+    xp: 100
+
+  maxLevelPerAscension:
+    - 1000
+    - 1500
+    - 2000
+    - 2500
+    - 3000
+    - 5000
+
+  requirements:
+    statistics:
+      Character/Movement/Steps/Camping: 100000
+
+  upgrades:
+    goldStorage:
+      - { v: 0,         c: 0 }
+
+    battleJoinPercent:
+      - { v: 0,   c: 0 }
+
+    gatherTime:
+      - { v: 0,       c: 0 }
+    
+    itemFindQualityBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelBoost:
+      - { v: 0,    c: 0 }
+
+    itemFindLevelPercent:
+      - { v: 0,   c: 0 }
+
+    ilpGatherQuantity:
+      - { v: 0, c: 0 }
+
+    strongerSoul:
+      - { v: 0,   c: 0 }
+      - { v: 1,   c: 200000,   a: 1 }
+      - { v: 2,   c: 400000,   a: 2 }
+      - { v: 3,   c: 600000,   a: 3 }
+      - { v: 4,   c: 800000,   a: 4 }
+      - { v: 5,   c: 1000000,  a: 5 }
+
+    soulShare:
+      - { v: 100,    c: 0 }
+
+  permanentUpgrades:
+    adventureLogSizeBoost: 1
+
+  ascensionMaterials:
+    - CrystalAstral: 5
+    - CrystalAstral: 10
+    - CrystalAstral: 15
+    - CrystalAstral: 20
+    - CrystalAstral: 25
