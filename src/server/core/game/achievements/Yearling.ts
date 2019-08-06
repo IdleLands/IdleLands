@@ -14,7 +14,7 @@ export class Yearling extends Achievement {
     }
 
     if(tier >= 2) {
-      baseStr = `${baseStr} Title: Double Yearling. Genders: angry bear, veteran glowcloud.`;
+      baseStr = `${baseStr} Title: Double Yearling. Genders: angry bear, mighty glowcloud.`;
     }
 
     return baseStr;
@@ -50,7 +50,7 @@ export class Yearling extends Achievement {
     if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Double Yearling' });
       baseRewards.push({ type: AchievementRewardType.Gender, gender: 'angry bear' });
-      baseRewards.push({ type: AchievementRewardType.Gender, gender: 'veteran glowcloud' });
+      baseRewards.push({ type: AchievementRewardType.Gender, gender: 'mighty glowcloud' });
     }
 
     return baseRewards;

@@ -99,26 +99,42 @@ export class AchievementManager {
   private getAllClassSpecificAchievements() {
     const allClasses = Object.values(Profession);
 
-    const stepper = allClasses.map(x => {
+    const stepper: any[] = allClasses.map(x => {
       return {
         name: `Stepper: ${x}`,
         statWatches: [`Profession/${x}/Steps`],
         type: AchievementType.Progress,
-        descriptionForTier: () => `You've taken ${(1000000).toLocaleString()} steps as a ${x}. Title: ${StepperAchievementTitles[x]}.`,
+        descriptionForTier: () => `You've taken ${(1000000).toLocaleString()} steps as a ${x}.
+          Title: ${StepperAchievementTitles[x]}. Gender: Blue ${x}.`,
         calculateTier: (player: Player) => player.$statistics.get(`Profession/${x}/Steps`) > 1000000 ? 1 : 0,
-        rewardsForTier: () => [{ type: AchievementRewardType.Title, title: StepperAchievementTitles[x] }]
+        rewardsForTier: () => [
+          { type: AchievementRewardType.Title, title: StepperAchievementTitles[x] },
+          { type: AchievementRewardType.Gender, gender: `${x}-blue` }
+        ]
       };
     });
 
     const becomeTierMap = [5, 15, 25, 50, 100];
 
-    const becomer = allClasses.map(x => {
+    const becomer: any[] = allClasses.map(x => {
       return {
         name: `Professional: ${x}`,
         statWatches: [`Profession/${x}/Become`],
         type: AchievementType.Progress,
-        descriptionForTier: (tier: number) =>
-          `You've become a ${x} ${becomeTierMap[tier - 1]} times. Titles: ${ClassChangeTitles[x].slice(0, tier).join(', ')}.`,
+        descriptionForTier: (tier: number) => {
+          let baseStr = `You've become a ${x} ${becomeTierMap[tier - 1]} times.
+            Titles: ${ClassChangeTitles[x].slice(0, tier).join(', ')}.`;
+
+          if(tier >= 3) {
+            baseStr = `${baseStr} Gender: Red ${x}`;
+          }
+
+          if(tier >= 5) {
+            baseStr = `${baseStr} Gender: Green ${x}`;
+          }
+
+          return baseStr;
+        },
         calculateTier: (player: Player) => {
           const base = player.$statistics.get(`Profession/${x}/Become`);
           if(base >= 100) return 5;
@@ -133,6 +149,15 @@ export class AchievementManager {
           for(let i = 0; i < tier; i++) {
             rewards.push({ type: AchievementRewardType.Title, title: ClassChangeTitles[x][i] });
           }
+
+          if(tier >= 3) {
+            rewards.push({ type: AchievementRewardType.Gender, gender: `${x}-red` });
+          }
+
+          if(tier >= 5) {
+            rewards.push({ type: AchievementRewardType.Gender, gender: `${x}-green` });
+          }
+
           return rewards;
         }
       };
