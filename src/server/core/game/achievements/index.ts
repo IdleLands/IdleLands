@@ -6,6 +6,7 @@ export * from './Ascended';
 export * from './Blessed';
 export * from './BoosterSeat';
 export * from './Bossy';
+export * from './Boxer';
 export * from './Camper';
 export * from './Cheater';
 export * from './Collector';

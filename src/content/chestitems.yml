@@ -1,348 +1,322 @@
 Dragon Armor:
   type: body
-  str: 300
-  agi: 300
-  dex: 300
+  stats:
+    str: 300
+    agi: 300
+    dex: 300
 Dragon Helmet:
   type: head
-  str: 300
-  agi: 300
-  dex: 300
+  stats:
+    str: 300
+    agi: 300
+    dex: 300
 Dragon Gloves:
   type: hands
-  str: 300
-  agi: 300
-  dex: 300
+  stats:
+    str: 300
+    agi: 300
+    dex: 300
 Dragon Greaves:
   type: legs
-  str: 300
-  agi: 300
-  dex: 300
+  stats:
+    str: 300
+    agi: 300
+    dex: 300
 Pirate Hat:
   type: head
-  con: 150
-  agi: 150
-  dex: 450
-  luk: 50
+  stats:
+    con: 150
+    agi: 150
+    dex: 450
+    luk: 50
 Pirate Hook:
   type: offhand
-  agi: 450
-  dex: 500
+  stats:
+    agi: 450
+    dex: 500
 Star Amulet:
   type: neck
-  str: 25
-  agi: 25
-  dex: 25
-  con: 25
-  int: 25
-  luk: 25
+  stats:
+    str: 25
+    agi: 25
+    dex: 25
+    con: 25
+    int: 25
+    luk: 25
 Bag of Booty:
   type: mainhand
-  str: 450
-  gold: 15
+  stats:
+    str: 450
+    gold: 15
 Seajewel:
   type: charm
-  int: 450
-  mp: 500
+  stats:
+    int: 450
 Red Tunic:
   type: body
-  str: 600
-  dex: 150
-  luk: 25
-  defense: 1
-  hpregen: 25
+  stats:
+    str: 600
+    dex: 150
+    luk: 25
 Thick Winter Gloves:
   type: hands
-  str: 600
-  con: 150
-  luk: 25
+  stats:
+    str: 600
+    con: 150
+    luk: 25
 Decorative Red Pants:
   type: legs
-  con: 100
-  int: 400
-  dex: 300
-  luk: 25
+  stats:
+    con: 100
+    int: 400
+    dex: 300
+    luk: 25
 Heavy Winter Boots:
   type: feet
-  str: 300
-  agi: 300
-  dex: 150
-  luk: 25
+  stats:
+    str: 300
+    agi: 300
+    dex: 150
+    luk: 25
 Magical Snowball:
   type: offhand
-  int: 300
-  luk: 25
+  stats:
+    int: 300
+    luk: 25
 Basilisk Shield:
   type: offhand
-  agi: 180
-  con: 80
-  defense: 2
-  glowing: 1
+  stats:
+    agi: 180
+    con: 80
 Royal Coif:
   type: head
-  str: 200
-  agi: 600
-  dex: 600
-  con: 500
-  deadeye: 1
+  stats:
+    str: 200
+    agi: 600
+    dex: 600
+    con: 500
 Royal Scaled Robe:
   type: body
-  int: 1000
-  con: 250
-  defense: 2
+  stats:
+    int: 1000
+    con: 250
 Royal Dragonskin Boots:
   type: feet
-  agi: 1000
-  dex: 1100
-  str: 800
-  hp: 1500
-  defense: 1
+  stats:
+    agi: 1000
+    dex: 1100
+    str: 800
+    hp: 1500
 Royal Sword of the Fallen Hero:
   type: mainhand
-  str: 2000
-  dex: 500
-  int: 500
-  con: -50
-  luk: -25
-  offense: 2
-  vorpal: 1
+  stats:
+    str: 2000
+    dex: 500
+    int: 500
+    con: -50
+    luk: -25
 Clerical Assistant:
   type: offhand
-  agi: 350
-  hp: 250
-  luk: 35
-  xp: 5
-  gold: 150
-  damageReduction: 300
+  stats:
+    agi: 350
+    hp: 250
+    luk: 35
+    xp: 5
+    gold: 150
 Coin Purse:
   type: charm
-  agi: 350
-  luk: 35
-  hp: 500
-  xp: 5
-  gold: 150
-  aegis: 1
-  glowing: 1
+  stats:
+    agi: 350
+    luk: 35
+    hp: 500
+    xp: 5
+    gold: 150
 Dagger of Discounts:
   type: mainhand
-  agi: 500
-  luk: 35
-  hp: 500
-  gold: 150
-  vampire: 1
+  stats:
+    agi: 500
+    luk: 35
+    hp: 500
+    gold: 150
 Mule:
   type: legs
-  agi: 500
-  str: 20
-  luk: 35
-  hp: 500
-  xp: 10
-  gold: 150
-  dance: 1
-  prone: 1
-  sentimentality: 70
+  stats:
+    agi: 500
+    str: 20
+    luk: 35
+    hp: 500
+    xp: 10
+    gold: 150
 Reading Spectacles:
   type: head
-  agi: 350
-  int: 20
-  luk: 35
-  hp: 500
-  xp: 5
-  gold: 150
-  dance: 1
-  hpregen: 100
-  mpregen: 50
+  stats:
+    agi: 350
+    int: 20
+    luk: 35
+    hp: 500
+    xp: 5
+    gold: 150
 Little Loom:
   type: hands
-  dex: 600
-  int: 2000
-  luk: 500
-  damageReduction: 350
-  mpregen: 50
-  sentimentality: 100
+  stats:
+    dex: 600
+    int: 2000
+    luk: 500
 Ring of Uncontrolled Anger Issues:
   type: finger
-  str: 2000
-  con: 1000
-  luk: 500
+  stats:
+    str: 2000
+    con: 1000
+    luk: 500
 Fate-Tinted Vision:
   type: head
-  int: 2500
-  luk: 500
-  deadeye: 1
-  hp: 800
+  stats:
+    int: 2500
+    luk: 500
+    hp: 800
 Fate-Strung Shortbow:
   type: mainhand
-  con: 40
-  dex: 2500
-  agi: 2000
-  luk: 500
-  crit: 5
-  deadeye: 1
-  glowing: 1
+  stats:
+    con: 40
+    dex: 2500
+    agi: 2000
+    luk: 500
 Precision Piccolo:
   type: hands
-  agi: 1800
-  int: 1800
-  luk: 500
-  dance: 1
-  deadeye: 1
-  silver: 1
+  stats:
+    agi: 1800
+    int: 1800
+    luk: 500
 Kirierath's Favor:
   type: charm
-  str: 100
-  con: 600
-  dex: 20
-  int: 1800
-  luk: 500
-  gold: 777
+  stats:
+    str: 100
+    con: 600
+    dex: 20
+    int: 1800
+    luk: 500
+    gold: 777
 Fate-Trimmed Full Plate:
   type: body
-  str: 1500
-  con: 800
-  dex: 900
-  agi: 250
-  luk: 500
-  defense: 1
+  stats:
+    str: 1500
+    con: 800
+    dex: 900
+    agi: 250
+    luk: 500
 Quarterstaff of Good Tidings:
   type: mainhand
-  str: 350
-  con: 900
-  dex: 350
-  agi: 200
-  int: 1000
-  luk: 500
-  gold: 150
-  silver: 1
+  stats:
+    str: 350
+    con: 900
+    dex: 350
+    agi: 200
+    int: 1000
+    luk: 500
+    gold: 150
 Source of Fate:
   type: offhand
-  luk: 1500
-  glowing: 1
-  lethal: 1
+  stats:
+    luk: 1500
 Fate-Hardened Scales:
   type: body
-  str: 300
-  con: 700
-  dex: 350
-  agi: 200
-  int: 850
-  luk: 500
-  aegis: 1
-  dance: 1
-  defense: 1
-  glowing: 1
-  sentimentality: 500
+  stats:
+    str: 300
+    con: 700
+    dex: 350
+    agi: 200
+    int: 850
+    luk: 500
 Lovely Quiver:
   type: body
-  str: 143
-  con: 143
-  dex: 143
-  agi: 1443
-  int: 143
-  luk: 143
-  gold: 20
-  power: 1
-  silver: 1
+  stats:
+    str: 143
+    con: 143
+    dex: 143
+    agi: 1443
+    int: 143
+    luk: 143
+    gold: 20
 Tiny Wings:
   type: body
-  str: 143
-  con: 1443
-  dex: 1443
-  agi: 1443
-  int: 143
-  luk: 143
-  dance: 1
-  xp: 3
+  stats:
+    str: 143
+    con: 1443
+    dex: 1443
+    agi: 1443
+    int: 143
+    luk: 143
+    xp: 3
 Mibru, Javelin of the Loveseeker:
   type: offhand
-  str: 1443
-  con: 1443
-  dex: 143
-  agi: 143
-  int: 143
-  luk: 143
-  deadeye: 1
-  lethal: 1
-  prone: 1
+  stats:
+    str: 1443
+    con: 1443
+    dex: 143
+    agi: 143
+    int: 143
+    luk: 143
 Pirate Medallion:
   type: charm
-  str: 3000
-  con: 3000
-  dex: 2000
-  agi: 2000
-  int: 1000
-  luk: 500
-  hpregen: 1000
-  power: 1
-  vorpal: 1
+  stats:
+    str: 3000
+    con: 3000
+    dex: 2000
+    agi: 2000
+    int: 1000
+    luk: 500
 Censer of Life:
   type: charm
-  str: 2000
-  con: 2000
-  agi: 1000
-  int: 6000
-  aegis: 1
-  hpregen: 1000
+  stats:
+    str: 2000
+    con: 2000
+    agi: 1000
+    int: 6000
 Bronze Spearhead:
   type: charm
-  str: 5750
-  con: 5750
-  luk: 25
-  crit: 1
-  glowing: 5
-  offense: 1
-  shatter: 1
+  stats:
+    str: 5750
+    con: 5750
+    luk: 25
 Timeless Topaz:
   type: trinket
-  vector: 1
-  con: 1000
-  int: 400
-  xp: 3
+  stats:
+    vector: 1
+    con: 1000
+    int: 400
+    xp: 3
 Troll Leather Galoshes:
   type: feet
-  str: 600
-  con: 350
-  dex: 500
-  agi: 2100
-  luk: 100
-  crit: 1
-  damageReduction: 500
-  hpregen: 1000
-  poison: -1
-  venom: -1
+  stats:
+    str: 600
+    con: 350
+    dex: 500
+    agi: 2100
+    luk: 100
 Troll Leather Leggings:
   type: legs
-  dex: 450
-  agi: 2100
-  damageReduction: 500
-  defense: 2
-  hpregen: 1500
+  stats:
+    dex: 450
+    agi: 2100
 Magical Rebreather:
   type: head
-  str: -1000
-  con: 1000
-  agi: -1000
-  int: 10000
-  luk: 2000
-  glowing: 1
-  hp: 500
-  hpregen: 1500
-  mp: 500
-  mpregen: 1500
-  xp: 3
+  stats:
+    str: -1000
+    con: 1000
+    agi: -1000
+    int: 10000
+    luk: 2000
+    hp: 500
+    xp: 3
   sReqCharacter*Terrains*Water: 172800
 Wetsuit of the Clockborg:
   type: body
-  str: 3300
-  con: 500
-  dex: 500
-  agi: 500
-  int: 3300
-  luk: 3300
-  aegis: 1
-  damageReduction: 1000
-  defense: 3
-  power: 1
-  silver: 1
-  xp: 2
+  stats:
+    str: 3300
+    con: 500
+    dex: 500
+    agi: 500
+    int: 3300
+    luk: 3300
+    xp: 2
   sReqCharacter*Terrains*Water: 172800

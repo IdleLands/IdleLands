@@ -322,34 +322,44 @@ export class GameService {
       }
 
       return `
-        <tr>
-          <td>${curStats[stat]}</td>
-          <td class="desc">
-            <div class="desc-container ${classColor}">
-              <span>${stat.toUpperCase()}</span>
-              <span>»</span>
-            </div>
-          </td>
-          <td class="ion-text-right stat-container ${classColor}">
-            ${newStats[stat]} ${symbol}
-          </td>
-        </tr>
+      <tr>
+        <td>${curStats[stat]}</td>
+        <td class="desc">
+          <div class="desc-container ${classColor}">
+            <span>${stat.toUpperCase()}</span>
+            <span>»</span>
+          </div>
+        </td>
+        <td class="ion-text-right stat-container ${classColor}">
+          ${newStats[stat]} ${symbol}
+        </td>
+      </tr>
       `;
     }).join('');
 
     const top = `
-      <tr><td colspan="3">
-        ↓ ${currentItem ? currentItem.name : 'nothing'} [${currentItem ? currentItem.score.toLocaleString() : 0}]
-      </td></tr>
+    <table class="item-compare-table">
+      <tr>
+        <td colspan="3">
+          ↓ ${currentItem ? currentItem.name : 'nothing'} [${currentItem ? currentItem.score.toLocaleString() : 0}]
+        </td>
+      </tr>
+    </table>
     `;
 
     const bottom = `
-      <tr><td colspan="3" class="ion-text-right">
-        ${newItem ? newItem.name : 'nothing'} [${newItem ? newItem.score.toLocaleString() : 0}] ↑
-      </td></tr>
+    <table class="item-compare-table">
+      <tr>
+        <td colspan="3" class="ion-text-right">
+          ${newItem ? newItem.name : 'nothing'} [${newItem ? newItem.score.toLocaleString() : 0}] ↑
+        </td>
+      </tr>
+    </table>
     `;
 
-    const finalString = '<table class="item-compare-table">' + top + baseString + bottom + '</table>';
+    const finalString = top + '<table class="item-compare-table">' + baseString + '</table>' + bottom;
+
+    console.log(finalString);
 
     const alert = await this.alertCtrl.create({
       header: `Item Compare (${newItem.type})`,

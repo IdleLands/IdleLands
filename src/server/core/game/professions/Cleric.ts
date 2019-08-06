@@ -50,7 +50,7 @@ export class Cleric extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
-    player.$$game.eventManager.doEventFor(player, 'BattleBoss', { bossName: 'dChicken Problem Solver'});
+    // player.$$game.eventManager.doEventFor(player, 'BattleBoss', { bossName: 'dChicken Problem Solver'});
     player.giveCure();
     return 'You cured the wounds of yourself and your allies!';
   }

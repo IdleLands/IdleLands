@@ -1,13 +1,29 @@
-import { Event } from './Event';
+import { Event, EventName } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType } from '../../../../shared/interfaces';
+import { Item } from '../../../../shared/models';
 
-// TODO: find treasure event
 export class FindTreasure extends Event {
   public static readonly WEIGHT = 0;
 
-  public operateOn(player: Player) {
-    // opts.treasureName
-    this.emitMessage([player], 'You should be finding a treasure right now, but it is not implemented.', AdventureLogEventType.Meta);
+  public operateOn(player: Player, opts: any = { treasureName: '' }) {
+
+    const { chests, items } = this.assetManager.allTreasureAssets;
+
+    player.increaseStatistic('Treasure/Total/Touch', 1);
+    player.increaseStatistic(`Treasure/Chest/${opts.treasureName}`, 1);
+
+    const treasureItems = chests[opts.treasureName].items;
+    const allItemInstances = treasureItems.map(itemName => {
+      const item = new Item();
+      const baseItem = items[itemName];
+      baseItem.name = itemName;
+      item.init(baseItem);
+      return item;
+    });
+
+    allItemInstances.forEach(item => {
+      player.increaseStatistic('Treasure/Total/ItemsFound', 1);
+      player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromChest: true, item: item });
+    });
   }
 }
