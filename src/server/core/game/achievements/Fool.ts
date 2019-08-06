@@ -21,7 +21,7 @@ export class Fool extends Achievement {
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.Personality, personality: 'Drunk' }
-    ]
+    ];
 
     return baseRewards;
   }
