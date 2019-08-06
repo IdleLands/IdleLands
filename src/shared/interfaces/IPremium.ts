@@ -39,8 +39,12 @@ export enum PremiumTier {
   Subscriber2 = 3,
   Subscriber3 = 4,
   Moderator = 5,
-  Contributor = 5,
   GM = 10
+}
+
+export enum ContributorTier {
+  None = 0,
+  Contributor = 1
 }
 
 export const PremiumScale = {
