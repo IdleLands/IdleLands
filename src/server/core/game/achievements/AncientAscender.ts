@@ -46,7 +46,8 @@ export class AncientAscender extends Achievement {
     }
 
     if(tier >= 25) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Zigseli 💥' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Seli Taiken 💥' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Zigniber 💥' });
     }
 
     if(tier >= 30) {
