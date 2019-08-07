@@ -13,6 +13,8 @@ export class Spiritualist extends Achievement {
   }
 
   static calculateTier(player: Player): number {
+    if(!player.$petsData) return 0;
+    
     const pets = player.$petsData.allPets;
     if(!pets['Spellbook'] || !pets['Ghostly Sword'] || !pets['Ghostly Shield']) return 0;
 
