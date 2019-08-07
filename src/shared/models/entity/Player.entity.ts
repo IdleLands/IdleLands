@@ -721,7 +721,7 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/IdleLands3/Ascensions', stats.Ascensions || 0);
     this.$statistics.set('Game/IdleLands3/Wolfmaster', stats.Wolfmaster ? 1 : 0);
     this.$statistics.set('Game/IdleLands3/Spiritualist', stats.Spiritualist ? 1 : 0);
-    this.$statistics.set('Game/IdleLands3/Anniversary', stats.Anniversary ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Anniversary', stats.Anniversary);
   }
 
   public syncPremium() {

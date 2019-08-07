@@ -12,7 +12,7 @@ interface IL3Stats {
   Ascensions: number;
   Wolfmaster: boolean;
   Spiritualist: boolean;
-  Anniversary: boolean;
+  Anniversary: number;
 }
 
 @Singleton
@@ -41,7 +41,7 @@ export class IL3Linker {
       Ascensions: 0,
       Wolfmaster: false,
       Spiritualist: false,
-      Anniversary: false
+      Anniversary: 0
     };
 
     if(achievementR.Ancient) il3.Ancient = true;
@@ -50,7 +50,7 @@ export class IL3Linker {
     if(achievementR.Ascended) il3.Ascensions = achievementR.Ascended.tier;
     if(achievementR.Wolfmaster) il3.Wolfmaster = true;
     if(achievementR.Spiritualist) il3.Spiritualist = true;
-    if(achievementR.Anniversary) il3.Anniversary = true;
+    if(achievementR.Anniversary) il3.Anniversary = achievementR.Anniversary.tier;
 
     return il3;
   }

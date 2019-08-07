@@ -7,13 +7,13 @@ export class AncientYearling extends Achievement {
   static readonly type = AchievementType.Special;
 
   static descriptionForTier(tier: number): string {
-    const baseStr = `Gain a title and +10% to all special stats for staying logged in for over a year! 🍻`;
+    const baseStr = `Gain a title and +${tier * 10}% to all special stats for staying logged in for over a year! 🍻`;
 
     return baseStr;
   }
 
   static calculateTier(player: Player): number {
-    return player.$statistics.get('Game/IdleLands3/Anniversary') ? 1 : 0;
+    return player.$statistics.get('Game/IdleLands3/Anniversary');
   }
 
   static rewardsForTier(tier: number): any[] {
@@ -25,6 +25,10 @@ export class AncientYearling extends Achievement {
        } },
        { type: AchievementRewardType.Title, title: 'World Traveler 🌎' }
     ];
+
+    if(tier >= 2) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Seer of Moons 🌑' });
+    }
 
     return baseRewards;
   }
