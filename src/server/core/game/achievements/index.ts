@@ -40,6 +40,7 @@ export * from './Quickfooted';
 export * from './Scrambler';
 export * from './Slayer';
 export * from './SoloStepper';
+export * from './Spiritualist';
 export * from './Sponge';
 export * from './Swinger';
 export * from './ThatDayOfTheYear';
