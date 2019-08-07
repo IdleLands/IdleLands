@@ -1,8 +1,9 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import * as Discord from 'discord.js';
 
+import { DatabaseManager } from './database-manager';
+
 import { Logger } from '../logger';
-import { ChatHelper } from './chat-helper';
 import { IMessage } from '../../../shared/interfaces';
 
 @Singleton
@@ -10,7 +11,6 @@ import { IMessage } from '../../../shared/interfaces';
 export class DiscordManager {
 
   @Inject private logger: Logger;
-  // @Inject private chatHelper: ChatHelper;
 
   private discord: Discord.Client;
   private discordGuild: Discord.Guild;
@@ -64,6 +64,26 @@ export class DiscordManager {
     if(!this.discordChannel) return;
 
     this.discordChannel.send(message);
+  }
+
+  public discordUserWithTag(tag: string) {
+    if(!this.discordChannel) return null;
+    return this.discord.users.find(u => `${u.username}#${u.discriminator}` === tag);
+  }
+
+  public isTagInDiscord(tag: string): boolean {
+    if(!this.discordChannel) return false;
+    return !!this.discordUserWithTag(tag);
+  }
+
+  public hasRole(tag: string, role: string): boolean {
+    const roles = this.getUserRoles(tag);
+    return !!roles.find(r => r.name === role);
+  }
+
+  public getUserRoles(tag: string) {
+    const guildUser = this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
+    return guildUser.roles;
   }
 
 }

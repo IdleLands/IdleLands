@@ -22,6 +22,8 @@ export enum ServerEventName {
   CharacterDivineDirection = 'character:divinedirection',
   CharacterLeaveParty = 'character:leaveparty',
 
+  CharacterDiscordTag = 'character:changediscordtag',
+
   ChatPlayerListSync = 'chat:playersync',
   ChatMessage = 'chat:message',
 

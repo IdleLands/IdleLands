@@ -96,6 +96,11 @@ export class DatabaseManager {
     }
   }
 
+  public async findPlayerWithDiscordTag(discordTag: string): Promise<Player> {
+    if(!this.connection) return null;
+    return this.connection.manager.findOne(Player, { discordTag });
+  }
+
   public async savePlayer(player: Player): Promise<void> {
     if(!this.connection) return null;
 

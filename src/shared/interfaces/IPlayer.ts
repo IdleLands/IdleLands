@@ -70,6 +70,7 @@ export interface IPlayer extends ICharacter {
   authType: string;
   authSyncedTo: string;
   modTier: ModeratorTier;
+  discordTag: string;
 
   createdAt: number;
 

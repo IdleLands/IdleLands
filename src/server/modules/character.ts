@@ -1,8 +1,9 @@
 
 import { includes } from 'lodash';
 
-import { ServerEventName, ServerEvent } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, PremiumTier, ContributorTier } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
+import { Premium } from '../core/game/achievements';
 
 export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.CharacterGender;
@@ -111,6 +112,52 @@ export class LeavePartyEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.partyHelper.playerLeave(player);
     this.gameMessage('You left your party!');
+  }
+}
+
+export class ChangeDiscordTagEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterDiscordTag;
+  description = 'Change your characters associated discord tag.';
+  args = 'discordTag';
+
+  async callback({ discordTag } = { discordTag: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(!discordTag) {
+      player.discordTag = '';
+      player.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
+      player.$premium.setTier(PremiumTier.None);
+      player.syncPremium();
+      return this.gameMessage('Unset your Discord tag! Your Premium benefits have been reset.');
+    }
+
+    if(player.discordTag && discordTag !== player.discordTag) {
+      if(!this.game.discordManager.isTagInDiscord(discordTag)) return this.gameError('That user is not in Discord!');
+      if(await this.game.databaseManager.findPlayerWithDiscordTag(discordTag)) return this.gameError('That Discord tag is already taken!');
+    }
+
+    player.discordTag = discordTag;
+
+    let newPremium = PremiumTier.None;
+    if(this.game.discordManager.hasRole(discordTag, 'Patron')) newPremium = PremiumTier.Subscriber;
+    if(this.game.discordManager.hasRole(discordTag, 'Patron Saint')) newPremium = PremiumTier.Subscriber2;
+
+    player.$premium.setTier(newPremium);
+
+    let msg = `You updated your discord tag!`;
+    if(newPremium > 0) {
+      msg = `${msg} Thanks for your support!`;
+    }
+
+    if(this.game.discordManager.hasRole(discordTag, 'Collaborator')) {
+      player.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.Contributor);
+    }
+
+    player.syncPremium();
+    this.gameMessage(msg);
+
+    this.game.updatePlayer(player);
   }
 }
 

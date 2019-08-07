@@ -272,4 +272,8 @@ export class Premium extends PlayerOwned {
       }
     });
   }
+
+  public setTier(tier: PremiumTier) {
+    this.premiumTier = tier;
+  }
 }

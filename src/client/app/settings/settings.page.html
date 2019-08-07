@@ -8,8 +8,30 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-row>
+  <ion-row *ngIf="gameService.player$ | async as player">
     <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2">
+      
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Integrations</ion-card-title>
+          <ion-card-subtitle>
+            Integrate IdleLands with other services  <a href="https://discord.gg/3SeVXyu" target="_blank">Discord</a> for various enhanced features.
+          </ion-card-subtitle>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <ion-list class="ion-no-padding">
+            <ion-item>
+              <ion-label position="stacked">
+                Discord Tag
+              </ion-label>
+              <ion-input [(ngModel)]="player.discordTag" type="text" placeholder="DiscordTag#0000"></ion-input>
+
+              <ion-button color="primary" (click)="updateDiscordTag(player.discordTag)" slot="end">Update</ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
       
       <ion-card>
         <ion-card-header>
@@ -20,7 +42,7 @@
         </ion-card-header>
     
         <ion-card-content>
-          <ion-list class="ion-no-padding" *ngIf="gameService.player$ | async as player">
+          <ion-list class="ion-no-padding">
     
             <ion-item-divider>Available Services</ion-item-divider>
     

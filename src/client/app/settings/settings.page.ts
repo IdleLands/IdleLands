@@ -21,6 +21,10 @@ export class SettingsPage {
     public authService: AuthService
   ) { }
 
+  public updateDiscordTag(discordTag) {
+    this.socketService.emit(ServerEventName.CharacterDiscordTag, { discordTag });
+  }
+
   public async deleteCharacter() {
     const alert = await this.alertCtrl.create({
       header: 'Delete Character',

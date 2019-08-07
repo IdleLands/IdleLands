@@ -61,6 +61,8 @@ export class Player implements IPlayer {
   @Column() public lastMessageSent: number;
   @Column() public messageCooldown: number;
 
+  @Column() public discordTag: string;
+
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
 
