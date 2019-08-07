@@ -48,7 +48,7 @@ export class DiscordManager {
         timestamp: Date.now(),
 
         playerName: message.member.displayName,
-        message: message.content
+        message: message.cleanContent
       });
 
     });

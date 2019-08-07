@@ -65,7 +65,10 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    NgxLinkifyjsModule.forRoot(),
+    NgxLinkifyjsModule.forRoot({
+      enableHash: false,
+      enableMention: false
+    }),
     FilterPipeModule,
     CountdownTimerModule,
     IonicModule.forRoot(),

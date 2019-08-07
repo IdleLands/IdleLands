@@ -49,7 +49,7 @@ export class AncientAscender extends Achievement {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Zigseli 💥' });
     }
 
-    if(tier >= 25) {
+    if(tier >= 30) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Glopii 🍀' });
     }
 
