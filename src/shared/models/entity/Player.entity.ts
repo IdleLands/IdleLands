@@ -712,7 +712,7 @@ export class Player implements IPlayer {
 
   public syncPremium() {
     if(!this.$premiumData) return;
-    
+
     this.$statistics.set('Game/Contributor/ContributorTier', this.$statistics.get('Game/Contributor/ContributorTier'));
 
     const tier = this.$premiumData.tier;
