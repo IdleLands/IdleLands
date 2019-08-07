@@ -62,6 +62,12 @@ Discord variables are used to connect to Discord, which will sync chat between t
 * `DISCORD_GUILD_ID` - the Discord guild ID
 * `DISCORD_CHANNEL_ID` - the Discord channel ID
 
+#### IdleLands 3 Variables
+
+IL3 variables are used to connect to the old DB for the purposes of character imports.
+
+* `IDLELANDS3_MONGODB_URI` - the MongoDB URI to the old IdleLands 3 Mongo instance
+
 ## Useful Commands
 
 * `npm run start:server` - start the server

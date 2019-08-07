@@ -161,3 +161,34 @@ export class ChangeDiscordTagEvent extends ServerSocketEvent implements ServerEv
   }
 }
 
+export class ChangeIdleLands3CharacterEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterChangeIdlelands3;
+  description = 'Change your characters associated IdleLands 3 character.';
+  args = 'il3CharName';
+
+  async callback({ il3CharName } = { il3CharName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(!il3CharName) {
+      player.il3CharName = '';
+      player.syncIL3({});
+      return this.gameMessage('Unset your IL3 Character! Your synced benefits have been reset.');
+    }
+
+    if(player.il3CharName && il3CharName !== player.il3CharName) {
+      if(await this.game.databaseManager.findPlayerWithIL3Name(il3CharName)) return this.gameError('That IL3 Character is already taken!');
+    }
+
+    player.il3CharName = il3CharName;
+
+    const stats = await this.game.il3Linker.getIL3Stats(il3CharName);
+
+    player.syncIL3(stats || {});
+    this.gameMessage('You updated your IL3 Character!');
+
+    this.game.updatePlayer(player);
+  }
+}
+
+

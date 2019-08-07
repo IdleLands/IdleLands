@@ -44,7 +44,7 @@ export enum PremiumTier {
 
 export enum ContributorTier {
   None = 0,
-  Contributor = 1
+  Contributor = 2
 }
 
 export const PremiumScale = {

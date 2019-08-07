@@ -28,6 +28,7 @@ import { CombatHelper } from './combat-helper';
 import { CalculatorHelper } from './calculator-helper';
 import { FestivalManager } from './festival-manager';
 import { GMHelper } from './gm-helper';
+import { IL3Linker } from './il3-linker';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
@@ -36,6 +37,7 @@ const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
 export class Game implements IGame {
 
   @Inject public logger: Logger;
+  @Inject public il3Linker: IL3Linker;
   @Inject public databaseManager: DatabaseManager;
   @Inject public assetManager: AssetManager;
   @Inject public personalityManager: PersonalityManager;

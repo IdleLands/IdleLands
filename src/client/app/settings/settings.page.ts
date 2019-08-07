@@ -25,6 +25,10 @@ export class SettingsPage {
     this.socketService.emit(ServerEventName.CharacterDiscordTag, { discordTag });
   }
 
+  public updateIL3CharName(il3CharName) {
+    this.socketService.emit(ServerEventName.CharacterChangeIdlelands3, { il3CharName });
+  }
+
   public async deleteCharacter() {
     const alert = await this.alertCtrl.create({
       header: 'Delete Character',

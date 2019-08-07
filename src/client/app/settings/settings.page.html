@@ -15,7 +15,7 @@
         <ion-card-header>
           <ion-card-title>Integrations</ion-card-title>
           <ion-card-subtitle>
-            Integrate IdleLands with other services  <a href="https://discord.gg/3SeVXyu" target="_blank">Discord</a> for various enhanced features.
+            Integrate IdleLands with other services like <a href="https://discord.gg/3SeVXyu" target="_blank">Discord</a> for various enhanced features.
           </ion-card-subtitle>
         </ion-card-header>
     
@@ -28,6 +28,15 @@
               <ion-input [(ngModel)]="player.discordTag" type="text" placeholder="DiscordTag#0000"></ion-input>
 
               <ion-button color="primary" (click)="updateDiscordTag(player.discordTag)" slot="end">Update</ion-button>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">
+                IdleLands 3 Character Name
+              </ion-label>
+              <ion-input [(ngModel)]="player.il3CharName" type="text" placeholder="Your old character name..."></ion-input>
+
+              <ion-button color="primary" (click)="updateIL3CharName(player.il3CharName)" slot="end">Update</ion-button>
             </ion-item>
           </ion-list>
         </ion-card-content>

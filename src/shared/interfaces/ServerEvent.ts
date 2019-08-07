@@ -23,6 +23,7 @@ export enum ServerEventName {
   CharacterLeaveParty = 'character:leaveparty',
 
   CharacterDiscordTag = 'character:changediscordtag',
+  CharacterChangeIdlelands3 = 'character:changeidlelands3',
 
   ChatPlayerListSync = 'chat:playersync',
   ChatMessage = 'chat:message',

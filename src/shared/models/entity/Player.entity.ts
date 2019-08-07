@@ -62,6 +62,7 @@ export class Player implements IPlayer {
   @Column() public messageCooldown: number;
 
   @Column() public discordTag: string;
+  @Column() public il3CharName: string;
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
@@ -710,6 +711,17 @@ export class Player implements IPlayer {
 
   private syncPersonalities() {
     this.$personalities.resetPersonalitiesTo(this.getPersonalityInstances());
+  }
+
+  public syncIL3(stats) {
+    this.$statistics.set('Game/IdleLands2/Played', stats.Ancient ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Played', stats ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Donator', stats.Donator ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Contributor', stats.Contributor ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Ascensions', stats.Ascensions || 0);
+    this.$statistics.set('Game/IdleLands3/Wolfmaster', stats.Wolfmaster ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Spiritualist', stats.Spiritualist ? 1 : 0);
+    this.$statistics.set('Game/IdleLands3/Anniversary', stats.Anniversary ? 1 : 0);
   }
 
   public syncPremium() {

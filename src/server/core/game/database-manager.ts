@@ -1,5 +1,5 @@
 
-import { Singleton, AutoWired, Inject } from 'typescript-ioc';
+import { Singleton, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions, MongoEntityManager, getMongoManager } from 'typeorm';
 import { extend } from 'lodash';
 
@@ -99,6 +99,11 @@ export class DatabaseManager {
   public async findPlayerWithDiscordTag(discordTag: string): Promise<Player> {
     if(!this.connection) return null;
     return this.connection.manager.findOne(Player, { discordTag });
+  }
+
+  public async findPlayerWithIL3Name(il3CharName: string): Promise<Player> {
+    if(!this.connection) return null;
+    return this.connection.manager.findOne(Player, { il3CharName });
   }
 
   public async savePlayer(player: Player): Promise<void> {
