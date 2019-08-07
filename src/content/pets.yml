@@ -340,6 +340,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalRed: 2
@@ -430,6 +431,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -518,6 +520,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalPurple: 2
@@ -607,6 +610,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalYellow: 2
@@ -695,6 +699,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -783,6 +788,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    maxStaminaBoost: 2
 
   ascensionMaterials:
     - CrystalGreen: 2
@@ -877,7 +883,7 @@
       - { v: 40,  c: 100000, a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    inventorySizeBoost: 1
 
   ascensionMaterials:
     - CrystalGreen: 2
@@ -974,7 +980,9 @@
       - { v: 40,  c: 100000, a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    inventorySizeBoost: 1
+    choiceLogSizeBoost: 1
+    itemStatCapBoost: 25
 
   ascensionMaterials:
     - CrystalGreen: 2
@@ -1076,7 +1084,7 @@
       - { v: 20,  c: 100000, a: 1 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    itemStatCapBoost: 50
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -1169,7 +1177,7 @@
       - { v: 0,   c: 0 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    itemStatCapBoost: 25
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -1264,7 +1272,8 @@
       - { v: 20,  c: 100000 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    itemStatCapBoost: 50
+    inventorySizeBoost: 1
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -1467,7 +1476,7 @@
       - { v: 100,  c: 1000000,  a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    buffScrollDuration: 1
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1568,7 +1577,10 @@
       - { v: 128,  c: 1000000,  a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    adventureLogSizeBoost: 2
+    buffScrollDuration: 2
+    choiceLogSizeBoost: 2
+    itemStatCapBoost: 50
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1661,7 +1673,8 @@
       - { v: 20,   c: 100000,   a: 1 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    buffScrollDuration: 1
+    enchantCapBoost: 1
 
   ascensionMaterials:
     - CrystalPurple: 2
@@ -1758,7 +1771,8 @@
       - { v: 20,   c: 100000,   a: 1 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    enchantCapBoost: 1
+    itemStatCapBoost: 25
 
   ascensionMaterials:
     - CrystalRed: 2
@@ -1851,7 +1865,8 @@
       - { v: 20,   c: 100000,   a: 1 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    enchantCapBoost: 1
+    injuryThreshold: 1
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1962,7 +1977,7 @@
       - { v: 100,  c: 100000,   a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    maxStaminaBoost: 10
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -2079,7 +2094,9 @@
       - { v: 100, c: 100000, a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    inventorySizeBoost: 2
+    buffScrollDuration: 1
+    choiceLogSizeBoost: 2
 
   ascensionMaterials:
     - CrystalAstral: 1
@@ -2169,7 +2186,9 @@
       - { v: 100,  c: 10000000, a: 5 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    inventorySizeBoost: 3
+    enchantCapBoost: 2
+    itemStatCapBoost: 50
 
   ascensionMaterials:
     - CrystalAstral: 2
@@ -2244,7 +2263,8 @@
       - { v: 100,    c: 0 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    inventorySizeBoost: 2
+    injuryThreshold: 1
 
   ascensionMaterials:
     - CrystalAstral: 5
@@ -2315,7 +2335,7 @@
       - { v: 100,    c: 0 }
 
   permanentUpgrades:
-    adventureLogSizeBoost: 1
+    maxStaminaBoost: 10
 
   ascensionMaterials:
     - CrystalAstral: 5
