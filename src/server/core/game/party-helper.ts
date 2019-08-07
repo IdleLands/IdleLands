@@ -49,7 +49,6 @@ export class PartyHelper {
     party.members.push(player.name);
     player.increaseStatistic('Event/Party/Join', 1);
 
-    console.log(party.members[0], player.name);
     if(party.members[0] !== player.name && player.$personalities.has('Telesheep')) {
       const leader = this.playerManager.getPlayer(party.members[0]);
       player.setPos(leader.x, leader.y, leader.map, leader.region);
