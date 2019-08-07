@@ -1580,7 +1580,7 @@
     adventureLogSizeBoost: 2
     buffScrollDuration: 2
     choiceLogSizeBoost: 2
-    itemStatCapBoost: 50
+    petMissionCapBoost: 2
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1978,6 +1978,7 @@
 
   permanentUpgrades:
     maxStaminaBoost: 10
+    petMissionCapBoost: 1
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -2336,6 +2337,7 @@
 
   permanentUpgrades:
     maxStaminaBoost: 10
+    petMissionCapBoost: 1
 
   ascensionMaterials:
     - CrystalAstral: 5
