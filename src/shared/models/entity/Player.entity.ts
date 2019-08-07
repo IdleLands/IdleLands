@@ -715,9 +715,10 @@ export class Player implements IPlayer {
   public syncPremium() {
     if(!this.$premiumData) return;
 
-    this.$statistics.set('Game/Contributor/ContributorTier', this.$statistics.get('Game/Contributor/ContributorTier'));
+    const collabTier = this.$statistics.get('Game/Contributor/ContributorTier');
+    this.$statistics.set('Game/Contributor/ContributorTier', collabTier);
 
-    const tier = this.$premiumData.tier;
+    const tier = this.$premiumData.tier + collabTier;
 
     const allAchievementBoosts = this.$achievements.getPermanentUpgrades();
 
