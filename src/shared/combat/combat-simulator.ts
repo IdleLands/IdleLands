@@ -131,6 +131,8 @@ export class CombatSimulator {
     const effects = this.formAllSkillResults(caster, skill);
     effects.forEach(effect => {
       effect.targets.forEach(target => {
+        if(!target) return;
+
         effect.targetEffects[target].forEach(targetEffect => {
 
           // if an effect happens to suggest it is immediate, we can do this.
@@ -150,6 +152,8 @@ export class CombatSimulator {
     const effects = this.formAllSkillResults(caster, skill);
     effects.forEach(effect => {
       effect.targets.forEach(target => {
+        if(!target) return;
+
         effect.targetEffects[target].forEach(targetEffect => {
           this.applySingleEffect(this.combat.characters[target], targetEffect);
         });

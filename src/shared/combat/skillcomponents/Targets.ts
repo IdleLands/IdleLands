@@ -86,6 +86,10 @@ export const NumberOfTargets: (f: Targetting, caster, combat) => number =
 
 export const Targets = (targetFunc: Targetting) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
-    skill.targets = TargettingFunctions[targetFunc](caster, combat).map(x => x.combatId);
+    try {
+      skill.targets = TargettingFunctions[targetFunc](caster, combat).map(x => x.combatId);
+    } catch(e) {
+      skill.targets = [null];
+    }
     return skill;
   };

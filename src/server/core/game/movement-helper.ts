@@ -11,6 +11,7 @@ import { Logger } from '../logger';
 import { HolidayHelper } from './holiday-helper';
 import { EventName } from './events/Event';
 import { AssetManager } from './asset-manager';
+import { PartyHelper } from './party-helper';
 
 @Singleton
 @AutoWired
@@ -21,6 +22,7 @@ export class MovementHelper {
   @Inject private rng: RNGService;
   @Inject private assets: AssetManager;
   @Inject private eventManager: EventManager;
+  @Inject private partyHelper: PartyHelper;
   @Inject private holidayHelper: HolidayHelper;
 
   private directions: Direction[] = [
@@ -39,9 +41,7 @@ export class MovementHelper {
   }
 
   public moveToStart(player: Player): void {
-    player.map = 'Norkos';
-    player.x = 10;
-    player.y = 10;
+    player.setPos(10, 10, 'Norkos', 'Norkos Town');
   }
 
   private getTileAt(map: string, x: number, y: number): Tile {
@@ -318,6 +318,15 @@ export class MovementHelper {
 
     let attempts = 1;
     let { index, dir } = this.pickRandomDirection(player, weight);
+
+    // follow the leader if we're a telesheep
+    if(player.$party && player.$personalities.isActive('Telesheep')) {
+      const leader = this.partyHelper.getPartyLeader(player.$party);
+      if(leader !== player) {
+        dir = this.xyDiff2dir(player.x, player.y, leader.x, leader.y);
+      }
+    }
+
     let newLoc = this.num2dir(dir, player.x, player.y);
     let tile = this.getTileAt(player.map, newLoc.x, newLoc.y);
 

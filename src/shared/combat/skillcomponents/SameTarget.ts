@@ -16,6 +16,8 @@ export const SameTarget = (...combinatorContainers: Array<ICombatSkillCombinator
       }, baseCombineSkill);
 
       newSkill.targets.forEach(target => {
+        if(!target) return;
+
         newSkill.targetEffects[target].forEach(eff => {
           skill.targetEffects = skill.targetEffects || {};
           skill.targetEffects[target] = skill.targetEffects[target] || [];

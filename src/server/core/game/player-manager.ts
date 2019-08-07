@@ -69,6 +69,13 @@ export class PlayerManager {
           this.allPlayersInMaps[player.map] = this.allPlayersInMaps[player.map] || [];
           pullAllBy(this.allPlayersInMaps[player.map], [player], p => p.name === player.name);
           this.allPlayersInMaps[player.map].push(player);
+
+          this.subscriptionManager.emitToClients(Channel.PlayerUpdates, { player: {
+            name: player.name,
+            x: player.x,
+            y: player.y,
+            map: player.map
+          }, operation });
           break;
         }
 

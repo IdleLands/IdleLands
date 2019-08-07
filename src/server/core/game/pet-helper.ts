@@ -52,7 +52,18 @@ export class PetHelper {
 
   getPetUpgradeValue(pet: IPet, upgrade: PetUpgrade): number {
     const proto = this.getPetProto(pet.typeName);
-    return proto.upgrades[upgrade][pet.upgradeLevels[upgrade]].v;
+    const upgradeRef = proto.upgrades[upgrade];
+    if(!upgradeRef) return 0;
+
+    if(!pet.upgradeLevels) return 0;
+
+    const upgradeLevel = pet.upgradeLevels[upgrade];
+    if(!upgradeLevel) return 0;
+
+    const upgradeRefC = upgradeRef[upgradeLevel];
+    if(!upgradeRefC) return 0;
+
+    return upgradeRefC.v;
   }
 
   getPetCost(petType: string): number {
@@ -152,6 +163,7 @@ export class PetHelper {
     player.$inventory.unequipItem(player.$inventory.itemInEquipmentSlot(ItemSlot.Soul));
 
     const soulItem = this.petSoulForScale(pet);
+    if(!soulItem) return;
     player.$inventory.equipItem(soulItem);
 
     player.recalculateStats();

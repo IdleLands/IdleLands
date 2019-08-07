@@ -202,9 +202,12 @@ class GameState extends Phaser.State {
   private async setPlayer(player: IPlayer): Promise<void> {
 
     // set player
+    const prevPlayer = this.player;
     this.player = player;
 
-    if(!player) return;
+    if(!player) {
+      return;
+    }
 
     await this.isReady;
     await this.updatePlayerSprite(player as any);
@@ -293,6 +296,7 @@ export class MapPage implements OnInit, OnDestroy {
   private game: Phaser.Game;
   private gameText = new Subject<string[]>();
   private gameText$: Subscription;
+  private player$: Subscription;
 
   constructor(
     private socketService: SocketClusterService,
@@ -304,24 +308,29 @@ export class MapPage implements OnInit, OnDestroy {
 
     (<any>window).PhaserGlobal = { hideBanner: true };
 
-    this.game = new Phaser.Game({
-      parent: el,
-      renderer: Phaser.AUTO,
-      width: el.clientWidth,
-      height: el.clientHeight
-    });
+    this.player$ = this.gameService.player$.subscribe(player => {
+      if(!player || this.game) return;
 
-    this.game.state.add('game', GameState);
-    this.game.state.start('game', true, true, {
-      socketService: this.socketService,
-      gameService: this.gameService,
-      gameText: this.gameText
+      this.game = new Phaser.Game({
+        parent: el,
+        renderer: Phaser.AUTO,
+        width: el.clientWidth,
+        height: el.clientHeight
+      });
+
+      this.game.state.add('game', GameState);
+      this.game.state.start('game', true, true, {
+        socketService: this.socketService,
+        gameService: this.gameService,
+        gameText: this.gameText
+      });
     });
   }
 
   ngOnDestroy() {
     if(this.game) this.game.destroy();
     if(this.gameText$) this.gameText$.unsubscribe();
+    if(this.player$) this.player$.unsubscribe();
   }
 
 }

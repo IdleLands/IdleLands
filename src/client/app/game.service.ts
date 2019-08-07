@@ -250,9 +250,15 @@ export class GameService {
           break;
         }
 
+        case PlayerChannelOperation.Update: {
+          const retPlayer = merge(find(this.allPlayers, { name: player.name }), player);
+          this.playerInfoHash[player.name] = retPlayer;
+          break;
+        }
+
         case PlayerChannelOperation.SpecificUpdate: {
-          merge(find(this.allPlayers, { name: player.name }), player);
-          this.playerInfoHash[player.name] = player;
+          const retPlayer = merge(find(this.allPlayers, { name: player.name }), player);
+          this.playerInfoHash[player.name] = retPlayer;
           break;
         }
 

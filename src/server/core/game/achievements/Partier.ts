@@ -10,7 +10,7 @@ export class Partier extends Achievement {
     let baseStr = `Gain three personalities (Solo, Leader, Follower) for party-stepping 10,000 times.`;
 
     if(tier >= 2) {
-      baseStr = `${baseStr} Title: Synergistic. +5 max stamina.`;
+      baseStr = `${baseStr} Title: Synergistic. Personality: Telesheep. +5 max stamina.`;
     }
 
     if(tier >= 3) {
@@ -37,6 +37,7 @@ export class Partier extends Achievement {
 
     if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: 5 } });
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Telesheep' });
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Synergistic' });
     }
 

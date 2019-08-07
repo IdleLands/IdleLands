@@ -1,7 +1,5 @@
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { IParty, IPlayer } from '../../../shared/interfaces';
-import { RNGService } from './rng-service';
-import { SubscriptionManager } from './subscription-manager';
 import { AssetManager } from './asset-manager';
 import { PartyManager } from './party-manager';
 import { PlayerManager } from './player-manager';
@@ -10,11 +8,9 @@ import { PlayerManager } from './player-manager';
 @AutoWired
 export class PartyHelper {
 
-  @Inject private rng: RNGService;
   @Inject private assetManager: AssetManager;
   @Inject private playerManager: PlayerManager;
   @Inject private partyManager: PartyManager;
-  @Inject private subscriptionManager: SubscriptionManager;
 
   public generateName(): string {
     return this.assetManager.party();
@@ -53,7 +49,11 @@ export class PartyHelper {
     party.members.push(player.name);
     player.increaseStatistic('Event/Party/Join', 1);
 
-    // TODO: teleport near?
+    console.log(party.members[0], player.name);
+    if(party.members[0] !== player.name && player.$personalities.has('Telesheep')) {
+      const leader = this.playerManager.getPlayer(party.members[0]);
+      player.setPos(leader.x, leader.y, leader.map, leader.region);
+    }
   }
 
   public playerLeave(player: IPlayer): void {
@@ -73,5 +73,9 @@ export class PartyHelper {
     });
 
     this.removeParty(party);
+  }
+
+  public getPartyLeader(party: IParty): IPlayer {
+    return this.playerManager.getPlayer(party.members[0]);
   }
 }

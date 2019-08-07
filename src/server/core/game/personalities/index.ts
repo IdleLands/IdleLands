@@ -18,3 +18,4 @@ export * from './ScaredOfTheDark';
 export * from './Seeker';
 export * from './Solo';
 export * from './Strong';
+export * from './Telesheep';
