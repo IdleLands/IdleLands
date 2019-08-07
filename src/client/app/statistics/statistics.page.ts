@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class StatisticsPage implements OnInit, OnDestroy {
 
   private character$: Subscription;
+  private updateCycleTimes = 0;
 
   public statistics = {};
   public statCats = [
@@ -26,6 +27,13 @@ export class StatisticsPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.character$ = this.gameService.player$.subscribe(player => {
       if(!player) return;
+
+      if(this.updateCycleTimes > 0) {
+        this.updateCycleTimes--;
+        return;
+      }
+
+      this.updateCycleTimes = 6;
 
       this.statistics = this.handleStatistics(player.$statisticsData);
     });
