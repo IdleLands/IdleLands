@@ -293,13 +293,15 @@ const loadMapsInFolder = () => {
   });
 };
 
+const CONTENT_PARENTDIR = process.env.NODE_ENV === 'production' ? 'dist' : 'src'
+
 const loadPetData = () => {
-  const pets = YAML.load('src/content/pets.yml');
+  const pets = YAML.load(CONTENT_PARENTDIR + '/content/pets.yml');
   pets.forEach(pet => Pets[pet.typeName] = pet);
 };
 
 const loadTeleportData = () => {
-  const teleports = YAML.load('src/content/teleports.yml');
+  const teleports = YAML.load(CONTENT_PARENTDIR + '/content/teleports.yml');
   for(let key in teleports) {
     for(let subkey in teleports[key]) {
       Teleports[subkey] = teleports[key][subkey];
@@ -308,10 +310,10 @@ const loadTeleportData = () => {
 };
 
 const loadBossData = () => {
-  Bosses.creatures = YAML.load('src/content/boss.yml');
-  Bosses.items = YAML.load('src/content/bossitems.yml');
-  Bosses.collectibles = YAML.load('src/content/bosscollectibles.yml');
-  Bosses.parties = YAML.load('src/content/bossparties.yml');
+  Bosses.creatures = YAML.load(CONTENT_PARENTDIR + '/content/boss.yml');
+  Bosses.items = YAML.load(CONTENT_PARENTDIR + '/content/bossitems.yml');
+  Bosses.collectibles = YAML.load(CONTENT_PARENTDIR + '/content/bosscollectibles.yml');
+  Bosses.parties = YAML.load(CONTENT_PARENTDIR + '/content/bossparties.yml');
 
   Object.keys(Bosses.creatures).forEach(key => {
     Bosses.creatures[key].name = key;
@@ -323,8 +325,8 @@ const loadBossData = () => {
 };
 
 const loadTreasureData = () => {
-  Treasures.chests = YAML.load('src/content/chest.yml');
-  Treasures.items = YAML.load('src/content/chestitems.yml');
+  Treasures.chests = YAML.load(CONTENT_PARENTDIR + '/content/chest.yml');
+  Treasures.items = YAML.load(CONTENT_PARENTDIR + '/content/chestitems.yml');
 };
 
 const init = async () => {
