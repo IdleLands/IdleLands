@@ -629,6 +629,9 @@ export class Player implements IPlayer {
 
   public increaseStatistic(stat: string, val: number): void {
     this.$statistics.increase(stat, val);
+  }
+
+  private checkAchievements(stat: string) {
     const newAchievements = this.$game.achievementManager.checkAchievementsFor(this, stat);
 
     if(newAchievements.length > 0) {
@@ -722,6 +725,11 @@ export class Player implements IPlayer {
     this.$statistics.set('Game/IdleLands3/Wolfmaster', stats.Wolfmaster ? 1 : 0);
     this.$statistics.set('Game/IdleLands3/Spiritualist', stats.Spiritualist ? 1 : 0);
     this.$statistics.set('Game/IdleLands3/Anniversary', stats.Anniversary);
+
+    this.checkAchievements('Game/IdleLands2/Played');
+    ['Played', 'Donator', 'Contributor', 'Ascensions', 'Wolfmaster', 'Spiritualist', 'Anniversary'].forEach(stat => {
+      this.checkAchievements(`Game/IdleLands3/${stat}`);
+    });
   }
 
   public syncPremium() {
