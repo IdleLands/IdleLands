@@ -16,7 +16,7 @@
       <ion-content class="ion-margin-bottom">
 
         <ion-list *ngIf="(gameService.player$ | async) as player">
-          <ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
             <ion-item class="big-item" 
                       [routerDirection]="'root'"
                       [routerLink]="['/character']">
