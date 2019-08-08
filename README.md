@@ -52,7 +52,7 @@ Redis variables will enable use of Redis to scale horizontally.
 Firebase variables are used to set up Firebase, which is used only to sync accounts based on a uid.
 
 * `FIREBASE_ADMIN_DATABASE` - the admin database URL for firebase. Should be in the format `https://<DATABASE_NAME>.firebaseio.com`.
-* `FIREBASE_ADMIN_JSON` - the JSON blob (stringified) for a service account private key. You can read how to do that [here](https://firebase.google.com/docs/admin/setup).
+* `FIREBASE_ADMIN_JSON` - the JSON blob (stringified) for a service account private key. You can read how to do that [here](https://firebase.google.com/docs/admin/setup). This needs to be encoded as base64 with LZUTF8.
 
 #### Discord Variables
 
