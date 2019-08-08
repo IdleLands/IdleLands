@@ -4,7 +4,7 @@ import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, ICombat } from '../../../../shared/interfaces';
 
 export class Battle extends Event {
-  public static readonly WEIGHT = 9000;
+  public static readonly WEIGHT = 9;
 
   public operateOn(player: Player) {
 
