@@ -18,7 +18,7 @@ const SocketCluster = require('socketcluster');
 const workerControllerPath = argv.wc || process.env.SOCKETCLUSTER_WORKER_CONTROLLER;
 const brokerControllerPath = argv.bc || process.env.SOCKETCLUSTER_BROKER_CONTROLLER;
 const workerClusterControllerPath = argv.wcc || process.env.SOCKETCLUSTER_WORKERCLUSTER_CONTROLLER;
-const environment = process.env.ENV || 'dev';
+const environment = process.env.ENV || process.env.NODE_ENV || 'dev';
 const filetype = process.env.SERVER_FILETYPE || (environment === 'dev' ? 'ts' : 'js');
 
 const options = {
