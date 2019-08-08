@@ -2,7 +2,7 @@
 set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
-TARGET_BRANCH="heroku-dist"
+TARGET_BRANCH="build-dist"
 
 function doCompile {
   npm run build:server
@@ -45,13 +45,13 @@ git config user.email "travis@travis-ci.org"
 rm -rf .babelrc .editorconfig .eslintignore .eslintrc .gitignore .travis.yml LICENSE README.md
 rm -rf docs scripts src test node_modules assets
 
-git remote add origin-heroku https://${GH_TOKEN}@github.com/IdleLands/IdleLands.git > /dev/null 2>&1
+git remote add origin-dist https://${GH_TOKEN}@github.com/IdleLands/IdleLands.git > /dev/null 2>&1
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add --all .
 
-git commit -m "Deploy to GitHub/Heroku: ${SHA}"
+git commit -m "Deploy to GitHub (Built Artifacts): ${SHA}"
 
 # Now that we're all set up, we can push.
-git push --force --set-upstream origin-heroku $TARGET_BRANCH
+git push --force --set-upstream origin-dist $TARGET_BRANCH
