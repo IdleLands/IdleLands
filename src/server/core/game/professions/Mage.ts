@@ -51,7 +51,7 @@ export class Mage extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     const int = player.getStat(Stat.INT);
-    const goldGained = player.gainGold(int);
+    const goldGained = Math.max(player.gainGold(int), 10);
     return `You gained ${goldGained.toLocaleString()} GOLD!`;
   }
 }
