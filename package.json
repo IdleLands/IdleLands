@@ -16,7 +16,7 @@
     "test:server": "npm run lint:server",
     "lint:client": "ng lint",
     "lint:server": "tslint --project src/server/tsconfig.server.json",
-    "postinstall": "node scripts/post-install",
+    "postinstall": "node scripts/post-install && npm run seed",
     "seed": "node scripts/seed",
     "dummyplayers": "node scripts/client/client",
     "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts"
