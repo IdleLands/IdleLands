@@ -13,7 +13,7 @@ export const environment = {
   app: {
     protocol: 'https',
     hostname: 'play.idle.land',
-    port: 80
+    port: 443
   },
 
   server: {
