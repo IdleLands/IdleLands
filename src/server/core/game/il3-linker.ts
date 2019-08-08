@@ -47,10 +47,10 @@ export class IL3Linker {
     if(achievementR.Ancient) il3.Ancient = true;
     if(achievementR.Donator) il3.Donator = true;
     if(achievementR.Contributor) il3.Contributor = true;
-    if(achievementR.Ascended) il3.Ascensions = achievementR.Ascended.tier;
+    if(achievementR.Ascended) il3.Ascensions = achievementR.Ascended ? achievementR.Ascended.tier : 0;
     if(achievementR.Wolfmaster) il3.Wolfmaster = true;
     if(achievementR.Spiritualist) il3.Spiritualist = true;
-    if(achievementR.Anniversary) il3.Anniversary = achievementR.Anniversary.tier;
+    if(achievementR.Anniversary) il3.Anniversary = achievementR.Anniversary ? achievementR.Anniversary.tier : 0;
 
     return il3;
   }

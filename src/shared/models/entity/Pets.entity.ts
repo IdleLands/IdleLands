@@ -109,7 +109,9 @@ export class Pets extends PlayerOwned {
   public setActivePet(typeName: string) {
     this.currentPet = typeName;
 
-    this.$activePet.$$game.petHelper.shareSoul(this.$activePet);
+    if(this.$activePet) {
+      this.$activePet.$$game.petHelper.shareSoul(this.$activePet);
+    }
   }
 
   private initPet(player: Player, petData: IPet) {

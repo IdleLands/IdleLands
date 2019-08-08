@@ -111,7 +111,7 @@ export class Premium extends PlayerOwned {
 
     const { creatures, items } = player.$$game.assetManager.allBossAssets;
     const randomBoss = player.$$game.rngService.pickone(Object.keys(creatures));
-    const boss = player.level.total >= creatures[randomBoss].stats.level ? creatures[randomBoss] : null;
+    const boss = player.level.total >= creatures[randomBoss].attributes.level ? creatures[randomBoss] : null;
 
     return rewards.map(reward => {
 
