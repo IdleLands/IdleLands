@@ -105,11 +105,11 @@ const parseFile = (filename) => {
 };
 
 const profession = process.env.NODE_ENV === 'production' ? 'dist/out-tsc/server/server/core/game/professions' : 'src/server/core/game/professions'
-StringAssets.class = _.map(loadDirectory(`${__dirname}/../${profession}`), ({ filename }) => {
+StringAssets.class = _.uniq(_.map(loadDirectory(`${__dirname}/../${profession}`), ({ filename }) => {
   if(_.includes(filename, 'index')) return;
   const split = filename.split('/');
   return split[split.length - 1].split('.')[0];
-});
+}).filter(Boolean));
 
 _.each(['events', 'strings'], folder => {
   _.each(loadDirectory(`${__dirname}/../assets/content/${folder}`), ({ type, filename }) => {
