@@ -58,7 +58,7 @@ export class SocketClusterService {
   }
 
   private initSocket() {
-    const opts: any = { hostname: environment.server.hostname, port: environment.server.port };
+    const opts: any = { hostname: environment.server.hostname, port: environment.server.port, secure: environment.server.secure };
     opts.codecEngine = scCodecMinBin;
     this.socket = SocketCluster.connect(opts);
 
