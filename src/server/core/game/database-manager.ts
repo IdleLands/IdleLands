@@ -2,6 +2,7 @@
 import { Singleton, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions, MongoEntityManager, getMongoManager } from 'typeorm';
 import { extend } from 'lodash';
+import { decompress } from 'lzutf8';
 
 import * as firebaseAdmin from 'firebase-admin';
 
@@ -25,7 +26,7 @@ export class DatabaseManager {
   public async init() {
     if(firebaseKey && firebaseProj) {
       this.firebase = firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(JSON.parse(firebaseKey)),
+        credential: firebaseAdmin.credential.cert(JSON.parse(decompress(firebaseKey))),
         databaseURL: firebaseProj
       });
     }
