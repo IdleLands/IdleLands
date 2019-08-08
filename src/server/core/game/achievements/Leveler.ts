@@ -20,7 +20,7 @@ export class Leveler extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    return player.level.total / 25;
+    return Math.floor(player.level.total / 25);
   }
 
   static rewardsForTier(tier: number): any[] {
