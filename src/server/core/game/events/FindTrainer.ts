@@ -10,6 +10,8 @@ export class FindTrainer extends Event {
     if(valueChosen === 'No') return true;
 
     const { professionName } = choice.extraData;
+    if(player.profession === professionName) return true;
+
     const profession = this.professionHelper.getProfession(professionName);
     if(!profession) return true;
 
