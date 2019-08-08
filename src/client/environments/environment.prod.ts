@@ -3,7 +3,7 @@ export const environment = {
 
   firebase: {
     apiKey: 'AIzaSyApNfy2rl9J4f1eyPu4ToF0nTrzS9bYO7c',
-    authDomain: 'idle-lands.firebaseapp.  com',
+    authDomain: 'idle-lands.firebaseapp.com',
     databaseURL: 'https://idle-lands.firebaseio.com',
     projectId: 'idle-lands',
     storageBucket: 'idle-lands.appspot.com',
@@ -12,13 +12,13 @@ export const environment = {
 
   app: {
     protocol: 'https',
-    hostname: 'idle.land',
+    hostname: 'play.idle.land',
     port: 80
   },
 
   server: {
     protocol: 'https',
-    hostname: 'idle.land',
-    port: 8000
+    hostname: 'server.idle.land',
+    port: 80
   }
 };

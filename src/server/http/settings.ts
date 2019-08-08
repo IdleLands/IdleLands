@@ -12,7 +12,7 @@ export class SettingsAPICall extends ServerAPICall {
 
       try {
         settings = (await game.databaseManager.loadSettings());
-        delete settings._id;
+        delete (settings as any)._id;
       } catch(e) {}
 
       res.json(settings);

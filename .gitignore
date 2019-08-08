@@ -94,3 +94,5 @@ UserInterfaceState.xcuserstate
 
 assets/content
 assets/maps
+
+src/out-tsc/
