@@ -19,6 +19,6 @@ export const environment = {
   server: {
     protocol: 'https',
     hostname: 'server.idle.land',
-    port: 8080
+    port: 80
   }
 };
