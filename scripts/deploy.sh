@@ -44,7 +44,7 @@ git config user.email "travis@travis-ci.org"
 
 cp -R src/content dist
 rm -rf CONTRIBUTING.md FUNDING.yml angular.json capacitor.config.json ionic.config.json ngsw-config.json tsconfig.json tslint.json .editorconfig .gitignore .travis.yml LICENSE README.md
-rm -rf docs src test node_modules
+rm -rf docs src test node_modules www
 
 git remote add origin-dist https://${GH_TOKEN}@github.com/IdleLands/IdleLands.git > /dev/null 2>&1
 
