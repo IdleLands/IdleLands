@@ -23,12 +23,21 @@ export class FindTrainer extends Event {
   public operateOn(player: Player, opts: any = { professionName: '' }) {
     const checkProf = this.professionHelper.hasProfession(opts.professionName);
     if(!checkProf || opts.professionName === player.profession) {
+      player.increaseStatistic(`Event/FindTrainer/AlreadyClass`, 1);
       this.emitMessage(
         [player],
         `You met with ${opts.trainerName}, but you were unable to learn anything new.`,
         AdventureLogEventType.Profession
       );
     }
+
+    const existingChoices = player.$choicesData.choices;
+    const hasMatchingItem = existingChoices.some(x => {
+      if(!x.extraData || !x.extraData.professionName) return;
+      return x.extraData.professionName === opts.professionName;
+    });
+
+    if(hasMatchingItem) return;
 
     this.emitMessage([player], `You met with ${opts.trainerName}!`, AdventureLogEventType.Profession);
 
