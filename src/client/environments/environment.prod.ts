@@ -20,6 +20,6 @@ export const environment = {
     protocol: 'https',
     secure: true,
     hostname: 'server.idle.land',
-    port: 80
+    port: 443
   }
 };
