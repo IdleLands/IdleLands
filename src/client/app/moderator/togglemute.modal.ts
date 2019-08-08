@@ -17,7 +17,7 @@ import { ServerEventName } from '../../../shared/interfaces';
 
     <ion-content fullscreen>
       <ion-list>
-        <ion-item *ngFor="let player of gameService.allPlayers">
+        <ion-item *ngFor="let player of gameService.players">
           <ion-label class="ion-text-wrap">
             <h3>{{ player.name }}</h3>
             <p *ngIf="!player.mutedUntil">Not muted</p>

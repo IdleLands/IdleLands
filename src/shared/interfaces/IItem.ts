@@ -42,6 +42,7 @@ export interface IItem {
 
   baseScore: number;
   score: number;
+  foundAt: number;
 
   itemClass: ItemClass;
   enchantLevel: number;

@@ -17,7 +17,7 @@ import { ServerEventName } from '../../../shared/interfaces';
 
     <ion-content fullscreen>
       <ion-list>
-        <ion-item *ngFor="let player of gameService.allPlayers">
+        <ion-item *ngFor="let player of gameService.players">
           <ion-icon slot="start" *ngIf="!player.modTier" name="square"></ion-icon>
           <ion-icon slot="start" *ngIf="player.modTier === 1" name="star-outline"></ion-icon>
           <ion-icon slot="start" *ngIf="player.modTier === 2" name="star-half"></ion-icon>

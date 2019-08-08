@@ -21,15 +21,28 @@ import { ItemComponent } from './_shared/item/item.component';
 import { EquipSomethingElseModal } from './_shared/equipment/equipsomethingelse.modal';
 import { EquipmentItemPopover } from './_shared/equipment/equipmentitem.popover';
 import { RouterModule } from '@angular/router';
+import { PetsPage } from './tab-pets/tab-pets.page';
+import { TabCharPage } from './tab-char/tab-char.page';
+import { TabGearPage } from './tab-gear/tab-gear.page';
+import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
+import { TabPremiumPage } from './tab-premium/tab-premium.page';
 
 @NgModule({
   declarations: [
+    PetsPage,
+    TabCharPage,
+    TabGearPage,
+    TabAccomplishmentsPage,
+    TabPremiumPage,
+
     GendervatarComponent,
     ItemComponent,
     EquipSomethingElseModal,
     EquipmentItemPopover
   ],
   entryComponents: [
+    PetsPage,
+
     EquipSomethingElseModal,
     EquipmentItemPopover
   ],

@@ -294,7 +294,7 @@ export class MapPage implements OnInit, OnDestroy {
   private content: IonContent;
 
   private game: Phaser.Game;
-  private gameText = new Subject<string[]>();
+  public gameText = new Subject<string[]>();
   private gameText$: Subscription;
   private player$: Subscription;
 

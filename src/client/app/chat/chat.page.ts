@@ -20,7 +20,7 @@ export class ChatPage implements OnInit {
 
   constructor(
     private popoverCtrl: PopoverController,
-    private gameService: GameService,
+    public gameService: GameService,
     private socketService: SocketClusterService
   ) { }
 

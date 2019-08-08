@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PetsPage } from './tab-pets.page';
+import { SharedModule } from '../shared.module';
 
 const routes: Routes = [
   {
@@ -19,8 +20,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+
+    SharedModule
   ],
-  declarations: [PetsPage]
+  declarations: []
 })
 export class PetsPageModule {}

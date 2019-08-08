@@ -16,7 +16,7 @@ export class SettingsPage {
   constructor(
     private router: Router,
     private alertCtrl: AlertController,
-    private gameService: GameService,
+    public gameService: GameService,
     private socketService: SocketClusterService,
     public authService: AuthService
   ) { }
