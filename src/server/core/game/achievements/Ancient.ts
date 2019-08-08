@@ -8,7 +8,7 @@ export class Ancient extends Achievement {
 
   static descriptionForTier(tier: number): string {
     const baseStr = `Gain a title, +5 XP, +20 GOLD, and +5% to all stats for taking a chance on this game,
-    even after all of it's major problems. Hopefully this launch goes more smoothly! 🍻`;
+    even after all of its major problems. Hopefully this launch goes more smoothly! 🍻`;
 
     return baseStr;
   }
