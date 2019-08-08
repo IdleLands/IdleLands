@@ -74,7 +74,7 @@ export class CombatPage implements OnInit {
     simulator.beginCombat();
   }
 
-  private loadVictoryRewardMessages({ combat, winningParty }) {
+  private loadVictoryRewardMessages({ combat, wasTie, winningParty }) {
     const potSplitTotal = Object.values(combat.characters)
       .filter((x: ICombatCharacter) => x.combatPartyId === winningParty && x.realName)
       .length;
@@ -89,7 +89,7 @@ export class CombatPage implements OnInit {
     const goldPerChar = Math.floor(totalGoldAnte as number / potSplitTotal);
 
     Object.values(combat.characters).forEach((char: ICombatCharacter) => {
-      if(!char.realName) return;
+      if(wasTie || !char.realName) return;
 
       const ante = combat.ante[char.combatId];
 
