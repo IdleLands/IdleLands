@@ -35,6 +35,11 @@ export class ChatHelper {
 
   public sendMessageToDiscord(message: IMessage) {
     this.sortMessage(message);
+    if(!message.playerLevel && !message.playerAscension) {
+      this.onMessageCallback(`<${message.playerName}> ${message.message}`);
+      return;
+    }
+
     this.onMessageCallback(`<${message.playerName} ${message.playerAscension || 0}★${message.playerLevel}> ${message.message}`);
   }
 
