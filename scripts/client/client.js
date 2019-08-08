@@ -6,7 +6,7 @@ const { species } = require('fantastical');
 const scCodecMinBin = require('sc-codec-min-bin');
 
 const names = [
-  'Jombocom', 'Carple', 'Danret', 'Swilia', 'Bripz', 'Goop',
+  'Goop', 'Jombocom', 'Carple', 'Danret', 'Swilia', 'Bripz',
   'Jeut', 'Axce', 'Groat', 'Jack', 'Xefe', 'Ooola', 'Getry',
   'Seripity', 'Tence', 'Rawgle', 'Plez', 'Zep', 'Shet', 'Jezza',
   'Lord Sirpy', 'Sir Pipe', 'Pleb', 'Rekter', 'Pilu', 'Sengai',

@@ -420,6 +420,10 @@ export class Player implements IPlayer {
     this.stats[stat] += val;
     this.$statTrail[stat] = this.$statTrail[stat] || [];
     this.$statTrail[stat].push({ val, reason });
+
+    if(this.name === 'Goop') {
+      // console.log(this.$statTrail);
+    }
   }
 
   public recalculateStats(): void {

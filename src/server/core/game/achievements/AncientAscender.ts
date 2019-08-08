@@ -41,6 +41,10 @@ export class AncientAscender extends Achievement {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Shooting Star ☄️' });
     }
 
+    if(tier >= 18) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Drunk Star 🍻' });
+    }
+
     if(tier >= 20) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Staggering Star 💫' });
     }
