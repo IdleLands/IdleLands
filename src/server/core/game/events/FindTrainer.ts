@@ -29,6 +29,7 @@ export class FindTrainer extends Event {
         `You met with ${opts.trainerName}, but you were unable to learn anything new.`,
         AdventureLogEventType.Profession
       );
+      return;
     }
 
     const existingChoices = player.$choicesData.choices;
