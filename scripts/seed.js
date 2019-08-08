@@ -104,7 +104,8 @@ const parseFile = (filename) => {
   return _(baseContents).compact().value();
 };
 
-StringAssets.class = _.map(loadDirectory(`${__dirname}/../src/server/core/game/professions`), ({ filename }) => {
+const profession = process.env.NODE_ENV === 'production' ? 'dist/out-tsc/server/server/core/game/profesions' : 'src/server/core/game/professions'
+StringAssets.class = _.map(loadDirectory(`${__dirname}/../${profession}`), ({ filename }) => {
   if(_.includes(filename, 'index')) return;
   const split = filename.split('/');
   return split[split.length - 1].split('.')[0];
