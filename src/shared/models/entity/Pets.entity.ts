@@ -162,6 +162,9 @@ export class Pets extends PlayerOwned {
     player.spendGold(this.buyablePets[petName]);
 
     const pet = player.$$game.petHelper.buyPet(player, petName);
+    (<any>pet).$game = player.$$game;
+    (<any>pet).$player = player;
+
     this.addNewPet(pet, true);
 
     this.syncBuyablePets(player);

@@ -17,24 +17,26 @@ import { Storage } from '@ionic/storage';
     <ion-content fullscreen>
       <ng-container *ngIf="(gameService.player$ | async) as player">
         <ion-list *ngIf="player.$petsData.allPets as petHash">
-          <ion-item *ngFor="let pet of petOrder">
-            <app-gendervatar slot="start" [gender]="petHash[pet].gender"></app-gendervatar>
+          <ng-container *ngIf="petHash[pet]">
+            <ion-item *ngFor="let pet of petOrder">
+              <app-gendervatar slot="start" [gender]="petHash[pet].gender"></app-gendervatar>
 
-            <ion-label>
-              <h3>
-                {{ petHash[pet].name }}, the {{ petHash[pet].attribute }} {{ petHash[pet].affinity }}
-              </h3>
-              <p class="vertical-center">
-                Level {{ petHash[pet].level.__current }}/{{ petHash[pet].level.maximum }}
-                &nbsp;
-                <ion-badge color="tertiary">{{ petHash[pet].rating }}★{{ pet }}</ion-badge>
-              </p>
-            </ion-label>
+              <ion-label>
+                <h3>
+                  {{ petHash[pet].name }}, the {{ petHash[pet].attribute }} {{ petHash[pet].affinity }}
+                </h3>
+                <p class="vertical-center">
+                  Level {{ petHash[pet].level.__current }}/{{ petHash[pet].level.maximum }}
+                  &nbsp;
+                  <ion-badge color="tertiary">{{ petHash[pet].rating }}★{{ pet }}</ion-badge>
+                </p>
+              </ion-label>
 
-            <ion-checkbox slot="end"
-                          [(ngModel)]="chosenPets[pet]"
-                          [disabled]="petHash[pet].currentAdventureId || (!chosenPets[pet] && !canChoosePets())"></ion-checkbox>
-          </ion-item>
+              <ion-checkbox slot="end"
+                            [(ngModel)]="chosenPets[pet]"
+                            [disabled]="petHash[pet].currentAdventureId || (!chosenPets[pet] && !canChoosePets())"></ion-checkbox>
+            </ion-item>
+          </ng-container>
         </ion-list>
       </ng-container>
     </ion-content>
