@@ -43,6 +43,7 @@ const options = {
   clusterStateServerAckTimeout: Number(process.env.SCC_STATE_SERVER_ACK_TIMEOUT) || null,
   clusterStateServerReconnectRandomness: Number(process.env.SCC_STATE_SERVER_RECONNECT_RANDOMNESS) || null,
   crashWorkerOnError: argv['auto-reboot'] !== false,
+  protocol: environment === 'dev' ? 'http' : 'https',
   // If using nodemon, set this to true, and make sure that environment is 'dev'.
   killMasterOnSignal: false,
   environment: environment,
