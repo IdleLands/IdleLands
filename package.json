@@ -68,6 +68,7 @@
     "nonenumerable": "^1.1.1",
     "phaser-ce": "^2.12.0",
     "restricted-number": "^2.1.0",
+    "rollbar": "^2.11.0",
     "rxjs": "~6.3.3",
     "sc-codec-min-bin": "^3.0.0",
     "sc-errors": "^1.4.1",
