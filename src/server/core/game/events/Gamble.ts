@@ -48,7 +48,7 @@ export class Gamble extends Event {
         player.increaseStatistic(`Event/Gamble/LoseDoubleTimes`, 1);
       }
 
-      const allText = `${player} bet ${bet.toLocaleString()} gold at the gambling table against the odds
+      const allText = `${player.fullName()} bet ${bet.toLocaleString()} gold at the gambling table against the odds
         of ${odds}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and lost it all.`;
       this.emitMessage([player], allText, AdventureLogEventType.Gold);
     }

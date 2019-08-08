@@ -299,7 +299,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Bitomancer]: [
-    { weight: 1, skills: [Attack()] },
+    { weight: 3, skills: [Attack()] },
 
     // hack time
     { weight: 1, canUse: (caster) => caster.stats[Stat.SPECIAL] >= 128, skills: [

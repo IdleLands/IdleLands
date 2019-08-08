@@ -16,41 +16,43 @@
       <ion-content class="ion-margin-bottom">
 
         <ion-list *ngIf="(gameService.player$ | async) as player">
-          <ion-item class="big-item" 
-                    [routerDirection]="'root'"
-                    [routerLink]="['/character']">
-
-            <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
-
-            <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
-            
-            <ion-label>
-              {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
-              <p>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</p>
-              <p>{{ player.map }}</p>
-              <p>{{ player.region }}</p>
-            </ion-label>
-
-            <circle-progress
-              slot="end"
-              [percent]="(player.xp.__current / player.xp.maximum) * 100"
-              [radius]="20"
-              [outerStrokeWidth]="4"
-              [innerStrokeWidth]="0"
-              [outerStrokeColor]="'#78C000'"
-              [innerStrokeColor]="''"
-              [showSubtitle]="false"
-              [showUnits]="false"
-              [animation]="false"
-              [renderOnClick]="false"
-              [title]="playerCircleText(player)"
-              [backgroundStroke]="'#C7E596'"
-              [backgroundStrokeWidth]="2"
-              [backgroundPadding]="2"
-              [animationDuration]="300"
-            ></circle-progress>
-
-          </ion-item>
+          <ion-menu-toggle>
+            <ion-item class="big-item" 
+                      [routerDirection]="'root'"
+                      [routerLink]="['/character']">
+  
+              <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
+  
+              <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
+              
+              <ion-label>
+                {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+                <p>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</p>
+                <p>{{ player.map }}</p>
+                <p>{{ player.region }}</p>
+              </ion-label>
+  
+              <circle-progress
+                slot="end"
+                [percent]="(player.xp.__current / player.xp.maximum) * 100"
+                [radius]="20"
+                [outerStrokeWidth]="4"
+                [innerStrokeWidth]="0"
+                [outerStrokeColor]="'#78C000'"
+                [innerStrokeColor]="''"
+                [showSubtitle]="false"
+                [showUnits]="false"
+                [animation]="false"
+                [renderOnClick]="false"
+                [title]="playerCircleText(player)"
+                [backgroundStroke]="'#C7E596'"
+                [backgroundStrokeWidth]="2"
+                [backgroundPadding]="2"
+                [animationDuration]="300"
+              ></circle-progress>
+  
+            </ion-item>
+          </ion-menu-toggle>
 
           <ion-item *ngIf="canUpdate" (click)="doAppUpdate()">
             <ion-icon slot="start" name="logo-ionic"></ion-icon> Update available! Click to update.
@@ -80,6 +82,11 @@
             </ion-item>
 
           </ion-menu-toggle>
+
+          <ion-item href="https://patreon.com/seiyria" target="_blank" color="tertiary"
+                    *ngIf="!player.$statisticsData?.Game?.Premium?.Tier">
+            <ion-icon slot="start" name="ribbon"></ion-icon> Support IdleLands on Patreon!
+          </ion-item>
 
           <ion-item (click)="logout()">
             <ion-icon slot="start" [src]="'assets/icon/category-logout.svg'"></ion-icon>
