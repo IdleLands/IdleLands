@@ -420,10 +420,6 @@ export class Player implements IPlayer {
     this.stats[stat] += val;
     this.$statTrail[stat] = this.$statTrail[stat] || [];
     this.$statTrail[stat].push({ val, reason });
-
-    if(this.name === 'Goop') {
-      // console.log(this.$statTrail);
-    }
   }
 
   public recalculateStats(): void {
@@ -843,7 +839,9 @@ export class Player implements IPlayer {
   }
 
   public changeProfession(prof: BaseProfession): void {
+    this.profession = <Profession>prof.constructor.name;
     this.$profession = prof;
+    this.$professionData = prof.$professionData;
   }
 
   public hasAchievement(achi: string): boolean {
