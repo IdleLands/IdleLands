@@ -26,7 +26,7 @@ export class DatabaseManager {
   public async init() {
     if(firebaseKey && firebaseProj) {
       this.firebase = firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(JSON.parse(decompress(firebaseKey))),
+        credential: firebaseAdmin.credential.cert(JSON.parse(decompress(firebaseKey, { inputEncoding: 'Base64' }))),
         databaseURL: firebaseProj
       });
     }
