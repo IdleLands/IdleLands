@@ -220,7 +220,7 @@ export class CombatSimulator {
 
       this.incrementStatistic(giver, `Combat/All/Give/Attack/Times`, 1);
       this.incrementStatistic(giver, `Combat/All/Give/${type}`, incrementValue);
-      this.incrementStatistic(giver, `Combat/All/Receive/Attack/Times`, 1);
+      this.incrementStatistic(character, `Combat/All/Receive/Attack/Times`, 1);
       this.incrementStatistic(character, `Combat/All/Receive/${type}`, incrementValue);
 
       if(character.stats[Stat.HP] <= 0) {
