@@ -14,8 +14,8 @@
                     class="type-name">
           <ion-icon slot="start" 
                     color="light"
-                    [src]="'assets/icon/action-' + (item.locked ? 'lock' : 'unlock') + '.svg'" 
-                    *ngIf="showLock"></ion-icon>
+                    [src]="'assets/icon/action-lock.svg'" 
+                    *ngIf="showLock && item.locked"></ion-icon>
           {{ slot }}
         </ion-button> 
 
