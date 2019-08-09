@@ -10,7 +10,7 @@ import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage, GachaNameReward } from '../../shared/interfaces';
+import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage, GachaNameReward, IChoice } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
@@ -365,23 +365,39 @@ export class GameService {
 
     const finalString = top + '<table class="item-compare-table">' + baseString + '</table>' + bottom;
 
+    const choice: IChoice = find(this.currentPlayer.$choicesData.choices as IChoice[], { id: choiceId });
+
+    const buttons = [];
+
+    if(choice.choices.includes('Yes')) {
+      buttons.push({ text: 'Equip', handler: () => {
+        if(!choiceId) return;
+
+        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Yes' });
+      } });
+    }
+
+    if(choice.choices.includes('Inventory')) {
+      buttons.push({ text: 'Inventory', handler: () => {
+        if(!choiceId) return;
+
+        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Inventory' });
+      } });
+    }
+
+    if(choice.choices.includes('Sell')) {
+      buttons.push({ text: 'Sell', handler: () => {
+        if(!choiceId) return;
+
+        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Sell' });
+      } });
+    }
+
     const alert = await this.alertCtrl.create({
       header: `Item Compare (${newItem.type})`,
       cssClass: 'item-compare-modal',
       message: finalString,
-      buttons: [
-        // { text: 'Cancel' },
-        { text: 'Equip', handler: () => {
-          if(!choiceId) return;
-
-          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Yes' });
-        } },
-        { text: 'Sell', handler: () => {
-          if(!choiceId) return;
-
-          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Sell' });
-        } }
-      ]
+      buttons
     });
 
     alert.present();
