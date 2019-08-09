@@ -303,7 +303,7 @@ export class GameService {
     this.removePlayerData();
   }
 
-  private async itemCompare(newItem: IItem, currentItem: IItem, choiceId?: string) {
+  public async itemCompare(newItem: IItem, currentItem: IItem, choiceId?: string) {
     const stats = ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold'];
 
     const newStats = newItem ? newItem.stats : {};
@@ -344,21 +344,23 @@ export class GameService {
       `;
     }).join('');
 
+    const curEnchantLevel = currentItem && currentItem.enchantLevel ? `+${currentItem.enchantLevel}` : '';
     const top = `
     <table class="item-compare-table">
       <tr>
         <td colspan="3">
-          ↓ ${currentItem ? currentItem.name : 'nothing'} [${currentItem ? currentItem.score.toLocaleString() : 0}]
+          ↓ ${curEnchantLevel} ${currentItem ? currentItem.name : 'nothing'} [${currentItem ? currentItem.score.toLocaleString() : 0}]
         </td>
       </tr>
     </table>
     `;
 
+    const newEnchantLevel = newItem && newItem.enchantLevel ? `+${newItem.enchantLevel}` : '';
     const bottom = `
     <table class="item-compare-table">
       <tr>
         <td colspan="3" class="ion-text-right">
-          ${newItem ? newItem.name : 'nothing'} [${newItem ? newItem.score.toLocaleString() : 0}] ↑
+          ${newEnchantLevel} ${newItem ? newItem.name : 'nothing'} [${newItem ? newItem.score.toLocaleString() : 0}] ↑
         </td>
       </tr>
     </table>
@@ -369,28 +371,33 @@ export class GameService {
     const choice: IChoice = find(this.currentPlayer.$choicesData.choices as IChoice[], { id: choiceId });
 
     const buttons = [];
+    if(choice) {
+      if(choice.choices.includes('Yes')) {
+        buttons.push({ text: 'Equip', handler: () => {
+          if(!choiceId) return;
 
-    if(choice.choices.includes('Yes')) {
+          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Yes' });
+        } });
+      }
+
+      if(choice.choices.includes('Inventory')) {
+        buttons.push({ text: 'Inventory', handler: () => {
+          if(!choiceId) return;
+
+          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Inventory' });
+        } });
+      }
+
+      if(choice.choices.includes('Sell')) {
+        buttons.push({ text: 'Sell', handler: () => {
+          if(!choiceId) return;
+
+          this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Sell' });
+        } });
+      }
+    } else {
       buttons.push({ text: 'Equip', handler: () => {
-        if(!choiceId) return;
-
-        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Yes' });
-      } });
-    }
-
-    if(choice.choices.includes('Inventory')) {
-      buttons.push({ text: 'Inventory', handler: () => {
-        if(!choiceId) return;
-
-        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Inventory' });
-      } });
-    }
-
-    if(choice.choices.includes('Sell')) {
-      buttons.push({ text: 'Sell', handler: () => {
-        if(!choiceId) return;
-
-        this.socketService.emit(ServerEventName.ChoiceMake, { choiceId, valueChosen: 'Sell' });
+        this.socketService.emit(ServerEventName.ItemEquip, { itemId: newItem.id });
       } });
     }
 
