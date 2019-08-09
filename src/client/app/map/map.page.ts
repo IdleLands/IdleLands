@@ -344,6 +344,8 @@ export class MapPage implements OnInit, OnDestroy {
       component: PersonalitiesPopover,
       componentProps: { },
       event: $event,
+      cssClass: 'translucent-popover',
+      showBackdrop: false,
       translucent: true
     });
 

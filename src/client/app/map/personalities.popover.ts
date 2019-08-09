@@ -8,15 +8,20 @@ import { GameService } from '../game.service';
   template: `
     <ion-list>
       <ion-list-header>Personalities</ion-list-header>
-      <ion-item button *ngFor="let pers of validPersonalities" (click)="toggle(pers)">
-        <ion-checkbox slot="start" [checked]="gameService.playerRef.$personalitiesData.activePersonalities[pers]"></ion-checkbox>
+      <ng-container *ngFor="let pers of validPersonalities">
+        <ion-item button *ngIf="gameService.playerRef.$personalitiesData.personalities[pers]" (click)="toggle(pers)">
+          <ion-checkbox slot="start" [checked]="gameService.playerRef.$personalitiesData.activePersonalities[pers]"></ion-checkbox>
 
-        <ion-label>
-          {{ pers }}
-        </ion-label>
-      </ion-item>
+          <ion-label>
+            {{ pers }}
+          </ion-label>
+        </ion-item>
+      </ng-container>
     </ion-list>
   `,
+  styles: [`
+
+  `],
 })
 export class PersonalitiesPopover {
 
@@ -30,7 +35,6 @@ export class PersonalitiesPopover {
 
   toggle(personalityName: string) {
     this.socketService.emit(ServerEventName.TogglePersonality, { personalityName });
-    this.dismiss();
   }
 
   dismiss() {
