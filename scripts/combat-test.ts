@@ -3,11 +3,11 @@ import { ICombat, ICombatCharacter, ICombatParty, Profession, PetAttribute, PetA
 
 const characters: ICombatCharacter[] = [
   { combatId: 1, combatPartyId: 1, name: 'Watch My Stuff',
-    profession: 'Luch',
+    profession: 'Mage',
     level: 10,
     specialName: 'Bottle',
-    stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 500, gold: 10, xp: 10 },
-    maxStats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 10000, special: 500, gold: 10, xp: 10 }
+    stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 },
+    maxStats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 }
   },
   { combatId: 4, combatPartyId: 1, name: 'I Die',
     profession: Profession.Bitomancer,
@@ -19,13 +19,13 @@ const characters: ICombatCharacter[] = [
   { combatId: 2, combatPartyId: 2, name: 'Super Tester',
     attribute: PetAttribute.Alchemist, affinity: PetAffinity.Healer,
     level: 10,
-    stats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 },
-    maxStats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 }
+    stats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 500000, special: 0, gold: 10, xp: 10 },
+    maxStats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 500000, special: 0, gold: 10, xp: 10 }
   },
   { combatId: 3, combatPartyId: 2, name: 'Super Tester 2',
-    attribute: PetAttribute.Alchemist, affinity: PetAffinity.Healer,
+    attribute: PetAttribute.Alchemist, affinity: PetAffinity.Attacker,
     level: 10,
-    stats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 },
+    stats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 500, special: 0, gold: 10, xp: 10 },
     maxStats: { str: 400, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 5000, special: 0, gold: 10, xp: 10 }
   }
 ];
@@ -35,10 +35,10 @@ const parties: ICombatParty[] = [
   { id: 2, name: 'Spooky Transistors' },
 ];
 
-const combat: ICombat = {
+const cCombat: ICombat = {
   name: 'The Forsaken Combat',
   timestamp: Date.now(),
-  seed: 1,
+  // seed: 1,
   currentRound: 0,
   chance: null,
   characters: characters.reduce((prev, cur) => {
@@ -51,7 +51,7 @@ const combat: ICombat = {
   }, {})
 };
 
-const simulator = new CombatSimulator(combat);
+const simulator = new CombatSimulator(cCombat);
 simulator.events$.subscribe(({ action, data }) => {
   if(action === CombatAction.Message) {
     if(!data.message) return;
@@ -67,6 +67,10 @@ simulator.events$.subscribe(({ action, data }) => {
 
   if(action === CombatAction.SummaryMessage) {
     console.log(data);
+  }
+
+  if(action === CombatAction.Victory) {
+    console.log('Combat Seed', data.combat.seed);
   }
 });
 
