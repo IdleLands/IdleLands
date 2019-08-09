@@ -132,6 +132,10 @@ class GameState extends Phaser.State {
         if(item.flavorText) {
           strings.push('');
           strings.push(`"${item.flavorText}"`);
+
+          if(this.player.$collectiblesData && this.player.$collectiblesData.collectibles[item.name]) {
+            strings.push('Owned!');
+          }
         }
 
         const baseRequirements = [
