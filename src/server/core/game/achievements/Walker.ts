@@ -9,7 +9,7 @@ export class Walker extends Achievement {
   static readonly type = AchievementType.Progress;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier * 2}% XP and +${tier} GOLD for walking ${Math.pow(Walker.base, tier).toLocaleString()} steps.`;
+    let baseStr = `Gain +${tier} XP and +${tier} GOLD for walking ${Math.pow(Walker.base, tier).toLocaleString()} steps.`;
 
     if(tier >= 2) {
       baseStr = `${baseStr} Personality: ScaredOfTheDark/Delver.`;
@@ -38,7 +38,7 @@ export class Walker extends Achievement {
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.Stats, stats: { [Stat.GOLD]: tier } },
-      { type: AchievementRewardType.StatMultipliers, stats: { [Stat.XP]: 1 + (tier * 0.02) } }
+      { type: AchievementRewardType.StatMultipliers, stats: { [Stat.XP]: tier } }
     ];
 
     if(tier >= 2) {
