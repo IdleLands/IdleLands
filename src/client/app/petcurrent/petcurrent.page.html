@@ -67,6 +67,8 @@
                   <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'"></ion-icon>
 
                   <span class="ion-padding-start">{{ pet.gold.__current | number }} / {{ pet.gold.maximum | number }} Gold</span>
+
+                  <ion-button slot="end" (click)="takeGold()" *ngIf="pet.gold.__current > 0">Take</ion-button>
                 </ion-item>
 
                 <ion-item *ngIf="pet.gatherTick">

@@ -45,6 +45,7 @@ export enum ServerEventName {
   PetEquip = 'pet:equip',
   PetUnequip = 'pet:unequip',
   PetAscend = 'pet:ascend',
+  PetGoldAction = 'pet:takegold',
 
   PetAdventureEmbark = 'pet:adventure:embark',
   PetAdventureFinish = 'pet:adventure:finish',

@@ -107,4 +107,8 @@ export class PetcurrentPage implements OnInit {
     alert.present();
   }
 
+  takeGold() {
+    this.socketService.emit(ServerEventName.PetGoldAction);
+  }
+
 }

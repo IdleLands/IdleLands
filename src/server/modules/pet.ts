@@ -176,3 +176,26 @@ export class PetAdventureCollectEvent extends ServerSocketEvent implements Serve
     this.gameSuccess(`You've collected your rewards and pets from their adventure!`);
   }
 }
+
+export class PetGoldTakeEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetGoldAction;
+  description = 'Take gold from your pet.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const pet = player.$pets.$activePet;
+    const gold = pet.gold.total;
+
+    if(gold === 0) return this.gameError('Your pet does not have any gold, you monster!');
+
+    player.gainGold(gold, false);
+    pet.spendGold(gold);
+
+    this.gameMessage(`You took ${gold.toLocaleString()} gold from your pet.`);
+
+    this.game.updatePlayer(player);
+  }
+}
