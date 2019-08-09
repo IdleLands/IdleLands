@@ -36,7 +36,7 @@ export class Jester extends BaseProfession implements IProfession {
       [Stat.LUK]: 1
     },
     [Stat.XP]: {
-      [Stat.LUK]: 1
+      [Stat.LUK]: 0.01
     }
   };
 
