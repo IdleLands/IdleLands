@@ -27,8 +27,11 @@
               <ion-item *ngFor="let upgrade of upgrades">
                 <ion-label>
                   <h3>{{ upgrade.name }}</h3>
-                  <p>You've upgraded this {{ (player.$premiumData.upgradeLevels[upgrade.upgrade] || 0) | number }} times.</p>
-                  <p>Your next upgrade costs {{ upgradeCost(upgrade.upgrade, player.$premiumData.upgradeLevels[upgrade.upgrade]) | number }} ILP.</p>
+                  <p>{{ upgrade.desc }}</p>
+                  <p>
+                    Your next upgrade costs {{ upgradeCost(upgrade.upgrade, player.$premiumData.upgradeLevels[upgrade.upgrade]) | number }} ILP. 
+                    Total upgrades: {{ (player.$premiumData.upgradeLevels[upgrade.upgrade] || 0) | number }}.
+                  </p>
                 </ion-label>
 
                 <ion-button slot="end" (click)="buyUpgrade(upgrade.upgrade)">Buy</ion-button>

@@ -13,14 +13,14 @@ export class PremiumPage implements OnInit {
   public scale = PremiumScale;
 
   public upgrades = [
-    { name: 'Adventure Log',     upgrade: PermanentUpgrade.AdventureLogSizeBoost },
-    { name: 'Choice Log',        upgrade: PermanentUpgrade.ChoiceLogSizeBoost },
-    { name: 'Enchant Cap',       upgrade: PermanentUpgrade.EnchantCapBoost },
-    { name: 'Inventory Size',    upgrade: PermanentUpgrade.InventorySizeBoost },
-    { name: 'Item Stat Cap',     upgrade: PermanentUpgrade.ItemStatCapBoost },
-    { name: 'Buff Duration',     upgrade: PermanentUpgrade.BuffScrollDuration },
-    { name: 'Pet Mission Cap',   upgrade: PermanentUpgrade.PetMissionCapBoost },
-    { name: 'Max Stamina Boost', upgrade: PermanentUpgrade.MaxStaminaBoost },
+    { name: 'Adventure Log',     upgrade: PermanentUpgrade.AdventureLogSizeBoost, desc: 'Your adventure log size goes up by 1.' },
+    { name: 'Choice Log',        upgrade: PermanentUpgrade.ChoiceLogSizeBoost, desc: 'Your choice log size goes up by 1.' },
+    { name: 'Enchant Cap',       upgrade: PermanentUpgrade.EnchantCapBoost, desc: 'Your enchant cap goes up by 1.' },
+    { name: 'Inventory Size',    upgrade: PermanentUpgrade.InventorySizeBoost, desc: 'Your inventory size goes up by 1.' },
+    { name: 'Item Stat Cap',     upgrade: PermanentUpgrade.ItemStatCapBoost, desc: 'Your max item boost % goes up by 10%.' },
+    { name: 'Buff Duration',     upgrade: PermanentUpgrade.BuffScrollDuration, desc: 'Your buff scroll duration goes up by 1 hour.' },
+    { name: 'Pet Mission Cap',   upgrade: PermanentUpgrade.PetMissionCapBoost, desc: 'The number of pet missions you have goes up by 1.' },
+    { name: 'Max Stamina Boost', upgrade: PermanentUpgrade.MaxStaminaBoost, desc: 'Your max stamina increases by 5.' },
   ];
 
   constructor(

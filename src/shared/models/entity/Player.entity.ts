@@ -807,7 +807,7 @@ export class Player implements IPlayer {
     + (allAchievementBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
     + (tier * 100)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
-    + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost));
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost) * 10);
 
     this.$statistics.set('Game/Premium/Upgrade/EnchantCap',
       10
@@ -831,7 +831,7 @@ export class Player implements IPlayer {
     + (allAchievementBoosts[PermanentUpgrade.MaxStaminaBoost] || 0)
     + (tier * 3)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxStaminaBoost)
-    + this.$premium.getUpgradeLevel(PermanentUpgrade.MaxStaminaBoost));
+    + this.$premium.getUpgradeLevel(PermanentUpgrade.MaxStaminaBoost) * 5);
 
     this.$statistics.set('Game/Premium/Upgrade/InjuryThreshold',
       3
