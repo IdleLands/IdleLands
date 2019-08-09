@@ -631,6 +631,9 @@ export class Player implements IPlayer {
 
   public increaseStatistic(stat: string, val: number): void {
     this.$statistics.increase(stat, val);
+
+    this.checkAchievements(stat);
+    this.checkBuffs(stat);
   }
 
   private checkAchievements(stat: string) {
@@ -657,6 +660,9 @@ export class Player implements IPlayer {
       this.$pets.syncBuyablePets(this);
     }
 
+  }
+
+  private checkBuffs(stat: string) {
     let shouldRecalc = false;
 
     const allBuffWatches = this.buffWatches[stat];
@@ -675,7 +681,6 @@ export class Player implements IPlayer {
     if(shouldRecalc) {
       this.recalculateStats();
     }
-
   }
 
   public togglePersonality(pers: string): boolean {
