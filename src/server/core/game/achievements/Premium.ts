@@ -3,7 +3,7 @@ import { Player } from '../../../../shared/models';
 
 export class Premium extends Achievement {
 
-  static readonly statWatches = ['Game/Premium/PremiumTier'];
+  static readonly statWatches = ['Game/Premium/Tier'];
   static readonly type = AchievementType.Special;
 
   static descriptionForTier(tier: number): string {
@@ -13,7 +13,7 @@ export class Premium extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const steps = player.$statistics.get('Game/Premium/PremiumTier');
+    const steps = player.$statistics.get('Game/Premium/Tier');
     if(steps >= PremiumTier.Subscriber3) return 4;
     if(steps >= PremiumTier.Subscriber2) return 3;
     if(steps >= PremiumTier.Subscriber)  return 2;
