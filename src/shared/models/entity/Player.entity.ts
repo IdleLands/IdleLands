@@ -439,6 +439,10 @@ export class Player implements IPlayer {
 
       this.stats[stat] = this.stats[stat] || 0;
 
+      // stats per level boost
+      const profBasePerLevel = this.$profession.calcLevelStat(this.level.total, stat);
+      this.addStatTrail(stat, profBasePerLevel, `${this.profession}: Base / Lv. (${profBasePerLevel / this.level.total})`);
+
       // item adds
       Object.keys(this.$inventoryData.equipment).forEach(itemSlot => {
         const item = this.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
@@ -463,10 +467,6 @@ export class Player implements IPlayer {
           this.addStatTrail(stat, buff.stats[stat], `${buff.booster ? 'Booster' : 'Injury'}: ${buff.name}`);
         });
       });
-
-      // stats per level boost
-      const profBasePerLevel = this.$profession.calcLevelStat(this.level.total, stat);
-      this.addStatTrail(stat, profBasePerLevel, `${this.profession}: Base / Lv. (${profBasePerLevel / this.level.total})`);
 
 
       // make sure it is 0. no super negatives.

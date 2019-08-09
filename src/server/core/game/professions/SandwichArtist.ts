@@ -41,7 +41,7 @@ export class SandwichArtist extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   5,
+    [Stat.XP]:   1,
     [Stat.GOLD]: 0
   };
 

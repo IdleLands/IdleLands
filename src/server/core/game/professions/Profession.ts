@@ -61,11 +61,11 @@ export class BaseAffinity implements IAffinity {
   };
 
   public calcLevelStat(playerLevel: number, stat: Stat) {
-    return playerLevel * this.statsPerLevel[stat];
+    return playerLevel * (this.statsPerLevel[stat] || 0);
   }
 
   public calcStatMultiplier(stat: Stat) {
-    return this.statMultipliers[stat];
+    return (this.statMultipliers[stat] || 1);
   }
 
   public calcStatsForStats(stats: { [key in Stat]: number }, chosenStat: Stat): Array<{ stat: Stat, boost: number, tinyBoost: number }> {
@@ -75,7 +75,7 @@ export class BaseAffinity implements IAffinity {
     return Object.keys(baseBoosts).map((boostedStat: Stat) => {
       return {
         stat: boostedStat,
-        boost: stats[boostedStat] * baseBoosts[boostedStat],
+        boost: stats[boostedStat] * (baseBoosts[boostedStat] || 1),
         tinyBoost: baseBoosts[boostedStat]
       };
     });
