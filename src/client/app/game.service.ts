@@ -197,7 +197,7 @@ export class GameService {
   }
 
   private sortAndUniqPlayerList() {
-    this.allPlayers = sortBy(uniqBy(this.allPlayers, p => p.name), p => p.name);
+    this.allPlayers = sortBy(uniqBy(this.allPlayers, p => p.name), p => p.name.toLowerCase());
   }
 
   private refreshPlayerInfoHash() {
