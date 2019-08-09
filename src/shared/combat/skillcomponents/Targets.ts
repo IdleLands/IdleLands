@@ -89,7 +89,9 @@ export const Targets = (targetFunc: Targetting) =>
     try {
       skill.targets = TargettingFunctions[targetFunc](caster, combat).map(x => x.combatId);
     } catch(e) {
-      skill.targets = [null];
+
+      // will trigger isNaN (null is a number, apparently)
+      skill.targets = [undefined];
     }
     return skill;
   };

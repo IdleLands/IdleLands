@@ -131,7 +131,7 @@ export class CombatSimulator {
     const effects = this.formAllSkillResults(caster, skill);
     effects.forEach(effect => {
       effect.targets.forEach(target => {
-        if(!target) return;
+        if(isNaN(target)) return;
 
         effect.targetEffects[target].forEach(targetEffect => {
 
@@ -152,7 +152,7 @@ export class CombatSimulator {
     const effects = this.formAllSkillResults(caster, skill);
     effects.forEach(effect => {
       effect.targets.forEach(target => {
-        if(!target) return;
+        if(isNaN(target)) return;
 
         effect.targetEffects[target].forEach(targetEffect => {
           this.applySingleEffect(this.combat.characters[target], targetEffect);
