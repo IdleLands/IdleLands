@@ -12,8 +12,9 @@
     <ng-container *ngIf="player.$premiumData as premium">
       <ion-row *ngFor="let gacha of gachas">
         <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
-          <ion-card>
+          <ion-card *ngIf="player.$premiumData">
             <ion-card-header>
+              <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
               <ion-card-title>
                 <ion-row class="vertical-center">
                   <ion-col class="vertical-center">
