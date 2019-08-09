@@ -1,6 +1,7 @@
 import { Event, EventName } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { Item } from '../../../../shared/models';
+import { ItemClass } from '../../../../shared/interfaces';
 
 export class FindTreasure extends Event {
   public static readonly WEIGHT = 0;
@@ -17,6 +18,7 @@ export class FindTreasure extends Event {
       const item = new Item();
       const baseItem = items[itemName];
       baseItem.name = itemName;
+      baseItem.itemClass = ItemClass.Guardian;
       item.init(baseItem);
       return item;
     });
