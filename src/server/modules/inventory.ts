@@ -116,15 +116,18 @@ export class SellAllEvent extends ServerSocketEvent implements ServerEvent {
     let totalValue = 0;
 
     const items = player.$inventory.itemsFromInventory();
+    const removeItems = [];
     items.forEach(item => {
       if(item.locked) return;
 
       const value = player.sellItem(item);
-      player.$inventory.removeItemFromInventory(item);
+      removeItems.push(item);
 
       numItems++;
       totalValue += value;
     });
+
+    player.$inventory.removeItemFromInventory(...removeItems);
 
     this.game.updatePlayer(player);
     this.gameSuccess(`Sold ${numItems} item(s) for ${totalValue.toLocaleString()} gold!`);

@@ -120,8 +120,8 @@ export class Inventory extends PlayerOwned {
     this.items.push(item);
   }
 
-  public removeItemFromInventory(item: Item): void {
-    pull(this.items, item);
+  public removeItemFromInventory(...items: Item[]): void {
+    pull(this.items, ...items);
   }
 
   public getItemFromInventory(itemId: string): Item {
