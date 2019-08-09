@@ -76,9 +76,11 @@
 
                 <ion-label class="ion-padding-start" text-wrap>
                   <div>Party: {{ player.$party.name }}</div>
-                  <div *ngFor="let member of player.$party.members" [class.ion-hide]="member === player.name">
+                  <div *ngFor="let member of player.$party.members; let i = index">
                     <div class="vertical-center">
-                      <strong>{{ member }}</strong>
+                      <strong>
+                        <ion-icon name="star" *ngIf="i === 0"></ion-icon> {{ member }}
+                      </strong>
                       
                       &nbsp;
                       <span *ngIf="gameService.playerInfoHash[member] as memberPlayer" class="vertical-center">
