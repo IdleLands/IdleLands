@@ -30,6 +30,10 @@
                 <p>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</p>
                 <p>{{ player.map }}</p>
                 <p>{{ player.region }}</p>
+                <p>
+                  <ion-icon [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+                  <span class="ion-padding-start">{{ player.gold | number }} Gold</span>
+                </p>
               </ion-label>
   
               <circle-progress
