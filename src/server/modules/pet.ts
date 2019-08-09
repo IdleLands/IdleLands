@@ -192,7 +192,7 @@ export class PetGoldTakeEvent extends ServerSocketEvent implements ServerEvent {
     if(gold === 0) return this.gameError('Your pet does not have any gold, you monster!');
 
     player.gainGold(gold, false);
-    pet.spendGold(gold);
+    pet.gold.set(0);
 
     this.gameMessage(`You took ${gold.toLocaleString()} gold from your pet.`);
 
