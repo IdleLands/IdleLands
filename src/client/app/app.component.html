@@ -58,7 +58,7 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-item button *ngIf="canUpdate" (click)="doAppUpdate()">
+          <ion-item button *ngIf="canUpdate" (click)="doAppUpdate()" color="secondary">
             <ion-icon slot="start" name="logo-ionic"></ion-icon> Update available! Click to update.
           </ion-item>
 
