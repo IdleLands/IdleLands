@@ -138,6 +138,7 @@ export class MovementHelper {
     }
 
     if(player.divineDirection) {
+      player.increaseStatistic(`Character/Movement/Steps/Divine`, 1);
       dirMod = this.xyDiff2dir(player.x, player.y, player.divineDirection.x, player.divineDirection.y);
     }
 

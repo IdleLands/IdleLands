@@ -23,6 +23,7 @@ export * from './Comedian';
 export * from './Consumerist';
 export * from './Contributor';
 export * from './Denier';
+export * from './Divine';
 export * from './Drunk';
 export * from './Entitled';
 export * from './Explorer';
