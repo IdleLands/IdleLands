@@ -97,7 +97,7 @@ export class FindItem extends Event {
     }
 
     const chestText = opts.fromChest
-      ? this._parseText(`%player found %item on in a treasure chest!`, player, { item: item.fullName() })
+      ? this._parseText(`%player found %item in a treasure chest!`, player, { item: item.fullName() })
       : '';
 
     const guardianText = opts.fromGuardian
