@@ -10,7 +10,7 @@ import * as Fingerprint from 'fingerprintjs2';
 
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
-import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage, 
+import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage,
   GachaNameReward, IChoice } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
