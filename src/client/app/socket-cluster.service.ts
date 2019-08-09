@@ -108,7 +108,7 @@ export class SocketClusterService {
       position: info.position || 'top',
       showCloseButton: !info.buttons,
       message: info.message,
-      duration: info.duration || 30000,
+      duration: info.duration || 3000,
       color: info.type,
       buttons: info.buttons
     };
