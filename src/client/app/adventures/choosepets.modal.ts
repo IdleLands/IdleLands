@@ -17,8 +17,8 @@ import { Storage } from '@ionic/storage';
     <ion-content fullscreen>
       <ng-container *ngIf="(gameService.player$ | async) as player">
         <ion-list *ngIf="player.$petsData.allPets as petHash">
-          <ng-container *ngIf="petHash[pet]">
-            <ion-item *ngFor="let pet of petOrder">
+          <ng-container *ngFor="let pet of petOrder">
+            <ion-item *ngIf="petHash[pet]">
               <app-gendervatar slot="start" [gender]="petHash[pet].gender"></app-gendervatar>
 
               <ion-label>
