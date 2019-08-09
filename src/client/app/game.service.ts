@@ -22,6 +22,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GameService {
 
+  public theme: string;
+
   public get baseUrl() {
     return `${environment.app.protocol}://${environment.app.hostname}:${environment.app.port}`;
   }
@@ -101,6 +103,19 @@ export class GameService {
     private socketService: SocketClusterService
   ) {}
 
+  public changeTheme(theme: string) {
+    this.storage.set('theme', theme);
+    this.theme = theme;
+
+    const root = document.querySelector(':root');
+    root.classList.forEach(cls => {
+      if(!cls.includes('theme')) return;
+      root.classList.remove(cls);
+    });
+
+    root.classList.add(`theme-${theme}`);
+  }
+
   private setSessionId(id: string) {
     this.sessionId = id;
     this.storage.set('sessionId', id);
@@ -132,6 +147,8 @@ export class GameService {
 
   public async init() {
     await this.initUser();
+
+    this.changeTheme(await this.storage.get('theme') || 'Default');
 
     this.setSessionId(await this.storage.get('sessionId'));
     this.setLoggedInId(await this.storage.get('loggedInId'));

@@ -13,6 +13,13 @@ import { ServerEventName } from '../../../shared/interfaces';
 })
 export class SettingsPage {
 
+  public themes = ['Default', 'Dark', 'AMOLED', 'l33th4x0r'];
+
+  // Black & White, Dim Ocean, Green Machine, Orangina, Majesty
+  // things to change: remove icons, change icon colors
+  // colors obviously
+  // fonts [color, style, size]
+
   constructor(
     private router: Router,
     private alertCtrl: AlertController,
@@ -20,6 +27,10 @@ export class SettingsPage {
     private socketService: SocketClusterService,
     public authService: AuthService
   ) { }
+
+  public updateTheme($event) {
+    this.gameService.changeTheme($event.detail.value);
+  }
 
   public updateDiscordTag(discordTag) {
     this.socketService.emit(ServerEventName.CharacterDiscordTag, { discordTag });

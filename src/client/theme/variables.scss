@@ -174,3 +174,7 @@ $customColors: ('newbie', 'basic', 'pro', 'idle', 'godly', 'goatly', 'omega', 'g
     --ion-color-step-950: #f3f3f3;
   }
 }
+
+@import './amoled.theme.scss';
+@import './dark.theme.scss';
+@import './leet.theme.scss';

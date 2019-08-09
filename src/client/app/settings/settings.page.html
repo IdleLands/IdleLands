@@ -13,6 +13,24 @@
       
       <ion-card>
         <ion-card-header>
+          <ion-card-title>UI Settings</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list class="ion-no-padding">
+            <ion-item>
+              <ion-label position="stacked">Theme</ion-label>
+
+              <ion-select placeholder="Default" (ionChange)="updateTheme($event)" [(ngModel)]="gameService.theme">
+                <ion-select-option *ngFor="let theme of themes">{{ theme }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      
+      <ion-card>
+        <ion-card-header>
           <ion-card-title>Integrations</ion-card-title>
           <ion-card-subtitle>
             Integrate IdleLands with other services like <a href="https://discord.gg/3SeVXyu" target="_blank">Discord</a> for various enhanced features.
