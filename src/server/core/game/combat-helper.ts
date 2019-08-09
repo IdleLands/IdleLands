@@ -173,7 +173,7 @@ export class CombatHelper {
           ? allAssets.parties[opts.bossParty].respawn
           : allAssets.creatures[opts.bossName].respawn;
 
-        player.bossTimers[opts.bossParty || opts.bossName] = Date.now() + (respawn * 1000);
+        player.cooldowns[opts.bossParty || opts.bossName] = Date.now() + (respawn * 1000);
 
         Object.values(combat.characters)
           .filter(char => char.combatPartyId === 0)

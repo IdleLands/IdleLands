@@ -16,7 +16,7 @@ export class BattleBoss extends Event {
       return;
     }
 
-    const curTimer = player.bossTimers[opts.bossParty || opts.bossName];
+    const curTimer = player.cooldowns[opts.bossParty || opts.bossName];
     if(Date.now() < curTimer) {
       this.emitMessageToNames(allPlayers,
         `You could not encounter ${opts.bossParty || opts.bossName} because they were not alive! Check back at ${new Date(curTimer)}.`,
@@ -24,7 +24,7 @@ export class BattleBoss extends Event {
       return;
     }
 
-    delete player.bossTimers[opts.bossParty || opts.bossName];
+    delete player.cooldowns[opts.bossParty || opts.bossName];
 
     const combatInst: ICombat = player.$$game.combatHelper.createAndRunBossCombat(player, opts);
 
