@@ -8,32 +8,38 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="blank-slate" *ngIf="!festivals || festivals.length === 0">
+    There are no festivals :(
+  </div>
+
   <ion-row>
     <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
 
-      <ion-card *ngFor="let festival of festivals">
-        <ion-card-header>
-          <ion-card-subtitle>Ends in <countdown-timer [end]="festival.endTime"></countdown-timer> &middot; via {{ festival.startedBy }}</ion-card-subtitle>
-          <ion-card-title>{{ festival.name }}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <ion-row>
-            <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
-              <ion-col size-xs="6"
-                       size-md="4" 
-                       *ngIf="festival.stats[stat]"
-                       class="vertical-center">
-                <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end"></ion-icon>
-                      
-                <ion-label>
-                  <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ (festival.stats[stat] || 0) | number }}%
-                </ion-label>
-              </ion-col>
-            </ng-container>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
+      <ng-container *ngFor="let festival of festivals">
+        <ion-card *ngIf="isFestivalVAlid(festival)">
+          <ion-card-header>
+            <ion-card-subtitle>Ends in <countdown-timer [end]="festival.endTime"></countdown-timer> &middot; via {{ festival.startedBy }}</ion-card-subtitle>
+            <ion-card-title>{{ festival.name }}</ion-card-title>
+          </ion-card-header>
+  
+          <ion-card-content>
+            <ion-row>
+              <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
+                <ion-col size-xs="6"
+                          size-md="4" 
+                          *ngIf="festival.stats[stat]"
+                          class="vertical-center">
+                  <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end"></ion-icon>
+                        
+                  <ion-label>
+                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ (festival.stats[stat] || 0) | number }}%
+                  </ion-label>
+                </ion-col>
+              </ng-container>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
 
     </ion-col>
   </ion-row>

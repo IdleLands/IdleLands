@@ -22,8 +22,12 @@ export class FestivalsPage implements OnInit {
     this.http.get(`${this.gameService.apiUrl}/festivals`)
       .pipe(map((x: any) => x.festivals))
       .subscribe(festivals => {
-        this.festivals = festivals;
+        this.festivals = festivals.filter(x => x.isFestivalValid(x));
       });
+  }
+
+  public isFestivalValid(festival: IFestival): boolean {
+    return festival.endTime > Date.now();
   }
 
 }
