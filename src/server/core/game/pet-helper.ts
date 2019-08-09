@@ -58,7 +58,7 @@ export class PetHelper {
     if(!pet.upgradeLevels) return 0;
 
     const upgradeLevel = pet.upgradeLevels[upgrade];
-    if(!upgradeLevel) return 0;
+    if(isNaN(upgradeLevel)) return 0;
 
     const upgradeRefC = upgradeRef[upgradeLevel];
     if(!upgradeRefC) return 0;
@@ -147,6 +147,7 @@ export class PetHelper {
     const proto = this.getPetProto(pet.typeName);
     this.syncPetNextUpgradeCost(pet);
 
+    pet.gold.__current = pet.gold.__current || 0;
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
     pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
 

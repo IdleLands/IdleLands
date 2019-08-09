@@ -19,7 +19,7 @@ export class BattleBoss extends Event {
     const curTimer = player.cooldowns[opts.bossParty || opts.bossName];
     if(Date.now() < curTimer) {
       this.emitMessageToNames(allPlayers,
-        `You could not encounter ${opts.bossParty || opts.bossName} because they were not alive! Check back at ${new Date(curTimer)}.`,
+        `You could not encounter ${opts.bossParty || opts.bossName} because they were not available! Check back at ${new Date(curTimer)}.`,
         AdventureLogEventType.Combat);
       return;
     }
