@@ -405,6 +405,8 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Character/Experience/Levels', 1);
     this.calculateStamina();
+
+    this.$$game.sendClientUpdateForPlayer(this);
   }
 
   public resetMaxXP(): void {
