@@ -13,7 +13,7 @@
 
       <!-- tabs must request data like this or it doesn't work -->
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$inventoryData" color="secondary">{{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }}</ion-badge>
+        <ion-badge *ngIf="player.$inventoryData" [color]="player.$inventoryData.items.length === 0 ? 'medium' : 'secondary'">{{ player.$inventoryData.items.length }}/{{ player.$inventoryData.size }}</ion-badge>
       </ng-container>
 
     </ion-tab-button>
