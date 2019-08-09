@@ -37,8 +37,7 @@ export class Walker extends Achievement {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
-      { type: AchievementRewardType.Stats, stats: { [Stat.GOLD]: tier } },
-      { type: AchievementRewardType.StatMultipliers, stats: { [Stat.XP]: tier } }
+      { type: AchievementRewardType.Stats, stats: { [Stat.GOLD]: tier, [Stat.XP]: tier } }
     ];
 
     if(tier >= 2) {
