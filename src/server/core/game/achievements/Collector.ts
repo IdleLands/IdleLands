@@ -6,13 +6,13 @@ export class Collector extends Achievement {
   static readonly base = 25;
 
   static readonly statWatches = ['Item/Collectible/Find'];
-  static readonly type = AchievementType.Progress;
+  static readonly type = AchievementType.Explore;
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier}% to all stats for finding ${(tier * Collector.base).toLocaleString()} collectibles.`;
 
     if(tier >= 5) {
-      baseStr = `${baseStr} Title: Collector.`;
+      baseStr = `${baseStr} Title: Collector of Collectibles.`;
     }
 
     return baseStr;
@@ -36,7 +36,7 @@ export class Collector extends Achievement {
     ];
 
     if(tier >= 5) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Collector' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Collector of Collectibles' });
     }
 
     return baseRewards;
