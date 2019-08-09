@@ -105,17 +105,20 @@
           «Round {{ combat.currentRound + 1 }}»
         </ion-col>
       </ion-row>
-      
+
       <ion-row class="ion-flex-wrap">
-        <ion-col size-xs="12" 
-                 size-md="6" 
-                 *ngFor="let combatCharacter of combat.characters | keyvalue" 
-                 class="ion-text-center"
-                 [class.dead-combatant]="combatCharacter.value.stats.hp <= 0">
-          <div>
-            <strong>{{ combatCharacter.value.name }}</strong> [HP {{ combatCharacter.value.stats.hp | number }}<span *ngIf="combatCharacter.value.specialName"> | {{ combatCharacter.value.stats.special | number }} {{ combatCharacter.value.specialName }}</span>]
-          </div>
-        </ion-col>
+        <ng-container *ngFor="let combatParty of combat.parties | keyvalue">
+          <ion-col size-xs="12" 
+            size-md="6" 
+            class="ion-text-center"
+            [class.dead-combatant]="getTotalPartyHealth(combatParty.key, combat) <= 0">
+            <div>
+              <strong>
+                <a class="clickable" (click)="displayPartyCombatMembers(combatParty.key, combat)">{{ combatParty.value.name }} [HP {{ getTotalPartyHealth(combatParty.key, combat) | number }}]</a>
+              </strong>
+            </div>
+          </ion-col>
+        </ng-container>
       </ion-row>
     </ion-col>
   </ion-row>

@@ -58,11 +58,11 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-item *ngIf="canUpdate" (click)="doAppUpdate()">
+          <ion-item button *ngIf="canUpdate" (click)="doAppUpdate()">
             <ion-icon slot="start" name="logo-ionic"></ion-icon> Update available! Click to update.
           </ion-item>
 
-          <ion-item *ngIf="a2hsPrompt" (click)="a2hs()">
+          <ion-item button *ngIf="a2hsPrompt" (click)="a2hs()">
             <ion-icon slot="start" [src]="add"></ion-icon> Install IdleLands
           </ion-item>
 

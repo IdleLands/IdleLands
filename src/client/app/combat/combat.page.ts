@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 import { decompress } from 'lzutf8';
 
-import { ICombat, ICombatCharacter } from '../../../shared/interfaces';
+import { ICombat, ICombatCharacter, Stat } from '../../../shared/interfaces';
 import { CombatAction, CombatSimulator } from '../../../shared/combat/combat-simulator';
 
 @Component({
@@ -22,7 +23,8 @@ export class CombatPage implements OnInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -108,6 +110,51 @@ export class CombatPage implements OnInit {
         }
       }
     });
+  }
+
+  public getTotalPartyHealth(partyId: number, combat: ICombat): number {
+    return Object.values(combat.characters).reduce((prev, cur) => {
+      if(cur.combatPartyId !== +partyId) return prev;
+
+      return prev + cur.stats[Stat.HP];
+    }, 0);
+  }
+
+  public async displayPartyCombatMembers(partyId: number, combat: ICombat) {
+    const party = combat.parties[partyId];
+
+    const partyRows = Object.values(combat.characters).map(x => {
+      if(x.combatPartyId !== +partyId) return '';
+
+      const specialString = x.specialName ? `[${x.specialName} ${x.stats.special.toLocaleString()}]` : '';
+
+      return `
+        <tr>
+          <td>
+            <strong>${x.name}</strong>
+          </td>
+          <td>
+            [HP ${x.stats.hp.toLocaleString()}]
+          </td>
+          <td>
+            ${specialString}
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    const finalString = '<table class="party-table">' + partyRows + '</table>';
+
+    const alert = await this.alertCtrl.create({
+      header: `${party.name}`,
+      cssClass: 'combat-party-modal',
+      message: finalString,
+      buttons: [
+        'Close'
+      ]
+    });
+
+    alert.present();
   }
 
 }

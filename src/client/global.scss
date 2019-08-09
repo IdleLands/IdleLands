@@ -43,7 +43,7 @@ ion-alert .alert-wrapper {
   --min-width: 400px;
 }
 
-.stat-trail-table, .odds-table {
+.stat-trail-table, .odds-table, .party-table {
   border-spacing: 1px; 
   width: 100%;
 
@@ -114,4 +114,8 @@ ion-alert .alert-wrapper {
 
 ion-toast {
   --ion-safe-area-top: 60px;
+}
+
+.clickable {
+  cursor: pointer;
 }
