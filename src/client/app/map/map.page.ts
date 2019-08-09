@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { IonContent, PopoverController } from '@ionic/angular';
 
 import { compact, difference } from 'lodash';
 import { timer, Subject, Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { IPlayer, ServerEventName } from '../../../shared/interfaces';
 import { GenderPositions } from '../_shared/gendervatar/genders';
 import { SocketClusterService } from '../socket-cluster.service';
 import { RevGidMap } from '../../../server/core/static/tile-data';
+import { PersonalitiesPopover } from './personalities.popover';
 
 class GameState extends Phaser.State {
 
@@ -303,6 +304,7 @@ export class MapPage implements OnInit, OnDestroy {
   private player$: Subscription;
 
   constructor(
+    private popoverCtrl: PopoverController,
     private socketService: SocketClusterService,
     private gameService: GameService
   ) { }
@@ -335,6 +337,17 @@ export class MapPage implements OnInit, OnDestroy {
     if(this.game) this.game.destroy();
     if(this.gameText$) this.gameText$.unsubscribe();
     if(this.player$) this.player$.unsubscribe();
+  }
+
+  public async showPersonalities($event) {
+    const popover = await this.popoverCtrl.create({
+      component: PersonalitiesPopover,
+      componentProps: { },
+      event: $event,
+      translucent: true
+    });
+
+    return await popover.present();
   }
 
 }

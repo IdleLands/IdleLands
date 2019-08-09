@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MapPage } from './map.page';
 import { SharedModule } from '../shared.module';
+import { PersonalitiesPopover } from './personalities.popover';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [MapPage]
+  declarations: [MapPage, PersonalitiesPopover],
+  entryComponents: [PersonalitiesPopover]
 })
 export class MapPageModule {}
