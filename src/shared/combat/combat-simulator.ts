@@ -346,6 +346,14 @@ export class CombatSimulator {
   }
 
   endCombat(args: { wasTie?: boolean, winningParty?: number } = {}) {
+    Object.values(this.combat.characters).forEach(char => {
+      const didWin = char.combatPartyId === args.winningParty;
+      const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
+
+      this.incrementStatistic(char, `Combat/All/Times/Total`);
+      this.incrementStatistic(char, `Combat/All/Times/${combatType}`);
+    });
+
     if(args.wasTie) {
       this.addSummaryMessage(`It was a draw! No winners! No rewards!`);
 
@@ -368,14 +376,6 @@ export class CombatSimulator {
     this.events$.next({
       action: CombatAction.Victory,
       data: { wasTie: args.wasTie, combat: this.formatCombat(this.combat), winningParty: args.winningParty }
-    });
-
-    Object.values(this.combat.characters).forEach(char => {
-      const didWin = char.combatPartyId === args.winningParty;
-      const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
-
-      this.incrementStatistic(char, `Combat/All/Times/Total`);
-      this.incrementStatistic(char, `Combat/All/Times/${combatType}`);
     });
   }
 
