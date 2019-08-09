@@ -111,3 +111,7 @@ ion-alert .alert-wrapper {
   bottom: 5px;
   right: 15px;
 }
+
+ion-toast {
+  --ion-safe-area-top: 60px;
+}
