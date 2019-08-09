@@ -213,7 +213,17 @@ export class MovementHelper {
 
       if(!player.cooldowns[cdCheck] || player.cooldowns[cdCheck] < Date.now()) {
         delete player.cooldowns[cdCheck];
-        this.eventManager.doEventFor(player, forceEvent, tile.object.properties);
+
+        const oldil3EventNames = {
+          'ItemBless': 'BlessItem',
+          'ItemForsake': 'ForsakeItem',
+          'GoldBless': 'BlessGold',
+          'GoldForsake': 'ForsakeGold',
+          'XPBless': 'BlessXP',
+          'XPForsake': 'ForsakeXP'
+        };
+
+        this.eventManager.doEventFor(player, oldil3EventNames[forceEvent] || forceEvent, tile.object.properties);
       }
 
       if(forceEvent !== EventName.Providence) {
