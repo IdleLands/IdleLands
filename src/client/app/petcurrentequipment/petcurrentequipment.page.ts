@@ -33,6 +33,10 @@ export class PetcurrentequipmentPage implements OnInit {
         item,
         slot,
         somethingElseCallback: (chosenItem) => {
+          if(item) {
+            this.socketService.emit(ServerEventName.PetEquip, { itemId: chosenItem.id, unequipId: item.id, unequipSlot: item.type });
+            return;
+          }
           this.socketService.emit(ServerEventName.PetEquip, { itemId: chosenItem.id });
         },
         unequipCallback: () => {

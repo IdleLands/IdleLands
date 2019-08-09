@@ -79,11 +79,24 @@ export class SwapPetEvent extends ServerSocketEvent implements ServerEvent {
 export class PetEquipItemEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PetEquip;
   description = 'Equip an item from your inventory to your pet.';
-  args = 'itemId';
+  args = 'itemId, unequipId?, unequipSlot';
 
-  async callback({ itemId } = { itemId: '' }) {
+  async callback({ itemId, unequipId, unequipSlot } = { itemId: '', unequipId: '', unequipSlot: '' }) {
     const player = this.player;
     if(!player) return this.notConnected();
+
+    if(unequipId && unequipSlot) {
+      const invHasSpace = player.$inventory.canAddItemsToInventory();
+      if(!invHasSpace) return this.gameError('Your inventory is full.');
+
+      const item = player.$pets.$activePet.findEquippedItemById(<ItemSlot>unequipSlot, unequipId);
+      if(!item) return this.gameError('That item is not equipped to your pet.');
+
+      const didUnequip = player.$pets.$activePet.unequip(item);
+      if(!didUnequip) return this.gameError('You could not unequip that item.');
+
+      player.$inventory.addItemToInventory(item);
+    }
 
     const foundItem = player.$inventory.getItemFromInventory(itemId);
     if(!foundItem) return this.gameError('Could not find that item in your inventory.');
