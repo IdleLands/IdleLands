@@ -43,12 +43,22 @@ export class DiscordManager {
     this.discord.on('message', (message) => {
       if(message.channel.id !== this.discordChannel.id || message.author.bot) return;
 
+      let content = message.cleanContent;
+      if(!content) {
+        const attachment = message.attachments.first();
+        if(attachment) {
+          content = attachment.url;
+        }
+      }
+
+      if(!content) return;
+
       this.onMessageCallback({
         fromDiscord: true,
         timestamp: Date.now(),
 
         playerName: message.member.displayName,
-        message: message.cleanContent
+        message: content
       });
 
     });
