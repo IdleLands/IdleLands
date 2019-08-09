@@ -167,7 +167,12 @@ export class CombatHelper {
 
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Victory) {
-        if(data.wasTie || data.winningParty !== 0) return;
+        if(data.wasTie || data.winningParty !== 0) {
+
+          // 5min cool down even if they lose or tie.
+          player.cooldowns[opts.bossParty || opts.bossName] = Date.now() + (60 * 1000 * 5);
+          return;
+        }
 
         const respawn = opts.bossParty
           ? allAssets.parties[opts.bossParty].respawn
