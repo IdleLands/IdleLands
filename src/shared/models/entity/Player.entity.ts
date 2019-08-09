@@ -939,12 +939,13 @@ export class Player implements IPlayer {
   }
 
   public addBuff(buff: IBuff): void {
+    if(!buff.statistic) return;
+
     this.increaseStatistic(`Character/${buff.booster ? 'Booster' : 'Injury'}/Receive`, 1);
 
     this.buffWatches[buff.statistic] = this.buffWatches[buff.statistic] || [];
     this.buffWatches[buff.statistic].unshift(buff);
     this.buffWatches[buff.statistic] = uniqBy(this.buffWatches[buff.statistic], (checkBuff: IBuff) => checkBuff.name);
-    delete buff.statistic;
 
     this.syncPremium();
     this.recalculateStats();
