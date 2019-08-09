@@ -87,6 +87,8 @@ export class GMHelper {
     const player = this.playerManager.getPlayer(playerName);
     if(!player) return;
 
+    if(player.modTier) return;
+
     // unmute
     if(duration < 0) {
       player.mutedUntil = 0;
