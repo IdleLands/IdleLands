@@ -146,7 +146,7 @@ export class CombatPage implements OnInit {
     const finalString = '<table class="party-table">' + partyRows + '</table>';
 
     const alert = await this.alertCtrl.create({
-      header: `${party.name}`,
+      header: `${party.name} (Round ${combat.currentRound + 1})`,
       cssClass: 'combat-party-modal',
       message: finalString,
       buttons: [
