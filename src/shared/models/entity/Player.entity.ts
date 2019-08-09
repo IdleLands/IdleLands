@@ -430,7 +430,7 @@ export class Player implements IPlayer {
     this.stats = {};
     this.$statTrail = {};
 
-    this.stats.specialName = this.$profession.specialStatName;
+    this.stats.specialName = this.$profession.specialStatName || '';
 
     // dynamically-calculated
     // first, we do the addition-based adds
@@ -860,6 +860,7 @@ export class Player implements IPlayer {
     this.profession = <Profession>prof.constructor.name;
     this.$profession = prof;
     this.$professionData = prof.$professionData;
+    this.recalculateStats();
   }
 
   public hasAchievement(achi: string): boolean {
