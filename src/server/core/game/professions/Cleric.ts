@@ -51,6 +51,7 @@ export class Cleric extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     player.giveCure();
+    this.emitProfessionMessage(player, `You cured the wounds of yourself and your allies!`);
     return 'You cured the wounds of yourself and your allies!';
   }
 }

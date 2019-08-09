@@ -62,6 +62,7 @@ export class Bard extends BaseProfession implements IProfession {
 
     player.$$game.festivalManager.startFestival(player, festival);
 
+    this.emitProfessionMessage(player, `You sing the song of your people!`);
     return `You sing the song of your people!`;
   }
 

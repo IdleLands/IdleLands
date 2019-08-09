@@ -48,6 +48,7 @@ export class MagicalMonster extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
     player.$$game.eventManager.doEventFor(player, EventName.Providence);
+    this.emitProfessionMessage(player, 'You tempted fate!');
     return `You've tempted fate! Your adventure log has the details.`;
   }
 }

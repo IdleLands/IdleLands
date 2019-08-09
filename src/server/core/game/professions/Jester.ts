@@ -5,6 +5,7 @@ import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { IProfession } from '../../../../shared/interfaces';
 import { GoodMessages } from '../../static/good-messages';
+import { Player } from '../../../../shared/models';
 
 export class Jester extends BaseProfession implements IProfession {
 
@@ -69,7 +70,9 @@ export class Jester extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(): string {
-    return `${sample(GoodMessages)}...`;
+  public oocAbility(player: Player): string {
+    const msg = sample(GoodMessages);
+    this.emitProfessionMessage(player, `${msg}...`);
+    return `${msg}...`;
   }
 }

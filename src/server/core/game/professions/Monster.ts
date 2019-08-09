@@ -49,6 +49,7 @@ export class Monster extends BaseProfession implements IProfession {
   public oocAbility(player: Player): string {
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
+    this.emitProfessionMessage(player, 'You switched yourself around a bit!');
     return `You've switched yourself around a bit!`;
   }
 }

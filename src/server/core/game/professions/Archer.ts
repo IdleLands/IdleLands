@@ -62,6 +62,7 @@ export class Archer extends BaseProfession implements IProfession {
       }
     }, true);
 
+    this.emitProfessionMessage(player, 'You used your special ability to bring more pets into combat!');
     return `More pets will join you in combat!`;
   }
 }

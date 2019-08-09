@@ -66,6 +66,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
       stats
     }, true);
 
+    this.emitProfessionMessage(player, `You hacked the system!`);
     return `You hacked the system!`;
   }
 

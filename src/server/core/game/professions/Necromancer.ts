@@ -59,6 +59,7 @@ export class Necromancer extends BaseProfession implements IProfession {
     }, true);
     player.$$game.eventManager.doEventFor(player, 'Battle');
 
+    this.emitProfessionMessage(player, 'You summoned some bone minions!');
     return `You summoned some bone minions!`;
   }
 

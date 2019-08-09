@@ -58,6 +58,7 @@ export class Fighter extends BaseProfession implements IProfession {
       }
     }, true);
 
+    this.emitProfessionMessage(player, `Your XP gain will be increased for 720 ticks!`);
     return `Your XP gain will be increased for 720 ticks!`;
   }
 }

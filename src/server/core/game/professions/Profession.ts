@@ -1,6 +1,6 @@
 
 import { Stat } from '../../../../shared/interfaces/Stat';
-import { IProfession, ICharacter, IAttribute, IAffinity } from '../../../../shared/interfaces';
+import { IProfession, ICharacter, IAttribute, IAffinity, Channel, AdventureLogEventType } from '../../../../shared/interfaces';
 
 export class BaseAttribute implements IAttribute {
   public readonly oocAbilityName: string;
@@ -106,6 +106,14 @@ export class BaseProfession extends BaseAffinity implements IAffinity, IAttribut
 
   public determineMaxSpecial(player: ICharacter): number {
     return player.getStat(Stat.SPECIAL);
+  }
+
+  protected emitProfessionMessage(player: ICharacter, message: string) {
+    (player as any).$$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [player.name], data: {
+      when: Date.now(),
+      type: AdventureLogEventType.Profession,
+      message
+    } });
   }
 
 }
