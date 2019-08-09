@@ -67,6 +67,13 @@
     </ion-item-group>
 
     <ion-item-group>
+      <ion-item-divider>Results</ion-item-divider>
+      <ion-item *ngFor="let message of summaryMessages">
+        {{ message }}
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
       <ion-item-divider>Combat Log</ion-item-divider>
       <ion-item *ngFor="let message of combatMessages">
         <ng-container [ngSwitch]="message.message">
