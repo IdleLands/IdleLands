@@ -22,7 +22,7 @@ export class FestivalsPage implements OnInit {
     this.http.get(`${this.gameService.apiUrl}/festivals`)
       .pipe(map((x: any) => x.festivals))
       .subscribe(festivals => {
-        this.festivals = festivals.filter(x => x.isFestivalValid(x));
+        this.festivals = festivals.filter(x => this.isFestivalValid(x));
       });
   }
 

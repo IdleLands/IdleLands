@@ -16,7 +16,7 @@
     <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
 
       <ng-container *ngFor="let festival of festivals">
-        <ion-card *ngIf="isFestivalVAlid(festival)">
+        <ion-card *ngIf="isFestivalValid(festival)">
           <ion-card-header>
             <ion-card-subtitle>Ends in <countdown-timer [end]="festival.endTime"></countdown-timer> &middot; via {{ festival.startedBy }}</ion-card-subtitle>
             <ion-card-title>{{ festival.name }}</ion-card-title>
