@@ -9,7 +9,7 @@ export const SameTarget = (...combinatorContainers: Array<ICombatSkillCombinator
 
     combinatorContainers.forEach(combinatorSkill => {
 
-      const baseCombineSkill: PartialCombatSkill = { targets: skill.targets };
+      const baseCombineSkill: PartialCombatSkill = { targets: skill.targets.filter(x => !isNaN(x)) };
 
       const newSkill = combinatorSkill.reduce((prev, cur) => {
         return cur(prev, caster, combat);
