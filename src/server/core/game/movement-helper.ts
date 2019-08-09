@@ -209,7 +209,18 @@ export class MovementHelper {
 
     const forceEvent = get(tile, 'object.properties.forceEvent', '');
     if(forceEvent) {
-      this.eventManager.doEventFor(player, forceEvent, tile.object.properties);
+      const cdCheck = `${player.x},${player.y}|${player.map}`;
+
+      if(!player.cooldowns[cdCheck] || player.cooldowns[cdCheck] < Date.now()) {
+        delete player.cooldowns[cdCheck];
+        this.eventManager.doEventFor(player, forceEvent, tile.object.properties);
+      }
+
+      if(forceEvent !== EventName.Providence) {
+
+        // 5 minute cooldown per tile
+        player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+      }
     }
 
     if(!type || !this[`handleTile${type}`] || ignoreIf === type) return;

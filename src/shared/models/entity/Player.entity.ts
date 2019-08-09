@@ -176,6 +176,8 @@ export class Player implements IPlayer {
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
 
+    this.clearOldCooldowns();
+
     if(!this.$profession) {
       this.changeProfessionWithRef(this.profession);
     }
@@ -207,6 +209,14 @@ export class Player implements IPlayer {
     this.recalculateStats();
 
     this.syncPremium();
+  }
+
+  private clearOldCooldowns() {
+    const now = Date.now();
+    Object.keys(this.cooldowns).forEach(cooldown => {
+      if(this.cooldowns[cooldown] > now) return;
+      delete this.cooldowns[cooldown];
+    });
   }
 
   public copyLinkedDataToSelf() {
