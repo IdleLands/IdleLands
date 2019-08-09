@@ -173,6 +173,8 @@ export class Player implements IPlayer {
     if(!this.buffWatches) this.buffWatches = {};
     if(!this.bossTimers) this.bossTimers = {};
 
+    delete this.buffWatches['undefined'];
+
     if(!this.$profession) {
       this.changeProfessionWithRef(this.profession);
     }
