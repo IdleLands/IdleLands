@@ -738,6 +738,8 @@ export class Player implements IPlayer {
     const collabTier = this.$statistics.get('Game/Contributor/ContributorTier');
     this.$statistics.set('Game/Contributor/ContributorTier', collabTier);
 
+    this.checkAchievements('Game/Contributor/ContributorTier');
+
     const tier = this.$premiumData.tier + collabTier;
 
     const allAchievementBoosts = this.$achievements.getPermanentUpgrades();
@@ -755,6 +757,7 @@ export class Player implements IPlayer {
     });
 
     this.$statistics.set('Game/Premium/Tier', tier);
+    this.checkAchievements('Game/Premium/Tier');
 
     this.$statistics.set('Game/Premium/Upgrade/AdventureLogSize',
       25
