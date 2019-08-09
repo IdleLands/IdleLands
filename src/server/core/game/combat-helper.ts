@@ -588,7 +588,7 @@ export class CombatHelper {
 
     // assign penalties
     Object.values(combat.characters).forEach(x => {
-      if(x.combatPartyId !== winningParty) return;
+      if(x.combatPartyId === winningParty) return;
 
       const player = this.playerManager.getPlayer(x.realName);
       if(!player) return;
