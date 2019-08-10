@@ -26,9 +26,15 @@ export class PetHelper {
     const proto = this.getPetProto(petName);
     const pet = this.createPet(forPlayer, proto);
 
+    (<any>pet).$game = (<any>forPlayer).$$game;
+    (<any>pet).$player = forPlayer;
+
     pet.init();
 
     this.syncPetBasedOnProto(pet);
+
+    pet.recalculateStats();
+
     return pet;
   }
 
@@ -74,12 +80,13 @@ export class PetHelper {
   syncPetNextUpgradeCost(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
+    pet.upgradeLevels = pet.upgradeLevels || {};
     pet.$currentUpgrade = {};
     pet.$nextUpgrade = {};
 
     Object.values(PetUpgrade).forEach(upgrade => {
-      pet.$currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade]];
-      pet.$nextUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] + 1];
+      pet.$currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] || 0];
+      pet.$nextUpgrade[upgrade] = proto.upgrades[upgrade][(pet.upgradeLevels[upgrade] || 0) + 1];
     });
   }
 

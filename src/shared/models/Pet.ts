@@ -183,7 +183,7 @@ export class Pet implements IPet {
   }
 
   public recalculateStats(): void {
-    if(!this.$affinity) return;
+    if(!this.$affinity || !this.$player) return;
 
     this.stats = {};
 
