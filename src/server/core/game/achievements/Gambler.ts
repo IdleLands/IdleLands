@@ -5,11 +5,11 @@ export class Gambler extends Achievement {
 
   static readonly base = 10;
 
-  static readonly statWatches = ['Character/Gold/Spend'];
+  static readonly statWatches = ['Event/Gamble/Wager'];
   static readonly type = AchievementType.Event;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier * 3}% LUK for spending ${Math.pow(Gambler.base, tier).toLocaleString()} gold.`;
+    let baseStr = `Gain +${tier * 3}% LUK for spending ${Math.pow(Gambler.base, tier).toLocaleString()} gold on gambling.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Two-headed Coin.`;
