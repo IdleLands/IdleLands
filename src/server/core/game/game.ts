@@ -138,7 +138,7 @@ export class Game implements IGame {
       this.updatePlayer(player);
 
       if((this.ticks % SAVE_TICKS) === 0) {
-        this.logger.log(`Game`, `Saving player ${player.name}...`);
+        // this.logger.log(`Game`, `Saving player ${player.name}...`);
         this.databaseManager.savePlayer(player);
       }
     });
