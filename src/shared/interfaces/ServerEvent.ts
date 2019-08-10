@@ -47,6 +47,11 @@ export enum ServerEventName {
   PetAscend = 'pet:ascend',
   PetGoldAction = 'pet:takegold',
 
+  PetRerollName = 'pet:rerollname',
+  PetRerollAttribute = 'pet:rerollattribute',
+  PetRerollAffinity = 'pet:rerollaffinity',
+  PetRerollGender = 'pet:rerollgender',
+
   PetAdventureEmbark = 'pet:adventure:embark',
   PetAdventureFinish = 'pet:adventure:finish',
   PetAdventureRewards = 'pet:adventure:rewards',

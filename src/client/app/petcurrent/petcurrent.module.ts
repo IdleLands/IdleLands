@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PetcurrentPage } from './petcurrent.page';
 import { SharedModule } from '../shared.module';
+import { RerollPopover } from './reroll.popover';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [PetcurrentPage]
+  declarations: [PetcurrentPage, RerollPopover],
+  entryComponents: [RerollPopover]
 })
 export class PetcurrentPageModule {}

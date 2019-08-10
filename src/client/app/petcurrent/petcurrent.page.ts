@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { PetUpgrade, PermanentUpgrade, ServerEventName, IPet } from '../../../shared/interfaces';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { RerollPopover } from './reroll.popover';
 
 @Component({
   selector: 'app-petcurrent',
@@ -49,6 +50,7 @@ export class PetcurrentPage implements OnInit {
   };
 
   constructor(
+    private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
     private socketService: SocketClusterService,
     public gameService: GameService
@@ -109,6 +111,19 @@ export class PetcurrentPage implements OnInit {
 
   takeGold() {
     this.socketService.emit(ServerEventName.PetGoldAction);
+  }
+
+  async petActions($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    const popover = await this.popoverCtrl.create({
+      component: RerollPopover,
+      event: $event,
+      translucent: true
+    });
+
+    return await popover.present();
   }
 
 }

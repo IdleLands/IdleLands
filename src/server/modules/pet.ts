@@ -1,5 +1,8 @@
+
+import { sample } from 'lodash';
+
 import { ServerSocketEvent } from '../../shared/models';
-import { ServerEvent, ServerEventName, PetUpgrade, ItemSlot } from '../../shared/interfaces';
+import { ServerEvent, ServerEventName, PetUpgrade, ItemSlot, PetAffinity } from '../../shared/interfaces';
 
 export class PetOOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PetOOCAction;
@@ -212,3 +215,102 @@ export class PetGoldTakeEvent extends ServerSocketEvent implements ServerEvent {
     this.game.updatePlayer(player);
   }
 }
+
+export class PetRerollGenderEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetRerollGender;
+  description = 'Reroll your pets gender.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const pet = player.$pets.$activePet;
+    const gold = player.gold;
+
+    if(gold < 10000) return this.gameError('You do not have enough gold.');
+    player.spendGold(10000);
+
+    const newGender = sample(player.availableGenders);
+    pet.gender = newGender;
+
+    this.gameMessage(`Your pets gender is now ${pet.gender}.`);
+
+    this.game.updatePlayer(player);
+  }
+}
+
+export class PetRerollNameEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetRerollName;
+  description = 'Reroll your pets name.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const pet = player.$pets.$activePet;
+    const gold = player.gold;
+
+    if(gold < 50000) return this.gameError('You do not have enough gold.');
+    player.spendGold(50000);
+
+    const newName = player.$$game.petHelper.randomName();
+    pet.name = newName;
+
+    this.gameMessage(`Your pets name is now ${pet.name}.`);
+
+    this.game.updatePlayer(player);
+  }
+}
+
+export class PetRerollAffinityEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetRerollAffinity;
+  description = 'Reroll your pets affinity.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const pet = player.$pets.$activePet;
+    const gold = player.gold;
+
+    if(gold < 100000) return this.gameError('You do not have enough gold.');
+    player.spendGold(100000);
+
+    const newAff = sample(Object.values(PetAffinity));
+    pet.affinity = newAff;
+    player.$$game.petHelper.syncPetAffinity(pet);
+
+    this.gameMessage(`Your pets affinity is now ${pet.affinity}.`);
+
+    this.game.updatePlayer(player);
+  }
+}
+
+export class PetRerollAttributeEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PetRerollAttribute;
+  description = 'Reroll your pets attribute.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const pet = player.$pets.$activePet;
+    const gold = player.gold;
+
+    if(gold < 75000) return this.gameError('You do not have enough gold.');
+    player.spendGold(75000);
+
+    const newAttr = sample(player.$achievements.getPetAttributes());
+    pet.attribute = newAttr;
+    player.$$game.petHelper.syncPetAttribute(pet);
+
+    this.gameMessage(`Your pets attribute is now ${pet.attribute}.`);
+
+    this.game.updatePlayer(player);
+  }
+}
+

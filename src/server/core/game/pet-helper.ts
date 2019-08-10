@@ -1,7 +1,7 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import { species } from 'fantastical';
 
-import { PetAttribute, Stat, IPet, IPlayer, IPetProto, PetAffinity, PetUpgrade, IItem, ItemSlot } from '../../../shared/interfaces';
+import { IPet, IPlayer, IPetProto, PetAffinity, PetUpgrade, IItem, ItemSlot } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { AssetManager } from './asset-manager';
 import { Pet } from '../../../shared/models/Pet';
@@ -38,6 +38,11 @@ export class PetHelper {
     return pet;
   }
 
+  public randomName() {
+    const func = this.rng.pickone(Object.keys(species));
+    return species[func]();
+  }
+
   createPet(forPlayer: IPlayer, petProto: IPetProto): IPet {
     const gender = this.rng.pickone(forPlayer.availableGenders);
     const attribute = petProto.attribute || this.rng.pickone(forPlayer.$achievements.getPetAttributes());
@@ -45,10 +50,8 @@ export class PetHelper {
 
     const pet = new Pet();
 
-    const func = this.rng.pickone(Object.keys(species));
-
     pet.typeName = petProto.typeName;
-    pet.name = species[func]();
+    pet.name = this.randomName();
     pet.gender = gender;
     pet.attribute = attribute;
     pet.affinity = affinity;

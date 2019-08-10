@@ -20,10 +20,21 @@
           
           <ion-card>
             <ion-card-header>
-              <ion-card-subtitle class="vertical-center">
-                Level {{ pet.level.__current }}/{{ pet.level.maximum }}
-                &nbsp;
-                <ion-badge color="tertiary">{{ pet.rating }}★{{ pet.typeName }}</ion-badge>
+              <ion-card-subtitle>
+                <ion-row class="full-width">
+                  <ion-col size="9" class="vertical-center">
+                    Level {{ pet.level.__current }}/{{ pet.level.maximum }}
+                    &nbsp;
+                    <ion-badge color="tertiary">{{ pet.rating }}★{{ pet.typeName }}</ion-badge>
+                  </ion-col>
+
+                  <ion-col size="3">
+                    <ion-button color="dark" class="ion-float-right" fill="outline" size="small" (click)="petActions($event)">
+                      <ion-icon slot="icon-only" name="more"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+
               </ion-card-subtitle>
               <ion-card-title>{{ pet.name }}</ion-card-title>
             </ion-card-header>
