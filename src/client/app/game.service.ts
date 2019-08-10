@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GameService {
 
+  public notificationSettings: any;
   public theme: string;
 
   public get baseUrl() {
@@ -137,10 +138,14 @@ export class GameService {
   private setCurrentPlayer(player: IPlayer) {
     if(this.currentPlayer && !player.$achievementsData) return;
 
+    const curPlayer = this.currentPlayer;
+
     this.currentPlayer = player;
     this.setSessionId(this.currentPlayer.sessionId);
     this.setLoggedInId(this.currentPlayer._id);
     this.player.next(player);
+
+    this.checkPlayerUpdatesForNotifications(curPlayer, player);
 
     (<any>window).discordGlobalCharacter = player;
   }
@@ -148,6 +153,7 @@ export class GameService {
   public async init() {
     await this.initUser();
 
+    this.notificationSettings = await this.storage.get('notifications') || {};
     this.changeTheme(await this.storage.get('theme') || 'Default');
 
     this.setSessionId(await this.storage.get('sessionId'));
@@ -470,6 +476,42 @@ export class GameService {
       .subscribe(settings => {
         this.gameSettings = settings;
       });
+  }
+
+  public async toggleNotificationSetting(setting: string) {
+    this.notificationSettings[setting] = !this.notificationSettings[setting];
+
+    console.log(setting, this.notificationSettings);
+
+    if(setting === 'enabled' && this.notificationSettings[setting]) {
+      const res = await this.requestNotificationPermission();
+      if(!res) return;
+    }
+
+    this.storage.set('notifications', this.notificationSettings);
+  }
+
+  public async requestNotificationPermission() {
+    const res = await Notification.requestPermission();
+    if (res === 'granted') {
+      this.createNotification('Test Notification', 'This is a test notification from IdleLands.');
+    }
+
+    return res === 'granted';
+  }
+
+  private createNotification(title: string, body?: string, actions?: NotificationAction[]): Notification {
+    return new Notification(title, {
+      body,
+      icon: 'https://play.idle.land/assets/favicon/android-chrome-512x512.png',
+      badge: 'https://play.idle.land/assets/favicon/android-chrome-512x512.png',
+      actions
+    });
+  }
+
+  private checkPlayerUpdatesForNotifications(player: IPlayer, nowPlayer: IPlayer) {
+    if(!player || !nowPlayer) return;
+    if(Notification.permission !== 'granted') return;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GameService } from '../game.service';
@@ -11,7 +11,18 @@ import { ServerEventName } from '../../../shared/interfaces';
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit {
+
+  public supportsNotifications: boolean;
+  public get notificationsEnabled() {
+    return this.supportsNotifications
+        && this.gameService.notificationSettings.enabled;
+  }
+
+  public allNotifications = [
+    { name: 'Full Choice Log', key: 'fullChoiceLog' },
+    { name: 'Ready to Ascend', key: 'readyToAscend' }
+  ];
 
   public themes = [
     'Default', 'AMOLED', 'Bloodmoon', 'Brightsun',
@@ -26,6 +37,10 @@ export class SettingsPage {
     private socketService: SocketClusterService,
     public authService: AuthService
   ) { }
+
+  ngOnInit() {
+    this.supportsNotifications = 'Notification' in window;
+  }
 
   public updateTheme($event) {
     this.gameService.changeTheme($event.detail.value);

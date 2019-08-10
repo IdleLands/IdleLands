@@ -29,6 +29,38 @@
         </ion-card-content>
       </ion-card>
       
+      <ion-card *ngIf="supportsNotifications">
+        <ion-card-header>
+          <ion-card-title>Notification Settings</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list class="ion-no-padding">
+
+            <ion-item>
+              <ion-checkbox [checked]="gameService.notificationSettings.enabled" slot="start"
+                            (ionChange)="gameService.toggleNotificationSetting('enabled')"></ion-checkbox>
+
+              <ion-label>
+                Push Notifications
+              </ion-label>
+            </ion-item>
+
+            <ng-container *ngFor="let notif of allNotifications">
+              <ion-item *ngIf="notificationsEnabled">
+                <ion-checkbox [checked]="gameService.notificationSettings[notif.key]" slot="start"
+                              (ionChange)="gameService.toggleNotificationSetting(notif.key)"></ion-checkbox>
+  
+                <ion-label>
+                  {{ notif.name }}
+                </ion-label>
+              </ion-item>
+            </ng-container>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      
       <ion-card>
         <ion-card-header>
           <ion-card-title>Integrations</ion-card-title>
