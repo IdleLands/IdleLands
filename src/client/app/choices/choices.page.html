@@ -34,7 +34,7 @@
             </ion-row>
 
             <ion-row class="ion-flex-wrap">
-              <ion-col *ngFor="let choice of item.choices" size="3">
+              <ion-col *ngFor="let choice of item.choices" size-md="3" size-sm="6">
                 <ion-button [color]="choice === item.defaultChoice ? 'primary' : 'secondary'" 
                             expand="block"
                             (click)="choose(item, choice)">

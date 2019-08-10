@@ -131,7 +131,7 @@
 
                 <ion-item *ngFor="let upgrade of properUpgradeNames | keyvalue" [class.ion-hide]="!pet.$nextUpgrade[upgrade.key] && pet.$currentUpgrade[upgrade.key].c === 0">
 
-                  <ion-label text-wrap>
+                  <ion-label class="ion-text-wrap">
                     <h3>{{ upgrade.value }}</h3>
                     <p *ngIf="!pet.$nextUpgrade[upgrade.key]">Max Upgrade Level ({{ pet.$currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }})</p>
                     <p *ngIf="pet.$nextUpgrade[upgrade.key]">

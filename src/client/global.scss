@@ -11,6 +11,8 @@
 @import '~@ionic/angular/css/flex-utils.css';
 @import '~@ionic/angular/css/display.css';
 
+@import './mobile.scss';
+
 .true-center {
   display: flex;
   justify-content: center;

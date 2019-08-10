@@ -1,0 +1,11 @@
+
+@media screen and (max-width: 720px) {
+  :root {
+    --ion-padding: 0;
+  }
+
+  ion-alert .alert-wrapper {
+    --min-width: 300px !important;
+    --max-width: 90% !important;
+  }
+}
