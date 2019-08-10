@@ -94,13 +94,13 @@
     --button-color: #fff;
   }
 
-  ion-label {
+  ion-label, .desc-container, .stat-container {
     &.ion-color-success {
-      color: #00aa00;
+      color: #00aa00 !important;
     }
 
     &.ion-color-danger {
-      color: #0000aa;
+      color: #0000aa !important;
     }
   }
 
