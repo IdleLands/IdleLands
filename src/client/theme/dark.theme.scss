@@ -21,6 +21,13 @@
   --ion-color-tertiary-shade: #000171;
   --ion-color-tertiary-tint: #1a1a8d;
 
+  --ion-color-success: #005D00;
+  --ion-color-success-rgb: 0,93,0;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255,255,255;
+  --ion-color-success-shade: #005200;
+  --ion-color-success-tint: #1a6d1a;
+
   --ion-color-danger: #710000;
   --ion-color-danger-rgb: 113,0,0;
   --ion-color-danger-contrast: #ffffff;
@@ -53,4 +60,14 @@
   --ion-color-step-850: #dcdcdc;
   --ion-color-step-900: #e8e8e8;
   --ion-color-step-950: #f3f3f3;
+
+  tspan {
+    fill: #fff;
+  }
+
+  ion-toast {
+    --background: var(--ion-color-primary);
+    --color: #fff;
+    --button-color: #fff;
+  }
 }

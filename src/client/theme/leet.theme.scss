@@ -21,6 +21,13 @@
   --ion-color-tertiary-shade: #00e000;
   --ion-color-tertiary-tint: #1aff1a;
 
+  --ion-color-success: #000;
+  --ion-color-success-rgb: 0,0,0;
+  --ion-color-success-contrast: #00ff00;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #1e2023;
+  --ion-color-success-tint: #383a3e;
+
   --ion-color-danger: #240000;
   --ion-color-danger-rgb: 36,0,0;
   --ion-color-danger-contrast: #ffffff;
@@ -69,5 +76,19 @@
 
   .alert-button {
     color: var(--ion-text-color);
+  }
+
+  tspan {
+    fill: #00ff00;
+  }
+
+  img {
+    filter: sepia(1) saturate(100%) hue-rotate(100deg);
+  }
+
+  ion-toast {
+    --background: #000000;
+    --color: #00ff00;
+    --button-color: #00ff00;
   }
 }

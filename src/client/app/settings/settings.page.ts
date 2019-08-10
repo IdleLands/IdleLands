@@ -13,12 +13,11 @@ import { ServerEventName } from '../../../shared/interfaces';
 })
 export class SettingsPage {
 
-  public themes = ['Default', 'Dark', 'AMOLED', 'l33th4x0r'];
-
-  // YinYang (b/w), DimOcean, GreenMachine, Orangina, Majesty, Bloodmoon, Brightsun
-  // things to change: remove icons, change icon colors
-  // colors obviously
-  // fonts [color, style, size]
+  public themes = [
+    'Default', 'AMOLED', 'Bloodmoon', 'Brightsun',
+    'Dark', 'Dimocean', 'Lavendertown', 'l33th4x0r', 'Pasture',
+    'Rainbowroad', 'YinYang'
+  ];
 
   constructor(
     private router: Router,
