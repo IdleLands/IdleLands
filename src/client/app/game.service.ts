@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { AlertController, IonMenu } from '@ionic/angular';
 
 import { applyPatch } from 'fast-json-patch';
-import { get, pullAllBy, merge, find, uniqBy, sortBy } from 'lodash';
+import { get, pullAllBy, merge, find, uniqBy, sortBy, cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
@@ -244,7 +244,7 @@ export class GameService {
 
       // these errors are usually just invalid patches, which is whatever
       try {
-        const newPlayer = applyPatch(this.currentPlayer, patches).newDocument;
+        const newPlayer = applyPatch(cloneDeep(this.currentPlayer), patches).newDocument;
         this.setCurrentPlayer(newPlayer);
       } catch(e) {}
     });
@@ -501,17 +501,50 @@ export class GameService {
   }
 
   private createNotification(title: string, body?: string, actions?: NotificationAction[]): Notification {
-    return new Notification(title, {
+    const notif = new Notification(title, {
       body,
       icon: 'https://play.idle.land/assets/favicon/android-chrome-512x512.png',
       badge: 'https://play.idle.land/assets/favicon/android-chrome-512x512.png',
       actions
     });
+
+    notif.onclick = (ev) => {
+      console.log(ev);
+    };
+
+    return notif;
   }
 
   private checkPlayerUpdatesForNotifications(player: IPlayer, nowPlayer: IPlayer) {
     if(!player || !nowPlayer) return;
     if(Notification.permission !== 'granted') return;
+
+    if(this.notificationSettings.fullChoiceLog
+    && player.$choicesData.choices.length !== player.$choicesData.size
+    && nowPlayer.$choicesData.choices.length === nowPlayer.$choicesData.size) {
+      this.createNotification(
+        'Choice Log Full',
+        'Your choice log is full. Decisions will be made automatically if any more choices come up.'
+      );
+    }
+
+    if(this.notificationSettings.readyToAscend
+    && player.level.__current !== player.level.maximum
+    && player.level.__current === player.level.maximum) {
+      this.createNotification(
+        'Ready to Ascend',
+        'It\'s time to ascend!'
+      );
+    }
+
+    if(this.notificationSettings.fullStamina
+    && player.stamina.__current !== player.stamina.maximum
+    && player.stamina.__current === player.stamina.maximum) {
+      this.createNotification(
+        'Stamina Full',
+        'Your stamina is full. Use it or lose it!'
+      );
+    }
   }
 
 }

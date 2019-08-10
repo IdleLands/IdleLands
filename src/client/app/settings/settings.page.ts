@@ -21,6 +21,7 @@ export class SettingsPage implements OnInit {
 
   public allNotifications = [
     { name: 'Full Choice Log', key: 'fullChoiceLog' },
+    { name: 'Full Stamina', key: 'fullStamina' },
     { name: 'Ready to Ascend', key: 'readyToAscend' }
   ];
 

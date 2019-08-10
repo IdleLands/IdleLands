@@ -77,6 +77,7 @@ export interface IPlayer extends ICharacter {
 
   profession: Profession;
 
+  stamina: RestrictedNumber;
   xp: RestrictedNumber;
 
   x: number;
