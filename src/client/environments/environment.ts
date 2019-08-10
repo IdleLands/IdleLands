@@ -16,14 +16,14 @@ export const environment = {
 
   app: {
     protocol: 'http',
-    hostname: '192.168.1.5',
+    hostname: '127.0.0.1',
     port: 2468
   },
 
   server: {
     protocol: 'http',
     secure: false,
-    hostname: '192.168.1.5',
+    hostname: '127.0.0.1',
     port: 8000
   }
 };
