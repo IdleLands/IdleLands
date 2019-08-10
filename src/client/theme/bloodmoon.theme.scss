@@ -102,4 +102,8 @@
       color: #0000aa;
     }
   }
+
+  ion-badge.ion-color-secondary {
+    background: var(--ion-color-tertiary);
+  }
 }
