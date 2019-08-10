@@ -43,6 +43,8 @@ export class AdventuresPage implements OnInit, OnDestroy {
   }
 
   public petsOnAdventure(player: IPlayer, adventure: IAdventure) {
+    if(!player) return '';
+
     const pets = player.$petsData.allPets;
     return Object.values(pets)
             .filter((x: IPet) => x.currentAdventureId === adventure.id)
