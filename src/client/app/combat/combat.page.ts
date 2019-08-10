@@ -116,7 +116,7 @@ export class CombatPage implements OnInit {
     return Object.values(combat.characters).reduce((prev, cur) => {
       if(cur.combatPartyId !== +partyId) return prev;
 
-      return prev + cur.stats[Stat.HP];
+      return prev + (cur.stats[Stat.HP] || 0);
     }, 0);
   }
 
@@ -126,7 +126,7 @@ export class CombatPage implements OnInit {
     const partyRows = Object.values(combat.characters).map(x => {
       if(x.combatPartyId !== +partyId) return '';
 
-      const specialString = x.specialName ? `[${x.specialName} ${x.stats.special.toLocaleString()}]` : '';
+      const specialString = x.specialName ? `[${x.specialName} ${(x.stats.special || 0).toLocaleString()}]` : '';
 
       return `
         <tr>
@@ -134,7 +134,7 @@ export class CombatPage implements OnInit {
             <strong>${x.name}</strong>
           </td>
           <td>
-            [HP ${x.stats.hp.toLocaleString()}]
+            [HP ${(x.stats.hp || 0).toLocaleString()}]
           </td>
           <td>
             ${specialString}
