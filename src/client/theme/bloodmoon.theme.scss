@@ -92,4 +92,14 @@
     --background: #710000;
     --color: #fff;
   }
+
+  ion-label {
+    &.ion-color-success {
+      color: #00aa00;
+    }
+
+    &.ion-color-danger {
+      color: #0000aa;
+    }
+  }
 }

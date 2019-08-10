@@ -91,4 +91,14 @@
     --color: #00ff00;
     --button-color: #00ff00;
   }
+  
+  ion-label {
+    &.ion-color-success {
+      color: #00ff00;
+    }
+
+    &.ion-color-danger {
+      color: #00ff00;
+    }
+  }
 }

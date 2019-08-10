@@ -75,4 +75,14 @@
   tspan {
     fill: #fff;
   }
+
+  ion-label {
+    &.ion-color-success {
+      color: #00aa00;
+    }
+
+    &.ion-color-danger {
+      color: #aa0000;
+    }
+  }
 }
