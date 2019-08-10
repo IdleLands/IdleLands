@@ -30,7 +30,7 @@ export class ChatPage implements OnInit {
 
     this.mutationObserver = new MutationObserver(() => {
       setTimeout(() => {
-        this.chatArea.el.scrollTop = this.chatArea.el.scrollHeight;
+        this.scrollToBottom();
       }, 100);
     });
 
@@ -40,7 +40,15 @@ export class ChatPage implements OnInit {
 
     setTimeout(() => {
       this.gameService.resetMessages();
+
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
     }, 0);
+  }
+
+  private scrollToBottom() {
+    this.chatArea.el.scrollTop = this.chatArea.el.scrollHeight;
   }
 
   async toggleChatMenu() {
