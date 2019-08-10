@@ -5,8 +5,9 @@
   </ion-col>
 
   <ion-col>
+
     <ion-row>
-      <ion-col class="vertical-center">
+      <ion-col class="vertical-center ion-hide-sm-down">
         <ion-button [color]="item.itemClass" 
                     [disabled]="shouldDisable()" 
                     (click)="itemMenu.emit($event)"
@@ -19,13 +20,47 @@
           {{ slot }}
         </ion-button> 
 
-        <span class="score-percent">({{ item.score > 0 ? (item.score / item.baseScore * 100).toFixed(2) + '%' : '0%' }})</span>
+        <span class="score-percent">
+          ({{ item.score > 0 ? (item.score / item.baseScore * 100).toFixed(2) + '%' : '0%' }})
+        </span>
 
         <span class="item-name">
           {{ item.enchantLevel > 0 ? '+' + item.enchantLevel : '' }} {{ item.name }}
           <br>
-          <span class="found-at" *ngIf="item.foundAt">Found {{ item.foundAt | date:'medium' }}</span>
+          <span class="found-at" *ngIf="item.foundAt">
+            Found {{ item.foundAt | date:'medium' }}
+          </span>
         </span>
+
+      </ion-col>
+
+      <ion-col class="ion-hide-sm-up">
+        <ion-button [color]="item.itemClass" 
+                    [disabled]="shouldDisable()" 
+                    (click)="itemMenu.emit($event)"
+                    size="small"
+                    class="type-name">
+          <ion-icon slot="start" 
+                    color="light"
+                    [src]="'assets/icon/action-lock.svg'" 
+                    *ngIf="showLock && item.locked"></ion-icon>
+          {{ slot }}
+        </ion-button> 
+
+        <span class="score-percent">
+          ({{ item.score > 0 ? (item.score / item.baseScore * 100).toFixed(2) + '%' : '0%' }})
+        </span>
+
+        <br>
+        <br>
+
+        <div class="item-name">
+          {{ item.enchantLevel > 0 ? '+' + item.enchantLevel : '' }} {{ item.name }}
+          <br>
+          <span class="found-at" *ngIf="item.foundAt">
+            Found {{ item.foundAt | date:'medium' }}
+          </span>
+        </div>
 
       </ion-col>
     </ion-row>
@@ -43,5 +78,6 @@
         </ion-label>
       </ion-col>
     </ion-row>
+
   </ion-col>
 </ion-row>
