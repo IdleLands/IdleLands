@@ -1,5 +1,5 @@
 
-import { pickBy, find, pull, clone } from 'lodash';
+import { pickBy, find, pull, clone, sample } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -73,6 +73,7 @@ export class Pet implements IPet {
     if(!this.upgradeLevels) this.upgradeLevels = {};
     if(!this.equipment) this.equipment = {};
     if(!this.gatherTick && this.upgradeLevels[PetUpgrade.GatherTime]) this.updateGatherTick();
+    if(!this.affinity) this.affinity = sample(Object.values(PetAffinity));
 
     // reset some aspects
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
