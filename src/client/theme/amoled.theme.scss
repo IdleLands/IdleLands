@@ -35,7 +35,8 @@
   --ion-color-danger-shade: #200000;
   --ion-color-danger-tint: #3a1a1a;
 
-  --ion-border-color: var(--ion-color-primary-shade);
+  --ion-border-color: var(--ion-color-light);
+  --ion-item-border-color: var(--ion-color-light);
   --ion-background-color: var(--ion-color-secondary);
   --ion-background-color-rgb: var(--ion-color-secondary-rgb);
 
@@ -84,5 +85,18 @@
     &.ion-color-danger {
       color: #aa0000;
     }
+  }
+
+  .button-solid {
+    --box-shadow: 0 0 0 1px rgba(255,255,255,0.2),0 2px 2px 0 rgba(255,255,255,0.14),0 1px 5px 0 rgba(255,255,255,0.12);
+  }
+
+  ion-card {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.2),0 2px 2px 0 rgba(255,255,255,0.14),0 1px 5px 0 rgba(255,255,255,0.12);
+  }
+
+  ion-toast {
+    --background: #000;
+    --color: #fff;
   }
 }
