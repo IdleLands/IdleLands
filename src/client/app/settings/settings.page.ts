@@ -15,7 +15,7 @@ export class SettingsPage {
 
   public themes = ['Default', 'Dark', 'AMOLED', 'l33th4x0r'];
 
-  // Black & White, Dim Ocean, Green Machine, Orangina, Majesty
+  // YinYang (b/w), DimOcean, GreenMachine, Orangina, Majesty, Bloodmoon, Brightsun
   // things to change: remove icons, change icon colors
   // colors obviously
   // fonts [color, style, size]
