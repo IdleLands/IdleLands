@@ -99,6 +99,13 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
       const checkCharacter = await this.game.databaseManager.checkIfPlayerExists({ name });
       if(checkCharacter) return this.gameError('Someone has already registered a character with that name.');
 
+      const checkCharacterId = await this.game.databaseManager.checkIfPlayerExists({ userId });
+      if(checkCharacterId) {
+        return this.gameError(`Seems like you already have a character registered to that id.
+        To re-use your current id you need to delete your current character.
+        If you want to have multiple simultaneous characters you need to use different devices.`);
+      }
+
       // if there is no one by that name, create a player
       character = await this.game.databaseManager.createPlayer(this.game, name, userId);
     }
