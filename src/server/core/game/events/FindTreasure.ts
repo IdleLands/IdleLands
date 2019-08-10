@@ -1,4 +1,5 @@
 import { Event, EventName } from './Event';
+import { sample } from 'lodash';
 import { Player } from '../../../../shared/models/entity';
 import { Item } from '../../../../shared/models';
 import { ItemClass, AdventureLogEventType } from '../../../../shared/interfaces';
@@ -36,9 +37,8 @@ export class FindTreasure extends Event {
       return item;
     });
 
-    allItemInstances.forEach(item => {
-      player.increaseStatistic('Treasure/Total/ItemsFound', 1);
-      player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromChest: true, item: item });
-    });
+    const item = sample(allItemInstances);
+    player.increaseStatistic('Treasure/Total/ItemsFound', 1);
+    player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromChest: true, item: item });
   }
 }
