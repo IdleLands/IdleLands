@@ -80,6 +80,8 @@ export interface IPlayer extends ICharacter {
   stamina: RestrictedNumber;
   xp: RestrictedNumber;
 
+  gold: number;
+
   x: number;
   y: number;
   map: string;
