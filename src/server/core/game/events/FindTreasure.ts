@@ -37,8 +37,8 @@ export class FindTreasure extends Event {
       return item;
     });
 
-    const item = sample(allItemInstances);
+    const specificItem = sample(allItemInstances);
     player.increaseStatistic('Treasure/Total/ItemsFound', 1);
-    player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromChest: true, item: item });
+    player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromChest: true, item: specificItem });
   }
 }
