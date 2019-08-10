@@ -21,9 +21,12 @@
 
         <span class="score-percent">({{ item.score > 0 ? (item.score / item.baseScore * 100).toFixed(2) + '%' : '0%' }})</span>
 
-        {{ item.enchantLevel > 0 ? '+' + item.enchantLevel : '' }} {{ item.name }}
+        <span class="item-name">
+          {{ item.enchantLevel > 0 ? '+' + item.enchantLevel : '' }} {{ item.name }}
+          <br>
+          <span class="found-at" *ngIf="item.foundAt">Found {{ item.foundAt | date:'medium' }}</span>
+        </span>
 
-        <span class="found-at" *ngIf="item.foundAt">@ {{ item.foundAt | date:'medium' }}</span>
       </ion-col>
     </ion-row>
 
