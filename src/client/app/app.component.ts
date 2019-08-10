@@ -155,18 +155,20 @@ export class AppComponent {
         filter(x => x instanceof NavigationEnd)
       )
       .subscribe(async (x: NavigationEnd) => {
+        const isShare = x.urlAfterRedirects.includes('/s/c/');
+
         const isHome = x.urlAfterRedirects.includes('/home');
-        this.hiddenSplitPane = isHome;
+        this.hiddenSplitPane = isHome || isShare;
 
         const isChat = x.urlAfterRedirects.includes('/chat');
         this.hiddenPlayerMenu = !isChat;
 
-        if(!isHome && !this.gameService.hasPlayer) {
+        if(!isHome && !this.gameService.hasPlayer && !isShare) {
           await this.router.navigate(['/home']);
           this.hiddenSplitPane = true;
         }
 
-        if(!isHome && !x.urlAfterRedirects.includes('/combat')) {
+        if(!isHome && !x.urlAfterRedirects.includes('/combat') && !isShare) {
           this.storage.set('lastUrl', x.urlAfterRedirects);
         }
       });

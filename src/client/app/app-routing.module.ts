@@ -157,6 +157,8 @@ const routes: Routes = [
 
   { path: 'combat/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
 
+  { path: 's/c/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
+
   { path: 'moderator', loadChildren: './moderator/moderator.module#ModeratorPageModule' },
 
   { path: '**', redirectTo: 'home' }

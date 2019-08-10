@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="!isShare">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Combat - {{ combat.name }}</ion-title>
+    <ion-buttons slot="end" *ngIf="canShare">
+      <ion-button (click)="share()">
+        <ion-icon slot="icon-only" name="share"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

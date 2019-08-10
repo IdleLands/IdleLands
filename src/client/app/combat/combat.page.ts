@@ -14,6 +14,8 @@ import { CombatAction, CombatSimulator } from '../../../shared/combat/combat-sim
 })
 export class CombatPage implements OnInit {
 
+  public canShare: boolean;
+  public isShare: boolean;
   public isLoaded: boolean;
 
   public combat: ICombat;
@@ -28,6 +30,8 @@ export class CombatPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isShare = window.location.href.includes('/s/c/');
+    this.canShare = 'share' in navigator;
     const combat = this.activatedRoute.snapshot.paramMap.get('combatData');
 
     try {
@@ -155,6 +159,16 @@ export class CombatPage implements OnInit {
     });
 
     alert.present();
+  }
+
+  public share() {
+    if(!this.canShare) return;
+
+    (<any>navigator).share({
+      title: `IdleLands Combat - ${this.combat.name}`,
+      text: 'Check out this sick combat log!',
+      url: window.location
+    });
   }
 
 }
