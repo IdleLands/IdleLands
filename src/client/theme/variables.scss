@@ -145,6 +145,7 @@ $customColors: ('newbie', 'basic', 'pro', 'idle', 'godly', 'goatly', 'omega', 'g
   }
 }
 
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --ion-border-color: var(--ion-color-dark-shade);
@@ -174,6 +175,7 @@ $customColors: ('newbie', 'basic', 'pro', 'idle', 'godly', 'goatly', 'omega', 'g
     --ion-color-step-950: #f3f3f3;
   }
 }
+*/
 
 @import './amoled.theme.scss';
 @import './bloodmoon.theme.scss';
