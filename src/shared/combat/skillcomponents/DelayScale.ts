@@ -4,7 +4,7 @@ export const DelayScale = (scaleMod: number|InternalCombatSkillFunction) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
     if(!skill.targets || skill.targets.length === 0 || !skill.targetEffects) {
-      throw new Error(`Skill ${JSON.stringify(skill)} is trying to DelayScale but has no targets.`);
+      throw new Error(`Skill ${JSON.stringify(skill)} is trying to DelayScale but has no targets. Combat: ${JSON.stringify(combat)}`);
     }
 
     Object.keys(skill.targetEffects).forEach(characterId => {

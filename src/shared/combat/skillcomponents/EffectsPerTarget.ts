@@ -3,7 +3,7 @@ import { PartialCombatSkill, ICombatCharacter, ICombat } from '../../interfaces'
 export const EffectsPerTarget = (times: number) =>
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
     if(!skill.targets || skill.targets.length === 0) {
-      throw new Error(`Skill ${JSON.stringify(skill)} is trying to EffectsPerTarget but has no targets.`);
+      throw new Error(`Skill ${JSON.stringify(skill)} is trying to EffectsPerTarget but has no targets. Combat: ${JSON.stringify(combat)}`);
     }
 
     skill.targetEffects = skill.targetEffects || {};

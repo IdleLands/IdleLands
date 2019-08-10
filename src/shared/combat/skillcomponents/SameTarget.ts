@@ -4,7 +4,7 @@ export const SameTarget = (...combinatorContainers: Array<ICombatSkillCombinator
   (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
     if(!skill.targets || skill.targets.length === 0) {
-      throw new Error(`Skill ${JSON.stringify(skill)} is trying to SameTarget but has no targets.`);
+      throw new Error(`Skill ${JSON.stringify(skill)} is trying to SameTarget but has no targets. Combat: ${JSON.stringify(combat)}`);
     }
 
     combinatorContainers.forEach(combinatorSkill => {

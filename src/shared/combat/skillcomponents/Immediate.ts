@@ -3,7 +3,7 @@ import { PartialCombatSkill, ICombatCharacter, ICombat } from '../../interfaces'
 export const Immediate = () => (skill: PartialCombatSkill, caster: ICombatCharacter, combat: ICombat): PartialCombatSkill => {
 
   if(!skill.targets || skill.targets.length === 0 || !skill.targetEffects) {
-    throw new Error(`Skill ${JSON.stringify(skill)} is trying to Immediate but has no targets.`);
+    throw new Error(`Skill ${JSON.stringify(skill)} is trying to Immediate but has no targets. Combat: ${JSON.stringify(combat)}`);
   }
 
   Object.keys(skill.targetEffects).forEach(characterId => {
