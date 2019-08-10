@@ -220,7 +220,8 @@ export class MovementHelper {
           'GoldBless': 'BlessGold',
           'GoldForsake': 'ForsakeGold',
           'XPBless': 'BlessXP',
-          'XPForsake': 'ForsakeXP'
+          'XPForsake': 'ForsakeXP',
+          'Gambling': 'Gamble'
         };
 
         this.eventManager.doEventFor(player, oldil3EventNames[forceEvent] || forceEvent, tile.object.properties);
