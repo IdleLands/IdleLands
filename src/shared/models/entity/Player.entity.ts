@@ -875,6 +875,8 @@ export class Player implements IPlayer {
     this.$profession = prof;
     this.$professionData = prof.$professionData;
     this.recalculateStats();
+
+    this.$$game.sendClientUpdateForPlayer(this);
   }
 
   public hasAchievement(achi: string): boolean {
