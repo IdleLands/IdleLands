@@ -51,6 +51,7 @@ export class MovementHelper {
   private canEnterTile(player: Player, tile: Tile): boolean {
 
     const properties = get(tile, 'object.properties');
+
     if(properties) {
       let totalRequirements = 0;
       let metRequirements = 0;
@@ -77,7 +78,7 @@ export class MovementHelper {
 
       if(properties.requireCollectible) {
         totalRequirements++;
-        if(player.hasCollectible(properties.requireCollectible)) metRequirements++;
+        if(player.$collectibles.hasCurrently(properties.requireCollectible)) metRequirements++;
       }
 
       if(properties.requireAscension) {

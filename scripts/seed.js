@@ -220,7 +220,8 @@ const getDataForMap = (map) => {
       && obj.type !== 'Collectible'
       && obj.type !== 'Trainer'
       && obj.type !== 'Treasure'
-      && !_.get(obj, 'properties.forceEvent')) return;
+      && !_.get(obj, 'properties.forceEvent')
+      && !Object.keys(obj.properties || {}).some(x => x.includes('require'))) return;
 
       obj = fixObject(obj);
 
