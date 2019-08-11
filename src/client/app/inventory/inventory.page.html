@@ -23,7 +23,7 @@
       You have no items in your inventory.
     </div>
 
-    <ion-row *ngFor="let item of player?.$inventoryData?.items">
+    <ion-row *ngFor="let item of player?.$inventoryData?.items | orderBy:'score':true">
       <ion-col>
         <app-item [item]="item" 
                   [showLock]="true"

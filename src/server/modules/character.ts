@@ -3,7 +3,6 @@ import { includes } from 'lodash';
 
 import { ServerEventName, ServerEvent, PremiumTier, ContributorTier } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
-import { Premium } from '../core/game/achievements';
 
 export class ChangeGenderEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.CharacterGender;

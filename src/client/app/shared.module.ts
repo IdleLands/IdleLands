@@ -7,6 +7,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule } from '@ionic/angular';
 
 import { NgxLinkifyjsModule, NgxLinkifyjsPipe } from 'ngx-linkifyjs';
+import { OrderModule, OrderPipe } from 'ngx-order-pipe';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { CountdownTimerModule, CountdownTimer } from 'ngx-countdown-timer';
 
@@ -82,6 +83,7 @@ import { TabPremiumPage } from './tab-premium/tab-premium.page';
       enableHash: false,
       enableMention: false
     }),
+    OrderModule,
     FilterPipeModule,
     CountdownTimerModule,
     IonicModule.forRoot(),
@@ -91,6 +93,7 @@ import { TabPremiumPage } from './tab-premium/tab-premium.page';
   ],
   exports: [
     NgxLinkifyjsPipe,
+    OrderPipe,
     GendervatarComponent,
     ItemComponent,
     EquipSomethingElseModal,
