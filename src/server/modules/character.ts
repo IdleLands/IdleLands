@@ -95,6 +95,8 @@ export class DivineDirectionEvent extends ServerSocketEvent implements ServerEve
     if(!player) return this.notConnected();
 
     player.setDivineDirection(x, y);
+
+    this.game.updatePlayer(player);
     // this.gameMessage(player.divineDirection ? 'You have set a Divine Direction!' : 'You no longer have a Divine Direction!');
   }
 }
