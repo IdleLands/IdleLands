@@ -24,6 +24,8 @@ export const StatPartners = {
   [Stat.CON]: Stat.LUK,
   [Stat.LUK]: Stat.CON,
 
+  [Stat.HP]: Stat.HP,
+
   [Stat.XP]: Stat.GOLD,
   [Stat.GOLD]: Stat.XP
 };
