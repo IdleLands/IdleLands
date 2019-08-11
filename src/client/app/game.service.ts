@@ -481,8 +481,6 @@ export class GameService {
   public async toggleNotificationSetting(setting: string) {
     this.notificationSettings[setting] = !this.notificationSettings[setting];
 
-    console.log(setting, this.notificationSettings);
-
     if(setting === 'enabled' && this.notificationSettings[setting]) {
       const res = await this.requestNotificationPermission();
       if(!res) return;
@@ -492,6 +490,8 @@ export class GameService {
   }
 
   public async requestNotificationPermission() {
+    if(!window['Notification']) return false;
+
     const res = await Notification.requestPermission();
     if (res === 'granted') {
       this.createNotification('Test Notification', 'This is a test notification from IdleLands.');
@@ -508,16 +508,13 @@ export class GameService {
       actions
     });
 
-    notif.onclick = (ev) => {
-      console.log(ev);
-    };
-
     return notif;
   }
 
   private checkPlayerUpdatesForNotifications(player: IPlayer, nowPlayer: IPlayer) {
     if(!player || !nowPlayer) return;
-    if(Notification.permission !== 'granted') return;
+    if(!window['Notification']) return;
+    if(window['Notification'].permission !== 'granted') return;
 
     if(this.notificationSettings.fullChoiceLog
     && player.$choicesData.choices.length !== player.$choicesData.size
