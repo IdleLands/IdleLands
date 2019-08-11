@@ -72,6 +72,8 @@ export class DeleteEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.authId) return this.gameError('Please unsync before you delete your character!');
+
     this.game.databaseManager.deletePlayer(player);
     this.game.playerManager.removePlayer(player);
 
