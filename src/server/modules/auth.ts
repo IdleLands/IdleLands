@@ -202,6 +202,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
+    const loggedInFromAnotherServerPlayer = this.game.playerManager.getSimplePlayer(characterCheck.name);
 
     // check first the logged in player to see if it exists, and if we match
     if(loggedInPlayer && loggedInPlayer.loggedIn && sessionId !== loggedInPlayer.sessionId) {
@@ -209,7 +210,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     // thirdly, check the character to see if it is logged in (fallback)
-    if(!loggedInPlayer && characterCheck.loggedIn) {
+    if(!loggedInPlayer && loggedInFromAnotherServerPlayer && characterCheck.loggedIn) {
       return this.gameError('You are already logged in elsewhere.');
     }
 
