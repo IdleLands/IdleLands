@@ -430,6 +430,8 @@ export class CombatHelper {
         forceType: itemSlot
       });
 
+      if(!item) return null;
+
       if(maxScore && item.score + curScore > maxScore) return null;
       curScore += item.score;
 
