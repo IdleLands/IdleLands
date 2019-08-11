@@ -17,7 +17,7 @@ export class MagicalMonster extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  10,
+    [Stat.HP]:  0.8,
     [Stat.STR]: 0.5,
     [Stat.DEX]: 0.5,
     [Stat.INT]: 3,
@@ -32,7 +32,7 @@ export class MagicalMonster extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  50,
+    [Stat.HP]:  10,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,
     [Stat.INT]: 5,

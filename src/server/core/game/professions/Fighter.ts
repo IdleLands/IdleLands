@@ -11,13 +11,13 @@ export class Fighter extends BaseProfession implements IProfession {
 
   public readonly statForStats = {
     [Stat.HP]: {
-      [Stat.CON]: 10,
+      [Stat.CON]: 5,
       [Stat.STR]: 2
     }
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  10,
+    [Stat.HP]:  5,
     [Stat.STR]: 2.5,
     [Stat.DEX]: 1.5,
     [Stat.INT]: 0.2,

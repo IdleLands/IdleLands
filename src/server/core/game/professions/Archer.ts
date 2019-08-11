@@ -12,7 +12,7 @@ export class Archer extends BaseProfession implements IProfession {
 
   public readonly statForStats = {
     [Stat.HP]: {
-      [Stat.CON]: 5,
+      [Stat.CON]: 3,
       [Stat.DEX]: 2
     },
     [Stat.STR]: {
@@ -21,7 +21,7 @@ export class Archer extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  5,
+    [Stat.HP]:  3,
     [Stat.STR]: 1.5,
     [Stat.DEX]: 2.5,
     [Stat.INT]: 0.5,
@@ -36,7 +36,7 @@ export class Archer extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  25,
+    [Stat.HP]:  15,
     [Stat.STR]: 1,
     [Stat.DEX]: 4,
     [Stat.INT]: 1,

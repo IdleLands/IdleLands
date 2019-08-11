@@ -20,7 +20,7 @@ export class Cleric extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  2.2,
+    [Stat.HP]:  1.6,
     [Stat.STR]: 0.9,
     [Stat.DEX]: 0.6,
     [Stat.INT]: 1.7,

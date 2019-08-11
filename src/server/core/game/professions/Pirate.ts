@@ -13,17 +13,17 @@ export class Pirate extends BaseProfession implements IProfession {
 
   public readonly statForStats = {
     [Stat.HP]: {
-      [Stat.CON]: 20
+      [Stat.CON]: 5
     }
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  10,
-    [Stat.STR]: 5,
-    [Stat.DEX]: 4,
+    [Stat.HP]:  2,
+    [Stat.STR]: 3,
+    [Stat.DEX]: 2,
     [Stat.INT]: 0.1,
-    [Stat.CON]: 4,
-    [Stat.AGI]: 2,
+    [Stat.CON]: 1.5,
+    [Stat.AGI]: 0.7,
     [Stat.LUK]: 0.3,
 
     [Stat.SPECIAL]:  0,
@@ -33,7 +33,7 @@ export class Pirate extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  25,
+    [Stat.HP]:  10,
     [Stat.STR]: 3,
     [Stat.DEX]: 2,
     [Stat.INT]: 0,

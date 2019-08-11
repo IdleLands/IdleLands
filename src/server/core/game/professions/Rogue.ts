@@ -18,12 +18,12 @@ export class Rogue extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  3,
-    [Stat.STR]: 2.5,
-    [Stat.DEX]: 7,
+    [Stat.HP]:  2,
+    [Stat.STR]: 1.5,
+    [Stat.DEX]: 3,
     [Stat.INT]: 1,
     [Stat.CON]: 1,
-    [Stat.AGI]: 5,
+    [Stat.AGI]: 3,
     [Stat.LUK]: 0.3,
 
     [Stat.SPECIAL]:  0,
@@ -33,7 +33,7 @@ export class Rogue extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  25,
+    [Stat.HP]:  15,
     [Stat.STR]: 2,
     [Stat.DEX]: 2,
     [Stat.INT]: 1,

@@ -17,10 +17,10 @@ export class Bard extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  10,
+    [Stat.HP]:  1.3,
     [Stat.STR]: 1,
-    [Stat.DEX]: 5,
-    [Stat.INT]: 4,
+    [Stat.DEX]: 3,
+    [Stat.INT]: 2,
     [Stat.CON]: 1,
     [Stat.AGI]: 0.3,
     [Stat.LUK]: 0.7,

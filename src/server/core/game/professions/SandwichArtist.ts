@@ -17,12 +17,12 @@ export class SandwichArtist extends BaseProfession implements IProfession {
 
   public readonly statMultipliers = {
     [Stat.HP]:  1,
-    [Stat.STR]: 2,
-    [Stat.DEX]: 2,
-    [Stat.INT]: 2,
-    [Stat.CON]: 2,
-    [Stat.AGI]: 2,
-    [Stat.LUK]: 2,
+    [Stat.STR]: 1.5,
+    [Stat.DEX]: 1.5,
+    [Stat.INT]: 1.5,
+    [Stat.CON]: 1.5,
+    [Stat.AGI]: 1.5,
+    [Stat.LUK]: 1,
 
     [Stat.SPECIAL]:  0,
 
@@ -31,7 +31,7 @@ export class SandwichArtist extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  25,
+    [Stat.HP]:  5,
     [Stat.STR]: 2,
     [Stat.DEX]: 2,
     [Stat.INT]: 2,

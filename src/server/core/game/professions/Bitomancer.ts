@@ -20,10 +20,10 @@ export class Bitomancer extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  2,
+    [Stat.HP]:  0.9,
     [Stat.STR]: 0.3,
     [Stat.DEX]: 2,
-    [Stat.INT]: 6,
+    [Stat.INT]: 3,
     [Stat.CON]: 0.2,
     [Stat.AGI]: 0.3,
     [Stat.LUK]: 0.1,
@@ -35,10 +35,10 @@ export class Bitomancer extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  45,
+    [Stat.HP]:  15,
     [Stat.STR]: 1,
-    [Stat.DEX]: 4,
-    [Stat.INT]: 5,
+    [Stat.DEX]: 3,
+    [Stat.INT]: 4,
     [Stat.CON]: 1,
     [Stat.AGI]: 1,
     [Stat.LUK]: 1,

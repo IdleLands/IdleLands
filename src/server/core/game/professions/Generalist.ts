@@ -16,7 +16,7 @@ export class Generalist extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  5,
+    [Stat.HP]:  2,
     [Stat.STR]: 1.2,
     [Stat.DEX]: 0.8,
     [Stat.INT]: 1,
@@ -31,7 +31,7 @@ export class Generalist extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  10,
+    [Stat.HP]:  7,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,
     [Stat.INT]: 1,

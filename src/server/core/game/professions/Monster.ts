@@ -32,7 +32,7 @@ export class Monster extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  20,
+    [Stat.HP]:  10,
     [Stat.STR]: 2,
     [Stat.DEX]: 1,
     [Stat.INT]: 0,

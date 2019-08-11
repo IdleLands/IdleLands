@@ -401,7 +401,7 @@ export class CombatHelper {
   private createBossMonster(proto: any): ICombatCharacter {
     const base = cloneDeep(proto);
     base.attributes.name = base.name;
-    return this.equipBattleMonster(base.attributes);
+    return this.equipBattleMonster(base.attributes, base.availableScore);
   }
 
   private createBattleMonster(generateLevel: number): ICombatCharacter {
@@ -410,7 +410,7 @@ export class CombatHelper {
     return this.equipBattleMonster(monsterBase);
   }
 
-  private equipBattleMonster(monsterBase: any): ICombatCharacter {
+  private equipBattleMonster(monsterBase: any, maxScore?: number): ICombatCharacter {
 
     // fix class snafu nonsense
     if(monsterBase.profession === 'Random') monsterBase.profession = sample(Object.values(Profession));
@@ -418,15 +418,22 @@ export class CombatHelper {
       monsterBase.profession = sample(['Monster', 'MagicalMonster']);
     }
 
+    let curScore = 0;
+
     // generate equipment
     const items = [
       ItemSlot.Body, ItemSlot.Charm, ItemSlot.Feet, ItemSlot.Finger, ItemSlot.Hands,
       ItemSlot.Head, ItemSlot.Legs, ItemSlot.Mainhand, ItemSlot.Neck, ItemSlot.Offhand
     ].map(itemSlot => {
-      return this.itemGenerator.generateItem({
+      const item = this.itemGenerator.generateItem({
         generateLevel: monsterBase.level,
         forceType: itemSlot
       });
+
+      if(maxScore && item.score + curScore > maxScore) return null;
+      curScore += item.score;
+
+      return item;
     });
 
     const professionInstance = Professions[monsterBase.profession] ? new Professions[monsterBase.profession]() : null;

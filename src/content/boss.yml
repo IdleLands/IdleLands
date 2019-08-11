@@ -5,10 +5,10 @@ Goblin Lord:
     profession: Monster
     level: 10
     stats:
-      hp: 1000
-      agi: 200
-      dex: 200
-      str: 300
+      hp: 100
+      agi: 20
+      dex: 20
+      str: 30
   items:
   - name: Goblin Lord Shortsword
     dropPercent: 95
@@ -20,10 +20,10 @@ dChicken Problem Solver:
     gender: male
     level: 1
     stats:
-      hp: 3000
-      con: 100
-      dex: 100
-      str: 100
+      hp: 30
+      con: 10
+      dex: 10
+      str: 10
   items:
   - name: dSolver's Feather
     dropPercent: 85
@@ -34,10 +34,10 @@ Mummy Lord:
     profession: Fighter
     level: 15
     stats:
-      hp: 3000
-      con: 200
-      dex: 200
-      str: 300
+      hp: 300
+      con: 20
+      dex: 20
+      str: 30
   items:
   - name: Mummy Lord Greatsword
     dropPercent: 85
@@ -52,9 +52,9 @@ Lizard King:
     gender: male
     level: 20
     stats:
-      hp: 5000
-      con: 200
-      str: 200
+      hp: 500
+      con: 20
+      str: 20
       int: 300
   items:
   - name: Lizard King Staff

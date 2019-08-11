@@ -35,7 +35,7 @@ export class Barbarian extends BaseProfession implements IProfession {
   };
 
   public readonly statsPerLevel = {
-    [Stat.HP]:  50,
+    [Stat.HP]:  35,
     [Stat.STR]: 5,
     [Stat.DEX]: 1,
     [Stat.INT]: 0,

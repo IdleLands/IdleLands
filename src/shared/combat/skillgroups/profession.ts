@@ -132,7 +132,7 @@ export const ProfessionPostRoundSkillMap: { [key in Profession]: ICombatWeighted
  */
 export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoice[] } = {
   [Profession.Archer]: [
-    { weight: 1, skills: [Attack(
+    { weight: 3, skills: [Attack(
       (attacker) => attacker.stats[Stat.DEX],
       (attacker) => attacker.stats[Stat.DEX] * 0.75
     )] },
@@ -206,7 +206,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // enrage
-    { weight: 4, canUse: (caster) => caster.stats[Stat.SPECIAL] <= caster.maxStats[Stat.SPECIAL], skills: [
+    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] <= caster.maxStats[Stat.SPECIAL], skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         Description('%source flew into a wild rage!'),
@@ -215,7 +215,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // rage strike
-    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 5, skills: [
+    { weight: 3, canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 5, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         StatMod(Stat.SPECIAL, (caster) => -caster.stats[Stat.SPECIAL])
@@ -242,7 +242,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Bard]: [
-    { weight: 1, skills: [Attack()] },
+    { weight: 2, skills: [Attack()] },
 
     // litany of pain
     { weight: 3, canUse: (caster) => caster.stats[Stat.SPECIAL] > 0, skills: [
@@ -315,7 +315,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // take a byte
-    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] > 0, skills: [
+    { weight: 3, canUse: (caster) => caster.stats[Stat.SPECIAL] > 0, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         StatMod(Stat.SPECIAL, (caster) => -caster.stats[Stat.SPECIAL])
@@ -328,7 +328,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // freeleech
-    { weight: 4, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         StatMod(Stat.SPECIAL, (caster) => caster.maxStats[Stat.INT] / 10)
@@ -342,13 +342,13 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Cleric]: [
-    { weight: 1, skills: [Attack(
+    { weight: 2, skills: [Attack(
       1,
       (attacker) => attacker.stats[Stat.STR] * 0.5
     )] },
 
     // holy bolt
-    { weight: 4,
+    { weight: 3,
       canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 10,
       skills: [
         [
@@ -403,13 +403,13 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Fighter]: [
-    { weight: 5, skills: [Attack(
+    { weight: 4, skills: [Attack(
       (attacker) => attacker.stats[Stat.STR] * 0.1,
       (attacker) => attacker.stats[Stat.STR]
     )] },
 
     // double attack
-    { weight: 3, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.SingleEnemy), EffectsPerTarget(2), Accuracy(75),
         Description('%source attacked %target for %value damage!'),
@@ -421,7 +421,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // wild arms
-    { weight: 1, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         Description('%source bulked up and gained %value STR!'),
@@ -444,14 +444,14 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Generalist]: [
-    { weight: 5, skills: [Attack(
+    { weight: 3, skills: [Attack(
       1,
       (attacker) => (attacker.stats[Stat.STR] + attacker.stats[Stat.DEX] + attacker.stats[Stat.INT]
                    + attacker.stats[Stat.CON] + attacker.stats[Stat.AGI] + attacker.stats[Stat.LUK]) / 6
     )] },
 
     // sweeping generalization
-    { weight: 3,
+    { weight: 2,
       canUse: (caster, combat) => NumberOfTargets(Targetting.AllEnemies, caster, combat) > 1,
       skills: [
         [
@@ -501,7 +501,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // restore
-    { weight: 3, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.AllAllies), EffectsPerTarget(1), Accuracy(95),
         Description('%source let out a sweeping sigh and healed %target for %value health!'),
@@ -511,7 +511,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Jester]: [
-    { weight: 5, skills: [Attack(
+    { weight: 3, skills: [Attack(
       1,
       (attacker) => attacker.stats[Stat.LUK] * 0.5
     )] },
@@ -531,7 +531,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // luck roulette
-    { weight: 3, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.All), EffectsPerTarget(1),
         StatMod(Stat.LUK, RandomNumber(
@@ -544,7 +544,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // lucky slap
-    { weight: 4, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(25),
         StatMod(Stat.LUK, RandomNumber(
@@ -558,7 +558,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Mage]: [
-    { weight: 1, skills: [Attack(
+    { weight: 2, skills: [Attack(
       (attacker) => attacker.stats[Stat.INT] * 0.25,
       (attacker) => attacker.stats[Stat.INT] * 0.75
     )] },
@@ -623,7 +623,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.MagicalMonster]: [
-    { weight: 5, skills: [Attack()] },
+    { weight: 3, skills: [Attack()] },
 
     // drain stats
     { weight: 3,
@@ -702,7 +702,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Monster]: [
-    { weight: 5, skills: [Attack()] },
+    { weight: 3, skills: [Attack()] },
 
     // darkside
     { weight: 3,
@@ -720,7 +720,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // self heal
-    { weight: 4,
+    { weight: 2,
       canUse: (caster, combat) => NumberOfTargets(Targetting.InjuredSelf, caster, combat) > 0,
       skills: [
         [
@@ -747,10 +747,10 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Necromancer]: [
-    { weight: 10, skills: [Attack()] },
+    { weight: 5, skills: [Attack()] },
 
     // drain stats
-    { weight: 5,
+    { weight: 2,
       canUse: (caster) => caster.stats[Stat.HP] >= caster.maxStats[Stat.HP] / 20,
       skills: [
         [
@@ -833,13 +833,13 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.Pirate]: [
-    { weight: 1, skills: [Attack(
+    { weight: 3, skills: [Attack(
       (attacker) => attacker.stats[Stat.STR] * 0.25,
       (attacker) => attacker.stats[Stat.STR] * 1.5
     )] },
 
     // wild arms 2: pirate boogaloo
-    { weight: 1,
+    { weight: 2,
       canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 10,
       skills: [
         [
@@ -942,7 +942,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
         ]
     ] },
 
-    { weight: 1,
+    // smoke bomb
+    { weight: 2,
       canUse: (caster) => caster.stats[Stat.SPECIAL] > 30,
       skills: [
         [
@@ -977,10 +978,10 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   ],
 
   [Profession.SandwichArtist]: [
-    { weight: 5, skills: [Attack()] },
+    { weight: 3, skills: [Attack()] },
 
     // food fight
-    { weight: 1, skills: [
+    { weight: 2, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         Description('%source started a food fight!'),
@@ -1065,7 +1066,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // heavenly sandwich
-    { weight: 4,
+    { weight: 2,
       skills: [
         [
           Targets(Targetting.SingleAlly),
