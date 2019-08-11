@@ -81,6 +81,10 @@
     }
   }
 
+  a {
+    color: var(--ion-color-light);
+  }
+
   ion-badge.ion-color-secondary {
     background: var(--ion-color-tertiary);
   }

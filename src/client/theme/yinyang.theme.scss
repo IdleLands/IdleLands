@@ -71,4 +71,10 @@
   ion-icon {
     --color: #222428;
   }
+
+  ion-toast {
+    --background: var(--ion-color-primary);
+    --color: #fff;
+    --button-color: #fff;
+  }
 }
