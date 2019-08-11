@@ -31,7 +31,7 @@ import { GMHelper } from './gm-helper';
 import { IL3Linker } from './il3-linker';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
-const SAVE_TICKS = process.env.NODE_ENV === 'production' ? 60 : 10;
+const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
 
 @Singleton
 export class Game implements IGame {

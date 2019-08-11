@@ -37,7 +37,8 @@ Create a `.env` file in the root of the cloned project and fill it with these va
 
 These variables will change how the game plays.
 
-* `GAME_DELAY` - the game loop delay. Default: `5000`ms.
+* `GAME_DELAY` - the game loop delay (each tick is 1 `GAME_DELAY`). Default: `5000`ms.
+* `SAVE_DELAY` - the number of ticks the game will save per interval. Default `15`ticks.
 * `GRACE_PERIOD_DISCONNECT` - the delay between disconnect and character exiting game. Default: `30000`ms.
 
 #### Redis Variables
