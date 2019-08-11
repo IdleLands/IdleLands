@@ -54,7 +54,7 @@ export class Necromancer extends BaseProfession implements IProfession {
       booster: true,
       duration: 5,
       permanentStats: {
-        [PermanentUpgrade.MaxPetsInCombat]: 1 + Math.floor(Math.log(player.ascensionLevel))
+        [PermanentUpgrade.MaxPetsInCombat]: 2 + Math.floor(Math.log(player.ascensionLevel))
       }
     }, true);
     player.$$game.eventManager.doEventFor(player, 'Battle');

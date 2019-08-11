@@ -65,7 +65,7 @@ export class FestivalManager {
       }
     });
 
-    this.addFestival(festival);
+    this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
       message: `A new festival "${festival.name}" has started!`,
@@ -77,7 +77,7 @@ export class FestivalManager {
 
     const addedFestival = this.makeSystemFestival(festival);
 
-    this.addFestival(addedFestival);
+    this.initiateAddFestival(addedFestival);
 
     this.chat.sendMessageFromClient({
       message: `A new festival "${addedFestival.name}" has started!`,
@@ -86,7 +86,7 @@ export class FestivalManager {
   }
 
   public startFestival(player: Player, festival: IFestival) {
-    this.addFestival(festival);
+    this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
       message: `A new festival "${festival.name}" has started!`,
