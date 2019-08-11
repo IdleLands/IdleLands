@@ -216,6 +216,7 @@ const getDataForMap = (map) => {
       if(obj.type !== 'Teleport'
       && obj.type !== 'GuildTeleport'
       && obj.type !== 'Boss'
+      && obj.type !== 'BossParty'
       && obj.type !== 'Collectible'
       && obj.type !== 'Trainer'
       && obj.type !== 'Treasure'
