@@ -430,6 +430,7 @@ export class Player implements IPlayer {
     if(val === 0) return;
 
     val = Math.floor(val);
+    if(isNaN(val) || !isFinite(val)) return;
 
     this.stats[stat] = this.stats[stat] || 0;
     this.stats[stat] += val;

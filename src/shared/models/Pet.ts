@@ -177,6 +177,7 @@ export class Pet implements IPet {
     if(val === 0 || stat === Stat.SPECIAL) return;
 
     val = Math.floor(val);
+    if(isNaN(val) || !isFinite(val)) return;
 
     this.stats[stat] = this.stats[stat] || 0;
     this.stats[stat] += val;
