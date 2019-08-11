@@ -14,7 +14,7 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
 
   [Profession.Barbarian]: [
     { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 20)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Bard]: [
@@ -33,12 +33,12 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
 
   [Profession.Fighter]: [
     { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 20)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Generalist]: [
     { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 100)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Jester]: [
@@ -54,17 +54,17 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
 
   [Profession.Monster]: [
     { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 100)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Necromancer]: [
     { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 1)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Pirate]: [
     { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 10)],
-              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
   [Profession.Rogue]: [
