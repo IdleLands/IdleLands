@@ -34,10 +34,13 @@ export class EquipItemEvent extends ServerSocketEvent implements ServerEvent {
     const foundItem = player.$inventory.getItemFromInventory(itemId);
     if(!foundItem) return this.gameError('Could not find that item in your inventory.');
 
-    const didSucceed = player.equip(foundItem);
-    if(!didSucceed) return this.notConnected();
-
     player.$inventory.removeItemFromInventory(foundItem);
+
+    const didSucceed = player.equip(foundItem);
+    if(!didSucceed) {
+      player.$inventory.addItemToInventory(foundItem);
+      return this.gameError('Could not equip that item.');
+    }
 
     this.game.updatePlayer(player);
     this.gameSuccess(`Equipped ${foundItem.name}!`);
