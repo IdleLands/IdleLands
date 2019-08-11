@@ -33,6 +33,7 @@ export * from './Fool';
 export * from './Frail';
 export * from './Gambler';
 export * from './Golden';
+export * from './Goldsent';
 export * from './Habitual';
 export * from './Haggler';
 export * from './Herder';

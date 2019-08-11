@@ -30,7 +30,7 @@ export class Golden extends Achievement {
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.StatMultipliers, stats: {
-        [Stat.LUK]: 1 + (tier * 0.03)
+        [Stat.AGI]: 1 + (tier * 0.03)
        } }
     ];
 
