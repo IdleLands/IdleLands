@@ -427,7 +427,6 @@ Mushroom Beast:
     level: 38
     stats:
       hp: 13790
-      mp: 10000
       luk: 20
       dex: 1800
       con: 900
@@ -475,7 +474,6 @@ Toy Maker Elf:
     level: 12
     stats:
       hp: 1225
-      mp: 1500
       luk: 200
 Reindeer Warden:
   respawn: 10800
@@ -734,7 +732,6 @@ Snowbeast:
     level: 45
     stats:
       hp: 16350
-      mp: 15000
       str: 1500
       int: 1750
       dex: 1000
