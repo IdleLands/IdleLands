@@ -8,7 +8,7 @@ export class Necromancer extends BaseProfession implements IProfession {
   public readonly specialStatName = 'Minion';
   public readonly oocAbilityName = 'Bone Minions';
   public readonly oocAbilityDesc = 'Summon extra minions to join you in your next few combats.';
-  public readonly oocAbilityCost = 60;
+  public readonly oocAbilityCost = 40;
 
   public readonly statForStats = {
     [Stat.HP]: {
