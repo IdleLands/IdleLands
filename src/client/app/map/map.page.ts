@@ -298,6 +298,8 @@ export class MapPage implements OnInit, OnDestroy {
   @ViewChild(IonContent)
   private content: IonContent;
 
+  public ddStepsLeft: number;
+
   private game: Phaser.Game;
   public gameText = new Subject<string[]>();
   private gameText$: Subscription;
@@ -315,6 +317,10 @@ export class MapPage implements OnInit, OnDestroy {
     (<any>window).PhaserGlobal = { hideBanner: true };
 
     this.player$ = this.gameService.player$.subscribe(player => {
+      if(player) {
+        this.ddStepsLeft = player.divineDirection ? player.divineDirection.steps : 0;
+      }
+
       if(!player || this.game) return;
 
       this.game = new Phaser.Game({
