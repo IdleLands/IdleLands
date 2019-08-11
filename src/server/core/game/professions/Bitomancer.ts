@@ -45,7 +45,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  4,
 
-    [Stat.XP]:   0,
+    [Stat.XP]:   0.7,
     [Stat.GOLD]: 0
   };
 

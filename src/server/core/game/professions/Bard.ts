@@ -42,8 +42,8 @@ export class Bard extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.4,
+    [Stat.GOLD]: 0.7
   };
 
   public oocAbility(player: Player): string {

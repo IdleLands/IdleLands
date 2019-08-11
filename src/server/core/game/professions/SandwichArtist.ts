@@ -41,8 +41,8 @@ export class SandwichArtist extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0.01,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.1,
+    [Stat.GOLD]: 0.7
   };
 
   public oocAbility(player: Player): string {

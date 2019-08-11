@@ -43,8 +43,8 @@ export class Rogue extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.3,
+    [Stat.GOLD]: 1.2
   };
 
   public oocAbility(player: Player): string {

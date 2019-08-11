@@ -45,8 +45,8 @@ export class Mage extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  1,
 
-    [Stat.XP]:   0,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.7,
+    [Stat.GOLD]: 0.5
   };
 
   public oocAbility(player: Player): string {

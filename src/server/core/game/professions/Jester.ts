@@ -66,8 +66,8 @@ export class Jester extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.9,
+    [Stat.GOLD]: 0.3
   };
 
   public oocAbility(player: Player): string {

@@ -45,7 +45,7 @@ export class Barbarian extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0,
+    [Stat.XP]:   0.1,
     [Stat.GOLD]: 0
   };
 

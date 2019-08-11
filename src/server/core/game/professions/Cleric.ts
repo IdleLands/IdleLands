@@ -45,7 +45,7 @@ export class Cleric extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  1,
 
-    [Stat.XP]:   0,
+    [Stat.XP]:   0.3,
     [Stat.GOLD]: 0
   };
 

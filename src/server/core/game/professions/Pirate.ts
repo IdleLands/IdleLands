@@ -43,8 +43,8 @@ export class Pirate extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  1,
 
-    [Stat.XP]:   0,
-    [Stat.GOLD]: 0
+    [Stat.XP]:   0.4,
+    [Stat.GOLD]: 1
   };
 
   public oocAbility(player: Player): string {

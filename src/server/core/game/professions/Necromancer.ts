@@ -43,7 +43,7 @@ export class Necromancer extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0,
+    [Stat.XP]:   0.6,
     [Stat.GOLD]: 0
   };
 
