@@ -23,13 +23,13 @@
   
               <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
   
+              <ion-badge class="menu-top-left" slot="start" color="secondary" *ngIf="player.$choicesData?.choices?.length">{{ player.$choicesData.choices.length }}</ion-badge>
               <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
               
-              <ion-label>
+              <ion-label class="ion-text-wrap">
                 {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
                 <p>Level {{ player.level.__current }}/{{ player.level.maximum }} {{ player.profession }}</p>
-                <p>{{ player.map }}</p>
-                <p>{{ player.region }}</p>
+                <p>{{ player.map }} / {{ player.region }}</p>
                 <p>
                   <ion-icon [src]="'assets/icon/stat-gold.svg'"></ion-icon>
                   <span class="ion-padding-start">{{ player.gold | number }} Gold</span>
