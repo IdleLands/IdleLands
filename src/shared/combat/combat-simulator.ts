@@ -166,9 +166,12 @@ export class CombatSimulator {
 
     const refChar = this.combat.characters[skillEffect.source];
 
+    const absDamage = Math.abs(skillEffect.modifyStatValue);
+    const damageString = absDamage === 0 ? `0 [miss]` : absDamage.toLocaleString();
+
     const replacements: Array<{ replace: string, with: string }> = [
       { replace: 'source',  with: refChar ? refChar.name : 'a mysterious force' },
-      { replace: 'value',   with: Math.abs(skillEffect.modifyStatValue).toLocaleString() },
+      { replace: 'value',   with: damageString },
       { replace: 'rvalue',  with: skillEffect.modifyStatValue.toLocaleString() },
       { replace: 'target',  with: forCharacter.name },
       { replace: 'special', with: forCharacter.specialName || 'special' }
