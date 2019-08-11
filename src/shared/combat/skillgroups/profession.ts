@@ -13,7 +13,8 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
   ],
 
   [Profession.Barbarian]: [
-    { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 20)] }
+    { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 20)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Bard]: [
@@ -31,11 +32,13 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
   ],
 
   [Profession.Fighter]: [
-    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 20)] }
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 20)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Generalist]: [
-    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 100)] }
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 100)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Jester]: [
@@ -50,15 +53,18 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
   ],
 
   [Profession.Monster]: [
-    { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 100)] }
+    { skills: [RegenerateHP(caster => caster.maxStats[Stat.HP] / 100)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Necromancer]: [
-    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 1)] }
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 1)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Pirate]: [
-    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 10)] }
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 10)],
+              canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[stat.HP] }
   ],
 
   [Profession.Rogue]: [
