@@ -42,8 +42,8 @@ export class MagicalMonster extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   1,
-    [Stat.GOLD]: 1
+    [Stat.XP]:   0.01,
+    [Stat.GOLD]: 0.01
   };
 
   public oocAbility(player: Player): string {
