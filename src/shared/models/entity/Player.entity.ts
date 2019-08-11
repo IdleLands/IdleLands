@@ -624,7 +624,7 @@ export class Player implements IPlayer {
   }
 
   public sellItem(item: Item): number {
-    const value = item.score;
+    const value = item.score > 10 ? item.score : 10;
     const modValue = this.gainGold(value);
     this.increaseStatistic('Item/Sell/Times', 1);
     this.increaseStatistic('Item/Sell/GoldGain', modValue);
