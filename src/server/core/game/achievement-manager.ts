@@ -85,7 +85,7 @@ export class AchievementManager {
     return allPets.map((pet: IPetProto) => {
       return {
         name: `Tribal: ${pet.typeName}`,
-        statWatches: Object.keys(pet.requirements.statistics),
+        statWatches: Object.keys(pet.requirements.statistics).concat(['Item/Collectible/Touch']),
         type: AchievementType.Pet,
         descriptionForTier: () => `You earned a new pet: ${pet.typeName}.
           It offers the following permanent bonuses for ${pet.cost.toLocaleString()} gold:
