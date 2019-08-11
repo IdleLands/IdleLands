@@ -150,6 +150,8 @@ export class DatabaseManager {
     if(!this.firebase) throw new Error('No firebase admin connection!');
 
     if(removeToken) {
+      this.firebase.auth().deleteUser(player.authId);
+
       player.authType = null;
       player.authId = null;
       player.authSyncedTo = null;
