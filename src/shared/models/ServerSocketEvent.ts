@@ -37,6 +37,11 @@ export class ServerSocketEvent {
   }
 
   protected setPlayer(player: IPlayer) {
+    if(!player) {
+      this.socket.playerName = null;
+      return;
+    }
+
     this.socket.playerName = player.name;
   }
 

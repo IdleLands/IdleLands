@@ -59,6 +59,8 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
     this.game.databaseManager.savePlayer(player);
     this.game.playerManager.removePlayer(player);
 
+    this.setPlayer(null);
+
     this.gameMessage('Come back and idle any time!');
   }
 }
@@ -174,6 +176,7 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
   args = 'userId, sessionId, authToken, relogin';
 
   async callback({ userId, sessionId, authToken, relogin } = { userId: '', sessionId: '', authToken: '', relogin: false }) {
+
     if(this.playerName) {
       const characterPreObj = this.game.playerManager.getPlayer(this.playerName);
       this.emit(ServerEventName.CharacterSync, characterPreObj);
