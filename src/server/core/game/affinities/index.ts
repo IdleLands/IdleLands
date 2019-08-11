@@ -5,3 +5,4 @@ export * from './Caster';
 export * from './Defender';
 export * from './Healer';
 export * from './Hunter';
+export * from './None';
