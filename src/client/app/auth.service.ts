@@ -112,8 +112,7 @@ export class AuthService {
           resolve(res);
           return;
         } catch(e) {
-          await this.afAuth.auth.signInWithRedirect(new provider());
-          resolve({});
+          alert('Sorry! OAuth login/sync is not supported in IdleLands desktop at this time. Please use the PWA or Web version.');
         }
       }
     });
