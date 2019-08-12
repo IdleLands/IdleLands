@@ -5,7 +5,7 @@ import { compress } from 'lzutf8';
 
 import { Player } from '../../../shared/models';
 import { CombatSimulator, CombatAction } from '../../../shared/combat/combat-simulator';
-import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade, ItemClass } from '../../../shared/interfaces';
+import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade, ItemClass, PetAffinity, IPet } from '../../../shared/interfaces';
 import { AssetManager } from './asset-manager';
 import { PlayerManager } from './player-manager';
 import { ItemGenerator } from './item-generator';
@@ -363,7 +363,9 @@ export class CombatHelper {
 
       const newPets = [];
 
-      const possiblePets = Object.values(player.$petsData.allPets).filter(x => x !== player.$pets.$activePet);
+      const possiblePets = Object.values(player.$petsData.allPets)
+        .filter((x: IPet) => x !== player.$pets.$activePet && x.affinity !== PetAffinity.None);
+
       for(let i = 0; i < extraCount - 1; i++) {
         const pet = sample(possiblePets);
         if(!pet) return prev.concat(newPets);
