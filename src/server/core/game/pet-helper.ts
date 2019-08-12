@@ -139,6 +139,10 @@ export class PetHelper {
 
     Object.keys(proto.equipmentSlots).forEach(slotName => {
       pet.equipment[slotName] = pet.equipment[slotName] || [];
+      if(pet.equipment[slotName].length === 0) {
+        pet.equipment[slotName] = Array(proto.equipmentSlots[slotName]).fill(null);
+      }
+
       pet.equipment[slotName].length = proto.equipmentSlots[slotName];
     });
   }

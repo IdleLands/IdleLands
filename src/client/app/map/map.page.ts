@@ -164,7 +164,8 @@ class GameState extends Phaser.State {
           { key: 'Class',
             hasMet: (player, val) => player.profession === val },
           { key: 'Collectible',
-            hasMet: (player, val) => player.$collectiblesData && player.$collectiblesData.collectibles[val] },
+            hasMet: (player, val) => player.$collectiblesData && player.$collectiblesData.collectibles[val]
+                                  && player.$collectiblesData.collectibles[val].foundAt > 0 },
           { key: 'Holiday' },
           { key: 'Map', display: 'Map Visited',
             hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['Map', val]) },

@@ -6,7 +6,7 @@ import { some, find, pull } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
-import { IPet, PetUpgrade, PermanentUpgrade, PetAttribute, PetAffinity, IAdventure,
+import { IPet, PetUpgrade, PermanentUpgrade, IAdventure,
   AdventureChances, AdventureRequirements, AdventureDurationChances, BaseAdventureRewardCount, AdventureRewards } from '../../interfaces';
 import { Pet } from '../Pet';
 
@@ -146,14 +146,6 @@ export class Pets extends PlayerOwned {
     });
   }
 
-  changePetAttribute(player: Player, attribute?: PetAttribute) {
-    // call syncPetAttribute for new attr
-  }
-
-  changePetAffinity(player: Player, affinity?: PetAffinity) {
-    // call syncPetAttribute for new attr
-  }
-
   buyPet(player: Player, petName: string) {
     if(player.gold < this.buyablePets[petName]) return;
 
@@ -168,6 +160,8 @@ export class Pets extends PlayerOwned {
     this.addNewPet(pet, true);
 
     this.syncBuyablePets(player);
+
+    pet.recalculateStats();
 
     player.syncPremium();
   }
