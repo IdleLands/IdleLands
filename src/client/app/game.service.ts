@@ -303,7 +303,7 @@ export class GameService {
   private addMessage(message: IMessage) {
     this.allMessages.push(message);
 
-    while(this.allMessages.length > 500) this.allMessages.shift();
+    while(this.allMessages.length > 200) this.allMessages.shift();
 
     this.storage.set('lastMessages', this.allMessages);
 
