@@ -23,8 +23,8 @@ export class Pirate extends BaseProfession implements IProfession {
     [Stat.DEX]: 2,
     [Stat.INT]: 0.1,
     [Stat.CON]: 1.5,
-    [Stat.AGI]: 0.7,
-    [Stat.LUK]: 0.3,
+    [Stat.AGI]: 0.8,
+    [Stat.LUK]: 0.5,
 
     [Stat.SPECIAL]:  0,
 

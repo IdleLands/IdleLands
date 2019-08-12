@@ -21,7 +21,7 @@ export class MagicalMonster extends BaseProfession implements IProfession {
     [Stat.STR]: 0.5,
     [Stat.DEX]: 0.5,
     [Stat.INT]: 3,
-    [Stat.CON]: 0.5,
+    [Stat.CON]: 0.7,
     [Stat.AGI]: 3,
     [Stat.LUK]: 5,
 

@@ -19,11 +19,11 @@ export class Necromancer extends BaseProfession implements IProfession {
 
   public readonly statMultipliers = {
     [Stat.HP]:  1,
-    [Stat.STR]: 0.3,
-    [Stat.DEX]: 0.3,
+    [Stat.STR]: 0.5,
+    [Stat.DEX]: 0.5,
     [Stat.INT]: 3,
     [Stat.CON]: 0.5,
-    [Stat.AGI]: 0.1,
+    [Stat.AGI]: 0.3,
     [Stat.LUK]: 0.1,
 
     [Stat.SPECIAL]:  0,

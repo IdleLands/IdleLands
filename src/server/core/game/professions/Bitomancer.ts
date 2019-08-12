@@ -24,9 +24,9 @@ export class Bitomancer extends BaseProfession implements IProfession {
     [Stat.STR]: 0.3,
     [Stat.DEX]: 2,
     [Stat.INT]: 3,
-    [Stat.CON]: 0.2,
-    [Stat.AGI]: 0.3,
-    [Stat.LUK]: 0.1,
+    [Stat.CON]: 0.4,
+    [Stat.AGI]: 0.5,
+    [Stat.LUK]: 0.4,
 
     [Stat.SPECIAL]:  0,
 

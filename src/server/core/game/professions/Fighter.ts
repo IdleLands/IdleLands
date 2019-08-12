@@ -20,10 +20,10 @@ export class Fighter extends BaseProfession implements IProfession {
     [Stat.HP]:  5,
     [Stat.STR]: 2.5,
     [Stat.DEX]: 1.5,
-    [Stat.INT]: 0.2,
+    [Stat.INT]: 0.4,
     [Stat.CON]: 1.3,
-    [Stat.AGI]: 0.2,
-    [Stat.LUK]: 0.2,
+    [Stat.AGI]: 1.1,
+    [Stat.LUK]: 0.7,
 
     [Stat.SPECIAL]:  0,
 

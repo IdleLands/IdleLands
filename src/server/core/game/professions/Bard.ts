@@ -22,8 +22,8 @@ export class Bard extends BaseProfession implements IProfession {
     [Stat.DEX]: 3,
     [Stat.INT]: 2,
     [Stat.CON]: 1,
-    [Stat.AGI]: 0.3,
-    [Stat.LUK]: 0.7,
+    [Stat.AGI]: 0.7,
+    [Stat.LUK]: 0.8,
 
     [Stat.SPECIAL]:  0,
 

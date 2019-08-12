@@ -21,10 +21,10 @@ export class Rogue extends BaseProfession implements IProfession {
     [Stat.HP]:  2,
     [Stat.STR]: 1.5,
     [Stat.DEX]: 3,
-    [Stat.INT]: 1,
-    [Stat.CON]: 1,
+    [Stat.INT]: 0.8,
+    [Stat.CON]: 0.8,
     [Stat.AGI]: 3,
-    [Stat.LUK]: 0.3,
+    [Stat.LUK]: 1,
 
     [Stat.SPECIAL]:  0,
 

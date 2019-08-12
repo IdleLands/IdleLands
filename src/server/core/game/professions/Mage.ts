@@ -20,13 +20,13 @@ export class Mage extends BaseProfession implements IProfession {
   };
 
   public readonly statMultipliers = {
-    [Stat.HP]:  0.4,
+    [Stat.HP]:  0.8,
     [Stat.STR]: 0.5,
     [Stat.DEX]: 0.5,
-    [Stat.INT]: 2.5,
+    [Stat.INT]: 2.3,
     [Stat.CON]: 1,
     [Stat.AGI]: 0.2,
-    [Stat.LUK]: 0.6,
+    [Stat.LUK]: 0.8,
 
     [Stat.SPECIAL]:  1,
 

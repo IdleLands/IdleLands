@@ -18,11 +18,11 @@ export class Monster extends BaseProfession implements IProfession {
 
   public readonly statMultipliers = {
     [Stat.HP]:  5,
-    [Stat.STR]: 3,
-    [Stat.DEX]: 3,
+    [Stat.STR]: 1.5,
+    [Stat.DEX]: 1,
     [Stat.INT]: 0.5,
-    [Stat.CON]: 5,
-    [Stat.AGI]: 3,
+    [Stat.CON]: 3,
+    [Stat.AGI]: 1.5,
     [Stat.LUK]: 0,
 
     [Stat.SPECIAL]:  0,

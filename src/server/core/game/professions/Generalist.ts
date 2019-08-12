@@ -17,11 +17,11 @@ export class Generalist extends BaseProfession implements IProfession {
 
   public readonly statMultipliers = {
     [Stat.HP]:  2,
-    [Stat.STR]: 1.2,
-    [Stat.DEX]: 0.8,
+    [Stat.STR]: 1,
+    [Stat.DEX]: 1,
     [Stat.INT]: 1,
     [Stat.CON]: 2,
-    [Stat.AGI]: 0.5,
+    [Stat.AGI]: 1,
     [Stat.LUK]: 2,
 
     [Stat.SPECIAL]:  0,

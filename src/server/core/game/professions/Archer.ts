@@ -24,10 +24,10 @@ export class Archer extends BaseProfession implements IProfession {
     [Stat.HP]:  3,
     [Stat.STR]: 1.5,
     [Stat.DEX]: 2.5,
-    [Stat.INT]: 0.5,
+    [Stat.INT]: 0.8,
     [Stat.CON]: 1,
-    [Stat.AGI]: 0.3,
-    [Stat.LUK]: 0.7,
+    [Stat.AGI]: 0.9,
+    [Stat.LUK]: 0.9,
 
     [Stat.SPECIAL]:  0,
 
