@@ -117,7 +117,7 @@ export class CombatPage implements OnInit {
     });
 
     Object.values(combat.characters).forEach((char: ICombatCharacter) => {
-      if(wasTie || !char.ownerName) return;
+      if(wasTie || !char.ownerName || char.combatPartyId !== winningParty) return;
 
       this.summaryMessages.push(`${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`);
     });
