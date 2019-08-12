@@ -383,7 +383,7 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Character/Stamina/Gain', 1);
     this.stamina.add(1);
-    this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST;
+    this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST * (this.$premiumData.tier ? 0.5 : 1);
   }
 
   private calculateStamina() {
