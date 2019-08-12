@@ -4,7 +4,7 @@ import { capitalize, get } from 'lodash';
 
 import { Player } from '../../../shared/models';
 import { World, Tile } from './world';
-import { Direction, MovementType } from '../../../shared/interfaces';
+import { Direction, MovementType, Channel, AdventureLogEventType } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { EventManager } from './event-manager';
 import { Logger } from '../logger';
@@ -246,8 +246,23 @@ export class MovementHelper {
     dest.x = +dest.destx;
     dest.y = +dest.desty;
 
-    if(dest.movementType === MovementType.Ascend && player.$personalities.isActive('Delver')) return;
-    if(dest.movementType === MovementType.Descend && player.$personalities.isActive('ScaredOfTheDark')) return;
+    if(dest.movementType === MovementType.Ascend && player.$personalities.isActive('Delver')) {
+      player.$$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [player.name], data: {
+        when: Date.now(),
+        type: AdventureLogEventType.Explore,
+        message: 'You attempted to go up the stairs but your delving personality only lets you go down!'
+      } });
+      return;
+    }
+
+    if(dest.movementType === MovementType.Descend && player.$personalities.isActive('ScaredOfTheDark')) {
+      player.$$game.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames: [player.name], data: {
+        when: Date.now(),
+        type: AdventureLogEventType.Explore,
+        message: 'You attempted to go down the stairs but your scared of the dark personality only lets you go up!'
+      } });
+      return;
+    }
 
     if(!force && (dest.movementType === MovementType.Ascend || dest.movementType === MovementType.Descend)) {
       if(player.stepCooldown > 0) return;
