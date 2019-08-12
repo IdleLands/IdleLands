@@ -63,7 +63,7 @@ export class MovementHelper {
 
       if(properties.requireBoss) {
         totalRequirements++;
-        if(player.$statistics.get(`BossKill/${properties.requireBoss}`) > 0) metRequirements++;
+        if(player.$statistics.get(`BossKill/Boss/${properties.requireBoss}`) > 0) metRequirements++;
       }
 
       if(properties.requireClass) {
