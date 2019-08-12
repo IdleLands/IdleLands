@@ -366,6 +366,8 @@ export class Player implements IPlayer {
     this.increaseStatistic('Character/Ascension/Collectibles', this.$collectibles.getFoundOwnedCollectibles().length);
     this.$collectibles.resetFoundAts();
 
+    this.$choices.removeAllChoices();
+
     this.increaseStatistic('Character/Ascension/Times', 1);
 
     this.$pets.resetEquipment();

@@ -49,6 +49,10 @@ export class Choices extends PlayerOwned {
     this.size = this.calcSize(player);
   }
 
+  public removeAllChoices() {
+    this.choices = [];
+  }
+
   public removeChoice(choice: Choice): void {
     pull(this.choices, choice);
   }
