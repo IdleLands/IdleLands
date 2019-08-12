@@ -37,7 +37,7 @@ export class FindTrainer extends Event {
     const existingChoices = player.$choicesData.choices;
     const hasMatchingItem = existingChoices.some(x => {
       if(!x.extraData || !x.extraData.professionName) return;
-      return x.extraData.professionName === opts.professionName;
+      return x.extraData.professionName;
     });
 
     if(hasMatchingItem) return;
