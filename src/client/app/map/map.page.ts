@@ -306,7 +306,8 @@ class GameState extends Phaser.State {
       }
 
       if(this.player.$premiumData.tier && this.player.lastLoc && this.player.lastLoc.map === this.player.map) {
-        const petGenderRef = GenderPositions[this.player.$petsData.allPets[this.player.$petsData.currentPet].gender] || { x: 5, y: 1 };
+        const curPet = this.player.$petsData.allPets[this.player.$petsData.currentPet];
+        const petGenderRef = GenderPositions[curPet.gender] || { x: 5, y: 1 };
         const petGenderNum = (genderRef.y * 9) + petGenderRef.x;
 
         this.currentPetSprite = this.game.add.sprite(
@@ -314,6 +315,13 @@ class GameState extends Phaser.State {
           'interactables', petGenderNum
         );
         this.currentPetSprite.moveDown();
+
+        this.currentPetSprite.inputEnabled = true;
+
+        this.currentPetSprite.events.onInputDown.add(() => this.stored.gameText.next([`Pet: ${curPet.name}`]));
+        this.currentPetSprite.events.onInputOver.add(() => this.stored.gameText.next([`Pet: ${curPet.name}`]));
+
+        this.currentPetSprite.events.onInputOut.add(() => this.stored.gameText.next(null));
       }
 
     }
@@ -326,6 +334,10 @@ class GameState extends Phaser.State {
           `Player: ${player.name}${player.title ? ', the ' + player.title : ''}`,
           `Level ${player.level.__current ? player.level.__current : player.level} ${player.profession}`
         ]);
+
+        setTimeout(() => {
+          this.stored.gameText.next(null);
+        }, 5000);
       };
 
       const removeText = () => {
