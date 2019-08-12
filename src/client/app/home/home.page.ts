@@ -132,7 +132,7 @@ export class HomePage implements OnInit, OnDestroy {
   public async login(authProvider) {
     const { user } = await this.authService.login(authProvider);
     if(!user) return null;
-    
+
     const token = await user.getIdToken();
 
     this.socketService.emit(ServerEventName.PlayGame, { userId: this.userId, authToken: token });
