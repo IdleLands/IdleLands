@@ -107,8 +107,14 @@ export class AuthService {
         alert.present();
 
       } else {
-        const res = await this.afAuth.auth.signInWithPopup(new provider());
-        resolve(res);
+        try {
+          const res = await this.afAuth.auth.signInWithPopup(new provider());
+          resolve(res);
+          return;
+        } catch(e) {
+          const res = await this.afAuth.auth.signInWithRedirect(new provider());
+          resolve(res);
+        }
       }
     });
   }
