@@ -67,6 +67,9 @@ export class PartyHelper {
       const playerRef = this.playerManager.getPlayer(memberName);
       if(!playerRef) return;
 
+      const leaveChoice = playerRef.$choices.getChoice('PartyLeave');
+      if(leaveChoice) playerRef.$choices.removeChoice(leaveChoice);
+
       playerRef.increaseStatistic('Event/Party/Leave', 1);
       playerRef.$party = null;
     });
