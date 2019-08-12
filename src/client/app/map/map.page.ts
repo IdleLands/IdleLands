@@ -90,17 +90,21 @@ class GameState extends Phaser.State {
   }
 
   render() {
-    this.frames = (this.frames + 1) % this.frameColors.length;
+    this.frames = (this.frames + 1);
 
-    if(this.currentPlayerSprite) {
-      this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames], false);
+    if(this.frames % 13 === 0) {
+      if(this.currentPlayerSprite) {
+        this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames % this.frameColors.length], false);
+      }
+
+      if(this.currentDivineSprite) {
+        try {
+          this.game.debug.spriteBounds(this.currentDivineSprite, this.frameColors[this.frames % this.frameColors.length], false);
+        } catch(e) {}
+      }
     }
 
-    if(this.currentDivineSprite) {
-      try {
-        this.game.debug.spriteBounds(this.currentDivineSprite, this.frameColors[this.frames], false);
-      } catch(e) {}
-    }
+    if(this.frames > 600) this.frames = 0;
   }
 
   shutdown() {
