@@ -94,7 +94,9 @@ class GameState extends Phaser.State {
 
     if(this.frames % 13 === 0) {
       if(this.currentPlayerSprite) {
-        this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames % this.frameColors.length], false);
+        try {
+          this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames % this.frameColors.length], false);
+        } catch(e) {}
       }
 
       if(this.currentDivineSprite) {
@@ -246,6 +248,10 @@ class GameState extends Phaser.State {
     // restart the state if needed
     if(this.map && this.map !== player.map) {
       this.map = '';
+      this.objectSpriteGroup.destroy();
+      this.playerSpriteGroup.destroy();
+      this.currentDivineSprite = null;
+      this.allPlayerSprites = {};
       this.game.state.restart(true, true, this.stored);
     }
 
