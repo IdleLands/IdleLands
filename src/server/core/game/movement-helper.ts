@@ -392,7 +392,7 @@ export class MovementHelper {
         new Error(`Invalid tile terrain undefined for ${player.name} @ ${player.map}: ${player.x},${player.y}`));
     }
 
-    const oldLoc = { x: player.x, y: player.y };
+    const oldLoc = { x: player.x, y: player.y, map: player.map };
 
     if(player.stepCooldown > 0) {
       player.stepCooldown--;
@@ -400,6 +400,7 @@ export class MovementHelper {
 
     player.stepCooldown--;
     player.lastDir = dir === Direction.Nowhere ? null : dir;
+    player.lastLoc = oldLoc;
 
     player.setPos(newLoc.x, newLoc.y, player.map, tile.region);
 

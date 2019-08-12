@@ -122,6 +122,7 @@ export interface IPlayer extends ICharacter {
   $premiumData: any;
 
   lastDir: Direction;
+  lastLoc: { map: string, x: number, y: number };
   divineDirection?: { x: number, y: number, steps: number };
   buffWatches: { [key in Stat]?: IBuff[] };
 

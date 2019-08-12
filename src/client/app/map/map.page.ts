@@ -23,6 +23,7 @@ class GameState extends Phaser.State {
 
   private objectSpriteGroup: Phaser.Group;
   private playerSpriteGroup: Phaser.Group;
+  private currentPetSprite: Phaser.Sprite;
   private currentDivineSprite: Phaser.Sprite;
   private allPlayerSprites: { [key: string]: Phaser.Sprite } = {};
 
@@ -250,7 +251,14 @@ class GameState extends Phaser.State {
       this.map = '';
       this.objectSpriteGroup.destroy();
       this.playerSpriteGroup.destroy();
-      this.currentDivineSprite = null;
+      if(this.currentDivineSprite) {
+        this.currentDivineSprite.destroy();
+        this.currentDivineSprite = null;
+      }
+      if(this.currentPetSprite) {
+        this.currentPetSprite.destroy();
+        this.currentPetSprite = null;
+      }
       this.allPlayerSprites = {};
       this.game.state.restart(true, true, this.stored);
     }
@@ -287,6 +295,7 @@ class GameState extends Phaser.State {
 
     if(player.name === this.player.name) {
       if(this.currentDivineSprite) this.currentDivineSprite.destroy();
+      if(this.currentPetSprite) this.currentPetSprite.destroy();
 
       if(this.player.divineDirection) {
         this.currentDivineSprite = this.game.add.sprite(
@@ -295,6 +304,18 @@ class GameState extends Phaser.State {
         );
         this.currentDivineSprite.moveDown();
       }
+
+      if(this.player.$premiumData.tier && this.player.lastLoc && this.player.lastLoc.map === this.player.map) {
+        const petGenderRef = GenderPositions[this.player.$petsData.allPets[this.player.$petsData.currentPet].gender] || { x: 5, y: 1 };
+        const petGenderNum = (genderRef.y * 9) + petGenderRef.x;
+
+        this.currentPetSprite = this.game.add.sprite(
+          this.player.lastLoc.x * 16, this.player.lastLoc.y * 16,
+          'interactables', petGenderNum
+        );
+        this.currentPetSprite.moveDown();
+      }
+
     }
 
     if(isNew) {

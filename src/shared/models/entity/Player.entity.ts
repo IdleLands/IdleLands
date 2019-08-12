@@ -94,6 +94,7 @@ export class Player implements IPlayer {
 
   @Column() public buffWatches: { [key in Stat]?: IBuff[] };
   @Column() public cooldowns: { [key: string]: number };
+  @Column() public lastLoc: { map: string, x: number, y: number };
 
   // non-saved player vars
   // still serialized to the client
@@ -374,6 +375,8 @@ export class Player implements IPlayer {
     this.$pets.resetEquipment();
 
     this.$$game.festivalManager.startAscensionFestival(this);
+
+    this.setPos(10, 10, 'Norkos', 'Norkos Town'); ;
 
     this.recalculateStats();
   }
