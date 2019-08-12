@@ -12,7 +12,7 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier, IPet } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -356,6 +356,7 @@ export class Player implements IPlayer {
     this.level.maximum = this.level.maximum + (this.ascensionLevel * 10);
 
     this.increaseStatistic('Character/Ascension/Gold', this.gold);
+    Object.values(this.$petsData.allPets).forEach((pet: IPet) => pet.gold.set(0));
     this.gold = 0;
 
     this.increaseStatistic('Character/Ascension/ItemScore', this.$inventory.totalItemScore());
