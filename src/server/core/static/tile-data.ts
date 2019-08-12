@@ -187,7 +187,8 @@ export const GidMap = {
   160: 'Armoire',
   161: 'Bookcase',
   162: 'Bookshelf',
-  163: 'HangingSign'
+  163: 'HangingSign',
+  164: 'SentientSword'
 };
 
 export const RevGidMap = invert(GidMap);
