@@ -72,14 +72,23 @@ export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
 export class LockItemEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.ItemLock;
   description = 'Lock an item in your inventory.';
-  args = 'itemId';
+  args = 'itemId?, itemSlot?';
 
-  async callback({ itemId } = { itemId: '' }) {
+  async callback({ itemId, itemSlot } = { itemId: '', itemSlot: '' }) {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const foundItem = player.$inventory.getItemFromInventory(itemId);
-    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+    if(!itemId && !itemSlot) return this.gameError('Need to specify either itemId or itemSlot');
+
+    let foundItem = null;
+
+    if(itemId) {
+      foundItem = player.$inventory.getItemFromInventory(itemId);
+      if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+    } else if(itemSlot) {
+      foundItem = player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
+      if(!foundItem) return this.gameError('There is nothing equipped in that slot.');
+    }
 
     foundItem.locked = true;
 
@@ -90,14 +99,23 @@ export class LockItemEvent extends ServerSocketEvent implements ServerEvent {
 export class UnlockItemEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.ItemUnlock;
   description = 'Unlock an item in your inventory.';
-  args = 'itemId';
+  args = 'itemId?, itemSlot?';
 
-  async callback({ itemId } = { itemId: '' }) {
+  async callback({ itemId, itemSlot } = { itemId: '', itemSlot: '' }) {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const foundItem = player.$inventory.getItemFromInventory(itemId);
-    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+    if(!itemId && !itemSlot) return this.gameError('Need to specify either itemId or itemSlot');
+
+    let foundItem = null;
+
+    if(itemId) {
+      foundItem = player.$inventory.getItemFromInventory(itemId);
+      if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+    } else if(itemSlot) {
+      foundItem = player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
+      if(!foundItem) return this.gameError('There is nothing equipped in that slot.');
+    }
 
     foundItem.locked = false;
 

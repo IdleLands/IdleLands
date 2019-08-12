@@ -13,6 +13,7 @@
       <ion-row *ngFor="let slot of slots">
         <ion-col>
           <app-item [item]="player.$inventoryData.equipment[slot]" 
+                    [showLock]="true"
                     [slot]="slot" 
                     (itemMenu)="openItemMenu($event, player.$inventoryData.equipment[slot], slot)"></app-item>
         </ion-col>

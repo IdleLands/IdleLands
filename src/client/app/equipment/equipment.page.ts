@@ -35,6 +35,13 @@ export class EquipmentPage {
         },
         unequipCallback: () => {
           this.socketService.emit(ServerEventName.ItemUnequip, { itemSlot: item.type });
+        },
+        lockCallback: (item, isLocked) => {
+          if(isLocked) {
+            this.socketService.emit(ServerEventName.ItemLock, { itemSlot: item.type });
+          } else {
+            this.socketService.emit(ServerEventName.ItemUnlock, { itemSlot: item.type });
+          }
         }
       },
       event: $event,
