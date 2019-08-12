@@ -250,7 +250,11 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.AdventureLogAdd, (advData) => {
+      console.log(advData);
       const log = this.adventureLog.getValue();
+      if(advData.timestamp) {
+        advData.message = advData.message.split('%timestamp').join(new Date(advData.timestamp).toLocaleString());
+      }
       log.unshift(advData);
       this.setAdventureLog(log);
     });

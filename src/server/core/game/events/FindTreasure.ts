@@ -15,8 +15,9 @@ export class FindTreasure extends Event {
     if(Date.now() < curTimer) {
       player.increaseStatistic('Treasure/Total/Empty', 1);
       this.emitMessage([player],
-        `You could not loot ${opts.treasureName} because it was empty! Check back at ${new Date(curTimer)}.`,
-        AdventureLogEventType.Explore);
+        `You could not loot ${opts.treasureName} because it was empty! Check back at %timestamp.`,
+        AdventureLogEventType.Explore,
+        { timestamp: curTimer });
       return;
     }
 

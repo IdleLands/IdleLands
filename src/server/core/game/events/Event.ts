@@ -125,7 +125,8 @@ export abstract class Event {
     type: AdventureLogEventType,
     extraData: {
       link?: string,
-      combatString?: string
+      combatString?: string,
+      timestamp?: number
     } = {}
   ) {
     this.emitMessageToNames(players.map(x => x.name), message, type, extraData);
@@ -137,7 +138,8 @@ export abstract class Event {
     type: AdventureLogEventType,
     extraData: {
       link?: string,
-      combatString?: string
+      combatString?: string,
+      timestamp?: number
     } = {}
   ) {
     const messageData: IAdventureLog = {
