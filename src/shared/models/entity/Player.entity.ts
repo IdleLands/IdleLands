@@ -376,17 +376,22 @@ export class Player implements IPlayer {
 
     this.$$game.festivalManager.startAscensionFestival(this);
 
-    this.setPos(10, 10, 'Norkos', 'Norkos Town'); ;
+    this.setPos(10, 10, 'Norkos', 'Norkos Town');
 
     this.recalculateStats();
   }
 
   private checkStaminaTick() {
-    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
+    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) {
+      this.nextStaminaTick = Date.now();
+      return;
+    }
 
     this.increaseStatistic('Character/Stamina/Gain', 1);
     this.stamina.add(1);
-    this.nextStaminaTick = Date.now() + STAMINA_TICK_BOOST * (this.$premiumData.tier ? 0.8 : 1);
+    this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
+
+    if(Date.now() > this.nextStaminaTick) this.checkStaminaTick();
   }
 
   private calculateStamina() {
