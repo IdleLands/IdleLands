@@ -276,10 +276,12 @@ export class PetRerollAffinityEvent extends ServerSocketEvent implements ServerE
     const pet = player.$pets.$activePet;
     const gold = player.gold;
 
+    if(pet.affinity === PetAffinity.None) return this.gameError('You cannot reroll non-combat pets!');
+
     if(gold < 100000) return this.gameError('You do not have enough gold.');
     player.spendGold(100000);
 
-    const newAff = sample(Object.values(PetAffinity));
+    const newAff = sample(Object.values(PetAffinity).filter(x => x !== PetAffinity.None));
     pet.affinity = newAff;
     player.$$game.petHelper.syncPetAffinity(pet);
 
@@ -301,10 +303,13 @@ export class PetRerollAttributeEvent extends ServerSocketEvent implements Server
     const pet = player.$pets.$activePet;
     const gold = player.gold;
 
+    const attrs = player.$achievements.getPetAttributes();
+    if(attrs.length === 1) return this.gameError('You do not have any alternate attributes unlocked yet!');
+
     if(gold < 75000) return this.gameError('You do not have enough gold.');
     player.spendGold(75000);
 
-    const newAttr = sample(player.$achievements.getPetAttributes());
+    const newAttr = sample(attrs);
     pet.attribute = newAttr;
     player.$$game.petHelper.syncPetAttribute(pet);
 
