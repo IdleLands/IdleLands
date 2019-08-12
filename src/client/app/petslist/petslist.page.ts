@@ -55,6 +55,8 @@ export class PetslistPage implements OnInit, OnDestroy {
 
         this.petOrder.push(petKey);
       });
+
+      this.storage.set('petOrder', this.petOrder);
     }
   }
 
