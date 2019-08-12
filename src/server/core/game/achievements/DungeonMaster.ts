@@ -13,7 +13,7 @@ export class DungeonMaster extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    return player.$collectibles.has('Sword in the Stone') ? 1 : 0;
+    return player.$collectibles.has('Sword in the Stones') ? 1 : 0;
   }
 
   static rewardsForTier(tier: number): any[] {
