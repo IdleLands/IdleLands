@@ -87,6 +87,7 @@ export interface IPlayer extends ICharacter {
   map: string;
   loggedIn: boolean;
   ascensionLevel: number;
+  cooldowns: { [key: string]: number };
 
   eventSteps: number;
 

@@ -131,16 +131,29 @@ class GameState extends Phaser.State {
         const nameKey = item.teleportMap ? 'teleportMap' : 'name';
         if(item.realtype) {
           const nameValue = item[nameKey];
-          strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''}`);
+
+          let affix = '';
+
+          if(item.realtype === 'Boss' && this.player.cooldowns && this.player.cooldowns[nameValue]) {
+            const availableAt = new Date(this.player.cooldowns[nameValue]);
+            affix = `[Available: ${availableAt.toLocaleString()}]`;
+          }
+
+          if(item.realtype === 'Treasure' && this.player.cooldowns && this.player.cooldowns[nameValue]) {
+            const availableAt = new Date(this.player.cooldowns[nameValue]);
+            affix = `[Available: ${availableAt.toLocaleString()}]`;
+          }
+
+          if(item.realtype === 'Collectible' && this.player.$collectiblesData && this.player.$collectiblesData.collectibles[item.name]) {
+            affix = '[Owned!]';
+          }
+
+          strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''} ${affix}`);
         }
 
         if(item.flavorText) {
           strings.push('');
           strings.push(`"${item.flavorText}"`);
-
-          if(this.player.$collectiblesData && this.player.$collectiblesData.collectibles[item.name]) {
-            strings.push('Owned!');
-          }
         }
 
         const baseRequirements = [
