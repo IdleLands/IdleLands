@@ -382,10 +382,11 @@ export class Player implements IPlayer {
   }
 
   private checkStaminaTick() {
-    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) {
+    if(this.stamina.atMaximum()) {
       this.nextStaminaTick = Date.now();
-      return;
     }
+
+    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
     this.increaseStatistic('Character/Stamina/Gain', 1);
     this.stamina.add(1);
