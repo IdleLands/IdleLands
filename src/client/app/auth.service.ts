@@ -112,8 +112,8 @@ export class AuthService {
           resolve(res);
           return;
         } catch(e) {
-          const res = await this.afAuth.auth.signInWithRedirect(new provider());
-          resolve(res);
+          await this.afAuth.auth.signInWithRedirect(new provider());
+          resolve({});
         }
       }
     });
