@@ -250,7 +250,7 @@ export class CombatSimulator {
     Object.keys(this.combat.characters).forEach(combatId => {
       const check = this.combat.characters[combatId];
 
-      if(!check.ownerId) return;
+      if(!check.summonerId) return;
       if(check.stats[Stat.HP] > 0) return;
 
       delete this.combat.characters[combatId];

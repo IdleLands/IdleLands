@@ -4,9 +4,10 @@ import { ICombatSkillEffect } from './ICombatSkill';
 export interface ICombatCharacter {
   combatId?: number;
   combatPartyId?: number;
-  ownerId?: number;
+  summonerId?: number;
 
   name: string;
+  ownerName?: string;
   realName?: string;
   specialName?: string;
   level: number;

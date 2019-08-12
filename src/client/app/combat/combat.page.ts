@@ -88,6 +88,7 @@ export class CombatPage implements OnInit {
     Object.values(combat.characters)
       .filter((x: ICombatCharacter) => x.combatPartyId === winningParty)
       .forEach((char: ICombatCharacter) => delete combat.ante[char.combatId]);
+
     const totalXPAnte = Object.values(combat.ante).reduce((prev, cur: any) => prev + cur.xp, 0);
     const totalGoldAnte = Object.values(combat.ante).reduce((prev, cur: any) => prev + cur.gold, 0);
 
@@ -113,6 +114,12 @@ export class CombatPage implements OnInit {
           this.summaryMessages.push(`${char.name} got a chance to find ${this.combatAnte.collectibles.join(', ')}!`);
         }
       }
+    });
+
+    Object.values(combat.characters).forEach((char: ICombatCharacter) => {
+      if(wasTie || !char.ownerName) return;
+
+      this.summaryMessages.push(`${char.name} earned ${xpPerChar.toLocaleString()} XP and ${goldPerChar.toLocaleString()} gold!`);
     });
   }
 

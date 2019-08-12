@@ -117,7 +117,7 @@ export const ProfessionPostRoundSkillMap: { [key in Profession]: ICombatWeighted
     // set special to # minions
     { skills: [RegenerateSpecial((skill, caster, combat) => {
       const cur = caster.stats[Stat.SPECIAL];
-      const setTo = Object.values(combat.characters).filter(x => x.ownerId === caster.combatId).length;
+      const setTo = Object.values(combat.characters).filter(x => x.summonerId === caster.combatId).length;
 
       return setTo - cur;
     }, true) ] }

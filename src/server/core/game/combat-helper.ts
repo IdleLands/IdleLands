@@ -344,7 +344,9 @@ export class CombatHelper {
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
-      return this.createCombatPet(pet);
+      const petC = this.createCombatPet(pet);
+      petC.ownerName = player.name;
+      return petC;
     }).filter(Boolean);
 
     const extraPets = players.reduce((prev, player) => {
@@ -558,6 +560,16 @@ export class CombatHelper {
       .map(x => this.playerManager.getPlayer(x.realName))
       .filter(Boolean);
 
+    const winningPets = Object.values(combat.characters)
+      .filter(x => x.combatPartyId === winningParty)
+      .map(x => {
+        const player = this.playerManager.getPlayer(x.ownerName);
+        if(!player) return;
+
+        return player.$pets.$activePet;
+      })
+      .filter(Boolean);
+
     // remove winner ante so they don't cash in hard or lose too hard
     Object.values(combat.characters).filter(x => x.combatPartyId === winningParty).forEach(char => delete combat.ante[char.combatId]);
     const totalXPAnte = Object.values(combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
@@ -568,10 +580,16 @@ export class CombatHelper {
 
     const { items, collectibles } = this.assets.allBossAssets;
 
+    const earnedGold = Math.floor(totalGoldAnte / winningPlayers.length);
+    const earnedXP = Math.floor(totalXPAnte / winningPlayers.length);
+
+    winningPets.forEach((pet) => {
+      pet.gainGold(earnedGold);
+      pet.gainXP(earnedXP);
+    });
+
     // split rewards evenly amongst the winners
     winningPlayers.forEach((char) => {
-      const earnedGold = Math.floor(totalGoldAnte / winningPlayers.length);
-      const earnedXP = Math.floor(totalXPAnte / winningPlayers.length);
 
       char.gainGold(earnedGold);
       char.gainXP(earnedXP);

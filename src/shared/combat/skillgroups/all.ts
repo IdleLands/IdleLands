@@ -57,7 +57,7 @@ export const SummonCreature = (statMuliplier: number = 1) =>
 
       combatId: lmax(Object.keys(combat.characters).map(x => +x)) + 1,
       combatPartyId: caster.combatPartyId,
-      ownerId: caster.combatId,
+      summonerId: caster.combatId,
       affinity: combat.chance.pickone(Object.values(PetAffinity))
     };
 
