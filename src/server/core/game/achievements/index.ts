@@ -7,6 +7,7 @@ export * from './AncientAscender';
 export * from './AncientContributor';
 export * from './AncientDonator';
 export * from './AncientOmega';
+export * from './AncientOrigin';
 export * from './AncientSpiritualist';
 export * from './AncientWolf';
 export * from './AncientYearling';
