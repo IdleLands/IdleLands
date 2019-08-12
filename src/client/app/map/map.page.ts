@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IonContent, PopoverController } from '@ionic/angular';
 
-import { compact, difference } from 'lodash';
+import { compact, difference, get } from 'lodash';
 import { timer, Subject, Subscription } from 'rxjs';
 
 import * as Phaser from 'phaser-ce';
@@ -157,21 +157,28 @@ class GameState extends Phaser.State {
         }
 
         const baseRequirements = [
-          { key: 'Achievement' },
-          { key: 'Boss', display: 'Boss Kill' },
-          { key: 'Class' },
-          { key: 'Collectible' },
+          { key: 'Achievement',
+            hasMet: (player, val) => player.$achievementsData && player.$achievementsData.achievements[val] },
+          { key: 'Boss', display: 'Boss Kill',
+            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['BossKill', 'Total', val]) },
+          { key: 'Class',
+            hasMet: (player, val) => player.profession === val },
+          { key: 'Collectible',
+            hasMet: (player, val) => player.$collectiblesData && player.$collectiblesData.collectibles[val] },
           { key: 'Holiday' },
-          { key: 'Region', display: 'Region Visited' },
-          { key: 'Map', display: 'Map Visited' },
-          { key: 'Ascension', display: 'Ascension Level' }
+          { key: 'Map', display: 'Map Visited',
+            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['Map', val]) },
+          { key: 'Ascension', display: 'Ascension Level',
+            hasMet: (player, val) => player.ascensionLevel >= val }
         ];
 
-        const requirements = compact(baseRequirements.map(({ key, display }) => {
+        const requirements = compact(baseRequirements.map(({ key, display, hasMet }) => {
           const req = item[`require${key}`];
           if(!req) return null;
 
-          return `${display || key}: ${req}`;
+          const bonus = hasMet && hasMet(this.player, req) ? ' [Met]' : '';
+
+          return `${display || key}: ${req}${bonus}`;
         }));
 
         if(requirements.length > 0) {
