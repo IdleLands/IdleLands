@@ -1,8 +1,7 @@
 import { BaseProfession } from './Profession';
 import { Stat } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
-import { IProfession } from '../../../../shared/interfaces';
-import { EventName } from '../events/Event';
+import { IProfession, EventName } from '../../../../shared/interfaces';
 
 export class Monster extends BaseProfession implements IProfession {
 

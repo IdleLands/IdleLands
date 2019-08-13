@@ -1,6 +1,6 @@
-import { Event, EventMessageType, EventName } from './Event';
+import { Event } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
-import { AdventureLogEventType, ServerEventName } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ServerEventName, EventName, EventMessageType } from '../../../../shared/interfaces';
 
 export class Merchant extends Event {
   public static readonly WEIGHT = 45;

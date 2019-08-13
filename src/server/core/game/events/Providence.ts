@@ -1,7 +1,7 @@
 
-import { Event, EventMessageType } from './Event';
+import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, ItemClass, ItemSlot } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ItemClass, ItemSlot, EventMessageType } from '../../../../shared/interfaces';
 import { Item } from '../../../../shared/models';
 
 export class Providence extends Event {

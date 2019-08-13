@@ -1,7 +1,7 @@
 
-import { Event, EventMessageType } from './Event';
+import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, ICombat } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ICombat, EventMessageType } from '../../../../shared/interfaces';
 
 export class BattlePvP extends Event {
   public static readonly WEIGHT = 9;

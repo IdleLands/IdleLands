@@ -141,6 +141,22 @@ export class DatabaseManager {
     }
   }
 
+  public async renamePlayer(playerName: string, newName: string): Promise<any> {
+    return this.manager.updateOne(Player, { name: playerName }, { $set: { name: newName } });
+  }
+
+  public async movePlayerToNewId(playerName: string, newPlayerName: string): Promise<boolean> {
+    const curId1 = await this.manager.findOne(Player, { name: playerName });
+    const curId2 = await this.manager.findOne(Player, { name: newPlayerName });
+
+    if(!curId1 || !curId2) return false;
+
+    await this.manager.updateOne(Player, { name: playerName }, { $set: { currentUserId: curId2.currentUserId } });
+    await this.manager.updateOne(Player, { name: newPlayerName }, { $set: { currentUserId: curId1.currentUserId } });
+
+    return true;
+  }
+
   public async verifyToken(token: string) {
     return this.firebase.auth().verifyIdToken(token);
   }

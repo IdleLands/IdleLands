@@ -47,14 +47,15 @@
             <ion-list>
               <ion-item (click)="setMOTD()" button><ion-icon name="paper" slot="start"></ion-icon> Set MOTD</ion-item>
               <ion-item (click)="createFestival()" button><ion-icon name="planet" slot="start"></ion-icon> Start Festival</ion-item>
-              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Statistic</ion-item>
-              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Name</ion-item>
-              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Level</ion-item>
-              <ion-item color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Location</ion-item>
-              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give ILP</ion-item>
-              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Gold</ion-item>
-              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Item</ion-item>
-              <ion-item color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Event</ion-item>
+              <ion-item (click)="setPlayerId()" button><ion-icon name="ribbon" slot="start"></ion-icon> Change Player Id</ion-item>
+              <ion-item (click)="setStatistic()" button><ion-icon name="ribbon" slot="start"></ion-icon> Set Statistic</ion-item>
+              <ion-item (click)="setName()" button><ion-icon name="ribbon" slot="start"></ion-icon> Set Name</ion-item>
+              <ion-item (click)="setLevel()" button><ion-icon name="ribbon" slot="start"></ion-icon> Set Level</ion-item>
+              <ion-item (click)="setLocation()" button disabled color="danger"><ion-icon name="ribbon" slot="start"></ion-icon> Set Location</ion-item>
+              <ion-item (click)="giveILP()" button><ion-icon name="trending-up" slot="start"></ion-icon> Give ILP</ion-item>
+              <ion-item (click)="giveGold()" button><ion-icon name="trending-up" slot="start"></ion-icon> Give Gold</ion-item>
+              <ion-item (click)="giveItem()" button><ion-icon name="trending-up" slot="start"></ion-icon> Give Item</ion-item>
+              <ion-item (click)="giveEvent()" button disabled color="danger"><ion-icon name="trending-up" slot="start"></ion-icon> Give Event</ion-item>
             </ion-list>
           </ion-card-content>
         </ion-card>

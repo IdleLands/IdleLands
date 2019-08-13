@@ -3,11 +3,10 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward,
-  TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners } from '../../interfaces';
+  TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners, EventName } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
-import { EventName } from '../../../server/core/game/events/Event';
 
 @Entity()
 export class Premium extends PlayerOwned {

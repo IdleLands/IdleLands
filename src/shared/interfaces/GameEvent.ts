@@ -34,3 +34,52 @@ export enum Channel {
   // internal: used to sync game settings between servers
   GameSettings = 'internal:gamesettings',
 }
+
+
+
+export enum EventMessageType {
+  Battle = 'battle',
+  BlessGold = 'blessGold',
+  BlessGoldParty = 'blessGoldParty',
+  BlessItem = 'blessItem',
+  BlessXP = 'blessXp',
+  BlessXPParty = 'blessXpParty',
+  Enchant = 'enchant',
+  FindItem = 'findItem',
+  Switcheroo = 'flipStat',
+  ForsakeGold = 'forsakeGold',
+  ForsakeItem = 'forsakeItem',
+  ForsakeXP = 'forsakeXp',
+  LevelDown = 'levelDown',
+  Merchant = 'merchant',
+  Party = 'party',
+  Providence = 'providence',
+  Tinker = 'tinker',
+  Witch = 'witch'
+}
+
+export enum EventName {
+  Battle = 'Battle',
+  BattlePvP = 'BattlePvP',
+  BattleBoss = 'BattleBoss',
+  BlessGold = 'BlessGold',
+  BlessGoldParty = 'BlessGoldParty',
+  BlessItem = 'BlessItem',
+  BlessXP = 'BlessXP',
+  BlessXPParty = 'BlessXPParty',
+  Enchant = 'Enchant',
+  FindItem = 'FindItem',
+  FindTrainer = 'FindTrainer',
+  FindTreasure = 'FindTreasure',
+  ForsakeGold = 'ForsakeGold',
+  ForsakeItem = 'ForsakeItem',
+  ForsakeXP = 'ForsakeXP',
+  Gamble = 'Gamble',
+  Merchant = 'Merchant',
+  Party = 'Party',
+  PartyLeave = 'PartyLeave',
+  Providence = 'Providence',
+  Switcheroo = 'Switcheroo',
+  TownCrier = 'TownCrier',
+  Witch = 'Witch'
+}

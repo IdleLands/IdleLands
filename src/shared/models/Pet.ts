@@ -5,8 +5,7 @@ import { nonenumerable } from 'nonenumerable';
 
 import { Item } from './Item';
 import { IGame, Stat, IParty, IPet, PetAffinity, PetAttribute, IBuff, IPlayer,
-  PetUpgrade, PermanentUpgrade, IAttribute, IAffinity, ItemSlot } from '../interfaces';
-import { EventName } from '../../server/core/game/events/Event';
+  PetUpgrade, PermanentUpgrade, IAttribute, IAffinity, ItemSlot, EventName } from '../interfaces';
 
 export class Pet implements IPet {
 
