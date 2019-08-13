@@ -164,6 +164,7 @@ export class Inventory extends PlayerOwned {
     if(!scroll || scroll.expiresAt < Date.now()) return false;
 
     player.addBuff({
+      booster: true,
       name: scroll.name,
       statistic: 'Character/Ticks',
       duration: Math.max(720, (720 * player.$statistics.get('Game/Premium/Upgrade/BuffScrollDuration'))), // 1 hour per stat,
