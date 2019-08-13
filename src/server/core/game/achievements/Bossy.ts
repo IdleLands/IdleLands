@@ -16,7 +16,7 @@ export class Bossy extends Achievement {
     }
 
     if(tier >= 5) {
-      baseStr = `${baseStr} Title: Bossy.`;
+      baseStr = `${baseStr} Title: Bossy Banana.`;
     }
 
     if(tier >= 15) {
@@ -43,12 +43,12 @@ export class Bossy extends Achievement {
       } }
     ];
 
-    if(tier >= 5) {
+    if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Seeker' });
     }
 
     if(tier >= 5) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Bossy' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Bossy Banana' });
     }
 
     if(tier >= 15) {
