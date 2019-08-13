@@ -190,7 +190,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
         ],
         ...Array(20).fill([
           Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(50),
-          Description('%source unleased a relentless assault on %target and dealt %value damage!'),
+          Description('%source unleashed a relentless assault on %target and dealt %value damage!'),
           StatMod(Stat.HP, RandomNumber(
             (caster) => (caster.stats[Stat.DEX] + caster.stats[Stat.STR]) * 0.1,
             (caster) => (caster.stats[Stat.DEX] + caster.stats[Stat.STR]) * 0.15
