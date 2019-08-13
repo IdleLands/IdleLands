@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController, IonMenu } from '@ionic/angular';
 
+import * as uuid from 'uuid/v4';
 import { applyPatch } from 'fast-json-patch';
 import { get, pullAllBy, merge, find, uniqBy, sortBy, cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
@@ -204,7 +205,7 @@ export class GameService {
         }
 
         const components = await Fingerprint.getPromise();
-        const userId = Fingerprint.x64hash128(components.map(x => x.value).join(''), 31);
+        const userId = Fingerprint.x64hash128(components.map(x => x.value).join(''), 31) + uuid();
         this.userId.next(userId);
         await this.storage.set('fingerprint', userId);
         resolve(userId);
