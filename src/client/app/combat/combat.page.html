@@ -80,7 +80,7 @@
 
     <ion-item-group>
       <ion-item-divider>Combat Log</ion-item-divider>
-      <ion-item *ngFor="let message of combatMessages">
+      <ion-item *ngFor="let message of combatMessages" [color]="message.highlight ? 'light' : ''">
         <ng-container [ngSwitch]="message.message">
           <ng-container *ngSwitchCase="'__summary'">
             <ng-container *ngTemplateOutlet="summary; context: { combat: message.data }"></ng-container>

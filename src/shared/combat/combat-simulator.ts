@@ -212,7 +212,11 @@ export class CombatSimulator {
 
     // share what happened with the world
     const message = this.formatMessage(effect, character);
-    this.events$.next({ action: CombatAction.Message, data: { message, combat: this.formatCombat(this.combat) } });
+    this.events$.next({ action: CombatAction.Message, data: {
+      message,
+      source: effect.source,
+      combat: this.formatCombat(this.combat) }
+    });
 
     // do statistic modifications
     if(effect.modifyStat === Stat.HP) {

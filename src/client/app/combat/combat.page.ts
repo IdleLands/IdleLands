@@ -6,6 +6,7 @@ import { decompress } from 'lzutf8';
 
 import { ICombat, ICombatCharacter, Stat } from '../../../shared/interfaces';
 import { CombatAction, CombatSimulator } from '../../../shared/combat/combat-simulator';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-combat',
@@ -20,12 +21,13 @@ export class CombatPage implements OnInit {
 
   public combat: ICombat;
   public combatAnte = { xp: 0, gold: 0, items: [], collectibles: [] };
-  public combatMessages: Array<{ message: string, data?: ICombat }> = [];
+  public combatMessages: Array<{ message: string, data?: ICombat, highlight?: boolean }> = [];
   public summaryMessages: string[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private gameService: GameService,
     private alertCtrl: AlertController
   ) { }
 
@@ -49,6 +51,10 @@ export class CombatPage implements OnInit {
 
   private beginCombat() {
 
+    const myPlayerName = this.gameService.playerRef ? this.gameService.playerRef.name : null;
+    const myCombatPlayer = Object.values(this.combat.characters).find(x => x.realName === myPlayerName);
+    const myParty = myCombatPlayer ? myCombatPlayer.combatPartyId : null;
+
     this.combatAnte.xp = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.xp, 0);
     this.combatAnte.gold = Object.values(this.combat.ante).reduce((prev, cur) => prev + cur.gold, 0);
 
@@ -59,7 +65,8 @@ export class CombatPage implements OnInit {
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Message) {
         if(!data.message) return;
-        this.combatMessages.push({ message: data.message });
+        const combatChar = data.combat.characters[data.source];
+        this.combatMessages.push({ message: data.message, highlight: combatChar.combatPartyId === myParty });
       }
 
       if(action === CombatAction.PrintStatistics) {
