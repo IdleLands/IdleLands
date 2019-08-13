@@ -108,7 +108,7 @@
       
     </ion-menu>
 
-    <ion-menu side="end" #playerMenu [swipeGesture]="false" type="overlay" [class.ion-hide]="hiddenPlayerMenu">
+    <ion-menu class="player-menu" side="end" #playerMenu [swipeGesture]="false" type="overlay" [class.ion-hide]="hiddenPlayerMenu">
       <ion-header>
         <ion-toolbar color="primary">
           <ion-title>Players ({{ gameService.players.length }})</ion-title>
