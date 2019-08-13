@@ -10,6 +10,7 @@ import { SharedModule } from '../shared.module';
 import { ToggleMuteModal } from './togglemute.modal';
 import { ModTierModal } from './modtier.modal';
 import { ModFestivalModal } from './modfestival.modal';
+import { ModItemModal } from './moditem.modal';
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal],
-  entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal]
+  declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal],
+  entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal]
 })
 export class ModeratorPageModule {}

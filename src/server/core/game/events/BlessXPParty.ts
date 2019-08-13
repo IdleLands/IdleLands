@@ -1,6 +1,6 @@
-import { Event, EventMessageType, EventName } from './Event';
+import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, Stat } from '../../../../shared/interfaces';
+import { AdventureLogEventType, Stat, EventMessageType } from '../../../../shared/interfaces';
 
 export class BlessXPParty extends Event {
   public static readonly WEIGHT = 0;

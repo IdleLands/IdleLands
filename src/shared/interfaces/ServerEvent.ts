@@ -70,7 +70,14 @@ export enum ServerEventName {
   GMSetMOTD = 'gm:setmotd',
   GMChangeModTier = 'gm:modtier',
   GMStartFestival = 'gm:startfestival',
-  GMToggleMute = 'gm:togglemute'
+  GMToggleMute = 'gm:togglemute',
+  GMSetStatistic = 'gm:setstatistic',
+  GMSetName = 'gm:setname',
+  GMSetLevel = 'gm:setlevel',
+  GMGiveILP = 'gm:giveilp',
+  GMGiveGold = 'gm:givegold',
+  GMGiveItem = 'gm:giveitem',
+  GMPortCharacterId = 'gm:portcharacterid'
 }
 
 export enum PlayerChannelOperation {

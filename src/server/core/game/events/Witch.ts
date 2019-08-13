@@ -1,6 +1,6 @@
-import { Event, EventMessageType } from './Event';
+import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, Stat, AllStatsButSpecial } from '../../../../shared/interfaces';
+import { AdventureLogEventType, AllStatsButSpecial, EventMessageType } from '../../../../shared/interfaces';
 
 export class Witch extends Event {
   public static readonly WEIGHT = 3;

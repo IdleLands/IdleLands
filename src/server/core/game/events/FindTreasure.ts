@@ -1,8 +1,8 @@
-import { Event, EventName } from './Event';
+import { Event } from './Event';
 import { sample } from 'lodash';
 import { Player } from '../../../../shared/models/entity';
 import { Item } from '../../../../shared/models';
-import { ItemClass, AdventureLogEventType } from '../../../../shared/interfaces';
+import { ItemClass, AdventureLogEventType, EventName } from '../../../../shared/interfaces';
 
 export class FindTreasure extends Event {
   public static readonly WEIGHT = 0;

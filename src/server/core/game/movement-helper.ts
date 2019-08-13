@@ -4,12 +4,11 @@ import { capitalize, get } from 'lodash';
 
 import { Player } from '../../../shared/models';
 import { World, Tile } from './world';
-import { Direction, MovementType, Channel, AdventureLogEventType } from '../../../shared/interfaces';
+import { Direction, MovementType, Channel, AdventureLogEventType, EventName } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { EventManager } from './event-manager';
 import { Logger } from '../logger';
 import { HolidayHelper } from './holiday-helper';
-import { EventName } from './events/Event';
 import { AssetManager } from './asset-manager';
 import { PartyHelper } from './party-helper';
 

@@ -5,9 +5,9 @@ import { RNGService } from './rng-service';
 import * as Events from '../game/events';
 import { Choice } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
-import { ServerEventName, Channel, Stat } from '../../../shared/interfaces';
+import { ServerEventName, Channel, Stat, EventName } from '../../../shared/interfaces';
 import { Logger } from '../logger';
-import { EventName, Event } from './events/Event';
+import { Event } from './events/Event';
 import { SubscriptionManager } from './subscription-manager';
 
 const EVENT_TICKS = process.env.NODE_ENV === 'production' ? { min: 25, max: 35 } : { min: 3, max: 5 };

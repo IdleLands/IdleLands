@@ -4,7 +4,7 @@ import { PlayerManager } from './player-manager';
 
 import { Player } from '../../../shared/models/entity';
 import { ServerEventName, IGame, PlayerChannelOperation, IMessage,
-  IAdventureLog, AdventureLogEventType, Channel } from '../../../shared/interfaces';
+  IAdventureLog, AdventureLogEventType, Channel, EventName } from '../../../shared/interfaces';
 import { Logger } from '../logger';
 import { ItemGenerator } from './item-generator';
 import { AssetManager } from './asset-manager';
@@ -21,7 +21,6 @@ import { ChatHelper } from './chat-helper';
 import { PartyHelper } from './party-helper';
 import { PartyManager } from './party-manager';
 import { BuffManager } from './buff-manager';
-import { EventName } from './events/Event';
 import { PetHelper } from './pet-helper';
 import { RNGService } from './rng-service';
 import { CombatHelper } from './combat-helper';

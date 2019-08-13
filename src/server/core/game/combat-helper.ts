@@ -6,7 +6,7 @@ import { compress } from 'lzutf8';
 import { Player } from '../../../shared/models';
 import { CombatSimulator, CombatAction } from '../../../shared/combat/combat-simulator';
 import { ICombat, ICombatCharacter, Profession, ItemSlot, Stat, IBuff, PetUpgrade,
-  ItemClass, PetAffinity, IPet } from '../../../shared/interfaces';
+  ItemClass, PetAffinity, IPet, EventName } from '../../../shared/interfaces';
 import { AssetManager } from './asset-manager';
 import { PlayerManager } from './player-manager';
 import { ItemGenerator } from './item-generator';
@@ -16,7 +16,6 @@ import * as Affinities from './affinities';
 import * as Professions from './professions';
 import { Pet } from '../../../shared/models/Pet';
 import { RNGService } from './rng-service';
-import { EventName } from './events/Event';
 
 @Singleton
 @AutoWired
