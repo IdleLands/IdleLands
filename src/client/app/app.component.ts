@@ -42,7 +42,10 @@ export class AppComponent {
       return this.gameService.unreadMessages;
     } },
 
-    { name: 'Gear', icon: 'gear', url: '/gear' },
+    { name: 'Gear', icon: 'gear', url: '/gear', badgeColor: 'secondary', badge: (player) => {
+      if(!player.$inventoryData || !player.$inventoryData.buffScrolls || !player.$inventoryData.buffScrolls.length) return;
+      return player.$inventoryData.buffScrolls.length + ' Scroll(s)';
+    } },
 
     { name: 'Map', icon: 'map', url: '/map' },
 

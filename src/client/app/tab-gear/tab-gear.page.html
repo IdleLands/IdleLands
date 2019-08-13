@@ -21,6 +21,10 @@
     <ion-tab-button tab="materials">
       <ion-icon [src]="'assets/icon/category-materials.svg'"></ion-icon>
       <ion-label>Materials & Scrolls</ion-label>
+
+      <ng-container *ngIf="(gameService.player$ | async) as player">
+        <ion-badge *ngIf="player.$inventoryData" [color]="'secondary'">{{ player.$inventoryData.buffScrolls.length }}</ion-badge>
+      </ng-container>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
