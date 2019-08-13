@@ -282,6 +282,8 @@ export class MovementHelper {
     if(!dest.fromName) dest.fromName = player.map;
     if(!dest.destName) dest.destName = dest.map;
 
+    player.divineDirection = null;
+
     if(dest.toLoc) {
       if(dest.toLoc === 'guildbase') {
         return;
