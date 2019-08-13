@@ -34,7 +34,7 @@ export class Comedian extends Achievement {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Lucky' });
     }
 
-    if(tier >= 5) {
+    if(tier >= 6) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Comedian' });
     }
 
