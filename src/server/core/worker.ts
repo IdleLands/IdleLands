@@ -45,7 +45,7 @@ export class GameWorker extends SCWorker {
 
     const limiter = rateLimit({
       windowMs: 10 * 1000, // 10 seconds
-      max: 3
+      max: 10
     });
 
     if(process.env.NODE_ENV === 'production') {
