@@ -13,7 +13,7 @@ export class Gamble extends Event {
     if(valueChosen === 'Double') {
       odds /= 2;
       payoff *= 3;
-      bet = bet;
+      bet = bet * 2;
     }
 
     if(player.gold < bet) {
