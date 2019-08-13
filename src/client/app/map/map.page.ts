@@ -115,6 +115,16 @@ class GameState extends Phaser.State {
     if(this.playerTimer$) this.playerTimer$.unsubscribe();
   }
 
+  private addText(text: string[]) {
+    if(!this.stored || !this.stored.gameText) return;
+
+    this.stored.gameText.next(text);
+
+    setTimeout(() => {
+      this.stored.gameText.next(null);
+    }, 5000);
+  }
+
   private watchDivineSteps() {
     this.game.input.onDown.add(() => {
       const x = Math.floor((this.game.camera.x + this.game.input.activePointer.x) / 16);
@@ -193,7 +203,7 @@ class GameState extends Phaser.State {
           strings.push(...requirements);
         }
 
-        this.stored.gameText.next(strings);
+        this.addText(strings);
       };
 
       const removeText = () => {
@@ -235,7 +245,6 @@ class GameState extends Phaser.State {
   private async setPlayer(player: IPlayer): Promise<void> {
 
     // set player
-    const prevPlayer = this.player;
     this.player = player;
 
     if(!player) {
@@ -318,8 +327,8 @@ class GameState extends Phaser.State {
 
         this.currentPetSprite.inputEnabled = true;
 
-        this.currentPetSprite.events.onInputDown.add(() => this.stored.gameText.next([`Pet: ${curPet.name}`]));
-        this.currentPetSprite.events.onInputOver.add(() => this.stored.gameText.next([`Pet: ${curPet.name}`]));
+        this.currentPetSprite.events.onInputDown.add(() => this.addText([`Pet: ${curPet.name}`]));
+        this.currentPetSprite.events.onInputOver.add(() => this.addText([`Pet: ${curPet.name}`]));
 
         this.currentPetSprite.events.onInputOut.add(() => this.stored.gameText.next(null));
       }
@@ -330,14 +339,10 @@ class GameState extends Phaser.State {
       sprite.inputEnabled = true;
 
       const addText = () => {
-        this.stored.gameText.next([
+        this.addText([
           `Player: ${player.name}${player.title ? ', the ' + player.title : ''}`,
           `Level ${player.level.__current ? player.level.__current : player.level} ${player.profession}`
         ]);
-
-        setTimeout(() => {
-          this.stored.gameText.next(null);
-        }, 5000);
       };
 
       const removeText = () => {
