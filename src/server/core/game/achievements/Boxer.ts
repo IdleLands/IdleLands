@@ -32,7 +32,7 @@ export class Boxer extends Achievement {
     ];
 
     if(tier >= 5) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Boxer' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Bodacious Boxer' });
     }
 
     return baseRewards;
