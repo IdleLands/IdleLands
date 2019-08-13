@@ -540,7 +540,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     { weight: 2, skills: [
       [
         Targets(Targetting.All), EffectsPerTarget(1),
-        StatMod(Stat.LUK, RandomNumber(
+        StatMod(Stat.HP, RandomNumber(
           (caster) => -caster.stats[Stat.LUK],
           (caster) => caster.stats[Stat.LUK],
           true
@@ -553,7 +553,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     { weight: 2, skills: [
       [
         Targets(Targetting.SingleEnemy), EffectsPerTarget(1), Accuracy(25),
-        StatMod(Stat.LUK, RandomNumber(
+        StatMod(Stat.HP, RandomNumber(
           (caster) => caster.stats[Stat.LUK] * 3,
           (caster) => caster.stats[Stat.LUK] * 5
         )),
