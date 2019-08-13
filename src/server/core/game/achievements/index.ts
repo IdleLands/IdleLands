@@ -11,6 +11,7 @@ export * from './AncientOrigin';
 export * from './AncientSpiritualist';
 export * from './AncientWolf';
 export * from './AncientYearling';
+export * from './AnimalAdmiral';
 export * from './Ascended';
 export * from './Blessed';
 export * from './BoosterSeat';

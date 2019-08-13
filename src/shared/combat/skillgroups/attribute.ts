@@ -60,6 +60,33 @@ export const AttributeSkillMap: { [key in PetAttribute]: ICombatWeightedSkillCho
     ] },
   ],
 
+  [PetAttribute.Ferocious]: [
+    { weight: 1,
+      skills: [
+        [
+          Targets(Targetting.SingleEnemy),
+          SameTarget(
+            [
+              EffectsPerTarget(1), Accuracy(90),
+              Description('%source bit %target with poison fangs and dealt %value damage!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.DEX] * 2.0,
+                (caster) => caster.stats[Stat.DEX] * 2.5
+              ))
+            ],
+            [
+              EffectsPerTarget(1), Accuracy(90), Delay(1), Duration(5),
+              Description('%target took %value damage from %source\'s poison!'),
+              StatMod(Stat.HP, RandomNumber(
+                (caster) => caster.stats[Stat.DEX] * 0.5,
+                (caster) => caster.stats[Stat.DEX] * 0.8
+              ))
+            ]
+          )
+        ]
+    ] },
+  ],
+
   [PetAttribute.Fateful]: [
     { weight: 1, skills: [
       [
