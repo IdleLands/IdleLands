@@ -28,7 +28,7 @@ export class Divine extends Achievement {
       { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: tier } }
     ];
 
-    if(tier >= 5) {
+    if(tier >= 6) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Divine' });
     }
 
