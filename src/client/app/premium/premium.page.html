@@ -16,14 +16,38 @@
           <ion-card-header>
             <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
             <ion-card-title>
+              Festivals
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let festival of festivals">
+                <ion-label class="ion-text-wrap">
+                  <h3>{{ festival.name }}</h3>
+                  <p>{{ festival.desc }}</p>
+                </ion-label>
+
+                <ion-button slot="end" 
+                            (click)="buyFestival(festival)" 
+                            [disabled]="player.$premiumData.ilp < festival.cost * festival.duration">
+                            Buy ({{ festival.cost * (festival.duration / 24) | number }} ILP)
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        
+        <ion-card *ngIf="player.$premiumData">
+          <ion-card-header>
+            <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
+            <ion-card-title>
               Premium Upgrades
             </ion-card-title>
           </ion-card-header>
 
-          <ion-card-content *ngIf="player.$premiumData">
+          <ion-card-content>
             <ion-list>
-              <ion-item lines="none" text-wrap>You can earn ILP by finding collectibles, leveling up, and ascending.</ion-item>
-
               <ion-item *ngFor="let upgrade of upgrades">
                 <ion-label class="ion-text-wrap">
                   <h3>{{ upgrade.name }}</h3>
@@ -34,7 +58,9 @@
                   </p>
                 </ion-label>
 
-                <ion-button slot="end" (click)="buyUpgrade(upgrade.upgrade)">Buy</ion-button>
+                <ion-button slot="end" 
+                            (click)="buyUpgrade(upgrade.upgrade)" 
+                            [disabled]="player.$premiumData.ilp < upgradeCost(upgrade.upgrade, player.$premiumData.upgradeLevels[upgrade.upgrade])">Buy</ion-button>
               </ion-item>
             </ion-list>
           </ion-card-content>

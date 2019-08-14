@@ -56,7 +56,7 @@ export class Bard extends BaseProfession implements IProfession {
     const festival: IFestival = {
       name: `${player.name}'s Bardic Festival`,
       endTime: Date.now() + (1000 * 60 * 60),
-      startedBy: player.name,
+      startedBy: `${player.name} the Bard`,
       stats
     };
 

@@ -60,6 +60,7 @@ export enum ServerEventName {
   AstralGateRewards = 'astralgate:rewards',
 
   PremiumUpgrade = 'premium:upgrade',
+  PremiumFestival = 'premium:festival',
 
   ChoiceMake = 'choice:make',
 

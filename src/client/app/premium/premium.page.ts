@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { ServerEventName, PermanentUpgrade, PremiumScale } from '../../../shared/interfaces';
+import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost, FestivalType } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-premium',
@@ -11,6 +11,30 @@ import { ServerEventName, PermanentUpgrade, PremiumScale } from '../../../shared
 export class PremiumPage implements OnInit {
 
   public scale = PremiumScale;
+
+  public festivals = [
+    {
+      name: '+20% Core Stats (3 days)',
+      type: FestivalType.CoreStats,
+      duration: 72,
+      desc: 'Increase STR, DEX, CON, AGI, INT, LUK by +20% for all players for 3 days.',
+      cost: FestivalCost.CoreStats
+    },
+    {
+      name: '+20% XP (3 days)',
+      type: FestivalType.XP,
+      duration: 72,
+      desc: 'Increase XP gain by +20% for all players for 3 days.',
+      cost: FestivalCost.XP
+    },
+    {
+      name: '+20% Gold (3 days)',
+      type: FestivalType.Gold,
+      duration: 72,
+      desc: 'Increase GOLD gain by +20% for all players for 3 days.',
+      cost: FestivalCost.Gold
+    }
+  ];
 
   public upgrades = [
     { name: 'Adventure Log',     upgrade: PermanentUpgrade.AdventureLogSizeBoost, desc: 'Your adventure log size goes up by 1.' },
@@ -37,6 +61,10 @@ export class PremiumPage implements OnInit {
 
   buyUpgrade(upgradeName: string) {
     this.socketService.emit(ServerEventName.PremiumUpgrade, { upgradeName });
+  }
+
+  buyFestival(festival) {
+    this.socketService.emit(ServerEventName.PremiumFestival, { festivalType: festival.type, duration: festival.duration });
   }
 
 }

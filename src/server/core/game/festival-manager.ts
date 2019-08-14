@@ -109,6 +109,10 @@ export class FestivalManager {
     });
   }
 
+  public hasFestivalForName(name: string): boolean {
+    return this.festivals.festivals.some(fest => fest.startedBy === name);
+  }
+
   public initiateAddFestival(festival: IFestival): boolean {
     if(!festival.id) festival.id = this.rng.id();
 
