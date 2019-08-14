@@ -18,8 +18,8 @@ export class Healer extends BaseAffinity {
     [Stat.HP]:  1,
     [Stat.STR]: 0.5,
     [Stat.DEX]: 1,
-    [Stat.INT]: 3,
-    [Stat.CON]: 3,
+    [Stat.INT]: 2.5,
+    [Stat.CON]: 1.3,
     [Stat.AGI]: 2,
     [Stat.LUK]: 2,
 

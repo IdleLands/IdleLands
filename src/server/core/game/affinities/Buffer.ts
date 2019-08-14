@@ -12,10 +12,10 @@ export class Buffer extends BaseAffinity {
     [Stat.HP]:  0.7,
     [Stat.STR]: 1,
     [Stat.DEX]: 1,
-    [Stat.INT]: 3,
-    [Stat.CON]: 3,
+    [Stat.INT]: 2,
+    [Stat.CON]: 2,
     [Stat.AGI]: 1,
-    [Stat.LUK]: 3,
+    [Stat.LUK]: 2,
 
     [Stat.XP]:   2,
     [Stat.GOLD]: 1

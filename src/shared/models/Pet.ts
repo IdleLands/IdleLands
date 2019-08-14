@@ -216,6 +216,18 @@ export class Pet implements IPet {
 
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);
+
+      const statBase = this.stats[stat];
+
+      // stat profession multiplier boost
+      const profMult = this.$affinity.calcStatMultiplier(stat);
+      if(profMult > 1) {
+        const addedValue = Math.floor((statBase * profMult)) - statBase;
+        this.addStatTrail(stat, addedValue, `${this.affinity} Mult. (${profMult.toFixed(1)}x)`);
+      } else if(profMult < 1) {
+        const lostValue = statBase - Math.floor(statBase * profMult);
+        this.addStatTrail(stat, -lostValue, `${this.affinity} Mult. (${profMult.toFixed(1)}x)`);
+      }
     });
 
     const copyStats = clone(this.stats);

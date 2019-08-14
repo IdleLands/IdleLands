@@ -12,10 +12,10 @@ export class Hunter extends BaseAffinity {
     [Stat.HP]:  0.7,
     [Stat.STR]: 2,
     [Stat.DEX]: 2,
-    [Stat.INT]: 3,
+    [Stat.INT]: 1.5,
     [Stat.CON]: 1,
     [Stat.AGI]: 1,
-    [Stat.LUK]: 3,
+    [Stat.LUK]: 1.5,
 
     [Stat.XP]:   1,
     [Stat.GOLD]: 1

@@ -17,7 +17,7 @@ export class Caster extends BaseAffinity {
     [Stat.HP]:  0.5,
     [Stat.STR]: 0.5,
     [Stat.DEX]: 1,
-    [Stat.INT]: 5,
+    [Stat.INT]: 3,
     [Stat.CON]: 1,
     [Stat.AGI]: 1,
     [Stat.LUK]: 2,
