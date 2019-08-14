@@ -12,7 +12,7 @@ import * as Fingerprint from 'fingerprintjs2';
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage,
-  GachaNameReward, IChoice } from '../../shared/interfaces';
+  GachaNameReward, IChoice, IAchievement, ICollectible, IAdventure } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
@@ -60,6 +60,31 @@ export class GameService {
   private player: BehaviorSubject<IPlayer> = new BehaviorSubject<IPlayer>(null);
   public get player$() {
     return this.player;
+  }
+
+  private achievements: BehaviorSubject<IAchievement[]> = new BehaviorSubject<IAchievement[]>(null);
+  public get achievements$() {
+    return this.achievements;
+  }
+
+  private collectibles: BehaviorSubject<ICollectible[]> = new BehaviorSubject<ICollectible[]>(null);
+  public get collectibles$() {
+    return this.collectibles;
+  }
+
+  private choices: BehaviorSubject<IChoice[]> = new BehaviorSubject<IChoice[]>(null);
+  public get choices$() {
+    return this.choices;
+  }
+
+  private items: BehaviorSubject<IItem[]> = new BehaviorSubject<IItem[]>(null);
+  public get items$() {
+    return this.items;
+  }
+
+  private adventures: BehaviorSubject<IAdventure[]> = new BehaviorSubject<IAdventure[]>(null);
+  public get adventures$() {
+    return this.adventures;
   }
 
   public get status$() {
@@ -149,6 +174,78 @@ export class GameService {
     this.checkPlayerUpdatesForNotifications(curPlayer, player);
 
     (<any>window).discordGlobalCharacter = player;
+  }
+
+  private manageAndApplyPatchesToObservables(player: IPlayer, patches: any[]) {
+
+    console.log(player, patches);
+
+    const updateOrders = [
+      {
+        pathSearch: '$achievements',
+        flag: false,
+        order: (achObj) => sortBy(Object.values(achObj.achievements), 'name'),
+        observable: this.achievements,
+        playerData: (pl) => pl.$achievementsData
+      },
+      {
+        pathSearch: '$collectibles',
+        flag: false,
+        order: (collObj) => sortBy(Object.values(collObj.collectibles), [
+          (coll: ICollectible) => -coll.foundAt,
+          (coll: ICollectible) => coll.name
+        ]),
+        observable: this.collectibles,
+        playerData: (pl) => pl.$collectiblesData
+      },
+      {
+        pathSearch: '$choices',
+        flag: false,
+        order: (chObj) => sortBy(Object.values(chObj.choices), (c: IChoice) => -c.foundAt),
+        observable: this.choices,
+        playerData: (pl) => pl.$choicesData
+      },
+      {
+        pathSearch: '$inventoryData/items',
+        flag: false,
+        order: (iObj) => sortBy(iObj.items, (c: IItem) => -c.score),
+        observable: this.items,
+        playerData: (pl) => pl.$inventoryData
+      },
+      {
+        pathSearch: '$petsData/adventures',
+        flag: false,
+        order: (pObj) => {
+          const complete = pObj.adventures.filter(x => x.finishAt && x.finishAt < Date.now());
+          const incomplete = pObj.adventures.filter(x => !x.finishAt || x.finishAt > Date.now());
+
+          return complete.concat(sortBy(incomplete, [
+            (c: IAdventure) => c.finishAt < Date.now(),
+            (c: IAdventure) => -c.finishAt
+          ]));
+        },
+        observable: this.adventures,
+        playerData: (pl) => pl.$petsData
+      }
+    ];
+
+    patches.forEach(({ path }) => {
+      updateOrders.forEach(order => {
+        if(order.flag || !path.includes(order.pathSearch)) return;
+        order.flag = true;
+      });
+    });
+
+    updateOrders.forEach(order => {
+      const curData = order.observable.getValue();
+      if(!curData || order.flag) {
+        (<any>order.observable).next(
+          <any> order.order(
+            <any> order.playerData(player)
+          )
+        );
+      }
+    });
   }
 
   public async init() {
@@ -247,6 +344,10 @@ export class GameService {
       try {
         const newPlayer = applyPatch(cloneDeep(this.currentPlayer), patches).newDocument;
         this.setCurrentPlayer(newPlayer);
+
+        setTimeout(() => {
+          this.manageAndApplyPatchesToObservables(this.currentPlayer, patches);
+        }, 0);
       } catch(e) {}
     });
 

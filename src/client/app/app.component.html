@@ -23,10 +23,13 @@
   
               <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
   
-              <ion-badge class="thought-bubble" slot="start" color="secondary" *ngIf="player.$choicesData?.choices?.length">{{ player.$choicesData.choices.length }}</ion-badge>
-              <div class="thought-bubble-1" slot="start" *ngIf="player.$choicesData?.choices?.length">&nbsp;</div>
-              <div class="thought-bubble-2" slot="start" *ngIf="player.$choicesData?.choices?.length">&nbsp;</div>
-              <div class="thought-bubble-3" slot="start" *ngIf="player.$choicesData?.choices?.length">&nbsp;</div>
+              <ng-container *ngIf="gameService.choices | async as choices">
+                <ion-badge class="thought-bubble" slot="start" color="secondary" *ngIf="choices?.length">{{ choices.length }}</ion-badge>
+                <div class="thought-bubble-1" slot="start" *ngIf="choices?.length">&nbsp;</div>
+                <div class="thought-bubble-2" slot="start" *ngIf="choices?.length">&nbsp;</div>
+                <div class="thought-bubble-3" slot="start" *ngIf="choices?.length">&nbsp;</div>
+              </ng-container>
+
               <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
               
               <ion-label class="ion-text-wrap">

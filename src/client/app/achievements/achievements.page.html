@@ -3,30 +3,33 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Achievements</ion-title>
+    <ion-title>
+      Achievements
+      <ng-container *ngIf="(gameService.achievements$ | async) as achievements">({{ achievements?.length }})</ng-container>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="(player?.$achievementsData?.achievements | keyvalue)?.length === 0">
+  <ng-container *ngIf="(gameService.achievements$ | async) as achievements">
+    <div class="blank-slate" *ngIf="!achievements?.length">
       You have no achievements.
     </div>
-
+    
     <ion-row class="ion-flex-wrap">
-      <ion-col size-xs="12" size-md="6" *ngFor="let ach of player?.$achievementsData?.achievements | keyvalue">
+      <ion-col size-xs="12" size-md="6" *ngFor="let ach of achievements">
         <ion-card>
           <ion-card-header>
-            <ion-card-subtitle>Achieved {{ ach.value.achievedAt | date:'medium' }}</ion-card-subtitle>
-            <ion-card-title>{{ ach.value.name }} (t{{ ach.value.tier }})</ion-card-title>
+            <ion-card-subtitle>Achieved {{ ach.achievedAt | date:'medium' }}</ion-card-subtitle>
+            <ion-card-title>{{ ach.name }} (t{{ ach.tier }})</ion-card-title>
 
-            <ion-icon class="title-img" [src]="'assets/icon/symbol-' + ach.value.type + '.svg'"></ion-icon>
+            <ion-icon class="title-img" [src]="'assets/icon/symbol-' + ach.type + '.svg'"></ion-icon>
           </ion-card-header>
 
           <ion-card-content>
             <ion-row class="ach-row">
               <ion-col>
-                {{ ach.value.desc }}
+                {{ ach.desc }}
               </ion-col>
             </ion-row>
           </ion-card-content>

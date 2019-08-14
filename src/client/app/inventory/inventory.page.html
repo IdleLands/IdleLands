@@ -18,12 +18,12 @@
 </ion-header>
 
 <ion-content padding>
-  <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="player?.$inventoryData?.items?.length === 0">
+  <ng-container *ngIf="(gameService.items$ | async) as items">
+    <div class="blank-slate" *ngIf="!items?.length">
       You have no items in your inventory.
     </div>
 
-    <ion-row *ngFor="let item of player?.$inventoryData?.items | orderBy:'score':true">
+    <ion-row *ngFor="let item of items">
       <ion-col>
         <app-item [item]="item" 
                   [showLock]="true"

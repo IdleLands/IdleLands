@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, IChoice } from '../../../../shared/interfaces';
 import { Choice } from '../../../../shared/models';
 
 export class FindTrainer extends Event {
@@ -34,8 +34,8 @@ export class FindTrainer extends Event {
       return;
     }
 
-    const existingChoices = player.$choicesData.choices;
-    const hasMatchingItem = existingChoices.some(x => {
+    const existingChoices = Object.values(player.$choicesData.choices);
+    const hasMatchingItem = existingChoices.some((x: IChoice) => {
       if(!x.extraData || !x.extraData.professionName) return;
       return x.extraData.professionName;
     });

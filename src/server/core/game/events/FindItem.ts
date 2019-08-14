@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
-import { AdventureLogEventType, ServerEventName, Stat, EventMessageType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ServerEventName, Stat, EventMessageType, IChoice } from '../../../../shared/interfaces';
 
 export class FindItem extends Event {
   public static readonly WEIGHT = 30;
@@ -47,8 +47,8 @@ export class FindItem extends Event {
     }
 
     if(opts.item) {
-      const existingChoices = player.$choicesData.choices;
-      const hasMatchingItem = existingChoices.some(x => {
+      const existingChoices = Object.values(player.$choicesData.choices);
+      const hasMatchingItem = existingChoices.some((x: IChoice) => {
         if(!x.extraData || !x.extraData.item) return;
         return x.extraData.item.name === opts.item.name;
       });

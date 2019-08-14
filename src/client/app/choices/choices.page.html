@@ -6,32 +6,31 @@
     <ion-title>
       Choices
       <span *ngIf="(gameService.player$ | async) as player">
-        ({{ player?.$choicesData?.choices.length }}/{{ player?.$choicesData?.size }})
+        ({{ (gameService.choices$ | async)?.length || 0 }}/{{ player?.$choicesData?.size }})
       </span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <div class="blank-slate" *ngIf="choices.length === 0">
-    You have no choices to make.
-  </div>
+  <ng-container *ngIf="(gameService.choices$ | async) as choices">
+    <div class="blank-slate" *ngIf="!choices?.length">
+      You have no choices to make.
+    </div>
 
-  <ion-row class="ion-flex-wrap">
-    <ion-col size-xs="12" size-md="6" *ngFor="let item of choices; let i = index">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-subtitle>{{ item.foundAt | date:'medium' }}</ion-card-subtitle>
-          <ion-card-title>Choice {{ i + 1 }}/{{ choices.length }}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <ion-row class="desc-row">
+    <ion-list>
+      <ion-item *ngFor="let item of choices; let i = index">
+        <ion-grid>
+          <ion-row>
             <ion-col>
-              {{ item.desc }}
+              <ion-label class="ion-text-wrap">
+                <h3>Choice {{ i + 1 }}/{{ choices.length }}</h3>
+                <p><em>{{ item.foundAt | date:'medium' }}</em></p>
+                <p>{{ item.desc }}</p>
+              </ion-label>
             </ion-col>
           </ion-row>
-
+  
           <ion-row class="ion-flex-wrap">
             <ion-col *ngFor="let choice of item.choices" size-md="3" size-sm="6">
               <ion-button [color]="choice === item.defaultChoice ? 'primary' : 'secondary'" 
@@ -41,8 +40,8 @@
               </ion-button>
             </ion-col>
           </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>

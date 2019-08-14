@@ -5,44 +5,42 @@
     </ion-buttons>
     <ion-title>
       Collectibles
-      <span *ngIf="(gameService.player$ | async) as player">
-        ({{ (player?.$collectiblesData?.collectibles | keyvalue)?.length }})
-      </span>
+      <ng-container *ngIf="(gameService.collectibles$ | async) as collectibles">({{ collectibles?.length }})</ng-container>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ng-container *ngIf="(gameService.player$ | async) as player">
-    <div class="blank-slate" *ngIf="(player?.$collectiblesData?.collectibles | keyvalue)?.length === 0">
+  <ng-container *ngIf="(gameService.collectibles$ | async) as collectibles">
+    <div class="blank-slate" *ngIf="!collectibles?.length">
       You have no collectibles.
     </div>
 
     <ion-row class="ion-flex-wrap">
-      <ion-col size-xs="12" size-md="6" *ngFor="let coll of player?.$collectiblesData?.collectibles | keyvalue">
-        <ion-card [color]="coll.value.rarity" [class.notfound-collectible]="coll.value.foundAt === 0">
+      <ion-col size-xs="12" size-md="6" *ngFor="let coll of collectibles">
+        <ion-card [color]="coll.rarity" [class.notfound-collectible]="coll.foundAt === 0">
           <ion-card-header>
-            <ion-card-subtitle *ngIf="coll.value.foundAt === 0">
+            <ion-card-subtitle *ngIf="coll.foundAt === 0">
               Not Found This Ascension
             </ion-card-subtitle>
-            <ion-card-subtitle *ngIf="coll.value.foundAt > 0">
-              Found {{ coll.value.foundAt | date:'medium' }}
+            <ion-card-subtitle *ngIf="coll.foundAt > 0">
+              Found {{ coll.foundAt | date:'medium' }}
             </ion-card-subtitle>
-            <ion-card-title>{{ coll.value.name }}</ion-card-title>
+            <ion-card-title>{{ coll.name }}</ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
             <ion-row class="coll-row">
               <ion-col>
-                {{ coll.value.description }}
+                {{ coll.description }}
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col class="coll-desc">
-                Touched {{ coll.value.touched }} times
+                Touched {{ coll.touched }} times
               </ion-col>
               <ion-col class="ion-text-right coll-desc">
-                {{ coll.value.storyline }}
+                {{ coll.storyline }}
               </ion-col>
             </ion-row>
           </ion-card-content>

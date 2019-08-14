@@ -56,7 +56,7 @@ export class Archer extends BaseProfession implements IProfession {
       name: 'Pheromone',
       statistic: 'Combat/All/Times/Total',
       booster: true,
-      duration: 5,
+      duration: 5 + player.ascensionLevel,
       permanentStats: {
         [PermanentUpgrade.MaxPetsInCombat]: 1 + Math.floor(Math.log(player.ascensionLevel))
       }

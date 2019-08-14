@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { find, pull, last } from 'lodash';
+import { find, pull, isArray } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { IChoice } from '../../interfaces';
@@ -14,7 +14,7 @@ export class Choices extends PlayerOwned {
   @ObjectIdColumn() public _id: string;
 
   @Column()
-  private choices: IChoice[];
+  private choices: { [key: string]: IChoice };
 
   @Column()
   private size: number;
@@ -25,7 +25,7 @@ export class Choices extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.choices) this.choices = [];
+    if(!this.choices) this.choices = {};
   }
 
   // basic functions
@@ -33,16 +33,34 @@ export class Choices extends PlayerOwned {
     return player.$statistics.get('Game/Premium/Upgrade/ChoiceLogSize');
   }
 
+  public removeChoicesOfId(id: string) {
+    Object.keys(this.choices).forEach(key => {
+      if(id !== key) return;
+      delete this.choices[key];
+    });
+  }
+
   public init(player: Player): void {
+    if(isArray(this.choices)) {
+      const newChoices = {};
+      this.choices.forEach(choice => {
+        newChoices[choice.foundAt] = choice;
+      });
+
+      this.choices = newChoices;
+    }
+
     this.updateSize(player);
 
-    this.choices = this.choices.map(choice => {
+    Object.keys(this.choices).forEach(choiceKey => {
+      const choice = this.choices[choiceKey];
+
       const choiceRef = new Choice();
       choiceRef.init(choice);
       return choiceRef;
     });
 
-    this.choices = this.choices.filter(x => x.id !== 'PartyLeave');
+    this.removeChoicesOfId('PartyLeave');
   }
 
   public updateSize(player: Player) {
@@ -50,11 +68,11 @@ export class Choices extends PlayerOwned {
   }
 
   public removeAllChoices() {
-    this.choices = [];
+    this.choices = {};
   }
 
   public removeChoice(choice: Choice): void {
-    pull(this.choices, choice);
+    delete this.choices[choice.foundAt];
   }
 
   public getChoice(choiceId: string): Choice {
@@ -62,10 +80,12 @@ export class Choices extends PlayerOwned {
   }
 
   public addChoice(player: Player, choice: Choice) {
-    this.choices.unshift(choice);
+    this.choices[choice.foundAt] = choice;
 
-    if(this.choices.length > this.size) {
-      const poppedChoice = last(this.choices);
+    const allChoiceKeys = Object.keys(this.choices);
+
+    if(allChoiceKeys.length > this.size) {
+      const poppedChoice = this.choices[allChoiceKeys[0]];
       player.increaseStatistic(`Character/Choose/Ignore`, 1);
       this.makeDecision(player, poppedChoice, poppedChoice.choices.indexOf(poppedChoice.defaultChoice));
     }

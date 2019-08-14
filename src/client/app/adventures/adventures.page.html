@@ -8,8 +8,14 @@
 </ion-header>
 
 <ion-content padding>
-  <ng-container *ngIf="(gameService.player$ | async) as player">    
+  <ng-container *ngIf="(gameService.adventures$ | async) as adventures">    
     
+    <ion-row *ngFor="let adventure of adventures">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        <ng-container *ngTemplateOutlet="adventureTpl; context: { adventure: adventure }"></ng-container>
+      </ion-col>
+    </ion-row>  
+    <!--
     <ng-container *ngFor="let adventure of player.$petsData.adventures">
       <ion-row *ngIf="adventure.finishAt">
         <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
@@ -25,11 +31,12 @@
         </ion-col>
       </ion-row>
     </ng-container>
+  -->
 
   </ng-container>
 </ion-content>
 
-<ng-template #adventureTpl let-player="player" let-adventure="adventure">
+<ng-template #adventureTpl let-adventure="adventure">
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -59,7 +66,7 @@
       </ion-row>
 
       <ion-row *ngIf="adventure.finishAt">
-        Undertaken by: {{ petsOnAdventure(player, adventure) }}
+        Undertaken by: {{ petsOnAdventure(adventure) }}
       </ion-row>
 
       <ion-row>

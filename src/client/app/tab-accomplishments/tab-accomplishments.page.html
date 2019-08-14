@@ -6,8 +6,8 @@
       <ion-icon [src]="'assets/icon/category-achievements.svg'"></ion-icon>
       <ion-label>Achievements</ion-label>
 
-      <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$achievementsData" color="secondary">{{ (player.$achievementsData.achievements | keyvalue).length }}</ion-badge>
+      <ng-container *ngIf="(gameService.achievements$ | async) as achievements">
+        <ion-badge *ngIf="achievements?.length > 0" color="secondary">{{ achievements.length }}</ion-badge>
       </ng-container>
     </ion-tab-button>
 
@@ -16,8 +16,8 @@
       <ion-label>Collectibles</ion-label>
 
       <!-- tabs must request data like this or it doesn't work -->
-      <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$collectiblesData" color="secondary">{{ (player.$collectiblesData.collectibles | keyvalue).length }}</ion-badge>
+      <ng-container *ngIf="(gameService.collectibles$ | async) as collectibles">
+        <ion-badge *ngIf="collectibles?.length > 0" color="secondary">{{ collectibles.length }}</ion-badge>
       </ng-container>
 
     </ion-tab-button>

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { AdventureNames, AdventureDescriptions, IAdventure, ServerEventName, IPlayer, IPet } from '../../../shared/interfaces';
+import { AdventureNames, AdventureDescriptions, IAdventure, ServerEventName, IPet } from '../../../shared/interfaces';
 import { ChoosePetsModal } from './choosepets.modal';
 
 @Component({
   selector: 'app-adventures',
   templateUrl: './adventures.page.html',
-  styleUrls: ['./adventures.page.scss'],
+  styleUrls: ['./adventures.page.scss']
 })
 export class AdventuresPage implements OnInit, OnDestroy {
 
@@ -23,7 +23,6 @@ export class AdventuresPage implements OnInit, OnDestroy {
   private rewardsCb: Function;
 
   constructor(
-    private alertCtrl: AlertController,
     private modalCtrl: ModalController,
     private socketService: SocketClusterService,
     public gameService: GameService
@@ -42,7 +41,8 @@ export class AdventuresPage implements OnInit, OnDestroy {
     return adventure.finishAt < Date.now();
   }
 
-  public petsOnAdventure(player: IPlayer, adventure: IAdventure) {
+  public petsOnAdventure(adventure: IAdventure) {
+    const player = this.gameService.playerRef;
     if(!player) return '';
 
     const pets = player.$petsData.allPets;

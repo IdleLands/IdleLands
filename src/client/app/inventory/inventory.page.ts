@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 import { GameService } from '../game.service';
@@ -10,6 +10,7 @@ import { InventoryActionsPopover } from './invactions.popover';
   selector: 'app-inventory',
   templateUrl: './inventory.page.html',
   styleUrls: ['./inventory.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InventoryPage {
 

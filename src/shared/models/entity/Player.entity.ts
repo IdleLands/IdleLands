@@ -1024,7 +1024,7 @@ export class Player implements IPlayer {
   }
 
   public tryToDoNewCharacter() {
-    const canDo = this.$choices.$choicesData.choices.length === 0 && this.$statistics.get('Character/Choose/Total') === 0;
+    const canDo = Object.values(this.$choices.$choicesData.choices).length === 0 && this.$statistics.get('Character/Choose/Total') === 0;
     if(!canDo) return;
 
     this.$game.doStartingPlayerStuff(this);

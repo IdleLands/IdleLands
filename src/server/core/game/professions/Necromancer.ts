@@ -52,12 +52,11 @@ export class Necromancer extends BaseProfession implements IProfession {
       name: 'Bone Minions',
       statistic: 'Combat/All/Times/Total',
       booster: true,
-      duration: 5,
+      duration: 5 + player.ascensionLevel,
       permanentStats: {
         [PermanentUpgrade.MaxPetsInCombat]: 2 + Math.floor(Math.log(player.ascensionLevel))
       }
     }, true);
-    player.$$game.eventManager.doEventFor(player, 'Battle');
 
     this.emitProfessionMessage(player, 'You summoned some bone minions!');
     return `You summoned some bone minions!`;
