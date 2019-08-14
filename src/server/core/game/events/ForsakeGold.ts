@@ -13,7 +13,7 @@ export class ForsakeGold extends Event {
     const totalGoldLoss = player.gainGold(goldLoss);
 
     const eventText = this.eventText(EventMessageType.ForsakeGold, player, { gold: Math.abs(totalGoldLoss) });
-    const allText = `${eventText} [-${totalGoldLoss.toLocaleString()} gold]`;
+    const allText = `${eventText} [${totalGoldLoss.toLocaleString()} gold]`;
     this.emitMessage([player], allText, AdventureLogEventType.Gold);
   }
 }

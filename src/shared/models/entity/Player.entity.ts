@@ -290,7 +290,11 @@ export class Player implements IPlayer {
 
   public gainXP(xp = 0, addMyXP = true): number {
 
+    const isNegative = xp < 0;
+
     let remainingXP = addMyXP ? Math.floor(xp + this.stats.xp) : xp;
+    if(remainingXP > 0 && isNegative) remainingXP = -1;
+
     const totalXP = remainingXP;
 
     if(remainingXP < 0) {
@@ -323,7 +327,10 @@ export class Player implements IPlayer {
 
   public gainGold(gold = 0, addMyGold = true): number {
 
-    const remainingGold = addMyGold ? Math.floor(gold + this.stats.gold) : gold;
+    const isNegative = gold < 0;
+
+    let remainingGold = addMyGold ? Math.floor(gold + this.stats.gold) : gold;
+    if(remainingGold > 0 && isNegative) remainingGold = -1;
 
     if(remainingGold < 0) {
       this.gold += remainingGold;
