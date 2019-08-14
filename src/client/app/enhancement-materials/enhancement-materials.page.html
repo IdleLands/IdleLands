@@ -70,7 +70,7 @@
                 <ion-label>
                   {{ scroll.name }}
                   <p>
-                    <span class="ion-margin-end" *ngFor="let stat of scroll.stats | keyvalue">
+                    <span class="ion-margin-end" *ngFor="let stat of scroll.stats | keyvalue" [class.ion-hide]="stat.value === 0">
                       <ion-icon [src]="'assets/icon/stat-' + stat.key + '.svg'" class="ion-margin-end"></ion-icon>  {{ stat.key | uppercase }} +{{ stat.value }}
                     </span>
                   </p>
