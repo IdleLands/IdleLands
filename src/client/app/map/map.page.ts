@@ -163,7 +163,8 @@ class GameState extends Phaser.State {
           }
 
           if(item.realtype === 'Collectible' && this.player.$collectiblesData && this.player.$collectiblesData.collectibles[item.name]) {
-            affix = '[Owned!]';
+            const ownershipStatus = this.player.$collectiblesData.collectibles[item.name].foundAt === 0 ? '[Seen!]' : '[Owned!]';
+            affix = ownershipStatus;
           }
 
           strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''} ${affix}`);
