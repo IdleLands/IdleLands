@@ -201,7 +201,8 @@ export class ItemGenerator {
       name,
       type,
       itemClass: ItemClass.Guardian,
-      stats
+      stats,
+      enchantLevel: proto.enchantLevel || 0
     });
 
     return item;
