@@ -152,6 +152,11 @@ class GameState extends Phaser.State {
             affix = `[Available: ${availableAt.toLocaleString()}]`;
           }
 
+          if(item.realtype === 'BossParty' && this.player.cooldowns && this.player.cooldowns[nameValue] > Date.now()) {
+            const availableAt = new Date(this.player.cooldowns[nameValue]);
+            affix = `[Available: ${availableAt.toLocaleString()}]`;
+          }
+
           if(item.realtype === 'Treasure' && this.player.cooldowns && this.player.cooldowns[nameValue] > Date.now()) {
             const availableAt = new Date(this.player.cooldowns[nameValue]);
             affix = `[Available: ${availableAt.toLocaleString()}]`;
