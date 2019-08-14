@@ -199,12 +199,11 @@ export class MovementHelper {
     };
 
     this.handleTileTeleport(player, tile, true);
-    const realTile = this.getTileAt(player.map, player.x, player.y);
-    this.handleTile(player, realTile);
+    // const realTile = this.getTileAt(player.map, player.x, player.y);
+    // this.handleTile(player, realTile);
   }
 
   private handleTile(player: Player, tile: Tile, ignoreIf?: string): void {
-
     const type = get(tile, 'object.properties.realtype');
 
     const forceEvent = get(tile, 'object.properties.forceEvent', '');
@@ -305,6 +304,8 @@ export class MovementHelper {
     }
 
     player.setPos(dest.x, dest.y, dest.map, tile.region);
+    const newTile = this.getTileAt(player.map, player.x, player.y);
+    player.region = newTile.region;
 
     this.handleTile(player, tile, 'Teleport');
 
