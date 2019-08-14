@@ -564,7 +564,7 @@ export class GameService {
       return `Item (${reward.split(':')[2]})`;
     }
 
-    return 'UNKNOWN REWARD!';
+    return `UNKNOWN REWARD ${reward}`;
   }
 
   public async showRewards(title: string, rewards) {
