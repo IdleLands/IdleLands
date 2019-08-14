@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost, FestivalType, OtherILPCosts, OtherILPPurchase } from '../../../shared/interfaces';
+import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost,
+  FestivalType, OtherILPCosts, OtherILPPurchase } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-premium',
