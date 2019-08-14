@@ -23,7 +23,7 @@
       <ion-label>Materials & Scrolls</ion-label>
 
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$inventoryData" [color]="'secondary'">{{ player.$inventoryData.buffScrolls.length }}</ion-badge>
+        <ion-badge *ngIf="player.$inventoryData && player.$inventoryData.buffScrolls.length" [color]="'secondary'">{{ player.$inventoryData.buffScrolls.length }}</ion-badge>
       </ng-container>
     </ion-tab-button>
   </ion-tab-bar>
