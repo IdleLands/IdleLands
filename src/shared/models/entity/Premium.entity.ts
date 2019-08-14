@@ -4,7 +4,7 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 import { PlayerOwned } from './PlayerOwned';
 import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward,
   TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners, EventName,
-  FestivalType, FestivalCost, IFestival, FestivalStats } from '../../interfaces';
+  FestivalType, FestivalCost, IFestival, FestivalStats, OtherILPPurchase, OtherILPCosts } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -89,6 +89,24 @@ export class Premium extends PlayerOwned {
     player.$$game.festivalManager.startFestival(player, festRef);
 
     this.spendILP(cost);
+
+    return true;
+  }
+
+  buyOther(player: Player, other: OtherILPPurchase): boolean {
+    const cost = OtherILPCosts[other];
+
+    if(!cost) return false;
+    if(!this.hasILP(cost)) return false;
+
+    this.spendILP(cost);
+
+    switch(other) {
+      case OtherILPPurchase.ResetCooldowns: {
+        player.cooldowns = {};
+        break;
+      }
+    }
 
     return true;
   }

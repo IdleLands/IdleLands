@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost, FestivalType } from '../../../shared/interfaces';
+import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost, FestivalType, OtherILPCosts, OtherILPPurchase } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-premium',
@@ -47,6 +47,15 @@ export class PremiumPage implements OnInit {
     { name: 'Max Stamina Boost', upgrade: PermanentUpgrade.MaxStaminaBoost, desc: 'Your max stamina increases by 5.' },
   ];
 
+  public otherILPPurchases = [
+    {
+      name: 'Cooldown Reset',
+      desc: 'Reset your boss, event, and treasure chest cooldowns.',
+      key: OtherILPPurchase.ResetCooldowns,
+      cost: OtherILPCosts[OtherILPPurchase.ResetCooldowns]
+    }
+  ];
+
   constructor(
     private socketService: SocketClusterService,
     public gameService: GameService
@@ -65,6 +74,10 @@ export class PremiumPage implements OnInit {
 
   buyFestival(festival) {
     this.socketService.emit(ServerEventName.PremiumFestival, { festivalType: festival.type, duration: festival.duration });
+  }
+
+  buyOther(other) {
+    this.socketService.emit(ServerEventName.PremiumOther, { other: other.key });
   }
 
 }

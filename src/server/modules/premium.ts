@@ -1,5 +1,5 @@
 import { ServerSocketEvent } from '../../shared/models';
-import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType } from '../../shared/interfaces';
+import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType, OtherILPPurchase } from '../../shared/interfaces';
 
 export class PremiumUpgradeEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PremiumUpgrade;
@@ -36,6 +36,26 @@ export class PremiumFestivalEvent extends ServerSocketEvent implements ServerEve
     player.syncPremium();
 
     this.gameMessage('Successfully bought a festival!');
+
+    this.game.updatePlayer(player);
+  }
+}
+
+export class PremiumOtherEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PremiumOther;
+  description = 'Buy an "other" premium item using ILP.';
+  args = 'other';
+
+  async callback({ other } = { other: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const didBuy = player.$premium.buyOther(player, <OtherILPPurchase>other);
+    if(!didBuy) return this.gameError('You do not have enough ILP to buy that, or an error occurred.');
+
+    player.syncPremium();
+
+    this.gameMessage('Successfully bought that thing!');
 
     this.game.updatePlayer(player);
   }

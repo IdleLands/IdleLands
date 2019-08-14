@@ -57,3 +57,11 @@ export const PremiumScale = {
   [PermanentUpgrade.PetMissionCapBoost]: 50,
   [PermanentUpgrade.MaxStaminaBoost]: 2
 };
+
+export enum OtherILPPurchase {
+  ResetCooldowns = 'resetCooldowns'
+}
+
+export const OtherILPCosts: { [key in OtherILPPurchase]: number } = {
+  [OtherILPPurchase.ResetCooldowns]: 50
+};

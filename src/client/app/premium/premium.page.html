@@ -30,7 +30,7 @@
 
                 <ion-button slot="end" 
                             (click)="buyFestival(festival)" 
-                            [disabled]="player.$premiumData.ilp < festival.cost * festival.duration">
+                            [disabled]="player.$premiumData.ilp < festival.cost * (festival.duration / 24)">
                             Buy ({{ festival.cost * (festival.duration / 24) | number }} ILP)
                 </ion-button>
               </ion-item>
@@ -65,6 +65,33 @@
             </ion-list>
           </ion-card-content>
         </ion-card>
+
+        <ion-card *ngIf="player.$premiumData">
+          <ion-card-header>
+            <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
+            <ion-card-title>
+              Other Purchases
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let purch of otherILPPurchases">
+                <ion-label class="ion-text-wrap">
+                  <h3>{{ purch.name }}</h3>
+                  <p>{{ purch.desc }}</p>
+                </ion-label>
+
+                <ion-button slot="end" 
+                            (click)="buyOther(purch)" 
+                            [disabled]="player.$premiumData.ilp < purch.cost">
+                            Buy ({{ purch.cost | number }} ILP)
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
       </ion-col>
     </ion-row>
   </ng-container>
