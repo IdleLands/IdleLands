@@ -317,7 +317,7 @@ class GameState extends Phaser.State {
       if(this.player.$premiumData.tier && this.player.lastLoc && this.player.lastLoc.map === this.player.map) {
         const curPet = this.player.$petsData.allPets[this.player.$petsData.currentPet];
         const petGenderRef = GenderPositions[curPet.gender] || { x: 5, y: 1 };
-        const petGenderNum = (genderRef.y * 9) + petGenderRef.x;
+        const petGenderNum = (petGenderRef.y * 9) + petGenderRef.x;
 
         this.currentPetSprite = this.game.add.sprite(
           this.player.lastLoc.x * 16, this.player.lastLoc.y * 16,
