@@ -47,7 +47,7 @@
                   {{ scroll.key }} Teleport Scroll (x{{ scroll.value }})
                 </ion-label>
 
-                <ion-button slot="end" (click)="useTeleportScroll(scroll.key)">Use</ion-button>
+                <ion-button slot="end" (click)="useTeleportScroll(scroll.key)" [class.ion-hide]="scroll.value === 0">Use</ion-button>
               </ion-item>
             </ion-list>
           </ion-card-content>

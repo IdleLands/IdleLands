@@ -165,7 +165,7 @@ export class UseTeleportScrollEvent extends ServerSocketEvent implements ServerE
     if(!player) return this.notConnected();
 
     const didWork = player.$inventory.useTeleportScroll(player, <TeleportItemLocation>scroll);
-    if(!didWork) return this.gameError('Could not teleport. You might already be in that region!');
+    if(!didWork) return this.gameError('Could not teleport. You might already be in that region or your scroll count might be 0!');
 
     this.game.updatePlayer(player);
     this.gameSuccess(`You teleported to ${scroll}!`);
