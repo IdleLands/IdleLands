@@ -38,6 +38,7 @@ export class AstralGate extends BaseGachaRoller {
     { result: GachaReward.CrystalAstral,  chance: GachaChance.XRare },
 
     { result: GachaReward.ItemTeleportScrollRandom, chance: GachaChance.Rare },
+    { result: GachaReward.ItemTeleportScrollACR,    chance: GachaChance.XRare },
     { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.Rare }
   ];
 }

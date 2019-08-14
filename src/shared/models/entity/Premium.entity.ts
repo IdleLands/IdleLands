@@ -151,6 +151,10 @@ export class Premium extends PlayerOwned {
         return `item:teleportscroll:${chosenLocation}`;
       }
 
+      if(reward === GachaReward.ItemTeleportScrollACR) {
+        return `item:teleportscroll:Astral Control Room`;
+      }
+
       return reward;
     });
   }
