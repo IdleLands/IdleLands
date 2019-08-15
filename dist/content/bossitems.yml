@@ -1,0 +1,693 @@
+Goblin Lord Shortsword:
+  type: mainhand
+  stats:
+    str: 50
+    agi: 50
+    dex: 50
+    hp: 100
+Mummy Lord Greatsword:
+  type: mainhand
+  stats:
+    str: 75
+    agi: 75
+    dex: 75
+Lizard King Staff:
+  type: mainhand
+  stats:
+    int: 100
+    con: 100
+Wardens Gavel:
+  type: mainhand
+  stats:
+    str: 1200
+    con: 400
+    agi: 600
+Super Shuriken:
+  type: mainhand
+  stats:
+    agi: 500
+    dex: 400
+    int: 100
+Staff of the Prophet:
+  type: mainhand
+  stats:
+    con: 50
+    agi: 180
+    dex: 200
+    int: 200
+Moonlight Signet:
+  type: finger
+  stats:
+    agi: 100
+    dex: 100
+    int: 45
+Ward of the Black Dragon King:
+  type: offhand
+  stats:
+    str: 200
+    dex: 100
+    con: 300
+Oversized Locket:
+  type: neck
+  stats:
+    str: 200
+    dex: 100
+    con: 300
+Hand-Me-Down Battleaxe:
+  type: mainhand
+  stats:
+    str: 275
+    dex: 100
+    con: 25
+Wizard Hat with Horns:
+  type: head
+  stats:
+    int: 700
+King Minotaur's Axe:
+  type: mainhand
+  stats:
+    str: 625
+    con: 500
+Golden Vampire Gauntlets:
+  type: hands
+  stats:
+    dex: 750
+    agi: 750
+Halberd of the Giants:
+  type: mainhand
+  stats:
+    str: 1250
+    con: 500
+  enchantLevel: 6
+Incorporeal Cutlass:
+  type: mainhand
+  stats:
+    dex: 250
+    luk: 11
+    agi: 250
+Fire Infused Dragon Tooth:
+  type: offhand
+  stats:
+    dex: 250
+    luk: 1
+    agi: 150
+    con: 150
+    str: 1000
+Breastplate of Wrath:
+  type: body
+  stats:
+    int: 1600
+    luk: 3
+Amulet of Anger:
+  type: neck
+  stats:
+    str: 850
+    luk: 1
+    agi: 300
+Amulet of Fear:
+  type: neck
+  stats:
+    int: 300
+    str: 300
+    dex: 300
+    agi: 300
+    con: 300
+    luk: 25
+Amulet of Decay:
+  type: neck
+  stats:
+    int: 500
+Amulet of Insanity:
+  type: neck
+  stats:
+    int: 700
+    luk: 50
+Amulet of Death:
+  type: neck
+  stats:
+    str: 200
+    con: 200
+    int: 1100
+Lich Lord's Phylactery:
+  type: finger
+  stats:
+    int: 1300
+    con: 800
+Jewel-Encrusted Pick Axe:
+  type: offhand
+  stats:
+    str: 250
+    dex: 250
+    agi: 250
+    con: 500
+    int: 250
+    luk: 50
+Mushroom Shaped Charm:
+  type: charm
+  stats:
+    agi: 250
+    dex: 700
+The Nice List:
+  type: offhand
+  stats:
+    int: 300
+    con: 100
+    gold: 25
+Snow Covered Antlers:
+  type: head
+  stats:
+    agi: 300
+    dex: 300
+    int: 600
+The Naughty List:
+  type: mainhand
+  stats:
+    str: 1500
+    con: 1000
+    dex: 500
+    luk: 25
+Noxious Amulet:
+  type: neck
+  stats:
+    int: 250
+Guardian Longsword:
+  type: mainhand
+  stats:
+    str: 450
+    con: 350
+Guardian Staff:
+  type: mainhand
+  stats:
+    int: 350
+Guardian Mace:
+  type: mainhand
+  stats:
+    str: 100
+    int: 900
+    con: 50
+Guardian Guidebook:
+  type: mainhand
+  stats:
+    str: 400
+    dex: 400
+    agi: 400
+    int: 400
+    luk: 1
+Guardian Tower Shield:
+  type: offhand
+  stats:
+    str: 1000
+    con: 1200
+Acid Amulet Shard:
+  type: charm
+  stats:
+    dex: 270
+    str: 190
+    con: 70
+    luk: 17
+Necromantic Essence:
+  type: charm
+  stats:
+    int: 1400
+Halberd of the Fire Giants:
+  type: mainhand
+  stats:
+    dex: 250
+    str: 1000
+    con: 175
+  enchantLevel: 6
+Flame Polished Gauntlets:
+  type: hands
+  stats:
+    int: 350
+    con: 190
+Yeti Sized Club:
+  type: mainhand
+  stats:
+    str: 75
+    con: 10
+Leviathan Claw:
+  type: offhand
+  stats:
+    str: 404
+    con: 200
+Slime Covered Jerkin:
+  type: body
+  stats:
+    str: 255
+    con: -20
+    dex: 155
+    agi: 100
+Slicer's Sabre:
+  type: mainhand
+  stats:
+    str: 800
+    con: 75
+    dex: 75
+    agi: 100
+Smasher's Smashin' Club:
+  type: mainhand
+  stats:
+    str: 1100
+    con: 200
+    int: -123
+Naga Resurrection Trident:
+  type: mainhand
+  stats:
+    str: 1500
+    con: 500
+    agi: 500
+    int: 1000
+    luk: -75
+Lord Waxington's Top Hat:
+  type: head
+  stats:
+    agi: 175
+    dex: 200
+Crystal Crown:
+  type: head
+  stats:
+    agi: 7500
+    con: 1500
+    int: 1500
+Astral Boots:
+  type: feet
+  stats:
+    str: 1200
+    agi: 8500
+    con: 3200
+    dex: 7000
+Astral Stabilizer:
+  type: finger
+  stats:
+    str: 500
+    con: 500
+    int: 500
+    agi: 500
+    dex: 500
+    luk: 2000
+Gryffyndor Sword:
+  type: mainhand
+  stats:
+    int: 600
+    con: 200
+Nimbus Cloud Mace:
+  type: mainhand
+  stats:
+    agi: 200
+    dex: 300
+Fate-Fueled Flame Breath:
+  type: head
+  stats:
+    str: 500
+    con: 1000
+    dex: 500
+    agi: 500
+    int: 500
+    luk: 500
+Acid Wash Pantaloons:
+  type: legs
+  stats:
+    agi: 100
+    int: 50
+Dripping Kris:
+  type: mainhand
+  stats:
+    str: 250
+    con: 2500
+    dex: 1000
+    agi: 1500
+    int: 1000
+    luk: -250
+Bloodkeeper's Bloodsneakers:
+  type: feet
+  stats:
+    str: 350
+    con: 1500
+    dex: 250
+    agi: 550
+    int: 900
+    luk: -250
+    xp: 2
+Doppleganger Skin:
+  type: body
+  stats:
+    con: 100
+    dex: 150
+    agi: 250
+    luk: 20
+    xp: 1
+Guardian Core:
+  type: finger
+  stats:
+    str: 8000
+    con: 4000
+    int: 1500
+    hp: 10000
+    xp: 3
+Mercy Walkers:
+  type: feet
+  stats:
+    int: 9200
+    luk: 500
+    xp: 1
+Unwieldy Claymore of Malice:
+  type: offhand
+  stats:
+    str: 7500
+    con: 3000
+    dex: 200
+    agi: 150
+Blue Dragon Head:
+  type: offhand
+  stats:
+    str: 3000
+    con: 3000
+    dex: -200
+    agi: 150
+    int: 2500
+    luk: 350
+Rune of Imprisonment:
+  type: hands
+  stats:
+    str: 400
+    con: -1000
+    dex: 15000
+    agi: 3000
+    luk: 800
+Branor's Claws:
+  type: mainhand
+  stats:
+    str: 2000
+    con: 2000
+    dex: 2000
+    agi: 1500
+    int: 150
+    luk: 2500
+    gold: 250
+Armored Guardian Fist:
+  type: mainhand
+  stats:
+    str: 999
+    con: 199
+Unbreakable Chains:
+  type: body
+  stats:
+    str: 660
+    con: 400
+    dex: 220
+    agi: -150
+    luk: 20
+Rot-resistant Wand:
+  type: mainhand
+  stats:
+    con: 600
+    int: 1755
+    luk: 225
+    gold: 150
+  aReqGolden: 6
+Snake Fangs:
+  type: head
+  stats:
+    con: 300
+    dex: 3000
+Peglegs:
+  type: legs
+  stats:
+    str: 909
+    con: 909
+    dex: 707
+    agi: 707
+Jeweled Gnomish Pipe:
+  type: offhand
+  stats:
+    str: 150
+    con: 130
+    dex: 50
+    agi: 50
+    int: 25
+    luk: 1010
+    hp: 25
+    xp: 3
+  aReqClassy:_Jester: 1
+Pilfered Halberd:
+  type: mainhand
+  stats:
+    str: 3000
+    con: 160
+    dex: 260
+    luk: 220
+Crown of the Swamp Queen:
+  type: head
+  stats:
+    con: 25
+    dex: 2025
+    agi: 2200
+    int: 400
+    luk: 100
+    gold: 25
+'Book: Magnum Opus of Transmutation':
+  type: offhand
+  stats:
+    con: 220
+    int: 3500
+    luk: 375
+    gold: 750
+    xp: 1
+  aReqProfessional:_Mage: 1
+Rudimentary Troll-kin Totem:
+  type: charm
+  stats:
+    str: 550
+    con: 550
+    dex: 220
+    agi: 220
+    int: 220
+    luk: 220
+    xp: 2
+Evil Twin Goatee:
+  type: head
+  stats:
+    con: 175
+    dex: 175
+    int: 2001
+    luk: 300
+Spectral Riding Horse:
+  type: legs
+  stats:
+    str: 175
+    con: 200
+    dex: 100
+    agi: 125
+    int: 245
+    luk: 75
+    xp: 1
+Warm Yeti Mittens:
+  type: hands
+  stats:
+    str: 555
+    con: 555
+    dex: -50
+    agi: 50
+    int: -50
+    luk: 50
+    gold: 25
+Rucksack of the Runaway Yeti:
+  type: body
+  stats:
+    str: 550
+    con: 850
+    dex: -50
+    agi: 50
+    int: 5
+    luk: 25
+    gold: 125
+    xp: 3
+Poison-Tipped Arrows:
+  type: offhand
+  stats:
+    str: 100
+    con: 350
+    dex: 1500
+    agi: 1250
+    luk: 99
+    gold: 3
+Hand Crossbow of the Shackles:
+  type: mainhand
+  stats:
+    str: 75
+    con: -25
+    dex: 1550
+    agi: 1550
+    int: 275
+    luk: 200
+    gold: 18
+Reinforced Throwing Net:
+  type: mainhand
+  stats:
+    str: -465
+    con: 665
+    dex: 1065
+    agi: 165
+    int: 265
+    luk: 465
+Wings of the Roc:
+  type: body
+  stats:
+    str: 2222
+    con: 1111
+    dex: 222
+    int: -111
+    luk: 99
+Potent Cave Remedies:
+  type: charm
+  stats:
+    str: 15
+    con: 300
+    dex: 60
+    agi: 40
+    int: 900
+    gold: -100
+    hp: 500
+Golden Glow of Glop:
+  type: charm
+  stats:
+    con: 1780
+    int: 500
+    luk: 5
+    xp: 1
+Searing Sword:
+  type: mainhand
+  stats:
+    str: 4320
+    con: -50
+    dex: 800
+    agi: 360
+    int: -1
+    xp: -3
+Spider-Climb Bandana:
+  type: head
+  stats:
+    con: 100
+    dex: 3525
+    agi: 5000
+    int: 50
+    luk: 175
+    xp: 1
+Bionic Dragon Legs:
+  type: legs
+  stats:
+    str: 13000
+    con: 3180
+    dex: 7220
+    agi: 17800
+    int: 3960
+    luk: 4700
+    gold: -400
+    hp: -2500
+    xp: 3
+Staff of the Living Snake:
+  type: mainhand
+  stats:
+    agi: 2000
+    int: 3900
+    xp: 2
+Wild Magic Brew:
+  type: offhand
+  stats:
+    con: 999
+    int: 1001
+    luk: 999
+    gold: 3
+Electric Eel Gland:
+  type: charm
+  stats:
+    con: 400
+    int: 6500
+    luk: 333
+Cave Spider Spinneret:
+  type: neck
+  stats:
+    str: 10000
+    con: 250
+    dex: 250
+    agi: 250
+    luk: 400
+    xp: 5
+Deep Well Access Card:
+  type: offhand
+  stats:
+    str: 2000
+    int: 2000
+    luk: 2000
+    gold: 2000
+    hp: 10000
+    xp: 3
+    vector: 1
+Repeating Clockborg Arrow Launcher:
+  type: head
+  stats:
+    con: 1000
+    dex: 12000
+    agi: 10000
+    luk: 3000
+    gold: -50
+    xp: 7
+  aReqClassy:_Archer: 1
+  cReqMysterious_Obsidian_Block: 2
+Gnarled Mandibles:
+  type: head
+  stats:
+    str: 9000
+    xp: 3
+dSolver's Feather:
+  type: mainhand
+  stats:
+    str: 50
+    agi: 50
+    dex: 25
+    luk: 5
+Radiant Ruby:
+  type: trinket
+  stats:
+    vector: 2
+    str: 1000
+    int: 1000
+    dex: 1000
+Divine Diamond:
+  type: trinket
+  stats:
+    vector: 3
+    str: 500
+    con: 500
+    agi: -1000
+    int: 5
+    dex: 500
+    xp: -10
+    gold: 200
+Energetic Emerald:
+  type: trinket
+  stats:
+    vector: 3
+    agi: 1000
+    str: 750
+    hp: -750
+Precious Peridot:
+  type: trinket
+  stats:
+    vector: 1
+    luk: 1500
+Transcendent Tourmaline:
+  type: trinket
+  stats:
+    vector: 2
+    int: 1500
+    str: -200
+    con: -200
+Subtle Sapphire:
+  type: trinket
+  stats:
+    vector: 2
+    dex: 1000
+    agi: 1000
+    luk: 500
