@@ -199,8 +199,8 @@ export class MovementHelper {
     };
 
     this.handleTileTeleport(player, tile, true);
-    // const realTile = this.getTileAt(player.map, player.x, player.y);
-    // this.handleTile(player, realTile);
+    const realTile = this.getTileAt(player.map, player.x, player.y);
+    this.handleTile(player, realTile);
   }
 
   private handleTile(player: Player, tile: Tile, ignoreIf?: string): void {
