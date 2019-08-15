@@ -8,7 +8,6 @@
 */
 
 const path = require('path');
-const chokidar = require('chokidar');
 const argv = require('minimist')(process.argv.slice(2));
 
 const { waitForFile } = require('socketcluster/fsutil');
@@ -82,6 +81,8 @@ const start = () => {
     // The second options argument here is passed directly to chokidar.
     // See https://github.com/paulmillr/chokidar#api for details.
     console.log(`   !! The sc-hot-reboot plugin is watching for code changes in the src/server directory`);
+
+    const chokidar = require('chokidar');
 
     const attachHMR = (scMasterInstance, opts) => {
       chokidar.watch(['**/*', '../shared'], opts).on('change', (filePath) => {
