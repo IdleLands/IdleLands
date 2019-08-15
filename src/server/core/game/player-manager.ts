@@ -193,6 +193,7 @@ export class PlayerManager {
   }
 
   public getPlayerPatch(name: string): Operation[] {
+    if(!this.playerWatches[name]) return null;
     return generate(this.playerWatches[name]);
   }
 
