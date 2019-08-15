@@ -388,7 +388,7 @@ export class MapPage implements OnInit, OnDestroy {
   constructor(
     private popoverCtrl: PopoverController,
     private socketService: SocketClusterService,
-    private gameService: GameService
+    public gameService: GameService
   ) { }
 
   async ngOnInit() {
