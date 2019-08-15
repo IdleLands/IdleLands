@@ -79,6 +79,8 @@ export class Premium extends PlayerOwned {
     const alreadyHasFestival = player.$$game.festivalManager.hasFestivalForName(player.name);
     if(alreadyHasFestival) return false;
 
+    player.increaseStatistic('Game/Premium/ILP/FestivalSpend', cost);
+
     const festRef: IFestival = {
       name: `${player.name}'s Festival`,
       endTime: Date.now() + (1000 * 60 * 60 * 24 * durationDays),
