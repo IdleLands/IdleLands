@@ -178,8 +178,6 @@ export class GameService {
 
   private manageAndApplyPatchesToObservables(player: IPlayer, patches: any[]) {
 
-    console.log(player, patches);
-
     const updateOrders = [
       {
         pathSearch: '$achievements',
