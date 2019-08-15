@@ -24,6 +24,10 @@ export class EquipmentPage {
     public gameService: GameService
   ) { }
 
+  public canHideSlot(slot) {
+    return slot === 'soul' || slot === 'providence';
+  }
+
   public async openItemMenu($event, item: IItem, slot: ItemSlot) {
     const popover = await this.popoverCtrl.create({
       component: EquipmentItemPopover,

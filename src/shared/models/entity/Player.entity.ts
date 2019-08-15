@@ -543,7 +543,9 @@ export class Player implements IPlayer {
       });
 
       // festivals
-      this.addStatTrail(stat, Math.floor(statBase * this.$$game.festivalManager.getMultiplier(stat)), 'Festivals');
+      if(stat !== Stat.SPECIAL) {
+        this.addStatTrail(stat, Math.floor(statBase * this.$$game.festivalManager.getMultiplier(stat)), 'Festivals');
+      }
     });
 
     // next we do specific-adds from the profession

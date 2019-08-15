@@ -20,6 +20,7 @@ class GameState extends Phaser.State {
 
   private player: IPlayer;
   private map: string;
+  private textDisplayedAt: number;
 
   private objectSpriteGroup: Phaser.Group;
   private playerSpriteGroup: Phaser.Group;
@@ -120,7 +121,11 @@ class GameState extends Phaser.State {
 
     this.stored.gameText.next(text);
 
+    const now = Date.now();
+    this.textDisplayedAt = now;
+
     setTimeout(() => {
+      if(this.textDisplayedAt !== now) return;
       this.stored.gameText.next(null);
     }, 5000);
   }

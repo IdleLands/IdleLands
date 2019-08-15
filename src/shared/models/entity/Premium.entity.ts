@@ -3,7 +3,8 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward,
-  TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners, EventName } from '../../interfaces';
+  TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners, EventName,
+  FestivalType, FestivalCost, IFestival, FestivalStats, OtherILPPurchase, OtherILPCosts } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -62,6 +63,51 @@ export class Premium extends PlayerOwned {
     this.upgradeLevels[upgrade]++;
 
     this.spendILP(cost);
+    return true;
+  }
+
+  buyFestival(player: Player, festival: FestivalType, duration: number): boolean {
+    duration = Math.floor(duration);
+    const durationDays = Math.floor(duration / 24);
+
+    if(!FestivalCost[festival]) return false;
+    if(durationDays <= 0) return false;
+
+    const cost = durationDays * FestivalCost[festival];
+    if(!this.hasILP(cost)) return false;
+
+    const alreadyHasFestival = player.$$game.festivalManager.hasFestivalForName(player.name);
+    if(alreadyHasFestival) return false;
+
+    const festRef: IFestival = {
+      name: `${player.name}'s Festival`,
+      endTime: Date.now() + (1000 * 60 * 60 * 24 * durationDays),
+      startedBy: player.name,
+      stats: FestivalStats[festival]
+    };
+
+    player.$$game.festivalManager.startFestival(player, festRef);
+
+    this.spendILP(cost);
+
+    return true;
+  }
+
+  buyOther(player: Player, other: OtherILPPurchase): boolean {
+    const cost = OtherILPCosts[other];
+
+    if(!cost) return false;
+    if(!this.hasILP(cost)) return false;
+
+    this.spendILP(cost);
+
+    switch(other) {
+      case OtherILPPurchase.ResetCooldowns: {
+        player.cooldowns = {};
+        break;
+      }
+    }
+
     return true;
   }
 
@@ -149,6 +195,10 @@ export class Premium extends PlayerOwned {
 
         const chosenLocation = player.$$game.rngService.pickone(towns);
         return `item:teleportscroll:${chosenLocation}`;
+      }
+
+      if(reward === GachaReward.ItemTeleportScrollACR) {
+        return `item:teleportscroll:Astral Control Room`;
       }
 
       return reward;

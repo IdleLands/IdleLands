@@ -65,6 +65,7 @@ export enum GachaReward {
   HistoricalCollectible = 'collectible:historical:random',
 
   ItemTeleportScrollRandom = 'item:teleportscroll:random',
+  ItemTeleportScrollACR = 'item:teleportscroll:astralcontrolroom',
   ItemBuffScrollRandom = 'item:buffscroll:random'
 }
 
@@ -117,6 +118,7 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.CrystalAstral]: 'Pet Crystal (Astral)',
 
   [GachaReward.ItemTeleportScrollRandom]: 'Teleport Scroll (Random)',
+  [GachaReward.ItemTeleportScrollACR]: 'Teleport Scroll (ACR)',
   [GachaReward.ItemBuffScrollRandom]: 'Buff Scroll (Random)'
 };
 

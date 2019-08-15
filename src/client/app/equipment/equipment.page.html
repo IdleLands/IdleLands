@@ -10,7 +10,7 @@
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <ng-container *ngIf="player.$inventoryData">
-      <ion-row *ngFor="let slot of slots">
+      <ion-row *ngFor="let slot of slots" [class.ion-hide]="!player.$inventoryData.equipment[slot] && canHideSlot(slot)">
         <ion-col>
           <app-item [item]="player.$inventoryData.equipment[slot]" 
                     [showLock]="true"

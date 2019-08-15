@@ -191,10 +191,13 @@ export class GameService {
       {
         pathSearch: '$collectibles',
         flag: false,
-        order: (collObj) => sortBy(Object.values(collObj.collectibles), [
-          (coll: ICollectible) => -coll.foundAt,
-          (coll: ICollectible) => coll.name
-        ]),
+        order: (collObj) => {
+          const allcolls = Object.values(collObj.collectibles);
+          const found = allcolls.filter((x: ICollectible) => x.foundAt);
+          const unfound = allcolls.filter((x: ICollectible) => !x.foundAt);
+
+          return sortBy(found, 'name').concat(sortBy(unfound, 'name'));
+        },
         observable: this.collectibles,
         playerData: (pl) => pl.$collectiblesData
       },
@@ -561,7 +564,7 @@ export class GameService {
       return `Item (${reward.split(':')[2]})`;
     }
 
-    return 'UNKNOWN REWARD!';
+    return `UNKNOWN REWARD ${reward}`;
   }
 
   public async showRewards(title: string, rewards) {

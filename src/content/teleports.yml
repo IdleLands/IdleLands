@@ -55,6 +55,11 @@ towns:
     y: 17
     cost: 7500000
     requiredRegionVisit: Tree Town
+  Astral Control Room:
+    map: Astral Control Room
+    formalName: the Astral Control Room
+    x: 25
+    y: 23
     
   astral:
     map: The Astral Plane

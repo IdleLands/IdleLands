@@ -6,12 +6,14 @@ import { RNGService } from './rng-service';
 import { Player } from '../../../shared/models';
 import { ChatHelper } from './chat-helper';
 import { SubscriptionManager } from './subscription-manager';
+import { PlayerManager } from './player-manager';
 
 @Singleton
 @AutoWired
 export class FestivalManager {
 
   @Inject private db: DatabaseManager;
+  @Inject private playerManager: PlayerManager;
   @Inject private subscriptionManager: SubscriptionManager;
   @Inject private chat: ChatHelper;
   @Inject private rng: RNGService;
@@ -109,6 +111,10 @@ export class FestivalManager {
     });
   }
 
+  public hasFestivalForName(name: string): boolean {
+    return this.festivals.festivals.some(fest => fest.startedBy === name);
+  }
+
   public initiateAddFestival(festival: IFestival): boolean {
     if(!festival.id) festival.id = this.rng.id();
 
@@ -127,11 +133,15 @@ export class FestivalManager {
   private addFestival(festival: IFestival) {
     this.festivals.addFestival(festival);
     this.save();
+
+    this.playerManager.allPlayers.forEach(player => player.recalculateStats());
   }
 
   public removeFestival(festival: IFestival) {
     this.festivals.removeFestival(festival.id);
     this.save();
+
+    this.playerManager.allPlayers.forEach(player => player.recalculateStats());
   }
 
   private save() {
