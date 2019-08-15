@@ -243,11 +243,11 @@
 
                   <ion-label text-wrap>
                     <h2>{{ actualBuff.name }} ({{ actualBuff.duration }} {{ buff.key }})</h2>
-                    <span *ngFor="let stat of (actualBuff.stats || {}) | keyvalue" class="vertical-center">
+                    <span *ngFor="let stat of (actualBuff.stats || {}) | keyvalue" class="vertical-center" [class.hidden]="stat.value === 0">
                       <ion-icon [src]="'assets/icon/stat-' + stat.key + '.svg'" class="ion-margin-end"></ion-icon> 
                       {{ stat.key.toUpperCase() }} {{ stat.value > 0 ? '+' : '' }}{{ stat.value | number:'1.0-0' }}
                     </span>
-                    <span *ngFor="let stat of (actualBuff.permanentStats || {}) | keyvalue" class="vertical-center">
+                    <span *ngFor="let stat of (actualBuff.permanentStats || {}) | keyvalue" class="vertical-center" [class.hidden]="stat.value === 0">
                       <ion-icon [src]="'assets/icon/stat-attribute.svg'" class="ion-margin-end"></ion-icon> 
                       {{ stat.key.toUpperCase() }} {{ stat.value > 0 ? '+' : '' }}{{ stat.value | number:'1.0-0' }}
                     </span>
