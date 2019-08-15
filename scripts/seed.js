@@ -104,7 +104,7 @@ const parseFile = (filename) => {
   return _(baseContents).compact().value();
 };
 
-const profession = process.env.NODE_ENV === 'production' ? 'dist/out-tsc/server/server/core/game/professions' : 'src/server/core/game/professions'
+const profession = 'src/server/core/game/professions'
 StringAssets.class = _.uniq(_.map(loadDirectory(`${__dirname}/../${profession}`), ({ filename }) => {
   if(_.includes(filename, 'index')) return;
   const split = filename.split('/');
@@ -296,7 +296,7 @@ const loadMapsInFolder = () => {
   });
 };
 
-const CONTENT_PARENTDIR = process.env.NODE_ENV === 'production' ? 'dist' : 'src'
+const CONTENT_PARENTDIR = 'src';
 
 const loadPetData = () => {
   const pets = YAML.load(CONTENT_PARENTDIR + '/content/pets.yml');
