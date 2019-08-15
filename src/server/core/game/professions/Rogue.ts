@@ -8,7 +8,7 @@ export class Rogue extends BaseProfession implements IProfession {
   public readonly specialStatName = 'Energy';
   public readonly oocAbilityName = '"Good Luck"';
   public readonly oocAbilityDesc = 'Create a positively golden windfall for yourself.';
-  public readonly oocAbilityCost = 40;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {

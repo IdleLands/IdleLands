@@ -8,7 +8,7 @@ export class Pirate extends BaseProfession implements IProfession {
   public readonly specialStatName = 'Bottle';
   public readonly oocAbilityName = 'Pillage';
   public readonly oocAbilityDesc = 'Acquire a random item.';
-  public readonly oocAbilityCost = 50;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {

@@ -7,7 +7,7 @@ export class MagicalMonster extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Tempt Fate';
   public readonly oocAbilityDesc = 'Sing a fateful song, and find out what happens next!';
-  public readonly oocAbilityCost = 50;
+  public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
     [Stat.HP]: {

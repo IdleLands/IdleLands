@@ -6,7 +6,7 @@ import { IProfession } from '../../../../shared/interfaces';
 export class SandwichArtist extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Panhandle';
-  public readonly oocAbilityDesc = 'Give your party a GOLD buff based on your LUK for 720 ticks.';
+  public readonly oocAbilityDesc = 'Give your party a GOLD buff based on your LUK.';
   public readonly oocAbilityCost = 20;
 
   public readonly statForStats = {
