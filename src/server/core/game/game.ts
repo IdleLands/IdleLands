@@ -63,6 +63,15 @@ export class Game implements IGame {
 
   private ticks = 0;
 
+  private readonly timeoutMultiplier = 1000;
+
+  private readonly updateGroupTimeouts = {
+    a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 1,
+    h: 1, i: 1, j: 1, k: 1, l: 1, m: 2, n: 2,
+    o: 2, p: 2, q: 2, r: 2, s: 2, t: 3, u: 3,
+    v: 3, w: 3, x: 3, y: 3, z: 3
+  };
+
   public async init(scServer, id: number) {
 
     await this.logger.init();
@@ -134,7 +143,12 @@ export class Game implements IGame {
     this.playerManager.allPlayers.forEach(async player => {
       await player.loop();
 
-      this.updatePlayer(player);
+      const charKey = player.name.slice(0, 1).toLowerCase();
+      const timeout = this.timeoutMultiplier * (this.updateGroupTimeouts[charKey] || 0);
+
+      setTimeout(() => {
+        this.updatePlayer(player);
+      }, timeout);
 
       if((this.ticks % SAVE_TICKS) === 0) {
         // this.logger.log(`Game`, `Saving player ${player.name}...`);
