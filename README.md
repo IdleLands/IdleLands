@@ -16,8 +16,7 @@ The game is only tested against MongoDB. TypeORM currently lacks support for joi
 
 * Clone the repo
 * `npm install`
-* If you do not have an `assets` folder, run `npm run postinstall`
-* `npm run seed`
+* `npm run setup`
 * Create `.env` file (see `Environment Variables`)
 
 ## Environment Variables
