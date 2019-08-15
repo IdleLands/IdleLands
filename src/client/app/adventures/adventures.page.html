@@ -14,24 +14,7 @@
       <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
         <ng-container *ngTemplateOutlet="adventureTpl; context: { adventure: adventure }"></ng-container>
       </ion-col>
-    </ion-row>  
-    <!--
-    <ng-container *ngFor="let adventure of player.$petsData.adventures">
-      <ion-row *ngIf="adventure.finishAt">
-        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
-          <ng-container *ngTemplateOutlet="adventureTpl; context: { adventure: adventure, player: player }"></ng-container>
-        </ion-col>
-      </ion-row>  
-    </ng-container>
-
-    <ng-container *ngFor="let adventure of player.$petsData.adventures">
-      <ion-row *ngIf="!adventure.finishAt">
-        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
-          <ng-container *ngTemplateOutlet="adventureTpl; context: { adventure: adventure, player: player }"></ng-container>
-        </ion-col>
-      </ion-row>
-    </ng-container>
-  -->
+    </ion-row>
 
   </ng-container>
 </ion-content>

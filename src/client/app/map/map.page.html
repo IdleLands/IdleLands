@@ -5,6 +5,7 @@
     </ion-buttons>
     <ion-title>
       Map
+      <span *ngIf="(gameService.player$ | async) as player">[{{ player.x }},{{ player.y }}]</span>
       <span *ngIf="ddStepsLeft">[DD: {{ ddStepsLeft }}]</span>
     </ion-title>
     <ion-buttons slot="end">

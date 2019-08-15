@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChatPage } from './chat.page';
+import { ChatPage, DiscordEmojiPipe } from './chat.page';
 import { SharedModule } from '../shared.module';
 import { ModQuickPopover } from './modquick.popover';
 
@@ -25,7 +25,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [ChatPage, ModQuickPopover],
+  declarations: [ChatPage, DiscordEmojiPipe, ModQuickPopover],
   entryComponents: [ModQuickPopover]
 })
 export class ChatPageModule {}

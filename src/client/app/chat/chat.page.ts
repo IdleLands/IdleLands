@@ -1,9 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
 import { IonList, PopoverController } from '@ionic/angular';
 import { ModQuickPopover } from './modquick.popover';
+import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat',
@@ -81,4 +82,27 @@ export class ChatPage implements OnInit {
     return await popover.present();
   }
 
+}
+
+@Pipe({
+    name: 'replaceDiscordEmoji'
+})
+export class DiscordEmojiPipe implements PipeTransform {
+
+  constructor(private sanitizer: DomSanitizer) { }
+
+  public transform(message: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(
+      message
+        .split(' ')
+        .map(word => {
+          const matches = word.match(/&lt;:([a-zA-Z]+):([0-9]+)&gt;/);
+          if(!matches || !matches[0] || !matches[1] || !matches[2]) return word;
+          return `
+            <img class="discord-emoji" alt="${matches[1]}" src="https://cdn.discordapp.com/emojis/${matches[2]}.png?v=1" />
+          `;
+        })
+        .join(' ')
+    );
+  }
 }
