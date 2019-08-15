@@ -35,7 +35,7 @@
                   <span class="chat-username">{{ message.playerName }}</span>
                   <span class="chat-timestamp">{{ message.timestamp | date:'short' }}</span>
                 </h2>
-                <p [innerHTML]="message.message | linkify"></p>
+                <p [innerHTML]="message.message | linkify | replaceDiscordEmoji"></p>
               </ion-label>
             </ion-item>
           </ion-list>
