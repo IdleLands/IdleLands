@@ -6,6 +6,3 @@ node_js:
 
 script:
   - npm run test
-
-after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]; then bash ./scripts/deploy.sh; fi'
