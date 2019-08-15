@@ -9,7 +9,7 @@ export class Classfluid extends Achievement {
   static readonly type = AchievementType.Progress;
 
   static descriptionForTier(): string {
-    return 'Gain +10% to all stats for becoming each class once.';
+    return 'Gain +10% to all primary stats for becoming each class once.';
   }
 
   static calculateTier(player: Player): number {

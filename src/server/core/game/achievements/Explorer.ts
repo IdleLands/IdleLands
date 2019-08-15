@@ -9,7 +9,7 @@ export class Explorer extends Achievement {
   static readonly type = AchievementType.Explore;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier * 25} to all stats for exploring ${(tier * Explorer.base).toLocaleString()} maps.`;
+    let baseStr = `Gain +${tier * 25} to all primary stats for exploring ${(tier * Explorer.base).toLocaleString()} maps.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Explorer of Norkos.`;

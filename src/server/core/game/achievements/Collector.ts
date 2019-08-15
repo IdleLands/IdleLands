@@ -9,7 +9,7 @@ export class Collector extends Achievement {
   static readonly type = AchievementType.Explore;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier}% to all stats for finding ${(tier * Collector.base).toLocaleString()} collectibles.`;
+    let baseStr = `Gain +${tier}% to all primary stats for finding ${(tier * Collector.base).toLocaleString()} collectibles.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Collector of Collectibles.`;
