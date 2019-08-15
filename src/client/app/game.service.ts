@@ -558,6 +558,10 @@ export class GameService {
       return `Collectible (${reward.split(':')[2]})`;
     }
 
+    if(reward.includes('collectible:historical')) {
+      return `Collectible (${reward.split(':')[2]})`;
+    }
+
     if(reward.includes('item:guardian')) {
       return `Item (${reward.split(':')[2]})`;
     }
