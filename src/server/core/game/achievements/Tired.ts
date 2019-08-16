@@ -12,6 +12,10 @@ export class Tired extends Achievement {
     let baseStr = `Gain +${tier} Adventure Log Capacity
                    and +${tier * 2} Max Stamina for using ${Math.pow(Tired.base, tier).toLocaleString()} stamina.`;
 
+    if(tier >= 3) {
+      baseStr = `${baseStr} Personality: Restless.`;
+    }
+
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Exhausted.`;
     }
@@ -29,6 +33,10 @@ export class Tired extends Achievement {
       { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.AdventureLogSizeBoost]: tier } },
       { type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.MaxStaminaBoost]: tier * 2 } }
     ];
+
+    if(tier >= 3) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Restless' });
+    }
 
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Exhausted' });
