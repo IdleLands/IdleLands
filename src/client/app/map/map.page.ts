@@ -147,7 +147,6 @@ class GameState extends Phaser.State {
         const strings = [];
 
         const nameKey = item.teleportMap ? 'teleportMap' : 'name';
-        console.log(item);
         if(item.realtype) {
           const nameValue = item[nameKey];
 
@@ -176,7 +175,6 @@ class GameState extends Phaser.State {
           strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''} ${affix}`);
         }
 
-        console.log(this.player.cooldowns);
         if(item.forceEvent && this.player.cooldowns
         && this.player.cooldowns[`${item.x / 16},${item.y / 16}|${this.player.map}`] > Date.now()) {
           const availDate = new Date(this.player.cooldowns[`${item.x / 16},${item.y / 16}|${this.player.map}`]);
