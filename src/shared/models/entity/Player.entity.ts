@@ -264,12 +264,16 @@ export class Player implements IPlayer {
 
   public oocAction(): string {
     if(this.stamina.total < this.$profession.oocAbilityCost) return;
+    
+    const response = this.$profession.oocAbility(this);
+    if(!response) return;
 
     this.increaseStatistic('Character/Stamina/Spend', this.$profession.oocAbilityCost);
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
     this.stamina.sub(this.$profession.oocAbilityCost);
-    return this.$profession.oocAbility(this);
+    
+    return response;
   }
 
   public petOOCAction(): string {
