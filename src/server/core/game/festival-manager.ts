@@ -55,7 +55,7 @@ export class FestivalManager {
   public startAscensionFestival(player: Player) {
 
     const endTime = new Date();
-    endTime.setDate(endTime.getDate() + 7);
+    endTime.setDate(endTime.getDate() + 3);
 
     const festival = this.makeSystemFestival({
       name: `${player.name}'s Ascension`,
