@@ -42,7 +42,7 @@ export class Pirate extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  1,
 
-    [Stat.XP]:   0.4,
+    [Stat.XP]:   0.2,
     [Stat.GOLD]: 1
   };
 

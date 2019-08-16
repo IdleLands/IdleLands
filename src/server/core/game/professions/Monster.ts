@@ -41,7 +41,7 @@ export class Monster extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0.4,
+    [Stat.XP]:   0.2,
     [Stat.GOLD]: 0.2
   };
 

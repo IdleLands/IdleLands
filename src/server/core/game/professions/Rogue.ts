@@ -42,7 +42,7 @@ export class Rogue extends BaseProfession implements IProfession {
 
     [Stat.SPECIAL]:  0,
 
-    [Stat.XP]:   0.3,
+    [Stat.XP]:   0.1,
     [Stat.GOLD]: 1.2
   };
 
