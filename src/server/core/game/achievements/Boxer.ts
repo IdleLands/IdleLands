@@ -5,11 +5,11 @@ export class Boxer extends Achievement {
 
   static readonly base = 25;
 
-  static readonly statWatches = ['Treasure/Total/Touch'];
+  static readonly statWatches = ['Treasure/Total/ItemsFound'];
   static readonly type = AchievementType.Explore;
 
   static descriptionForTier(tier: number): string {
-    let baseStr = `Gain +${tier * 3}% DEX/INT for touching ${(tier * Boxer.base).toLocaleString()} treasure chests.`;
+    let baseStr = `Gain +${tier * 3}% DEX/INT for finding ${(tier * Boxer.base).toLocaleString()} treasure chest items.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Boxer.`;
@@ -19,7 +19,7 @@ export class Boxer extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const steps = player.$statistics.get('Treasure/Total/Touch');
+    const steps = player.$statistics.get('Treasure/Total/ItemsFound');
     return Math.floor(steps / Boxer.base);
   }
 
