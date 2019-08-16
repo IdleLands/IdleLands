@@ -52,6 +52,10 @@ export class Bard extends BaseProfession implements IProfession {
     Object.values(Stat).forEach(stat => {
       stats[stat] = player.$$game.rngService.numberInRange(-10, 10);
     });
+    
+    if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
+      return false;
+    }
 
     const festival: IFestival = {
       name: `${player.name}'s Bardic Festival`,
