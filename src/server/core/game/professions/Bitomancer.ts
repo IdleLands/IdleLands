@@ -7,7 +7,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
 
   public readonly specialStatName = 'Bit';
   public readonly oocAbilityName = 'Hack The System';
-  public readonly oocAbilityDesc = 'Improve your and your partys combat stats.';
+  public readonly oocAbilityDesc = 'Improve your and your party\'s combat stats.';
   public readonly oocAbilityCost = 30;
 
   public readonly statForStats = {
