@@ -29,7 +29,7 @@ export class Divine extends Achievement {
     ];
 
     if(tier >= 6) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Divine' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Divine Dog' });
     }
 
     return baseRewards;

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gold Purchases</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    <ion-row>
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+        <ion-card *ngIf="player.$achievementsData">
+          <ion-card-header>
+            <ion-card-subtitle>You have {{ player.gold | number }} Gold</ion-card-subtitle>
+            <ion-card-title>
+              Genders
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let gender of genders">
+                <app-gendervatar slot="start" [gender]="gender.key"></app-gendervatar>
+
+                <ion-label class="ion-text-wrap">
+                  <h3>{{ gender.name }}</h3>
+                </ion-label>
+
+                <ion-button slot="end" 
+                            (click)="buyGender(gender)" 
+                            *ngIf="!player.$achievementsData.permanentGenders[gender.key]"
+                            [disabled]="player.gold < gender.cost">
+                            Buy ({{ gender.cost | number }} Gold)
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+
+</ion-content>

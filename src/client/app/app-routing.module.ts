@@ -52,6 +52,12 @@ const routes: Routes = [
         { path: '', loadChildren: './premium/premium.module#PremiumPageModule' }
       ]
     },
+
+    { path: 'gold',
+      children: [
+        { path: '', loadChildren: './premium-gold/premium-gold.module#PremiumGoldPageModule' }
+      ]
+    },
     {
       path: 'festivals',
       children: [

@@ -1,3 +1,4 @@
+import { Profession } from './IPlayer';
 
 export enum PermanentUpgrade {
 
@@ -64,4 +65,22 @@ export enum OtherILPPurchase {
 
 export const OtherILPCosts: { [key in OtherILPPurchase]: number } = {
   [OtherILPPurchase.ResetCooldowns]: 50
+};
+
+export const GoldGenderCost: { [key in Profession]: number } = {
+  [Profession.Archer]: 500_000_000,
+  [Profession.Barbarian]: 50_000_000,
+  [Profession.Bard]: 25_000_000,
+  [Profession.Bitomancer]: 25_000_000,
+  [Profession.Cleric]: 10_000_000,
+  [Profession.Fighter]: 10_000_000,
+  [Profession.Generalist]: 10_000_000,
+  [Profession.Jester]: 1_000_000_000,
+  [Profession.Mage]: 10_000_000,
+  [Profession.MagicalMonster]: 100_000_000,
+  [Profession.Monster]: 100_000_000,
+  [Profession.Necromancer]: 500_000_000,
+  [Profession.Pirate]: 50_000_000,
+  [Profession.Rogue]: 25_000_000,
+  [Profession.SandwichArtist]: 1_000_000
 };

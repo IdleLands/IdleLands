@@ -15,17 +15,29 @@ export class Achievements extends PlayerOwned {
   @Column()
   private achievements: { [key: string]: IAchievement };
 
+  @Column()
+  private permanentGenders: { [key: string]: boolean };
+
   public get $achievementsData() {
-    return { achievements: this.achievements };
+    return { achievements: this.achievements, permanentGenders: this.permanentGenders };
   }
 
   constructor() {
     super();
     if(!this.achievements) this.achievements = {};
+    if(!this.permanentGenders) this.permanentGenders = {};
   }
 
   public init(player: Player) {
     player.$$game.achievementManager.checkAchievementsFor(player);
+  }
+
+  public hasBoughtGender(gender: string): boolean {
+    return this.permanentGenders[gender];
+  }
+
+  public buyGender(gender: string): void {
+    this.permanentGenders[gender] = true;
   }
 
   public add(ach: IAchievement): void {
@@ -103,7 +115,8 @@ export class Achievements extends PlayerOwned {
   }
 
   public getGenders(): string[] {
-    const base = ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap'];
+    const base = ['male', 'female', 'not a bear', 'glowcloud', 'astronomical entity', 'soap']
+      .concat(Object.keys(this.permanentGenders));
 
     return base.concat(flatten(Object.values(this.achievements).map(ach => {
       return compact(
