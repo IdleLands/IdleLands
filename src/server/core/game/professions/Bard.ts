@@ -54,6 +54,7 @@ export class Bard extends BaseProfession implements IProfession {
     });
     
     if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
+      this.emitProfessionMessage(player, "You already have a Bardic Festival active.");
       return false;
     }
 
