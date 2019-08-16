@@ -57,7 +57,7 @@ export class DiscordManager {
         fromDiscord: true,
         timestamp: Date.now(),
 
-        playerName: message.member.displayName,
+        playerName: message.member ? message.member.displayName : 'UNKNOWN',
         message: content
       });
 
