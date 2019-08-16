@@ -92,7 +92,7 @@ export class FestivalManager {
 
     this.chat.sendMessageFromClient({
       message: `A new festival "${festival.name}" has started!`,
-      playerName: player.name
+      playerName: '☆System'
     });
   }
 
