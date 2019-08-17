@@ -307,7 +307,7 @@ export class MovementHelper {
     const newTile = this.getTileAt(player.map, player.x, player.y);
     player.region = newTile.region;
 
-    this.handleTile(player, tile, 'Teleport');
+    this.handleTile(player, newTile, 'Teleport');
 
     player.increaseStatistic(`Character/Movement/${capitalize(dest.movementType)}`, 1);
   }
