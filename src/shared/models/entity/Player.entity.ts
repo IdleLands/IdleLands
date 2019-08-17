@@ -211,6 +211,10 @@ export class Player implements IPlayer {
     this.checkStaminaTick();
 
     this.syncPremium();
+
+    if(this.title && !this.availableTitles.includes(this.title)) {
+      this.changeTitle('');
+    }
   }
 
   private clearOldCooldowns() {
