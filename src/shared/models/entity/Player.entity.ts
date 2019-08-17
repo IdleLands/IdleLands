@@ -263,13 +263,15 @@ export class Player implements IPlayer {
     return this.stats[stat];
   }
 
-  public oocAction(): string {
-    if(this.stamina.total < this.$profession.oocAbilityCost) return;
+  public oocAction(costMultiplier = 1): string {
+    const totalCost = this.$profession.oocAbilityCost * costMultiplier;
 
-    this.increaseStatistic('Character/Stamina/Spend', this.$profession.oocAbilityCost);
+    if(this.stamina.total < totalCost) return;
+
+    this.increaseStatistic('Character/Stamina/Spend', totalCost);
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
-    this.stamina.sub(this.$profession.oocAbilityCost);
+    this.stamina.sub(totalCost);
     return this.$profession.oocAbility(this);
   }
 
@@ -402,7 +404,7 @@ export class Player implements IPlayer {
     this.stamina.add(1);
 
     if(this.$personalities.isActive('Restless') && this.stamina.atMaximum()) {
-      this.oocAction();
+      this.oocAction(2);
     }
 
     this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
