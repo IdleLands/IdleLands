@@ -53,6 +53,7 @@ export class Statistics extends PlayerOwned {
 
   public set(stat: string, value: number): void {
     if(isNaN(value)) throw new Error(`${stat} being set to NaN!`);
+    if(!isFinite(value)) throw new Error(`${stat} being set to Infinity!`);
 
     set(this.statistics, stat.split('/'), value);
   }

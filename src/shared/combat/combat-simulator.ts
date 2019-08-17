@@ -166,7 +166,9 @@ export class CombatSimulator {
 
     const refChar = this.combat.characters[skillEffect.source];
 
-    const absDamage = Math.abs(skillEffect.modifyStatValue);
+    let absDamage = Math.abs(skillEffect.modifyStatValue);
+    if(!isFinite(absDamage) || isNaN(absDamage)) absDamage = 0;
+
     const damageString = absDamage === 0 ? `0 [miss]` : absDamage.toLocaleString();
 
     const replacements: Array<{ replace: string, with: string }> = [
