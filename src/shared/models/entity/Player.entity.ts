@@ -382,6 +382,8 @@ export class Player implements IPlayer {
 
     this.$pets.resetEquipment();
 
+    this.buffWatches = {};
+
     this.$$game.festivalManager.startAscensionFestival(this);
 
     this.setPos(10, 10, 'Norkos', 'Norkos Town');

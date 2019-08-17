@@ -47,6 +47,8 @@ export class CharacterPage {
       <br>
       Your pets will lose their equipment.
       <br>
+      Your boosters and injuries will expire.
+      <br>
       <br>
       You're probably going to do this anyway.`,
       buttons: [
