@@ -1,5 +1,5 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { compact } from 'lodash';
+import { compact, uniq } from 'lodash';
 
 import * as Achievements from './achievements';
 import { Player } from '../../../shared/models';
@@ -85,7 +85,7 @@ export class AchievementManager {
     return allPets.map((pet: IPetProto) => {
       return {
         name: `Tribal: ${pet.typeName}`,
-        statWatches: Object.keys(pet.requirements.statistics).concat(['Item/Collectible/Find']),
+        statWatches: uniq(Object.keys(pet.requirements.statistics || []).concat(['Item/Collectible/Find'])),
         type: AchievementType.Pet,
         descriptionForTier: () => `You earned a new pet: ${pet.typeName}.
           It offers the following permanent bonuses for ${pet.cost.toLocaleString()} gold:

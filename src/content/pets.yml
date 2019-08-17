@@ -1022,8 +1022,6 @@
     - 200
 
   requirements:
-    statistics:
-      Environment/Terrain/Grass: 100000
     collectibles:
       - Gold Bank Coin
       - Medium Sized Bank Coin
@@ -1031,6 +1029,8 @@
       - Weirdly Sized Bank Coin
       - Evil Bank Coin
       - Ashen Bank Coin
+    achievements:
+      Golden: 3
 
   upgrades:
     goldStorage:
@@ -1917,24 +1917,11 @@
     - 1000
 
   requirements:
-    statistics:
-      Profession/Archer/Become: 1
-      Profession/Barbarian/Become: 1
-      Profession/Bard/Become: 1
-      Profession/Bitomancer/Become: 1
-      Profession/Cleric/Become: 1
-      Profession/Fighter/Become: 1
-      Profession/Generalist/Become: 1
-      Profession/Jester/Become: 1
-      Profession/Mage/Become: 1
-      Profession/MagicalMonster/Become: 1
-      Profession/Monster/Become: 1
-      Profession/Necromancer/Become: 1
-      Profession/Pirate/Become: 1
-      Profession/Rogue/Become: 1
     collectibles:
       - Giant Sized Flask
       - Vial of Liquid Fate
+    achievements:
+      Classfluid: 1
 
   upgrades:
     goldStorage:
@@ -2225,10 +2212,8 @@
     - 1500
 
   requirements:
-    statistics:
-      Item/Collectible/Touch: 1
     achievements:
-      Spiritualist: 1      
+      Spiritualist: 1
 
   upgrades:
     goldStorage:
