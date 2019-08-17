@@ -347,7 +347,7 @@ export class CombatSimulator {
     if(size(livingParties) === 1) return this.endCombat({ winningParty: +Object.keys(livingParties)[0] });
 
     // arbitrary round timer just in case
-    if(this.combat.currentRound >= 300) return this.endCombat({ wasTie: true });
+    if(this.combat.currentRound >= 100) return this.endCombat({ wasTie: true });
 
     this.beginRound();
   }
