@@ -61,6 +61,7 @@ export class Collectibles extends PlayerOwned {
   }
 
   public refindCollectible(collectible: string) {
+    if(!this.collectibles[collectible]) return;
     this.collectibles[collectible].foundAt = Date.now();
   }
 
