@@ -259,6 +259,8 @@ export class Pets extends PlayerOwned {
       if(pet.currentAdventureId !== adventureId) return;
       pet.currentAdventureId = '';
       totalPetsSentOnAdventure++;
+
+      pet.gainXP(pet.xp.maximum * (adventure.duration / 100));
     });
 
     let totalRewards = Math.floor(BaseAdventureRewardCount[adventure.duration] * totalPetsSentOnAdventure);
