@@ -48,8 +48,12 @@ export class Pirate extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
 
+    const scaler = player.$statistics.get('Profession/Pirate/Become') || 1;
+
+    const statScaled = player.getStat(Stat.LUK) * scaler;
+
     const foundItem = player.$$game.itemGenerator.generateItemForPlayer(player, {
-      generateLevel: player.level.total + Math.log(player.getStat(Stat.LUK)),
+      generateLevel: player.level.total + Math.log(statScaled),
       qualityBoost: 1
     });
 

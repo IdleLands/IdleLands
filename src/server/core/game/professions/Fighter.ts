@@ -47,14 +47,18 @@ export class Fighter extends BaseProfession implements IProfession {
   };
 
   public oocAbility(player: Player): string {
+
+    const scaler = player.$statistics.get('Profession/Fighter/Become') || 1;
+
     const luk = player.getStat(Stat.LUK);
+
     player.grantBuff({
       name: 'Experiencer',
       statistic: 'Character/Ticks',
       booster: true,
       duration: 720,
       stats: {
-        [Stat.XP]: Math.log(luk) * Math.log(player.level.total)
+        [Stat.XP]: Math.log(luk) * Math.log(player.level.total * scaler)
       }
     }, true);
 
