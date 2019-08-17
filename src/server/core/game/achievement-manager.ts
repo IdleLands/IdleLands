@@ -91,10 +91,10 @@ export class AchievementManager {
           It offers the following permanent bonuses for ${pet.cost.toLocaleString()} gold:
           ${Object.keys(pet.permanentUpgrades).map(x => `${x} +${pet.permanentUpgrades[x]}`).join(', ')}`,
         calculateTier: (player: Player) => {
-          const meetsStatistics = Object.keys(pet.requirements.statistics).every(stat => {
+          const meetsStatistics = pet.requirements.statistics ? Object.keys(pet.requirements.statistics || []).every(stat => {
             const val = player.$statistics.get(stat);
             return val >= pet.requirements.statistics[stat];
-          });
+          }) : true;
 
           const meetsAchievements = pet.requirements.achievements ? Object.keys(pet.requirements.achievements).every(ach => {
             const achTier = player.$achievements.getAchievementTier(ach);
