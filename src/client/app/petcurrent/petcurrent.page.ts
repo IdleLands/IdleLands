@@ -94,8 +94,8 @@ export class PetcurrentPage implements OnInit {
       .join('');
 
     const alert = await this.alertCtrl.create({
-      header: 'Ascend',
-      message: `Are you sure you want to ascend your pet?
+      header: 'Enhance',
+      message: `Are you sure you want to enhance your pet?
       It will NOT reset level, and will earn further upgrades.
       It will cost the following materials: <br><ol>${matString}</ol>`,
       buttons: [
