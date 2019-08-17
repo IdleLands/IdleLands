@@ -29,6 +29,12 @@ export class Achievements extends PlayerOwned {
   }
 
   public init(player: Player) {
+    Object.keys(this.achievements).forEach(ach => {
+      if(isFinite(this.achievements[ach].tier) && !isNaN(this.achievements[ach].tier)) return;
+
+      delete this.achievements[ach];
+    });
+
     player.$$game.achievementManager.checkAchievementsFor(player);
   }
 

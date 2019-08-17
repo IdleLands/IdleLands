@@ -186,10 +186,10 @@ export class AchievementManager {
     const ach = this.allAchievements[achName];
 
     const tier = ach.calculateTier(player);
-    if(tier === 0) return;
+    if(tier === 0 || isNaN(tier) || !isFinite(tier)) return;
 
     const existingTier = alwaysGet ? 0 : player.$achievements.getAchievementTier(ach.name);
-    if(tier === existingTier) return;
+    if(tier === existingTier || isNaN(existingTier) || !isFinite(existingTier)) return;
 
     const existingAchAt = alwaysGet ? player.$achievements.getAchievementAchieved(ach.name) : 0;
 
