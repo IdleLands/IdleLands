@@ -188,6 +188,7 @@ export class Pet implements IPet {
     if(!this.$affinity || !this.$player) return;
 
     this.stats = {};
+    this.$statTrail = {};
 
     // dynamically-calculated
     // first, we do the addition-based adds
