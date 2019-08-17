@@ -390,6 +390,7 @@ export class Player implements IPlayer {
 
     this.setPos(10, 10, 'Norkos', 'Norkos Town');
 
+    this.calculateStamina();
     this.recalculateStats();
   }
 
@@ -434,6 +435,8 @@ export class Player implements IPlayer {
     staminaTotal += this.$statistics.get('Game/Premium/Upgrade/MaxStaminaBoost');
 
     this.stamina.maximum = staminaTotal;
+
+    if(this.stamina.total > this.stamina.maximum) this.stamina.set(this.stamina.maximum);
   }
 
   private tryLevelUp(): void {
