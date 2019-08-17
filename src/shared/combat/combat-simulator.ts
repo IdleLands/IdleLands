@@ -396,7 +396,7 @@ export class CombatSimulator {
   }
 
   incrementStatistic(char: ICombatCharacter, statistic: string, value = 1) {
-    if(!char || !char.realName) return;
+    if(!char || !char.realName || isNaN(value) || !isFinite(value)) return;
 
     this.events$.next({
       action: CombatAction.IncrementStatistic,
