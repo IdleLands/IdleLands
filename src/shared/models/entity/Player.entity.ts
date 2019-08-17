@@ -195,8 +195,6 @@ export class Player implements IPlayer {
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
     this.stamina = new RestrictedNumber(this.stamina.minimum, this.stamina.maximum, this.stamina.__current);
-    this.calculateStamina();
-    this.checkStaminaTick();
 
     // init extra data for relevant joined services
     this.$professionData = this.$profession.$professionData;
@@ -208,6 +206,9 @@ export class Player implements IPlayer {
     this.increaseStatistic('Game/Logins', 1);
 
     this.recalculateStats();
+
+    this.calculateStamina();
+    this.checkStaminaTick();
 
     this.syncPremium();
   }
