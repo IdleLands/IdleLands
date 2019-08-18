@@ -29,7 +29,9 @@ export class CombatHelper {
 
   canDoCombat(player: Player): boolean {
     const players = player.$party ? player.$party.members.map(x => this.playerManager.getPlayer(x)) : [player];
-    return !players.some((checkPlayer) => checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold'));
+    return !players.some(
+      (checkPlayer) => checkPlayer && checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold')
+    );
   }
 
   createAndRunMonsterCombat(player: Player): ICombat {
