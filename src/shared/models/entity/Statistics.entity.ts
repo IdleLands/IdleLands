@@ -39,6 +39,7 @@ export class Statistics extends PlayerOwned {
 
   public increase(stat: string, value = 1): void {
     if(isNaN(value)) throw new Error(`${stat} being incremented by NaN!`);
+    if(!isFinite(value)) throw new Error(`${stat} being incremented by Infinity!`);
     if(stat.includes('.')) throw new Error(`${stat} path contains a "."! Use "/" instead.`);
 
     const curVal = this.get(stat);
@@ -52,8 +53,7 @@ export class Statistics extends PlayerOwned {
   }
 
   public set(stat: string, value: number): void {
-    if(isNaN(value)) throw new Error(`${stat} being set to NaN!`);
-    if(!isFinite(value)) throw new Error(`${stat} being set to Infinity!`);
+    if(isNaN(value) || !isFinite(value)) return;
 
     set(this.statistics, stat.split('/'), value);
   }

@@ -397,7 +397,10 @@ export class CombatSimulator {
   }
 
   incrementStatistic(char: ICombatCharacter, statistic: string, value = 1) {
-    console.log(statistic, value, JSON.stringify(this.combat));
+    if(isNaN(value) || !isFinite(value)) {
+      console.log(`char`, char.name, statistic, value, JSON.stringify(this.combat));
+    }
+
     if(!char || !char.realName || isNaN(value) || !isFinite(value)) return;
 
     this.events$.next({
