@@ -280,6 +280,8 @@ export class CombatHelper {
         const playerRef = this.playerManager.getPlayer(name);
         if(!playerRef) return;
 
+        if(isNaN(value) || !isFinite(value)) return;
+
         playerRef.increaseStatistic(statistic, value);
       }
     });
