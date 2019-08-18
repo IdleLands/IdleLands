@@ -145,6 +145,10 @@ export class Player implements IPlayer {
   public $premium: Premium;
   public $premiumData: any;
 
+  @nonenumerable
+  public $quests: any;
+  public $questsData: any;
+
   @Column()
   public availableGenders: string[];
 
@@ -574,6 +578,7 @@ export class Player implements IPlayer {
   }
 
   private initLinks() {
+    this.$quests.init(this);
     this.$inventory.init(this);
 
     if(this.$inventory.isNeedingNewbieItems()) {
@@ -678,6 +683,11 @@ export class Player implements IPlayer {
 
     this.checkAchievements(stat);
     this.checkBuffs(stat);
+    this.checkQuests(stat, val);
+  }
+
+  private checkQuests(stat: string, val: number) {
+    this.$quests.checkQuests(stat, val);
   }
 
   private checkAchievements(stat: string) {
@@ -886,9 +896,16 @@ export class Player implements IPlayer {
       + (allAchievementBoosts[PermanentUpgrade.MaxPetsInCombat] || 0)
     );
 
+    this.$statistics.set('Game/Premium/Upgrade/MaxQuests',
+      1
+      + (allAchievementBoosts[PermanentUpgrade.MaxQuestsCapBoost] || 0)
+      + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxQuestsCapBoost)
+    );
+
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
+    this.$quests.updateQuestsBasedOnTotals(this);
   }
 
   public gainILP(ilp: number): void {

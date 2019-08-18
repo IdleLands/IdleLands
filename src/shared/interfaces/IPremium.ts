@@ -30,7 +30,10 @@ export enum PermanentUpgrade {
   MaxPetsInCombat = 'maxPetsInCombat',
 
   // the maximum stamina boost you get. stacks with other sources.
-  MaxStaminaBoost = 'maxStaminaBoost'
+  MaxStaminaBoost = 'maxStaminaBoost',
+
+  // the maximum number of quests available to you at any given time
+  MaxQuestsCapBoost = 'maxQuestsCapBoost'
 }
 
 export enum PremiumTier {
@@ -56,6 +59,7 @@ export const PremiumScale = {
   [PermanentUpgrade.BuffScrollDuration]: 10,
   [PermanentUpgrade.ItemStatCapBoost]: 25,
   [PermanentUpgrade.PetMissionCapBoost]: 50,
+  [PermanentUpgrade.MaxQuestsCapBoost]: 50,
   [PermanentUpgrade.MaxStaminaBoost]: 2
 };
 

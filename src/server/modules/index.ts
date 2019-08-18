@@ -9,3 +9,4 @@ export * from './inventory';
 export * from './personality';
 export * from './pet';
 export * from './premium';
+export * from './quest';

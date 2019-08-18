@@ -70,6 +70,10 @@ export enum ServerEventName {
 
   TogglePersonality = 'personality:toggle',
 
+  QuestReroll = 'quest:reroll',
+  QuestCollect = 'quest:collect',
+  QuestRewards = 'quest:rewards',
+
   GMSetMOTD = 'gm:setmotd',
   GMChangeModTier = 'gm:modtier',
   GMStartFestival = 'gm:startfestival',

@@ -9,4 +9,5 @@ export * from './GameSettings.entity';
 export * from './Personalities.entity';
 export * from './Player.entity';
 export * from './Premium.entity';
+export * from './Quests.entity';
 export * from './Statistics.entity';

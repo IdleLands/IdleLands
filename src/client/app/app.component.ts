@@ -67,6 +67,15 @@ export class AppComponent {
       return 'Free Roll';
     } },
 
+    { name: 'Quests', icon: 'questglobal', url: '/quests', badgeColor: 'success', badge: (player) => {
+      if(!player.$questsData) return false;
+
+      const anyComplete = player.$questsData.quests.some(x => x.objectives.every(obj => obj.progress >= obj.statisticValue));
+      if(!anyComplete) return false;
+
+      return 'Complete';
+    } },
+
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
       if(player.authId) return false;
       return 'Unsynced';

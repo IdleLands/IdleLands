@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Personal Quests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ng-container *ngIf="(gameService.player$ | async) as player">
+    
+      <ion-row *ngFor="let quest of player.$questsData.quests">
+        <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                <ion-row class="vertical-center">
+                  <ion-col class="vertical-center">
+                    {{ quest.name }}
+                  </ion-col>
+        
+                  <ion-col text-right>
+                    <ion-button class="secondary" fill="outline" size="small" (click)="reroll(quest)">
+                      <ion-icon slot="icon-only" name="refresh"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-title>
+            </ion-card-header>
+        
+            <ion-card-content>
+              <ion-row *ngFor="let objective of quest.objectives">
+                <ion-col>
+                  {{ objective.desc }}
+                </ion-col>
+                <ion-col class="vertical-center">
+                  <ion-progress-bar 
+                  [color]="objective.progress >= objective.statisticValue ? 'success' : 'primary'"
+                  [value]="objective.progress / objective.statisticValue"
+                  ></ion-progress-bar>
+                </ion-col>
+              </ion-row>
+
+              <ion-row *ngIf="canCollect(quest)">
+                <ion-col text-right>
+                  <ion-button (click)="collect(quest)">Collect</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+  </ng-container>
+
+</ion-content>
