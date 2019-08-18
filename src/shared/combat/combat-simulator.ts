@@ -194,6 +194,7 @@ export class CombatSimulator {
 
       // round modifyStatValue always
       effect.modifyStatValue = Math.floor(effect.modifyStatValue);
+      if(isNaN(effect.modifyStatValue) || !isFinite(effect.modifyStatValue)) effect.modifyStatValue = 0;
 
       // special cap handling for HP and Special
       if(effect.modifyStat === Stat.HP) {
