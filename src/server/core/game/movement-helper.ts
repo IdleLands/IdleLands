@@ -224,12 +224,12 @@ export class MovementHelper {
         };
 
         this.eventManager.doEventFor(player, oldil3EventNames[forceEvent] || forceEvent, tile.object.properties);
-      }
 
-      if(forceEvent !== EventName.Providence) {
+        if(forceEvent !== EventName.Providence) {
 
-        // 5 minute cooldown per tile
-        player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+          // 5 minute cooldown per tile
+          player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+        }
       }
     }
 
