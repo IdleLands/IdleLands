@@ -686,6 +686,8 @@ export class Player implements IPlayer {
   }
 
   public increaseStatistic(stat: string, val: number): void {
+    if(isNaN(val) || !isFinite(val)) return;
+
     this.$statistics.increase(stat, val);
 
     this.checkAchievements(stat);
