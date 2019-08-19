@@ -63,6 +63,7 @@ export class AchievementManager {
       if(!ach.statWatches) return;
 
       ach.statWatches.forEach(stat => {
+        if(stat.includes('.')) throw new Error(`${achievementName} is watching a stat with a . in it! Change it to /.`);
         this.statToAchievement[stat] = this.statToAchievement[stat] || [];
         this.statToAchievement[stat].push(ach);
       });

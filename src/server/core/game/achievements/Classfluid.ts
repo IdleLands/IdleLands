@@ -5,7 +5,7 @@ import * as Professions from '../professions';
 
 export class Classfluid extends Achievement {
 
-  static readonly statWatches = ['Character.ProfessionChanges'];
+  static readonly statWatches = ['Character/ProfessionChanges'];
   static readonly type = AchievementType.Progress;
 
   static descriptionForTier(): string {
