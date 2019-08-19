@@ -687,7 +687,7 @@ export class Player implements IPlayer {
   }
 
   private checkQuests(stat: string, val: number) {
-    this.$quests.checkQuests(stat, val);
+    this.$quests.checkQuests(this, stat, val);
   }
 
   private checkAchievements(stat: string) {

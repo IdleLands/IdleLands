@@ -23,6 +23,7 @@ export interface IGame {
   calculatorHelper: any;
   festivalManager: any;
   questHelper: any;
+  globalQuestManager: any;
   gmHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;

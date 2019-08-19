@@ -4,7 +4,7 @@ import { LootTable } from 'lootastic';
 import * as uuid from 'uuid/v4';
 import { sample } from 'lodash';
 
-import { IQuest, IQuestObjective, GachaReward, GachaChance } from '../../../shared/interfaces';
+import { IQuest, IQuestObjective, GachaReward, GachaChance, IGlobalQuest } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 import { World } from './world';
 import { AssetManager } from './asset-manager';
@@ -14,67 +14,80 @@ const validStats = [
     baseDesc: 'Touch %value treasure chests',
     stat: 'Treasure/Total/Touch',
     baseValue: 5,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 5,
+    noMap: true
   },
   {
     baseDesc: 'Touch %value collectibles',
     stat: 'Item/Collectible/Touch',
     baseValue: 5,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 5,
+    noMap: true
   },
   {
     baseDesc: 'Sell %value items',
     stat: 'Item/Sell/Times',
     baseValue: 5,
-    minScalar: 1
+    minScalar: 1,
+    maxScalar: 3
   },
   {
     baseDesc: 'Battle %value times',
     stat: 'Event/Battle/Times',
     baseValue: 2,
-    minScalar: 1
+    minScalar: 1,
+    maxScalar: 3
   },
   {
     baseDesc: 'Spend %value stamina',
     stat: 'Character/Stamina/Spend',
     baseValue: 5,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 4
   },
   {
     baseDesc: 'Gain %value gold',
     stat: 'Character/Gold/Gain',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   },
   {
     baseDesc: 'Spend %value gold',
     stat: 'Character/Gold/Spend',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   },
   {
     baseDesc: 'Step %value times',
-    stat: 'Character/Movement/Normal',
+    stat: 'Character/Movement/Steps/Normal',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   },
   {
     baseDesc: 'Divine-step %value times',
-    stat: 'Character/Movement/Divine',
+    stat: 'Character/Movement/Steps/Divine',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   },
   {
     baseDesc: 'Drunk-step %value times',
-    stat: 'Character/Movement/Drunk',
+    stat: 'Character/Movement/Steps/Drunk',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   },
   {
     baseDesc: 'Solo-step %value times',
-    stat: 'Character/Movement/Solo',
+    stat: 'Character/Movement/Steps/Solo',
     baseValue: 10,
-    minScalar: 2
+    minScalar: 2,
+    maxScalar: 7
   }
 ];
 
@@ -85,6 +98,38 @@ export class QuestHelper {
   @Inject private assets: AssetManager;
   @Inject private world: World;
   @Inject private rng: RNGService;
+
+  createObjective(scalar: number, map: string, overrideBaseValue = 0) {
+    const objectiveData = sample(
+      validStats
+        .filter(obj => obj.minScalar <= scalar
+                    && obj.maxScalar >= scalar
+                    && (map ? !obj.noMap : true))
+    );
+
+    objectiveData.baseValue = overrideBaseValue || objectiveData.baseValue;
+
+    const objValue = Math.pow(objectiveData.baseValue, scalar);
+    let objDesc = objectiveData.baseDesc
+                      .split('%value')
+                      .join(objValue.toLocaleString());
+
+    if(map) {
+      objDesc = `${objDesc} in ${map}`;
+    }
+
+    objDesc += '.';
+    const basicObjective: IQuestObjective = {
+      desc: objDesc,
+      scalar: scalar,
+      statistic: objectiveData.stat,
+      statisticValue: objValue,
+      progress: 0,
+      requireMap: map
+    };
+
+    return basicObjective;
+  }
 
   public createQuest(opts = { scalar: 0, map: '', region: '' }): IQuest {
 
@@ -101,40 +146,15 @@ export class QuestHelper {
 
     if(!opts.map) opts.scalar++;
 
-    const createObjective = (scalar) => {
-      const objectiveData = sample(validStats);
-
-      const objValue = Math.pow(objectiveData.baseValue, scalar);
-      let objDesc = objectiveData.baseDesc
-                        .split('%value')
-                        .join(objValue.toLocaleString());
-
-      if(opts.map) {
-        objDesc = `${objDesc} in ${opts.map}`;
-      }
-
-      objDesc += '.';
-      const basicObjective: IQuestObjective = {
-        desc: objDesc,
-        scalar: scalar,
-        statistic: objectiveData.stat,
-        statisticValue: objValue,
-        progress: 0,
-        requireMap: opts.map
-      };
-
-      return basicObjective;
-    };
-
     const objectives = [];
-    objectives.push(createObjective(opts.scalar));
+    objectives.push(this.createObjective(opts.scalar, opts.map));
 
     if(opts.scalar > 2 && this.rng.likelihood(30)) {
-      objectives.push(createObjective(opts.scalar - 1));
+      objectives.push(this.createObjective(opts.scalar - 1, opts.map));
     }
 
     if(opts.scalar > 3 && this.rng.likelihood(10)) {
-      objectives.push(createObjective(opts.scalar - 2));
+      objectives.push(this.createObjective(opts.scalar - 2, opts.map));
     }
 
     const quest: IQuest = {
@@ -144,6 +164,71 @@ export class QuestHelper {
     };
 
     return quest;
+  }
+
+  public createGlobalQuest(): IGlobalQuest {
+    const opts = { map: '', scalar: 6 };
+
+    opts.map = sample(
+      this.world.mapNames
+        .filter(x => this.world.getMap(x).allRegions.length >= 7)
+    );
+
+    const objectives = [];
+    objectives.push(this.createObjective(opts.scalar, opts.map, 10));
+    objectives.push(this.createObjective(opts.scalar - 1, opts.map, 10));
+    objectives.push(this.createObjective(opts.scalar - 2, opts.map, 10));
+    objectives.push(this.createObjective(opts.scalar - 3, opts.map, 10));
+    objectives.push(this.createObjective(opts.scalar - 3, opts.map, 10));
+
+    const endsAt = new Date();
+    endsAt.setDate(endsAt.getDate() + 7);
+
+    const quest: IGlobalQuest = {
+      id: uuid(),
+      name: this.assets.globalQuest(opts.map),
+      objectives,
+      endsAt: endsAt.getTime(),
+      claimedBy: {},
+      rewards: this.getRewardsForGlobalQuest()
+    };
+
+    quest.objectives.forEach(obj => {
+      obj.contributions = {};
+    });
+
+    return quest;
+  }
+
+  public getRewardsForGlobalQuest(): { first, second, third, other } {
+
+    const rewardChoices = [
+
+      // 200 ilp
+      [GachaReward.ILPLG, GachaReward.ILPLG],
+
+      // 10 astral crystals
+      [GachaReward.CrystalAstral5],
+
+      // 5 of all crystals
+      [GachaReward.CrystalBlue5, GachaReward.CrystalGreen5, GachaReward.CrystalOrange5,
+       GachaReward.CrystalPurple5, GachaReward.CrystalRed5, GachaReward.CrystalYellow5],
+
+      // 3 levelups
+      [GachaReward.XPPlayerMax, GachaReward.XPPlayerMax, GachaReward.XPPlayerMax],
+
+      // 1 goatly item
+      [GachaReward.ItemGoatly]
+    ];
+
+    const rewards = {
+      first: sample(rewardChoices),
+      second: sample(rewardChoices),
+      third: sample(rewardChoices),
+      other: sample(rewardChoices)
+    };
+
+    return rewards;
   }
 
   public getQuestRewardTable(quest: IQuest): LootTable {

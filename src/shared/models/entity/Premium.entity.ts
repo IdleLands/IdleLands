@@ -211,7 +211,7 @@ export class Premium extends PlayerOwned {
     const { creatures, items } = player.$$game.assetManager.allBossAssets;
 
     rewards.forEach(reward => {
-      const [main, sub, choice] = reward.split(':');
+      const [main, sub, choice, quantity] = reward.split(':');
 
       switch(main) {
         case 'xp': {
@@ -236,6 +236,12 @@ export class Premium extends PlayerOwned {
         case 'gold': {
           const goldEarned = { sm: 1000, md: 10000, lg: 100000 };
           player.gainGold(goldEarned[choice]);
+          break;
+        }
+
+        case 'ilp': {
+          const ilpEarned = { sm: 10, md: 50, lg: 100 };
+          player.gainILP(ilpEarned[choice]);
           break;
         }
 
@@ -271,50 +277,63 @@ export class Premium extends PlayerOwned {
         }
 
         case 'item': {
+          const quantityNum = +quantity || 1;
+
           if(sub === 'Crystal') {
-            player.$pets.addAscensionMaterial(`Crystal${choice}`);
+            for(let i = 0; i < quantityNum; i++) {
+              player.$pets.addAscensionMaterial(`Crystal${choice}`);
+            }
           }
 
           if(sub === 'teleportscroll') {
-            player.$inventory.addTeleportScroll(<TeleportItemLocation>choice);
+            for(let i = 0; i < quantityNum; i++) {
+              player.$inventory.addTeleportScroll(<TeleportItemLocation>choice);
+            }
           }
 
           if(sub === 'generated') {
-            const generatedItem = player.$$game.itemGenerator.generateItem({ forceClass: choice });
-            player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPet: true, item: generatedItem });
+            for(let i = 0; i < quantityNum; i++) {
+              const generatedItem = player.$$game.itemGenerator.generateItem({ forceClass: choice });
+              player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPet: true, item: generatedItem });
+            }
           }
 
           if(sub === 'guardian') {
-            const item = items[choice];
-            const generatedItem = player.$$game.itemGenerator.generateGuardianItem(player, choice, item.type, item);
-            player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuardian: true, item: generatedItem });
+            for(let i = 0; i < quantityNum; i++) {
+              const item = items[choice];
+              const generatedItem = player.$$game.itemGenerator.generateGuardianItem(player, choice, item.type, item);
+              player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuardian: true, item: generatedItem });
+            }
           }
 
           if(sub === 'buffscroll') {
 
-            const stats = {};
 
-            const chooseAndAddStat = () => {
+            for(let i = 0; i < quantityNum; i++) {
+              const stats = {};
 
-              const stat = player.$$game.rngService.pickone(AllStatsButSpecial);
-              const val = Math.floor(player.getStat(StatPartners[stat]) / 10);
+              const chooseAndAddStat = () => {
 
-              stats[stat] = stats[stat] || 0;
-              stats[stat] += val;
-            };
+                const stat = player.$$game.rngService.pickone(AllStatsButSpecial);
+                const val = Math.floor(player.getStat(StatPartners[stat]) / 10);
 
-            chooseAndAddStat();
-            if(player.$$game.rngService.likelihood(50)) chooseAndAddStat();
-            if(player.$$game.rngService.likelihood(25)) chooseAndAddStat();
+                stats[stat] = stats[stat] || 0;
+                stats[stat] += val;
+              };
 
-            const scroll: IBuffScrollItem = {
-              id: player.$$game.rngService.id(),
-              name: player.$$game.assetManager.scroll(),
-              stats,
-              expiresAt: Date.now() + (259200 * 1000) // 3 days in seconds * 1000
-            };
+              chooseAndAddStat();
+              if(player.$$game.rngService.likelihood(50)) chooseAndAddStat();
+              if(player.$$game.rngService.likelihood(25)) chooseAndAddStat();
 
-            player.$inventory.addBuffScroll(scroll);
+              const scroll: IBuffScrollItem = {
+                id: player.$$game.rngService.id(),
+                name: player.$$game.assetManager.scroll(),
+                stats,
+                expiresAt: Date.now() + (259200 * 1000) // 3 days in seconds * 1000
+              };
+
+              player.$inventory.addBuffScroll(scroll);
+            }
           }
 
           break;

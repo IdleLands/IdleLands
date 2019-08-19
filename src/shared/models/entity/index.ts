@@ -6,6 +6,7 @@ export * from './Choices.entity';
 export * from './Inventory.entity';
 export * from './Festivals.entity';
 export * from './GameSettings.entity';
+export * from './GlobalQuests.entity';
 export * from './Personalities.entity';
 export * from './Player.entity';
 export * from './Premium.entity';

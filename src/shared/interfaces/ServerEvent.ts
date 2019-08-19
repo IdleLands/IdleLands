@@ -74,6 +74,8 @@ export enum ServerEventName {
   QuestCollect = 'quest:collect',
   QuestRewards = 'quest:rewards',
 
+  GlobalQuestCollect = 'quest:globalcollect',
+
   GMSetMOTD = 'gm:setmotd',
   GMChangeModTier = 'gm:modtier',
   GMStartFestival = 'gm:startfestival',

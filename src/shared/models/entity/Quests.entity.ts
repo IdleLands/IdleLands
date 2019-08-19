@@ -1,8 +1,10 @@
 
 import { Entity, Column, ObjectIdColumn } from 'typeorm';
 
+import { sortBy } from 'lodash';
+
 import { PlayerOwned } from './PlayerOwned';
-import { IQuest } from '../../interfaces';
+import { IQuest, IGlobalQuest } from '../../interfaces';
 import { Player } from './Player.entity';
 
 @Entity()
@@ -51,7 +53,9 @@ export class Quests extends PlayerOwned {
     });
   }
 
-  public checkQuests(stat: string, val: number) {
+  public checkQuests(player: Player, stat: string, val: number) {
+    player.$$game.globalQuestManager.checkAndUpdateStats(player, stat, val);
+
     const allQuestObjectives = this.$questStats[stat];
     if(!allQuestObjectives) return;
 
@@ -60,7 +64,7 @@ export class Quests extends PlayerOwned {
       if(!quest) return;
 
       quest.objectives.forEach(obj => {
-        if(obj.statistic !== stat) return;
+        if(obj.statistic !== stat || (obj.map && player.map !== obj.map)) return;
 
         obj.statisticValue += val;
       });
@@ -119,12 +123,68 @@ export class Quests extends PlayerOwned {
     return rewards;
   }
 
+  public completeGlobalQuest(player: Player, questId: string): boolean|string[] {
+    const quest: IGlobalQuest = player.$$game.globalQuestManager.getGlobalQuest(questId);
+    if(!quest) return false;
+
+    quest.claimedBy = quest.claimedBy || {};
+
+    if(quest.claimedBy[player.name]) return false;
+
+    const isComplete = quest.objectives.every(obj => obj.progress >= obj.statisticValue)
+                    && quest.objectives.some(obj => !!obj.contributions[player.name]);
+    if(!isComplete) return false;
+
+    quest.claimedBy[player.name] = true;
+    player.$$game.globalQuestManager.initiateUpdateQuest(quest, true);
+
+    player.increaseStatistic('Quest/Global/Total', 1);
+
+    quest.objectives.forEach(obj => {
+      if(!obj.contributions[player.name]) return;
+      player.increaseStatistic('Quest/Global/Contribution', obj.contributions[player.name]);
+    });
+
+    let rewards = this.giveGlobalQuestRewards(player, quest);
+    rewards = player.$premium.validateAndEarnGachaRewards(player, rewards);
+
+    return rewards;
+  }
+
   public giveQuestRewards(player: Player, quest: IQuest): string[] {
 
     const totalRewards = quest.objectives.reduce((prev, cur) => prev + cur.scalar, 0);
 
     const table = player.$$game.questHelper.getQuestRewardTable(quest);
     const rewards = table.chooseWithReplacement(totalRewards);
+
+    const realRewards = player.$premium.validateAndEarnGachaRewards(player, rewards);
+    return realRewards;
+  }
+
+  public giveGlobalQuestRewards(player: Player, quest: IGlobalQuest): string[] {
+    const rewardMultipliers = { first: 7, second: 5, third: 3, other: 1 };
+
+    const totalSums = {};
+
+    quest.objectives.forEach(obj => {
+      Object.keys(obj.contributions).forEach(pl => {
+        totalSums[pl] = totalSums[pl] || 0;
+        totalSums[pl] += obj.contributions[pl];
+      });
+    });
+
+    const maxContributions = sortBy(Object.keys(totalSums), pl => totalSums[pl]);
+
+    let rewardKey = 'other';
+    if(maxContributions[0] === player.name) rewardKey = 'first';
+    if(maxContributions[1] === player.name) rewardKey = 'second';
+    if(maxContributions[2] === player.name) rewardKey = 'third';
+
+    const rewards = [];
+    for(let i = 0; i < rewardMultipliers[rewardKey]; i++) {
+      rewards.push(...quest.rewards[rewardKey]);
+    }
 
     const realRewards = player.$premium.validateAndEarnGachaRewards(player, rewards);
     return realRewards;

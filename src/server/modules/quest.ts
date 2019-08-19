@@ -43,3 +43,23 @@ export class QuestCollect extends ServerSocketEvent implements ServerEvent {
     this.game.updatePlayer(player);
   }
 }
+
+export class GlobalQuestCollect extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GlobalQuestCollect;
+  description = 'Collect global quest rewards.';
+  args = 'questId';
+
+  async callback({ questId } = { questId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const rollRewards = player.$quests.completeGlobalQuest(player, questId);
+    if(!rollRewards) return this.gameError('Could not complete quest. You may have already collected rewards?');
+
+    this.emit(ServerEventName.QuestRewards, { rewards: rollRewards });
+
+    this.gameMessage('Successfully collected quest rewards!');
+
+    this.game.updatePlayer(player);
+  }
+}

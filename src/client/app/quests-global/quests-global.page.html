@@ -8,5 +8,59 @@
 </ion-header>
 
 <ion-content padding>
-  Not implemented
+
+  <div class="blank-slate" *ngIf="!isLoading && (!quests || quests.length === 0)">
+    There are no global quests :(
+  </div>
+
+  <div class="blank-slate" *ngIf="isLoading">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
+    
+  <ion-row *ngFor="let quest of quests" [class.ion-hide]="quest.claimedBy && quest.claimedBy[playerName]">
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>
+            Available for <countdown-timer [end]="quest.endsAt"></countdown-timer>
+          </ion-card-subtitle>
+          <ion-card-title>
+            <ion-row class="vertical-center">
+              <ion-col class="vertical-center">
+                {{ quest.name }}
+              </ion-col>
+  
+              <ion-col text-right>
+                <ion-button size="small" text-right color="tertiary" (click)="showRewards(quest)">Rewards</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <ion-row *ngFor="let objective of quest.objectives">
+            <ion-col>
+              {{ objective.desc }}
+              <div *ngIf="objective.contributions && objective.contributions[playerName]">
+                <em>Your contribution: {{ objective.contributions[playerName] | number }}</em>
+              </div>
+            </ion-col>
+            <ion-col class="vertical-center">
+              <ion-progress-bar 
+              [color]="objective.progress >= objective.statisticValue ? 'success' : 'primary'"
+              [value]="objective.progress / objective.statisticValue"
+              ></ion-progress-bar>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="canCollect(quest)">
+            <ion-col text-right>
+              <ion-button (click)="collect(quest)">Collect</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
 </ion-content>

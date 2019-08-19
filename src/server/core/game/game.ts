@@ -29,6 +29,7 @@ import { FestivalManager } from './festival-manager';
 import { GMHelper } from './gm-helper';
 import { IL3Linker } from './il3-linker';
 import { QuestHelper } from './quest-helper';
+import { GlobalQuestManager } from './global-quest-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
@@ -61,6 +62,7 @@ export class Game implements IGame {
   @Inject public festivalManager: FestivalManager;
   @Inject public gmHelper: GMHelper;
   @Inject public questHelper: QuestHelper;
+  @Inject public globalQuestManager: GlobalQuestManager;
   @Inject public world: World;
 
   private ticks = 0;
@@ -133,6 +135,9 @@ export class Game implements IGame {
     this.logger.log('Game', 'World initializing...');
     await this.world.init(this.assetManager.allMapAssets);
 
+    this.logger.log('Game', 'Global quest manager initializing...');
+    await this.globalQuestManager.init();
+
     this.loop();
   }
 
@@ -163,6 +168,7 @@ export class Game implements IGame {
 
       // this doesn't need to tick every tick
       this.festivalManager.tick();
+      this.globalQuestManager.tick();
     }
 
     setTimeout(() => {

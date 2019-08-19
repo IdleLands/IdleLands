@@ -100,4 +100,9 @@ export class AssetManager {
     const grammar = sample(this.stringAssets.questGrammar);
     return this.stringFromGrammar(grammar);
   }
+
+  public globalQuest(mapName: string) {
+    const things = ['Help In', 'Aid For', 'Support Requested'];
+    return `${sample(things)} ${mapName}`;
+  }
 }
