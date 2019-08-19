@@ -174,12 +174,23 @@ export class Quests extends PlayerOwned {
       });
     });
 
+    player.increaseStatistic(`Quest/Global/Map/${quest.objectives[0].requireMap}`, 1);
+
     const maxContributions = sortBy(Object.keys(totalSums), pl => totalSums[pl]);
 
     let rewardKey = 'other';
-    if(maxContributions[0] === player.name) rewardKey = 'first';
-    if(maxContributions[1] === player.name) rewardKey = 'second';
-    if(maxContributions[2] === player.name) rewardKey = 'third';
+    if(maxContributions[0] === player.name) {
+      player.increaseStatistic(`Quest/Global/FirstPlace`, 1);
+      rewardKey = 'first';
+    }
+    if(maxContributions[1] === player.name) {
+      player.increaseStatistic(`Quest/Global/SecondPlace`, 1);
+      rewardKey = 'second';
+    }
+    if(maxContributions[2] === player.name) {
+      player.increaseStatistic(`Quest/Global/ThirdPlace`, 1);
+      rewardKey = 'third';
+    }
 
     const rewards = [];
     for(let i = 0; i < rewardMultipliers[rewardKey]; i++) {
