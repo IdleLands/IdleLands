@@ -41,7 +41,7 @@ export class QuestsGlobalPage implements OnInit {
   canCollect(quest: IGlobalQuest): boolean {
     return (quest.claimedBy ? !quest.claimedBy[this.playerName] : true)
         && quest.objectives.every(obj => obj.progress >= obj.statisticValue)
-        && quest.objectives.some(obj => obj.contributions && obj.contributions[this.playerName]);
+        && quest.objectives.some(obj => !!(obj.contributions && obj.contributions[this.playerName]));
   }
 
   collect(quest: IGlobalQuest) {
