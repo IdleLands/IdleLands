@@ -1713,7 +1713,7 @@
 
   requirements:
     statistics:
-      Combat/Profession/All/Give/Damage: 10000000
+      Combat/All/Give/Damage: 10000000
       BossKill/Boss/Cloud Giant: 1
       BossKill/Boss/Ghostly Pirate Captain: 1
       BossKill/Boss/Goblin lord: 1
@@ -1811,7 +1811,7 @@
 
   requirements:
     statistics:
-      Combat/Profession/All/Take/Damage: 10000000
+      Combat/All/Receive/Damage: 10000000
       BossKill/Boss/Basilisk: 1
       BossKill/Boss/Necromancer Guardian: 1
       BossKill/Boss/Mage Guardian: 1
