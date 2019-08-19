@@ -28,7 +28,6 @@ export class GlobalQuestManager {
     this.globalQuests = await this.db.loadGlobalQuests();
     if(!this.globalQuests) {
       this.globalQuests = new GlobalQuests();
-      this.save();
     }
 
     this.globalQuests.init();
