@@ -188,7 +188,7 @@ export class ItemGenerator {
     return equipment;
   }
 
-  public generateGuardianItem(player: Player, name: string, type: ItemSlot, proto: any): Item {
+  public generateGuardianItem(player: Player, proto: any): Item {
     const item = new Item();
 
     const stats = {};
@@ -198,8 +198,8 @@ export class ItemGenerator {
     });
 
     item.init({
-      name,
-      type,
+      name: proto.name,
+      type: proto.type,
       itemClass: ItemClass.Guardian,
       stats,
       enchantLevel: proto.enchantLevel || 0
