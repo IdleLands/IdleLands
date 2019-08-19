@@ -912,6 +912,7 @@ export class Player implements IPlayer {
 
     this.$statistics.set('Game/Premium/Upgrade/MaxQuests',
       1
+      + tier
       + (allAchievementBoosts[PermanentUpgrade.MaxQuestsCapBoost] || 0)
       + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxQuestsCapBoost)
     );
