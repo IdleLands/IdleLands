@@ -68,7 +68,9 @@ export class Merchant extends Event {
     }
   }
 
-  public operateOn(player: Player) {
+  public operateOn(player: Player, opts: { merchantBonus }) {
+    const bonus = +opts.merchantBonus || 0;
+
     let item = null;
     let cost = 0;
     let choices = ['Yes', 'No'];
@@ -85,13 +87,13 @@ export class Merchant extends Event {
       player.increaseStatistic(`Event/Merchant/Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
       pickableChoices = ['Yes', 'No', 'Inventory'];
-      item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1 });
+      item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1, generateLevel: player.level.total + bonus });
       if(!item) {
         player.increaseStatistic(`Event/Merchant/Nothing`, 1);
         return;
       }
 
-      cost = item.score * 7;
+      cost = item.score * 7 + (bonus * 1000);
     }
 
     const choice = this.getChoice({
