@@ -45,9 +45,9 @@
                 <ion-item *ngIf="pet.level.__current === pet.level.maximum">
                   <ion-icon slot="start" [src]="'assets/icon/symbol-ascend.svg'"></ion-icon>
   
-                  <span class="ion-padding-start">Would you like to ascend your pet?</span>
+                  <span class="ion-padding-start">Would you like to enhance your pet?</span>
   
-                  <ion-button slot="end" color="primary" (click)="ascend(pet)">Ascend</ion-button>
+                  <ion-button slot="end" color="primary" (click)="ascend(pet)">Enhance</ion-button>
                 </ion-item>
 
                 <ion-item>
@@ -148,7 +148,7 @@
                     <p *ngIf="pet.$nextUpgrade[upgrade.key]">
                       Current: {{ pet.$currentUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }} / Next: {{ pet.$nextUpgrade[upgrade.key].v | number }}{{ properUpgradeSuffixes[upgrade.key] }}
                       <br>
-                      Upgrade Cost: {{ pet.$nextUpgrade[upgrade.key].c | number }}g <span *ngIf="pet.$nextUpgrade[upgrade.key].a">/ Requires Ascension {{ pet.$nextUpgrade[upgrade.key].a }}</span>
+                      Upgrade Cost: {{ pet.$nextUpgrade[upgrade.key].c | number }}g <span *ngIf="pet.$nextUpgrade[upgrade.key].a">/ Requires {{ pet.$nextUpgrade[upgrade.key].a }}★</span>
                     </p>
                   </ion-label>
 

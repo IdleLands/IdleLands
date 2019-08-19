@@ -199,8 +199,6 @@ export class Player implements IPlayer {
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
     this.stamina = new RestrictedNumber(this.stamina.minimum, this.stamina.maximum, this.stamina.__current);
-    this.calculateStamina();
-    this.checkStaminaTick();
 
     // init extra data for relevant joined services
     this.$professionData = this.$profession.$professionData;
@@ -213,7 +211,14 @@ export class Player implements IPlayer {
 
     this.recalculateStats();
 
+    this.calculateStamina();
+    this.checkStaminaTick();
+
     this.syncPremium();
+
+    if(this.title && !this.availableTitles.includes(this.title)) {
+      this.changeTitle('');
+    }
   }
 
   private clearOldCooldowns() {
@@ -266,13 +271,15 @@ export class Player implements IPlayer {
     return this.stats[stat];
   }
 
-  public oocAction(): string {
-    if(this.stamina.total < this.$profession.oocAbilityCost) return;
+  public oocAction(costMultiplier = 1): string {
+    const totalCost = this.$profession.oocAbilityCost * costMultiplier;
 
-    this.increaseStatistic('Character/Stamina/Spend', this.$profession.oocAbilityCost);
+    if(this.stamina.total < totalCost) return;
+
+    this.increaseStatistic('Character/Stamina/Spend', totalCost);
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
-    this.stamina.sub(this.$profession.oocAbilityCost);
+    this.stamina.sub(totalCost);
     return this.$profession.oocAbility(this);
   }
 
@@ -385,10 +392,13 @@ export class Player implements IPlayer {
 
     this.$pets.resetEquipment();
 
+    this.buffWatches = {};
+
     this.$$game.festivalManager.startAscensionFestival(this);
 
     this.setPos(10, 10, 'Norkos', 'Norkos Town');
 
+    this.calculateStamina();
     this.recalculateStats();
   }
 
@@ -403,7 +413,7 @@ export class Player implements IPlayer {
     this.stamina.add(1);
 
     if(this.$personalities.isActive('Restless') && this.stamina.atMaximum()) {
-      this.oocAction();
+      this.oocAction(2);
     }
 
     this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
@@ -433,6 +443,8 @@ export class Player implements IPlayer {
     staminaTotal += this.$statistics.get('Game/Premium/Upgrade/MaxStaminaBoost');
 
     this.stamina.maximum = staminaTotal;
+
+    if(this.stamina.total > this.stamina.maximum) this.stamina.set(this.stamina.maximum);
   }
 
   private tryLevelUp(): void {
@@ -679,6 +691,8 @@ export class Player implements IPlayer {
   }
 
   public increaseStatistic(stat: string, val: number): void {
+    if(isNaN(val) || !isFinite(val)) return;
+
     this.$statistics.increase(stat, val);
 
     this.checkAchievements(stat);

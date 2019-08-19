@@ -166,7 +166,9 @@ export class CombatSimulator {
 
     const refChar = this.combat.characters[skillEffect.source];
 
-    const absDamage = Math.abs(skillEffect.modifyStatValue);
+    let absDamage = Math.abs(skillEffect.modifyStatValue);
+    if(!isFinite(absDamage) || isNaN(absDamage)) absDamage = 0;
+
     const damageString = absDamage === 0 ? `0 [miss]` : absDamage.toLocaleString();
 
     const replacements: Array<{ replace: string, with: string }> = [
@@ -192,6 +194,7 @@ export class CombatSimulator {
 
       // round modifyStatValue always
       effect.modifyStatValue = Math.floor(effect.modifyStatValue);
+      if(isNaN(effect.modifyStatValue) || !isFinite(effect.modifyStatValue)) effect.modifyStatValue = 0;
 
       // special cap handling for HP and Special
       if(effect.modifyStat === Stat.HP) {
@@ -347,7 +350,7 @@ export class CombatSimulator {
     if(size(livingParties) === 1) return this.endCombat({ winningParty: +Object.keys(livingParties)[0] });
 
     // arbitrary round timer just in case
-    if(this.combat.currentRound >= 300) return this.endCombat({ wasTie: true });
+    if(this.combat.currentRound >= 100) return this.endCombat({ wasTie: true });
 
     this.beginRound();
   }
@@ -394,7 +397,11 @@ export class CombatSimulator {
   }
 
   incrementStatistic(char: ICombatCharacter, statistic: string, value = 1) {
-    if(!char || !char.realName) return;
+    if(isNaN(value) || !isFinite(value)) {
+      console.log(`char`, char.name, statistic, value, JSON.stringify(this.combat));
+    }
+
+    if(!char || !char.realName || isNaN(value) || !isFinite(value)) return;
 
     this.events$.next({
       action: CombatAction.IncrementStatistic,

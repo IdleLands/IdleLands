@@ -96,7 +96,7 @@ export class DiscordEmojiPipe implements PipeTransform {
       message
         .split(' ')
         .map(word => {
-          const matches = word.match(/&lt;a?:([a-zA-Z]+):([0-9]+)&gt;/);
+          const matches = word.match(/&lt;a?:([a-zA-Z0-9]+):([0-9]+)&gt;/);
           if(!matches || !matches[0] || !matches[1] || !matches[2]) return word;
           return `
             <img class="discord-emoji" alt="${matches[1]}" src="https://cdn.discordapp.com/emojis/${matches[2]}.png?v=1" />

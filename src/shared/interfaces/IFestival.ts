@@ -35,7 +35,7 @@ export const FestivalStats: { [key in FestivalType]: { [stat in Stat]?: number }
 };
 
 export const FestivalCost: { [key in FestivalType]: number } = {
-  [FestivalType.CoreStats]: 25,
-  [FestivalType.XP]: 35,
-  [FestivalType.Gold]: 45
+  [FestivalType.CoreStats]: 50,
+  [FestivalType.XP]: 70,
+  [FestivalType.Gold]: 90
 };

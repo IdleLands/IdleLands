@@ -29,7 +29,9 @@ export class CombatHelper {
 
   canDoCombat(player: Player): boolean {
     const players = player.$party ? player.$party.members.map(x => this.playerManager.getPlayer(x)) : [player];
-    return !players.some((checkPlayer) => checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold'));
+    return !players.some(
+      (checkPlayer) => checkPlayer && checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold')
+    );
   }
 
   createAndRunMonsterCombat(player: Player): ICombat {
@@ -279,6 +281,8 @@ export class CombatHelper {
 
         const playerRef = this.playerManager.getPlayer(name);
         if(!playerRef) return;
+
+        if(isNaN(value) || !isFinite(value)) return;
 
         playerRef.increaseStatistic(statistic, value);
       }
@@ -596,7 +600,7 @@ export class CombatHelper {
 
       if(anteItems.length > 0) {
         anteItems.forEach(itemName => {
-          const foundItem = this.itemGenerator.generateGuardianItem(char, itemName, items[itemName].type, items[itemName]);
+          const foundItem = this.itemGenerator.generateGuardianItem(char, items[itemName]);
           char.$$game.eventManager.doEventFor(char, EventName.FindItem, { fromGuardian: true, item: foundItem });
         });
       }

@@ -1,5 +1,5 @@
 import { BaseProfession } from './Profession';
-import { Stat } from '../../../../shared/interfaces/Stat';
+import { Stat, AllStatsButSpecial } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession, IFestival } from '../../../../shared/interfaces';
 
@@ -48,9 +48,11 @@ export class Bard extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): string {
 
+    const bardicShift = Math.min(25, player.$statistics.get('Profession/Bard/Become') || 1);
+
     const stats = {};
-    Object.values(Stat).forEach(stat => {
-      stats[stat] = player.$$game.rngService.numberInRange(-10, 10);
+    Object.values(AllStatsButSpecial).forEach(stat => {
+      stats[stat] = player.$$game.rngService.numberInRange(-20 + bardicShift, 10 + bardicShift);
     });
 
     const festival: IFestival = {

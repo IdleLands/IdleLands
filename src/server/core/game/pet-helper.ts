@@ -99,6 +99,7 @@ export class PetHelper {
 
   syncPetAffinity(pet: IPet): void {
     pet.$affinity = new Affinities[pet.affinity]();
+    pet.recalculateStats();
   }
 
   petSoulForScale(pet: IPet): IItem {

@@ -224,12 +224,12 @@ export class MovementHelper {
         };
 
         this.eventManager.doEventFor(player, oldil3EventNames[forceEvent] || forceEvent, tile.object.properties);
-      }
 
-      if(forceEvent !== EventName.Providence) {
+        if(forceEvent !== EventName.Providence) {
 
-        // 5 minute cooldown per tile
-        player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+          // 5 minute cooldown per tile
+          player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+        }
       }
     }
 
@@ -307,7 +307,7 @@ export class MovementHelper {
     const newTile = this.getTileAt(player.map, player.x, player.y);
     player.region = newTile.region;
 
-    this.handleTile(player, tile, 'Teleport');
+    this.handleTile(player, newTile, 'Teleport');
 
     player.increaseStatistic(`Character/Movement/${capitalize(dest.movementType)}`, 1);
   }

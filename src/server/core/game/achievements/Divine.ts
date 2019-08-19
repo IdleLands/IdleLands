@@ -3,7 +3,7 @@ import { Player } from '../../../../shared/models';
 
 export class Divine extends Achievement {
 
-  static readonly base = 5;
+  static readonly base = 10;
 
   static readonly statWatches = ['Character/Movement/Steps/Divine'];
   static readonly type = AchievementType.Special;
@@ -12,7 +12,7 @@ export class Divine extends Achievement {
     let baseStr = `Gain +${tier} stamina for moving divinely ${Math.pow(Divine.base, tier).toLocaleString()} times.`;
 
     if(tier >= 6) {
-      baseStr = `${baseStr} Title: Divine.`;
+      baseStr = `${baseStr} Title: Divine Dog.`;
     }
 
     return baseStr;
