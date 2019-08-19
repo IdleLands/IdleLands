@@ -21,7 +21,7 @@ export class Gamble extends Event {
       return false;
     }
 
-    player.gainGold(-bet);
+    player.spendGold(bet);
     player.increaseStatistic(`Event/Gamble/Wager`, bet);
 
     if(this.rng.likelihood(odds)) {

@@ -629,7 +629,7 @@ export class CombatHelper {
       const ante = combat.ante[x.combatId];
       if(!ante) return;
 
-      player.gainGold(-ante.gold);
+      player.spendGold(ante.gold);
       player.gainXP(-ante.xp);
 
       player.addBuff(this.createRandomInjury(player));

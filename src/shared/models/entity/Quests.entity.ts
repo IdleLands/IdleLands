@@ -60,13 +60,13 @@ export class Quests extends PlayerOwned {
     if(!allQuestObjectives) return;
 
     allQuestObjectives.forEach(qId => {
-      const quest = this.$questsData[qId];
+      const quest = this.$questHash[qId];
       if(!quest) return;
 
       quest.objectives.forEach(obj => {
-        if(obj.statistic !== stat || (obj.map && player.map !== obj.map)) return;
+        if(obj.statistic !== stat || (obj.requireMap && player.map !== obj.requireMap)) return;
 
-        obj.statisticValue += val;
+        obj.progress += val;
       });
     });
   }
@@ -75,7 +75,7 @@ export class Quests extends PlayerOwned {
     const curQuest = this.quests.find(q => q.id === questId);
     if(!curQuest) return;
 
-    this.quests = this.quests.filter(q => q.id !== questId);
+    this.unregisterQuest(curQuest);
 
     const quest = player.$$game.questHelper.createQuest();
     this.quests.push(quest);
@@ -96,6 +96,8 @@ export class Quests extends PlayerOwned {
 
   public unregisterQuest(quest: IQuest) {
     delete this.$questHash[quest.id];
+
+    this.quests = this.quests.filter(c => c.id !== quest.id);
 
     quest.objectives.forEach(obj => {
       this.$questStats[obj.statistic] = this.$questStats[obj.statistic].filter(questId => questId !== quest.id);
