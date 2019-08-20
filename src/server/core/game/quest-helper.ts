@@ -238,10 +238,10 @@ export class QuestHelper {
       { result: GachaReward.GoldMD,                   chance: GachaChance.Common },
       { result: GachaReward.XPPlayerMD,               chance: GachaChance.Common },
       { result: GachaReward.ItemBasic,                chance: GachaChance.Common },
-      { result: GachaReward.ItemPro,                  chance: GachaChance.Uncommon },
     ];
 
     const moderateRewards = [
+      { result: GachaReward.ItemPro,                  chance: GachaChance.Uncommon },
       { result: GachaReward.CrystalRed,               chance: GachaChance.Rare },
       { result: GachaReward.CrystalOrange,            chance: GachaChance.Rare },
       { result: GachaReward.CrystalYellow,            chance: GachaChance.Rare },
@@ -249,7 +249,6 @@ export class QuestHelper {
       { result: GachaReward.CrystalBlue,              chance: GachaChance.Rare },
       { result: GachaReward.CrystalPurple,            chance: GachaChance.Rare },
       { result: GachaReward.ItemIdle,                 chance: GachaChance.Uncommon },
-      { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.Rare },
     ];
 
     const advancedRewards = [
