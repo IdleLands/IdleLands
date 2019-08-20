@@ -11,7 +11,7 @@ export class Muscled extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 5}% STR for equipping ${Math.pow(Muscled.base, tier).toLocaleString()} items.`;
 
-    if(tier >= 3) {
+    if(tier >= 2) {
       baseStr = `${baseStr} Personality: Strong.`;
     }
 
@@ -34,7 +34,7 @@ export class Muscled extends Achievement {
        } }
     ];
 
-    if(tier >= 3) {
+    if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Strong' });
     }
 
