@@ -67,3 +67,4 @@ export * from './Touchy';
 export * from './Unstoppable';
 export * from './Walker';
 export * from './Yearling';
+export * from './Zen';
