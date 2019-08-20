@@ -2,7 +2,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { LootTable } from 'lootastic';
-import { some, find, pull } from 'lodash';
+import { find, pull } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
@@ -190,7 +190,7 @@ export class Pets extends PlayerOwned {
     if(pet.rating >= 5 || !pet.level.atMaximum()) return false;
 
     const materials = pet.$$game.petHelper.getPetProto(pet.typeName).ascensionMaterials[pet.rating];
-    const someMaterialsMissing = some(Object.keys(materials), (mat) => materials[mat] > this.ascensionMaterials[mat]);
+    const someMaterialsMissing = Object.keys(materials).some((mat) => materials[mat] > (this.ascensionMaterials[mat] || 0));
     if(someMaterialsMissing) return false;
 
     Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
