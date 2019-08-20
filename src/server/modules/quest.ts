@@ -10,8 +10,8 @@ export class QuestReroll extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const cost = 50000;
-    if(player.gold < cost) return this.gameError('You do not have 50,000 gold!');
+    const cost = Math.floor(player.gold * 0.03);
+    if(cost <= 0) return this.gameError('You do not have any money, somehow!');
 
     const quest = player.$quests.rerollQuest(player, questId);
     if(!quest) return this.gameError('Quest does not exist to reroll.');
