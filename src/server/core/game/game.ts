@@ -163,12 +163,15 @@ export class Game implements IGame {
       }
     });
 
+    if(this.ticks > 100) {
+      this.globalQuestManager.tick();
+    }
+
     if(this.ticks > 600) {
       this.ticks = 0;
 
       // this doesn't need to tick every tick
       this.festivalManager.tick();
-      this.globalQuestManager.tick();
     }
 
     setTimeout(() => {
