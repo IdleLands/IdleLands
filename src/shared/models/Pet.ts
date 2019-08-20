@@ -250,7 +250,7 @@ export class Pet implements IPet {
   }
 
   public equip(item: Item): boolean {
-    if(this.equipment[item.type].every(x => !!x)) {
+    if(!this.equipment[item.type] || this.equipment[item.type].every(x => !!x)) {
       return false;
     }
 
