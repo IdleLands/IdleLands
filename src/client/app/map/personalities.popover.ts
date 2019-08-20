@@ -25,7 +25,7 @@ import { GameService } from '../game.service';
 })
 export class PersonalitiesPopover {
 
-  public validPersonalities = ['Camping', 'Delver', 'Drunk', 'ScaredOfTheDark', 'Solo'];
+  public validPersonalities = ['Camping', 'Delver', 'Drunk', 'ScaredOfTheDark', 'Solo', 'Telesheep'];
 
   constructor(
     private popoverCtrl: PopoverController,
