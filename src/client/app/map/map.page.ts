@@ -190,7 +190,7 @@ class GameState extends Phaser.State {
           { key: 'Achievement',
             hasMet: (player, val) => player.$achievementsData && player.$achievementsData.achievements[val] },
           { key: 'Boss', display: 'Boss Kill',
-            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['BossKill', 'Total', val]) },
+            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['BossKill', 'Boss', val]) },
           { key: 'Class',
             hasMet: (player, val) => player.profession === val },
           { key: 'Collectible',
