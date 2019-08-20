@@ -237,6 +237,7 @@ export class QuestHelper {
     const basicRewards = [
       { result: GachaReward.GoldMD,                   chance: GachaChance.Common },
       { result: GachaReward.XPPlayerMD,               chance: GachaChance.Common },
+      { result: GachaReward.XPPetMD,                  chance: GachaChance.Common },
       { result: GachaReward.ItemBasic,                chance: GachaChance.Common },
     ];
 
@@ -252,17 +253,18 @@ export class QuestHelper {
     ];
 
     const advancedRewards = [
+      { result: GachaReward.CrystalAstral,            chance: GachaChance.Rare },
       { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.XRare },
       { result: GachaReward.ILPSM,                    chance: GachaChance.Uncommon },
       { result: GachaReward.ItemTeleportScrollACR,    chance: GachaChance.Rare },
-      { result: GachaReward.ItemGodly,                chance: GachaChance.Uncommon },
-      { result: GachaReward.XPPetLG,                  chance: GachaChance.Uncommon },
-      { result: GachaReward.XPPlayerLG,               chance: GachaChance.Uncommon },
-      { result: GachaReward.GoldLG,                   chance: GachaChance.Uncommon },
-      { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.Uncommon },
+      { result: GachaReward.ItemGodly,                chance: GachaChance.Rare },
+      { result: GachaReward.XPPetLG,                  chance: GachaChance.Common },
+      { result: GachaReward.XPPlayerLG,               chance: GachaChance.Common },
+      { result: GachaReward.GoldLG,                   chance: GachaChance.Common },
     ];
 
     const superRewards = [
+      { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.Uncommon },
       { result: GachaReward.ILPMD,                    chance: GachaChance.Uncommon },
       { result: GachaReward.ItemGoatly,               chance: GachaChance.XRare },
     ];
@@ -273,7 +275,7 @@ export class QuestHelper {
     ];
 
     const twoGoalAwards = [
-      { result: GachaReward.XPPlayerMax,              chance: GachaChance.Common }
+      { result: GachaReward.XPPlayerMax,              chance: GachaChance.Uncommon }
     ];
 
     const threeGoalAwards = [
