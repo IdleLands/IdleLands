@@ -64,6 +64,12 @@ ion-alert .alert-wrapper {
   }
 }
 
+.party-table {
+  td:first-child {
+    max-width: 125px;
+  }
+}
+
 .item-compare-modal {
 
   .alert-message {

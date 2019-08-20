@@ -7,7 +7,7 @@ export class Party extends Event {
   public static readonly WEIGHT = 9;
 
   public operateOn(player: Player) {
-    if(player.$personalities.isActive('Solo') || player.$personalities.isActive('Follower')) {
+    if(player.$personalities.isActive('Solo') || player.$personalities.isActive('Follower') || player.$personalities.isActive('Camping')) {
       this.emitMessage([player],
         'You almost started looking for a party before you realized you did not want one!', AdventureLogEventType.Party);
       return;
@@ -26,7 +26,7 @@ export class Party extends Event {
          x => !x.$party
       && x !== player
       && !x.$personalities.isActive('Solo')
-      && !x.$personalities.isActive('Camper')
+      && !x.$personalities.isActive('Camping')
       && !x.$personalities.isActive('Leader')
     );
     if(checkPlayers.length < 3) {
