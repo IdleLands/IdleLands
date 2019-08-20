@@ -50,22 +50,22 @@ const validStats = [
   {
     baseDesc: 'Gain %value gold',
     stat: 'Character/Gold/Gain',
-    baseValue: 1000,
-    minScalar: 2,
+    baseValue: 100,
+    minScalar: 3,
     maxScalar: 7
   },
   {
     baseDesc: 'Spend %value gold',
     stat: 'Character/Gold/Spend',
-    baseValue: 1000,
-    minScalar: 2,
+    baseValue: 100,
+    minScalar: 3,
     maxScalar: 7
   },
   {
     baseDesc: 'Step %value times',
     stat: 'Character/Movement/Steps/Normal',
     baseValue: 10,
-    minScalar: 2,
+    minScalar: 3,
     maxScalar: 7
   },
   {
@@ -79,14 +79,14 @@ const validStats = [
     baseDesc: 'Drunk-step %value times',
     stat: 'Character/Movement/Steps/Drunk',
     baseValue: 10,
-    minScalar: 2,
+    minScalar: 3,
     maxScalar: 7
   },
   {
     baseDesc: 'Solo-step %value times',
     stat: 'Character/Movement/Steps/Solo',
     baseValue: 10,
-    minScalar: 2,
+    minScalar: 3,
     maxScalar: 7
   }
 ];
