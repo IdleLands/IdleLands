@@ -347,6 +347,10 @@ export class MovementHelper {
   }
 
   public takeStep(player: Player) {
+    if(player.$party
+    && (player.$personalities.isActive('Camping') || player.$personalities.isActive('Solo'))) {
+      player.$$game.partyHelper.playerLeave(player);
+    }
 
     if(player.$personalities.isActive('Camping')) {
       player.increaseStatistic('Character/Movement/Steps/Camping', 1);
