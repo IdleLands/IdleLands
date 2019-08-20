@@ -23,7 +23,7 @@ export class Taskmaster extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const steps = player.$statistics.get('Quest/Global/Total');
+    const steps = player.$statistics.get('Quest/Personal/Total');
     return Math.floor(Achievement.log(steps, Taskmaster.base));
   }
 

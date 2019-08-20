@@ -602,7 +602,7 @@ export class CombatHelper {
         anteItems.forEach(itemName => {
           const gItem = items[itemName];
           if(!gItem) throw new Error(`Guardian Item ${choice} could not be awarded via combat since it doesn't exist.`);
-          
+
           const foundItem = this.itemGenerator.generateGuardianItem(char, gItem);
           char.$$game.eventManager.doEventFor(char, EventName.FindItem, { fromGuardian: true, item: foundItem });
         });
