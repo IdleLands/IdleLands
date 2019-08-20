@@ -124,6 +124,10 @@ export class Pets extends PlayerOwned {
     pet.init();
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
     pet.recalculateStats();
+
+    if(pet.currentAdventureId && !this.adventures.some(adv => adv.id === pet.currentAdventureId)) {
+      pet.currentAdventureId = '';
+    }
   }
 
   private firstInit(player: Player) {
