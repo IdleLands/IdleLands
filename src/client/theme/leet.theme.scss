@@ -105,4 +105,8 @@
       color: #00ff00 !important;
     }
   }
+
+  ion-progress-bar {
+    --progress-background: var(--ion-color-secondary);
+  }
 }
