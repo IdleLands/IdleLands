@@ -303,7 +303,7 @@ export class Premium extends PlayerOwned {
               const item = items[choice];
               if(!item) throw new Error(`Guardian Item ${choice} could not be awarded since it doesn't exist.`);
 
-              const generatedItem = player.$$game.itemGenerator.generateGuardianItem(player, choice, item.type, item);
+              const generatedItem = player.$$game.itemGenerator.generateGuardianItem(player, item);
               player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuardian: true, item: generatedItem });
             }
           }
