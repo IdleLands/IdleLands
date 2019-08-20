@@ -102,7 +102,7 @@ export class AssetManager {
   }
 
   public globalQuest(mapName: string) {
-    const things = ['Help In', 'Aid For', 'Support Requested'];
+    const things = ['Help In', 'Aid For', 'Support Requested In', 'Helping Hand Desired In'];
     return `${sample(things)} ${mapName}`;
   }
 }
