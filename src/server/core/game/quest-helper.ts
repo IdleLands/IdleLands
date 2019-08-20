@@ -66,28 +66,28 @@ const validStats = [
     stat: 'Character/Movement/Steps/Normal',
     baseValue: 10,
     minScalar: 3,
-    maxScalar: 7
+    maxScalar: 6
   },
   {
     baseDesc: 'Divine-step %value times',
     stat: 'Character/Movement/Steps/Divine',
     baseValue: 10,
     minScalar: 2,
-    maxScalar: 7
+    maxScalar: 5
   },
   {
     baseDesc: 'Drunk-step %value times',
     stat: 'Character/Movement/Steps/Drunk',
     baseValue: 10,
     minScalar: 3,
-    maxScalar: 7
+    maxScalar: 5
   },
   {
     baseDesc: 'Solo-step %value times',
     stat: 'Character/Movement/Steps/Solo',
     baseValue: 10,
     minScalar: 3,
-    maxScalar: 7
+    maxScalar: 5
   }
 ];
 
@@ -134,7 +134,7 @@ export class QuestHelper {
   public createQuest(opts = { scalar: 0, map: '', region: '' }): IQuest {
 
     opts = opts || { scalar: 0, map: '', region: '' };
-    if(!opts.scalar) opts.scalar = sample([2, 3, 4, 5]);
+    if(!opts.scalar) opts.scalar = sample([2, 3, 4]);
 
     if(!opts.map && this.rng.likelihood(15)) {
       opts.map = sample(this.world.mapNames);
@@ -154,6 +154,10 @@ export class QuestHelper {
     }
 
     if(opts.scalar > 3 && this.rng.likelihood(10)) {
+      objectives.push(this.createObjective(opts.scalar - 2, opts.map));
+    }
+
+    if(opts.scalar > 3 && this.rng.likelihood(5)) {
       objectives.push(this.createObjective(opts.scalar - 2, opts.map));
     }
 
