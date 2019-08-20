@@ -52,14 +52,14 @@ const validStats = [
     stat: 'Character/Gold/Gain',
     baseValue: 100,
     minScalar: 3,
-    maxScalar: 7
+    maxScalar: 4
   },
   {
     baseDesc: 'Spend %value gold',
     stat: 'Character/Gold/Spend',
     baseValue: 100,
     minScalar: 3,
-    maxScalar: 7
+    maxScalar: 4
   },
   {
     baseDesc: 'Step %value times',
