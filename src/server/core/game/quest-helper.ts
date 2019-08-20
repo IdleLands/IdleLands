@@ -35,7 +35,7 @@ const validStats = [
   },
   {
     baseDesc: 'Battle %value times',
-    stat: 'Event/Battle/Times',
+    stat: 'Combat/All/Times/Total',
     baseValue: 2,
     minScalar: 1,
     maxScalar: 3
@@ -235,7 +235,9 @@ export class QuestHelper {
     const totalRewards = quest.objectives.reduce((prev, cur) => prev + cur.scalar, 0);
 
     const basicRewards = [
-      { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.XRare },
+      { result: GachaReward.GoldMD,                   chance: GachaChance.Common },
+      { result: GachaReward.XPPlayerMD,               chance: GachaChance.Common },
+      { result: GachaReward.ItemBasic,                chance: GachaChance.Common },
       { result: GachaReward.ItemPro,                  chance: GachaChance.Uncommon },
     ];
 
@@ -251,6 +253,7 @@ export class QuestHelper {
     ];
 
     const advancedRewards = [
+      { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.XRare },
       { result: GachaReward.ILPSM,                    chance: GachaChance.Uncommon },
       { result: GachaReward.ItemTeleportScrollACR,    chance: GachaChance.Rare },
       { result: GachaReward.ItemGodly,                chance: GachaChance.Uncommon },

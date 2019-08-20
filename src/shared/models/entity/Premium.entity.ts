@@ -309,8 +309,6 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'buffscroll') {
-
-
             for(let i = 0; i < quantityNum; i++) {
               const stats = {};
 
