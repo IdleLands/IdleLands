@@ -251,11 +251,9 @@ export class ItemGenerator {
 
     const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>opts.forceType, itemClassChosen));
     if(!baseAsset) {
-      this.logger.error(new Error(`No asset available for ${opts.forceType}:${itemClassChosen}`));
-
       const itemRef = new Item();
       itemRef.init({
-        name: 'Poorly Generated Error Item',
+        name: 'Unfortunately Poorly Generated Item',
         type: <ItemSlot>opts.forceType,
         stats: { luk: -1 },
         itemClass: ItemClass.Newbie
