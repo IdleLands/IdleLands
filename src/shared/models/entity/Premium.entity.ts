@@ -318,7 +318,7 @@ export class Premium extends PlayerOwned {
                 const val = Math.floor(player.getStat(StatPartners[stat]) / StatPartnerDivisor[stat]);
 
                 stats[stat] = stats[stat] || 0;
-                stats[stat] += val;
+                stats[stat] += Math.max(1, val);
               };
 
               chooseAndAddStat();
