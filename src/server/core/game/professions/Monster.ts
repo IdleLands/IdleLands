@@ -49,6 +49,6 @@ export class Monster extends BaseProfession implements IProfession {
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
     this.emitProfessionMessage(player, 'You switched yourself around a bit!');
-    return `You've switched yourself around a bit!`;
+    return {success: true, message: `You've switched yourself around a bit!`};
   }
 }
