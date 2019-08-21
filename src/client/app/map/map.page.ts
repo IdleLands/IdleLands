@@ -172,6 +172,16 @@ class GameState extends Phaser.State {
             affix = ownershipStatus;
           }
 
+          if(item.realtype === 'Teleport') {
+            if(item.movementType === 'ascend' && this.player.$personalitiesData.activePersonalities['Delver']) {
+              affix = '[Warning: Delver Active]';
+            }
+
+            if(item.movementType === 'descend' && this.player.$personalitiesData.activePersonalities['ScaredOfTheDark']) {
+              affix = '[Warning: ScaredOfTheDark Active]';
+            }
+          }
+
           strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''} ${affix}`);
         }
 
