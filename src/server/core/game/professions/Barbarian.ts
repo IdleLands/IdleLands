@@ -51,7 +51,7 @@ export class Barbarian extends BaseProfession implements IProfession {
   public oocAbility(player: Player): string {
     player.$$game.eventManager.doEventFor(player, EventName.BattlePvP);
     this.emitProfessionMessage(player, `You seek out a worthy opponent!`);
-    return `You seek out a worthy opponent!`;
+    return {success: true, message: `You seek out a worthy opponent!`};
   }
 
   public determineStartingSpecial(): number {
