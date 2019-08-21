@@ -55,6 +55,6 @@ export class Pirate extends BaseProfession implements IProfession {
 
     player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPillage: true, item: foundItem });
     this.emitProfessionMessage(player, `You pillaged an item (${foundItem.name})!`);
-    return `You've pillaged an item (${foundItem.name})!`;
+    return {success: true, message: `You've pillaged an item (${foundItem.name})!`};
   }
 }
