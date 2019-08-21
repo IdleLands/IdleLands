@@ -367,7 +367,7 @@ export class MovementHelper {
     // follow the leader if we're a telesheep
     if(player.$party && player.$personalities.isActive('Telesheep')) {
       const leader = this.partyHelper.getPartyLeader(player.$party);
-      if(leader !== player) {
+      if(leader !== player && leader.map === player.map) {
         dir = this.xyDiff2dir(player.x, player.y, leader.x, leader.y);
       }
     }
