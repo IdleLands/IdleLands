@@ -54,8 +54,8 @@ export class Bard extends BaseProfession implements IProfession {
     });
     
     if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
-      this.emitProfessionMessage(player, "You already have a Bardic Festival active.");
-      return false;
+      this.emitProfessionMessage(player, `You already have a Bardic Festival active.`);
+      return {success: false, message: `You already have a Bardic Festival active.`};
     }
 
     const festival: IFestival = {
@@ -68,7 +68,7 @@ export class Bard extends BaseProfession implements IProfession {
     player.$$game.festivalManager.startFestival(player, festival);
 
     this.emitProfessionMessage(player, `You sing the song of your people!`);
-    return `You sing the song of your people!`;
+    return {success: true, message: `You sing the song of your people!`};
   }
 
   public determineStartingSpecial(): number {
