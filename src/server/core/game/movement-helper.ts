@@ -130,7 +130,7 @@ export class MovementHelper {
 
     let weight = [300, 40, 7,  3,  1,  3,  7,  40];
 
-    if(player.$personalities.isActive('Drunk')) {
+    if(!player.divineDirection && player.$personalities.isActive('Drunk')) {
       weight = [1, 1, 1, 1, 1, 1, 1, 1];
     }
 
