@@ -222,3 +222,18 @@ export class GMPortCharacterEvent extends ServerSocketEvent implements ServerEve
     this.gameMessage(`Set ${player} id to ${newPlayer}.`);
   }
 }
+
+export class GMResetGlobalEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMResetGlobal;
+  description = 'GM: Reset the current global quests';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(player.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
+
+    this.game.globalQuestManager.resetAllQuests();
+  }
+}

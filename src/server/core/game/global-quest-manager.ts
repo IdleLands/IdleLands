@@ -165,4 +165,12 @@ export class GlobalQuestManager {
   private save() {
     this.db.saveGlobalQuests(this.globalQuests);
   }
+
+  public resetAllQuests() {
+    this.globalQuests.globalQuests.forEach(gQuest => {
+      this.initateRemoveGQuest(gQuest);
+    });
+
+    this.startGlobalQuest(this.questHelper.createGlobalQuest());
+  }
 }
