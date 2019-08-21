@@ -140,10 +140,10 @@ export class GlobalQuestManager {
   public checkAndUpdateStats(player: Player, stat: string, val: number) {
     if(!this.questStats[stat]) return;
 
-    let didUpdateQuest = null;
-
     this.globalQuests.globalQuests.forEach(gQuest => {
       if(!this.isValidQuest(gQuest)) return;
+
+      let didUpdateQuest = false;
 
       gQuest.objectives.forEach(obj => {
         if(obj.statistic !== stat || obj.progress >= obj.statisticValue || player.map !== obj.requireMap) return;
@@ -153,13 +153,13 @@ export class GlobalQuestManager {
         obj.contributions[player.name] = obj.contributions[player.name] || 0;
         obj.contributions[player.name] += val;
 
-        didUpdateQuest = gQuest;
+        didUpdateQuest = true;
       });
-    });
 
-    if(didUpdateQuest) {
-      this.initiateUpdateQuest(didUpdateQuest);
-    }
+      if(didUpdateQuest) {
+        this.initiateUpdateQuest(gQuest);
+      }
+    });
   }
 
   private save() {

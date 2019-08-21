@@ -163,7 +163,7 @@ export class Game implements IGame {
       }
     });
 
-    if(this.ticks > 100) {
+    if((this.ticks % 100) === 0) {
       this.globalQuestManager.tick();
     }
 
