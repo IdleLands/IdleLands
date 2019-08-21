@@ -255,7 +255,7 @@ export class ItemGenerator {
       itemRef.init({
         name: 'Unfortunately Poorly Generated Item',
         type: <ItemSlot>opts.forceType,
-        stats: { luk: -1 },
+        stats: { luk: 0 },
         itemClass: ItemClass.Newbie
       });
 
