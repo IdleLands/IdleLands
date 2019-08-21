@@ -67,7 +67,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, `You hacked the system!`);
-    return `You hacked the system!`;
+    return {success: true, message: `You hacked the system!`};
   }
 
   public determineStartingSpecial(): number {
