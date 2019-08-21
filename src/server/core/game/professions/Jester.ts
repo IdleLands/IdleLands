@@ -73,6 +73,6 @@ export class Jester extends BaseProfession implements IProfession {
   public oocAbility(player: Player): string {
     const msg = sample(GoodMessages);
     this.emitProfessionMessage(player, `${msg}...`);
-    return `${msg}...`;
+    return {success: true, message: `${msg}...`};
   }
 }
