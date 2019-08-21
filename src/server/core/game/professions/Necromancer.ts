@@ -59,7 +59,7 @@ export class Necromancer extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, 'You summoned some bone minions!');
-    return `You summoned some bone minions!`;
+    return {success: true, message: `You summoned some bone minions!`};
   }
 
   public determineStartingSpecial(): number {
