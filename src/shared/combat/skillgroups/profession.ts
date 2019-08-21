@@ -2,7 +2,7 @@
 import { Profession, Stat, ICombatWeightedSkillChoice } from '../../interfaces';
 import { Attack, RegenerateHP, RegenerateSpecial, SummonCreature } from './all';
 import { Targets, EffectsPerTarget, Description, Accuracy, StatMod, Targetting,
-  Delay, Duration, NumberOfTargets, CombatEffect, RandomNumber, SameTarget } from '../skillcomponents';
+  Delay, Duration, NumberOfTargets, CombatEffect, RandomNumber, SameTarget, AttackAccuracy } from '../skillcomponents';
 import { Immediate } from '../skillcomponents/Immediate';
 
 /**
@@ -140,7 +140,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   [Profession.Archer]: [
     { weight: 3, skills: [Attack(
       (attacker) => attacker.stats[Stat.DEX],
-      (attacker) => attacker.stats[Stat.DEX] * 0.75
+      (attacker) => attacker.stats[Stat.DEX] * 0.75,
+      70
     )] },
 
     // strong shot
@@ -212,7 +213,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // enrage
-    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] <= caster.maxStats[Stat.SPECIAL], skills: [
+    { weight: 1, canUse: (caster) => caster.stats[Stat.SPECIAL] <= caster.maxStats[Stat.SPECIAL], skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         Description('%source flew into a wild rage!'),
@@ -234,7 +235,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     ] },
 
     // rage boost
-    { weight: 2, canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 5, skills: [
+    { weight: 1, canUse: (caster) => caster.stats[Stat.SPECIAL] >= caster.maxStats[Stat.SPECIAL] / 5, skills: [
       [
         Targets(Targetting.Self), EffectsPerTarget(1),
         StatMod(Stat.SPECIAL, (caster) => -caster.stats[Stat.SPECIAL])
@@ -453,7 +454,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
     { weight: 3, skills: [Attack(
       1,
       (attacker) => (attacker.stats[Stat.STR] + attacker.stats[Stat.DEX] + attacker.stats[Stat.INT]
-                   + attacker.stats[Stat.CON] + attacker.stats[Stat.AGI] + attacker.stats[Stat.LUK]) / 6
+                   + attacker.stats[Stat.CON] + attacker.stats[Stat.AGI] + attacker.stats[Stat.LUK]) / 6,
+      90
     )] },
 
     // sweeping generalization
@@ -519,7 +521,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   [Profession.Jester]: [
     { weight: 3, skills: [Attack(
       1,
-      (attacker) => attacker.stats[Stat.LUK] * 0.5
+      (attacker) => attacker.stats[Stat.LUK] * 0.5,
+      100
     )] },
 
     // luck surge
@@ -566,7 +569,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   [Profession.Mage]: [
     { weight: 2, skills: [Attack(
       (attacker) => attacker.stats[Stat.INT] * 0.25,
-      (attacker) => attacker.stats[Stat.INT] * 0.75
+      (attacker) => attacker.stats[Stat.INT] * 0.75,
+      AttackAccuracy.INT
     )] },
 
     // firestorm
@@ -903,7 +907,8 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
   [Profession.Rogue]: [
     { weight: 4, skills: [Attack(
       (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2) * 0.1,
-      (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2)
+      (attacker) => (attacker.stats[Stat.DEX] + attacker.stats[Stat.AGI] / 2),
+      80
     )] },
 
     // poison stab
