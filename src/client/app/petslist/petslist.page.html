@@ -31,7 +31,15 @@
                 <ion-badge color="tertiary">{{ petHash[pet].rating }}★{{ pet }}</ion-badge>
               </p>
               <p>{{ getPetCurrentEquipped(petHash[pet]) }}/{{ getPetMaxEquipped(petHash[pet]) }} Items Equipped</p>
-              <p>{{ petHash[pet].gold.__current | number }}/{{ petHash[pet].gold.maximum | number }} Gold</p>
+              <p class="vertical-center">
+                {{ petHash[pet].gold.__current | number }}/{{ petHash[pet].gold.maximum | number }} Gold
+                <span *ngIf="petGatherStatus(petHash[pet]) as status" class="vertical-center">
+                  &nbsp;
+                  &middot;
+                  &nbsp;
+                  <ion-badge [color]="status.color">{{ status.status }}</ion-badge>
+                </span>
+              </p>
             </ion-label>
     
             <ion-button slot="end" size="small" *ngIf="player.$petsData.currentPet !== pet" (click)="activate(pet)">Activate</ion-button>
