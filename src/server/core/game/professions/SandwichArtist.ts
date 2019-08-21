@@ -59,6 +59,6 @@ export class SandwichArtist extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, 'Your GOLD gain will be increased for 720 ticks!');
-    return `Your GOLD gain will be increased for 720 ticks!`;
+    return {success: true, message: `Your GOLD gain will be increased for 720 ticks!`};
   }
 }
