@@ -130,7 +130,9 @@ export class MovementHelper {
 
     let weight = [300, 40, 7,  3,  1,  3,  7,  40];
 
-    const drunk = false;
+    if(player.$personalities.isActive('Drunk')) {
+      weight = [1, 1, 1, 1, 1, 1, 1, 1];
+    }
 
     let dirMod: Direction = null;
     if(player.lastDir) {
@@ -147,10 +149,6 @@ export class MovementHelper {
       if(lastDirIndex !== -1) {
         weight = weight.slice(weight.length - lastDirIndex).concat(weight.slice(0, weight.length - lastDirIndex));
       }
-    }
-
-    if(drunk) {
-      weight = [1, 1, 1, 1, 1, 1, 1, 1];
     }
 
     return weight;
@@ -429,7 +427,7 @@ export class MovementHelper {
     player.increaseStatistic(`Map/${player.map}/Region/${player.region || 'Wilderness'}`, 1);
     player.increaseStatistic(`Map/${player.map}/Steps`, 1);
 
-    if(player.$personalities.isActive('Drunk')) {
+    if(!player.divineDirection && player.$personalities.isActive('Drunk')) {
       player.increaseStatistic(`Character/Movement/Steps/Drunk`, 1);
     }
 
