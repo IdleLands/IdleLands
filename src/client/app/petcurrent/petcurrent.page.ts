@@ -101,7 +101,7 @@ export class PetcurrentPage implements OnInit {
       It will cost the following materials: <br><ol>${matString}</ol>`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Yes, ascend!', handler: () => {
+        { text: 'Yes, enhance!', handler: () => {
           this.socketService.emit(ServerEventName.PetAscend);
         } }
       ]
