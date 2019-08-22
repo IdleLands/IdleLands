@@ -45,8 +45,8 @@ const scoreValues = {
   [Stat.CON]: 3,
   [Stat.LUK]: 5,
 
-  [Stat.XP]: 10,
-  [Stat.GOLD]: 3,
+  [Stat.XP]: 20,
+  [Stat.GOLD]: 10,
 };
 
 export class Item implements IItem {
