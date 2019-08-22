@@ -15,11 +15,11 @@
   <ion-row>
     <ion-col size-xs="12" offset-xs="0" size-md="6" offset-md="3" class="ion-padding">
 
-      <ng-container *ngFor="let festival of festivals">
-        <ion-card *ngIf="isFestivalValid(festival)">
+      <ion-virtual-scroll [items]="festivals" *ngIf="festivals.length > 0" approxItemHeight="170px">
+        <ion-card *virtualItem="let item" [class.ion-hide]="!isFestivalValid(item)">
           <ion-card-header>
-            <ion-card-subtitle>Ends in <countdown-timer [end]="festival.endTime"></countdown-timer> &middot; via {{ festival.startedBy }}</ion-card-subtitle>
-            <ion-card-title>{{ festival.name }}</ion-card-title>
+            <ion-card-subtitle>Ends in <countdown-timer [end]="item.endTime"></countdown-timer> &middot; via {{ item.startedBy }}</ion-card-subtitle>
+            <ion-card-title>{{ item.name }}</ion-card-title>
           </ion-card-header>
   
           <ion-card-content>
@@ -27,19 +27,19 @@
               <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
                 <ion-col size-xs="6"
                           size-md="4" 
-                          *ngIf="festival.stats[stat]"
+                          *ngIf="item.stats[stat]"
                           class="vertical-center">
                   <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end"></ion-icon>
                         
                   <ion-label>
-                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ (festival.stats[stat] || 0) | number }}%
+                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ (item.stats[stat] || 0) | number }}%
                   </ion-label>
                 </ion-col>
               </ng-container>
             </ion-row>
           </ion-card-content>
         </ion-card>
-      </ng-container>
+      </ion-virtual-scroll>
 
     </ion-col>
   </ion-row>
