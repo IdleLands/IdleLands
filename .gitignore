@@ -97,4 +97,4 @@ assets/maps
 
 src/out-tsc/
 dist/
-src/client/app/assets/tiles.png
+src/client/assets/tiles.png
