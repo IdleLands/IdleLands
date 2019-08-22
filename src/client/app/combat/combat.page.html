@@ -78,28 +78,22 @@
       </ion-item>
     </ion-item-group>
 
-    <ion-item-group>
-      <ion-item-divider>Combat Log</ion-item-divider>
-      <ion-item *ngFor="let message of combatMessages" [color]="message.highlight ? 'light' : ''">
-        <ng-container [ngSwitch]="message.message">
-          <ng-container *ngSwitchCase="'__summary'">
-            <ng-container *ngTemplateOutlet="summary; context: { combat: message.data }"></ng-container>
-          </ng-container>
-
-          <ng-container *ngSwitchDefault>
-            {{ message.message }}
-          </ng-container>
-        </ng-container>
-      </ion-item>
-    </ion-item-group>
-
-    <ion-item-group>
-      <ion-item-divider>Results</ion-item-divider>
-      <ion-item *ngFor="let message of summaryMessages">
-        {{ message }}
-      </ion-item>
-    </ion-item-group>
+    <ion-item-divider>Combat Log</ion-item-divider>
   </ion-list>
+
+  <ion-virtual-scroll [items]="combatMessages" *ngIf="combatMessages.length > 0">
+    <ion-item *virtualItem="let item" [color]="item.highlight ? 'light' : ''" approxItemHeight="70px">
+      <ng-container [ngSwitch]="item.message">
+        <ng-container *ngSwitchCase="'__summary'">
+          <ng-container *ngTemplateOutlet="summary; context: { combat: item.data }"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          {{ item.message }}
+        </ng-container>
+      </ng-container>
+    </ion-item>
+  </ion-virtual-scroll>
 </ion-content>
 
 <ng-template #summary let-combat="combat">
