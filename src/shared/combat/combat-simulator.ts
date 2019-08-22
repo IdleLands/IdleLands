@@ -186,6 +186,8 @@ export class CombatSimulator {
 
   private applySingleEffect(character: ICombatCharacter, effect: ICombatSkillEffect) {
 
+    const oldHPValue = character.stats[Stat.HP];
+
     if(effect.modifyStat) {
       // roll accuracy, if it fails, set the value to 0
       if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) }) || isNaN(effect.modifyStatValue)) {
@@ -200,6 +202,10 @@ export class CombatSimulator {
       if(effect.modifyStat === Stat.HP) {
         if(effect.modifyStatValue + character.stats[Stat.HP] > character.maxStats[Stat.HP]) {
           effect.modifyStatValue = character.maxStats[Stat.HP] - character.stats[Stat.HP];
+        }
+
+        if(effect.modifyStatValue + character.stats[Stat.HP] <= 0) {
+          effect.modifyStatValue = -character.stats[Stat.HP];
         }
       }
 
@@ -222,7 +228,7 @@ export class CombatSimulator {
     });
 
     // do statistic modifications
-    if(effect.modifyStat === Stat.HP) {
+    if(effect.modifyStat === Stat.HP && oldHPValue !== 0) {
       const giver = this.combat.characters[effect.source];
 
       const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');

@@ -6,8 +6,8 @@ const characters: ICombatCharacter[] = [
     profession: 'Mage',
     level: 10,
     specialName: 'Bottle',
-    stats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 },
-    maxStats: { str: 500, dex: 100, con: 100, int: 100, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 }
+    stats: { str: 500, dex: 100, con: 100, int: 10000, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 },
+    maxStats: { str: 500, dex: 100, con: 100, int: 10000, agi: 50, luk: 100, hp: 100000, special: 500, gold: 10, xp: 10 }
   },
   { combatId: 4, combatPartyId: 1, name: 'I Die',
     profession: Profession.Bitomancer,
