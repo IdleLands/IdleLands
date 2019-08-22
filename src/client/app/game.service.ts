@@ -154,7 +154,7 @@ export class GameService {
   }
 
   private setAdventureLog(log: IAdventureLog[]) {
-    const totalLength = get(this.playerRef, '$statisticsData.Game.Premium.AdventureLogSize', 25);
+    const totalLength = get(this.playerRef, '$statisticsData.Game.Premium.Upgrade.AdventureLogSize', 25);
     if(log.length > totalLength) log.length = totalLength;
 
     this.adventureLog.next(log);
