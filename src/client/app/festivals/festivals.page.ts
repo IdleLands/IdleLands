@@ -13,6 +13,7 @@ import { IFestival } from '../../../shared/interfaces';
 })
 export class FestivalsPage implements OnInit {
 
+  public isLoaded: boolean;
   public festivals: IFestival[] = [];
 
   constructor(
@@ -28,6 +29,8 @@ export class FestivalsPage implements OnInit {
           festivals.filter(x => this.isFestivalValid(x)),
           fest => !fest.startedBy.includes(this.gameService.playerRef.name)
         );
+
+        this.isLoaded = true;
       });
   }
 

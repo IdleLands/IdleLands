@@ -8,7 +8,12 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="blank-slate" *ngIf="!festivals || festivals.length === 0">
+
+  <div class="blank-slate" *ngIf="!isLoaded">
+    <ion-spinner></ion-spinner> &nbsp; Loading...
+  </div>
+
+  <div class="blank-slate" *ngIf="!isLoaded && (!festivals || festivals.length === 0)">
     There are no festivals :(
   </div>
 
