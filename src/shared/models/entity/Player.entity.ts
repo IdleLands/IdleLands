@@ -870,7 +870,7 @@ export class Player implements IPlayer {
       300
     + (allBuffBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
     + (allAchievementBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
-    + (tier * 100)
+    + (tier * 50)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost) * 10);
 
