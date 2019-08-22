@@ -93,6 +93,7 @@ export class DiscordManager {
   }
 
   public getUserRoles(tag: string) {
+    if(!this.discordGuild) return null;
     const guildUser = this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
     if(!guildUser) return null;
     return guildUser.roles;
