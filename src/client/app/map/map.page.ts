@@ -64,7 +64,7 @@ class GameState extends Phaser.State {
     this.load.image('tiles', `${this.baseUrl}/assets/tiles.png`);
     this.load.spritesheet('interactables', `${this.baseUrl}/assets/tiles.png`, 16, 16);
     this.load.tilemap(this.player.map,
-      `${this.apiUrl}/map?map=${encodeURIComponent(this.player.map)}`, null, Phaser.Tilemap.TILED_JSON);
+      `/assets/maps/${encodeURIComponent(this.player.map)}.json`, null, Phaser.Tilemap.TILED_JSON);
   }
 
   create() {
