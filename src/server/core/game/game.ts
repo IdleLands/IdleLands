@@ -30,6 +30,7 @@ import { GMHelper } from './gm-helper';
 import { IL3Linker } from './il3-linker';
 import { QuestHelper } from './quest-helper';
 import { GlobalQuestManager } from './global-quest-manager';
+import { StripeHelper } from './stripe-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
@@ -63,6 +64,7 @@ export class Game implements IGame {
   @Inject public gmHelper: GMHelper;
   @Inject public questHelper: QuestHelper;
   @Inject public globalQuestManager: GlobalQuestManager;
+  @Inject public stripeHelper: StripeHelper;
   @Inject public world: World;
 
   private ticks = 0;

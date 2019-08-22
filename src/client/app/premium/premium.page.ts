@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost,
-  FestivalType, OtherILPCosts, OtherILPPurchase } from '../../../shared/interfaces';
+  FestivalType, OtherILPCosts, OtherILPPurchase, IRLPurchaseData } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-premium',
@@ -12,6 +13,9 @@ import { ServerEventName, PermanentUpgrade, PremiumScale, FestivalCost,
 export class PremiumPage implements OnInit {
 
   public scale = PremiumScale;
+  private stripeCheckoutHandler: any;
+  public allItems = Object.values(IRLPurchaseData);
+  public currentlyBuyingItem: any;
 
   public festivals = [
     {
@@ -63,6 +67,7 @@ export class PremiumPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initStripe();
   }
 
   public upgradeCost(upgradeName: string, level = 0) {
@@ -79,6 +84,34 @@ export class PremiumPage implements OnInit {
 
   buyOther(other) {
     this.socketService.emit(ServerEventName.PremiumOther, { other: other.key });
+  }
+
+  private initStripe() {
+    setTimeout(() => {
+      this.stripeCheckoutHandler = (<any>window).StripeCheckout.configure({
+        key: environment.stripe.apiKey,
+        name: 'IdleLands',
+        allowRememberMe: true,
+        zipCode: true,
+        billingAddress: true,
+        currency: 'USD',
+        image: 'https://play.idle.land/assets/favicon/android-chrome-512x512.png',
+        token: (token) => {
+          this.socketService.emit(ServerEventName.PremiumBuyILP, { item: this.currentlyBuyingItem.key, token });
+        }
+      });
+    }, 5000);
+  }
+
+  public startPayment(item) {
+    if(!this.stripeCheckoutHandler) return;
+
+    this.currentlyBuyingItem = item;
+
+    this.stripeCheckoutHandler.open({
+      amount: item.cost,
+      description: item.name
+    });
   }
 
 }

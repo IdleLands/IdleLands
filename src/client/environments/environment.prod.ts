@@ -21,5 +21,9 @@ export const environment = {
     secure: true,
     hostname: 'server.idle.land',
     port: 443
+  },
+
+  stripe: {
+    apiKey: 'pk_live_RmTjnmPnBVXmN4NF3BaYlmKy'
   }
 };

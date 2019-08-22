@@ -88,3 +88,35 @@ export const GoldGenderCost: { [key in Profession]: number } = {
   [Profession.Rogue]: 25_000_000,
   [Profession.SandwichArtist]: 1_000_000
 };
+
+export enum IRLPurchase {
+  ILPSmall = 'ilp:small',
+  ILPMedium = 'ilp:medium',
+  ILPLarge = 'ilp:large'
+}
+
+export const IRLPurchaseData: { [key in IRLPurchase]: any } = {
+  [IRLPurchase.ILPSmall]: {
+    key: IRLPurchase.ILPSmall,
+    name: '1,000 ILP',
+    desc: 'A small amount of ILP for a small price.',
+    ilp: 1000,
+    cost: 100
+  },
+
+  [IRLPurchase.ILPMedium]: {
+    key: IRLPurchase.ILPMedium,
+    name: '5,000 ILP',
+    desc: 'A moderate amount of ILP for a coffee.',
+    ilp: 5000,
+    cost: 500
+  },
+
+  [IRLPurchase.ILPLarge]: {
+    key: IRLPurchase.ILPLarge,
+    name: '25,000 ILP',
+    desc: 'A large amount of ILP for a burger. Or two.',
+    ilp: 25000,
+    cost: 2000
+  }
+};
