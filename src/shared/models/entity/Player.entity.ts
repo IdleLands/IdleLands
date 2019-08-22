@@ -12,7 +12,8 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier, IPet } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier,
+  IPet, PremiumTier, ContributorTier } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -214,6 +215,7 @@ export class Player implements IPlayer {
     this.calculateStamina();
     this.checkStaminaTick();
 
+    this.setDiscordTag(this.discordTag);
     this.syncPremium();
 
     if(this.title && !this.availableTitles.includes(this.title)) {
@@ -1112,5 +1114,26 @@ export class Player implements IPlayer {
       this.increaseStatistic(`Character/Injury/Cure`, 1);
       this.recalculateStats();
     }
+  }
+
+  public setDiscordTag(discordTag: string) {
+    if(!discordTag) {
+      this.discordTag = '';
+      this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
+      this.$premium.setTier(PremiumTier.None);
+      return;
+    }
+
+    this.discordTag = discordTag;
+
+    let newPremium = PremiumTier.None;
+    if(this.$$game.discordManager.hasRole(discordTag, 'Patron')) newPremium = PremiumTier.Subscriber;
+    if(this.$$game.discordManager.hasRole(discordTag, 'Patron Saint')) newPremium = PremiumTier.Subscriber2;
+
+    if(this.$$game.discordManager.hasRole(discordTag, 'Collaborator')) {
+      this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.Contributor);
+    }
+
+    this.$premium.setTier(newPremium);
   }
 }
