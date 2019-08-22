@@ -62,6 +62,7 @@ export * from './Sponge';
 export * from './Swinger';
 export * from './Taskmaster';
 export * from './ThatDayOfTheYear';
+export * from './TinyTerror';
 export * from './Tired';
 export * from './Touchy';
 export * from './Unstoppable';
