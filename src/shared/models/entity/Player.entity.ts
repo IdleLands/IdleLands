@@ -612,7 +612,9 @@ export class Player implements IPlayer {
     const oldItem = this.$inventory.itemInEquipmentSlot(item.type);
     if(oldItem) {
       const successful = this.unequip(oldItem, failOnInventoryFull);
-      if(!successful) return false;
+      if(!successful) {
+        this.alwaysTryAddToInventory(oldItem);
+      }
     }
 
     this.increaseStatistic('Item/Equip/Times', 1);
