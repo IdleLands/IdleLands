@@ -237,8 +237,12 @@ export class Pets extends PlayerOwned {
   // check if all pets are able to go on mission. if so, mark them as in mission
   public embarkOnPetMission(player: Player, adventureId: string, pets: string[]): boolean {
     const adventure = find(this.adventures, { id: adventureId });
-    const petRefs = pets.map(x => this.allPets[x]).filter(x => x && !x.currentAdventureId);
+    if(!adventure) return false;
 
+    const petsOnAdventure = pets.map(x => this.allPets[x]).filter(x => x.currentAdventureId === adventureId);
+    if(petsOnAdventure.length > 0) return false;
+
+    const petRefs = pets.map(x => this.allPets[x]).filter(x => x && !x.currentAdventureId);
     if(pets.length === 0 || petRefs.length !== pets.length || !adventure) return false;
 
     // update finishAt to be the end time
