@@ -862,7 +862,7 @@ export class Player implements IPlayer {
       10
     + (allBuffBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
     + (allAchievementBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
-    + (tier * 10)
+    + (tier * 5)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
 
