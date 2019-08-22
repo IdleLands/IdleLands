@@ -98,7 +98,7 @@ export enum IRLPurchase {
 export const IRLPurchaseData: { [key in IRLPurchase]: any } = {
   [IRLPurchase.ILPSmall]: {
     key: IRLPurchase.ILPSmall,
-    name: '1,000 ILP',
+    name: '1,000 ILP ($1.00)',
     desc: 'A small amount of ILP for a small price.',
     ilp: 1000,
     cost: 100
@@ -106,7 +106,7 @@ export const IRLPurchaseData: { [key in IRLPurchase]: any } = {
 
   [IRLPurchase.ILPMedium]: {
     key: IRLPurchase.ILPMedium,
-    name: '5,000 ILP',
+    name: '5,000 ILP ($5.00)',
     desc: 'A moderate amount of ILP for a coffee.',
     ilp: 5000,
     cost: 500
@@ -114,7 +114,7 @@ export const IRLPurchaseData: { [key in IRLPurchase]: any } = {
 
   [IRLPurchase.ILPLarge]: {
     key: IRLPurchase.ILPLarge,
-    name: '25,000 ILP',
+    name: '25,000 ILP ($20.00)',
     desc: 'A large amount of ILP for a burger. Or two.',
     ilp: 25000,
     cost: 2000
