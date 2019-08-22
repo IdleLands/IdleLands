@@ -46,7 +46,7 @@ export class Pirate extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
 
     const foundItem = player.$$game.itemGenerator.generateItemForPlayer(player, {
       generateLevel: player.level.total + Math.log(player.getStat(Stat.LUK)),

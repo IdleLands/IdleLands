@@ -46,7 +46,7 @@ export class Bard extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.7
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
 
     const stats = {};
     Object.values(Stat).forEach(stat => {

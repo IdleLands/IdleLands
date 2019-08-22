@@ -8,8 +8,8 @@ export class Fateful extends BaseAttribute implements IAttribute {
   public readonly oocAbilityDesc = 'Take a quick bath in a puddle of Fate Water.';
   public readonly oocAbilityCost = 25;
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     player.$$game.eventManager.doEventFor(player, 'Providence');
-    return `You've bathed in your fate!`;
+    return {success: true, message: `You've bathed in your fate!`};
   }
 }

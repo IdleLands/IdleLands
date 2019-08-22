@@ -45,7 +45,7 @@ export class SandwichArtist extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.7
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     const luk = player.getStat(Stat.LUK);
     const numAbilUsesBonus = Math.floor(player.$statistics.get('Profession/SandwichArtist/AbilityUses') / 10);
     player.grantBuff({

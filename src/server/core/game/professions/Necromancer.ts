@@ -47,7 +47,7 @@ export class Necromancer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     player.grantBuff({
       name: 'Bone Minions',
       statistic: 'Combat/All/Times/Total',

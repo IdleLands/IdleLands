@@ -46,7 +46,7 @@ export class Rogue extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1.2
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     player.$$game.eventManager.doEventFor(player, EventName.BlessGold);
     player.$$game.eventManager.doEventFor(player, EventName.Gamble);
     player.$$game.eventManager.doEventFor(player, EventName.Merchant);

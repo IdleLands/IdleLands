@@ -16,7 +16,7 @@ export interface IAttribute {
   readonly oocAbilityDesc: string;
   readonly oocAbilityCost: number;
 
-  oocAbility(player: IPlayer): string;
+  oocAbility(player: IPlayer): {success: boolean, message: string};
 }
 
 export interface IProfession {

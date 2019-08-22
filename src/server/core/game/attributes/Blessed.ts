@@ -8,9 +8,9 @@ export class Blessed extends BaseAttribute implements IAttribute {
   public readonly oocAbilityDesc = 'Activate a random Bless event.';
   public readonly oocAbilityCost = 15;
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     const event = player.$$game.rngService.weighted(['BlessItem', 'BlessGold', 'BlessXP', 'Enchant'], [100, 300, 100, 5]);
     player.$$game.eventManager.doEventFor(player, event);
-    return `You've been #blessed!`;
+    return {success: true, message: `You've been #blessed!`};
   }
 }

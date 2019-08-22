@@ -49,7 +49,7 @@ export class Cleric extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     player.giveCure();
     this.emitProfessionMessage(player, `You cured the wounds of yourself and your allies!`);
     return {success: true, message: 'You cured the wounds of yourself and your allies!'};

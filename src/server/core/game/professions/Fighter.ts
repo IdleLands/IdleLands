@@ -46,7 +46,7 @@ export class Fighter extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): {success: boolean, message: string} {
     const luk = player.getStat(Stat.LUK);
     player.grantBuff({
       name: 'Experiencer',
