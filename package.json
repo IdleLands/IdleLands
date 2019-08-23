@@ -19,7 +19,8 @@
     "setup": "node scripts/post-install && npm run seed",
     "seed": "node scripts/seed",
     "dummyplayers": "node scripts/client/client",
-    "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts"
+    "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts",
+    "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",

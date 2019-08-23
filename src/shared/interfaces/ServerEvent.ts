@@ -88,7 +88,9 @@ export enum ServerEventName {
   GMGiveGold = 'gm:givegold',
   GMGiveItem = 'gm:giveitem',
   GMPortCharacterId = 'gm:portcharacterid',
-  GMResetGlobal = 'gm:resetglobal'
+  GMResetGlobal = 'gm:resetglobal',
+
+  ExtraSubmitItem = 'extra:submititem'
 }
 
 export enum PlayerChannelOperation {

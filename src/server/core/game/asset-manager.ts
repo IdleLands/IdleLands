@@ -1,7 +1,5 @@
-import { Singleton, AutoWired, Inject } from 'typescript-ioc';
+import { Singleton, AutoWired } from 'typescript-ioc';
 import { sample, includes } from 'lodash';
-
-import { ItemGenerator } from './item-generator';
 
 @Singleton
 @AutoWired

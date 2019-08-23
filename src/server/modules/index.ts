@@ -3,6 +3,7 @@ export * from './auth';
 export * from './character';
 export * from './chat';
 export * from './choices';
+export * from './extra';
 export * from './gacha';
 export * from './gm';
 export * from './inventory';

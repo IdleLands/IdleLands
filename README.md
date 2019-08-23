@@ -65,8 +65,9 @@ Stripe variables need to be set up to accept payments via Stripe.
 Discord variables are used to connect to Discord, which will sync chat between the game/Discord. You will also need to set up a Discord bot and give it sufficient permissions to post messages/emoji, create/modify channels, and create/modify roles.
 
 * `DISCORD_SECRET` - the Discord API secret for your created Discord bot
-* `DISCORD_GUILD_ID` - the Discord guild ID
-* `DISCORD_CHANNEL_ID` - the Discord channel ID
+* `DISCORD_GUILD_ID` - the Discord guild ID for the Discord bot to reside in
+* `DISCORD_CHANNEL_ID` - the Discord channel ID for the chat bridge
+* `DISCORD_CUSTOM_ITEM_CHANNEL_ID` - the Discord channel ID to send custom item submissions to
 
 #### IdleLands 3 Variables
 

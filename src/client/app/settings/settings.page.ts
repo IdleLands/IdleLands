@@ -13,6 +13,8 @@ import { ServerEventName } from '../../../shared/interfaces';
 })
 export class SettingsPage implements OnInit {
 
+  public itemString: string;
+
   public supportsNotifications: boolean;
   public get notificationsEnabled() {
     return this.supportsNotifications
@@ -122,6 +124,12 @@ export class SettingsPage implements OnInit {
   public unsync() {
     this.socketService.emit(ServerEventName.AuthUnsyncAccount);
     this.authService.logout();
+  }
+
+  public submitItem() {
+    this.socketService.emit(ServerEventName.ExtraSubmitItem, { itemString: this.itemString });
+
+    this.itemString = '';
   }
 
 }
