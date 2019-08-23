@@ -85,7 +85,7 @@ export class GlobalQuestManager {
   }
 
   private subscribeToGQuestchanges() {
-    this.subscriptionManager.subscribeToChannel(Channel.GlobalQuest, ({ quest, operation, doSave }) => {
+    this.subscriptionManager.subscribeToChannel(Channel.GlobalQuest, ({ quest, updates, operation, doSave }) => {
       switch(operation) {
         case QuestAction.AddQuest: {
           this.addGQuest(quest);
@@ -96,7 +96,11 @@ export class GlobalQuestManager {
           break;
         }
         case QuestAction.QuestUpdate: {
-          this.updateQuest(quest);
+          if(updates) {
+            this.updateQuestPatch(updates);
+          } else {
+            this.updateQuest(quest);
+          }
           break;
         }
       }
@@ -120,6 +124,10 @@ export class GlobalQuestManager {
     this.subscriptionManager.emitToChannel(Channel.GlobalQuest, { quest, operation: QuestAction.QuestUpdate, doSave });
   }
 
+  public initiateUpdateQuestPatch(updates: any[]) {
+    this.subscriptionManager.emitToChannel(Channel.GlobalQuest, { operation: QuestAction.QuestUpdate, updates });
+  }
+
   private addGQuest(quest: IGlobalQuest) {
     this.globalQuests.addGlobalQuest(quest);
     this.save();
@@ -137,27 +145,39 @@ export class GlobalQuestManager {
     extend(myQuest, quest);
   }
 
+  public updateQuestPatch(patches: any[]) {
+    patches.forEach(({ questIndex, objIndex, boost, from }) => {
+      const obj = this.globalQuests.globalQuests[questIndex].objectives[objIndex];
+      obj.progress += boost;
+
+      obj.contributions = obj.contributions || { };
+      obj.contributions[from] = obj.contributions[from] || 0;
+      obj.contributions[from] += boost;
+    });
+
+    this.save();
+  }
+
   public checkAndUpdateStats(player: Player, stat: string, val: number) {
     if(!this.questStats[stat]) return;
 
-    this.globalQuests.globalQuests.forEach(gQuest => {
+    const updates = [];
+
+    this.globalQuests.globalQuests.forEach((gQuest, qIndex) => {
       if(!this.isValidQuest(gQuest)) return;
 
-      let didUpdateQuest = false;
-
-      gQuest.objectives.forEach(obj => {
+      gQuest.objectives.forEach((obj, index) => {
         if(obj.statistic !== stat || obj.progress >= obj.statisticValue || player.map !== obj.requireMap) return;
-        obj.progress += val;
-
-        obj.contributions = obj.contributions || { };
-        obj.contributions[player.name] = obj.contributions[player.name] || 0;
-        obj.contributions[player.name] += val;
-
-        didUpdateQuest = true;
+        updates.push({
+          questIndex: qIndex,
+          objIndex: index,
+          boost: val,
+          from: player.name
+        });
       });
 
-      if(didUpdateQuest) {
-        this.initiateUpdateQuest(gQuest);
+      if(updates.length > 0) {
+        this.initiateUpdateQuestPatch(updates);
       }
     });
   }
