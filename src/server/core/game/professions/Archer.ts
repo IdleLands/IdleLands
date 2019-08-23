@@ -50,7 +50,7 @@ export class Archer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
     player.grantBuff({
       name: 'Pheromone',
@@ -63,6 +63,6 @@ export class Archer extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, 'You used your special ability to bring more pets into combat!');
-    return {success: true, message: `More pets will join you in combat!`};
+    return { success: true, message: `More pets will join you in combat!` };
   }
 }

@@ -49,10 +49,10 @@ export class Mage extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.5
   };
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const int = player.getStat(Stat.INT);
     const goldGained = Math.max(player.gainGold(int), 10);
     this.emitProfessionMessage(player, `You gained ${goldGained.toLocaleString()} GOLD via Alchemy!`);
-    return {success: true, message: `You gained ${goldGained.toLocaleString()} GOLD!`};
+    return { success: true, message: `You gained ${goldGained.toLocaleString()} GOLD!` };
   }
 }

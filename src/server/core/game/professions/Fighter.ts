@@ -46,7 +46,7 @@ export class Fighter extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const luk = player.getStat(Stat.LUK);
     player.grantBuff({
       name: 'Experiencer',
@@ -59,6 +59,6 @@ export class Fighter extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, `Your XP gain will be increased for 720 ticks!`);
-    return {success: true, message: `Your XP gain will be increased for 720 ticks!`};
+    return { success: true, message: `Your XP gain will be increased for 720 ticks!` };
   }
 }

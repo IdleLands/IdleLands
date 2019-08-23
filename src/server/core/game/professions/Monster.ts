@@ -45,10 +45,10 @@ export class Monster extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.2
   };
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
     player.$$game.eventManager.doEventFor(player, EventName.Switcheroo);
     this.emitProfessionMessage(player, 'You switched yourself around a bit!');
-    return {success: true, message: `You've switched yourself around a bit!`};
+    return { success: true, message: `You've switched yourself around a bit!` };
   }
 }

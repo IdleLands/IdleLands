@@ -170,8 +170,8 @@ export interface IPlayer extends ICharacter {
 
   tryToDoNewCharacter(): void;
 
-  oocAction(): {success: boolean, message: string};
-  petOOCAction(): {success: boolean, message: string};
+  oocAction(): { success: boolean, message: string };
+  petOOCAction(): { success: boolean, message: string };
 
   injuryCount(): number;
   cureInjury(): void;

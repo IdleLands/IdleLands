@@ -8,9 +8,9 @@ export class Golden extends BaseAttribute implements IAttribute {
   public readonly oocAbilityDesc = 'Attract a gold-related event.';
   public readonly oocAbilityCost = 25;
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const event = player.$$game.rngService.weighted(['BlessGold', 'Merchant', 'Gamble', 'ForsakeGold'], [50, 150, 100, 10]);
     player.$$game.eventManager.doEventFor(player, event);
-    return {success: true, message: `You've attracted some gold!`};
+    return { success: true, message: `You've attracted some gold!` };
   }
 }

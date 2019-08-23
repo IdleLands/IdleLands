@@ -96,8 +96,8 @@ export class BaseProfession extends BaseAffinity implements IAffinity, IAttribut
     };
   }
 
-  public oocAbility(player: ICharacter): {success: boolean; message: string} {
-    return {success: true, message: ''};
+  public oocAbility(player: ICharacter): { success: boolean; message: string } {
+    return { success: true, message: '' };
   }
 
   public determineStartingSpecial(player: ICharacter): number {

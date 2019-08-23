@@ -262,9 +262,9 @@ export class Player implements IPlayer {
     return this.stats[stat];
   }
 
-  public oocAction(): {success: boolean, message: string} {
-    if(this.stamina.total < this.$profession.oocAbilityCost) return {success: false, message: "You do not have enough stamina!"};
-    
+  public oocAction(): { success: boolean, message: string } {
+    if(this.stamina.total < this.$profession.oocAbilityCost) return {success: false, message: `You do not have enough stamina!`};
+
     const response = this.$profession.oocAbility(this);
     if(!response.success) return response;
 
@@ -272,11 +272,11 @@ export class Player implements IPlayer {
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
     this.stamina.sub(this.$profession.oocAbilityCost);
-    
+
     return response;
   }
 
-  public petOOCAction(): {success: boolean, message: string} {
+  public petOOCAction(): { success: boolean, message: string } {
     if(this.stamina.total < this.$pets.$activePet.$attribute.oocAbilityCost) return;
 
     this.increaseStatistic('Character/Stamina/Spend', this.$pets.$activePet.$attribute.oocAbilityCost);

@@ -47,7 +47,7 @@ export class Necromancer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): {success: boolean, message: string} {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     player.grantBuff({
       name: 'Bone Minions',
       statistic: 'Combat/All/Times/Total',
@@ -59,7 +59,7 @@ export class Necromancer extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, 'You summoned some bone minions!');
-    return {success: true, message: `You summoned some bone minions!`};
+    return { success: true, message: `You summoned some bone minions!` };
   }
 
   public determineStartingSpecial(): number {
