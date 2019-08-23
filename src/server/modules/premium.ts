@@ -1,6 +1,28 @@
 import { ServerSocketEvent } from '../../shared/models';
 import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType, OtherILPPurchase, GoldGenderCost } from '../../shared/interfaces';
 
+export class PremiumILPBuy extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PremiumBuyILP;
+  description = 'Buy ILP using IRL money.';
+  args = 'buyItem, token';
+
+  async callback({ item, token } = { item: null, token: null }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(!item || !token) return this.gameError('Item or token is not sent.');
+
+    try {
+      await this.game.stripeHelper.buyWithStripe(player, { item, token });
+    } catch(e) {
+      return this.gameError('Something went wrong.');
+    }
+
+    this.gameMessage('Successfully purchased ILP!');
+    this.game.updatePlayer(player);
+  }
+}
+
 export class PremiumUpgradeEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PremiumUpgrade;
   description = 'Buy a premium upgrade using ILP.';

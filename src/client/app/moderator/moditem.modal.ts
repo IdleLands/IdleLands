@@ -85,7 +85,7 @@ export class ModItemModal {
   public itemName: string;
   public itemClass: string;
   public itemSlot: string;
-  public itemStats = {};
+  public itemStats = { };
 
   public get isValid(): boolean {
     return !!(this.itemName && this.playerName && this.itemClass && this.itemSlot);
@@ -95,7 +95,7 @@ export class ModItemModal {
     private modalCtrl: ModalController,
     public socketService: SocketClusterService,
     public gameService: GameService
-  ) {}
+  ) { }
 
   public create() {
     const item = {

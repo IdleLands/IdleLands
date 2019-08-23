@@ -23,7 +23,7 @@ export class Walker extends Achievement {
       baseStr = `${baseStr} Title: Walker.`;
     }
 
-    if(tier >= 5) {
+    if(tier >= 6) {
       baseStr = `${baseStr} Title: Taxes Ranger.`;
     }
 

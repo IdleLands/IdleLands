@@ -7,8 +7,8 @@ import { Channel } from '../../../shared/interfaces';
 @AutoWired
 export class SubscriptionManager {
 
-  private channels: { [key in Channel]?: any } = {};
-  private signals:  { [key in Channel]?: any } = {};
+  private channels: { [key in Channel]?: any } = { };
+  private signals:  { [key in Channel]?: any } = { };
 
   private scServer: any;
 

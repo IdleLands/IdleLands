@@ -26,7 +26,7 @@ class GameState extends Phaser.State {
   private playerSpriteGroup: Phaser.Group;
   private currentPetSprite: Phaser.Sprite;
   private currentDivineSprite: Phaser.Sprite;
-  private allPlayerSprites: { [key: string]: Phaser.Sprite } = {};
+  private allPlayerSprites: { [key: string]: Phaser.Sprite } = { };
 
   private get currentPlayerSprite(): Phaser.Sprite {
     if(!this.player) return null;
@@ -98,13 +98,13 @@ class GameState extends Phaser.State {
       if(this.currentPlayerSprite) {
         try {
           this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames % this.frameColors.length], false);
-        } catch(e) {}
+        } catch(e) { }
       }
 
       if(this.currentDivineSprite) {
         try {
           this.game.debug.spriteBounds(this.currentDivineSprite, this.frameColors[this.frames % this.frameColors.length], false);
-        } catch(e) {}
+        } catch(e) { }
       }
     }
 
@@ -172,6 +172,16 @@ class GameState extends Phaser.State {
             affix = ownershipStatus;
           }
 
+          if(item.realtype === 'Teleport') {
+            if(item.movementType === 'ascend' && this.player.$personalitiesData.activePersonalities['Delver']) {
+              affix = '[Warning: Delver Active]';
+            }
+
+            if(item.movementType === 'descend' && this.player.$personalitiesData.activePersonalities['ScaredOfTheDark']) {
+              affix = '[Warning: ScaredOfTheDark Active]';
+            }
+          }
+
           strings.push(`${item.realtype}${nameValue ? ': ' + nameValue : ''} ${affix}`);
         }
 
@@ -190,7 +200,7 @@ class GameState extends Phaser.State {
           { key: 'Achievement',
             hasMet: (player, val) => player.$achievementsData && player.$achievementsData.achievements[val] },
           { key: 'Boss', display: 'Boss Kill',
-            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData.statistics, ['BossKill', 'Total', val]) },
+            hasMet: (player, val) => player.$statisticsData && get(player.$statisticsData, ['BossKill', 'Boss', val]) },
           { key: 'Class',
             hasMet: (player, val) => player.profession === val },
           { key: 'Collectible',
@@ -285,7 +295,7 @@ class GameState extends Phaser.State {
         this.currentPetSprite.destroy();
         this.currentPetSprite = null;
       }
-      this.allPlayerSprites = {};
+      this.allPlayerSprites = { };
       this.game.state.restart(true, true, this.stored);
     }
 

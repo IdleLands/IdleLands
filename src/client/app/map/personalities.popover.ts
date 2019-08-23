@@ -25,13 +25,13 @@ import { GameService } from '../game.service';
 })
 export class PersonalitiesPopover {
 
-  public validPersonalities = ['Camping', 'Delver', 'Drunk', 'ScaredOfTheDark', 'Solo'];
+  public validPersonalities = ['Camping', 'Delver', 'Drunk', 'ScaredOfTheDark', 'Solo', 'Telesheep'];
 
   constructor(
     private popoverCtrl: PopoverController,
     public gameService: GameService,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   toggle(personalityName: string) {
     this.socketService.emit(ServerEventName.TogglePersonality, { personalityName });

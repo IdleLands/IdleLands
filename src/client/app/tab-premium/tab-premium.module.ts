@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: []
 })
-export class TabPremiumPageModule {}
+export class TabPremiumPageModule { }

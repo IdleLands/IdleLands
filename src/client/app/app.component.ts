@@ -13,7 +13,7 @@ import { sample } from 'lodash';
 
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
-import { IPlayer, ServerEventName } from '../../shared/interfaces';
+import { IPlayer, ServerEventName, IPet } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -53,9 +53,16 @@ export class AppComponent {
       if(!player.$petsData) return false;
 
       const anyComplete = player.$petsData.adventures.some(x => x.finishAt && x.finishAt < Date.now());
-      if(!anyComplete) return false;
 
-      return 'Complete';
+      const anyGather = Object.values(player.$petsData.allPets).some((pet: IPet) => {
+        if(!pet.gatherTick) return false;
+        if(pet.gatherTick <= Date.now()) return true;
+        return false;
+      });
+
+      if(!anyComplete && !anyGather) return false;
+
+      return anyComplete ? 'Complete' : 'Gather';
     } },
 
     { name: 'Premium', icon: 'premium', url: '/premium', badge: (player) => {
@@ -65,6 +72,15 @@ export class AppComponent {
       if(!canDoFree) return false;
 
       return 'Free Roll';
+    } },
+
+    { name: 'Quests', icon: 'questglobal', url: '/quests', badgeColor: 'success', badge: (player) => {
+      if(!player.$questsData) return false;
+
+      const anyComplete = player.$questsData.quests.some(x => x.objectives.every(obj => obj.progress >= obj.statisticValue));
+      if(!anyComplete) return false;
+
+      return 'Complete';
     } },
 
     { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
@@ -128,7 +144,7 @@ export class AppComponent {
       try {
         const element = await this.modalCtrl.getTop();
         if(element) { element.dismiss(); }
-      } catch (e) {}
+      } catch (e) { }
     };
 
     window.addEventListener('beforeinstallprompt', e => {

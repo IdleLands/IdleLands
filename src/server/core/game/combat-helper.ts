@@ -29,15 +29,17 @@ export class CombatHelper {
 
   canDoCombat(player: Player): boolean {
     const players = player.$party ? player.$party.members.map(x => this.playerManager.getPlayer(x)) : [player];
-    return !players.some((checkPlayer) => checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold'));
+    return !players.some(
+      (checkPlayer) => checkPlayer && checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold')
+    );
   }
 
   createAndRunMonsterCombat(player: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -99,9 +101,9 @@ export class CombatHelper {
   createAndRunBossCombat(player: Player, opts: any = { bossName: '', bossParty: '' }): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante: any = {};
+    const characters = { };
+    const parties = { };
+    const ante: any = { };
 
     // player party
     if(player.$party) {
@@ -204,9 +206,9 @@ export class CombatHelper {
   createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -280,6 +282,8 @@ export class CombatHelper {
         const playerRef = this.playerManager.getPlayer(name);
         if(!playerRef) return;
 
+        if(isNaN(value) || !isFinite(value)) return;
+
         playerRef.increaseStatistic(statistic, value);
       }
     });
@@ -299,7 +303,7 @@ export class CombatHelper {
       };
 
       return prev;
-    }, {});
+    }, { });
   }
 
   private getGenericAntes(combatChars: ICombatCharacter[]): { [id: string]: { gold: number, xp: number } } {
@@ -309,7 +313,7 @@ export class CombatHelper {
         xp: Math.floor(this.calculatorHelper.calcLevelMaxXP(cur.level) * 0.05)
       };
       return prev;
-    }, {});
+    }, { });
   }
 
   private getBossAntes(bossPrototypes: any[]): { collectibles: string[], items: string[] } {
@@ -395,7 +399,7 @@ export class CombatHelper {
         name: `Vector ${monsterProfession}`,
         profession: monsterProfession,
         level: generateLevel,
-        stats: {}
+        stats: { }
       };
     }
 
@@ -537,10 +541,10 @@ export class CombatHelper {
 
     const multiplier = 0.75;
 
-    const stats = Object.assign({}, player.currentStats);
+    const stats = Object.assign({ }, player.currentStats);
     Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * multiplier));
 
-    const maxStats = Object.assign({}, stats);
+    const maxStats = Object.assign({ }, stats);
 
     const profession = sample(Object.values(Profession));
     const prefix = sample(['Zombie', 'Skeletal', 'Bone', 'Ghostly', 'Mummy', 'Ghoulish', 'Spectral', 'Shadow']);
@@ -596,7 +600,10 @@ export class CombatHelper {
 
       if(anteItems.length > 0) {
         anteItems.forEach(itemName => {
-          const foundItem = this.itemGenerator.generateGuardianItem(char, itemName, items[itemName].type, items[itemName]);
+          const gItem = items[itemName];
+          if(!gItem) throw new Error(`Guardian Item ${itemName} could not be awarded via combat since it doesn't exist.`);
+
+          const foundItem = this.itemGenerator.generateGuardianItem(char, gItem);
           char.$$game.eventManager.doEventFor(char, EventName.FindItem, { fromGuardian: true, item: foundItem });
         });
       }
@@ -625,7 +632,7 @@ export class CombatHelper {
       const ante = combat.ante[x.combatId];
       if(!ante) return;
 
-      player.gainGold(-ante.gold);
+      player.spendGold(ante.gold);
       player.gainXP(-ante.xp);
 
       player.addBuff(this.createRandomInjury(player));

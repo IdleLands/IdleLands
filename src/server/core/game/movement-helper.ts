@@ -130,7 +130,9 @@ export class MovementHelper {
 
     let weight = [300, 40, 7,  3,  1,  3,  7,  40];
 
-    const drunk = false;
+    if(!player.divineDirection && player.$personalities.isActive('Drunk')) {
+      weight = [1, 1, 1, 1, 1, 1, 1, 1];
+    }
 
     let dirMod: Direction = null;
     if(player.lastDir) {
@@ -147,10 +149,6 @@ export class MovementHelper {
       if(lastDirIndex !== -1) {
         weight = weight.slice(weight.length - lastDirIndex).concat(weight.slice(0, weight.length - lastDirIndex));
       }
-    }
-
-    if(drunk) {
-      weight = [1, 1, 1, 1, 1, 1, 1, 1];
     }
 
     return weight;
@@ -224,12 +222,12 @@ export class MovementHelper {
         };
 
         this.eventManager.doEventFor(player, oldil3EventNames[forceEvent] || forceEvent, tile.object.properties);
-      }
 
-      if(forceEvent !== EventName.Providence) {
+        if(forceEvent !== EventName.Providence) {
 
-        // 5 minute cooldown per tile
-        player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+          // 5 minute cooldown per tile
+          player.cooldowns[cdCheck] = Date.now() + (1000 * 60 * 5);
+        }
       }
     }
 
@@ -307,7 +305,7 @@ export class MovementHelper {
     const newTile = this.getTileAt(player.map, player.x, player.y);
     player.region = newTile.region;
 
-    this.handleTile(player, tile, 'Teleport');
+    this.handleTile(player, newTile, 'Teleport');
 
     player.increaseStatistic(`Character/Movement/${capitalize(dest.movementType)}`, 1);
   }
@@ -347,6 +345,10 @@ export class MovementHelper {
   }
 
   public takeStep(player: Player) {
+    if(player.$party
+    && (player.$personalities.isActive('Camping') || player.$personalities.isActive('Solo'))) {
+      player.$$game.partyHelper.playerLeave(player);
+    }
 
     if(player.$personalities.isActive('Camping')) {
       player.increaseStatistic('Character/Movement/Steps/Camping', 1);
@@ -363,7 +365,7 @@ export class MovementHelper {
     // follow the leader if we're a telesheep
     if(player.$party && player.$personalities.isActive('Telesheep')) {
       const leader = this.partyHelper.getPartyLeader(player.$party);
-      if(leader !== player) {
+      if(leader !== player && leader.map === player.map) {
         dir = this.xyDiff2dir(player.x, player.y, leader.x, leader.y);
       }
     }
@@ -425,7 +427,7 @@ export class MovementHelper {
     player.increaseStatistic(`Map/${player.map}/Region/${player.region || 'Wilderness'}`, 1);
     player.increaseStatistic(`Map/${player.map}/Steps`, 1);
 
-    if(player.$personalities.isActive('Drunk')) {
+    if(!player.divineDirection && player.$personalities.isActive('Drunk')) {
       player.increaseStatistic(`Character/Movement/Steps/Drunk`, 1);
     }
 

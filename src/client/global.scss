@@ -64,6 +64,12 @@ ion-alert .alert-wrapper {
   }
 }
 
+.party-table {
+  td:first-child {
+    max-width: 125px;
+  }
+}
+
 .item-compare-modal {
 
   .alert-message {
@@ -168,4 +174,8 @@ ion-alert .alert-wrapper {
 .discord-emoji {
   max-height: 18px !important;
   max-width: 18px !important;
+}
+
+ion-progress-bar {
+  border: 1px solid var(--ion-color-medium);
 }

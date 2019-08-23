@@ -59,6 +59,7 @@ export enum ServerEventName {
   AstralGateRoll = 'astralgate:roll',
   AstralGateRewards = 'astralgate:rewards',
 
+  PremiumBuyILP = 'premium:buyilp',
   PremiumUpgrade = 'premium:upgrade',
   PremiumFestival = 'premium:festival',
   PremiumOther = 'premium:other',
@@ -70,6 +71,12 @@ export enum ServerEventName {
 
   TogglePersonality = 'personality:toggle',
 
+  QuestReroll = 'quest:reroll',
+  QuestCollect = 'quest:collect',
+  QuestRewards = 'quest:rewards',
+
+  GlobalQuestCollect = 'quest:globalcollect',
+
   GMSetMOTD = 'gm:setmotd',
   GMChangeModTier = 'gm:modtier',
   GMStartFestival = 'gm:startfestival',
@@ -80,7 +87,8 @@ export enum ServerEventName {
   GMGiveILP = 'gm:giveilp',
   GMGiveGold = 'gm:givegold',
   GMGiveItem = 'gm:giveitem',
-  GMPortCharacterId = 'gm:portcharacterid'
+  GMPortCharacterId = 'gm:portcharacterid',
+  GMResetGlobal = 'gm:resetglobal'
 }
 
 export enum PlayerChannelOperation {

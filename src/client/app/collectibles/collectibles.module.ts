@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [CollectiblesPage]
 })
-export class CollectiblesPageModule {}
+export class CollectiblesPageModule { }

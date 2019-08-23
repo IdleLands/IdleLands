@@ -16,7 +16,7 @@ export class DiscordManager {
   private discordGuild: Discord.Guild;
   private discordChannel: Discord.TextChannel;
 
-  private onMessageCallback = (msg: IMessage) => {};
+  private onMessageCallback = (msg: IMessage) => { };
 
   public async init(onMessageCallback, canServerNodeRunDiscord = true): Promise<void> {
     if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) return;
@@ -93,6 +93,7 @@ export class DiscordManager {
   }
 
   public getUserRoles(tag: string) {
+    if(!this.discordGuild) return null;
     const guildUser = this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
     if(!guildUser) return null;
     return guildUser.roles;

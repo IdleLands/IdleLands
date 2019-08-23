@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { sortBy } from 'lodash';
+
 import { GameService } from '../game.service';
 import { map } from 'rxjs/operators';
 import { IFestival } from '../../../shared/interfaces';
@@ -11,6 +13,7 @@ import { IFestival } from '../../../shared/interfaces';
 })
 export class FestivalsPage implements OnInit {
 
+  public isLoaded: boolean;
   public festivals: IFestival[] = [];
 
   constructor(
@@ -22,7 +25,12 @@ export class FestivalsPage implements OnInit {
     this.http.get(`${this.gameService.apiUrl}/festivals`)
       .pipe(map((x: any) => x.festivals))
       .subscribe(festivals => {
-        this.festivals = festivals.filter(x => this.isFestivalValid(x));
+        this.festivals = sortBy(
+          festivals.filter(x => this.isFestivalValid(x)),
+          fest => !fest.startedBy.includes(this.gameService.playerRef.name)
+        );
+
+        this.isLoaded = true;
       });
   }
 

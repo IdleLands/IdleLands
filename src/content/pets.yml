@@ -1022,8 +1022,6 @@
     - 200
 
   requirements:
-    statistics:
-      Environment/Terrain/Grass: 100000
     collectibles:
       - Gold Bank Coin
       - Medium Sized Bank Coin
@@ -1031,6 +1029,8 @@
       - Weirdly Sized Bank Coin
       - Evil Bank Coin
       - Ashen Bank Coin
+    achievements:
+      Golden: 3
 
   upgrades:
     goldStorage:
@@ -1147,6 +1147,10 @@
 
     gatherTime:
       - { v: 0,       c: 0 }
+      - { v: 21600,   c: 1500 }
+      - { v: 10800,   c: 15000 }
+      - { v: 5400,    c: 150000,  a: 3 }
+      - { v: 2700,    c: 1500000, a: 5 }
     
     itemFindQualityBoost:
       - { v: 0, c: 0 }
@@ -1646,6 +1650,9 @@
 
     gatherTime:
       - { v: 0,       c: 0 }
+      - { v: 86400,   c: 15000 }
+      - { v: 54000,   c: 150000,  a: 3 }
+      - { v: 27000,   c: 1500000, a: 5 }
     
     itemFindQualityBoost:
       - { v: 0, c: 0 }
@@ -1713,10 +1720,10 @@
 
   requirements:
     statistics:
-      Combat/Profession/All/Give/Damage: 10000000
+      Combat/All/Give/Damage: 10000000
       BossKill/Boss/Cloud Giant: 1
       BossKill/Boss/Ghostly Pirate Captain: 1
-      BossKill/Boss/Goblin lord: 1
+      BossKill/Boss/Goblin Lord: 1
       BossKill/Boss/King Minotaur: 1
       BossKill/Boss/Lord Waxington: 1
       BossKill/Boss/Warden of Norkos: 1
@@ -1744,6 +1751,9 @@
 
     gatherTime:
       - { v: 0,       c: 0 }
+      - { v: 86400,   c: 15000 }
+      - { v: 54000,   c: 150000,  a: 3 }
+      - { v: 27000,   c: 1500000, a: 5 }
     
     itemFindQualityBoost:
       - { v: 0, c: 0 }
@@ -1811,7 +1821,7 @@
 
   requirements:
     statistics:
-      Combat/Profession/All/Take/Damage: 10000000
+      Combat/All/Receive/Damage: 10000000
       BossKill/Boss/Basilisk: 1
       BossKill/Boss/Necromancer Guardian: 1
       BossKill/Boss/Mage Guardian: 1
@@ -1838,6 +1848,9 @@
 
     gatherTime:
       - { v: 0,       c: 0 }
+      - { v: 86400,   c: 15000 }
+      - { v: 54000,   c: 150000,  a: 3 }
+      - { v: 27000,   c: 1500000, a: 5 }
     
     itemFindQualityBoost:
       - { v: 0, c: 0 }
@@ -1917,24 +1930,11 @@
     - 1000
 
   requirements:
-    statistics:
-      Profession/Archer/Become: 1
-      Profession/Barbarian/Become: 1
-      Profession/Bard/Become: 1
-      Profession/Bitomancer/Become: 1
-      Profession/Cleric/Become: 1
-      Profession/Fighter/Become: 1
-      Profession/Generalist/Become: 1
-      Profession/Jester/Become: 1
-      Profession/Mage/Become: 1
-      Profession/MagicalMonster/Become: 1
-      Profession/Monster/Become: 1
-      Profession/Necromancer/Become: 1
-      Profession/Pirate/Become: 1
-      Profession/Rogue/Become: 1
     collectibles:
       - Giant Sized Flask
       - Vial of Liquid Fate
+    achievements:
+      Classfluid: 1
 
   upgrades:
     goldStorage:
@@ -2225,10 +2225,8 @@
     - 1500
 
   requirements:
-    statistics:
-      Item/Collectible/Touch: 1
     achievements:
-      Spiritualist: 1      
+      Spiritualist: 1
 
   upgrades:
     goldStorage:

@@ -97,3 +97,5 @@ assets/maps
 
 src/out-tsc/
 dist/
+src/client/assets/tiles.png
+src/client/assets/maps

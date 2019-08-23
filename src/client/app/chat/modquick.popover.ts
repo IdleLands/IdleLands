@@ -21,7 +21,7 @@ export class ModQuickPopover {
   constructor(
     private popoverCtrl: PopoverController,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   quickMute() {
     this.socketService.emit(ServerEventName.GMToggleMute, { playerName: this.playerName, duration: 15 });

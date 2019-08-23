@@ -94,4 +94,6 @@ export const GenderPositions = {
   'mighty glowcloud':     { x: 2,   y: 17 },
 
   'sentient sword':       { x: 0,   y: 18 },
+  'dwarf male':           { x: 1,   y: 18 },
+  'dwarf female':         { x: 2,   y: 18 },
 };

@@ -8,7 +8,7 @@ import { GameService } from './game.service';
 })
 export class LoggedInGuard implements CanActivate {
 
-  constructor(private router: Router, private gameService: GameService) {}
+  constructor(private router: Router, private gameService: GameService) { }
 
   async canActivate(): Promise<boolean> {
     const hasPlayer = this.gameService.hasPlayer;

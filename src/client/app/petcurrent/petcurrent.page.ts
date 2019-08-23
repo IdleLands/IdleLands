@@ -46,7 +46,8 @@ export class PetcurrentPage implements OnInit {
     [PermanentUpgrade.PetMissionCapBoost]: 'Pet Mission Cap',
     [PermanentUpgrade.MaxPetsInCombat]: 'Pets in Combat',
     [PermanentUpgrade.InjuryThreshold]: 'Injuries Cap',
-    [PermanentUpgrade.MaxStaminaBoost]: 'Max Stamina Boost'
+    [PermanentUpgrade.MaxStaminaBoost]: 'Max Stamina Boost',
+    [PermanentUpgrade.MaxQuestsCapBoost]: 'Max Quest Cap'
   };
 
   constructor(
@@ -94,13 +95,13 @@ export class PetcurrentPage implements OnInit {
       .join('');
 
     const alert = await this.alertCtrl.create({
-      header: 'Ascend',
-      message: `Are you sure you want to ascend your pet?
+      header: 'Enhance',
+      message: `Are you sure you want to enhance your pet?
       It will NOT reset level, and will earn further upgrades.
       It will cost the following materials: <br><ol>${matString}</ol>`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Yes, ascend!', handler: () => {
+        { text: 'Yes, enhance!', handler: () => {
           this.socketService.emit(ServerEventName.PetAscend);
         } }
       ]

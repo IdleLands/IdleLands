@@ -24,11 +24,17 @@ export class Achievements extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.achievements) this.achievements = {};
-    if(!this.permanentGenders) this.permanentGenders = {};
+    if(!this.achievements) this.achievements = { };
+    if(!this.permanentGenders) this.permanentGenders = { };
   }
 
   public init(player: Player) {
+    Object.keys(this.achievements).forEach(ach => {
+      if(isFinite(this.achievements[ach].tier) && !isNaN(this.achievements[ach].tier)) return;
+
+      delete this.achievements[ach];
+    });
+
     player.$$game.achievementManager.checkAchievementsFor(player);
   }
 
@@ -53,7 +59,7 @@ export class Achievements extends PlayerOwned {
   }
 
   public resetAchievementsTo(ach: IAchievement[]): void {
-    this.achievements = {};
+    this.achievements = { };
 
     ach.forEach(achi => this.add(achi));
   }
@@ -81,7 +87,7 @@ export class Achievements extends PlayerOwned {
         });
 
         return prev;
-      }, {});
+      }, { });
   }
 
   public getTitles(): string[] {

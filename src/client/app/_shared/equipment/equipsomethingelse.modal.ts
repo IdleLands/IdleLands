@@ -37,12 +37,12 @@ export class EquipSomethingElseModal {
 
   @Input() public item: IItem;
   @Input() public slot: ItemSlot;
-  @Input() public equipCallback: Function = () => {};
+  @Input() public equipCallback: Function = () => { };
 
   constructor(
     private modalCtrl: ModalController,
     public gameService: GameService
-  ) {}
+  ) { }
 
   equip($event, item) {
     this.equipCallback(item);

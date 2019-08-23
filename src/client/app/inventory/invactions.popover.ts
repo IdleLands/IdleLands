@@ -21,7 +21,7 @@ export class InventoryActionsPopover {
   constructor(
     private popoverCtrl: PopoverController,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   sellAll() {
     this.socketService.emit(ServerEventName.ItemSellAll);

@@ -56,7 +56,7 @@ export class ToggleMuteModal {
     private modalCtrl: ModalController,
     public socketService: SocketClusterService,
     public gameService: GameService
-  ) {}
+  ) { }
 
   public changeMute(player, $event) {
     const duration = +$event.detail.value;

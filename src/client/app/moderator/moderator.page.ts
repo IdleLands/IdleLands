@@ -318,4 +318,23 @@ export class ModeratorPage implements OnInit {
     alert.present();
   }
 
+  async resetGlobal() {
+
+    const alert = await this.alertCtrl.create({
+      header: 'Reset Global Quests',
+      subHeader: 'Are you sure? This will probably make people unhappy.',
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Yes, reset them',
+          handler: async (values) => {
+            this.socketService.emit(ServerEventName.GMResetGlobal, values);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
 }

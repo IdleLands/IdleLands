@@ -21,7 +21,7 @@ export class GendervatarComponent {
     return GenderPositions;
   }
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService) { }
 
   scaleStyle(): string {
     return `scale(${this.scale}, ${this.scale})`;

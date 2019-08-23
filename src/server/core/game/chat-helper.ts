@@ -10,7 +10,7 @@ export class ChatHelper {
 
   @Inject private subscriptionManager: SubscriptionManager;
 
-  private onMessageCallback = (msg: string) => {};
+  private onMessageCallback = (msg: string) => { };
 
   private sortMessage(message: IMessage) {
     if(!message.timestamp) message.timestamp = Date.now();

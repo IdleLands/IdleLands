@@ -53,7 +53,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
 
     const scaler = player.getStat(Stat.LUK) + player.getStat(Stat.INT);
 
-    const stats = {};
+    const stats = { };
     Object.values([Stat.STR, Stat.INT, Stat.CON]).forEach(stat => {
       stats[stat] = player.$$game.rngService.numberInRange(-5, Math.floor(Math.log(scaler) * player.level.total));
     });

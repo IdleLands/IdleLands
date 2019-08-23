@@ -28,4 +28,4 @@ const routes: Routes = [
   declarations: [PetcurrentPage, RerollPopover],
   entryComponents: [RerollPopover]
 })
-export class PetcurrentPageModule {}
+export class PetcurrentPageModule { }

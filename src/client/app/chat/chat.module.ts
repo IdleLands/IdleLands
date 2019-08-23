@@ -28,4 +28,4 @@ const routes: Routes = [
   declarations: [ChatPage, DiscordEmojiPipe, ModQuickPopover],
   entryComponents: [ModQuickPopover]
 })
-export class ChatPageModule {}
+export class ChatPageModule { }

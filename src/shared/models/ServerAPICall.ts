@@ -4,5 +4,5 @@ export class ServerAPICall {
   static desc: string;
   static params: string;
 
-  static init(app, game: Game) {}
+  static init(app, game: Game) { }
 }

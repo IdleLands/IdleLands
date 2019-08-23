@@ -6,7 +6,6 @@ import { IProfession } from './IProfession';
 import { IBuff } from './IBuff';
 import { IParty } from './IParty';
 import { Stat } from './Stat';
-import { ICombatSkill } from './ICombatSkill';
 import { ModeratorTier } from './Moderation';
 
 export enum Direction {
@@ -120,6 +119,9 @@ export interface IPlayer extends ICharacter {
 
   $premium: any;
   $premiumData: any;
+
+  $quests: any;
+  $questsData: any;
 
   lastDir: Direction;
   lastLoc: { map: string, x: number, y: number };

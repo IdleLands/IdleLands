@@ -29,9 +29,9 @@ export class SocketClusterService {
 
   private status: BehaviorSubject<Status> = new BehaviorSubject<Status>(Status.Disconnected);
 
-  private allSignals = {};
+  private allSignals = { };
 
-  private channels: { [key in Channel]?: any } = {};
+  private channels: { [key in Channel]?: any } = { };
 
   public get error$() {
     return this.error;
@@ -48,7 +48,7 @@ export class SocketClusterService {
   constructor(
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
-  ) {}
+  ) { }
 
   public init() {
     if(this.hasInit) throw new Error('SocketClusterService has already been initialized.');
@@ -117,7 +117,7 @@ export class SocketClusterService {
     toast.present();
   }
 
-  public emit(evt: ServerEventName, data: any = {}) {
+  public emit(evt: ServerEventName, data: any = { }) {
     this.socket.emit(evt, data);
   }
 

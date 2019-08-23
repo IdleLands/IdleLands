@@ -56,7 +56,7 @@ export class EventManager {
     this.doEventFor(player, chosenEventName);
   }
 
-  public doEventFor(player: Player, eventName: EventName, opts: any = {}) {
+  public doEventFor(player: Player, eventName: EventName, opts: any = { }) {
     if(!Events[eventName]) {
       this.logger.error(`EventManager`, `Event type ${eventName} is invalid.`);
       return;

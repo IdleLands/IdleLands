@@ -8,7 +8,7 @@ import { SubscriptionManager } from './subscription-manager';
 export class PartyManager {
   @Inject private subscriptionManager: SubscriptionManager;
 
-  private parties: { [key: string]: IParty } = {};
+  private parties: { [key: string]: IParty } = { };
 
   public get partyNames() {
     return Object.keys(this.parties);

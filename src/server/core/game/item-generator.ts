@@ -116,7 +116,7 @@ export class ItemGenerator {
     { itemClass: ItemClass.Omega,   levelReq: 5000 }
   ];
 
-  private allAssetScoreSorted: { [key in ItemSlot | 'prefix' | 'suffix']?: { [key2 in ItemClass]: any[] } } = {};
+  private allAssetScoreSorted: { [key in ItemSlot | 'prefix' | 'suffix']?: { [key2 in ItemClass]: any[] } } = { };
 
   public async init() {
     const relevantItemTypes = [
@@ -143,7 +143,7 @@ export class ItemGenerator {
   }
 
   private sortAssetInScore(asset: any) {
-    this.allAssetScoreSorted[asset.type] = this.allAssetScoreSorted[asset.type] || {};
+    this.allAssetScoreSorted[asset.type] = this.allAssetScoreSorted[asset.type] || { };
     const assetScore = Item.calcScoreForHash(asset);
     const tier = this.determineTierOfItemForScore(assetScore);
 
@@ -188,18 +188,18 @@ export class ItemGenerator {
     return equipment;
   }
 
-  public generateGuardianItem(player: Player, name: string, type: ItemSlot, proto: any): Item {
+  public generateGuardianItem(player: Player, proto: any): Item {
     const item = new Item();
 
-    const stats = {};
+    const stats = { };
     Object.values(Stat).forEach(stat => {
       if(!proto.stats[stat]) return;
       stats[stat] = proto.stats[stat];
     });
 
     item.init({
-      name,
-      type,
+      name: proto.name,
+      type: proto.type,
       itemClass: ItemClass.Guardian,
       stats,
       enchantLevel: proto.enchantLevel || 0
@@ -212,7 +212,7 @@ export class ItemGenerator {
     player: Player,
     opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number, forceClass?: ItemClass }
   ): Item {
-    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total, forceClass: '' }, opts);
+    opts = extend({ }, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: player.level.total, forceClass: '' }, opts);
     return this.generateItem(opts);
   }
 
@@ -220,7 +220,7 @@ export class ItemGenerator {
     opts?: { forceType?: string, allowNegative?: boolean, qualityBoost?: number, generateLevel?: number, forceClass?: ItemClass }
   ): Item {
 
-    opts = extend({}, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1, forceClass: '' }, opts);
+    opts = extend({ }, { forceType: '', allowNegative: false, qualityBoost: 0, generateLevel: 1, forceClass: '' }, opts);
 
     if(!opts.generateLevel) opts.generateLevel = 0;
 
@@ -251,13 +251,11 @@ export class ItemGenerator {
 
     const baseAsset = this.rng.pickone(this.getAssetScoreSeries(<ItemSlot>opts.forceType, itemClassChosen));
     if(!baseAsset) {
-      this.logger.error(new Error(`No asset available for ${opts.forceType}:${itemClassChosen}`));
-
       const itemRef = new Item();
       itemRef.init({
-        name: 'Poorly Generated Error Item',
+        name: 'Unfortunately Poorly Generated Item',
         type: <ItemSlot>opts.forceType,
-        stats: { luk: -1 },
+        stats: { luk: 0 },
         itemClass: ItemClass.Newbie
       });
 
@@ -294,7 +292,7 @@ export class ItemGenerator {
       });
 
       return prev;
-    }, {});
+    }, { });
 
     const calcItemClass = this.determineTierOfItemForScore(Item.calcScoreForHash(allStats));
 

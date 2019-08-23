@@ -10,7 +10,7 @@ import { PartyManager } from './party-manager';
 import { World } from './world';
 
 class EventVariableCache {
-  private cache = {};
+  private cache = { };
 
   get(domain: string, funct: string, num: number): string {
     if(isNaN(num)) throw new Error('Cache:get num cannot be NaN');
@@ -207,7 +207,7 @@ export class EventMessageParser {
     return varProps;
   }
 
-  private handleVariables(string, eventData = {}): string {
+  private handleVariables(string, eventData = { }): string {
     const cache = new EventVariableCache();
     return string.replace(/\$([a-zA-Z\:#0-9 {}_,']+)\$/g, (match, p1) => {
       const str = this.getVarProps(p1);
@@ -222,8 +222,10 @@ export class EventMessageParser {
         switch(gender) {
           case 'male':           return 'his';
           case 'veteran male':   return 'his';
+          case 'dwarf male':     return 'his';
           case 'female':         return 'her';
           case 'veteran female': return 'her';
+          case 'dwarf female':   return 'her';
           default:               return 'their';
         }
       }
@@ -231,8 +233,10 @@ export class EventMessageParser {
         switch(gender) {
           case 'male':           return 'his';
           case 'veteran male':   return 'his';
+          case 'dwarf male':     return 'his';
           case 'female':         return 'hers';
           case 'veteran female': return 'hers';
+          case 'dwarf female':   return 'hers';
           default:               return 'theirs';
         }
       }
@@ -240,8 +244,10 @@ export class EventMessageParser {
         switch(gender) {
           case 'male':           return 'him';
           case 'veteran male':   return 'him';
+          case 'dwarf male':     return 'him';
           case 'female':         return 'her';
           case 'veteran female': return 'her';
+          case 'dwarf female':   return 'her';
           default:               return 'them';
         }
       }
@@ -250,15 +256,17 @@ export class EventMessageParser {
         switch(gender) {
           case 'male':           return 'he';
           case 'veteran male':   return 'he';
+          case 'dwarf male':     return 'he';
           case 'female':         return 'she';
           case 'veteran female': return 'she';
+          case 'dwarf female':   return 'she';
           default:               return 'they';
         }
       }
     }
   }
 
-  public stringFormat(string: string, player: Player, extra: any = {}): string {
+  public stringFormat(string: string, player: Player, extra: any = { }): string {
     if(!player) return string;
     string = string.trim();
 

@@ -52,7 +52,7 @@ export class ItemComponent implements OnInit, OnChanges, OnDestroy {
     const mask = SlotMasks[this.slot];
     if(!mask) return;
 
-    const sprite = new Sprite(mask, merge({}, (SlotOptions[this.slot] || {}), {
+    const sprite = new Sprite(mask, merge({ }, (SlotOptions[this.slot] || { }), {
       colored: true,
       seed: this.item.name
     }));
