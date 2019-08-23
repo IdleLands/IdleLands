@@ -46,7 +46,7 @@ export class Bard extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.7
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
     const bardicShift = Math.min(25, player.$statistics.get('Profession/Bard/Become') || 1);
 
@@ -54,6 +54,11 @@ export class Bard extends BaseProfession implements IProfession {
     Object.values(AllStatsButSpecial).forEach(stat => {
       stats[stat] = player.$$game.rngService.numberInRange(-20 + bardicShift, 10 + bardicShift);
     });
+
+    if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
+      this.emitProfessionMessage(player, `You already have a Bardic Festival active.`);
+      return { success: false, message: `You already have a Bardic Festival active.` };
+    }
 
     const festival: IFestival = {
       name: `${player.name}'s Bardic Festival`,
@@ -65,7 +70,7 @@ export class Bard extends BaseProfession implements IProfession {
     player.$$game.festivalManager.startFestival(player, festival);
 
     this.emitProfessionMessage(player, `You sing the song of your people!`);
-    return `You sing the song of your people!`;
+    return { success: true, message: `You sing the song of your people!` };
   }
 
   public determineStartingSpecial(): number {

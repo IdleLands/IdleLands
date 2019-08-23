@@ -70,9 +70,9 @@ export class Jester extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.3
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const msg = sample(GoodMessages);
     this.emitProfessionMessage(player, `${msg}...`);
-    return `${msg}...`;
+    return { success: true, message: `${msg}...` };
   }
 }

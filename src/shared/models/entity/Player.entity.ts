@@ -273,19 +273,26 @@ export class Player implements IPlayer {
     return this.stats[stat];
   }
 
-  public oocAction(costMultiplier = 1): string {
+
+  public oocAction(costMultiplier = 1): { success: boolean, message: string } {
     const totalCost = this.$profession.oocAbilityCost * costMultiplier;
+    if(this.stamina.total < totalCost) return { success: false, message: `You do not have enough stamina!` };
+
+    const response = this.$profession.oocAbility(this);
+    if(!response.success) return response;
 
     if(this.stamina.total < totalCost) return;
 
     this.increaseStatistic('Character/Stamina/Spend', totalCost);
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
+
     this.stamina.sub(totalCost);
-    return this.$profession.oocAbility(this);
+
+    return response;
   }
 
-  public petOOCAction(): string {
+  public petOOCAction(): { success: boolean, message: string } {
     if(this.stamina.total < this.$pets.$activePet.$attribute.oocAbilityCost) return;
 
     this.increaseStatistic('Character/Stamina/Spend', this.$pets.$activePet.$attribute.oocAbilityCost);

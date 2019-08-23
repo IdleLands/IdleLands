@@ -46,7 +46,7 @@ export class Pirate extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
     const scaler = player.$statistics.get('Profession/Pirate/Become') || 1;
 
@@ -59,6 +59,6 @@ export class Pirate extends BaseProfession implements IProfession {
 
     player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPillage: true, item: foundItem });
     this.emitProfessionMessage(player, `You pillaged an item (${foundItem.name})!`);
-    return `You've pillaged an item (${foundItem.name})!`;
+    return { success: true, message: `You've pillaged an item (${foundItem.name})!` };
   }
 }

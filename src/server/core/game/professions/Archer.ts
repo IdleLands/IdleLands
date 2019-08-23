@@ -50,7 +50,7 @@ export class Archer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
     const totalBoostCalc = player.ascensionLevel + player.$statistics.get('Profession/Archer/Become') || 1;
 
@@ -65,6 +65,6 @@ export class Archer extends BaseProfession implements IProfession {
     });
 
     this.emitProfessionMessage(player, 'You used your special ability to bring more pets into combat!');
-    return `More pets will join you in combat!`;
+    return { success: true, message: `More pets will join you in combat!` };
   }
 }

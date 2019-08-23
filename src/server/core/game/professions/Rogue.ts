@@ -46,7 +46,9 @@ export class Rogue extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1.2
   };
 
-  public oocAbility(player: Player): string {
+
+
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
     const scaler = player.$statistics.get('Profession/Rogue/Become') || 1;
 
@@ -65,7 +67,7 @@ export class Rogue extends BaseProfession implements IProfession {
     }
 
     this.emitProfessionMessage(player, 'You took a trip to the golden city!');
-    return `You took a trip to the golden city!`;
+    return { success: true, message: `You took a trip to the golden city!` };
   }
 
   public determineStartingSpecial(): number {
