@@ -47,7 +47,7 @@ export class ModTierModal {
     private modalCtrl: ModalController,
     public socketService: SocketClusterService,
     public gameService: GameService
-  ) {}
+  ) { }
 
   public demote(player) {
     const playerName = player.name;

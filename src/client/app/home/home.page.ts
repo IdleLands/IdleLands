@@ -43,7 +43,7 @@ export class HomePage implements OnInit, OnDestroy {
     private gameService: GameService,
     private socketService: SocketClusterService,
     public authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.needsNameCb = () => this.needsName();

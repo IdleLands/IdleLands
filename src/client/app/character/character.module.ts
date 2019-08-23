@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [CharacterPage]
 })
-export class CharacterPageModule {}
+export class CharacterPageModule { }

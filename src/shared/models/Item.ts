@@ -74,7 +74,7 @@ export class Item implements IItem {
     extend(this, opts);
     if(!this.id) this.id = uuid();
     if(!this.foundAt) this.foundAt = Date.now();
-    if(!this.stats) this.stats = {};
+    if(!this.stats) this.stats = { };
     if(!this.itemClass) this.itemClass = ItemClass.Basic;
     if(!this.enchantLevel) this.enchantLevel = 0;
 

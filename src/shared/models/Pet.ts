@@ -67,10 +67,10 @@ export class Pet implements IPet {
     if(!this.gender) this.gender = 'male';
     if(!this.gold) this.gold = new RestrictedNumber(0, 0, 0);
     if(!this.rating) this.rating = 0;
-    if(!this.stats) this.stats = {};
-    if(!this.$statTrail) this.$statTrail = {};
-    if(!this.upgradeLevels) this.upgradeLevels = {};
-    if(!this.equipment) this.equipment = {};
+    if(!this.stats) this.stats = { };
+    if(!this.$statTrail) this.$statTrail = { };
+    if(!this.upgradeLevels) this.upgradeLevels = { };
+    if(!this.equipment) this.equipment = { };
     if(!this.gatherTick && this.upgradeLevels[PetUpgrade.GatherTime]) this.updateGatherTick();
     if(!this.affinity) this.affinity = sample(Object.values(PetAffinity));
     if(!this.attribute) this.attribute = PetAttribute.Cursed;
@@ -187,8 +187,8 @@ export class Pet implements IPet {
   public recalculateStats(): void {
     if(!this.$affinity || !this.$player) return;
 
-    this.stats = {};
-    this.$statTrail = {};
+    this.stats = { };
+    this.$statTrail = { };
 
     // dynamically-calculated
     // first, we do the addition-based adds
@@ -273,7 +273,7 @@ export class Pet implements IPet {
   }
 
   public unequipAll() {
-    this.equipment = {};
+    this.equipment = { };
     this.$$game.petHelper.syncPetBasedOnProto(this);
     this.recalculateStats();
   }

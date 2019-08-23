@@ -207,6 +207,6 @@ export class Game implements IGame {
 
     this.eventManager.doEventFor(player, EventName.FindItem);
 
-    player.emit(ServerEventName.CharacterFirstTime, {});
+    player.emit(ServerEventName.CharacterFirstTime, { });
   }
 }

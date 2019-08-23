@@ -32,7 +32,7 @@ export class SignInEvent extends ServerSocketEvent implements ServerEvent {
     const character = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
 
     if(!character) {
-      this.emit(ServerEventName.AuthNeedsName, {});
+      this.emit(ServerEventName.AuthNeedsName, { });
       return;
     }
 

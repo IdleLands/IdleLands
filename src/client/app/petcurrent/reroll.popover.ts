@@ -36,7 +36,7 @@ export class RerollPopover {
     private popoverCtrl: PopoverController,
     public gameService: GameService,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   rerollName() {
     this.socketService.emit(ServerEventName.PetRerollName);

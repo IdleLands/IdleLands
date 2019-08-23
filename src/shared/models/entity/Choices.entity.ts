@@ -25,7 +25,7 @@ export class Choices extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.choices) this.choices = {};
+    if(!this.choices) this.choices = { };
   }
 
   // basic functions
@@ -42,7 +42,7 @@ export class Choices extends PlayerOwned {
 
   public init(player: Player): void {
     if(isArray(this.choices)) {
-      const newChoices = {};
+      const newChoices = { };
       this.choices.forEach(choice => {
         newChoices[choice.foundAt] = choice;
       });
@@ -68,7 +68,7 @@ export class Choices extends PlayerOwned {
   }
 
   public removeAllChoices() {
-    this.choices = {};
+    this.choices = { };
   }
 
   public removeChoice(choice: Choice): void {

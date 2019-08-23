@@ -25,7 +25,7 @@ class Map {
     return this.map;
   }
 
-  private regions: { [key: string]: boolean } = {};
+  private regions: { [key: string]: boolean } = { };
   public get allRegions(): string[] {
     return Object.keys(this.regions);
   }
@@ -62,7 +62,7 @@ class Map {
 @AutoWired
 export class World {
 
-  private maps: { [key: string]: Map } = {};
+  private maps: { [key: string]: Map } = { };
   public get mapNames() {
     return Object.keys(this.maps);
   }

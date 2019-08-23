@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [CombatPage]
 })
-export class CombatPageModule {}
+export class CombatPageModule { }

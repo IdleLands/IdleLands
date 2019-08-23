@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [FestivalsPage]
 })
-export class FestivalsPageModule {}
+export class FestivalsPageModule { }

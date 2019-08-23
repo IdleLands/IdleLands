@@ -16,7 +16,7 @@ export class DiscordManager {
   private discordGuild: Discord.Guild;
   private discordChannel: Discord.TextChannel;
 
-  private onMessageCallback = (msg: IMessage) => {};
+  private onMessageCallback = (msg: IMessage) => { };
 
   public async init(onMessageCallback, canServerNodeRunDiscord = true): Promise<void> {
     if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) return;

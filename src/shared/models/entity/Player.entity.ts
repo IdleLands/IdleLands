@@ -174,10 +174,10 @@ export class Player implements IPlayer {
     if(!this.gold) this.gold = 0;
     if(!this.stamina) this.stamina = new RestrictedNumber(0, 10, 10);
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
-    if(!this.stats) this.stats = {};
-    if(!this.$statTrail) this.$statTrail = {};
-    if(!this.buffWatches) this.buffWatches = {};
-    if(!this.cooldowns) this.cooldowns = {};
+    if(!this.stats) this.stats = { };
+    if(!this.$statTrail) this.$statTrail = { };
+    if(!this.buffWatches) this.buffWatches = { };
+    if(!this.cooldowns) this.cooldowns = { };
 
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
@@ -394,7 +394,7 @@ export class Player implements IPlayer {
 
     this.$pets.resetEquipment();
 
-    this.buffWatches = {};
+    this.buffWatches = { };
 
     this.$$game.festivalManager.startAscensionFestival(this);
 
@@ -487,8 +487,8 @@ export class Player implements IPlayer {
   public recalculateStats(): void {
     if(!this.$inventoryData) return;
 
-    this.stats = {};
-    this.$statTrail = {};
+    this.stats = { };
+    this.$statTrail = { };
 
     this.stats.specialName = this.$profession.specialStatName || '';
 
@@ -823,7 +823,7 @@ export class Player implements IPlayer {
 
     const allAchievementBoosts = this.$achievements.getPermanentUpgrades();
 
-    const allBuffBoosts = {};
+    const allBuffBoosts = { };
 
     Object.keys(this.buffWatches).forEach(buffKey => {
       this.buffWatches[buffKey].forEach((buff: IBuff) => {

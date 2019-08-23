@@ -34,7 +34,7 @@ export class Statistics extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.statistics) this.statistics = {};
+    if(!this.statistics) this.statistics = { };
   }
 
   public increase(stat: string, value = 1): void {

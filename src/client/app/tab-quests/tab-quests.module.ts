@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: []
 })
-export class TabQuestsPageModule {}
+export class TabQuestsPageModule { }

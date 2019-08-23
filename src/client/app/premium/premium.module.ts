@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [PremiumPage]
 })
-export class PremiumPageModule {}
+export class PremiumPageModule { }

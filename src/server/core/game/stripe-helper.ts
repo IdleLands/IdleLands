@@ -21,7 +21,7 @@ export class StripeHelper {
     if(!validItem) throw new Error('Trying to purchase invalid item.');
 
     try {
-      const customerOpts: any = {};
+      const customerOpts: any = { };
       if(player.authSyncedTo) customerOpts.name = player.authSyncedTo;
 
       const customer = await Stripe.customers.create(customerOpts);

@@ -193,12 +193,12 @@ export class QuestHelper {
       name: this.assets.globalQuest(opts.map),
       objectives,
       endsAt: endsAt.getTime(),
-      claimedBy: {},
+      claimedBy: { },
       rewards: this.getRewardsForGlobalQuest()
     };
 
     quest.objectives.forEach(obj => {
-      obj.contributions = {};
+      obj.contributions = { };
     });
 
     return quest;

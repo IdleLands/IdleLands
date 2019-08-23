@@ -80,7 +80,7 @@ export abstract class Event {
       link?: string,
       combatString?: string,
       timestamp?: number
-    } = {}
+    } = { }
   ) {
     this.emitMessageToNames(players.map(x => x.name), message, type, extraData);
   }
@@ -93,7 +93,7 @@ export abstract class Event {
       link?: string,
       combatString?: string,
       timestamp?: number
-    } = {}
+    } = { }
   ) {
     const messageData: IAdventureLog = {
       when: Date.now(),

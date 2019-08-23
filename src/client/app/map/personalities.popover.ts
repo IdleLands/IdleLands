@@ -31,7 +31,7 @@ export class PersonalitiesPopover {
     private popoverCtrl: PopoverController,
     public gameService: GameService,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   toggle(personalityName: string) {
     this.socketService.emit(ServerEventName.TogglePersonality, { personalityName });

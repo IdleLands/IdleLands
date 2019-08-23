@@ -178,7 +178,7 @@ export class GMGiveItemEvent extends ServerSocketEvent implements ServerEvent {
   description = 'GM: Give item to a player';
   args = 'player, item';
 
-  async callback({ player, item } = { player: '', item: { name: '', type: '', itemClass: '', stats: {} } }) {
+  async callback({ player, item } = { player: '', item: { name: '', type: '', itemClass: '', stats: { } } }) {
     const myPlayer = this.player;
     if(!myPlayer) return this.notConnected();
 

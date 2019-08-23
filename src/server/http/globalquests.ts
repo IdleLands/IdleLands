@@ -12,7 +12,7 @@ export class GlobalQuestsAPICall extends ServerAPICall {
 
       try {
         globalQuests = (await game.databaseManager.loadGlobalQuests()).globalQuests;
-      } catch(e) {}
+      } catch(e) { }
 
       res.json({ globalQuests });
     });

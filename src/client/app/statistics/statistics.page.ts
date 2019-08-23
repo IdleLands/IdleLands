@@ -15,7 +15,7 @@ export class StatisticsPage implements OnInit, OnDestroy {
   private character$: Subscription;
   private updateCycleTimes = 0;
 
-  public statistics = {};
+  public statistics = { };
   public statCats = [
     ['Game', 'Event', 'Profession', 'Character', 'Guild'],
     ['Astral Gate', 'Item', 'Pet', 'Environment', 'Combat', 'BossKill', 'Treasure', 'Quest'],
@@ -73,7 +73,7 @@ export class StatisticsPage implements OnInit, OnDestroy {
       .reduce((prev, item) => {
         prev[item.name] = item;
         return prev;
-      }, {});
+      }, { });
   }
 
 }

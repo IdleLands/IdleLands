@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [PremiumGoldPage]
 })
-export class PremiumGoldPageModule {}
+export class PremiumGoldPageModule { }

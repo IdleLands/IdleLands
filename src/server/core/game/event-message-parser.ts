@@ -10,7 +10,7 @@ import { PartyManager } from './party-manager';
 import { World } from './world';
 
 class EventVariableCache {
-  private cache = {};
+  private cache = { };
 
   get(domain: string, funct: string, num: number): string {
     if(isNaN(num)) throw new Error('Cache:get num cannot be NaN');
@@ -207,7 +207,7 @@ export class EventMessageParser {
     return varProps;
   }
 
-  private handleVariables(string, eventData = {}): string {
+  private handleVariables(string, eventData = { }): string {
     const cache = new EventVariableCache();
     return string.replace(/\$([a-zA-Z\:#0-9 {}_,']+)\$/g, (match, p1) => {
       const str = this.getVarProps(p1);
@@ -266,7 +266,7 @@ export class EventMessageParser {
     }
   }
 
-  public stringFormat(string: string, player: Player, extra: any = {}): string {
+  public stringFormat(string: string, player: Player, extra: any = { }): string {
     if(!player) return string;
     string = string.trim();
 

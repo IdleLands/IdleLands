@@ -46,10 +46,10 @@ export const RegenerateSpecial: (val: number|InternalCombatSkillFunction, silent
 export const SummonCreature = (statMuliplier: number = 1) =>
   (combat: ICombat, caster: ICombatCharacter) => {
 
-    const stats = Object.assign({}, caster.stats);
+    const stats = Object.assign({ }, caster.stats);
     Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * statMuliplier));
 
-    const maxStats = Object.assign({}, stats);
+    const maxStats = Object.assign({ }, stats);
 
     const newCreature: ICombatCharacter = {
       name: `${combat.chance.name()} (${caster.name}'s Summon)`,

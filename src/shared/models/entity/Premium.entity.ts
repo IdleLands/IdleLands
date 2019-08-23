@@ -35,8 +35,8 @@ export class Premium extends PlayerOwned {
     super();
     if(!this.ilp) this.ilp = 0;
     if(!this.premiumTier) this.premiumTier = PremiumTier.None;
-    if(!this.upgradeLevels) this.upgradeLevels = {};
-    if(!this.gachaFreeRolls) this.gachaFreeRolls = {};
+    if(!this.upgradeLevels) this.upgradeLevels = { };
+    if(!this.gachaFreeRolls) this.gachaFreeRolls = { };
   }
 
   hasILP(ilp: number): boolean {
@@ -105,7 +105,7 @@ export class Premium extends PlayerOwned {
 
     switch(other) {
       case OtherILPPurchase.ResetCooldowns: {
-        player.cooldowns = {};
+        player.cooldowns = { };
         break;
       }
     }
@@ -310,7 +310,7 @@ export class Premium extends PlayerOwned {
 
           if(sub === 'buffscroll') {
             for(let i = 0; i < quantityNum; i++) {
-              const stats = {};
+              const stats = { };
 
               const chooseAndAddStat = () => {
 

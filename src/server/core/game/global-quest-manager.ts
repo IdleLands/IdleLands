@@ -24,7 +24,7 @@ export class GlobalQuestManager {
   private questStats: { [key: string]: boolean };
 
   async init() {
-    this.questStats = {};
+    this.questStats = { };
     this.globalQuests = await this.db.loadGlobalQuests();
     if(!this.globalQuests) {
       this.globalQuests = new GlobalQuests();
@@ -47,7 +47,7 @@ export class GlobalQuestManager {
   }
 
   private syncActiveQuestStats() {
-    this.questStats = {};
+    this.questStats = { };
 
     this.globalQuests.globalQuests.forEach(gQuest => {
       if(!this.isValidQuest(gQuest)) return;
@@ -149,7 +149,7 @@ export class GlobalQuestManager {
         if(obj.statistic !== stat || obj.progress >= obj.statisticValue || player.map !== obj.requireMap) return;
         obj.progress += val;
 
-        obj.contributions = obj.contributions || {};
+        obj.contributions = obj.contributions || { };
         obj.contributions[player.name] = obj.contributions[player.name] || 0;
         obj.contributions[player.name] += val;
 

@@ -37,9 +37,9 @@ export class CombatHelper {
   createAndRunMonsterCombat(player: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -101,9 +101,9 @@ export class CombatHelper {
   createAndRunBossCombat(player: Player, opts: any = { bossName: '', bossParty: '' }): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante: any = {};
+    const characters = { };
+    const parties = { };
+    const ante: any = { };
 
     // player party
     if(player.$party) {
@@ -206,9 +206,9 @@ export class CombatHelper {
   createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -303,7 +303,7 @@ export class CombatHelper {
       };
 
       return prev;
-    }, {});
+    }, { });
   }
 
   private getGenericAntes(combatChars: ICombatCharacter[]): { [id: string]: { gold: number, xp: number } } {
@@ -313,7 +313,7 @@ export class CombatHelper {
         xp: Math.floor(this.calculatorHelper.calcLevelMaxXP(cur.level) * 0.05)
       };
       return prev;
-    }, {});
+    }, { });
   }
 
   private getBossAntes(bossPrototypes: any[]): { collectibles: string[], items: string[] } {
@@ -399,7 +399,7 @@ export class CombatHelper {
         name: `Vector ${monsterProfession}`,
         profession: monsterProfession,
         level: generateLevel,
-        stats: {}
+        stats: { }
       };
     }
 
@@ -541,10 +541,10 @@ export class CombatHelper {
 
     const multiplier = 0.75;
 
-    const stats = Object.assign({}, player.currentStats);
+    const stats = Object.assign({ }, player.currentStats);
     Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * multiplier));
 
-    const maxStats = Object.assign({}, stats);
+    const maxStats = Object.assign({ }, stats);
 
     const profession = sample(Object.values(Profession));
     const prefix = sample(['Zombie', 'Skeletal', 'Bone', 'Ghostly', 'Mummy', 'Ghoulish', 'Spectral', 'Shadow']);

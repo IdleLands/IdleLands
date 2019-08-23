@@ -19,7 +19,7 @@ export class Collectibles extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.collectibles) this.collectibles = {};
+    if(!this.collectibles) this.collectibles = { };
   }
 
   public add(coll: ICollectible): void {

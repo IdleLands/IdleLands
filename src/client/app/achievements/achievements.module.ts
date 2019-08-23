@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [AchievementsPage]
 })
-export class AchievementsPageModule {}
+export class AchievementsPageModule { }

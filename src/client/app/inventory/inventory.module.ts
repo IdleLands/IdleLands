@@ -30,4 +30,4 @@ const routes: Routes = [
   entryComponents: [InventoryItemPopover, InventoryActionsPopover],
   declarations: [InventoryItemPopover, InventoryActionsPopover, InventoryPage]
 })
-export class InventoryPageModule {}
+export class InventoryPageModule { }

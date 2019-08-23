@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [QuestsPersonalPage]
 })
-export class QuestsPersonalPageModule {}
+export class QuestsPersonalPageModule { }

@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [AdventureLogPage]
 })
-export class AdventureLogPageModule {}
+export class AdventureLogPageModule { }

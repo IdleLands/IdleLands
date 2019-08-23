@@ -39,7 +39,7 @@ export class InventoryItemPopover {
     private popoverCtrl: PopoverController,
     private gameService: GameService,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   equip() {
     this.socketService.emit(ServerEventName.ItemEquip, { itemId: this.item.id });

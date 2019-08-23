@@ -47,15 +47,15 @@ export class Pets extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.allPets) this.allPets = {};
+    if(!this.allPets) this.allPets = { };
     if(!this.currentPet) this.currentPet = '';
-    if(!this.buyablePets) this.buyablePets = {};
-    if(!this.ascensionMaterials) this.ascensionMaterials = {};
+    if(!this.buyablePets) this.buyablePets = { };
+    if(!this.ascensionMaterials) this.ascensionMaterials = { };
     if(!this.adventures) this.adventures = [];
   }
 
   toSaveObject() {
-    const allPets = {};
+    const allPets = { };
     Object.keys(this.allPets).forEach(petKey => {
       allPets[petKey] = this.allPets[petKey].toSaveObject();
     });
@@ -141,7 +141,7 @@ export class Pets extends PlayerOwned {
   }
 
   public syncBuyablePets(player: Player) {
-    this.buyablePets = {};
+    this.buyablePets = { };
 
     const achieved = player.$achievements.getPets();
     achieved.forEach(petName => {

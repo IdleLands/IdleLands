@@ -12,7 +12,7 @@ export class ServerSocketEvent {
     return this.game.playerManager.getPlayer(this.playerName);
   }
 
-  protected emit(event: ServerEventName, data: any = {}) {
+  protected emit(event: ServerEventName, data: any = { }) {
     this.socket.emit('gameevent', { name: event, data });
   }
 
@@ -45,5 +45,5 @@ export class ServerSocketEvent {
     this.socket.playerName = player.name;
   }
 
-  constructor(protected game: Game, private socket) {}
+  constructor(protected game: Game, private socket) { }
 }

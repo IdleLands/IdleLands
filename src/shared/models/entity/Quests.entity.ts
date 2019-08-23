@@ -26,8 +26,8 @@ export class Quests extends PlayerOwned {
   constructor() {
     super();
     if(!this.quests) this.quests = [];
-    this.$questStats = {};
-    this.$questHash = {};
+    this.$questStats = { };
+    this.$questHash = { };
   }
 
   public init(player: Player) {
@@ -129,7 +129,7 @@ export class Quests extends PlayerOwned {
     const quest: IGlobalQuest = player.$$game.globalQuestManager.getGlobalQuest(questId);
     if(!quest) return false;
 
-    quest.claimedBy = quest.claimedBy || {};
+    quest.claimedBy = quest.claimedBy || { };
 
     if(quest.claimedBy[player.name]) return false;
 
@@ -167,7 +167,7 @@ export class Quests extends PlayerOwned {
   public giveGlobalQuestRewards(player: Player, quest: IGlobalQuest): string[] {
     const rewardMultipliers = { first: 7, second: 5, third: 3, other: 1 };
 
-    const totalSums = {};
+    const totalSums = { };
 
     quest.objectives.forEach(obj => {
       Object.keys(obj.contributions).forEach(pl => {

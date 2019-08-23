@@ -37,7 +37,7 @@ export class EquipmentItemPopover {
   constructor(
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController
-  ) {}
+  ) { }
 
   async somethingElse() {
     const modal = await this.modalCtrl.create({

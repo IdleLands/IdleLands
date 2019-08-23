@@ -161,7 +161,7 @@ export class ChangeIdleLands3CharacterEvent extends ServerSocketEvent implements
 
     if(!il3CharName) {
       player.il3CharName = '';
-      player.syncIL3({});
+      player.syncIL3({ });
       return this.gameMessage('Unset your IL3 Character! Your synced benefits have been reset.');
     }
 
@@ -173,7 +173,7 @@ export class ChangeIdleLands3CharacterEvent extends ServerSocketEvent implements
 
     const stats = await this.game.il3Linker.getIL3Stats(il3CharName);
 
-    player.syncIL3(stats || {});
+    player.syncIL3(stats || { });
     this.gameMessage('You updated your IL3 Character!');
 
     this.game.updatePlayer(player);

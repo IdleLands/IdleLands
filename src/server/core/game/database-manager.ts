@@ -40,7 +40,7 @@ export class DatabaseManager {
   }
 
   private async updateOldData() {
-    await this.manager.updateMany(Player, {}, { $set: { loggedIn: false } });
+    await this.manager.updateMany(Player, { }, { $set: { loggedIn: false } });
   }
 
   // internal API calls

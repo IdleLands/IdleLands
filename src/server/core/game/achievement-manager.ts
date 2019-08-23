@@ -51,9 +51,9 @@ export class AchievementManager {
 
   @Inject assets: AssetManager;
 
-  private allAchievements: { [key: string]: any } = {};
+  private allAchievements: { [key: string]: any } = { };
 
-  public statToAchievement: { [key: string]: any[] } = {};
+  public statToAchievement: { [key: string]: any[] } = { };
 
   public init() {
     Object.keys(Achievements).forEach(achievementName => {

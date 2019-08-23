@@ -26,7 +26,7 @@ class GameState extends Phaser.State {
   private playerSpriteGroup: Phaser.Group;
   private currentPetSprite: Phaser.Sprite;
   private currentDivineSprite: Phaser.Sprite;
-  private allPlayerSprites: { [key: string]: Phaser.Sprite } = {};
+  private allPlayerSprites: { [key: string]: Phaser.Sprite } = { };
 
   private get currentPlayerSprite(): Phaser.Sprite {
     if(!this.player) return null;
@@ -98,13 +98,13 @@ class GameState extends Phaser.State {
       if(this.currentPlayerSprite) {
         try {
           this.game.debug.spriteBounds(this.currentPlayerSprite, this.frameColors[this.frames % this.frameColors.length], false);
-        } catch(e) {}
+        } catch(e) { }
       }
 
       if(this.currentDivineSprite) {
         try {
           this.game.debug.spriteBounds(this.currentDivineSprite, this.frameColors[this.frames % this.frameColors.length], false);
-        } catch(e) {}
+        } catch(e) { }
       }
     }
 
@@ -295,7 +295,7 @@ class GameState extends Phaser.State {
         this.currentPetSprite.destroy();
         this.currentPetSprite = null;
       }
-      this.allPlayerSprites = {};
+      this.allPlayerSprites = { };
       this.game.state.restart(true, true, this.stored);
     }
 

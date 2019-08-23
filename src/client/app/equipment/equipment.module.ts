@@ -27,4 +27,4 @@ const routes: Routes = [
   entryComponents: [],
   declarations: [EquipmentPage]
 })
-export class EquipmentPageModule {}
+export class EquipmentPageModule { }

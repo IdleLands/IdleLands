@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PetslistPage implements OnInit, OnDestroy {
 
   public petOrder: any[] = [];
-  public petHash: any = {};
+  public petHash: any = { };
   public pets$: Subscription;
 
   constructor(

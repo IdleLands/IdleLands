@@ -83,9 +83,9 @@ export class PetHelper {
   syncPetNextUpgradeCost(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
 
-    pet.upgradeLevels = pet.upgradeLevels || {};
-    pet.$currentUpgrade = {};
-    pet.$nextUpgrade = {};
+    pet.upgradeLevels = pet.upgradeLevels || { };
+    pet.$currentUpgrade = { };
+    pet.$nextUpgrade = { };
 
     Object.values(PetUpgrade).forEach(upgrade => {
       pet.$currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] || 0];
@@ -136,7 +136,7 @@ export class PetHelper {
 
   syncPetEquipmentSlots(pet: IPet): void {
     const proto = this.getPetProto(pet.typeName);
-    pet.equipment = pet.equipment || {};
+    pet.equipment = pet.equipment || { };
 
     Object.keys(proto.equipmentSlots).forEach(slotName => {
       pet.equipment[slotName] = pet.equipment[slotName] || [];
@@ -164,7 +164,7 @@ export class PetHelper {
 
     pet.gold.__current = pet.gold.__current || 0;
     pet.gold.maximum = this.getPetUpgradeValue(pet, PetUpgrade.GoldStorage);
-    pet.permanentUpgrades = Object.assign({}, proto.permanentUpgrades);
+    pet.permanentUpgrades = Object.assign({ }, proto.permanentUpgrades);
 
     this.syncMaxLevel(pet);
     this.syncPetEquipmentSlots(pet);

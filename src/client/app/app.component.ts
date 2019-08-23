@@ -144,7 +144,7 @@ export class AppComponent {
       try {
         const element = await this.modalCtrl.getTop();
         if(element) { element.dismiss(); }
-      } catch (e) {}
+      } catch (e) { }
     };
 
     window.addEventListener('beforeinstallprompt', e => {

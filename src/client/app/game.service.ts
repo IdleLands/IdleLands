@@ -106,7 +106,7 @@ export class GameService {
     return this.allPlayers;
   }
 
-  public playerInfoHash: any = {};
+  public playerInfoHash: any = { };
 
   private allMessages: IMessage[] = [];
   public get messages(): IMessage[] {
@@ -120,7 +120,7 @@ export class GameService {
 
   public playerMenu: IonMenu;
 
-  public gameSettings: any = {};
+  public gameSettings: any = { };
 
   constructor(
     private http: HttpClient,
@@ -128,7 +128,7 @@ export class GameService {
     private storage: Storage,
     private authService: AuthService,
     private socketService: SocketClusterService
-  ) {}
+  ) { }
 
   public changeTheme(theme: string) {
     this.storage.set('theme', theme);
@@ -252,7 +252,7 @@ export class GameService {
   public async init() {
     await this.initUser();
 
-    this.notificationSettings = await this.storage.get('notifications') || {};
+    this.notificationSettings = await this.storage.get('notifications') || { };
     this.changeTheme(await this.storage.get('theme') || 'Default');
 
     this.setSessionId(await this.storage.get('sessionId'));
@@ -324,7 +324,7 @@ export class GameService {
   }
 
   private refreshPlayerInfoHash() {
-    this.playerInfoHash = {};
+    this.playerInfoHash = { };
     this.allPlayers.forEach(p => this.playerInfoHash[p.name] = p);
   }
 
@@ -349,7 +349,7 @@ export class GameService {
         setTimeout(() => {
           this.manageAndApplyPatchesToObservables(this.currentPlayer, patches);
         }, 0);
-      } catch(e) {}
+      } catch(e) { }
     });
 
     this.socketService.register(ServerEventName.AdventureLogAdd, (advData) => {
@@ -435,8 +435,8 @@ export class GameService {
   public async itemCompare(newItem: IItem, currentItem: IItem, choiceId?: string) {
     const stats = ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold'];
 
-    const newStats = newItem ? newItem.stats : {};
-    const curStats = currentItem ? currentItem.stats : {};
+    const newStats = newItem ? newItem.stats : { };
+    const curStats = currentItem ? currentItem.stats : { };
 
     stats.forEach(stat => {
       newStats[stat] = newStats[stat] || 0;

@@ -51,7 +51,7 @@ export class CombatSimulator {
     combinators: ICombatSkillCombinator[]
   ): PartialCombatSkill {
 
-    const baseSkill: PartialCombatSkill = {};
+    const baseSkill: PartialCombatSkill = { };
 
     return combinators.reduce((prev, cur) => {
       return cur(prev, caster, this.combat);
@@ -343,7 +343,7 @@ export class CombatSimulator {
     });
 
     // check what teams are still alive
-    const livingParties = {};
+    const livingParties = { };
     Object.values(this.combat.characters).forEach(char => {
       if(this.isDead(char)) return;
       livingParties[char.combatPartyId] = true;
@@ -361,7 +361,7 @@ export class CombatSimulator {
     this.beginRound();
   }
 
-  endCombat(args: { wasTie?: boolean, winningParty?: number } = {}) {
+  endCombat(args: { wasTie?: boolean, winningParty?: number } = { }) {
     Object.values(this.combat.characters).forEach(char => {
       const didWin = char.combatPartyId === args.winningParty;
       const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');

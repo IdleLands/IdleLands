@@ -24,8 +24,8 @@ export class Achievements extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.achievements) this.achievements = {};
-    if(!this.permanentGenders) this.permanentGenders = {};
+    if(!this.achievements) this.achievements = { };
+    if(!this.permanentGenders) this.permanentGenders = { };
   }
 
   public init(player: Player) {
@@ -59,7 +59,7 @@ export class Achievements extends PlayerOwned {
   }
 
   public resetAchievementsTo(ach: IAchievement[]): void {
-    this.achievements = {};
+    this.achievements = { };
 
     ach.forEach(achi => this.add(achi));
   }
@@ -87,7 +87,7 @@ export class Achievements extends PlayerOwned {
         });
 
         return prev;
-      }, {});
+      }, { });
   }
 
   public getTitles(): string[] {
