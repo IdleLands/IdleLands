@@ -221,8 +221,8 @@ export class QuestHelper {
       // 3 levelups
       [GachaReward.XPPlayerMax, GachaReward.XPPlayerMax, GachaReward.XPPlayerMax],
 
-      // 1 goatly item
-      [GachaReward.ItemGoatly]
+      // 1 godly item
+      [GachaReward.ItemGodly]
     ];
 
     const rewards = {
