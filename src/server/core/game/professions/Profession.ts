@@ -15,8 +15,8 @@ export class BaseAttribute implements IAttribute {
     };
   }
 
-  public oocAbility(player: ICharacter): {success: boolean, message: string} {
-    return {success: true, message: ''};
+  public oocAbility(player: ICharacter): { success: boolean, message: string } {
+    return { success: true, message: '' };
   }
 }
 
