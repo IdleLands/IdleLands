@@ -16,7 +16,7 @@ export class PetOOCAbilityEvent extends ServerSocketEvent implements ServerEvent
     if(player.stamina.total < player.$pets.$activePet.$attribute.oocAbilityCost) return this.gameError('You do not have enough stamina!');
 
     const result = player.petOOCAction();
-    if(result.success == false) return this.gameError(result.message);
+    if(result.success === false) return this.gameError(result.message);
 
     this.gameMessage(result.message);
 

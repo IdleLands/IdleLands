@@ -114,7 +114,7 @@ export class FestivalManager {
   public hasFestivalForName(name: string): boolean {
     return this.festivals.festivals.some(fest => fest.startedBy === name);
   }
-  
+
   public hasFestivalWithName(festival: string): boolean {
     return this.festivals.festivals.some(fest => fest.name === festival);
   }

@@ -78,7 +78,7 @@ export class OOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
     if(player.stamina.total < player.$profession.oocAbilityCost) return this.gameError('You do not have enough stamina!');
 
     const result = player.oocAction();
-    if(result.success == false) return this.gameError(result.message);
+    if(result.success === false) return this.gameError(result.message);
 
     this.gameMessage(result.message);
 
