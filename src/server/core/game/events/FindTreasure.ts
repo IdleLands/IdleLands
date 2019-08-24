@@ -23,8 +23,8 @@ export class FindTreasure extends Event {
       return;
     }
 
-    // 30 minute cooldown
-    player.cooldowns[opts.treasureName] = Date.now() + (30 * 60 * 1000);
+    // 60 minute cooldown
+    player.cooldowns[opts.treasureName] = Date.now() + (60 * 60 * 1000);
 
     const { chests, items } = this.assetManager.allTreasureAssets;
 
