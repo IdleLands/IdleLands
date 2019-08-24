@@ -1355,7 +1355,7 @@ The Transmuter:
       luk: 7300
       con: 6300
   items:
-  - name: 'Book: Magnum Opus of Transmutation'
+  - name: 'Book (Magnum Opus of Transmutation)'
     dropPercent: 69
   collectibles:
   - name: Lapis Lazuli Statue
