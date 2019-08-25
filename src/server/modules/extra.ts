@@ -13,7 +13,7 @@ export class SubmitCustomItemEvent extends ServerSocketEvent implements ServerEv
     if(!itemString) return this.gameError('You did not submit an item.');
 
     // tslint:disable-next-line
-    const regex = /\[(?:newbie|basic|pro|idle|godly|goatly|omega) (?:body|charm|feet|finger|hands|head|legs|mainhand|offhand)\] "[a-zA-Z0-9 ]+"(?: (?:str|dex|con|agi|int|luk|hp|xp|gold)=[0-9]+)+/;
+    const regex = /\[(?:newbie|basic|pro|idle|godly|goatly|omega) (?:body|charm|feet|finger|hands|head|legs|mainhand|offhand)\] "[a-zA-Z0-9 ']+"(?: (?:str|dex|con|agi|int|luk|hp|xp|gold)=\-?[0-9]+)+/;
     if(!regex.test(itemString)) return this.gameError('Invalid item string.');
 
     this.game.discordManager.submitCustomItem(player.name, itemString);
