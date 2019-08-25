@@ -759,6 +759,7 @@ export class Player implements IPlayer {
 
     if(shouldRecalc) {
       this.recalculateStats();
+      this.$pets.$activePet.recalculateStats();
     }
   }
 
