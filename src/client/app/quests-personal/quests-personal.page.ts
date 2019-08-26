@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { IQuest, ServerEventName } from '../../../shared/interfaces';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-quests-personal',
@@ -13,6 +14,7 @@ export class QuestsPersonalPage implements OnInit, OnDestroy {
   private rewardsCb: Function;
 
   constructor(
+    private alertCtrl: AlertController,
     private socketService: SocketClusterService,
     public gameService: GameService
   ) { }
@@ -30,8 +32,28 @@ export class QuestsPersonalPage implements OnInit, OnDestroy {
     return quest.objectives.every(obj => obj.progress >= obj.statisticValue);
   }
 
-  reroll(quest: IQuest) {
-    this.socketService.emit(ServerEventName.QuestReroll, { questId: quest.id });
+  async reroll(quest: IQuest) {
+    const finish = () => {
+      this.socketService.emit(ServerEventName.QuestReroll, { questId: quest.id });
+    };
+
+    if(!quest.objectives.some(x => !!x.progress)) {
+      finish();
+      return;
+    }
+
+    const alert = await this.alertCtrl.create({
+      header: 'Reroll Quest?',
+      message: 'Are you sure you want to reroll this quest? It has some progress.',
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Yes, reroll it!', handler: () => {
+          finish();
+        } }
+      ]
+    });
+
+    alert.present();
   }
 
   collect(quest: IQuest) {
