@@ -142,6 +142,10 @@ export class DatabaseManager {
   }
 
   public async renamePlayer(playerName: string, newName: string): Promise<any> {
+    await Promise.all([
+      SHARED_FIELDS.map(x => this.manager.updateOne(x.proto, { owner: playerName }, { $set: { owner: newName } } ))
+    ]);
+
     return this.manager.updateOne(Player, { name: playerName }, { $set: { name: newName } });
   }
 
