@@ -945,6 +945,9 @@ export class Player implements IPlayer {
   }
 
   public changeProfession(prof: BaseProfession): void {
+    this.removeBuffByName('Bone Minions');
+    this.removeBuffByName('Pheromone');
+    
     this.profession = <Profession>prof.constructor.name;
     this.$profession = prof;
     this.$professionData = prof.$professionData;
@@ -1102,6 +1105,14 @@ export class Player implements IPlayer {
   public giveCure() {
     this.$$game.buffManager.cureInjury(this);
     this.cureInjury();
+  }
+
+  public removeBuffByName(name: string) {
+    Object.keys(this.buffWatches).forEach(buffKey => {
+      this.buffWatches[buffKey] = this.buffWatches[buffKey].filter((buff: IBuff) => {
+        return buff.name !== name;
+      });
+    });
   }
 
   public cureInjury() {
