@@ -22,7 +22,7 @@ export class Enchant extends Event {
 
     if(choice === EventMessageType.Tinker) {
       stat = this.pickTinkerStat();
-      boost = Math.floor(boost * (stat === Stat.HP ? 0.5 : 0.1));
+      boost = Math.floor(boost * (stat === Stat.HP ? 1 : 0.1));
     }
 
     boost = Math.max(1, Math.floor(boost / ItemScoreValues[stat]));
