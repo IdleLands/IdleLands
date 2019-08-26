@@ -121,23 +121,23 @@ Clerical Assistant:
     agi: 350
     hp: 250
     luk: 35
-    xp: 5
-    gold: 150
+    xp: 3
+    gold: 25
 Coin Purse:
   type: charm
   stats:
     agi: 350
     luk: 35
     hp: 500
-    xp: 5
-    gold: 150
+    xp: 3
+    gold: 25
 Dagger of Discounts:
   type: mainhand
   stats:
     agi: 500
     luk: 35
     hp: 500
-    gold: 150
+    gold: 25
 Mule:
   type: legs
   stats:
@@ -145,8 +145,8 @@ Mule:
     str: 20
     luk: 35
     hp: 500
-    xp: 10
-    gold: 150
+    xp: 4
+    gold: 30
 Reading Spectacles:
   type: head
   stats:
@@ -154,8 +154,8 @@ Reading Spectacles:
     int: 20
     luk: 35
     hp: 500
-    xp: 5
-    gold: 150
+    xp: 3
+    gold: 25
 Little Loom:
   type: hands
   stats:
