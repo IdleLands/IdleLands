@@ -15,7 +15,7 @@ export class Jester extends BaseProfession implements IProfession {
 
   public readonly statForStats = {
     [Stat.HP]: {
-      [Stat.LUK]: 5
+      [Stat.LUK]: 15
     },
     [Stat.STR]: {
       [Stat.LUK]: 1
