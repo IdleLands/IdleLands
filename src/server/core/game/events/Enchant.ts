@@ -17,11 +17,11 @@ export class Enchant extends Event {
     const eventText = this.eventText(choice, player, { item: item.fullName() });
 
     let stat = this.pickStat();
-    let boost = 25;
+    let boost = Math.floor(item.baseScore * 0.05);
 
     if(choice === EventMessageType.Tinker) {
       stat = this.pickTinkerStat();
-      boost = stat === Stat.HP ? 200 : 2;
+      boost = Math.floor(boost * (stat === Stat.HP ? 10 : 0.1));
     }
 
     const baseNum = item.stats[stat] || 0;
