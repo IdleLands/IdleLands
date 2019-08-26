@@ -303,6 +303,8 @@ export class Pet implements IPet {
   }
 
   private doFind() {
+    this.$player.$statistics.increase('Pet/Gather/Times', 1);
+
     const ilpFind = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ILPGatherQuantity);
     const itemFindLevelBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindLevelBoost);
     const itemFindQualityBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindQualityBoost);
