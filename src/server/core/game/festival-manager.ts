@@ -81,8 +81,12 @@ export class FestivalManager {
 
     this.initiateAddFestival(addedFestival);
 
+    const statString = Object.keys(festival.stats)
+      .map(x => `${x.toUpperCase()} +${festival.stats[x]}%`)
+      .join(', ');
+
     this.chat.sendMessageFromClient({
-      message: `A new festival "${addedFestival.name}" has started!`,
+      message: `A new festival "${addedFestival.name}" has started! Stat Boosts: ${statString}`,
       playerName: `☆${player.name}`
     });
   }
