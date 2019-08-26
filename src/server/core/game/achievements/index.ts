@@ -1,6 +1,6 @@
 
 export * from './Achiever';
-export * from './Adventrous';
+export * from './Adventurous';
 export * from './Affirmer';
 export * from './Ancient';
 export * from './AncientAscender';
