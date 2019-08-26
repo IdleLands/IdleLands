@@ -67,10 +67,14 @@ export class FestivalManager {
       }
     });
 
+    const statString = Object.keys(festival.stats)
+      .map(x => `${x.toUpperCase()} +${festival.stats[x]}%`)
+      .join(', ');
+
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started!`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${statString}`,
       playerName: '☆System'
     });
   }
@@ -94,8 +98,12 @@ export class FestivalManager {
   public startFestival(player: Player, festival: IFestival) {
     this.initiateAddFestival(festival);
 
+    const statString = Object.keys(festival.stats)
+      .map(x => `${x.toUpperCase()} +${festival.stats[x]}%`)
+      .join(', ');
+
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started!`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${statString}`,
       playerName: '☆System'
     });
   }
