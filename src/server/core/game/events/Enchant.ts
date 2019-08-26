@@ -1,6 +1,7 @@
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, Stat, EventMessageType } from '../../../../shared/interfaces';
+import { ItemScoreValues } from '../../../../shared/models';
 
 export class Enchant extends Event {
   public static readonly WEIGHT = 3;
@@ -21,8 +22,10 @@ export class Enchant extends Event {
 
     if(choice === EventMessageType.Tinker) {
       stat = this.pickTinkerStat();
-      boost = Math.floor(boost * (stat === Stat.HP ? 10 : 0.1));
+      boost = Math.floor(boost * (stat === Stat.HP ? 5 : 0.1));
     }
+
+    boost = Math.max(1, Math.floor(boost / ItemScoreValues[stat]));
 
     const baseNum = item.stats[stat] || 0;
     const allText = `${eventText} [${stat.toUpperCase()} ${baseNum.toLocaleString()} → ${(baseNum + boost).toLocaleString()}]`;

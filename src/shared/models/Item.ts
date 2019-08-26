@@ -35,7 +35,7 @@ const astraliumValues = {
   [Stat.GOLD]: 10
 };
 
-const scoreValues = {
+export const ItemScoreValues = {
   [Stat.HP]: 1,
 
   [Stat.STR]: 4,
@@ -65,8 +65,8 @@ export class Item implements IItem {
   public locked: boolean;
 
   static calcScoreForHash(hash: any): number {
-    return Object.keys(scoreValues)
-      .map(statKey => (hash[statKey] || 0) * scoreValues[statKey])
+    return Object.keys(ItemScoreValues)
+      .map(statKey => (hash[statKey] || 0) * ItemScoreValues[statKey])
       .reduce((prev, cur) => prev + cur, 0);
   }
 
