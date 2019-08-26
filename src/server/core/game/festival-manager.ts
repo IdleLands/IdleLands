@@ -58,7 +58,7 @@ export class FestivalManager {
     endTime.setDate(endTime.getDate() + 3);
 
     const festival = this.makeSystemFestival({
-      name: `${player.name}'s Ascension`,
+      name: `${player.name}'s ${player.ascensionLevel}★ Ascension`,
       startedBy: player.name,
       endTime: endTime.getTime(),
       stats: {
