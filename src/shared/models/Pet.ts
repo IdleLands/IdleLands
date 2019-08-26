@@ -315,8 +315,15 @@ export class Pet implements IPet {
       generateLevel: this.level.total + itemFindLevelBoost + itemFindPercentBoost, qualityBoost: itemFindQualityBoost
     });
 
-    this.$player.gainILP(ilpFind);
-    this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
+    if(ilpFind > 0) {
+      this.$player.gainILP(ilpFind);
+      this.$player.$statistics.increase('Pet/Gather/ILP', ilpFind);
+    }
+
+    if(foundItem) {
+      this.$player.$statistics.increase('Pet/Gather/Item', 1);
+      this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
+    }
   }
 
   public ascend() {
