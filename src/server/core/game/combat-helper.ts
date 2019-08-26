@@ -360,8 +360,10 @@ export class CombatHelper {
       if(player.profession === 'Necromancer') {
         const necroPets = [];
 
+        const multiplierPerPet = (extraCount - 1)  / (75 + (5 * player.ascensionLevel));
+
         for(let i = 0; i < extraCount - 1; i++) {
-          necroPets.push(this.createNecroPet(player));
+          necroPets.push(this.createNecroPet(player, multiplierPerPet));
         }
 
         return prev.concat(necroPets);
@@ -537,9 +539,7 @@ export class CombatHelper {
     };
   }
 
-  private createNecroPet(player: Player): ICombatCharacter {
-
-    const multiplier = 0.75;
+  private createNecroPet(player: Player, multiplier = 0.75): ICombatCharacter {
 
     const stats = Object.assign({ }, player.currentStats);
     Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * multiplier));
