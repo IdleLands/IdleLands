@@ -87,7 +87,7 @@ export class Merchant extends Event {
       player.increaseStatistic(`Event/Merchant/Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
       pickableChoices = ['Yes', 'No', 'Inventory'];
-      item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1, generateLevel: player.level.total + bonus });
+      item = this.itemGenerator.generateItemForPlayer(player, { generateLevel: bonus });
       if(!item) {
         player.increaseStatistic(`Event/Merchant/Nothing`, 1);
         return;
