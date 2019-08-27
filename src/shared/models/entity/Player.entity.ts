@@ -945,8 +945,10 @@ export class Player implements IPlayer {
   }
 
   public changeProfession(prof: BaseProfession): void {
-    this.removeBuffByName('Bone Minions');
-    this.removeBuffByName('Pheromone');
+    if(prof.constructor.name !== this.profession) {
+      this.removeBuffByName('Bone Minions');
+      this.removeBuffByName('Pheromone');
+    }
 
     this.profession = <Profession>prof.constructor.name;
     this.$profession = prof;
