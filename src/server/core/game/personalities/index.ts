@@ -8,6 +8,7 @@ export * from './Denier';
 export * from './Dextrous';
 export * from './Drunk';
 export * from './Follower';
+export * from './Forager';
 export * from './Fortuitous';
 export * from './Greedy';
 export * from './Gullible';

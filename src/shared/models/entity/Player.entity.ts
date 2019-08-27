@@ -246,7 +246,7 @@ export class Player implements IPlayer {
     return this.name;
   }
 
-  async loop(): Promise<void> {
+  async loop(tick: number): Promise<void> {
 
     this.increaseStatistic('Character/Ticks', 1);
 
@@ -264,7 +264,7 @@ export class Player implements IPlayer {
 
     if(this.mutedUntil < Date.now()) this.mutedUntil = 0;
 
-    this.$pets.loop();
+    this.$pets.loop(tick, this);
 
     this.$game.playerManager.updatePlayer(this);
   }
@@ -682,7 +682,12 @@ export class Player implements IPlayer {
   }
 
   public sellItem(item: Item): number {
-    const value = item.score > 10 ? item.score : 10;
+    let value = item.score > 10 ? item.score : 10;
+
+    if(this.$personalities.isActive('Forager')) {
+      value = Math.floor(value / 2);
+    }
+
     const modValue = this.gainGold(value);
     this.increaseStatistic('Item/Sell/Times', 1);
     this.increaseStatistic('Item/Sell/GoldGain', modValue);

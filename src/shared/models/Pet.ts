@@ -101,9 +101,11 @@ export class Pet implements IPet {
     return pickBy(this, (value, key) => !key.startsWith('$') && key !== 'currentStats');
   }
 
-  async loop(): Promise<void> {
-    this.gainXP(0);
-    this.gainGold(0);
+  async loop(gatherOnly = false): Promise<void> {
+    if(!gatherOnly) {
+      this.gainXP(0);
+      this.gainGold(0);
+    }
 
     if(this.gatherTick && Date.now() > this.gatherTick) {
       this.doFind();

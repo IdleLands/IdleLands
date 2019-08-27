@@ -34,6 +34,7 @@ export * from './Explorer';
 export * from './Fallen';
 export * from './Fateful';
 export * from './Fool';
+export * from './Forager';
 export * from './Forsaken';
 export * from './Frail';
 export * from './Gambler';

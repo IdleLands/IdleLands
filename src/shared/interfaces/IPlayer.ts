@@ -130,7 +130,7 @@ export interface IPlayer extends ICharacter {
 
   $party?: IParty;
 
-  loop(): Promise<void>;
+  loop(tick: number): Promise<void>;
   toSaveObject(): IPlayer;
 
   canLevelUp(): boolean;

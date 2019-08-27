@@ -86,8 +86,15 @@ export class Pets extends PlayerOwned {
     this.validatePetMissionsAndQuantity(player);
   }
 
-  public loop() {
+  public loop(tick: number, player: Player) {
     this.$activePet.loop();
+
+    // every 60 ticks
+    if(player.$personalities.isActive('Forager') && (tick % 60 === 0)) {
+      Object.values(this.allPets).forEach(pet => {
+        pet.loop(true);
+      });
+    }
   }
 
   public getTotalPermanentUpgradeValue(upgradeAttr: PermanentUpgrade): number {

@@ -150,7 +150,7 @@ export class Game implements IGame {
     // intentionally, we don't wait for each player to save (we could do for..of)
     // we just want to make sure their player event is done before we send an update
     this.playerManager.allPlayers.forEach(async player => {
-      await player.loop();
+      await player.loop(this.ticks);
 
       const charKey = player.name.slice(0, 1).toLowerCase();
       const timeout = this.timeoutMultiplier * (this.updateGroupTimeouts[charKey] || 0);
