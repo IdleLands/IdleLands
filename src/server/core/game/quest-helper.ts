@@ -225,11 +225,24 @@ export class QuestHelper {
       [GachaReward.ItemGodly]
     ];
 
+    const consolationPrizes = [
+      [GachaReward.CrystalAstral],
+
+      [GachaReward.CrystalBlue, GachaReward.CrystalGreen, GachaReward.CrystalOrange,
+       GachaReward.CrystalPurple, GachaReward.CrystalRed, GachaReward.CrystalYellow],
+
+      [GachaReward.ILPMD],
+
+      [GachaReward.ItemBuffScrollRandom],
+
+      [GachaReward.XPPlayerMax, GachaReward.XPPetMax]
+    ];
+
     const rewards = {
       first: sample(rewardChoices),
       second: sample(rewardChoices),
       third: sample(rewardChoices),
-      other: sample(rewardChoices)
+      other: sample(consolationPrizes)
     };
 
     return rewards;
