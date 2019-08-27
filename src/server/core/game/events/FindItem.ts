@@ -3,7 +3,7 @@ import { Player, Choice, Item } from '../../../../shared/models';
 import { AdventureLogEventType, ServerEventName, Stat, EventMessageType, IChoice, IPet } from '../../../../shared/interfaces';
 
 export class FindItem extends Event {
-  public static readonly WEIGHT = 3000;
+  public static readonly WEIGHT = 30;
 
   public doChoice(eventManager: any, player: Player, choice: Choice, valueChosen: string): boolean {
     const item = new Item();
