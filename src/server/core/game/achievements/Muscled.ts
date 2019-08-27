@@ -38,6 +38,10 @@ export class Muscled extends Achievement {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Strong' });
     }
 
+    if(tier >= 3) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'HorseArmorer' });
+    }
+
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Strong-armed Sparkler' });
     }

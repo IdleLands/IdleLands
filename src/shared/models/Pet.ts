@@ -249,6 +249,30 @@ export class Pet implements IPet {
     return find(this.equipment[itemSlot], { id: itemId });
   }
 
+  public tryEquipAnItemAndReplaceSlotsIfPossible(item: Item): boolean {
+    if(!this.equipment[item.type]) return false;
+
+    let didEquip = false;
+    this.equipment[item.type].forEach((cItem, idx) => {
+      if(didEquip) return;
+
+      if(!cItem) {
+        didEquip = true;
+        this.equipment[item.type][idx] = item;
+        return;
+      }
+
+      if(item.score > cItem.score) {
+        didEquip = true;
+        this.equipment[item.type][idx] = item;
+      }
+    });
+
+    if(!didEquip) return false;
+
+    return true;
+  }
+
   public equip(item: Item): boolean {
     if(!this.equipment[item.type] || this.equipment[item.type].every(x => !!x)) {
       return false;

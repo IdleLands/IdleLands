@@ -11,6 +11,7 @@ export * from './Follower';
 export * from './Fortuitous';
 export * from './Greedy';
 export * from './Gullible';
+export * from './HorseArmorer';
 export * from './Indecisive';
 export * from './Intelligent';
 export * from './Leader';

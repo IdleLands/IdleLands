@@ -137,6 +137,7 @@ export interface IPet extends ICharacter {
   currentAdventureId: string;
 
   loop(): void;
+  tryEquipAnItemAndReplaceSlotsIfPossible(item: IItem): boolean;
   toSaveObject(): any;
 }
 
