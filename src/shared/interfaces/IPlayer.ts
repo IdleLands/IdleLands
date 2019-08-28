@@ -137,6 +137,7 @@ export interface IPlayer extends ICharacter {
   gainXP(num: number, addMyXP: boolean): number;
   resetMaxXP(): void;
   gainGold(num: number, addMyGold: boolean): number;
+  spendGold(num: number): number;
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;

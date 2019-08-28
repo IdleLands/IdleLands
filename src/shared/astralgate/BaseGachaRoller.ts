@@ -21,6 +21,10 @@ export abstract class BaseGachaRoller implements IGacha {
     const canRollFree = this.canRollFree(player);
     if(canRollFree) return true;
 
+    if(this.requiredToken) {
+      if(this.requiredToken === 'Gold') return player.gold >= this.rollCost * numRolls;
+    }
+
     return player.$premium.hasILP(this.rollCost * numRolls);
   }
 
@@ -37,6 +41,11 @@ export abstract class BaseGachaRoller implements IGacha {
   spendCurrency(player: IPlayer, numRolls: number): void {
     if(!this.requiredToken) {
       player.$premium.spendILP(numRolls * this.rollCost);
+      return;
+    }
+
+    if(this.requiredToken === 'Gold') {
+      player.spendGold(numRolls * this.rollCost);
     }
   }
 
