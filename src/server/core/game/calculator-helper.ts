@@ -5,7 +5,7 @@ import { Singleton, AutoWired } from 'typescript-ioc';
 export class CalculatorHelper {
 
   public calcLevelMaxXP(level: number): number {
-    return Math.floor(100 + (100 * Math.pow(level, 1.71)));
+    return Math.floor(100 + (50 * Math.pow(level, 1.65)));
   }
 
 }
