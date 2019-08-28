@@ -246,7 +246,7 @@ export class Premium extends PlayerOwned {
         }
 
         case 'resource': {
-          const resourceEarned = { sm: 100, md: 1000, lg: 10000 };
+          const resourceEarned = { sm: 1, md: 10, lg: 100 };
           player.$inventory.addResources({ [sub]: resourceEarned[choice] });
           break;
         }
