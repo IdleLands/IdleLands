@@ -6,33 +6,27 @@ import { Player } from './entity/Player.entity';
 import { IItem, ItemClass, ItemSlot, Stat, PartialItem } from '../interfaces';
 
 const woodValues = {
-  [Stat.HP]: 100,
-
-  [Stat.STR]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.STR]: 50,
+  [Stat.DEX]: 100,
+  [Stat.AGI]: 100
 };
 
 const clayValues = {
-  [Stat.HP]: 100,
-
-  [Stat.INT]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.INT]: 50,
+  [Stat.DEX]: 100,
+  [Stat.AGI]: 100
 };
 
 const stoneValues = {
-  [Stat.HP]: 100,
-
-  [Stat.CON]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.CON]: 50,
+  [Stat.DEX]: 100,
+  [Stat.AGI]: 100
 };
 
 const astraliumValues = {
-  [Stat.LUK]: 5,
-  [Stat.XP]: 1,
-  [Stat.GOLD]: 10
+  [Stat.LUK]: 500,
+  [Stat.XP]: 25,
+  [Stat.GOLD]: 50
 };
 
 export const ItemScoreValues = {
@@ -67,7 +61,7 @@ export class Item implements IItem {
   static calcScoreForHash(hash: any): number {
     return Object.keys(ItemScoreValues)
       .map(statKey => (hash[statKey] || 0) * ItemScoreValues[statKey])
-      .reduce((prev, cur) => prev + cur, 0);
+      .reduce((prev, cur) => Math.floor(prev + cur), 0);
   }
 
   init(opts: PartialItem) {
@@ -98,8 +92,8 @@ export class Item implements IItem {
 
   private resourceValue(player: Player, hash: any): number {
     return Object.keys(hash)
-      .map(statKey => Math.floor((this.stats[statKey] || 0) / hash[statKey]))
-      .reduce((prev, cur) => prev + cur, 0);
+      .map(statKey => Math.max(0, this.stats[statKey] || 0) / hash[statKey])
+      .reduce((prev, cur) => Math.floor(prev + cur), 0);
   }
 
   public woodValue(player: Player): number {

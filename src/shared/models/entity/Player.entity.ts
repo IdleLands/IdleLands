@@ -695,6 +695,24 @@ export class Player implements IPlayer {
     return modValue;
   }
 
+  public salvageItem(item: Item): { wood: number, clay: number, stone: number, astralium: number } {
+
+    const wood = item.woodValue(this);
+    const clay = item.clayValue(this);
+    const stone = item.stoneValue(this);
+    const astralium = item.astraliumValue(this);
+
+    this.increaseStatistic('Item/Salvage/Times', 1);
+    this.increaseStatistic('Item/Salvage/WoodGain', wood);
+    this.increaseStatistic('Item/Salvage/ClayGain', clay);
+    this.increaseStatistic('Item/Salvage/StoneGain', stone);
+    this.increaseStatistic('Item/Salvage/AstraliumGain', astralium);
+
+    this.$inventory.addResources({ clay, wood, stone, astralium });
+
+    return { clay, wood, stone, astralium };
+  }
+
   public doChoice(choice: Choice, decisionIndex: number) {
     const decision = choice.choices[decisionIndex];
     const shouldRemove = this.$game.eventManager.doChoiceFor(this, choice, decision);

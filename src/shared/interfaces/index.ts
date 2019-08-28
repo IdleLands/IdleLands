@@ -12,6 +12,7 @@ export * from './ICombatSkill';
 export * from './IFestival';
 export * from './IGacha';
 export * from './IGame';
+export * from './IGuild';
 export * from './IItem';
 export * from './IMessage';
 export * from './IParty';

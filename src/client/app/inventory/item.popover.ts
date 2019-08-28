@@ -12,9 +12,13 @@ import { GameService } from '../game.service';
         <ion-icon slot="start" [src]="'assets/icon/action-frominventory.svg'"></ion-icon>
         Equip This
       </ion-item>
-      <ion-item button (click)="sell()">
+      <ion-item button (click)="sell()" *ngIf="!item.locked">
         <ion-icon slot="start" [src]="'assets/icon/action-sell.svg'"></ion-icon>
         Sell This
+      </ion-item>
+      <ion-item button (click)="salvage()" *ngIf="!item.locked">
+        <ion-icon slot="start" [src]="'assets/icon/action-salvage.svg'"></ion-icon>
+        Salvage This
       </ion-item>
       <ion-item button (click)="unlock()" *ngIf="item.locked">
         <ion-icon slot="start" [src]="'assets/icon/action-unlock.svg'"></ion-icon>
@@ -48,6 +52,11 @@ export class InventoryItemPopover {
 
   sell() {
     this.socketService.emit(ServerEventName.ItemSell, { itemId: this.item.id });
+    this.dismiss();
+  }
+
+  salvage() {
+    this.socketService.emit(ServerEventName.ItemSalvage, { itemId: this.item.id });
     this.dismiss();
   }
 

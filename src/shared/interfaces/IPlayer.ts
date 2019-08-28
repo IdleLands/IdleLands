@@ -140,6 +140,7 @@ export interface IPlayer extends ICharacter {
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;
+  salvageItem(item: IItem): { wood: number, clay: number, stone: number, astralium: number };
 
   changeProfessionWithRef(profession: string): void;
   changeProfession(profession: IProfession): void;
