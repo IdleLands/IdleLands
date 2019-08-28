@@ -179,3 +179,10 @@ ion-alert .alert-wrapper {
 ion-progress-bar {
   border: 1px solid var(--ion-color-medium);
 }
+
+@media screen and (min-width: 768px) {
+  ion-alert .alert-wrapper {
+    --width: 600px;
+    --min-width: 600px;
+  }
+}
