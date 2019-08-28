@@ -690,6 +690,11 @@ export class Player implements IPlayer {
   }
 
   public sellItem(item: Item): number {
+    if(this.$personalities.isActive('Salvager')) {
+      this.salvageItem(item);
+      return 0;
+    }
+
     let value = item.score > 10 ? item.score : 10;
 
     if(this.$personalities.isActive('Forager')) {

@@ -55,6 +55,7 @@ export * from './PetUpgrader';
 export * from './PKer';
 export * from './Premium';
 export * from './Quickfooted';
+export * from './Salvager';
 export * from './Scrambler';
 export * from './Slayer';
 export * from './SoloStepper';

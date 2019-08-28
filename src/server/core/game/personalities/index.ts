@@ -18,6 +18,7 @@ export * from './Intelligent';
 export * from './Leader';
 export * from './Lucky';
 export * from './Restless';
+export * from './Salvager';
 export * from './ScaredOfTheDark';
 export * from './Seeker';
 export * from './Solo';
