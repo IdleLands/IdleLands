@@ -47,7 +47,8 @@ export class PetcurrentPage implements OnInit {
     [PermanentUpgrade.MaxPetsInCombat]: 'Pets in Combat',
     [PermanentUpgrade.InjuryThreshold]: 'Injuries Cap',
     [PermanentUpgrade.MaxStaminaBoost]: 'Max Stamina Boost',
-    [PermanentUpgrade.MaxQuestsCapBoost]: 'Max Quest Cap'
+    [PermanentUpgrade.MaxQuestsCapBoost]: 'Max Quest Cap',
+    [PermanentUpgrade.SalvageBoost]: 'Salvage Boost'
   };
 
   constructor(

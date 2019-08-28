@@ -192,10 +192,10 @@ export class Inventory extends PlayerOwned {
 
   public addResources(
     opts: {
-      [GuildResource.Wood]: number,
-      [GuildResource.Clay]: number,
-      [GuildResource.Stone]: number,
-      [GuildResource.Astralium]: number
+      [GuildResource.Wood]?: number,
+      [GuildResource.Clay]?: number,
+      [GuildResource.Stone]?: number,
+      [GuildResource.Astralium]?: number
     } = {
       [GuildResource.Wood]: 0,
       [GuildResource.Clay]: 0,

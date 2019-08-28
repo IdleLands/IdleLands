@@ -245,6 +245,12 @@ export class Premium extends PlayerOwned {
           break;
         }
 
+        case 'resource': {
+          const resourceEarned = { sm: 100, md: 1000, lg: 10000 };
+          player.$inventory.addResources({ [sub]: resourceEarned[choice] });
+          break;
+        }
+
         case 'collectible': {
           if(sub === 'Soul') {
             player.tryFindCollectible({

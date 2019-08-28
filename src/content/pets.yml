@@ -700,6 +700,7 @@
   permanentUpgrades:
     adventureLogSizeBoost: 1
     maxStaminaBoost: 2
+    salvageBoost: 5
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1278,6 +1279,7 @@
   permanentUpgrades:
     itemStatCapBoost: 50
     inventorySizeBoost: 1
+    salvageBoost: 25
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -1377,6 +1379,7 @@
 
   permanentUpgrades:
     adventureLogSizeBoost: 1
+    salvageBoost: 5
 
   ascensionMaterials:
     - CrystalRed: 2
@@ -1481,6 +1484,7 @@
 
   permanentUpgrades:
     buffScrollDurationBoost: 1
+    salvageBoost: 15
 
   ascensionMaterials:
     - CrystalOrange: 2
@@ -1979,6 +1983,7 @@
   permanentUpgrades:
     maxStaminaBoost: 10
     petMissionCapBoost: 1
+    salvageBoost: 10
 
   ascensionMaterials:
     - CrystalBlue: 2
@@ -2098,6 +2103,7 @@
     inventorySizeBoost: 2
     buffScrollDurationBoost: 1
     choiceLogSizeBoost: 2
+    salvageBoost: 10
 
   ascensionMaterials:
     - CrystalAstral: 1
@@ -2190,6 +2196,7 @@
     inventorySizeBoost: 3
     enchantCapBoost: 2
     itemStatCapBoost: 50
+    salvageBoost: 100
 
   ascensionMaterials:
     - CrystalAstral: 2

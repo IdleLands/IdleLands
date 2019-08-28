@@ -91,9 +91,14 @@ export class Item implements IItem {
   }
 
   private resourceValue(player: Player, hash: any): number {
-    return Object.keys(hash)
+
+    const modPercent = player.getStat(Stat.SALVAGE);
+
+    const baseSalvage = Object.keys(hash)
       .map(statKey => Math.max(0, this.stats[statKey] || 0) / hash[statKey])
       .reduce((prev, cur) => Math.floor(prev + cur), 0);
+
+    return Math.floor(baseSalvage + ((modPercent / 100) * baseSalvage));
   }
 
   public woodValue(player: Player): number {

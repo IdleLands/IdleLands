@@ -499,6 +499,9 @@ export class Player implements IPlayer {
 
     this.stats.specialName = this.$profession.specialStatName || '';
 
+    // start salvage at 100 for calculation purposes
+    this.stats[Stat.SALVAGE] = 100;
+
     // dynamically-calculated
     // first, we do the addition-based adds
     const allStats = Object.keys(Stat).map(key => Stat[key]);
@@ -592,10 +595,15 @@ export class Player implements IPlayer {
       });
     });
 
+    this.addStatTrail(Stat.SALVAGE, this.$statistics.get('Game/Premium/Upgrade/SalvageBoost'), 'Salvage Boost');
+
+    // lower salvage by 100 to compensate for the calculations
+    this.stats[Stat.SALVAGE] = Math.max(0, this.stats[Stat.SALVAGE] - 100);
+
     // base values
-    this.stats.hp = Math.max(1, this.stats.hp);
-    this.stats.xp = Math.max(1, this.stats.xp);
-    this.stats.gold = Math.max(0, this.stats.gold);
+    this.stats[Stat.HP] = Math.max(1, this.stats[Stat.HP]);
+    this.stats[Stat.XP] = Math.max(1, this.stats[Stat.XP]);
+    this.stats[Stat.GOLD] = Math.max(0, this.stats[Stat.GOLD]);
   }
 
   private initLinks() {
@@ -950,6 +958,13 @@ export class Player implements IPlayer {
       + tier
       + (allAchievementBoosts[PermanentUpgrade.MaxQuestsCapBoost] || 0)
       + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxQuestsCapBoost)
+    );
+
+    this.$statistics.set('Game/Premium/Upgrade/SalvageBoost',
+      0
+      + (allBuffBoosts[PermanentUpgrade.SalvageBoost] || 0)
+      + (allAchievementBoosts[PermanentUpgrade.SalvageBoost] || 0)
+      + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.SalvageBoost)
     );
 
     this.$pets.validatePetMissionsAndQuantity(this);

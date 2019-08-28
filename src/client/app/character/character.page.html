@@ -218,6 +218,20 @@
                 </ion-label>
               </ion-item>
 
+              <ion-item *ngIf="player.stats.salvage > 0">
+                <ion-button fill="outline" 
+                            slot="start"
+                            color="dark" 
+                            class="ion-margin-end" 
+                            (click)="showTrail(player.$statTrail.salvage, 'salvage', player.stats.salvage)">
+                  <ion-icon slot="icon-only" [src]="'assets/icon/action-salvage.svg'"></ion-icon>
+                </ion-button>
+                
+                <ion-label>
+                  <strong class="ion-margin-end">Salvage Boost</strong> {{ player.stats.salvage | number }}%
+                </ion-label>
+              </ion-item>
+
               <ion-item-divider>Primary Stats</ion-item-divider>
 
               <ion-item *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk']">
