@@ -24,8 +24,8 @@ export class TinyTerror extends Achievement {
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.Title, title: 'Dwarven Lord' },
-      { type: AchievementRewardType.Gender, gender: 'dwarven male' },
-      { type: AchievementRewardType.Gender, gender: 'dwarven female' }
+      { type: AchievementRewardType.Gender, gender: 'dwarf male' },
+      { type: AchievementRewardType.Gender, gender: 'dwarf female' }
     ];
 
     return baseRewards;
