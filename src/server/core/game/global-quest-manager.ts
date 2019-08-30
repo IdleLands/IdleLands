@@ -130,6 +130,7 @@ export class GlobalQuestManager {
 
   private addGQuest(quest: IGlobalQuest) {
     this.globalQuests.addGlobalQuest(quest);
+    this.syncActiveQuestStats();
     this.save();
   }
 
@@ -191,6 +192,6 @@ export class GlobalQuestManager {
       this.initateRemoveGQuest(gQuest);
     });
 
-    this.startGlobalQuest(this.questHelper.createGlobalQuest());
+    this.checkIfAnyQuestsValidAndAddNew();
   }
 }
