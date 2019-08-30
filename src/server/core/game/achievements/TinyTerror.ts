@@ -16,7 +16,7 @@ export class TinyTerror extends Achievement {
     const coll1 = player.$collectibles.has('Dwarven Coin');
     const coll2 = player.$collectibles.has('Dwarven Protection Rune');
     const coll3 = player.$collectibles.has('Crystal Maul');
-    const kill = player.$statistics.get('BossKill/Boss/Venerable Dwarf Lord');
+    const kill = player.$statistics.get('BossKill/Boss/Venerable Dwarven Lord');
 
     return coll1 && coll2 && coll3 && kill ? 1 : 0;
   }
