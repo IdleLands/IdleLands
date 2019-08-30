@@ -208,7 +208,7 @@ export class Premium extends PlayerOwned {
   }
 
   private earnGachaRewards(player: Player, rewards: string[]): void {
-    const { creatures, items } = player.$$game.assetManager.allBossAssets;
+    const { creatures, items, collectibles } = player.$$game.assetManager.allBossAssets;
 
     rewards.forEach(reward => {
       const [main, sub, choice, quantity] = reward.split(':');
@@ -256,7 +256,9 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'guardian') {
-            const collectible = creatures[choice].collectibles[0];
+            const collectibleName = creatures[choice].collectibles[0].name;
+            const collectible = collectibles[collectibleName];
+
             player.tryFindCollectible({
               name: collectible.name,
               rarity: ItemClass.Guardian,
