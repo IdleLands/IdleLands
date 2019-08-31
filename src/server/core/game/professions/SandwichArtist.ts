@@ -54,7 +54,7 @@ export class SandwichArtist extends BaseProfession implements IProfession {
       booster: true,
       duration: 720,
       stats: {
-        [Stat.GOLD]: (Math.log(luk) * Math.log(player.level.total)) + numAbilUsesBonus
+        [Stat.GOLD]: (Math.max(1, Math.log(luk)) * Math.log(player.level.total)) + numAbilUsesBonus
       }
     }, true);
 
