@@ -297,6 +297,8 @@ export class CombatHelper {
 
   private getPlayerAntes(players: Player[]): { [name: string]: { gold: number, xp: number } } {
     return players.reduce((prev, cur) => {
+      if(!cur || !cur.name) return prev;
+
       prev[cur.name] = {
         gold: Math.floor(cur.gold * 0.01),
         xp: Math.floor(cur.xp.total * 0.05)
