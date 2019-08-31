@@ -348,7 +348,7 @@ export class CombatHelper {
   private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
     const basePets = players.map(player => {
       if(!player) return;
-      
+
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
