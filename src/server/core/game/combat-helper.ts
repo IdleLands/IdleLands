@@ -359,7 +359,7 @@ export class CombatHelper {
 
     const extraPets = players.reduce((prev, player) => {
       if(!player) return prev;
-      
+
       const extraCount = player.$statistics.get('Game/Premium/Upgrade/MaxPetsInCombat');
       if(extraCount <= 1) return prev;
 
