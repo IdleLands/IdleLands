@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "node --inspect dist/out-tsc/server/server/index.js",
+    "start": "node --inspect=0.0.0.0 dist/out-tsc/server/server/index.js",
     "start:client": "ng serve -o --host 0.0.0.0 --port 2468",
     "start:server": "ts-node --project src/server/tsconfig.server.json src/server/index.ts",
     "build:client": "ng build --prod",
@@ -21,7 +21,7 @@
     "dummyplayers": "node scripts/client/client",
     "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts",
     "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts",
-    "debug:server": "TS_NODE_PROJECT=src/server/tsconfig.server.json node --inspect -r ts-node/register src/server/index.ts"
+    "debug:server": "TS_NODE_PROJECT=src/server/tsconfig.server.json node --inspect=0.0.0.0 -r ts-node/register src/server/index.ts"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",
