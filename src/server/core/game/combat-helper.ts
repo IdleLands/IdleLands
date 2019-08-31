@@ -297,6 +297,8 @@ export class CombatHelper {
 
   private getPlayerAntes(players: Player[]): { [name: string]: { gold: number, xp: number } } {
     return players.reduce((prev, cur) => {
+      if(!cur || !cur.name) return prev;
+
       prev[cur.name] = {
         gold: Math.floor(cur.gold * 0.01),
         xp: Math.floor(cur.xp.total * 0.05)
@@ -340,7 +342,7 @@ export class CombatHelper {
   }
 
   private getAllPartyCombatMembers(players: Player[]): ICombatCharacter[] {
-    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
+    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer)).filter(Boolean);
   }
 
   private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
@@ -506,6 +508,7 @@ export class CombatHelper {
   }
 
   private createCombatCharacter(player: Player): ICombatCharacter {
+    if(!player) return;
 
     const stats = clone(player.currentStats);
     const maxStats = clone(player.currentStats);

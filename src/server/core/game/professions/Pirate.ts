@@ -53,7 +53,7 @@ export class Pirate extends BaseProfession implements IProfession {
     const statScaled = player.getStat(Stat.LUK) * scaler;
 
     const foundItem = player.$$game.itemGenerator.generateItemForPlayer(player, {
-      generateLevel: player.level.total + Math.log(statScaled),
+      generateLevel: player.level.total + Math.max(1, Math.log(statScaled)),
       qualityBoost: 1
     });
 
