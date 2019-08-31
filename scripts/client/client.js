@@ -14,6 +14,8 @@ const names = [
   'Azerty'
 ];
 
+const loggedIn = {};
+
 const play = (name) => {
 
   const SocketCluster = require('socketcluster-client');
@@ -50,7 +52,14 @@ const play = (name) => {
 const chosenNames = names.slice(0, PLAYER_COUNT);
 if(chosenNames.length < PLAYER_COUNT) {
   for(let i = chosenNames.length; i < PLAYER_COUNT; i++) {
-    chosenNames.push(species.human());
+
+    let name = '';
+    do {
+      name = species.human();
+    } while(loggedIn[name]);
+
+    loggedIn[name] = true;
+    chosenNames.push(name);
   }
 }
 

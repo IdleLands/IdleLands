@@ -20,7 +20,8 @@
     "seed": "node scripts/seed",
     "dummyplayers": "node scripts/client/client",
     "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts",
-    "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts"
+    "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts",
+    "debug:server": "TS_NODE_PROJECT=src/server/tsconfig.server.json node --inspect -r ts-node/register src/server/index.ts"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",
@@ -82,6 +83,7 @@
     "socketcluster": "^14.3.2",
     "socketcluster-client": "^14.2.1",
     "stripe": "^7.8.0",
+    "systeminformation": "^4.14.8",
     "typeorm": "^0.2.14",
     "typescript": "~3.1.6",
     "typescript-ioc": "^1.2.5",
