@@ -247,6 +247,9 @@ export class Pets extends PlayerOwned {
     const adventure = find(this.adventures, { id: adventureId });
     if(!adventure) return false;
 
+    const petsOnCurrentAdventure = Object.values(this.allPets).filter(x => x.currentAdventureId === adventureId);
+    if(petsOnCurrentAdventure.length > 0) return false;
+
     const petsOnAdventure = pets.map(x => this.allPets[x]).filter(x => x.currentAdventureId === adventureId);
     if(petsOnAdventure.length > 0) return false;
 
