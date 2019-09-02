@@ -40,7 +40,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.7.1",
     "@ionic/storage": "^2.2.0",
-    "censor-sensor": "^1.0.4",
+    "censor-sensor": "^1.0.5",
     "chance": "^1.0.18",
     "compression": "^1.7.4",
     "connect": "3.6.6",
