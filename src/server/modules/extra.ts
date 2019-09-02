@@ -13,7 +13,7 @@ export class SubmitCustomItemEvent extends ServerSocketEvent implements ServerEv
     if(!itemString) return this.gameError('You did not submit an item.');
 
     // tslint:disable-next-line
-    const itemRegex = /\[(?:newbie|basic|pro|idle|godly|goatly|omega) (?:body|charm|feet|finger|hands|head|legs|mainhand|neck|offhand)\] "[a-zA-Z0-9 ']+"(?: (?:str|dex|con|agi|int|luk|hp|xp|gold)=\-?[0-9]+)+/;
+    const itemRegex = /\[(?:newbie|basic|pro|idle|godly|goatly|omega) (?:body|charm|feet|finger|hands|head|legs|mainhand|neck|offhand|suffix|prefix)\] "[a-zA-Z0-9 ']+"(?: (?:str|dex|con|agi|int|luk|hp|xp|gold)=\-?[0-9]+)+/;
 
     // tslint:disable-next-line
     const eventRegex = /\[(?:event) (?:battle|blessGold|blessGoldParty|blessItem|blessXp|blessXpParty|enchant|findItem|flipStat|forsakeGold|forsakeItem|forsakeXp|levelDown|merchant|party|providence|tinker|witch)\] "[a-zA-Z0-9 ,;'%\.]+"/;
