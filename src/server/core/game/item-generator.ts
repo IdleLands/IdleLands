@@ -58,6 +58,12 @@ export class ItemGenerator {
       [2, 5000],
       [1, 1000],
       [0, 500]
+    ],
+    [ItemClass.Guardian]: [
+      [3, 1],
+      [2, 20],
+      [1, 100],
+      [0, 40]
     ]
   };
 
@@ -94,6 +100,11 @@ export class ItemGenerator {
       [2, 20],
       [1, 10000],
       [0, 3000]
+    ],
+    [ItemClass.Guardian]: [
+      [2, 1],
+      [1, 50],
+      [0, 100]
     ]
   };
 
@@ -191,10 +202,41 @@ export class ItemGenerator {
   public generateGuardianItem(player: Player, proto: any): Item {
     const item = new Item();
 
+    proto = Object.assign({ }, proto);
+
     const stats = { };
     Object.values(Stat).forEach(stat => {
       if(!proto.stats[stat]) return;
       stats[stat] = proto.stats[stat];
+    });
+
+    const allStatAssets = [];
+
+    const prefixCount = this.rng.chance.weighted(...zip(...this.prefixWeight[ItemClass.Guardian]));
+    const suffixCount = this.rng.chance.weighted(...zip(...this.suffixWeight[ItemClass.Guardian]));
+
+    for(let p = 0; p < prefixCount; p++) {
+      const prefix = this.rng.pickone(this.allAssetScoreSorted.prefix[ItemClass.Guardian]);
+      if(!prefix) continue;
+
+      proto.name = `${prefix.name} ${proto.name}`;
+      allStatAssets.push(prefix);
+    }
+
+    for(let s = 0; s < suffixCount; s++) {
+      const suffix = this.rng.pickone(this.allAssetScoreSorted.suffix[ItemClass.Guardian]);
+      if(!suffix) continue;
+
+      proto.name = `${proto.name} ${s > 0 ? 'and the ' + suffix.name : 'of the ' + suffix.name}`;
+      allStatAssets.push(suffix);
+    }
+
+    allStatAssets.forEach(asset => {
+      AllStats.forEach(stat => {
+        if(!asset[stat]) return;
+        stats[stat] = stats[stat] || 0;
+        stats[stat] += asset[stat];
+      });
     });
 
     item.init({

@@ -32,11 +32,11 @@ export class FindTreasure extends Event {
 
     const treasureItems = chests[opts.treasureName].items;
     const allItemInstances = treasureItems.map(itemName => {
-      const item = new Item();
       const baseItem = items[itemName];
       baseItem.name = itemName;
-      baseItem.itemClass = ItemClass.Guardian;
-      item.init(baseItem);
+
+      const item = player.$$game.itemGenerator.generateGuardianItem(player, baseItem);
+
       return item;
     });
 
