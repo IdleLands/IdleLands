@@ -28,4 +28,4 @@ const routes: Routes = [
   declarations: [MapPage, PersonalitiesPopover],
   entryComponents: [PersonalitiesPopover]
 })
-export class MapPageModule {}
+export class MapPageModule { }

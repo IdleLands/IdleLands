@@ -46,12 +46,28 @@ export class Rogue extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1.2
   };
 
-  public oocAbility(player: Player): string {
-    player.$$game.eventManager.doEventFor(player, EventName.BlessGold);
+
+
+  public oocAbility(player: Player): { success: boolean, message: string } {
+
+    const scaler = player.$statistics.get('Profession/Rogue/Become') || 1;
+
     player.$$game.eventManager.doEventFor(player, EventName.Gamble);
-    player.$$game.eventManager.doEventFor(player, EventName.Merchant);
+
+    if(scaler >= 5) {
+      player.$$game.eventManager.doEventFor(player, EventName.Merchant);
+    }
+
+    if(scaler >= 25) {
+      player.$$game.eventManager.doEventFor(player, EventName.BlessGold);
+    }
+
+    if(scaler >= 50) {
+      player.$$game.eventManager.doEventFor(player, EventName.BlessGold);
+    }
+
     this.emitProfessionMessage(player, 'You took a trip to the golden city!');
-    return `You took a trip to the golden city!`;
+    return { success: true, message: `You took a trip to the golden city!` };
   }
 
   public determineStartingSpecial(): number {

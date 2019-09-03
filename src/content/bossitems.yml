@@ -446,7 +446,7 @@ Crown of the Swamp Queen:
     int: 400
     luk: 100
     gold: 25
-'Book: Magnum Opus of Transmutation':
+'Book (Magnum Opus of Transmutation)':
   type: offhand
   stats:
     con: 220

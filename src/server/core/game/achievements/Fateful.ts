@@ -11,12 +11,16 @@ export class Fateful extends Achievement {
     if(tier >= 2) {
       baseStr = `${baseStr} You're also insane. You did it 100,000 times.`;
     }
+    if(tier >= 3) {
+      baseStr = `${baseStr} But why did you do it 1,000,000 times?`;
+    }
 
     return baseStr;
   }
 
   static calculateTier(player: Player): number {
     const steps = player.$statistics.get('Event/Providence/Times');
+    if(steps >= 1000000) return 3;
     if(steps >= 100000) return 2;
     if(steps >= 500) return 1;
     return 0;
@@ -30,6 +34,10 @@ export class Fateful extends Achievement {
 
     if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Tempter of Fate' });
+    }
+
+    if(tier >= 3) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Forsaken Fox' });
     }
 
     return baseRewards;

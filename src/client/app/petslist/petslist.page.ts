@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PetslistPage implements OnInit, OnDestroy {
 
   public petOrder: any[] = [];
-  public petHash: any = {};
+  public petHash: any = { };
   public pets$: Subscription;
 
   constructor(
@@ -88,6 +88,14 @@ export class PetslistPage implements OnInit, OnDestroy {
 
   public getPetMaxEquipped(pet: IPet) {
     return Object.values(pet.equipment).reduce((prev, cur) => prev.concat(cur), []).length - 1;
+  }
+
+  public petGatherStatus(pet: IPet) {
+    if(!pet.gatherTick) return null;
+
+    if(pet.gatherTick <= Date.now()) return { color: 'success', status: 'Ready to Gather!' };
+
+    return { color: 'secondary', status: `Gather at ${new Date(pet.gatherTick).toLocaleString()}` };
   }
 
 }

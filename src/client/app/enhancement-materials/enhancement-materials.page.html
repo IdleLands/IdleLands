@@ -40,14 +40,14 @@
 
           <ion-card-content>
             <ion-list>
-              <ion-item *ngFor="let scroll of player.$inventoryData.teleportScrolls | keyvalue">
+              <ion-item *ngFor="let scroll of player.$inventoryData.teleportScrolls | keyvalue" [class.ion-hide]="scroll.value === 0">
                 <ion-icon slot="start" [src]="'assets/icon/symbol-scroll.svg'"></ion-icon>
 
                 <ion-label>
                   {{ scroll.key }} Teleport Scroll (x{{ scroll.value }})
                 </ion-label>
 
-                <ion-button slot="end" (click)="useTeleportScroll(scroll.key)" [class.ion-hide]="scroll.value === 0">Use</ion-button>
+                <ion-button slot="end" (click)="useTeleportScroll(scroll.key)">Use</ion-button>
               </ion-item>
             </ion-list>
           </ion-card-content>

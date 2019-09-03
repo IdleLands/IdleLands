@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
-import { AdventureLogEventType, ServerEventName, Stat, EventMessageType, IChoice } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ServerEventName, Stat, EventMessageType, IChoice, IPet } from '../../../../shared/interfaces';
 
 export class FindItem extends Event {
   public static readonly WEIGHT = 30;
@@ -76,6 +76,22 @@ export class FindItem extends Event {
       { name: 'Agile',        stat: Stat.AGI },
       { name: 'Lucky',        stat: Stat.LUK }
     ];
+
+    let didPetAutoEquip = false;
+
+    if(player.$personalities.isActive('HorseArmorer')) {
+      Object.values(player.$petsData.allPets).forEach((pet: IPet) => {
+        if(didPetAutoEquip) return;
+
+        didPetAutoEquip = pet.tryEquipAnItemAndReplaceSlotsIfPossible(item);
+      });
+    }
+
+    if(didPetAutoEquip) {
+      this.emitMessage([player],
+        this._parseText(`%player found %item and gave it to one of %hisher pets!`, player, { item: item.fullName() }),
+      AdventureLogEventType.Item);
+    }
 
     const didAutoEquip = autoEquipPersonalities.some(({ name, stat }) => {
       if(!player.$personalities.isActive(name)) return false;

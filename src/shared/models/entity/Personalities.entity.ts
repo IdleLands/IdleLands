@@ -22,8 +22,8 @@ export class Personalities extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.personalities) this.personalities = {};
-    if(!this.activePersonalities) this.activePersonalities = {};
+    if(!this.personalities) this.personalities = { };
+    if(!this.activePersonalities) this.activePersonalities = { };
   }
 
   public allEarnedPersonalities(): string[] {
@@ -55,7 +55,7 @@ export class Personalities extends PlayerOwned {
   }
 
   public resetPersonalitiesTo(personalities: Personality[]): void {
-    this.personalities = {};
+    this.personalities = { };
 
     personalities.forEach(pers => this.add(pers));
   }

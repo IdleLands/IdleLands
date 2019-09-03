@@ -8,6 +8,7 @@ export * from './IBuff';
 export * from './IChoice';
 export * from './ICollectible';
 export * from './ICombat';
+export * from './ICombatSkill';
 export * from './IFestival';
 export * from './IGacha';
 export * from './IGame';
@@ -19,7 +20,7 @@ export * from './IPet';
 export * from './IPlayer';
 export * from './IPremium';
 export * from './IProfession';
-export * from './ICombatSkill';
+export * from './IQuest';
 
 export * from './Moderation';
 export * from './Stat';

@@ -47,13 +47,13 @@ export class ChoosePetsModal implements OnInit, OnDestroy {
   private pets$: any;
 
   public petOrder: any[] = [];
-  public chosenPets: any = {};
+  public chosenPets: any = { };
 
   constructor(
     private storage: Storage,
     private modalCtrl: ModalController,
     public gameService: GameService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.petOrder = (await this.storage.get('petOrder')) || [];

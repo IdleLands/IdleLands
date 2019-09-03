@@ -23,8 +23,8 @@ export class FindTreasure extends Event {
       return;
     }
 
-    // 30 minute cooldown
-    player.cooldowns[opts.treasureName] = Date.now() + (30 * 60 * 1000);
+    // 60 minute cooldown
+    player.cooldowns[opts.treasureName] = Date.now() + (60 * 60 * 1000);
 
     const { chests, items } = this.assetManager.allTreasureAssets;
 
@@ -32,11 +32,11 @@ export class FindTreasure extends Event {
 
     const treasureItems = chests[opts.treasureName].items;
     const allItemInstances = treasureItems.map(itemName => {
-      const item = new Item();
       const baseItem = items[itemName];
       baseItem.name = itemName;
-      baseItem.itemClass = ItemClass.Guardian;
-      item.init(baseItem);
+
+      const item = player.$$game.itemGenerator.generateGuardianItem(player, baseItem);
+
       return item;
     });
 

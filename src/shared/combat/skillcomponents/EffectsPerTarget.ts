@@ -6,7 +6,7 @@ export const EffectsPerTarget = (times: number) =>
       throw new Error(`Skill ${JSON.stringify(skill)} is trying to EffectsPerTarget but has no targets. Combat: ${JSON.stringify(combat)}`);
     }
 
-    skill.targetEffects = skill.targetEffects || {};
+    skill.targetEffects = skill.targetEffects || { };
 
     skill.targets.forEach(target => {
       skill.targetEffects[target] = skill.targetEffects[target] || [];

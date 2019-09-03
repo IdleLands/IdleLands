@@ -116,6 +116,7 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.CrystalGreen,             chance: GachaChance.Rare },
     { result: GachaReward.CrystalBlue,              chance: GachaChance.Rare },
     { result: GachaReward.CrystalPurple,            chance: GachaChance.Rare },
+    { result: GachaReward.CrystalAstral,            chance: GachaChance.XRare },
 
     { result: GachaReward.SoulRed,                  chance: GachaChance.XXRare },
     { result: GachaReward.SoulOrange,               chance: GachaChance.XXRare },

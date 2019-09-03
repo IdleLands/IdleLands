@@ -12,7 +12,7 @@ export class FestivalsAPICall extends ServerAPICall {
 
       try {
         festivals = (await game.databaseManager.loadFestivals()).festivals;
-      } catch(e) {}
+      } catch(e) { }
 
       res.json({ festivals });
     });

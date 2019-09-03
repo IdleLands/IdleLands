@@ -67,10 +67,10 @@ export class Pet implements IPet {
     if(!this.gender) this.gender = 'male';
     if(!this.gold) this.gold = new RestrictedNumber(0, 0, 0);
     if(!this.rating) this.rating = 0;
-    if(!this.stats) this.stats = {};
-    if(!this.$statTrail) this.$statTrail = {};
-    if(!this.upgradeLevels) this.upgradeLevels = {};
-    if(!this.equipment) this.equipment = {};
+    if(!this.stats) this.stats = { };
+    if(!this.$statTrail) this.$statTrail = { };
+    if(!this.upgradeLevels) this.upgradeLevels = { };
+    if(!this.equipment) this.equipment = { };
     if(!this.gatherTick && this.upgradeLevels[PetUpgrade.GatherTime]) this.updateGatherTick();
     if(!this.affinity) this.affinity = sample(Object.values(PetAffinity));
     if(!this.attribute) this.attribute = PetAttribute.Cursed;
@@ -101,9 +101,11 @@ export class Pet implements IPet {
     return pickBy(this, (value, key) => !key.startsWith('$') && key !== 'currentStats');
   }
 
-  async loop(): Promise<void> {
-    this.gainXP(0);
-    this.gainGold(0);
+  async loop(gatherOnly = false): Promise<void> {
+    if(!gatherOnly) {
+      this.gainXP(0);
+      this.gainGold(0);
+    }
 
     if(this.gatherTick && Date.now() > this.gatherTick) {
       this.doFind();
@@ -187,7 +189,8 @@ export class Pet implements IPet {
   public recalculateStats(): void {
     if(!this.$affinity || !this.$player) return;
 
-    this.stats = {};
+    this.stats = { };
+    this.$statTrail = { };
 
     // dynamically-calculated
     // first, we do the addition-based adds
@@ -248,8 +251,32 @@ export class Pet implements IPet {
     return find(this.equipment[itemSlot], { id: itemId });
   }
 
+  public tryEquipAnItemAndReplaceSlotsIfPossible(item: Item): boolean {
+    if(!this.equipment[item.type]) return false;
+
+    let didEquip = false;
+    this.equipment[item.type].forEach((cItem, idx) => {
+      if(didEquip) return;
+
+      if(!cItem) {
+        didEquip = true;
+        this.equipment[item.type][idx] = item;
+        return;
+      }
+
+      if(item.score > cItem.score) {
+        didEquip = true;
+        this.equipment[item.type][idx] = item;
+      }
+    });
+
+    if(!didEquip) return false;
+
+    return true;
+  }
+
   public equip(item: Item): boolean {
-    if(this.equipment[item.type].every(x => !!x)) {
+    if(!this.equipment[item.type] || this.equipment[item.type].every(x => !!x)) {
       return false;
     }
 
@@ -272,7 +299,7 @@ export class Pet implements IPet {
   }
 
   public unequipAll() {
-    this.equipment = {};
+    this.equipment = { };
     this.$$game.petHelper.syncPetBasedOnProto(this);
     this.recalculateStats();
   }
@@ -302,6 +329,8 @@ export class Pet implements IPet {
   }
 
   private doFind() {
+    this.$player.$statistics.increase('Pet/Gather/Total', 1);
+
     const ilpFind = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ILPGatherQuantity);
     const itemFindLevelBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindLevelBoost);
     const itemFindQualityBoost = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.ItemFindQualityBoost);
@@ -312,8 +341,15 @@ export class Pet implements IPet {
       generateLevel: this.level.total + itemFindLevelBoost + itemFindPercentBoost, qualityBoost: itemFindQualityBoost
     });
 
-    this.$player.gainILP(ilpFind);
-    this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
+    if(ilpFind > 0) {
+      this.$player.gainILP(ilpFind);
+      this.$player.$statistics.increase('Pet/Gather/ILP', ilpFind);
+    }
+
+    if(foundItem) {
+      this.$player.$statistics.increase('Pet/Gather/Item', 1);
+      this.$$game.eventManager.doEventFor(this.$player, EventName.FindItem, { fromPet: true, item: foundItem });
+    }
   }
 
   public ascend() {

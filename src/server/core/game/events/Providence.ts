@@ -25,7 +25,7 @@ export class Providence extends Event {
       type: ItemSlot.Providence,
       itemClass: ItemClass.Newbie,
       name: this.assetManager.providence(),
-      stats: {}
+      stats: { }
     };
 
     this.statTiers.t1.forEach(stat => {
@@ -152,7 +152,7 @@ export class Providence extends Event {
       gold: this.rng.numberInRange(-Math.min(300 * player.level.total, player.gold), 200 * player.level.total)
     };
 
-    const baseMessage = this.eventText(EventMessageType.Providence, player, {});
+    const baseMessage = this.eventText(EventMessageType.Providence, player, { });
     const finalMessage = this.basicProvidence(player, baseMessage, providenceData);
 
     this.emitMessage([player], finalMessage, AdventureLogEventType.Meta);

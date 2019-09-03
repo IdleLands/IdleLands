@@ -54,13 +54,20 @@ Firebase variables are used to set up Firebase, which is used only to sync accou
 * `FIREBASE_ADMIN_DATABASE` - the admin database URL for firebase. Should be in the format `https://<DATABASE_NAME>.firebaseio.com`.
 * `FIREBASE_ADMIN_JSON` - the JSON blob (stringified) for a service account private key. You can read how to do that [here](https://firebase.google.com/docs/admin/setup). This needs to be encoded as base64 with LZUTF8.
 
+#### Stripe Variables
+
+Stripe variables need to be set up to accept payments via Stripe.
+
+* `STRIPE_KEY` the private stripe key.
+
 #### Discord Variables
 
 Discord variables are used to connect to Discord, which will sync chat between the game/Discord. You will also need to set up a Discord bot and give it sufficient permissions to post messages/emoji, create/modify channels, and create/modify roles.
 
 * `DISCORD_SECRET` - the Discord API secret for your created Discord bot
-* `DISCORD_GUILD_ID` - the Discord guild ID
-* `DISCORD_CHANNEL_ID` - the Discord channel ID
+* `DISCORD_GUILD_ID` - the Discord guild ID for the Discord bot to reside in
+* `DISCORD_CHANNEL_ID` - the Discord channel ID for the chat bridge
+* `DISCORD_CUSTOM_ITEM_CHANNEL_ID` - the Discord channel ID to send custom item submissions to
 
 #### IdleLands 3 Variables
 

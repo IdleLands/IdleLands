@@ -178,7 +178,7 @@ export class GMGiveItemEvent extends ServerSocketEvent implements ServerEvent {
   description = 'GM: Give item to a player';
   args = 'player, item';
 
-  async callback({ player, item } = { player: '', item: { name: '', type: '', itemClass: '', stats: {} } }) {
+  async callback({ player, item } = { player: '', item: { name: '', type: '', itemClass: '', stats: { } } }) {
     const myPlayer = this.player;
     if(!myPlayer) return this.notConnected();
 
@@ -220,5 +220,20 @@ export class GMPortCharacterEvent extends ServerSocketEvent implements ServerEve
     }
 
     this.gameMessage(`Set ${player} id to ${newPlayer}.`);
+  }
+}
+
+export class GMResetGlobalEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMResetGlobal;
+  description = 'GM: Reset the current global quests';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(player.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
+
+    this.game.globalQuestManager.resetAllQuests();
   }
 }

@@ -6,7 +6,7 @@ import { decompress } from 'lzutf8';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Assets, GameSettings } from '../../../shared/models';
+import { Player, Assets, GameSettings, GlobalQuests } from '../../../shared/models';
 import { Logger } from '../logger';
 import { SHARED_FIELDS } from './shared-fields';
 import { Festivals } from '../../../shared/models/entity/Festivals.entity';
@@ -40,7 +40,7 @@ export class DatabaseManager {
   }
 
   private async updateOldData() {
-    await this.manager.updateMany(Player, {}, { $set: { loggedIn: false } });
+    await this.manager.updateMany(Player, { }, { $set: { loggedIn: false } });
   }
 
   // internal API calls
@@ -142,6 +142,10 @@ export class DatabaseManager {
   }
 
   public async renamePlayer(playerName: string, newName: string): Promise<any> {
+    await Promise.all([
+      SHARED_FIELDS.map(x => this.manager.updateOne(x.proto, { owner: playerName }, { $set: { owner: newName } } ))
+    ]);
+
     return this.manager.updateOne(Player, { name: playerName }, { $set: { name: newName } });
   }
 
@@ -227,6 +231,29 @@ export class DatabaseManager {
 
     } catch(e) {
       this.logger.error(`DatabaseManager#saveFestivals`, e);
+    }
+  }
+
+  // GLOBAL QUEST FUNCTIONS
+  public async loadGlobalQuests(): Promise<GlobalQuests> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.findOne(GlobalQuests);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadGlobalQuests`, e);
+    }
+  }
+
+  public async saveGlobalQuests(globalQuests: GlobalQuests): Promise<GlobalQuests> {
+    if(!this.connection) return null;
+
+    try {
+      return await this.connection.manager.save(GlobalQuests, globalQuests);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#saveGlobalQuests`, e);
     }
   }
 

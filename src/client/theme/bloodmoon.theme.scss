@@ -111,4 +111,8 @@
   ion-badge.ion-color-secondary {
     background: var(--ion-color-tertiary);
   }
+
+  ion-button.ion-color-dark {
+    --ion-color-dark: var(--ion-color-light);
+  }
 }

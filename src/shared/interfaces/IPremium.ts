@@ -30,7 +30,10 @@ export enum PermanentUpgrade {
   MaxPetsInCombat = 'maxPetsInCombat',
 
   // the maximum stamina boost you get. stacks with other sources.
-  MaxStaminaBoost = 'maxStaminaBoost'
+  MaxStaminaBoost = 'maxStaminaBoost',
+
+  // the maximum number of quests available to you at any given time
+  MaxQuestsCapBoost = 'maxQuestsCapBoost'
 }
 
 export enum PremiumTier {
@@ -56,6 +59,7 @@ export const PremiumScale = {
   [PermanentUpgrade.BuffScrollDuration]: 10,
   [PermanentUpgrade.ItemStatCapBoost]: 25,
   [PermanentUpgrade.PetMissionCapBoost]: 50,
+  [PermanentUpgrade.MaxQuestsCapBoost]: 50,
   [PermanentUpgrade.MaxStaminaBoost]: 2
 };
 
@@ -83,4 +87,36 @@ export const GoldGenderCost: { [key in Profession]: number } = {
   [Profession.Pirate]: 50_000_000,
   [Profession.Rogue]: 25_000_000,
   [Profession.SandwichArtist]: 1_000_000
+};
+
+export enum IRLPurchase {
+  ILPSmall = 'ilp:small',
+  ILPMedium = 'ilp:medium',
+  ILPLarge = 'ilp:large'
+}
+
+export const IRLPurchaseData: { [key in IRLPurchase]: any } = {
+  [IRLPurchase.ILPSmall]: {
+    key: IRLPurchase.ILPSmall,
+    name: '1,000 ILP ($1.00)',
+    desc: 'A small amount of ILP for a small price.',
+    ilp: 1000,
+    cost: 100
+  },
+
+  [IRLPurchase.ILPMedium]: {
+    key: IRLPurchase.ILPMedium,
+    name: '5,000 ILP ($5.00)',
+    desc: 'A moderate amount of ILP for a coffee.',
+    ilp: 5000,
+    cost: 500
+  },
+
+  [IRLPurchase.ILPLarge]: {
+    key: IRLPurchase.ILPLarge,
+    name: '25,000 ILP ($20.00)',
+    desc: 'A large amount of ILP for a burger. Or two.',
+    ilp: 25000,
+    cost: 2000
+  }
 };

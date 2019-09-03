@@ -40,9 +40,9 @@ export class Inventory extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.equipment) this.equipment = {};
+    if(!this.equipment) this.equipment = { };
     if(!this.items) this.items = [];
-    if(!this.teleportScrolls) this.teleportScrolls = {};
+    if(!this.teleportScrolls) this.teleportScrolls = { };
     if(!this.buffScrolls) this.buffScrolls = [];
   }
 
@@ -95,7 +95,7 @@ export class Inventory extends PlayerOwned {
     if(!item) return;
     if(!item.type) throw new Error(`Item ${JSON.stringify(item)} has no type so it cannot be equipped.`);
 
-    this.equipment = this.equipment || {};
+    this.equipment = this.equipment || { };
     this.equipment[item.type] = item;
   }
 

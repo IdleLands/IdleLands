@@ -1,5 +1,5 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
-import { compact } from 'lodash';
+import { compact, uniq } from 'lodash';
 
 import * as Achievements from './achievements';
 import { Player } from '../../../shared/models';
@@ -51,9 +51,9 @@ export class AchievementManager {
 
   @Inject assets: AssetManager;
 
-  private allAchievements: { [key: string]: any } = {};
+  private allAchievements: { [key: string]: any } = { };
 
-  public statToAchievement: { [key: string]: any[] } = {};
+  public statToAchievement: { [key: string]: any[] } = { };
 
   public init() {
     Object.keys(Achievements).forEach(achievementName => {
@@ -63,6 +63,7 @@ export class AchievementManager {
       if(!ach.statWatches) return;
 
       ach.statWatches.forEach(stat => {
+        if(stat.includes('.')) throw new Error(`${achievementName} is watching a stat with a . in it! Change it to /.`);
         this.statToAchievement[stat] = this.statToAchievement[stat] || [];
         this.statToAchievement[stat].push(ach);
       });
@@ -85,16 +86,16 @@ export class AchievementManager {
     return allPets.map((pet: IPetProto) => {
       return {
         name: `Tribal: ${pet.typeName}`,
-        statWatches: Object.keys(pet.requirements.statistics).concat(['Item/Collectible/Find']),
+        statWatches: uniq(Object.keys(pet.requirements.statistics || []).concat(['Item/Collectible/Find'])),
         type: AchievementType.Pet,
         descriptionForTier: () => `You earned a new pet: ${pet.typeName}.
           It offers the following permanent bonuses for ${pet.cost.toLocaleString()} gold:
           ${Object.keys(pet.permanentUpgrades).map(x => `${x} +${pet.permanentUpgrades[x]}`).join(', ')}`,
         calculateTier: (player: Player) => {
-          const meetsStatistics = Object.keys(pet.requirements.statistics).every(stat => {
+          const meetsStatistics = pet.requirements.statistics ? Object.keys(pet.requirements.statistics || []).every(stat => {
             const val = player.$statistics.get(stat);
             return val >= pet.requirements.statistics[stat];
-          });
+          }) : true;
 
           const meetsAchievements = pet.requirements.achievements ? Object.keys(pet.requirements.achievements).every(ach => {
             const achTier = player.$achievements.getAchievementTier(ach);
@@ -186,10 +187,10 @@ export class AchievementManager {
     const ach = this.allAchievements[achName];
 
     const tier = ach.calculateTier(player);
-    if(tier === 0) return;
+    if(tier === 0 || isNaN(tier) || !isFinite(tier)) return;
 
     const existingTier = alwaysGet ? 0 : player.$achievements.getAchievementTier(ach.name);
-    if(tier === existingTier) return;
+    if(tier === existingTier || isNaN(existingTier) || !isFinite(existingTier)) return;
 
     const existingAchAt = alwaysGet ? player.$achievements.getAchievementAchieved(ach.name) : 0;
 

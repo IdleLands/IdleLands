@@ -25,7 +25,24 @@ class Map {
     return this.map;
   }
 
-  constructor(private map: any, private data: any) {}
+  private regions: { [key: string]: boolean } = { };
+  public get allRegions(): string[] {
+    return Object.keys(this.regions);
+  }
+
+  constructor(private map: any, private data: any) {
+    this.init();
+  }
+
+  private init() {
+    Object.keys(this.data.regions).forEach(x => {
+      Object.keys(this.data.regions[x]).forEach(y => {
+        this.regions[this.data.regions[x][y] || 'Wilderness'] = true;
+      });
+    });
+
+    if(Object.keys(this.regions).length === 0) this.regions['Wilderness'] = true;
+  }
 
   getTile(x: number, y: number): Tile {
     const tilePosition = (y * this.map.width) + x;
@@ -45,7 +62,7 @@ class Map {
 @AutoWired
 export class World {
 
-  private maps: { [key: string]: Map } = {};
+  private maps: { [key: string]: Map } = { };
   public get mapNames() {
     return Object.keys(this.maps);
   }

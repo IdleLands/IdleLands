@@ -18,6 +18,7 @@ export class Switcheroo extends Event {
 
     item.stats[stat] = -item.stats[stat];
     item.recalculateScore();
+    player.recalculateStats();
 
     this.emitMessage([player], allText, AdventureLogEventType.Item);
   }

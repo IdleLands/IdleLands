@@ -46,15 +46,19 @@ export class Pirate extends BaseProfession implements IProfession {
     [Stat.GOLD]: 1
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
+
+    const scaler = player.$statistics.get('Profession/Pirate/Become') || 1;
+
+    const statScaled = player.getStat(Stat.LUK) * scaler;
 
     const foundItem = player.$$game.itemGenerator.generateItemForPlayer(player, {
-      generateLevel: player.level.total + Math.log(player.getStat(Stat.LUK)),
+      generateLevel: player.level.total + Math.max(1, Math.log(statScaled)),
       qualityBoost: 1
     });
 
     player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPillage: true, item: foundItem });
     this.emitProfessionMessage(player, `You pillaged an item (${foundItem.name})!`);
-    return `You've pillaged an item (${foundItem.name})!`;
+    return { success: true, message: `You've pillaged an item (${foundItem.name})!` };
   }
 }

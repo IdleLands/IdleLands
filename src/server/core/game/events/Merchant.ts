@@ -68,7 +68,9 @@ export class Merchant extends Event {
     }
   }
 
-  public operateOn(player: Player) {
+  public operateOn(player: Player, opts: { merchantBonus }) {
+    const bonus = +opts.merchantBonus || 0;
+
     let item = null;
     let cost = 0;
     let choices = ['Yes', 'No'];
@@ -78,20 +80,20 @@ export class Merchant extends Event {
       player.increaseStatistic(`Event/Merchant/Enchant`, 1);
       item = { name: 'Enchantment', score: 1, type: 'enchant', fullName: () => 'enchantment' };
 
-      const baseCostFivePercent = Math.floor(player.gold * 0.05);
+      const baseCostFivePercent = Math.floor(player.$inventory.totalItemScore() * 0.05);
       cost = this.rng.numberInRange(baseCostFivePercent * 2, baseCostFivePercent * 3);
 
     } else {
       player.increaseStatistic(`Event/Merchant/Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
       pickableChoices = ['Yes', 'No', 'Inventory'];
-      item = this.itemGenerator.generateItemForPlayer(player, { qualityBoost: 1 });
+      item = this.itemGenerator.generateItemForPlayer(player, { generateLevel: bonus });
       if(!item) {
         player.increaseStatistic(`Event/Merchant/Nothing`, 1);
         return;
       }
 
-      cost = item.score * 7;
+      cost = item.score * 7 + (bonus * 1000);
     }
 
     const choice = this.getChoice({

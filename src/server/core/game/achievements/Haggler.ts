@@ -11,7 +11,7 @@ export class Haggler extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 5}% INT for selling ${Math.pow(Haggler.base, tier).toLocaleString()} items.`;
 
-    if(tier >= 3) {
+    if(tier >= 2) {
       baseStr = `${baseStr} Personality: Intelligent.`;
     }
 
@@ -34,7 +34,7 @@ export class Haggler extends Achievement {
        } }
     ];
 
-    if(tier >= 3) {
+    if(tier >= 2) {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Intelligent' });
     }
 

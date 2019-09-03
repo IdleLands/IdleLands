@@ -22,6 +22,9 @@ export interface IGame {
   combatHelper: any;
   calculatorHelper: any;
   festivalManager: any;
+  questHelper: any;
+  globalQuestManager: any;
+  stripeHelper: any;
   gmHelper: any;
 
   sendClientUpdateForPlayer(player: IPlayer): void;

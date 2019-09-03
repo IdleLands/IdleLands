@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [PetcurrentequipmentPage]
 })
-export class PetcurrentequipmentPageModule {}
+export class PetcurrentequipmentPageModule { }

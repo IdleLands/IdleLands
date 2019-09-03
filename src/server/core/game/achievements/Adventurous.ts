@@ -1,7 +1,7 @@
 import { AchievementType, AchievementRewardType, Achievement, PermanentUpgrade, Stat, PetAttribute } from '../../../../shared/interfaces';
 import { Player } from '../../../../shared/models';
 
-export class Adventrous extends Achievement {
+export class Adventurous extends Achievement {
 
   static readonly base = 500;
 
@@ -10,7 +10,7 @@ export class Adventrous extends Achievement {
 
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 5}% Item Stat Cap Boost for sending your pets on
-                  ${(tier * Adventrous.base).toLocaleString()} hours of dangerous adventures.`;
+                  ${(tier * Adventurous.base).toLocaleString()} hours of dangerous adventures.`;
 
     if(tier >= 5) {
       baseStr = `${baseStr} Title: Sender.`;
@@ -29,7 +29,7 @@ export class Adventrous extends Achievement {
 
   static calculateTier(player: Player): number {
     const steps = player.$statistics.get('Pet/Adventure/Hours');
-    return Math.floor(steps / Adventrous.base);
+    return Math.floor(steps / Adventurous.base);
   }
 
   static rewardsForTier(tier: number): any[] {

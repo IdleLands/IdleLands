@@ -8,10 +8,10 @@ export class Surging extends BaseAttribute implements IAttribute {
   public readonly oocAbilityDesc = 'Your pet gains 5% of its max experience.';
   public readonly oocAbilityCost = 25;
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const xpNeeded = Math.floor(player.$pets.$activePet.xp.maximum / 20);
     const xpGain = player.$pets.$activePet.gainXP(xpNeeded);
 
-    return `Your pet has gained ${xpGain.toLocaleString()} exp!`;
+    return { success: true, message: `Your pet has gained ${xpGain.toLocaleString()} exp!` };
   }
 }

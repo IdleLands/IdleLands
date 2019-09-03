@@ -12,7 +12,8 @@ import { BaseProfession } from '../../../server/core/game/professions/Profession
 import { Item } from '../Item';
 import { IGame, Stat, IPlayer, ItemSlot, ServerEventName,
   IAdventureLog, AdventureLogEventType, AchievementRewardType, Direction,
-  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier, IPet } from '../../interfaces';
+  IBuff, Channel, IParty, PermanentUpgrade, ItemClass, Profession, ModeratorTier,
+  IPet, PremiumTier, ContributorTier } from '../../interfaces';
 import { SHARED_FIELDS } from '../../../server/core/game/shared-fields';
 import { Choice } from '../Choice';
 import { Achievements } from './Achievements.entity';
@@ -145,6 +146,10 @@ export class Player implements IPlayer {
   public $premium: Premium;
   public $premiumData: any;
 
+  @nonenumerable
+  public $quests: any;
+  public $questsData: any;
+
   @Column()
   public availableGenders: string[];
 
@@ -169,10 +174,10 @@ export class Player implements IPlayer {
     if(!this.gold) this.gold = 0;
     if(!this.stamina) this.stamina = new RestrictedNumber(0, 10, 10);
     if(!this.nextStaminaTick) this.nextStaminaTick = Date.now();
-    if(!this.stats) this.stats = {};
-    if(!this.$statTrail) this.$statTrail = {};
-    if(!this.buffWatches) this.buffWatches = {};
-    if(!this.cooldowns) this.cooldowns = {};
+    if(!this.stats) this.stats = { };
+    if(!this.$statTrail) this.$statTrail = { };
+    if(!this.buffWatches) this.buffWatches = { };
+    if(!this.cooldowns) this.cooldowns = { };
 
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
@@ -195,8 +200,6 @@ export class Player implements IPlayer {
     this.level = new RestrictedNumber(this.level.minimum, this.level.maximum, this.level.__current);
     this.xp = new RestrictedNumber(this.xp.minimum, this.xp.maximum, this.xp.__current);
     this.stamina = new RestrictedNumber(this.stamina.minimum, this.stamina.maximum, this.stamina.__current);
-    this.calculateStamina();
-    this.checkStaminaTick();
 
     // init extra data for relevant joined services
     this.$professionData = this.$profession.$professionData;
@@ -209,7 +212,15 @@ export class Player implements IPlayer {
 
     this.recalculateStats();
 
+    this.calculateStamina();
+    this.checkStaminaTick();
+
+    this.setDiscordTag(this.discordTag);
     this.syncPremium();
+
+    if(this.title && !this.availableTitles.includes(this.title)) {
+      this.changeTitle('');
+    }
   }
 
   private clearOldCooldowns() {
@@ -235,7 +246,7 @@ export class Player implements IPlayer {
     return this.name;
   }
 
-  async loop(): Promise<void> {
+  async loop(tick: number): Promise<void> {
 
     this.increaseStatistic('Character/Ticks', 1);
 
@@ -253,7 +264,7 @@ export class Player implements IPlayer {
 
     if(this.mutedUntil < Date.now()) this.mutedUntil = 0;
 
-    this.$pets.loop();
+    this.$pets.loop(tick, this);
 
     this.$game.playerManager.updatePlayer(this);
   }
@@ -262,17 +273,26 @@ export class Player implements IPlayer {
     return this.stats[stat];
   }
 
-  public oocAction(): string {
-    if(this.stamina.total < this.$profession.oocAbilityCost) return;
 
-    this.increaseStatistic('Character/Stamina/Spend', this.$profession.oocAbilityCost);
+  public oocAction(costMultiplier = 1): { success: boolean, message: string } {
+    const totalCost = this.$profession.oocAbilityCost * costMultiplier;
+    if(this.stamina.total < totalCost) return { success: false, message: `You do not have enough stamina!` };
+
+    const response = this.$profession.oocAbility(this);
+    if(!response.success) return response;
+
+    if(this.stamina.total < totalCost) return;
+
+    this.increaseStatistic('Character/Stamina/Spend', totalCost);
     this.increaseStatistic(`Profession/${this.profession}/AbilityUses`, 1);
 
-    this.stamina.sub(this.$profession.oocAbilityCost);
-    return this.$profession.oocAbility(this);
+
+    this.stamina.sub(totalCost);
+
+    return response;
   }
 
-  public petOOCAction(): string {
+  public petOOCAction(): { success: boolean, message: string } {
     if(this.stamina.total < this.$pets.$activePet.$attribute.oocAbilityCost) return;
 
     this.increaseStatistic('Character/Stamina/Spend', this.$pets.$activePet.$attribute.oocAbilityCost);
@@ -381,10 +401,13 @@ export class Player implements IPlayer {
 
     this.$pets.resetEquipment();
 
+    this.buffWatches = { };
+
     this.$$game.festivalManager.startAscensionFestival(this);
 
     this.setPos(10, 10, 'Norkos', 'Norkos Town');
 
+    this.calculateStamina();
     this.recalculateStats();
   }
 
@@ -399,7 +422,7 @@ export class Player implements IPlayer {
     this.stamina.add(1);
 
     if(this.$personalities.isActive('Restless') && this.stamina.atMaximum()) {
-      this.oocAction();
+      this.oocAction(2);
     }
 
     this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
@@ -429,6 +452,8 @@ export class Player implements IPlayer {
     staminaTotal += this.$statistics.get('Game/Premium/Upgrade/MaxStaminaBoost');
 
     this.stamina.maximum = staminaTotal;
+
+    if(this.stamina.total > this.stamina.maximum) this.stamina.set(this.stamina.maximum);
   }
 
   private tryLevelUp(): void {
@@ -469,8 +494,8 @@ export class Player implements IPlayer {
   public recalculateStats(): void {
     if(!this.$inventoryData) return;
 
-    this.stats = {};
-    this.$statTrail = {};
+    this.stats = { };
+    this.$statTrail = { };
 
     this.stats.specialName = this.$profession.specialStatName || '';
 
@@ -574,6 +599,7 @@ export class Player implements IPlayer {
   }
 
   private initLinks() {
+    this.$quests.init(this);
     this.$inventory.init(this);
 
     if(this.$inventory.isNeedingNewbieItems()) {
@@ -595,7 +621,9 @@ export class Player implements IPlayer {
     const oldItem = this.$inventory.itemInEquipmentSlot(item.type);
     if(oldItem) {
       const successful = this.unequip(oldItem, failOnInventoryFull);
-      if(!successful) return false;
+      if(!successful) {
+        this.alwaysTryAddToInventory(oldItem);
+      }
     }
 
     this.increaseStatistic('Item/Equip/Times', 1);
@@ -654,7 +682,12 @@ export class Player implements IPlayer {
   }
 
   public sellItem(item: Item): number {
-    const value = item.score > 10 ? item.score : 10;
+    let value = item.score > 10 ? item.score : 10;
+
+    if(this.$personalities.isActive('Forager')) {
+      value = Math.floor(value / 2);
+    }
+
     const modValue = this.gainGold(value);
     this.increaseStatistic('Item/Sell/Times', 1);
     this.increaseStatistic('Item/Sell/GoldGain', modValue);
@@ -674,10 +707,17 @@ export class Player implements IPlayer {
   }
 
   public increaseStatistic(stat: string, val: number): void {
+    if(isNaN(val) || !isFinite(val)) return;
+
     this.$statistics.increase(stat, val);
 
     this.checkAchievements(stat);
     this.checkBuffs(stat);
+    this.checkQuests(stat, val);
+  }
+
+  private checkQuests(stat: string, val: number) {
+    this.$quests.checkQuests(this, stat, val);
   }
 
   private checkAchievements(stat: string) {
@@ -724,6 +764,7 @@ export class Player implements IPlayer {
 
     if(shouldRecalc) {
       this.recalculateStats();
+      this.$pets.$activePet.recalculateStats();
     }
   }
 
@@ -795,7 +836,7 @@ export class Player implements IPlayer {
 
     const allAchievementBoosts = this.$achievements.getPermanentUpgrades();
 
-    const allBuffBoosts = {};
+    const allBuffBoosts = { };
 
     Object.keys(this.buffWatches).forEach(buffKey => {
       this.buffWatches[buffKey].forEach((buff: IBuff) => {
@@ -830,7 +871,7 @@ export class Player implements IPlayer {
       0
     + (allBuffBoosts[PermanentUpgrade.BuffScrollDuration] || 0)
     + (allAchievementBoosts[PermanentUpgrade.BuffScrollDuration] || 0)
-    + (tier * 3)
+    + (tier)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.BuffScrollDuration)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.BuffScrollDuration));
 
@@ -838,7 +879,7 @@ export class Player implements IPlayer {
       10
     + (allBuffBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
     + (allAchievementBoosts[PermanentUpgrade.ChoiceLogSizeBoost] || 0)
-    + (tier * 10)
+    + (tier * 5)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ChoiceLogSizeBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ChoiceLogSizeBoost));
 
@@ -846,7 +887,7 @@ export class Player implements IPlayer {
       300
     + (allBuffBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
     + (allAchievementBoosts[PermanentUpgrade.ItemStatCapBoost] || 0)
-    + (tier * 100)
+    + (tier * 50)
     + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.ItemStatCapBoost)
     + this.$premium.getUpgradeLevel(PermanentUpgrade.ItemStatCapBoost) * 10);
 
@@ -886,9 +927,17 @@ export class Player implements IPlayer {
       + (allAchievementBoosts[PermanentUpgrade.MaxPetsInCombat] || 0)
     );
 
+    this.$statistics.set('Game/Premium/Upgrade/MaxQuests',
+      1
+      + tier
+      + (allAchievementBoosts[PermanentUpgrade.MaxQuestsCapBoost] || 0)
+      + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxQuestsCapBoost)
+    );
+
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
+    this.$quests.updateQuestsBasedOnTotals(this);
   }
 
   public gainILP(ilp: number): void {
@@ -901,6 +950,11 @@ export class Player implements IPlayer {
   }
 
   public changeProfession(prof: BaseProfession): void {
+    if(prof.constructor.name !== this.profession) {
+      this.removeBuffByName('Bone Minions');
+      this.removeBuffByName('Pheromone');
+    }
+
     this.profession = <Profession>prof.constructor.name;
     this.$profession = prof;
     this.$professionData = prof.$professionData;
@@ -1060,6 +1114,14 @@ export class Player implements IPlayer {
     this.cureInjury();
   }
 
+  public removeBuffByName(name: string) {
+    Object.keys(this.buffWatches).forEach(buffKey => {
+      this.buffWatches[buffKey] = this.buffWatches[buffKey].filter((buff: IBuff) => {
+        return buff.name !== name;
+      });
+    });
+  }
+
   public cureInjury() {
     let hasCured = false;
 
@@ -1078,5 +1140,26 @@ export class Player implements IPlayer {
       this.increaseStatistic(`Character/Injury/Cure`, 1);
       this.recalculateStats();
     }
+  }
+
+  public setDiscordTag(discordTag: string) {
+    if(!discordTag) {
+      this.discordTag = '';
+      this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
+      this.$premium.setTier(PremiumTier.None);
+      return;
+    }
+
+    this.discordTag = discordTag;
+
+    let newPremium = PremiumTier.None;
+    if(this.$$game.discordManager.hasRole(discordTag, 'Patron')) newPremium = PremiumTier.Subscriber;
+    if(this.$$game.discordManager.hasRole(discordTag, 'Patron Saint')) newPremium = PremiumTier.Subscriber2;
+
+    if(this.$$game.discordManager.hasRole(discordTag, 'Collaborator')) {
+      this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.Contributor);
+    }
+
+    this.$premium.setTier(newPremium);
   }
 }

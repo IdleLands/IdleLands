@@ -26,6 +26,7 @@ import { TabCharPage } from './tab-char/tab-char.page';
 import { TabGearPage } from './tab-gear/tab-gear.page';
 import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
 import { TabPremiumPage } from './tab-premium/tab-premium.page';
+import { TabQuestsPage } from './tab-quests/tab-quests.page';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TabPremiumPage } from './tab-premium/tab-premium.page';
     TabGearPage,
     TabAccomplishmentsPage,
     TabPremiumPage,
+    TabQuestsPage,
 
     GendervatarComponent,
     ItemComponent,

@@ -59,7 +59,7 @@ import { ServerEventName, IFestival } from '../../../shared/interfaces';
 export class ModFestivalModal {
 
   public durationHours = 0;
-  public festival: IFestival = { name: '', endTime: 0, startedBy: this.gameService.playerRef.name, stats: {} };
+  public festival: IFestival = { name: '', endTime: 0, startedBy: this.gameService.playerRef.name, stats: { } };
 
   public get isValidFestival(): boolean {
     return this.festival.name && this.durationHours > 0 && Object.keys(this.festival.stats).length > 0;
@@ -69,7 +69,7 @@ export class ModFestivalModal {
     private modalCtrl: ModalController,
     public socketService: SocketClusterService,
     public gameService: GameService
-  ) {}
+  ) { }
 
   public create() {
     this.festival.endTime = Date.now() + (1000 * 60 * 60 * this.durationHours);

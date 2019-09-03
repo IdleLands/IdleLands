@@ -35,18 +35,18 @@ const astraliumValues = {
   [Stat.GOLD]: 10
 };
 
-const scoreValues = {
+export const ItemScoreValues = {
   [Stat.HP]: 1,
 
-  [Stat.STR]: 4,
-  [Stat.INT]: 3,
-  [Stat.DEX]: 1,
-  [Stat.AGI]: 1,
-  [Stat.CON]: 3,
-  [Stat.LUK]: 5,
+  [Stat.STR]: 5,
+  [Stat.INT]: 4,
+  [Stat.DEX]: 2,
+  [Stat.AGI]: 2,
+  [Stat.CON]: 4,
+  [Stat.LUK]: 6,
 
-  [Stat.XP]: 10,
-  [Stat.GOLD]: 3,
+  [Stat.XP]: 20,
+  [Stat.GOLD]: 10,
 };
 
 export class Item implements IItem {
@@ -65,8 +65,8 @@ export class Item implements IItem {
   public locked: boolean;
 
   static calcScoreForHash(hash: any): number {
-    return Object.keys(scoreValues)
-      .map(statKey => (hash[statKey] || 0) * scoreValues[statKey])
+    return Object.keys(ItemScoreValues)
+      .map(statKey => (hash[statKey] || 0) * ItemScoreValues[statKey])
       .reduce((prev, cur) => prev + cur, 0);
   }
 
@@ -74,7 +74,7 @@ export class Item implements IItem {
     extend(this, opts);
     if(!this.id) this.id = uuid();
     if(!this.foundAt) this.foundAt = Date.now();
-    if(!this.stats) this.stats = {};
+    if(!this.stats) this.stats = { };
     if(!this.itemClass) this.itemClass = ItemClass.Basic;
     if(!this.enchantLevel) this.enchantLevel = 0;
 

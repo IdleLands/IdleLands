@@ -29,15 +29,17 @@ export class CombatHelper {
 
   canDoCombat(player: Player): boolean {
     const players = player.$party ? player.$party.members.map(x => this.playerManager.getPlayer(x)) : [player];
-    return !players.some((checkPlayer) => checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold'));
+    return !players.some(
+      (checkPlayer) => checkPlayer && checkPlayer.injuryCount() > checkPlayer.$statistics.get('Game/Premium/Upgrade/InjuryThreshold')
+    );
   }
 
   createAndRunMonsterCombat(player: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -99,9 +101,9 @@ export class CombatHelper {
   createAndRunBossCombat(player: Player, opts: any = { bossName: '', bossParty: '' }): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante: any = {};
+    const characters = { };
+    const parties = { };
+    const ante: any = { };
 
     // player party
     if(player.$party) {
@@ -204,9 +206,9 @@ export class CombatHelper {
   createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
 
     // if no party, just make a random name for this single person
-    const characters = {};
-    const parties = {};
-    const ante = {};
+    const characters = { };
+    const parties = { };
+    const ante = { };
 
     // player party
     if(player.$party) {
@@ -280,6 +282,8 @@ export class CombatHelper {
         const playerRef = this.playerManager.getPlayer(name);
         if(!playerRef) return;
 
+        if(isNaN(value) || !isFinite(value)) return;
+
         playerRef.increaseStatistic(statistic, value);
       }
     });
@@ -293,13 +297,15 @@ export class CombatHelper {
 
   private getPlayerAntes(players: Player[]): { [name: string]: { gold: number, xp: number } } {
     return players.reduce((prev, cur) => {
+      if(!cur || !cur.name) return prev;
+
       prev[cur.name] = {
         gold: Math.floor(cur.gold * 0.01),
         xp: Math.floor(cur.xp.total * 0.05)
       };
 
       return prev;
-    }, {});
+    }, { });
   }
 
   private getGenericAntes(combatChars: ICombatCharacter[]): { [id: string]: { gold: number, xp: number } } {
@@ -309,7 +315,7 @@ export class CombatHelper {
         xp: Math.floor(this.calculatorHelper.calcLevelMaxXP(cur.level) * 0.05)
       };
       return prev;
-    }, {});
+    }, { });
   }
 
   private getBossAntes(bossPrototypes: any[]): { collectibles: string[], items: string[] } {
@@ -336,11 +342,13 @@ export class CombatHelper {
   }
 
   private getAllPartyCombatMembers(players: Player[]): ICombatCharacter[] {
-    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
+    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer)).filter(Boolean);
   }
 
   private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
     const basePets = players.map(player => {
+      if(!player) return;
+
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
@@ -350,14 +358,18 @@ export class CombatHelper {
     }).filter(Boolean);
 
     const extraPets = players.reduce((prev, player) => {
+      if(!player) return prev;
+
       const extraCount = player.$statistics.get('Game/Premium/Upgrade/MaxPetsInCombat');
       if(extraCount <= 1) return prev;
 
       if(player.profession === 'Necromancer') {
         const necroPets = [];
 
+        const multiplierPerPet = (extraCount - 1)  / (75 + (5 * player.ascensionLevel));
+
         for(let i = 0; i < extraCount - 1; i++) {
-          necroPets.push(this.createNecroPet(player));
+          necroPets.push(this.createNecroPet(player, multiplierPerPet));
         }
 
         return prev.concat(necroPets);
@@ -395,7 +407,7 @@ export class CombatHelper {
         name: `Vector ${monsterProfession}`,
         profession: monsterProfession,
         level: generateLevel,
-        stats: {}
+        stats: { }
       };
     }
 
@@ -500,6 +512,7 @@ export class CombatHelper {
   }
 
   private createCombatCharacter(player: Player): ICombatCharacter {
+    if(!player) return;
 
     const stats = clone(player.currentStats);
     const maxStats = clone(player.currentStats);
@@ -533,14 +546,12 @@ export class CombatHelper {
     };
   }
 
-  private createNecroPet(player: Player): ICombatCharacter {
+  private createNecroPet(player: Player, multiplier = 0.75): ICombatCharacter {
 
-    const multiplier = 0.75;
-
-    const stats = Object.assign({}, player.currentStats);
+    const stats = Object.assign({ }, player.currentStats);
     Object.keys(stats).forEach(stat => stats[stat] = Math.floor(stats[stat] * multiplier));
 
-    const maxStats = Object.assign({}, stats);
+    const maxStats = Object.assign({ }, stats);
 
     const profession = sample(Object.values(Profession));
     const prefix = sample(['Zombie', 'Skeletal', 'Bone', 'Ghostly', 'Mummy', 'Ghoulish', 'Spectral', 'Shadow']);
@@ -596,7 +607,10 @@ export class CombatHelper {
 
       if(anteItems.length > 0) {
         anteItems.forEach(itemName => {
-          const foundItem = this.itemGenerator.generateGuardianItem(char, itemName, items[itemName].type, items[itemName]);
+          const gItem = items[itemName];
+          if(!gItem) throw new Error(`Guardian Item ${itemName} could not be awarded via combat since it doesn't exist.`);
+
+          const foundItem = this.itemGenerator.generateGuardianItem(char, gItem);
           char.$$game.eventManager.doEventFor(char, EventName.FindItem, { fromGuardian: true, item: foundItem });
         });
       }
@@ -625,7 +639,7 @@ export class CombatHelper {
       const ante = combat.ante[x.combatId];
       if(!ante) return;
 
-      player.gainGold(-ante.gold);
+      player.spendGold(ante.gold);
       player.gainXP(-ante.xp);
 
       player.addBuff(this.createRandomInjury(player));

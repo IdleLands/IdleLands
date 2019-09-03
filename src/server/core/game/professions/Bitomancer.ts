@@ -49,11 +49,11 @@ export class Bitomancer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
 
-    const scaler = player.getStat(Stat.LUK) + player.getStat(Stat.INT);
+    const scaler = Math.max(1, player.getStat(Stat.LUK) + player.getStat(Stat.INT));
 
-    const stats = {};
+    const stats = { };
     Object.values([Stat.STR, Stat.INT, Stat.CON]).forEach(stat => {
       stats[stat] = player.$$game.rngService.numberInRange(-5, Math.floor(Math.log(scaler) * player.level.total));
     });
@@ -67,7 +67,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
     }, true);
 
     this.emitProfessionMessage(player, `You hacked the system!`);
-    return `You hacked the system!`;
+    return { success: true, message: `You hacked the system!` };
   }
 
   public determineStartingSpecial(): number {

@@ -1,4 +1,4 @@
-import { AchievementType, AchievementRewardType, Achievement, PermanentUpgrade, PetAttribute, Stat } from '../../../../shared/interfaces';
+import { AchievementType, AchievementRewardType, Achievement } from '../../../../shared/interfaces';
 import { Player } from '../../../../shared/models';
 
 export class Cheater extends Achievement {

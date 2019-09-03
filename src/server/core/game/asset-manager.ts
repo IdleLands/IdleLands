@@ -1,7 +1,5 @@
-import { Singleton, AutoWired, Inject } from 'typescript-ioc';
+import { Singleton, AutoWired } from 'typescript-ioc';
 import { sample, includes } from 'lodash';
-
-import { ItemGenerator } from './item-generator';
 
 @Singleton
 @AutoWired
@@ -94,5 +92,15 @@ export class AssetManager {
   public party() {
     const grammar = sample(this.stringAssets.partyGrammar);
     return this.stringFromGrammar(grammar);
+  }
+
+  public quest() {
+    const grammar = sample(this.stringAssets.questGrammar);
+    return this.stringFromGrammar(grammar);
+  }
+
+  public globalQuest(mapName: string) {
+    const things = ['Help In', 'Aid For', 'Support Requested In', 'Helping Hand Desired In'];
+    return `${sample(things)} ${mapName}`;
   }
 }

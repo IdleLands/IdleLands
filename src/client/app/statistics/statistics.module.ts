@@ -28,4 +28,4 @@ const routes: Routes = [
   entryComponents: [StatisticsTreeComponent],
   declarations: [StatisticsPage, StatisticsTreeComponent]
 })
-export class StatisticsPageModule {}
+export class StatisticsPageModule { }

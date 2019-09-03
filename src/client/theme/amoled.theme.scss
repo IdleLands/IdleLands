@@ -108,4 +108,8 @@
   ion-badge {
     border: 1px solid #fff;
   }
+
+  ion-button.ion-color-dark {
+    --ion-color-dark: var(--ion-color-medium);
+  }
 }

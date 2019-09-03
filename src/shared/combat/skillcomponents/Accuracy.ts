@@ -25,7 +25,7 @@ export const Accuracy = (accuracy: AttackAccuracy|number) =>
           totalAccuracy = AttackAccuracyFunctions[accuracy](caster, combat.characters[characterId], combat);
         }
 
-        effect.accuracy = totalAccuracy;
+        effect.accuracy = Math.max(0, Math.min(100, totalAccuracy));
 
       });
     });

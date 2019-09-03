@@ -28,4 +28,4 @@ const routes: Routes = [
   declarations: [AdventuresPage, ChoosePetsModal],
   entryComponents: [ChoosePetsModal]
 })
-export class AdventuresPageModule {}
+export class AdventuresPageModule { }

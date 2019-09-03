@@ -31,4 +31,4 @@ const routes: Routes = [
   declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal],
   entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal]
 })
-export class ModeratorPageModule {}
+export class ModeratorPageModule { }

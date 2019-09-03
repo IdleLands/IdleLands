@@ -51,7 +51,7 @@ export class CombatSimulator {
     combinators: ICombatSkillCombinator[]
   ): PartialCombatSkill {
 
-    const baseSkill: PartialCombatSkill = {};
+    const baseSkill: PartialCombatSkill = { };
 
     return combinators.reduce((prev, cur) => {
       return cur(prev, caster, this.combat);
@@ -166,7 +166,9 @@ export class CombatSimulator {
 
     const refChar = this.combat.characters[skillEffect.source];
 
-    const absDamage = Math.abs(skillEffect.modifyStatValue);
+    let absDamage = Math.abs(skillEffect.modifyStatValue);
+    if(!isFinite(absDamage) || isNaN(absDamage)) absDamage = 0;
+
     const damageString = absDamage === 0 ? `0 [miss]` : absDamage.toLocaleString();
 
     const replacements: Array<{ replace: string, with: string }> = [
@@ -184,6 +186,8 @@ export class CombatSimulator {
 
   private applySingleEffect(character: ICombatCharacter, effect: ICombatSkillEffect) {
 
+    const oldHPValue = character.stats[Stat.HP];
+
     if(effect.modifyStat) {
       // roll accuracy, if it fails, set the value to 0
       if(!this.chance.bool({ likelihood: Math.max(0, Math.min(100, effect.accuracy)) }) || isNaN(effect.modifyStatValue)) {
@@ -192,11 +196,16 @@ export class CombatSimulator {
 
       // round modifyStatValue always
       effect.modifyStatValue = Math.floor(effect.modifyStatValue);
+      if(isNaN(effect.modifyStatValue) || !isFinite(effect.modifyStatValue)) effect.modifyStatValue = 0;
 
       // special cap handling for HP and Special
       if(effect.modifyStat === Stat.HP) {
         if(effect.modifyStatValue + character.stats[Stat.HP] > character.maxStats[Stat.HP]) {
           effect.modifyStatValue = character.maxStats[Stat.HP] - character.stats[Stat.HP];
+        }
+
+        if(effect.modifyStatValue + character.stats[Stat.HP] <= 0) {
+          effect.modifyStatValue = -character.stats[Stat.HP];
         }
       }
 
@@ -219,7 +228,7 @@ export class CombatSimulator {
     });
 
     // do statistic modifications
-    if(effect.modifyStat === Stat.HP) {
+    if(effect.modifyStat === Stat.HP && oldHPValue !== 0) {
       const giver = this.combat.characters[effect.source];
 
       const type = effect.modifyStatValue === 0 ? 'Miss' : (effect.modifyStatValue < 0 ? 'Damage' : 'Healing');
@@ -334,7 +343,7 @@ export class CombatSimulator {
     });
 
     // check what teams are still alive
-    const livingParties = {};
+    const livingParties = { };
     Object.values(this.combat.characters).forEach(char => {
       if(this.isDead(char)) return;
       livingParties[char.combatPartyId] = true;
@@ -347,12 +356,12 @@ export class CombatSimulator {
     if(size(livingParties) === 1) return this.endCombat({ winningParty: +Object.keys(livingParties)[0] });
 
     // arbitrary round timer just in case
-    if(this.combat.currentRound >= 300) return this.endCombat({ wasTie: true });
+    if(this.combat.currentRound >= 100) return this.endCombat({ wasTie: true });
 
     this.beginRound();
   }
 
-  endCombat(args: { wasTie?: boolean, winningParty?: number } = {}) {
+  endCombat(args: { wasTie?: boolean, winningParty?: number } = { }) {
     Object.values(this.combat.characters).forEach(char => {
       const didWin = char.combatPartyId === args.winningParty;
       const combatType = args.wasTie ? 'Tie' : (didWin ? 'Win' : 'Lose');
@@ -394,7 +403,11 @@ export class CombatSimulator {
   }
 
   incrementStatistic(char: ICombatCharacter, statistic: string, value = 1) {
-    if(!char || !char.realName) return;
+    if(isNaN(value) || !isFinite(value)) {
+      console.log(`char`, char.name, statistic, value, JSON.stringify(this.combat));
+    }
+
+    if(!char || !char.realName || isNaN(value) || !isFinite(value)) return;
 
     this.events$.next({
       action: CombatAction.IncrementStatistic,

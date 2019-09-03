@@ -51,6 +51,14 @@ export enum GachaReward {
   CrystalOrange = 'item:Crystal:Orange',
   CrystalAstral = 'item:Crystal:Astral',
 
+  CrystalGreen5 = 'item:Crystal:Green:5',
+  CrystalYellow5 = 'item:Crystal:Yellow:5',
+  CrystalRed5 = 'item:Crystal:Red:5',
+  CrystalBlue5 = 'item:Crystal:Blue:5',
+  CrystalPurple5 = 'item:Crystal:Purple:5',
+  CrystalOrange5 = 'item:Crystal:Orange:5',
+  CrystalAstral5 = 'item:Crystal:Astral:5',
+
   ItemBasic = 'item:generated:basic',
   ItemPro = 'item:generated:pro',
   ItemIdle = 'item:generated:idle',
@@ -116,6 +124,14 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.CrystalPurple]: 'Pet Crystal (Purple)',
   [GachaReward.CrystalOrange]: 'Pet Crystal (Orange)',
   [GachaReward.CrystalAstral]: 'Pet Crystal (Astral)',
+
+  [GachaReward.CrystalGreen5]: 'Pet Crystal (Green x5)',
+  [GachaReward.CrystalYellow5]: 'Pet Crystal (Yellow x5)',
+  [GachaReward.CrystalRed5]: 'Pet Crystal (Red x5)',
+  [GachaReward.CrystalBlue5]: 'Pet Crystal (Blue x5)',
+  [GachaReward.CrystalPurple5]: 'Pet Crystal (Purple x5)',
+  [GachaReward.CrystalOrange5]: 'Pet Crystal (Orange x5)',
+  [GachaReward.CrystalAstral5]: 'Pet Crystal (Astral x5)',
 
   [GachaReward.ItemTeleportScrollRandom]: 'Teleport Scroll (Random)',
   [GachaReward.ItemTeleportScrollACR]: 'Teleport Scroll (ACR)',

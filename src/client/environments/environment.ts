@@ -25,6 +25,10 @@ export const environment = {
     secure: false,
     hostname: '127.0.0.1',
     port: 8000
+  },
+
+  stripe: {
+    apiKey: 'pk_test_knY2KjJCd8Y7BFl6Qo4eSdhl'
   }
 };
 

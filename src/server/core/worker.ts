@@ -70,7 +70,7 @@ export class GameWorker extends SCWorker {
           if(evtInst.isDoingSomething) return;
 
           evtInst.isDoingSomething = true;
-          await evtInst.callback(args || {});
+          await evtInst.callback(args || { });
           evtInst.isDoingSomething = false;
         });
       });

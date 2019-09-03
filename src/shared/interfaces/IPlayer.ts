@@ -6,7 +6,6 @@ import { IProfession } from './IProfession';
 import { IBuff } from './IBuff';
 import { IParty } from './IParty';
 import { Stat } from './Stat';
-import { ICombatSkill } from './ICombatSkill';
 import { ModeratorTier } from './Moderation';
 
 export enum Direction {
@@ -121,6 +120,9 @@ export interface IPlayer extends ICharacter {
   $premium: any;
   $premiumData: any;
 
+  $quests: any;
+  $questsData: any;
+
   lastDir: Direction;
   lastLoc: { map: string, x: number, y: number };
   divineDirection?: { x: number, y: number, steps: number };
@@ -128,7 +130,7 @@ export interface IPlayer extends ICharacter {
 
   $party?: IParty;
 
-  loop(): Promise<void>;
+  loop(tick: number): Promise<void>;
   toSaveObject(): IPlayer;
 
   canLevelUp(): boolean;
@@ -170,8 +172,8 @@ export interface IPlayer extends ICharacter {
 
   tryToDoNewCharacter(): void;
 
-  oocAction(): string;
-  petOOCAction(): string;
+  oocAction(): { success: boolean, message: string };
+  petOOCAction(): { success: boolean, message: string };
 
   injuryCount(): number;
   cureInjury(): void;

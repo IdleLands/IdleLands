@@ -2,7 +2,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { LootTable } from 'lootastic';
-import { some, find, pull } from 'lodash';
+import { find, pull } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Player } from './Player.entity';
@@ -47,15 +47,15 @@ export class Pets extends PlayerOwned {
 
   constructor() {
     super();
-    if(!this.allPets) this.allPets = {};
+    if(!this.allPets) this.allPets = { };
     if(!this.currentPet) this.currentPet = '';
-    if(!this.buyablePets) this.buyablePets = {};
-    if(!this.ascensionMaterials) this.ascensionMaterials = {};
+    if(!this.buyablePets) this.buyablePets = { };
+    if(!this.ascensionMaterials) this.ascensionMaterials = { };
     if(!this.adventures) this.adventures = [];
   }
 
   toSaveObject() {
-    const allPets = {};
+    const allPets = { };
     Object.keys(this.allPets).forEach(petKey => {
       allPets[petKey] = this.allPets[petKey].toSaveObject();
     });
@@ -86,8 +86,15 @@ export class Pets extends PlayerOwned {
     this.validatePetMissionsAndQuantity(player);
   }
 
-  public loop() {
+  public loop(tick: number, player: Player) {
     this.$activePet.loop();
+
+    // every 60 ticks
+    if(player.$personalities.isActive('Forager') && (tick % 60 === 0)) {
+      Object.values(this.allPets).forEach(pet => {
+        pet.loop(true);
+      });
+    }
   }
 
   public getTotalPermanentUpgradeValue(upgradeAttr: PermanentUpgrade): number {
@@ -110,6 +117,7 @@ export class Pets extends PlayerOwned {
     this.currentPet = typeName;
 
     if(this.$activePet) {
+      this.$activePet.recalculateStats();
       this.$activePet.$$game.petHelper.shareSoul(this.$activePet);
     }
   }
@@ -124,6 +132,10 @@ export class Pets extends PlayerOwned {
     pet.init();
     pet.$$game.petHelper.syncPetBasedOnProto(pet);
     pet.recalculateStats();
+
+    if(pet.currentAdventureId && !this.adventures.some(adv => adv.id === pet.currentAdventureId)) {
+      pet.currentAdventureId = '';
+    }
   }
 
   private firstInit(player: Player) {
@@ -137,7 +149,7 @@ export class Pets extends PlayerOwned {
   }
 
   public syncBuyablePets(player: Player) {
-    this.buyablePets = {};
+    this.buyablePets = { };
 
     const achieved = player.$achievements.getPets();
     achieved.forEach(petName => {
@@ -190,7 +202,7 @@ export class Pets extends PlayerOwned {
     if(pet.rating >= 5 || !pet.level.atMaximum()) return false;
 
     const materials = pet.$$game.petHelper.getPetProto(pet.typeName).ascensionMaterials[pet.rating];
-    const someMaterialsMissing = some(Object.keys(materials), (mat) => materials[mat] > this.ascensionMaterials[mat]);
+    const someMaterialsMissing = Object.keys(materials).some((mat) => materials[mat] > (this.ascensionMaterials[mat] || 0));
     if(someMaterialsMissing) return false;
 
     Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
@@ -233,8 +245,15 @@ export class Pets extends PlayerOwned {
   // check if all pets are able to go on mission. if so, mark them as in mission
   public embarkOnPetMission(player: Player, adventureId: string, pets: string[]): boolean {
     const adventure = find(this.adventures, { id: adventureId });
-    const petRefs = pets.map(x => this.allPets[x]).filter(x => x && !x.currentAdventureId);
+    if(!adventure) return false;
 
+    const petsOnCurrentAdventure = Object.values(this.allPets).filter(x => x.currentAdventureId === adventureId);
+    if(petsOnCurrentAdventure.length > 0) return false;
+
+    const petsOnAdventure = pets.map(x => this.allPets[x]).filter(x => x.currentAdventureId === adventureId);
+    if(petsOnAdventure.length > 0) return false;
+
+    const petRefs = pets.map(x => this.allPets[x]).filter(x => x && !x.currentAdventureId);
     if(pets.length === 0 || petRefs.length !== pets.length || !adventure) return false;
 
     // update finishAt to be the end time
@@ -259,6 +278,8 @@ export class Pets extends PlayerOwned {
       if(pet.currentAdventureId !== adventureId) return;
       pet.currentAdventureId = '';
       totalPetsSentOnAdventure++;
+
+      pet.gainXP(pet.xp.maximum * (adventure.duration / 100));
     });
 
     let totalRewards = Math.floor(BaseAdventureRewardCount[adventure.duration] * totalPetsSentOnAdventure);

@@ -1,8 +1,6 @@
 import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import * as Discord from 'discord.js';
 
-import { DatabaseManager } from './database-manager';
-
 import { Logger } from '../logger';
 import { IMessage } from '../../../shared/interfaces';
 
@@ -16,7 +14,7 @@ export class DiscordManager {
   private discordGuild: Discord.Guild;
   private discordChannel: Discord.TextChannel;
 
-  private onMessageCallback = (msg: IMessage) => {};
+  private onMessageCallback = (msg: IMessage) => { };
 
   public async init(onMessageCallback, canServerNodeRunDiscord = true): Promise<void> {
     if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) return;
@@ -93,9 +91,22 @@ export class DiscordManager {
   }
 
   public getUserRoles(tag: string) {
+    if(!this.discordGuild) return null;
     const guildUser = this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
     if(!guildUser) return null;
     return guildUser.roles;
+  }
+
+  public submitCustomItem(fromPlayer: string, itemText: string) {
+    if(!this.discordGuild) return null;
+
+    const discordChannel = process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID;
+    if(!discordChannel) return null;
+
+    const channelRef = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID);
+    if(!channelRef) return null;
+
+    channelRef.send(`Via ${fromPlayer}: ${itemText}`);
   }
 
 }

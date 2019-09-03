@@ -45,7 +45,7 @@ export class SandwichArtist extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0.7
   };
 
-  public oocAbility(player: Player): string {
+  public oocAbility(player: Player): { success: boolean, message: string } {
     const luk = player.getStat(Stat.LUK);
     const numAbilUsesBonus = Math.floor(player.$statistics.get('Profession/SandwichArtist/AbilityUses') / 10);
     player.grantBuff({
@@ -54,11 +54,11 @@ export class SandwichArtist extends BaseProfession implements IProfession {
       booster: true,
       duration: 720,
       stats: {
-        [Stat.GOLD]: (Math.log(luk) * Math.log(player.level.total)) + numAbilUsesBonus
+        [Stat.GOLD]: (Math.max(1, Math.log(luk)) * Math.log(player.level.total)) + numAbilUsesBonus
       }
     }, true);
 
     this.emitProfessionMessage(player, 'Your GOLD gain will be increased for 720 ticks!');
-    return `Your GOLD gain will be increased for 720 ticks!`;
+    return { success: true, message: `Your GOLD gain will be increased for 720 ticks!` };
   }
 }

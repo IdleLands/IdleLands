@@ -26,4 +26,4 @@ const routes: Routes = [
   ],
   declarations: [PetslistPage]
 })
-export class PetslistPageModule {}
+export class PetslistPageModule { }

@@ -5,6 +5,7 @@ import { TabCharPage } from './tab-char/tab-char.page';
 import { TabGearPage } from './tab-gear/tab-gear.page';
 import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
 import { TabPremiumPage } from './tab-premium/tab-premium.page';
+import { TabQuestsPage } from './tab-quests/tab-quests.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -161,13 +162,34 @@ const routes: Routes = [
     }
   ] },
 
+  { path: 'quests', component: TabQuestsPage, children: [
+    {
+      path: 'personal',
+      children: [
+        { path: '', loadChildren: './quests-personal/quests-personal.module#QuestsPersonalPageModule' }
+      ]
+    },
+    {
+      path: 'global',
+      children: [
+        { path: '', loadChildren: './quests-global/quests-global.module#QuestsGlobalPageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/quests/personal',
+      pathMatch: 'full'
+    }
+  ] },
+
   { path: 'combat/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
 
   { path: 's/c/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
 
   { path: 'moderator', loadChildren: './moderator/moderator.module#ModeratorPageModule' },
 
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: 'home' },
+  { path: 'tab-quests', loadChildren: './tab-quests/tab-quests.module#TabQuestsPageModule' }
 ];
 
 @NgModule({

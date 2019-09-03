@@ -15,8 +15,8 @@ export class BaseAttribute implements IAttribute {
     };
   }
 
-  public oocAbility(player: ICharacter): string {
-    return '';
+  public oocAbility(player: ICharacter): { success: boolean, message: string } {
+    return { success: true, message: '' };
   }
 }
 
@@ -96,8 +96,8 @@ export class BaseProfession extends BaseAffinity implements IAffinity, IAttribut
     };
   }
 
-  public oocAbility(player: ICharacter): string {
-    return '';
+  public oocAbility(player: ICharacter): { success: boolean; message: string } {
+    return { success: true, message: '' };
   }
 
   public determineStartingSpecial(player: ICharacter): number {

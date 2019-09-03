@@ -47,19 +47,23 @@ export class Necromancer extends BaseProfession implements IProfession {
     [Stat.GOLD]: 0
   };
 
-  public oocAbility(player: Player): string {
+
+
+  public oocAbility(player: Player): { success: boolean, message: string } {
+    const totalBoostCalc = player.ascensionLevel + player.$statistics.get('Profession/Necromancer/Become') || 1;
+
     player.grantBuff({
       name: 'Bone Minions',
       statistic: 'Combat/All/Times/Total',
       booster: true,
       duration: 5 + player.ascensionLevel,
       permanentStats: {
-        [PermanentUpgrade.MaxPetsInCombat]: 2 + Math.floor(Math.log(player.ascensionLevel))
+        [PermanentUpgrade.MaxPetsInCombat]: 2 + Math.floor(Math.log(totalBoostCalc))
       }
-    }, true);
+    });
 
     this.emitProfessionMessage(player, 'You summoned some bone minions!');
-    return `You summoned some bone minions!`;
+    return { success: true, message: `You summoned some bone minions!` };
   }
 
   public determineStartingSpecial(): number {

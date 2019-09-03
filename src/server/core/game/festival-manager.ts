@@ -52,13 +52,19 @@ export class FestivalManager {
     return festival;
   }
 
+  private getFestivalStatString(festival: IFestival): string {
+    return Object.keys(festival.stats)
+      .map(x => `${x.toUpperCase()} ${festival.stats[x] > 0 ? '+' : ''}${festival.stats[x]}%`)
+      .join(', ');
+  }
+
   public startAscensionFestival(player: Player) {
 
     const endTime = new Date();
-    endTime.setDate(endTime.getDate() + 3);
+    endTime.setDate(endTime.getDate() + 7);
 
     const festival = this.makeSystemFestival({
-      name: `${player.name}'s Ascension`,
+      name: `${player.name}'s ${player.ascensionLevel}★ Ascension`,
       startedBy: player.name,
       endTime: endTime.getTime(),
       stats: {
@@ -70,7 +76,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started!`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
       playerName: '☆System'
     });
   }
@@ -82,7 +88,7 @@ export class FestivalManager {
     this.initiateAddFestival(addedFestival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${addedFestival.name}" has started!`,
+      message: `A new festival "${addedFestival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
       playerName: `☆${player.name}`
     });
   }
@@ -91,7 +97,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started!`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
       playerName: '☆System'
     });
   }
@@ -113,6 +119,10 @@ export class FestivalManager {
 
   public hasFestivalForName(name: string): boolean {
     return this.festivals.festivals.some(fest => fest.startedBy === name);
+  }
+
+  public hasFestivalWithName(festival: string): boolean {
+    return this.festivals.festivals.some(fest => fest.name === festival);
   }
 
   public initiateAddFestival(festival: IFestival): boolean {

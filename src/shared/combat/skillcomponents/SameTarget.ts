@@ -19,7 +19,7 @@ export const SameTarget = (...combinatorContainers: Array<ICombatSkillCombinator
         if(isNaN(target)) return;
 
         newSkill.targetEffects[target].forEach(eff => {
-          skill.targetEffects = skill.targetEffects || {};
+          skill.targetEffects = skill.targetEffects || { };
           skill.targetEffects[target] = skill.targetEffects[target] || [];
           skill.targetEffects[target].push(eff);
         });

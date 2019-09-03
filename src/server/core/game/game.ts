@@ -28,6 +28,9 @@ import { CalculatorHelper } from './calculator-helper';
 import { FestivalManager } from './festival-manager';
 import { GMHelper } from './gm-helper';
 import { IL3Linker } from './il3-linker';
+import { QuestHelper } from './quest-helper';
+import { GlobalQuestManager } from './global-quest-manager';
+import { StripeHelper } from './stripe-helper';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
@@ -59,6 +62,9 @@ export class Game implements IGame {
   @Inject public calculatorHelper: CalculatorHelper;
   @Inject public festivalManager: FestivalManager;
   @Inject public gmHelper: GMHelper;
+  @Inject public questHelper: QuestHelper;
+  @Inject public globalQuestManager: GlobalQuestManager;
+  @Inject public stripeHelper: StripeHelper;
   @Inject public world: World;
 
   private ticks = 0;
@@ -131,6 +137,9 @@ export class Game implements IGame {
     this.logger.log('Game', 'World initializing...');
     await this.world.init(this.assetManager.allMapAssets);
 
+    this.logger.log('Game', 'Global quest manager initializing...');
+    await this.globalQuestManager.init();
+
     this.loop();
   }
 
@@ -141,7 +150,7 @@ export class Game implements IGame {
     // intentionally, we don't wait for each player to save (we could do for..of)
     // we just want to make sure their player event is done before we send an update
     this.playerManager.allPlayers.forEach(async player => {
-      await player.loop();
+      await player.loop(this.ticks);
 
       const charKey = player.name.slice(0, 1).toLowerCase();
       const timeout = this.timeoutMultiplier * (this.updateGroupTimeouts[charKey] || 0);
@@ -155,6 +164,10 @@ export class Game implements IGame {
         this.databaseManager.savePlayer(player);
       }
     });
+
+    if((this.ticks % 100) === 0) {
+      this.globalQuestManager.tick();
+    }
 
     if(this.ticks > 600) {
       this.ticks = 0;
@@ -194,6 +207,6 @@ export class Game implements IGame {
 
     this.eventManager.doEventFor(player, EventName.FindItem);
 
-    player.emit(ServerEventName.CharacterFirstTime, {});
+    player.emit(ServerEventName.CharacterFirstTime, { });
   }
 }

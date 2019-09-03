@@ -14,17 +14,17 @@ export class PlayerManager {
   @Inject private subscriptionManager: SubscriptionManager;
   @Inject private discordManager: DiscordManager;
 
-  private players: { [key: string]: Player } = {};
+  private players: { [key: string]: Player } = { };
   private playerList: Player[] = [];
 
-  private playerWatches: { [key: string]: Observer<Player> } = {};
-  private playerSockets: { [key: string]: any } = {};
+  private playerWatches: { [key: string]: Observer<Player> } = { };
+  private playerSockets: { [key: string]: any } = { };
 
-  private currentPlayerMaps = {};
-  private allPlayersSimple = {};
-  private allPlayersInMaps = {};
+  private currentPlayerMaps = { };
+  private allPlayersSimple = { };
+  private allPlayersInMaps = { };
 
-  public playerDataHold = {};
+  public playerDataHold = { };
 
   public get allPlayers(): Player[] {
     return this.playerList;
@@ -148,7 +148,7 @@ export class PlayerManager {
 
     this.players[player.name] = player;
     this.playerSockets[player.name] = socket;
-    this.playerDataHold[player.name] = {};
+    this.playerDataHold[player.name] = { };
     this.resetPlayerList();
 
     if(sendUpdate) {
