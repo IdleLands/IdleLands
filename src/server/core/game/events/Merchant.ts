@@ -81,7 +81,7 @@ export class Merchant extends Event {
       item = { name: 'Enchantment', score: 1, type: 'enchant', fullName: () => 'enchantment' };
 
       const baseCostFivePercent = Math.floor(player.$inventory.totalItemScore() * 0.05);
-      cost = this.rng.numberInRange(baseCostFivePercent * 2, baseCostFivePercent * 3);
+      cost = Math.max(1000, this.rng.numberInRange(baseCostFivePercent * 2, baseCostFivePercent * 3));
 
     } else {
       player.increaseStatistic(`Event/Merchant/Item`, 1);
