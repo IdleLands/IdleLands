@@ -49,7 +49,7 @@ export class Generalist extends BaseProfession implements IProfession {
   public oocAbility(player: Player): { success: boolean, message: string } {
     const scaler = player.$statistics.get('Profession/Generalist/Become') || 1;
 
-    const luk = Math.max(Math.floor(player.getStat(Stat.LUK) * 2.5 * Math.log(scaler)), player.getStat(Stat.LUK))
+    const luk = Math.max(Math.floor(player.getStat(Stat.LUK) * 2.5 * Math.log(scaler)), player.getStat(Stat.LUK));
 
     const xpGained = Math.max(player.gainXP(luk), 10);
     this.emitProfessionMessage(player, `You gained ${xpGained.toLocaleString()} XP via Generalize!`);
