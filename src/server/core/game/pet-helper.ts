@@ -88,7 +88,7 @@ export class PetHelper {
     pet.$nextUpgrade = { };
 
     Object.values(PetUpgrade).forEach(upgrade => {
-      pet.upgradeLevels[upgrade] = Math.min(pet.upgradeLevels[upgrade], proto.upgrades[upgrade].length);
+      pet.upgradeLevels[upgrade] = Math.min(pet.upgradeLevels[upgrade], proto.upgrades[upgrade].length - 1);
 
       pet.$currentUpgrade[upgrade] = proto.upgrades[upgrade][pet.upgradeLevels[upgrade] || 0];
       pet.$nextUpgrade[upgrade] = proto.upgrades[upgrade][(pet.upgradeLevels[upgrade] || 0) + 1];
