@@ -1270,7 +1270,7 @@
 
     soulShare:
       - { v: 0,   c: 0 }
-      - { v: 20,  c: 100000 }
+      - { v: 20,  c: 100000,   a: 1 }
 
   permanentUpgrades:
     itemStatCapBoost: 50
