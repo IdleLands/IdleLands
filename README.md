@@ -79,3 +79,11 @@ IL3 variables are used to connect to the old DB for the purposes of character im
 
 * `npm run start:server` - start the server
 * `npm run start:client` - start the client
+
+## Making Yourself A GM
+
+To test any moderator-related features, you will need to be a GM. Doing so is as easy a quick DB query:
+
+```
+db.getCollection('player').update({ name: 'YOUR_CHARACTER_NAME' }, { $set: { modTier: 5 } });
+```
