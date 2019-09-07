@@ -37,14 +37,14 @@ export class FestivalsPage implements OnInit {
   }
 
   public festivalAggregate(festivals: IFestival[]): any {
-    const aggStats = { stats: {} }
+    const aggStats = { stats: { } };
 
-    for (let o of festivals) {
-      for (let [k, v] of Object.entries(o.stats)) {
+    for (const o of festivals) {
+      for (const [k, v] of Object.entries(o.stats)) {
         if (!aggStats.stats[k]) {
-          aggStats.stats[k] = v
+          aggStats.stats[k] = v;
         } else {
-          aggStats.stats[k] += v
+          aggStats.stats[k] += v;
         }
       }
     }
