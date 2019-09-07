@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { sortBy, assignInWith } from 'lodash';
+import { sortBy } from 'lodash';
 
 import { GameService } from '../game.service';
 import { map } from 'rxjs/operators';
