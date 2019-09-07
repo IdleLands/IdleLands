@@ -7,11 +7,14 @@
   </ion-toolbar>
 
   <ion-toolbar *ngIf="isLoaded">
-    <ion-title padding-top="10px">Total Festival Buffs</ion-title>
+    <ion-row padding-top="10px">
+      <ion-title>Total Festival Buffs</ion-title>
+      <ion-label class="label-right"><strong>{{ festivals.length }} Total Festivals</strong></ion-label>
+    </ion-row>
 
-    <ion-row offset-xs="0" offset-md="3" class="ion-padding" >
+    <ion-row offset-xs="0" offset-md="3" class="ion-padding">
       <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
-        <ion-col size-xs="6" size-md="4">
+        <ion-col size-xs="6" size-md="4" *ngIf="aggregate.stats[stat]" class="vertical-center">
           <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end">
           </ion-icon>
 
