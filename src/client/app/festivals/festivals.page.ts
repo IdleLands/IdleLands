@@ -5,7 +5,6 @@ import { sortBy } from 'lodash';
 import { GameService } from '../game.service';
 import { map } from 'rxjs/operators';
 import { IFestival } from '../../../shared/interfaces';
-import { Festivals } from 'src/shared/models';
 
 @Component({
   selector: 'app-festivals',
