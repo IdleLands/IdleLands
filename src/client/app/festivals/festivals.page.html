@@ -5,6 +5,27 @@
     </ion-buttons>
     <ion-title>Festivals</ion-title>
   </ion-toolbar>
+
+  <ion-toolbar *ngIf="isLoaded">
+    <ion-row padding-top="10px">
+      <ion-title>Total Festival Buffs</ion-title>
+      <ion-label class="label-right"><strong>{{ festivals.length }} Total Festivals</strong></ion-label>
+    </ion-row>
+
+    <ion-row offset-xs="0" offset-md="3" class="ion-padding">
+      <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
+        <ion-col size-xs="6" size-md="4" *ngIf="aggregate.stats[stat]" class="vertical-center">
+          <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end">
+          </ion-icon>
+
+          <ion-label>
+            <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong>
+            {{ (aggregate.stats[stat] || 0) | number }}%
+          </ion-label>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
@@ -23,21 +44,21 @@
       <ion-virtual-scroll [items]="festivals" *ngIf="festivals.length > 0" approxItemHeight="170px">
         <ion-card *virtualItem="let item" [class.ion-hide]="!isFestivalValid(item)">
           <ion-card-header>
-            <ion-card-subtitle>Ends in <countdown-timer [end]="item.endTime"></countdown-timer> &middot; via {{ item.startedBy }}</ion-card-subtitle>
+            <ion-card-subtitle>Ends in <countdown-timer [end]="item.endTime"></countdown-timer> &middot; via
+              {{ item.startedBy }}</ion-card-subtitle>
             <ion-card-title>{{ item.name }}</ion-card-title>
           </ion-card-header>
-  
+
           <ion-card-content>
             <ion-row>
               <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
-                <ion-col size-xs="6"
-                          size-md="4" 
-                          *ngIf="item.stats[stat]"
-                          class="vertical-center">
-                  <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end"></ion-icon>
-                        
+                <ion-col size-xs="6" size-md="4" *ngIf="item.stats[stat]" class="vertical-center">
+                  <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end">
+                  </ion-icon>
+
                   <ion-label>
-                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong> {{ (item.stats[stat] || 0) | number }}%
+                    <strong class="stat-fixed-width">{{ stat.toUpperCase() }}</strong>
+                    {{ (item.stats[stat] || 0) | number }}%
                   </ion-label>
                 </ion-col>
               </ng-container>
