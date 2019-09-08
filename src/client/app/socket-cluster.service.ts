@@ -63,6 +63,9 @@ export class SocketClusterService {
     this.socket = SocketCluster.connect(opts);
 
     this.socket.on('error', (err) => {
+      // did not receive #handshake. this might be because we toggle minbin on or off in prod
+      if(err.code === 4005) window.location.reload();
+
       console.error(err);
       this.error.next(err);
     });
