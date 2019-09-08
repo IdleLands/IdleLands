@@ -21,7 +21,7 @@ export class GameWorker extends SCWorker {
     const httpServer = this.httpServer;
     const scServer = this.scServer;
 
-    scServer.setCodecEngine(scCodecMinBin);
+    // scServer.setCodecEngine(scCodecMinBin);
 
     const game = new Game();
     await game.init(scServer, this.id);

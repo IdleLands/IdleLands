@@ -20,7 +20,7 @@ const play = (name) => {
 
   const SocketCluster = require('socketcluster-client');
   const opts = { hostname: 'localhost', port: 8000, multiplex: false };
-  opts.codecEngine = scCodecMinBin;
+  // opts.codecEngine = scCodecMinBin;
   const socket = SocketCluster.create(opts);
 
   socket.on('error', (err) => {
