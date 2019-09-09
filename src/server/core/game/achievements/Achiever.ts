@@ -28,7 +28,7 @@ export class Achiever extends Achievement {
     ];
 
     if(tier >= 5) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Achiever' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Overachiever' });
     }
 
     return baseRewards;
