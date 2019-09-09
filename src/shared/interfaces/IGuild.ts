@@ -129,25 +129,25 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
   [GuildBuilding.GeneratorClay]:        (level) => (
     { [GuildResource.Clay]: Math.floor(level ** 2) }
   ),
-  [GuildBuilding.GeneratorAstralium]:  (level) => (
+  [GuildBuilding.GeneratorAstralium]:   (level) => (
     { [GuildResource.Astralium]: Math.floor(level ** 2) }
   ),
-  [GuildBuilding.GardenStrength]: (level) => (
+  [GuildBuilding.GardenStrength]:       (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
   ),
-  [GuildBuilding.GardenDexterity]: (level) => (
+  [GuildBuilding.GardenDexterity]:      (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Wood]: level * 100 }
   ),
-  [GuildBuilding.GardenAgility]: (level) => (
+  [GuildBuilding.GardenAgility]:        (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 100 }
   ),
-  [GuildBuilding.GardenConstitution]: (level) => (
+  [GuildBuilding.GardenConstitution]:   (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Stone]: level * 100 }
   ),
-  [GuildBuilding.GardenIntelligence]: (level) => (
+  [GuildBuilding.GardenIntelligence]:   (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500 }
   ),
-  [GuildBuilding.GardenLuck]: (level) => (
+  [GuildBuilding.GardenLuck]:           (level) => (
     { [GuildResource.Gold]: level * 1000000,
       [GuildResource.Astralium]: level * 500,
       [GuildResource.Clay]: level * 100,
@@ -155,6 +155,12 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Wood]: level * 100 }
   )
 };
+
+export interface IGuildApplication {
+  type: 'invite' | 'application';
+  characterName: string;
+  guildName: string;
+}
 
 export interface IGuild {
   name: string;
@@ -194,3 +200,5 @@ export interface IGuild {
   };
 
 }
+
+// TODO: guilds should probably try to use scbroker?

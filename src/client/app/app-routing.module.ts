@@ -6,6 +6,7 @@ import { TabGearPage } from './tab-gear/tab-gear.page';
 import { TabAccomplishmentsPage } from './tab-accomplishments/tab-accomplishments.page';
 import { TabPremiumPage } from './tab-premium/tab-premium.page';
 import { TabQuestsPage } from './tab-quests/tab-quests.page';
+import { TabGuildsPage } from './tab-guilds/tab-guilds.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -188,8 +189,35 @@ const routes: Routes = [
 
   { path: 'moderator', loadChildren: './moderator/moderator.module#ModeratorPageModule' },
 
-  { path: '**', redirectTo: 'home' },
-  { path: 'tab-quests', loadChildren: './tab-quests/tab-quests.module#TabQuestsPageModule' }
+  { path: 'guild', component: TabGuildsPage, children: [
+    {
+      path: 'overview',
+      children: [
+        { path: '', loadChildren: './guild-overview/guild-overview.module#GuildOverviewPageModule' }
+      ]
+    },
+    {
+      path: 'buildings',
+      children: [
+        { path: '', loadChildren: './guild-buildings/guild-buildings.module#GuildBuildingsPageModule' }
+      ]
+    },
+
+    { path: 'manage',
+      children: [
+        { path: '', loadChildren: './guild-manage/guild-manage.module#GuildManagePageModule' }
+      ]
+    },
+    {
+      path: '',
+      redirectTo: '/guild/overview',
+      pathMatch: 'full'
+    }
+  ] },
+
+  { path: 'guilds', loadChildren: './guild-none/guild-none.module#GuildNonePageModule' },
+
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

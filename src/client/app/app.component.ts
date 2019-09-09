@@ -47,6 +47,10 @@ export class AppComponent {
       return player.$inventoryData.buffScrolls.length + ' Scroll(s)';
     } },
 
+    { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guild },
+
+    { name: 'Guild', icon: 'guild', url: '/guild', hideIf: (player) => !player.guild },
+
     { name: 'Map', icon: 'map', url: '/map' },
 
     { name: 'Pets', icon: 'allpets', url: '/pets', badgeColor: 'success', badge: (player) => {
