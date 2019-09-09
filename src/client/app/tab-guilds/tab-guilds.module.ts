@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
+import { TabGuildsPage } from './tab-guilds.page';
 
 const routes: Routes = [
   {
