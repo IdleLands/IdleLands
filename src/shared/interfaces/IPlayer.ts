@@ -130,6 +130,8 @@ export interface IPlayer extends ICharacter {
 
   $party?: IParty;
 
+  guildName?: string;
+
   loop(tick: number): Promise<void>;
   toSaveObject(): IPlayer;
 

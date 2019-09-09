@@ -47,9 +47,9 @@ export class AppComponent {
       return player.$inventoryData.buffScrolls.length + ' Scroll(s)';
     } },
 
-    { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guild },
+    { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guildName },
 
-    { name: 'Guild', icon: 'guild', url: '/guild', hideIf: (player) => !player.guild },
+    { name: 'Guild', icon: 'guild', url: '/guild', hideIf: (player) => !player.guildName },
 
     { name: 'Map', icon: 'map', url: '/map' },
 

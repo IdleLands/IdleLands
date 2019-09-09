@@ -35,7 +35,10 @@ export enum Channel {
   GameSettings = 'internal:gamesettings',
 
   // internal: used to sync global quest data between servers
-  GlobalQuest = 'internal:globalquest'
+  GlobalQuest = 'internal:globalquest',
+
+  // internal: used to sync guild data between servers
+  Guild = 'internal:guild'
 }
 
 export enum EventMessageType {

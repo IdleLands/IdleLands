@@ -158,7 +158,7 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
 
 export interface IGuildApplication {
   type: 'invite' | 'application';
-  characterName: string;
+  playerName: string;
   guildName: string;
 }
 
@@ -167,38 +167,33 @@ export interface IGuild {
   tag: string;
   motd: string;
 
-  buildingPoints: number;
-
   recruitment: GuildRecruitMode;
 
-  taxes: {
-    [GuildResource.Gold]: number
-  };
+  taxes: { [key in GuildResource]?: number };
+  resources: { [key in GuildResource]: number };
+  crystals: { [key: string]: number };
 
-  resources: {
-    [GuildResource.Gold]: number,
-    [GuildResource.Astralium]: number,
-    [GuildResource.Wood]: number,
-    [GuildResource.Clay]: number,
-    [GuildResource.Stone]: number
-  };
+  activeBuildings: { [key in GuildBuilding]?: boolean };
+  buildingLevels: { [key in GuildBuilding]?: number };
 
-  crystals: {
-    [key: string]: number
-  };
-
-  activeBuildings: {
-    [key in GuildBuilding]: boolean
-  };
-
-  buildingLevels: {
-    [key in GuildBuilding]: number
-  };
-
-  members: {
-    [key: string]: GuildMemberTier
-  };
+  members: { [key: string]: GuildMemberTier };
 
 }
 
-// TODO: guilds should probably try to use scbroker?
+export enum GuildChannelOperation {
+
+  // used when a guild is added
+  Add,
+
+  // used when a guild has a new member join
+  AddMember,
+
+  // used when a guild is disbanded
+  Remove
+}
+
+export const CalculateGuildLevel = (guild: IGuild) => {
+  return Object.values(GuildBuilding).reduce((prev, cur) => {
+    return prev + (guild.buildingLevels[cur] || 0);
+  }, 0);
+};

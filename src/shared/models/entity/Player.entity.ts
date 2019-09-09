@@ -97,6 +97,8 @@ export class Player implements IPlayer {
   @Column() public cooldowns: { [key: string]: number };
   @Column() public lastLoc: { map: string, x: number, y: number };
 
+  @Column() public guildName?: string;
+
   // non-saved player vars
   // still serialized to the client
   public sessionId: string;
