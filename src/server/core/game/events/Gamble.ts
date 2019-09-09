@@ -40,7 +40,7 @@ export class Gamble extends Event {
       this.emitMessage([player], allText, AdventureLogEventType.Gold);
 
     } else {
-      eventManager.successMessage(player,
+      eventManager.errorMessage(player,
         `You lost ${bet.toLocaleString()} gold against the odds of ${odds}%! Better luck next time.`);
       player.increaseStatistic(`Event/Gamble/LoseTimes`, 1);
 
