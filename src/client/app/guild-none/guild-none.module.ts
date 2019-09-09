@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [GuildNonePage]
 })
-export class GuildNonePageModule {}
+export class GuildNonePageModule { }

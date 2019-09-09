@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [TabGuildsPage]
 })
-export class TabGuildsPageModule {}
+export class TabGuildsPageModule { }

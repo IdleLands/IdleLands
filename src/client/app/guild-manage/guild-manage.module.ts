@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [GuildManagePage]
 })
-export class GuildManagePageModule {}
+export class GuildManagePageModule { }

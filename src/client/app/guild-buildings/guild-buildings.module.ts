@@ -23,4 +23,4 @@ const routes: Routes = [
   ],
   declarations: [GuildBuildingsPage]
 })
-export class GuildBuildingsPageModule {}
+export class GuildBuildingsPageModule { }
