@@ -22,7 +22,7 @@ export class ChatHelper {
 
   public sendMessageFromClient(message: IMessage) {
     this.sortMessage(message);
-    message.message = censorSensor.cleanProfanity(message.message);
+    message.message = censorSensor.cleanProfanityIsh(message.message);
 
     this.sendMessageToDiscord(message);
     this.sendMessageToGame(message);
