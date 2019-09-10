@@ -45,7 +45,7 @@
                 <ion-icon slot="start" [src]="'assets/icon/symbol-crystal.svg'" [style.color]="crystal.color"></ion-icon>
 
                 <ion-label>
-                  {{ crystal.name }} Crystal (x{{ player.$petsData.ascensionMaterials['Crystal' + crystal.name] || 0 }})
+                  {{ crystal.name }} Crystal (x{{ player.$petsData.ascensionMaterials['Crystal' + crystal.name] || 0 | number }})
                 </ion-label>
               </ion-item>
             </ion-list>

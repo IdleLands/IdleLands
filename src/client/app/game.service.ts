@@ -12,11 +12,12 @@ import * as Fingerprint from 'fingerprintjs2';
 import { SocketClusterService, Status } from './socket-cluster.service';
 import { IPlayer } from '../../shared/interfaces/IPlayer';
 import { ServerEventName, IAdventureLog, IItem, Channel, PlayerChannelOperation, IMessage,
-  GachaNameReward, IChoice, IAchievement, ICollectible, IAdventure } from '../../shared/interfaces';
+  GachaNameReward, IChoice, IAchievement, ICollectible, IAdventure, IGuild } from '../../shared/interfaces';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { map, take, takeUntil, filter, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -121,6 +122,18 @@ export class GameService {
   public playerMenu: IonMenu;
 
   public gameSettings: any = { };
+
+  public guild: IGuild;
+
+  public get isGuildMod(): boolean {
+    if(!this.guild || !this.currentPlayer) return false;
+    return this.guild.members[this.currentPlayer.name] >= 5;
+  }
+
+  public get isGuildLeader(): boolean {
+    if(!this.guild || !this.currentPlayer) return false;
+    return this.guild.members[this.currentPlayer.name] >=  10;
+  }
 
   constructor(
     private http: HttpClient,
@@ -652,6 +665,16 @@ export class GameService {
         'Your stamina is full. Use it or lose it!'
       );
     }
+  }
+
+  public loadGuild() {
+    this.player$.pipe(first(Boolean)).subscribe((player: IPlayer) => {
+      this.http.get(`${this.apiUrl}/guilds/name`, { params: { name: player.guildName } })
+        .pipe(map((x: any) => x.guild))
+        .subscribe(guild => {
+          this.guild = guild;
+        });
+    });
   }
 
 }

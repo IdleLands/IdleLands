@@ -1,7 +1,7 @@
 
 import { Singleton, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions, MongoEntityManager, getMongoManager } from 'typeorm';
-import { extend } from 'lodash';
+import { extend, pick } from 'lodash';
 import { decompress } from 'lzutf8';
 
 import * as firebaseAdmin from 'firebase-admin';
@@ -286,11 +286,24 @@ export class DatabaseManager {
     if(!this.connection) return null;
 
     try {
-      // TODO: filter down the properties to name, members, buildingLevels, tag
-      return this.connection.manager.find(Guild, { });
+      const guilds = await this.connection.manager.find(Guild);
+      return guilds
+              .filter(g => g.recruitment !== 'Closed')
+              .map(guild => pick(guild, ['buildingLevels', 'name', 'tag', 'recruitment']));
 
     } catch(e) {
       this.logger.error(`DatabaseManager#loadBriefGuilds`, e);
+    }
+  }
+
+  public async clearAppsInvitesForPlayer(playerName: string): Promise<any> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.remove(GuildInvite, { playerName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#clearAppsInvitesForPlayer`, e);
     }
   }
 
@@ -338,11 +351,11 @@ export class DatabaseManager {
     }
   }
 
-  public async loadGuildInvitesForPlayer(characterName: string): Promise<IGuildApplication[]> {
+  public async loadGuildInvitesForPlayer(playerName: string): Promise<IGuildApplication[]> {
     if(!this.connection) return null;
 
     try {
-      return this.connection.manager.find(GuildInvite, { characterName });
+      return this.connection.manager.find(GuildInvite, { playerName });
 
     } catch(e) {
       this.logger.error(`DatabaseManager#loadGuildInvitesForPlayer`, e);

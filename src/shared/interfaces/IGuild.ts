@@ -61,11 +61,34 @@ export const GuildBuildingCosts: { [key in GuildBuilding]: number } = {
   [GuildBuilding.GardenLuck]: 35
 };
 
+export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
+  [GuildBuilding.Academy]: 'Academy',
+  [GuildBuilding.Tavern]: 'Tavern',
+  [GuildBuilding.GuildHall]: 'Guild Hall',
+  [GuildBuilding.Stash]: 'Guild Stash',
+  [GuildBuilding.Crier]: 'Crier',
+  [GuildBuilding.Enchantress]: 'Enchantress',
+  [GuildBuilding.FortuneTeller]: 'Fortune Teller',
+  [GuildBuilding.Merchant]: 'Merchant',
+  [GuildBuilding.Mascot]: 'Mascot',
+  [GuildBuilding.FactoryScroll]: 'Scroll Factory',
+  [GuildBuilding.GeneratorWood]: 'Wood Generator',
+  [GuildBuilding.GeneratorStone]: 'Stone Generator',
+  [GuildBuilding.GeneratorClay]: 'Clay Generator',
+  [GuildBuilding.GeneratorAstralium]: 'Astralium Generator',
+  [GuildBuilding.GardenStrength]: 'Strength Garden',
+  [GuildBuilding.GardenDexterity]: 'Dexterity Garden',
+  [GuildBuilding.GardenAgility]: 'Agility Garden',
+  [GuildBuilding.GardenConstitution]: 'Constitution Garden',
+  [GuildBuilding.GardenIntelligence]: 'Intelligence Garden',
+  [GuildBuilding.GardenLuck]: 'Luck Garden'
+};
+
 export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
-  [GuildBuilding.Academy]: (level) => `Your guild can hold ${level * 5} more members.`,
+  [GuildBuilding.Academy]: (level) => `Your guild can hold ${(level + 1) * 5} total members.`,
   [GuildBuilding.Tavern]: (level) => `Your members gambling events will do something.`,
   [GuildBuilding.GuildHall]: (level) => `You have ${level} building points to allocate for buildings.`,
-  [GuildBuilding.Stash]: (level) => `You can hold ${level * 25000} clay, stone, wood, and astralium.`,
+  [GuildBuilding.Stash]: (level) => `You can hold ${(level * 2500).toLocaleString()} clay, stone, wood, and astralium.`,
   [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
   [GuildBuilding.Enchantress]: (level) => `Your members enchanting events will do something.`,
   [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
@@ -76,12 +99,12 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.GeneratorStone]: (level) => `Your guild will generate ${level * 5} stone per hour.`,
   [GuildBuilding.GeneratorClay]: (level) => `Your guild will generate ${level * 5} clay per hour.`,
   [GuildBuilding.GeneratorAstralium]: (level) => `Your guild will generate ${level * 5} astralium per hour.`,
-  [GuildBuilding.GardenStrength]: (level) => `Your guild will boost STR ${level * 5} for all online members.`,
-  [GuildBuilding.GardenDexterity]: (level) => `Your guild will boost DEX ${level * 5} for all online members.`,
-  [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI ${level * 5} for all online members.`,
-  [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON ${level * 5} for all online members.`,
-  [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT ${level * 5} for all online members.`,
-  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK ${level * 5} for all online members.`
+  [GuildBuilding.GardenStrength]: (level) => `Your guild will boost STR by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenDexterity]: (level) => `Your guild will boost DEX by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`
 };
 
 export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number) => { [res in GuildResource]?: number } } = {
@@ -121,16 +144,16 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
-    { [GuildResource.Wood]: Math.floor(level ** 2) }
+    { [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorStone]:       (level) => (
-    { [GuildResource.Stone]: Math.floor(level ** 2) }
+    { [GuildResource.Stone]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorClay]:        (level) => (
-    { [GuildResource.Clay]: Math.floor(level ** 2) }
+    { [GuildResource.Clay]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorAstralium]:   (level) => (
-    { [GuildResource.Astralium]: Math.floor(level ** 2) }
+    { [GuildResource.Astralium]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GardenStrength]:       (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
@@ -166,6 +189,7 @@ export interface IGuild {
   name: string;
   tag: string;
   motd: string;
+  createdAt: number;
 
   recruitment: GuildRecruitMode;
 
@@ -193,7 +217,12 @@ export enum GuildChannelOperation {
 }
 
 export const CalculateGuildLevel = (guild: IGuild) => {
-  return Object.values(GuildBuilding).reduce((prev, cur) => {
+  const totalLevel = Object.values(GuildBuilding).reduce((prev, cur) => {
     return prev + (guild.buildingLevels[cur] || 0);
   }, 0);
+
+  const avgLevel = Math.floor(totalLevel / Object.values(GuildBuilding).length);
+  if(avgLevel < 1) return 1;
+
+  return avgLevel;
 };

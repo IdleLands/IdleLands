@@ -19,6 +19,24 @@ export class GuildsAPICall extends ServerAPICall {
   }
 }
 
+export class GuildAPICall extends ServerAPICall {
+
+  static desc = 'Get a guild by name';
+  static params = 'name';
+
+  static init(app, game: Game) {
+    app.get('/guilds/name', async (req, res) => {
+      let guild = { };
+
+      try {
+        guild = (await game.databaseManager.loadGuild(req.query.name));
+      } catch(e) { }
+
+      res.json({ guild });
+    });
+  }
+}
+
 export class GuildInvitesAndApplicationsAPICall extends ServerAPICall {
 
   static desc = 'Get the guild invites/applications for a particular player';

@@ -11,5 +11,36 @@
   
 
 <ion-content padding>
+  <div class="blank-slate" *ngIf="!gameService.guild">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
 
+  <ion-row *ngIf="gameService.guild as guild">
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Buildings</ion-card-title>
+        </ion-card-header>
+  
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let building of buildings">
+              <ion-label>
+                <h3>{{ buildingNames[building] }} (Level {{ guild.buildingLevels[building] || 0 }})</h3>
+                <p>{{ buildingDescs[building](guild.buildingLevels[building] || 0) }}</p>
+                <p>
+                  Upgrade cost: 
+                  <span *ngFor="let res of buildingUpgradeCosts[building]((guild.buildingLevels[building] || 0) + 1) | keyvalue">
+                    <strong>{{ res.key | titlecase }}</strong> x{{ res.value | number }}&nbsp;
+                  </span>
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+  
+    </ion-col>
+  </ion-row>
 </ion-content>

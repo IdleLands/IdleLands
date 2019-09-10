@@ -92,6 +92,8 @@ export enum ServerEventName {
   GMPortCharacterId = 'gm:portcharacterid',
   GMResetGlobal = 'gm:resetglobal',
 
+  GuildCreate = 'guild:create',
+
   ExtraSubmitItem = 'extra:submititem'
 }
 

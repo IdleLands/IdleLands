@@ -11,5 +11,39 @@
   
 
 <ion-content padding>
+  <div class="blank-slate" *ngIf="!gameService.guild">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
 
+  <ion-row *ngIf="gameService.guild as guild">
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Members</ion-card-title>
+        </ion-card-header>
+  
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let member of guild.members | keyvalue">
+              <ion-icon slot="start" *ngIf="member.value === 0" name="star-outline"></ion-icon>
+              <ion-icon slot="start" *ngIf="member.value === 5" name="star-half"></ion-icon>
+              <ion-icon slot="start" *ngIf="member.value === 10" name="star"></ion-icon>
+              
+              <ion-label *ngIf="gameService.playerInfoHash[member.key] as player">
+                <h3 class="vertical-center">
+                    {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+                </h3>
+                <p class="vertical-center ion-margin-start">
+                  <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
+                  &nbsp; {{ player.profession }}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+  
+    </ion-col>
+  </ion-row>
 </ion-content>

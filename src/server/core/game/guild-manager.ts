@@ -1,7 +1,7 @@
 
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { DatabaseManager } from './database-manager';
-import { IGuild, GuildMemberTier, Channel, GuildChannelOperation } from '../../../shared/interfaces';
+import { GuildMemberTier, Channel, GuildChannelOperation } from '../../../shared/interfaces';
 import { Guild } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
@@ -26,7 +26,7 @@ export class GuildManager {
     this.subscriptionManager.subscribeToChannel(Channel.Guild, ({ operation, ...args }) => {
       switch(operation) {
         case GuildChannelOperation.Add: {
-          this.createGuild(args);
+          this.createGuild(args.guildName);
           break;
         }
 
@@ -82,7 +82,7 @@ export class GuildManager {
     this.subscriptionManager.emitToChannel(Channel.Guild, { operation: GuildChannelOperation.Add, guildName });
   }
 
-  private async createGuild({ guildName }) {
+  private async createGuild(guildName) {
     const guild = await this.db.loadGuild(guildName);
     if(!guild) return;
 
@@ -105,7 +105,7 @@ export class GuildManager {
     guild.addMember(name, tier);
     player.guildName = guildName;
 
-    // TODO: clear all guild invites/apps for the player
+    this.db.clearAppsInvitesForPlayer(player.name);
   }
 
 }

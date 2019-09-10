@@ -5,7 +5,7 @@ import { ServerEventName, ServerEvent } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
-  event = ServerEventName.CharacterGender;
+  event = ServerEventName.GuildCreate;
   description = 'Create a new guild.';
   args = 'guildName, guildTag';
 
@@ -18,6 +18,8 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     const guildCost = 100000000;
 
     if(player.gold < guildCost) return this.gameError('You need 100,000,000 gold to do that.');
+    if(guildName.length < 2) return this.gameError('Guild name must not be less than 2 characters.');
+    if(guildTag.length < 2) return this.gameError('Guild tag must not be less than 2 characters.');
     if(guildName.length > 20) return this.gameError('Guild name must not be greater than 20 characters.');
     if(guildTag.length > 5) return this.gameError('Guild tag must not be greater than 5 characters.');
 
@@ -31,6 +33,7 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     }
 
     player.spendGold(guildCost);
+    this.game.databaseManager.clearAppsInvitesForPlayer(player.name);
 
     this.game.updatePlayer(player);
     this.gameSuccess(`Created guild "${guildName}" [${guildTag}]`);

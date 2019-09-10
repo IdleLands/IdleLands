@@ -13,6 +13,7 @@ export class Guild implements IGuild {
   @Index({ unique: true })
   @Column() public tag: string;
 
+  @Column() public createdAt: number;
   @Column() public motd: string;
   @Column() public recruitment: GuildRecruitMode;
   @Column() public taxes: { [key in GuildResource]?: number };
@@ -23,6 +24,7 @@ export class Guild implements IGuild {
   @Column() public members: { [key: string]: GuildMemberTier };
 
   public init() {
+    if(!this.createdAt) this.createdAt = Date.now();
     if(!this.motd) this.motd = 'Welcome to your guild!';
     if(!this.recruitment) this.recruitment = 'Closed';
     if(!this.taxes) this.taxes = { [GuildResource.Gold]: 0 };
