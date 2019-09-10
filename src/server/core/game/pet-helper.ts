@@ -140,7 +140,7 @@ export class PetHelper {
     const proto = this.getPetProto(pet.typeName);
     pet.equipment = pet.equipment || { };
 
-    Object.keys(proto.equipmentSlots).forEach(slotName => {
+    Object.keys(proto.equipmentSlots || { }).forEach(slotName => {
       pet.equipment[slotName] = pet.equipment[slotName] || [];
       if(pet.equipment[slotName].length === 0) {
         pet.equipment[slotName] = Array(proto.equipmentSlots[slotName]).fill(null);
