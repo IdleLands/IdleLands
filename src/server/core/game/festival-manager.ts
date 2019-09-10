@@ -61,7 +61,8 @@ export class FestivalManager {
   public startAscensionFestival(player: Player) {
 
     const endTime = new Date();
-    endTime.setDate(endTime.getDate() + 7);
+    const daysDuration = 7;
+    endTime.setDate(endTime.getDate() + daysDuration);
 
     const festival = this.makeSystemFestival({
       name: `${player.name}'s ${player.ascensionLevel}★ Ascension`,
@@ -76,7 +77,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}.  It will last ${daysDuration} days.`,
       playerName: '☆System'
     });
   }
@@ -88,7 +89,7 @@ export class FestivalManager {
     this.initiateAddFestival(addedFestival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${addedFestival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${addedFestival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}.  It will last 3 days.`,
       playerName: `☆${player.name}`
     });
   }
@@ -97,7 +98,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}.  It will last 1 hour.`,
       playerName: '☆System'
     });
   }
