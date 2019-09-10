@@ -554,10 +554,9 @@ export class GameService {
   }
 
   public getPlayerLocationsInCurrentMap() {
-    const map = this.currentPlayer.map;
-    return this.allPlayers.filter(x => x.map === map);
+    const pMap = this.currentPlayer.map;
+    return this.allPlayers.filter(x => x.map === pMap);
   }
-
 
   private determineRewardName(reward: string) {
     const res = GachaNameReward[reward];
