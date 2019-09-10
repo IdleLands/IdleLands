@@ -52,7 +52,7 @@ export class Bard extends BaseProfession implements IProfession {
 
     const stats = { };
     Object.values(AllStatsButSpecial).forEach(stat => {
-      stats[stat] = bardicShift * player.$$game.rngService.numberInRange(-5, 10);
+      stats[stat] = Math.floor(bardicShift * player.$$game.rngService.numberInRange(-5, 10));
     });
 
     if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
