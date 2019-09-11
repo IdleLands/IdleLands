@@ -417,7 +417,8 @@ export class Player implements IPlayer {
     }
     
     if(this.$personalities.isActive('Restless') && this.stamina.atMaximum()) {
-      this.oocAction(2) return;
+      this.oocAction(2); 
+      return;
     }
     
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
