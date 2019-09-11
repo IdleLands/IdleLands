@@ -42,11 +42,9 @@ export class DiscordManager {
       if(message.channel.id !== this.discordChannel.id || message.author.bot) return;
 
       let content = message.cleanContent;
-      if(!content) {
-        const attachment = message.attachments.first();
-        if(attachment) {
-          content = attachment.url;
-        }
+      const attachment = message.attachments.first();
+      if(attachment) {
+        content = `${content} ${attachment.url}`.trim();
       }
 
       if(!content) return;
