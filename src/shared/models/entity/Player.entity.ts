@@ -415,11 +415,11 @@ export class Player implements IPlayer {
     if(this.stamina.atMaximum()) {
       this.nextStaminaTick = Date.now();
         if(this.$personalities.isActive('Restless')) {
-        this.oocAction(2); 
+        this.oocAction(2);
       return;
       }
     }
-   
+    
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
     this.increaseStatistic('Character/Stamina/Gain', 1);
