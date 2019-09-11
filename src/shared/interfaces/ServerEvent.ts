@@ -93,6 +93,9 @@ export enum ServerEventName {
   GMResetGlobal = 'gm:resetglobal',
 
   GuildCreate = 'guild:create',
+  GuildSetRecruitment = 'guild:setrecruitment',
+  GuildSetMOTD = 'guild:setmotd',
+  GuildSetTax = 'guild:settax',
 
   ExtraSubmitItem = 'extra:submititem'
 }

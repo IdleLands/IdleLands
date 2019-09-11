@@ -1,5 +1,6 @@
 
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
+import { set } from 'lodash';
 import { DatabaseManager } from './database-manager';
 import { GuildMemberTier, Channel, GuildChannelOperation } from '../../../shared/interfaces';
 import { Guild } from '../../../shared/models';
@@ -15,6 +16,10 @@ export class GuildManager {
   @Inject private playerManager: PlayerManager;
 
   private guilds: { [key: string]: Guild } = { };
+
+  public get allGuilds() {
+    return this.guilds;
+  }
 
   public async init() {
     await this.loadGuilds();
@@ -34,6 +39,11 @@ export class GuildManager {
           this.joinGuild(args.name, args.guildName, args.tier);
           break;
         }
+
+        case GuildChannelOperation.Update: {
+          this.updateGuild(args.guildName, args.key, args.value);
+          break;
+        }
       }
     });
   }
@@ -49,7 +59,7 @@ export class GuildManager {
     this.guilds[guild.name] = guild;
   }
 
-  private getGuild(guildName: string): Guild {
+  public getGuild(guildName: string): Guild {
     return this.guilds[guildName];
   }
 
@@ -96,16 +106,36 @@ export class GuildManager {
   }
 
   public joinGuild(name: string, guildName: string, tier: GuildMemberTier) {
-    const player = this.playerManager.getPlayer(name);
-    if(!player) return;
 
     const guild = this.getGuild(guildName);
     if(!guild) throw new Error(`Guild ${guildName} does not exist; cannot join it.`);
 
     guild.addMember(name, tier);
+    this.saveGuild(guild);
+
+    const player = this.playerManager.getPlayer(name);
+    if(!player) return;
+
     player.guildName = guildName;
 
     this.db.clearAppsInvitesForPlayer(player.name);
+  }
+
+  public updateGuildKey(guildName: string, key: string, value: any): void {
+    this.updateGuild(guildName, key, value);
+    this.saveGuild(this.getGuild(guildName));
+
+    this.subscriptionManager.emitToChannel(Channel.Guild, {
+      operation: GuildChannelOperation.Update,
+      guildName, key, value
+    });
+  }
+
+  private updateGuild(guildName: string, key: string, value: any): void {
+    const guild = this.getGuild(guildName);
+    if(!guild) return;
+
+    set(guild, key, value);
   }
 
 }

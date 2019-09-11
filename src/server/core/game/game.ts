@@ -126,6 +126,9 @@ export class Game implements IGame {
     this.logger.log('Game', 'GM helper initializing...');
     await this.gmHelper.init();
 
+    this.logger.log('Game', 'Guild manager initializing...');
+    await this.guildManager.init();
+
     this.logger.log('Game', 'Chat helper initializing...');
     await this.chatHelper.init((msg: string) => {
       this.discordManager.sendMessage(msg);

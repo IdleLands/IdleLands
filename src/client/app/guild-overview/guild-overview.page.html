@@ -32,8 +32,7 @@
             </ion-item>
 
             <ion-item>
-              <ion-label>
-                {{ guild.motd || 'No MOTD set' }}
+              <ion-label class="ion-text-wrap" [innerHTML]="(guild.motd || 'no MOTD set') | linkify">
               </ion-label>
 
               <ion-button slot="end" *ngIf="gameService.isGuildMod" (click)="updateMOTD()">Change</ion-button>
@@ -97,10 +96,12 @@
         <ion-card-content>
           <ion-list>
             <ion-item>
-              <ion-range min="0" max="15" snaps="true" pin="true" ticks="true" 
+              <ion-range min="0" max="15" snaps="true" pin="true" ticks="true" debounce="500"
                          (ionChange)="updateTax('gold', $event)"
+                         [value]="guild.taxes.gold"
                          [disabled]="!gameService.isGuildMod">
                 <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'" [ngClass]="['gold']"></ion-icon>
+                <ion-label slot="end">{{ guild.taxes.gold }}%</ion-label>
               </ion-range>
             </ion-item>
           </ion-list>

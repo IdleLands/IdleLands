@@ -8,6 +8,7 @@ import { Player } from '../../../shared/models/entity';
 import { Logger } from '../logger';
 import { PartyManager } from './party-manager';
 import { World } from './world';
+import { GuildManager } from './guild-manager';
 
 class EventVariableCache {
   private cache = { };
@@ -29,6 +30,7 @@ export class EventMessageParser {
   @Inject private playerManager: PlayerManager;
   @Inject private partyManager: PartyManager;
   @Inject private assetManager: AssetManager;
+  @Inject private guildManager: GuildManager;
   @Inject private world: World;
   @Inject private rng: RNGService;
   @Inject private logger: Logger;
@@ -110,9 +112,8 @@ export class EventMessageParser {
     return player.$pets.$activePet.name;
   }
 
-  // TODO: implement this
   public guild(): string {
-    return this.placeholder();
+    return sample(Object.keys(this.guildManager.allGuilds));
   }
 
   public party(): string {
@@ -148,14 +149,15 @@ export class EventMessageParser {
     return sample(Object.values(player.$pets.$petsData.allPets)).name;
   }
 
-  // TODO: implement this
   public ownedGuild(player: Player): string {
-    return this.placeholder();
+    return player.guildName || this.placeholder();
   }
 
-  // TODO: implement this
   public ownedGuildMember(player: Player): string {
-    return this.placeholder();
+    const guild = this.guildManager.getGuild(player.guildName);
+    if(!guild) return this.placeholder();
+
+    return sample(Object.keys(guild.members));
   }
 
   public random(props: any[], cache: EventVariableCache): string {

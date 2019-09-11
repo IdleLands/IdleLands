@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { AlertController } from '@ionic/angular';
-import { CalculateGuildLevel } from '../../../shared/interfaces';
+import { CalculateGuildLevel, ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-guild-overview',
@@ -50,7 +50,8 @@ export class GuildOverviewPage implements OnInit {
           text: 'Set MOTD',
           handler: async (values) => {
             if(!values || !values.motd) return;
-            // this.socketService.emit(ServerEventName.GMSetMOTD, values);
+            this.gameService.guild.motd = values.motd;
+            this.socketService.emit(ServerEventName.GuildSetMOTD, { newMOTD: values.motd });
           }
         }
       ]
@@ -60,11 +61,13 @@ export class GuildOverviewPage implements OnInit {
   }
 
   changeRecruitment($event) {
-    console.log($event);
+    this.gameService.guild.recruitment = $event.detail.value;
+    this.socketService.emit(ServerEventName.GuildSetRecruitment, { newMode: $event.detail.value });
   }
 
   updateTax(resource, $event) {
-    console.log(resource, $event);
+    this.gameService.guild.taxes[resource] = $event.detail.value;
+    this.socketService.emit(ServerEventName.GuildSetTax, { resource, newTax: $event.detail.value });
   }
 
 }

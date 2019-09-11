@@ -1,7 +1,7 @@
 
 import { censorSensor } from '../core/static/profanity-filter';
 
-import { ServerEventName, ServerEvent } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, GuildRecruitMode } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
@@ -32,6 +32,11 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
       return this.gameError('Could not create guild - likely, the name or tag are already taken.');
     }
 
+    this.game.chatHelper.sendMessageFromClient({
+      message: `A new guild "${guildName}" [${guildTag}] was founded by ${player.name}!`,
+      playerName: '☆System'
+    });
+
     player.spendGold(guildCost);
     this.game.databaseManager.clearAppsInvitesForPlayer(player.name);
 
@@ -39,12 +44,70 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Created guild "${guildName}" [${guildTag}]`);
   }
 }
+export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildSetRecruitment;
+  description = 'Set guild application mode.';
+  args = 'newMode';
+
+  async callback({ newMode } = { newMode: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(!['Closed', 'Open', 'Apply'].includes(newMode)) return this.gameError('Invalid recruit mode.');
+    this.game.guildManager.updateGuildKey(player.guildName, 'recruitment', newMode);
+
+    this.gameSuccess(`Set guild recruit mode to ${newMode}.`);
+  }
+}
+export class GuildSetMOTD extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildSetMOTD;
+  description = 'Set guild MOTD.';
+  args = 'newMOTD';
+
+  async callback({ newMOTD } = { newMOTD: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(newMOTD.length > 2000) newMOTD = newMOTD.slice(0, 2000);
+
+    this.game.guildManager.updateGuildKey(player.guildName, 'motd', newMOTD);
+
+    this.gameSuccess(`Set guild MOTD.`);
+  }
+}
+
+export class GuildSetResourceTax extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildSetTax;
+  description = 'Set guild tax.';
+  args = 'resource, newTax';
+
+  async callback({ resource, newTax } = { resource: '', newTax: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(resource !== 'gold') return this.gameError('Invalid resource name');
+    if(newTax < 0 || newTax > 15) return this.gameError('Tax rate must be between 0 and 15');
+
+    newTax = Math.round(newTax);
+
+    this.game.guildManager.updateGuildKey(player.guildName, `taxes.${resource}`, newTax);
+
+    this.gameSuccess(`Set guild ${resource} tax to ${newTax}%.`);
+  }
+}
 
 /* TODO:
-- add guild motd update call (limit to 2000 chars)
 - add donate resource to guild call (allow to specify amount)
 - add donate crystal to guild call (allow to specify amount)
-- add update guild tax rate call
 - add building slot change call
 - add building upgrade call
 - add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
@@ -54,7 +117,6 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
 - add call to approve application (member must be online)
 - add call to remove invite
 - add call to approve invite
-- add call to change recruitment mode
 - add call to disband guild
 - add call to leave guild
 - add promote member call (member -> mod -> leader -> mod -> member)
