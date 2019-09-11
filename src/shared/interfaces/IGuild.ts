@@ -26,6 +26,7 @@ export enum GuildBuilding {
   Merchant = 'merchant',
   Mascot = 'mascot',
   FactoryScroll = 'factory:scroll',
+  FactoryItem = 'factory:item',
   GeneratorWood = 'generator:wood',
   GeneratorStone = 'generator:stone',
   GeneratorClay = 'generator:clay',
@@ -49,6 +50,7 @@ export const GuildBuildingCosts: { [key in GuildBuilding]: number } = {
   [GuildBuilding.Merchant]: 10,
   [GuildBuilding.Mascot]: 1,
   [GuildBuilding.FactoryScroll]: 25,
+  [GuildBuilding.FactoryItem]: 20,
   [GuildBuilding.GeneratorWood]: 25,
   [GuildBuilding.GeneratorStone]: 25,
   [GuildBuilding.GeneratorClay]: 25,
@@ -72,6 +74,7 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.Merchant]: 'Merchant',
   [GuildBuilding.Mascot]: 'Mascot',
   [GuildBuilding.FactoryScroll]: 'Scroll Factory',
+  [GuildBuilding.FactoryItem]: 'Item Factory',
   [GuildBuilding.GeneratorWood]: 'Wood Generator',
   [GuildBuilding.GeneratorStone]: 'Stone Generator',
   [GuildBuilding.GeneratorClay]: 'Clay Generator',
@@ -95,6 +98,7 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.Merchant]: (level) => `Your members merchant events will do something.`,
   [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
   [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
+  [GuildBuilding.FactoryItem]: (level) => `Your guild will periodically generate items for all online members.`,
   [GuildBuilding.GeneratorWood]: (level) => `Your guild will generate ${level * 5} wood per hour.`,
   [GuildBuilding.GeneratorStone]: (level) => `Your guild will generate ${level * 5} stone per hour.`,
   [GuildBuilding.GeneratorClay]: (level) => `Your guild will generate ${level * 5} clay per hour.`,
@@ -141,6 +145,9 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Gold]: level * 1000000 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
+    { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
+  ),
+  [GuildBuilding.FactoryItem]:          (level) => (
     { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
