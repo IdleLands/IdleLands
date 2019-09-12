@@ -70,4 +70,54 @@ export class GuildOverviewPage implements OnInit {
     this.socketService.emit(ServerEventName.GuildSetTax, { resource, newTax: $event.detail.value });
   }
 
+  async donate(resource) {
+    let defaultValue = 0;
+
+    if(resource === 'gold') {
+      defaultValue = this.gameService.playerRef.gold;
+    }
+
+    if(['astralium', 'wood', 'clay', 'stone'].includes(resource)) {
+      defaultValue = this.gameService.playerRef.$inventoryData.resources[resource];
+    }
+
+    if(['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Astral'].includes(resource)) {
+      defaultValue = this.gameService.playerRef.$petsData.ascensionMaterials[`Crystal${resource}`];
+    }
+
+    const alert = await this.alertCtrl.create({
+      header: `Donate ${resource}`,
+      subHeader: 'How much would you like to donate?',
+      inputs: [
+        {
+          name: 'value',
+          type: 'number',
+          placeholder: 'Choose amount...',
+          value: defaultValue
+        }
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Donate Resource',
+          handler: async (values) => {
+            if(!values || !values.value || isNaN(+values.value) || !isFinite(+values.value)) return;
+
+            if(['astralium', 'wood', 'clay', 'stone', 'gold'].includes(resource)) {
+              this.gameService.guild.resources[resource] += values.value;
+              this.socketService.emit(ServerEventName.GuildDonateResource, { resource, amount: values.value });
+            }
+
+            if(['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Astral'].includes(resource)) {
+              this.gameService.guild.crystals[`Crystal${resource}`] += values.value;
+              this.socketService.emit(ServerEventName.GuildDonateCrystal, { crystal: resource, amount: values.value });
+            }
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
 }

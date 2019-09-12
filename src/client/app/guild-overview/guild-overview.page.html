@@ -67,6 +67,8 @@
               <ion-label>
                 Gold (x{{ guild.resources.gold | number }})
               </ion-label>
+
+              <ion-button slot="end" (click)="donate('gold')">Donate</ion-button>
             </ion-item>
 
             <ion-item *ngFor="let resource of ['wood', 'clay', 'stone', 'astralium']">
@@ -75,6 +77,8 @@
               <ion-label>
                 {{ resource | titlecase }} (x{{ guild.resources[resource] | number }})
               </ion-label>
+
+              <ion-button slot="end" (click)="donate(resource)">Donate</ion-button>
             </ion-item>
 
             <ion-item *ngFor="let crystal of crystals">
@@ -83,6 +87,8 @@
               <ion-label>
                 {{ crystal.name }} Crystal (x{{ guild.crystals['Crystal' + crystal.name] || 0 | number }})
               </ion-label>
+
+              <ion-button slot="end" (click)="donate(crystal.name)">Donate</ion-button>
             </ion-item>
           </ion-list>
         </ion-card-content>

@@ -208,4 +208,12 @@ export class Inventory extends PlayerOwned {
     if(opts[GuildResource.Stone]) this.resources[GuildResource.Stone] += opts[GuildResource.Stone];
     if(opts[GuildResource.Astralium]) this.resources[GuildResource.Astralium] += opts[GuildResource.Astralium];
   }
+
+  public hasResource(res: GuildResource, amount: number): boolean {
+    return this.resources[res] >= amount;
+  }
+
+  public spendResource(res: GuildResource, amount: number) {
+    this.resources[res] -= amount;
+  }
 }

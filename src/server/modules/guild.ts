@@ -1,7 +1,9 @@
 
+import { capitalize } from 'lodash';
+
 import { censorSensor } from '../core/static/profanity-filter';
 
-import { ServerEventName, ServerEvent, GuildRecruitMode } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, GuildResource } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
@@ -105,9 +107,71 @@ export class GuildSetResourceTax extends ServerSocketEvent implements ServerEven
   }
 }
 
+export class GuildDonateResourceEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildDonateResource;
+  description = 'Donate a resource to the guild.';
+  args = 'resource, amount';
+
+  async callback({ resource, amount } = { resource: '', amount: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    amount = Math.round(+amount);
+    if(isNaN(amount) || !isFinite(amount) || amount <= 0) return this.gameError('Invalid donation amount.');
+
+    if(!['gold', 'wood', 'clay', 'stone', 'astralium'].includes(resource)) return this.gameError('Invalid resource name');
+    if(resource === 'gold' && player.gold < amount) return this.gameError('Not enough gold for that.');
+    if(resource !== 'gold' && !player.$inventory.hasResource(<GuildResource>resource, amount)) return this.gameError('Not enough.');
+
+    if(resource === 'gold') player.spendGold(amount);
+    if(resource !== 'gold') player.$inventory.spendResource(<GuildResource>resource, amount);
+
+    const existing = guild.resources[resource] || 0;
+
+    player.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, amount);
+
+    this.game.guildManager.updateGuildKey(player.guildName, `resources.${resource}`, existing + amount);
+
+    this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
+  }
+}
+
+export class GuildDonateCrystalEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildDonateCrystal;
+  description = 'Donate a crystal resource to the guild.';
+  args = 'crystal, amount';
+
+  async callback({ crystal, amount } = { crystal: '', amount: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    amount = Math.round(+amount);
+    if(isNaN(amount) || !isFinite(amount) || amount <= 0) return this.gameError('Invalid donation amount.');
+
+    if(!['Red', 'Green', 'Yellow', 'Orange', 'Blue', 'Purple', 'Astral'].includes(crystal)) return this.gameError('Invalid crystal name');
+
+    const resource = `Crystal${crystal}`;
+
+    if(!player.$pets.hasAscensionMaterial(resource, amount)) return this.gameError('Not enough.');
+    player.$pets.subAscensionMaterial(resource, amount);
+
+    const existing = guild.resources[resource] || 0;
+
+    player.increaseStatistic(`Guild/Donate/Crystal/${capitalize(crystal)}`, amount);
+
+    this.game.guildManager.updateGuildKey(player.guildName, `crystals.${resource}`, existing + amount);
+
+    this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
+  }
+}
+
 /* TODO:
-- add donate resource to guild call (allow to specify amount)
-- add donate crystal to guild call (allow to specify amount)
 - add building slot change call
 - add building upgrade call
 - add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
