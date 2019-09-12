@@ -419,7 +419,7 @@ export class Player implements IPlayer {
       return;
       }
     }
-    
+
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
     this.increaseStatistic('Character/Stamina/Gain', 1);
@@ -430,7 +430,7 @@ export class Player implements IPlayer {
     if(this.$personalities.isActive('Restless') && this.stamina.atMaximum() && Date.now() < this.nextStaminaTick) {
       this.oocAction(2);
     }
-    
+
     if(Date.now() > this.nextStaminaTick) this.checkStaminaTick();
   }
 
