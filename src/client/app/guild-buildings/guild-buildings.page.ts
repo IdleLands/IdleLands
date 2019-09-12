@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GuildBuilding, GuildBuildingNames, GuildBuildingDescs,
-  GuildBuildingCosts, GuildBuildingUpgradeCosts } from '../../../shared/interfaces';
+  GuildBuildingCosts, GuildBuildingUpgradeCosts, ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-guild-buildings',
@@ -23,6 +23,26 @@ export class GuildBuildingsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  toggleBuilding(building: string, newState: boolean) {
+
+    const guild = this.gameService.guild;
+
+    if(newState && building.includes(':')) {
+      const buildingFirst = building.split(':')[0];
+      Object.keys(guild.activeBuildings).forEach(checkBuilding => {
+        if(!checkBuilding.startsWith(buildingFirst)) return;
+
+        guild.activeBuildings[checkBuilding] = false;
+      });
+    }
+
+    setTimeout(() => {
+      guild.activeBuildings[building] = newState;
+    }, 0);
+
+    this.socketService.emit(ServerEventName.GuildToggleBuilding, { building });
   }
 
 }

@@ -26,7 +26,11 @@
         <ion-card-content>
           <ion-list>
             <ion-item *ngFor="let building of buildings">
-              <ion-label>
+              <ion-checkbox slot="start" [checked]="!building.includes(':') || guild.activeBuildings[building]"
+                                         *ngIf="gameService.isGuildMod"
+                                         (click)="toggleBuilding(building, !guild.activeBuildings[building])"></ion-checkbox>
+
+              <ion-label class="ion-text-wrap">
                 <h3>{{ buildingNames[building] }} (Level {{ guild.buildingLevels[building] || 0 }})</h3>
                 <p>{{ buildingDescs[building](guild.buildingLevels[building] || 0) }}</p>
                 <p>

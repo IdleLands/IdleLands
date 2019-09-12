@@ -3,7 +3,7 @@ import { capitalize } from 'lodash';
 
 import { censorSensor } from '../core/static/profanity-filter';
 
-import { ServerEventName, ServerEvent, GuildResource } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames, GuildMemberTier } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
@@ -58,6 +58,8 @@ export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
     if(!['Closed', 'Open', 'Apply'].includes(newMode)) return this.gameError('Invalid recruit mode.');
     this.game.guildManager.updateGuildKey(player.guildName, 'recruitment', newMode);
 
@@ -75,6 +77,8 @@ export class GuildSetMOTD extends ServerSocketEvent implements ServerEvent {
 
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(newMOTD.length > 2000) newMOTD = newMOTD.slice(0, 2000);
 
@@ -95,6 +99,8 @@ export class GuildSetResourceTax extends ServerSocketEvent implements ServerEven
 
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(resource !== 'gold') return this.gameError('Invalid resource name');
     if(newTax < 0 || newTax > 15) return this.gameError('Tax rate must be between 0 and 15');
@@ -171,8 +177,36 @@ export class GuildDonateCrystalEvent extends ServerSocketEvent implements Server
   }
 }
 
+export class GuildToggleBuildingEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildToggleBuilding;
+  description = 'Toggle a building for your guild.';
+  args = 'building';
+
+  async callback({ building } = { building: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    if(!GuildBuildingNames[building]) return this.gameError('Invalid building');
+
+    if(!guild.activeBuildings[building] && building.includes(':')) {
+      const buildingFirst = building.split(':')[0];
+      Object.keys(guild.activeBuildings).forEach(checkBuilding => {
+        if(!checkBuilding.startsWith(buildingFirst)) return;
+
+        this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${checkBuilding}`, false);
+      });
+    }
+
+    this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+  }
+}
+
 /* TODO:
-- add building slot change call
 - add building upgrade call
 - add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
 - add apply member call (make sure one does not exist for player/guild already, make sure applications are open)
