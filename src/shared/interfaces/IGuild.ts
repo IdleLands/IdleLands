@@ -25,6 +25,7 @@ export enum GuildBuilding {
   Enchantress = 'person:enchantress',
   FortuneTeller = 'person:fortuneteller',
   Merchant = 'person:merchant',
+  WitchDoctor = 'person:witchdoctor',
   FactoryScroll = 'factory:scroll',
   FactoryItem = 'factory:item',
   GeneratorWood = 'generator:wood',
@@ -50,6 +51,7 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.Enchantress]: 'Enchantress',
   [GuildBuilding.FortuneTeller]: 'Fortune Teller',
   [GuildBuilding.Merchant]: 'Merchant',
+  [GuildBuilding.WitchDoctor]: 'Witch Doctor',
   [GuildBuilding.FactoryScroll]: 'Scroll Factory',
   [GuildBuilding.FactoryItem]: 'Item Factory',
   [GuildBuilding.GeneratorWood]: 'Wood Generator',
@@ -75,6 +77,7 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.Enchantress]: (level) => `Your members enchanting events will do something.`,
   [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
   [GuildBuilding.Merchant]: (level) => `Your members merchant events will do something.`,
+  [GuildBuilding.WitchDoctor]: (level) => `Your members witch events will do something.`,
   [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
   [GuildBuilding.FactoryItem]: (level) => `Your guild will periodically generate items for all online members.`,
   [GuildBuilding.GeneratorWood]: (level) => `Your guild will generate ${level * 5} wood per hour.`,
@@ -115,7 +118,10 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Gold]: level * 100000, [GuildResource.Stone]: level * 1000 }
   ),
   [GuildBuilding.Tavern]:               (level) => (
-    { [GuildResource.Clay]: level * 1000, [GuildResource.Stone]: level * 100, [GuildResource.Wood]: level * 1000 }
+    { [GuildResource.Gold]: level * 1000000,
+      [GuildResource.Stone]: level * 100,
+      [GuildResource.Wood]: level * 100,
+      [GuildResource.Clay]: level * 100 }
   ),
   [GuildBuilding.Enchantress]:          (level) => (
     { [GuildResource.Gold]: level * 5000000, [GuildResource.Clay]: level * 1000 }
@@ -123,8 +129,11 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
   [GuildBuilding.FortuneTeller]:        (level) => (
     { [GuildResource.Gold]: level * 1000000, [GuildResource.Astralium]: level * 1000 }
   ),
-  [GuildBuilding.Merchant]:        (level) => (
+  [GuildBuilding.Merchant]:             (level) => (
     { [GuildResource.Gold]: level * 250000, [GuildResource.Wood]: level * 1000 }
+  ),
+  [GuildBuilding.WitchDoctor]:          (level) => (
+    { [GuildResource.Gold]: level * 250000, [GuildResource.Stone]: level * 1000 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
     { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }

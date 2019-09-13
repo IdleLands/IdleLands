@@ -19,7 +19,8 @@ export class GuildBuildingsPage implements OnInit {
       GuildBuilding.Crier
     ] },
     { category: 'Friendly Fellows', buildings: [
-      GuildBuilding.Enchantress, GuildBuilding.FortuneTeller, GuildBuilding.Merchant, GuildBuilding.Tavern
+      GuildBuilding.Enchantress, GuildBuilding.FortuneTeller, GuildBuilding.Merchant,
+      GuildBuilding.Tavern, GuildBuilding.WitchDoctor
     ] },
     { category: 'Frantic Factories', buildings: [
       GuildBuilding.FactoryItem, GuildBuilding.FactoryScroll
