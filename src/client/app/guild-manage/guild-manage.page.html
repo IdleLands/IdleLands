@@ -51,10 +51,12 @@
                       (click)="kick(member.key)"
                       color="danger">Kick</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 10 && gameService.isGuildLeader" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 1 && gameService.isGuildLeader" 
+                      (click)="demote(member.key)"
                       color="warning">Demote</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 1 && gameService.isGuildLeader" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 10 && gameService.isGuildLeader"
+                      (click)="promote(member.key)" 
                       color="warning">Promote</ion-button>
         </ion-item>
       </ion-list>

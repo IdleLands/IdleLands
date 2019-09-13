@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
 import { AlertController } from '@ionic/angular';
-import { ServerEventName } from '../../../shared/interfaces';
+import { ServerEventName, GuildMemberTier } from '../../../shared/interfaces';
 import { Router } from '@angular/router';
 
 @Component({
@@ -46,15 +46,34 @@ export class GuildManagePage implements OnInit {
         { text: 'Cancel', role: 'cancel' },
         { text: 'Yes, kick!', handler: () => {
           this.socketService.emit(ServerEventName.GuildKick, { kickPlayer });
-
-          setTimeout(() => {
-            this.gameService.loadGuild();
-          }, 3000);
+          delete this.gameService.guild.members[kickPlayer];
         } }
       ]
     });
 
     alert.present();
+  }
+
+  async promote(promotePlayer) {
+    this.socketService.emit(ServerEventName.GuildPromoteMember, { promotePlayer });
+    const curTier = this.gameService.guild.members[promotePlayer];
+
+    let newTier = 0;
+    if(curTier === GuildMemberTier.Member) newTier = GuildMemberTier.Moderator;
+    if(curTier === GuildMemberTier.Moderator) newTier = GuildMemberTier.Leader;
+
+    this.gameService.guild.members[promotePlayer] = newTier;
+  }
+
+  async demote(demotePlayer) {
+    this.socketService.emit(ServerEventName.GuildDemoteMember, { demotePlayer });
+    const curTier = this.gameService.guild.members[demotePlayer];
+
+    let newTier = 0;
+    if(curTier === GuildMemberTier.Leader) newTier = GuildMemberTier.Moderator;
+    if(curTier === GuildMemberTier.Moderator) newTier = GuildMemberTier.Member;
+
+    this.gameService.guild.members[demotePlayer] = newTier;
   }
 
 }

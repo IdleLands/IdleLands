@@ -333,6 +333,72 @@ export class GuildKickEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class GuildPromoteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildPromoteMember;
+  description = 'Promote someone in your guild.';
+  args = 'promotePlayer';
+
+  async callback({ promotePlayer } = { promotePlayer: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Leader) return this.gameError('Not a leader.');
+
+    const member = guild.members[promotePlayer];
+    if(!member) return this.gameError('Person is not in your guild.');
+
+    let newTier = 0;
+    if(member === GuildMemberTier.Member) newTier = GuildMemberTier.Moderator;
+    if(member === GuildMemberTier.Moderator) newTier = GuildMemberTier.Leader;
+
+    if(newTier === 0) return this.gameError('Cannot promote anymore.');
+
+    this.game.guildManager.updateGuildKey(
+      player.guildName,
+      `members.${promotePlayer}`,
+      newTier
+    );
+
+    this.gameSuccess(`Promoted ${promotePlayer}.`);
+  }
+}
+
+export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildDemoteMember;
+  description = 'Demote someone in your guild.';
+  args = 'demotePlayer';
+
+  async callback({ demotePlayer } = { demotePlayer: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Leader) return this.gameError('Not a leader.');
+
+    const member = guild.members[demotePlayer];
+    if(!member) return this.gameError('Person is not in your guild.');
+
+    let newTier = 0;
+    if(member === GuildMemberTier.Leader) newTier = GuildMemberTier.Moderator;
+    if(member === GuildMemberTier.Moderator) newTier = GuildMemberTier.Member;
+
+    if(newTier === 0) return this.gameError('Cannot demote anymore.');
+
+    this.game.guildManager.updateGuildKey(
+      player.guildName,
+      `members.${demotePlayer}`,
+      newTier
+    );
+
+    this.gameSuccess(`Demoted ${demotePlayer}.`);
+  }
+}
+
 /* TODO:
 - add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
 - add apply member call (make sure one does not exist for player/guild already, make sure applications are open)
