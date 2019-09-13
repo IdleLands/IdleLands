@@ -407,6 +407,4 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
 - add call to approve application (member must be online)
 - add call to remove invite
 - add call to approve invite
-- add call to leave guild
-- add promote member call (member -> mod -> leader -> mod -> member)
 */
