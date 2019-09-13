@@ -101,6 +101,14 @@ export enum ServerEventName {
   GuildDonateCrystal = 'guild:donatecrystal',
   GuildToggleBuilding = 'guild:togglebuilding',
   GuildUpgradeBuilding = 'guild:upgradebuilding',
+  GuildApplyJoin = 'guild:applyjoin',
+  GuildLeave = 'guild:leave',
+  GuildInvite = 'guild:invite',
+  GuildAcceptInvite = 'guild:acceptinvite',
+  GuildAcceptApply = 'guild:acceptapply',
+  GuildRemoveApplyInvite = 'guild:removeapplyinvite',
+  GuildPromoteMember = 'guild:promote',
+  GuildDemoteMember = 'guild:demote',
 
   ExtraSubmitItem = 'extra:submititem'
 }

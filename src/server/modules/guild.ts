@@ -257,7 +257,6 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
 - add call to approve application (member must be online)
 - add call to remove invite
 - add call to approve invite
-- add call to disband guild
 - add call to leave guild
 - add promote member call (member -> mod -> leader -> mod -> member)
 */

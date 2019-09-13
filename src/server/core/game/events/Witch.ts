@@ -27,7 +27,7 @@ export class Witch extends Event {
   private pickBuffStats(player: Player) {
     const stat = this.rng.pickone(AllStatsButSpecial);
     const statModPercent = this.rng.pickone([-20, -10, -5, -1, 1, 5, 10, 20, 25]);
-    const statMod = Math.floor(player.getStat(stat) * (1 / statModPercent));
+    const statMod = Math.floor(player.getStat(stat) * (statModPercent / 100));
 
     return { stat, statModPercent, statMod };
   }
