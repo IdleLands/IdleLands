@@ -102,7 +102,7 @@
         <ion-card-content>
           <ion-list>
             <ion-item>
-              <ion-range min="0" max="15" snaps="true" pin="true" ticks="true" debounce="500"
+              <ion-range min="0" max="50" snaps="true" pin="true" ticks="true" debounce="500"
                          (ionChange)="updateTax('gold', $event)"
                          [value]="guild.taxes.gold"
                          [disabled]="!gameService.isGuildMod">

@@ -103,7 +103,7 @@ export class GuildSetResourceTax extends ServerSocketEvent implements ServerEven
     if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(resource !== 'gold') return this.gameError('Invalid resource name');
-    if(newTax < 0 || newTax > 15) return this.gameError('Tax rate must be between 0 and 15');
+    if(newTax < 0 || newTax > 50) return this.gameError('Tax rate must be between 0 and 50');
 
     newTax = Math.round(newTax);
 
