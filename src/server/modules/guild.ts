@@ -269,7 +269,13 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
       }
 
       case 'Apply': {
-        // TODO: apply
+        try {
+          await this.game.databaseManager.applyInviteToGuild(player.name, guildName, 'application');
+        } catch(e) {
+          return this.gameError('You already have an application for that guild.');
+        }
+
+        this.gameSuccess(`You applied to the guild!`);
         break;
       }
 
@@ -305,6 +311,22 @@ export class GuildLeaveEvent extends ServerSocketEvent implements ServerEvent {
     this.game.guildManager.initiateLeaveGuild(player.name, player.guildName);
 
     this.gameSuccess(`Left guild.`);
+  }
+}
+
+export class GuildRemoveApplyInviteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildRemoveApplyInvite;
+  description = 'Remove applications and invites from a particular guild.';
+  args = 'guildName';
+
+  async callback({ guildName } = { guildName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    // we don't check if the guild exists here in case someone makes a guild, invites people, then kills the guild
+    this.game.databaseManager.clearAppsInvitesForPlayer(player.name, guildName);
+
+    this.gameSuccess(`Withdrew/removed applications/invites for that guild.`);
   }
 }
 

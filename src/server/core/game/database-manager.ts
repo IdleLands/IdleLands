@@ -296,11 +296,14 @@ export class DatabaseManager {
     }
   }
 
-  public async clearAppsInvitesForPlayer(playerName: string): Promise<any> {
+  public async clearAppsInvitesForPlayer(playerName: string, guildName?: string): Promise<any> {
     if(!this.connection) return null;
 
+    const opts: any = { playerName };
+    if(guildName) opts.guildName = guildName;
+
     try {
-      return this.connection.manager.remove(GuildInvite, { playerName });
+      return this.connection.getMongoRepository(GuildInvite).deleteMany(opts);
 
     } catch(e) {
       this.logger.error(`DatabaseManager#clearAppsInvitesForPlayer`, e);
@@ -315,6 +318,20 @@ export class DatabaseManager {
 
     } catch(e) {
       this.logger.error(`DatabaseManager#loadAppsInvitesForPlayer`, e);
+    }
+  }
+
+  public async applyInviteToGuild(playerName: string, guildName: string, type: 'invite'|'application'): Promise<any> {
+    if(!this.connection) return null;
+
+    const existing = await this.connection.manager.findOne(GuildInvite, { playerName, guildName, type });
+    if(existing) throw new Error('Already have an invite/application for this player/guild');
+
+    try {
+      return this.connection.manager.insert(GuildInvite, { playerName, guildName, type });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#applyInviteToGuild`, e);
     }
   }
 

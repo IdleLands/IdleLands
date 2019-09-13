@@ -35,7 +35,7 @@
 
         <ion-item *ngFor="let appinv of appinvs">
           <ion-label>
-            Guild: {{ appinv.guildName }}
+            {{ appinv.guildName }}
           </ion-label>
 
           <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Withdraw</ion-button>

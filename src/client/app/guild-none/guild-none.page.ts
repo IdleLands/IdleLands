@@ -37,7 +37,9 @@ export class GuildNonePage implements OnInit {
     forkJoin(
       [
         this.http.get(`${this.gameService.apiUrl}/guilds/all`).pipe(map((x: any) => x.guilds)),
-        this.http.get(`${this.gameService.apiUrl}/guilds/appinv`).pipe(map((x: any) => x.appinvs))
+        this.http.get(`${this.gameService.apiUrl}/guilds/appinv`,
+          { params: { playerName: this.gameService.playerRef.name } }
+        ).pipe(map((x: any) => x.appinvs))
       ]
     )
       .subscribe(([guilds, appinvs]) => {
@@ -87,7 +89,9 @@ export class GuildNonePage implements OnInit {
   }
 
   async cancelInv(appinv: IGuildApplication) {
+    this.socketService.emit(ServerEventName.GuildRemoveApplyInvite, { guildName: appinv.guildName });
 
+    this.appinvs = this.appinvs.filter(x => x.guildName !== appinv.guildName);
   }
 
   async apply(guild: IGuild) {
