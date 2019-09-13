@@ -3,7 +3,8 @@ import { capitalize } from 'lodash';
 
 import { censorSensor } from '../core/static/profanity-filter';
 
-import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames, GuildMemberTier, GuildBuildingUpgradeCosts } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames,
+  GuildMemberTier, GuildBuildingUpgradeCosts } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {

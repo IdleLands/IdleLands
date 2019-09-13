@@ -36,7 +36,8 @@ export enum GuildBuilding {
   GardenAgility = 'garden:agi',
   GardenConstitution = 'garden:con',
   GardenIntelligence = 'garden:int',
-  GardenLuck = 'garden:luk'
+  GardenLuck = 'garden:luk',
+  RaidPortal = 'active:raidportal'
 }
 
 export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
@@ -60,7 +61,8 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.GardenAgility]: 'Agility Garden',
   [GuildBuilding.GardenConstitution]: 'Constitution Garden',
   [GuildBuilding.GardenIntelligence]: 'Intelligence Garden',
-  [GuildBuilding.GardenLuck]: 'Luck Garden'
+  [GuildBuilding.GardenLuck]: 'Luck Garden',
+  [GuildBuilding.RaidPortal]: 'Raid Portal'
 };
 
 export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
@@ -84,7 +86,8 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI by ${level * 5} for all online members.`,
   [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
   [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`
+  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
+  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${level * 25}.`
 };
 
 export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number) => { [res in GuildResource]?: number } } = {
@@ -162,6 +165,9 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Clay]: level * 100,
       [GuildResource.Stone]: level * 100,
       [GuildResource.Wood]: level * 100 }
+  ),
+  [GuildBuilding.RaidPortal]:           (level) => (
+    { [GuildResource.Astralium]: level * 1000 }
   )
 };
 

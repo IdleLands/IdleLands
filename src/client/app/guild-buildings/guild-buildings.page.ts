@@ -31,7 +31,11 @@ export class GuildBuildingsPage implements OnInit {
     { category: 'Groovy Gardens', buildings: [
       GuildBuilding.GardenAgility, GuildBuilding.GardenConstitution, GuildBuilding.GardenDexterity,
       GuildBuilding.GardenIntelligence, GuildBuilding.GardenLuck, GuildBuilding.GardenStrength
+    ] },
+    { category: 'Curious Causalities', buildings: [
+      GuildBuilding.RaidPortal
     ] }
+    
   ];
 
   public buildingNames = GuildBuildingNames;
