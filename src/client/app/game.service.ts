@@ -5,7 +5,7 @@ import { AlertController, IonMenu } from '@ionic/angular';
 
 import * as uuid from 'uuid/v4';
 import { applyPatch } from 'fast-json-patch';
-import { get, pullAllBy, merge, find, uniqBy, sortBy, orderBy, cloneDeep } from 'lodash';
+import { get, pullAllBy, merge, find, uniqBy, sortBy, cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import * as Fingerprint from 'fingerprintjs2';
 
@@ -221,10 +221,10 @@ export class GameService {
           const incomplete = pObj.adventures.filter(x => x.finishAt > Date.now());
           const inactive = pObj.adventures.filter(x => !x.finishAt);
 
-          return complete.concat(orderBy(incomplete, [
+          return complete.concat(sortBy(incomplete, [
             (c: IAdventure) => c.finishAt < Date.now(),
             (c: IAdventure) => -c.finishAt
-          ], ['desc', 'desc']).concat(inactive));
+          ]).reverse().concat(inactive));
         },
         observable: this.adventures,
         playerData: (pl) => pl.$petsData
