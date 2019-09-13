@@ -28,6 +28,7 @@ export interface IGame {
   gmHelper: any;
   guildManager: any;
 
+  updatePlayer(player: IPlayer): void;
   sendClientUpdateForPlayer(player: IPlayer): void;
   doStartingPlayerStuff(player: IPlayer): void;
 }

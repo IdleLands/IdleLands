@@ -67,7 +67,7 @@ export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent
     this.gameSuccess(`Set guild recruit mode to ${newMode}.`);
   }
 }
-export class GuildSetMOTD extends ServerSocketEvent implements ServerEvent {
+export class GuildSetMOTDEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildSetMOTD;
   description = 'Set guild MOTD.';
   args = 'newMOTD';
@@ -89,7 +89,7 @@ export class GuildSetMOTD extends ServerSocketEvent implements ServerEvent {
   }
 }
 
-export class GuildSetResourceTax extends ServerSocketEvent implements ServerEvent {
+export class GuildSetResourceTaxEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildSetTax;
   description = 'Set guild tax.';
   args = 'resource, newTax';
@@ -246,6 +246,90 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     );
 
     this.gameSuccess(`Leveled up your building!`);
+  }
+}
+
+export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildApplyJoin;
+  description = 'Join or apply to a guild.';
+  args = 'guildName';
+
+  async callback({ guildName } = { guildName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(player.guildName) return this.gameError('You already are in a guild!');
+
+    const guild = this.game.guildManager.getGuild(guildName);
+    if(!guild) return this.gameError('That guild is not valid!');
+
+    switch(guild.recruitment) {
+      case 'Closed': {
+        return this.gameError('Guild is closed and cannot be applied to.');
+      }
+
+      case 'Apply': {
+        // TODO: apply
+        break;
+      }
+
+      case 'Open': {
+        this.game.guildManager.joinGuild(player.name, guildName, GuildMemberTier.Member);
+        this.gameSuccess(`You joined the guild!`);
+        break;
+      }
+    }
+
+  }
+}
+
+export class GuildLeaveEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildLeave;
+  description = 'Leave your guild.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    // leaders can only leave if they're the last person in the guild or they promote someone else
+    if(guild.members[player.name] === GuildMemberTier.Leader && Object.keys(guild.members).length > 1) {
+      const leaderCount = Object.keys(guild.members).map(m => guild.members[m]).filter(v => v === GuildMemberTier.Leader).length;
+
+      if(leaderCount <= 1) return this.gameError('Cannot leave guild when there are no other leaders to take over.');
+    }
+
+    this.game.guildManager.initiateLeaveGuild(player.name, player.guildName);
+
+    this.gameSuccess(`Left guild.`);
+  }
+}
+
+export class GuildKickEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildKick;
+  description = 'Kick someone from your guild.';
+  args = 'kickPlayer';
+
+  async callback({ kickPlayer } = { kickPlayer: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    const member = guild.members[kickPlayer];
+    if(!member) return this.gameError('Person is not in your guild.');
+
+    if(member > GuildMemberTier.Member) return this.gameError('Cannot kick anyone unless they are a normal member.');
+
+    this.game.guildManager.initiateLeaveGuild(kickPlayer, player.guildName);
+
+    this.gameSuccess(`Kicked ${kickPlayer} from guild.`);
   }
 }
 

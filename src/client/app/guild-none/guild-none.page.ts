@@ -30,6 +30,10 @@ export class GuildNonePage implements OnInit {
   ngOnInit() {
     this.isLoading = true;
 
+    this.loadData();
+  }
+
+  loadData() {
     forkJoin(
       [
         this.http.get(`${this.gameService.apiUrl}/guilds/all`).pipe(map((x: any) => x.guilds)),
@@ -68,7 +72,7 @@ export class GuildNonePage implements OnInit {
             this.socketService.emit(ServerEventName.GuildCreate, values);
 
             setTimeout(() => {
-              this.router.navigate(['guilds', 'overview']);
+              this.router.navigate(['guild', 'overview']);
             }, 3000);
           }
         }
@@ -82,12 +86,22 @@ export class GuildNonePage implements OnInit {
     return CalculateGuildLevel(guild);
   }
 
-  async cancelInv(appinv) {
+  async cancelInv(appinv: IGuildApplication) {
 
   }
 
-  async apply(guild) {
+  async apply(guild: IGuild) {
+    this.socketService.emit(ServerEventName.GuildApplyJoin, { guildName: guild.name });
 
+    if(guild.recruitment === 'Open') {
+      setTimeout(() => {
+        this.router.navigate(['guild', 'overview']);
+      }, 3000);
+
+      return;
+    }
+
+    this.loadData();
   }
 
 }

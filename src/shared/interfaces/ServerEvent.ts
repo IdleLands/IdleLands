@@ -102,6 +102,7 @@ export enum ServerEventName {
   GuildToggleBuilding = 'guild:togglebuilding',
   GuildUpgradeBuilding = 'guild:upgradebuilding',
   GuildApplyJoin = 'guild:applyjoin',
+  GuildKick = 'guild:kick',
   GuildLeave = 'guild:leave',
   GuildInvite = 'guild:invite',
   GuildAcceptInvite = 'guild:acceptinvite',

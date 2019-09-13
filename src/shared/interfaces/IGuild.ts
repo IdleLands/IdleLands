@@ -213,6 +213,9 @@ export enum GuildChannelOperation {
   // used when a guild has a new member join
   AddMember,
 
+  // used when a guild member is removed
+  RemoveMember,
+
   // used when a guild needs to update a particular key and syndicate the change
   Update,
 

@@ -203,7 +203,7 @@ const routes: Routes = [
       ]
     },
 
-    { path: 'manage',
+    { path: 'members',
       children: [
         { path: '', loadChildren: './guild-manage/guild-manage.module#GuildManagePageModule' }
       ]

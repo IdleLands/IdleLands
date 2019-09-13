@@ -40,6 +40,11 @@ export class GuildManager {
           break;
         }
 
+        case GuildChannelOperation.RemoveMember: {
+          this.leaveGuild(args.name, args.guildName);
+          break;
+        }
+
         case GuildChannelOperation.Update: {
           this.updateGuild(args.guildName, args.key, args.value);
           break;
@@ -105,6 +110,12 @@ export class GuildManager {
     });
   }
 
+  public initiateLeaveGuild(name: string, guildName: string) {
+    this.subscriptionManager.emitToChannel(Channel.Guild, {
+      operation: GuildChannelOperation.RemoveMember, name, guildName
+    });
+  }
+
   public joinGuild(name: string, guildName: string, tier: GuildMemberTier) {
 
     const guild = this.getGuild(guildName);
@@ -117,8 +128,23 @@ export class GuildManager {
     if(!player) return;
 
     player.guildName = guildName;
+    player.$$game.updatePlayer(player);
 
     this.db.clearAppsInvitesForPlayer(player.name);
+  }
+
+  public leaveGuild(name: string, guildName: string) {
+    const guild = this.getGuild(guildName);
+    if(!guild) throw new Error(`Guild ${guildName} does not exist; cannot leave it.`);
+
+    guild.removeMember(name);
+    this.saveGuild(guild);
+
+    const player = this.playerManager.getPlayer(name);
+    if(!player) return;
+
+    player.guildName = '';
+    player.$$game.updatePlayer(player);
   }
 
   public updateGuildKey(guildName: string, key: string, value: any): void {

@@ -51,6 +51,7 @@ export class GuildBuildingsPage implements OnInit {
   }
 
   toggleBuilding(building: string, newState: boolean) {
+    if(!this.gameService.isGuildMod) return;
 
     const guild = this.gameService.guild;
 
@@ -76,14 +77,20 @@ export class GuildBuildingsPage implements OnInit {
   }
 
   public canUpgrade(building: string): boolean {
+    if(!this.gameService.isGuildMod) return false;
+
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
+    if(guild.buildingLevels[GuildBuilding.GuildHall] < level) return false;
+
     const costs = GuildBuildingUpgradeCosts[building](level);
 
     return Object.keys(costs).every(costKey => guild.resources[costKey] >= costs[costKey]);
   }
 
   upgrade(building: string): void {
+    if(!this.gameService.isGuildMod) return;
+
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
     guild.buildingLevels[building] = level;

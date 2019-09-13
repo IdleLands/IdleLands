@@ -60,4 +60,8 @@ export class Guild implements IGuild {
   public addMember(name: string, tier: GuildMemberTier) {
     this.members[name] = tier;
   }
+
+  public removeMember(name: string) {
+    delete this.members[name];
+  }
 }
