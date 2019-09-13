@@ -215,8 +215,10 @@ export class ItemGenerator {
     const prefixCount = this.rng.chance.weighted(...zip(...this.prefixWeight[ItemClass.Guardian]));
     const suffixCount = this.rng.chance.weighted(...zip(...this.suffixWeight[ItemClass.Guardian]));
 
+    const presufTier = this.determineTierOfItemForScore(Item.calcScoreForHash(stats));
+
     for(let p = 0; p < prefixCount; p++) {
-      const prefix = this.rng.pickone(this.allAssetScoreSorted.prefix[ItemClass.Guardian]);
+      const prefix = this.rng.pickone(this.allAssetScoreSorted.prefix[presufTier]);
       if(!prefix) continue;
 
       proto.name = `${prefix.name} ${proto.name}`;
@@ -224,7 +226,7 @@ export class ItemGenerator {
     }
 
     for(let s = 0; s < suffixCount; s++) {
-      const suffix = this.rng.pickone(this.allAssetScoreSorted.suffix[ItemClass.Guardian]);
+      const suffix = this.rng.pickone(this.allAssetScoreSorted.suffix[presufTier]);
       if(!suffix) continue;
 
       proto.name = `${proto.name} ${s > 0 ? 'and the ' + suffix.name : 'of the ' + suffix.name}`;

@@ -48,11 +48,15 @@ export class Bard extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): { success: boolean, message: string } {
 
-    const bardicShift = Math.min(25, player.$statistics.get('Profession/Bard/Become') || 1);
+    const scaler = (player.$statistics.get('Profession/Bard/AbilityUses') || 1) + (player.$statistics.get('Profession/Bard/Become') || 1);
+    const bardicShift = Math.sqrt(scaler / 2);
 
     const stats = { };
     Object.values(AllStatsButSpecial).forEach(stat => {
-      stats[stat] = player.$$game.rngService.numberInRange(-20 + bardicShift, 10 + bardicShift);
+      const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * -5, bardicShift * 10));
+      if(val === 0) return;
+
+      stats[stat] = val;
     });
 
     if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {

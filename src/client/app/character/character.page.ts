@@ -45,9 +45,11 @@ export class CharacterPage {
       <br>
       You will lose access to pets that are not bought.
       <br>
-      Your pets will lose their equipment.
+      You and your pets will lose their equipment.
       <br>
       Your boosters and injuries will expire.
+      <br>
+      You will return to Norkos.
       <br>
       <br>
       You're probably going to do this anyway.`,

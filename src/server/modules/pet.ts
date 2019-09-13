@@ -144,7 +144,7 @@ export class PetUnequipItemEvent extends ServerSocketEvent implements ServerEven
 
 export class PetAscendEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PetAscend;
-  description = 'Ascend your pet.';
+  description = 'Enhance your pet.';
   args = '';
 
   async callback() {
@@ -152,10 +152,10 @@ export class PetAscendEvent extends ServerSocketEvent implements ServerEvent {
     if(!player) return this.notConnected();
 
     const didSucceed = player.$pets.ascend(player);
-    if(!didSucceed) return this.gameError('Could not ascend.');
+    if(!didSucceed) return this.gameError('Could not enhance. You might be missing some materials!');
 
     this.game.updatePlayer(player);
-    this.gameSuccess(`Your pet has ascended!`);
+    this.gameSuccess(`Your pet has been enhanced!`);
   }
 }
 

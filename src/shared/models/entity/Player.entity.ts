@@ -414,6 +414,10 @@ export class Player implements IPlayer {
   private checkStaminaTick() {
     if(this.stamina.atMaximum()) {
       this.nextStaminaTick = Date.now();
+        if(this.$personalities.isActive('Restless')) {
+        this.oocAction(2);
+      return;
+      }
     }
 
     if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
@@ -421,11 +425,11 @@ export class Player implements IPlayer {
     this.increaseStatistic('Character/Stamina/Gain', 1);
     this.stamina.add(1);
 
-    if(this.$personalities.isActive('Restless') && this.stamina.atMaximum()) {
+    this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
+
+    if(this.$personalities.isActive('Restless') && this.stamina.atMaximum() && Date.now() < this.nextStaminaTick) {
       this.oocAction(2);
     }
-
-    this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
 
     if(Date.now() > this.nextStaminaTick) this.checkStaminaTick();
   }
