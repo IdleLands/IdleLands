@@ -47,7 +47,7 @@
                       (click)="leave()"
                       color="danger">Leave</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod" 
+                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value === 1" 
                       (click)="kick(member.key)"
                       color="danger">Kick</ion-button>
           <ion-button slot="end" 
