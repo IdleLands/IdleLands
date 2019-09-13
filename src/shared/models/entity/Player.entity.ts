@@ -362,7 +362,28 @@ export class Player implements IPlayer {
     }
 
     this.increaseStatistic('Character/Gold/Gain', remainingGold);
-    this.gold += remainingGold;
+
+    if(this.guildName) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        const taxRate = guild.taxes.gold || 0;
+        if(taxRate > 0) {
+          const donatedGold = Math.floor(remainingGold * (taxRate / 100));
+
+          const existing = guild.resources.gold || 0;
+          this.increaseStatistic(`Guild/Donate/Resource/Gold`, donatedGold);
+          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.gold`, existing + donatedGold);
+
+          this.gold += remainingGold - donatedGold;
+
+        } else {
+          this.gold += remainingGold;
+        }
+      }
+    } else {
+      this.gold += remainingGold;
+    }
+
 
     return remainingGold;
   }
