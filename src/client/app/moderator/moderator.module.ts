@@ -11,6 +11,7 @@ import { ToggleMuteModal } from './togglemute.modal';
 import { ModTierModal } from './modtier.modal';
 import { ModFestivalModal } from './modfestival.modal';
 import { ModItemModal } from './moditem.modal';
+import { ModGuildResourcesModal } from './modguildresources.modal';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
 
     SharedModule
   ],
-  declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal],
-  entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal]
+  declarations: [ModeratorPage, ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal, ModGuildResourcesModal],
+  entryComponents: [ToggleMuteModal, ModTierModal, ModFestivalModal, ModItemModal, ModGuildResourcesModal]
 })
 export class ModeratorPageModule { }
