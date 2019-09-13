@@ -223,7 +223,7 @@ export class GameService {
           return complete.concat(sortBy(incomplete, [
             (c: IAdventure) => c.finishAt < Date.now(),
             (c: IAdventure) => -c.finishAt
-          ]));
+          ])).reverse();
         },
         observable: this.adventures,
         playerData: (pl) => pl.$petsData
