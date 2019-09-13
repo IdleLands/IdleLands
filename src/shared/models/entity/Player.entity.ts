@@ -212,6 +212,8 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Game/Logins', 1);
 
+    this.validateGuild();
+
     this.recalculateStats();
 
     this.calculateStamina();
@@ -222,6 +224,15 @@ export class Player implements IPlayer {
 
     if(this.title && !this.availableTitles.includes(this.title)) {
       this.changeTitle('');
+    }
+  }
+
+  private validateGuild() {
+    if(!this.guildName) return;
+
+    const guild = this.$$game.guildManager.getGuild(this.guildName);
+    if(!guild || !guild.members[this.name]) {
+      this.guildName = '';
     }
   }
 
