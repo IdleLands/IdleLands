@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GuildBuilding, GuildBuildingNames, GuildBuildingDescs,
-  GuildBuildingCosts, GuildBuildingUpgradeCosts, ServerEventName } from '../../../shared/interfaces';
+   GuildBuildingUpgradeCosts, ServerEventName } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-guild-buildings',
@@ -36,7 +36,6 @@ export class GuildBuildingsPage implements OnInit {
 
   public buildingNames = GuildBuildingNames;
   public buildingDescs = GuildBuildingDescs;
-  public buildingCosts = GuildBuildingCosts;
   public buildingUpgradeCosts = GuildBuildingUpgradeCosts;
 
   constructor(
