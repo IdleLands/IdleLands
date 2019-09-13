@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
 import { AlertController } from '@ionic/angular';
-import { ServerEventName, GuildMemberTier } from '../../../shared/interfaces';
+import { ServerEventName, GuildMemberTier, IGuildApplication } from '../../../shared/interfaces';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-guild-manage',
@@ -12,7 +14,10 @@ import { Router } from '@angular/router';
 })
 export class GuildManagePage implements OnInit {
 
+  public appinvs: IGuildApplication[] = [];
+
   constructor(
+    private http: HttpClient,
     private router: Router,
     private alertCtrl: AlertController,
     private socketService: SocketClusterService,
@@ -20,6 +25,19 @@ export class GuildManagePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    if(!this.gameService.guild) return;
+
+    this.http.get(`${this.gameService.apiUrl}/guilds/appinv`,
+      { params: { guildName: this.gameService.guild.name } }
+    )
+      .pipe(map((x: any) => x.appinvs))
+      .subscribe(appinvs => {
+        this.appinvs = appinvs;
+      });
   }
 
   async leave() {
@@ -74,6 +92,14 @@ export class GuildManagePage implements OnInit {
     if(curTier === GuildMemberTier.Moderator) newTier = GuildMemberTier.Member;
 
     this.gameService.guild.members[demotePlayer] = newTier;
+  }
+
+  cancelInv(appinv: IGuildApplication) {
+
+  }
+
+  acceptInv(appinv: IGuildApplication) {
+
   }
 
 }

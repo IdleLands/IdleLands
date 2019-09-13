@@ -88,6 +88,10 @@ export class GuildNonePage implements OnInit {
     return CalculateGuildLevel(guild);
   }
 
+  async acceptInv(appinv: IGuildApplication) {
+
+  }
+
   async cancelInv(appinv: IGuildApplication) {
     this.socketService.emit(ServerEventName.GuildRemoveApplyInvite, { guildName: appinv.guildName });
 

@@ -39,15 +39,21 @@ export class GuildAPICall extends ServerAPICall {
 
 export class GuildInvitesAndApplicationsAPICall extends ServerAPICall {
 
-  static desc = 'Get the guild invites/applications for a particular player';
-  static params = 'playerName';
+  static desc = 'Get the guild invites/applications for a particular player or guild';
+  static params = 'playerName?, guildName?';
 
   static init(app, game: Game) {
     app.get('/guilds/appinv', async (req, res) => {
       let appinvs = [];
 
       try {
-        appinvs = (await game.databaseManager.loadAppsInvitesForPlayer(req.query.playerName));
+        if(req.query.playerName) {
+          appinvs = (await game.databaseManager.loadAppsInvitesForPlayer(req.query.playerName));
+        }
+
+        if(req.query.guildName) {
+          appinvs = (await game.databaseManager.loadAppsInvitesForGuild(req.query.guildName));
+        }
       } catch(e) { }
 
       res.json({ appinvs });

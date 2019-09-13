@@ -18,6 +18,18 @@
   <ion-row *ngIf="gameService.guild as guild">
     <ion-col>
       <ion-list>
+        <ion-list-header *ngIf="appinvs.length > 0">Applications / Invites</ion-list-header>
+        <ion-item *ngFor="let appinv of appinvs">
+          <ion-label>
+            {{ appinv.playerName }}
+          </ion-label>
+
+          <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Deny</ion-button>
+          <ion-button slot="end" (click)="acceptInv(appinv)" *ngIf="appinv.type === 'application'">Accept</ion-button>
+          <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'invite'">Rescind</ion-button>
+        </ion-item>
+
+        <ion-list-header>Members</ion-list-header>
         <ion-item *ngFor="let member of guild.members | keyvalue">
           <ion-icon slot="start" *ngIf="member.value === 1" name="star-outline"></ion-icon>
           <ion-icon slot="start" *ngIf="member.value === 5" name="star-half"></ion-icon>

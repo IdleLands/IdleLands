@@ -321,6 +321,17 @@ export class DatabaseManager {
     }
   }
 
+  public async loadAppsInvitesForGuild(guildName: string): Promise<GuildInvite[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(GuildInvite, { guildName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadAppsInvitesForGuild`, e);
+    }
+  }
+
   public async applyInviteToGuild(playerName: string, guildName: string, type: 'invite'|'application'): Promise<any> {
     if(!this.connection) return null;
 
