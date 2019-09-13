@@ -42,7 +42,7 @@
             <ion-card-content>
               <ion-list>
 
-                <ion-item *ngIf="pet.level.__current === pet.level.maximum">
+                <ion-item *ngIf="pet.level.__current === pet.level.maximum && pet.rating < 5">
                   <ion-icon slot="start" [src]="'assets/icon/symbol-ascend.svg'"></ion-icon>
   
                   <span class="ion-padding-start">Would you like to enhance your pet?</span>
