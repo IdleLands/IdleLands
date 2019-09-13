@@ -41,13 +41,18 @@ export class Guild implements IGuild {
     if(!this.activeBuildings) {
         this.activeBuildings = {
         [GuildBuilding.GuildHall]: true,
-        [GuildBuilding.Stash]: true
+        [GuildBuilding.Stash]: true,
+        [GuildBuilding.Mascot]: true,
+        [GuildBuilding.Academy]: true
       };
     }
     if(!this.buildingLevels) {
       this.buildingLevels = {
         [GuildBuilding.GuildHall]: 1,
-        [GuildBuilding.Stash]: 1
+        [GuildBuilding.Stash]: 1,
+        [GuildBuilding.Mascot]: 1,
+        [GuildBuilding.Academy]: 1,
+        [GuildBuilding.Crier]: 1
       };
     }
     if(!this.members) this.members = { };

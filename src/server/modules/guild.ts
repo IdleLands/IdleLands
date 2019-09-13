@@ -3,7 +3,7 @@ import { capitalize } from 'lodash';
 
 import { censorSensor } from '../core/static/profanity-filter';
 
-import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames, GuildMemberTier } from '../../shared/interfaces';
+import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames, GuildMemberTier, GuildBuildingUpgradeCosts } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
@@ -206,8 +206,49 @@ export class GuildToggleBuildingEvent extends ServerSocketEvent implements Serve
   }
 }
 
+export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildUpgradeBuilding;
+  description = 'Upgrade a building for your guild.';
+  args = 'building';
+
+  async callback({ building } = { building: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    if(!GuildBuildingNames[building]) return this.gameError('Invalid building');
+
+    const level = (guild.buildingLevels[building] || 0) + 1;
+    if(guild.buildingLevels[GuildBuilding.GuildHall] < level) return this.gameError('Guild hall must be leveled first.');
+
+    const costs = GuildBuildingUpgradeCosts[building](level);
+
+    const canDo = Object.keys(costs).every(costKey => guild.resources[costKey] >= costs[costKey]);
+    if(!canDo) return this.gameError('Not enough resources.');
+
+    Object.keys(costs).forEach(costKey => {
+      this.game.guildManager.updateGuildKey(
+        player.guildName,
+        `resources.${costKey}`,
+        guild.resources[costKey] - costs[costKey]
+      );
+    });
+
+    this.game.guildManager.updateGuildKey(
+      player.guildName,
+      `buildingLevels.${building}`,
+      (guild.buildingLevels[building] || 0) + 1
+    );
+
+    this.gameSuccess(`Leveled up your building!`);
+  }
+}
+
 /* TODO:
-- add building upgrade call
 - add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
 - add apply member call (make sure one does not exist for player/guild already, make sure applications are open)
 - add ability to discard application

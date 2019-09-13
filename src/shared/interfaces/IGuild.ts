@@ -19,12 +19,12 @@ export enum GuildBuilding {
   Academy = 'academy',
   GuildHall = 'guildhall',
   Stash = 'guildstash',
-  Crier = 'crier',
+  Mascot = 'mascot',
+  Crier = 'upkept:crier',
   Tavern = 'person:tavern',
   Enchantress = 'person:enchantress',
   FortuneTeller = 'person:fortuneteller',
   Merchant = 'person:merchant',
-  Mascot = 'mascot',
   FactoryScroll = 'factory:scroll',
   FactoryItem = 'factory:item',
   GeneratorWood = 'generator:wood',
@@ -43,12 +43,12 @@ export const GuildBuildingCosts: { [key in GuildBuilding]: number } = {
   [GuildBuilding.Academy]: 5,
   [GuildBuilding.GuildHall]: 0,
   [GuildBuilding.Stash]: 0,
+  [GuildBuilding.Mascot]: 1,
   [GuildBuilding.Crier]: 1,
   [GuildBuilding.Tavern]: 5,
   [GuildBuilding.Enchantress]: 10,
   [GuildBuilding.FortuneTeller]: 10,
   [GuildBuilding.Merchant]: 10,
-  [GuildBuilding.Mascot]: 1,
   [GuildBuilding.FactoryScroll]: 25,
   [GuildBuilding.FactoryItem]: 20,
   [GuildBuilding.GeneratorWood]: 25,
@@ -67,12 +67,12 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.Academy]: 'Academy',
   [GuildBuilding.GuildHall]: 'Guild Hall',
   [GuildBuilding.Stash]: 'Guild Stash',
+  [GuildBuilding.Mascot]: 'Mascot',
   [GuildBuilding.Crier]: 'Crier',
   [GuildBuilding.Tavern]: 'Tavern Keep',
   [GuildBuilding.Enchantress]: 'Enchantress',
   [GuildBuilding.FortuneTeller]: 'Fortune Teller',
   [GuildBuilding.Merchant]: 'Merchant',
-  [GuildBuilding.Mascot]: 'Mascot',
   [GuildBuilding.FactoryScroll]: 'Scroll Factory',
   [GuildBuilding.FactoryItem]: 'Item Factory',
   [GuildBuilding.GeneratorWood]: 'Wood Generator',
@@ -89,14 +89,14 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
 
 export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
   [GuildBuilding.Academy]: (level) => `Your guild can hold ${(level + 1) * 5} total members.`,
-  [GuildBuilding.GuildHall]: (level) => `You have ${level} building points to allocate for buildings.`,
+  [GuildBuilding.GuildHall]: (level) => `Your guild buildings can be a maximum of level ${level}.`,
   [GuildBuilding.Stash]: (level) => `You can hold ${(level * 2500).toLocaleString()} clay, stone, wood, and astralium.`,
+  [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
   [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
   [GuildBuilding.Tavern]: (level) => `Your members gambling events will do something.`,
   [GuildBuilding.Enchantress]: (level) => `Your members enchanting events will do something.`,
   [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
   [GuildBuilding.Merchant]: (level) => `Your members merchant events will do something.`,
-  [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
   [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
   [GuildBuilding.FactoryItem]: (level) => `Your guild will periodically generate items for all online members.`,
   [GuildBuilding.GeneratorWood]: (level) => `Your guild will generate ${level * 5} wood per hour.`,
@@ -119,12 +119,18 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Wood]: level * 1000 }
   ),
   [GuildBuilding.GuildHall]:            (level) => (
-    { [GuildResource.Clay]: level * 1000, [GuildResource.Stone]: level * 1000, [GuildResource.Wood]: level * 100 }
+    { [GuildResource.Clay]: level * 1000,
+      [GuildResource.Stone]: level * 1000,
+      [GuildResource.Wood]: level * 1000,
+      [GuildResource.Gold]: level * 100000 }
   ),
   [GuildBuilding.Stash]:            (level) => (
     { [GuildResource.Clay]: level * 100,
       [GuildResource.Stone]: level * 100,
       [GuildResource.Wood]: level * 100 }
+  ),
+  [GuildBuilding.Mascot]:               (level) => (
+    { [GuildResource.Gold]: level * 1000000 }
   ),
   [GuildBuilding.Crier]:                (level) => (
     { [GuildResource.Gold]: level * 100000, [GuildResource.Stone]: level * 1000 }
@@ -140,9 +146,6 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
   ),
   [GuildBuilding.Merchant]:        (level) => (
     { [GuildResource.Gold]: level * 250000, [GuildResource.Wood]: level * 1000 }
-  ),
-  [GuildBuilding.Mascot]:               (level) => (
-    { [GuildResource.Gold]: level * 1000000 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
     { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
