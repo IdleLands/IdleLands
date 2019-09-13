@@ -35,7 +35,6 @@ export class GuildBuildingsPage implements OnInit {
     { category: 'Curious Causalities', buildings: [
       GuildBuilding.RaidPortal
     ] }
-    
   ];
 
   public buildingNames = GuildBuildingNames;
