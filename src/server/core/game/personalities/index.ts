@@ -24,3 +24,4 @@ export * from './Seeker';
 export * from './Solo';
 export * from './Strong';
 export * from './Telesheep';
+export * from './SupporterOfTheCause';

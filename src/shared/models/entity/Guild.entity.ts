@@ -51,19 +51,10 @@ export class Guild implements IGuild {
         [GuildBuilding.GuildHall]: 1,
         [GuildBuilding.Stash]: 1,
         [GuildBuilding.Mascot]: 1,
-        [GuildBuilding.Academy]: 1,
-        [GuildBuilding.Crier]: 1
+        [GuildBuilding.Academy]: 1
       };
     }
     if(!this.members) this.members = { };
-  }
-
-  public totalBuildingPoints(): number {
-    return 0;
-  }
-
-  public usedBuildingPoints(): number {
-    return 0;
   }
 
   public addMember(name: string, tier: GuildMemberTier) {

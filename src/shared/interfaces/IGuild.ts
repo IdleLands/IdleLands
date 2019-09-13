@@ -39,30 +39,6 @@ export enum GuildBuilding {
   GardenLuck = 'garden:luk'
 }
 
-export const GuildBuildingCosts: { [key in GuildBuilding]: number } = {
-  [GuildBuilding.Academy]: 5,
-  [GuildBuilding.GuildHall]: 0,
-  [GuildBuilding.Stash]: 0,
-  [GuildBuilding.Mascot]: 1,
-  [GuildBuilding.Crier]: 1,
-  [GuildBuilding.Tavern]: 5,
-  [GuildBuilding.Enchantress]: 10,
-  [GuildBuilding.FortuneTeller]: 10,
-  [GuildBuilding.Merchant]: 10,
-  [GuildBuilding.FactoryScroll]: 25,
-  [GuildBuilding.FactoryItem]: 20,
-  [GuildBuilding.GeneratorWood]: 25,
-  [GuildBuilding.GeneratorStone]: 25,
-  [GuildBuilding.GeneratorClay]: 25,
-  [GuildBuilding.GeneratorAstralium]: 25,
-  [GuildBuilding.GardenStrength]: 10,
-  [GuildBuilding.GardenDexterity]: 1,
-  [GuildBuilding.GardenAgility]: 1,
-  [GuildBuilding.GardenConstitution]: 1,
-  [GuildBuilding.GardenIntelligence]: 10,
-  [GuildBuilding.GardenLuck]: 35
-};
-
 export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.Academy]: 'Academy',
   [GuildBuilding.GuildHall]: 'Guild Hall',

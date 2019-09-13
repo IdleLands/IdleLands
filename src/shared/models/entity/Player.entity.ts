@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone, includes, without, uniqBy } from 'lodash';
+import { sample, pickBy, clone, includes, without, uniqBy, capitalize } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -717,13 +717,28 @@ export class Player implements IPlayer {
     const stone = item.stoneValue(this);
     const astralium = item.astraliumValue(this);
 
+    const resources = { wood, clay, stone, astralium };
+
     this.increaseStatistic('Item/Salvage/Times', 1);
     this.increaseStatistic('Item/Salvage/WoodGain', wood);
     this.increaseStatistic('Item/Salvage/ClayGain', clay);
     this.increaseStatistic('Item/Salvage/StoneGain', stone);
     this.increaseStatistic('Item/Salvage/AstraliumGain', astralium);
 
-    this.$inventory.addResources({ clay, wood, stone, astralium });
+    if(this.guildName && this.$personalities.isActive('SupporterOfTheCause')) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        Object.keys(resources).forEach(resource => {
+          if(!resources[resource]) return;
+
+          const existing = guild.resources[resource] || 0;
+          this.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, resources[resource]);
+          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.${resource}`, existing + resources[resource]);
+        });
+      }
+    } else {
+      this.$inventory.addResources({ clay, wood, stone, astralium });
+    }
 
     return { clay, wood, stone, astralium };
   }
