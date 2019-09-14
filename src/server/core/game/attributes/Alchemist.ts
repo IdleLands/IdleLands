@@ -18,9 +18,9 @@ export class Alchemist extends BaseAttribute implements IAttribute {
       if(xpTaken === 0) return { success: false, message: 'The experiment was a failure; there is no experience to be taken.' };
 
       player.$pets.$activePet.gainXP(-xpTaken, false);
-      player.$pets.$activePet.gainGold(xpTaken * xpTaken, false);
+      player.$pets.$activePet.gainGold(xpTaken, false);
 
-      return { success: true, message: `Your pet has gained ${(xpTaken * xpTaken).toLocaleString()} gold!` };
+      return { success: true, message: `Your pet has gained ${xpTaken.toLocaleString()} gold!` };
     }
 
     const goldTaken = player.$pets.$activePet.gold.total;
