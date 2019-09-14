@@ -218,12 +218,13 @@ export class GameService {
         flag: false,
         order: (pObj) => {
           const complete = pObj.adventures.filter(x => x.finishAt && x.finishAt < Date.now());
-          const incomplete = pObj.adventures.filter(x => !x.finishAt || x.finishAt > Date.now());
+          const incomplete = pObj.adventures.filter(x => x.finishAt > Date.now());
+          const inactive = pObj.adventures.filter(x => !x.finishAt);
 
           return complete.concat(sortBy(incomplete, [
             (c: IAdventure) => c.finishAt < Date.now(),
             (c: IAdventure) => -c.finishAt
-          ])).reverse();
+          ]).reverse().concat(inactive));
         },
         observable: this.adventures,
         playerData: (pl) => pl.$petsData
