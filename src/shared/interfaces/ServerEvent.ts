@@ -108,6 +108,7 @@ export enum ServerEventName {
   GuildAcceptInvite = 'guild:acceptinvite',
   GuildAcceptApply = 'guild:acceptapply',
   GuildRemoveApplyInvite = 'guild:removeapplyinvite',
+  GuildRejectApply = 'guild:rejectapply',
   GuildPromoteMember = 'guild:promote',
   GuildDemoteMember = 'guild:demote',
 

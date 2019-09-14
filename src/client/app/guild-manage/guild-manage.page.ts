@@ -94,12 +94,43 @@ export class GuildManagePage implements OnInit {
     this.gameService.guild.members[demotePlayer] = newTier;
   }
 
-  cancelInv(appinv: IGuildApplication) {
+  async invite() {
+    const alert = await this.alertCtrl.create({
+      header: `Invite Player`,
+      message: `Enter the name of the player you want to invite.`,
+      inputs: [
+        {
+          name: 'playerName',
+          type: 'text',
+          placeholder: 'Player name...'
+        }
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Invite',
+          handler: async (values) => {
+            if(!values || !values.playerName) return;
+            this.socketService.emit(ServerEventName.GuildInvite, values);
+          }
+        }
+      ]
+    });
 
+    alert.present();
+  }
+
+  cancelInv(appinv: IGuildApplication) {
+    this.socketService.emit(ServerEventName.GuildRejectApply, { playerName: appinv.playerName });
+
+    this.appinvs = this.appinvs.filter(x => x.playerName !== appinv.playerName);
   }
 
   acceptInv(appinv: IGuildApplication) {
+    this.socketService.emit(ServerEventName.GuildAcceptApply, { playerName: appinv.playerName });
 
+    this.appinvs = this.appinvs.filter(x => x.playerName !== appinv.playerName);
+    this.gameService.guild.members[appinv.playerName] = GuildMemberTier.Member;
   }
 
 }

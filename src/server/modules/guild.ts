@@ -47,6 +47,7 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Created guild "${guildName}" [${guildTag}]`);
   }
 }
+
 export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildSetRecruitment;
   description = 'Set guild application mode.';
@@ -67,6 +68,7 @@ export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent
     this.gameSuccess(`Set guild recruit mode to ${newMode}.`);
   }
 }
+
 export class GuildSetMOTDEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildSetMOTD;
   description = 'Set guild MOTD.';
@@ -289,6 +291,30 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
   }
 }
 
+export class GuildInviteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildInvite;
+  description = 'Invite a player to join the guild.';
+  args = 'playerName';
+
+  async callback({ playerName } = { playerName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('That guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    try {
+      await this.game.databaseManager.applyInviteToGuild(playerName, player.guildName, 'invite');
+    } catch(e) {
+      return this.gameError('You already have an application for that guild.');
+    }
+
+    this.gameSuccess('Invited that player to the guild!');
+  }
+}
+
 export class GuildLeaveEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildLeave;
   description = 'Leave your guild.';
@@ -327,6 +353,71 @@ export class GuildRemoveApplyInviteEvent extends ServerSocketEvent implements Se
     this.game.databaseManager.clearAppsInvitesForPlayer(player.name, guildName);
 
     this.gameSuccess(`Withdrew/removed applications/invites for that guild.`);
+  }
+}
+
+export class GuildRejectApplicationEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildRejectApply;
+  description = 'Remove applications and invites for a person.';
+  args = 'playerName';
+
+  async callback({ playerName } = { playerName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    // we don't check if the guild exists here in case someone makes a guild, invites people, then kills the guild
+    this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
+
+    this.gameSuccess(`Withdrew/removed applications/invites for that guild.`);
+  }
+}
+
+export class GuildAcceptInviteEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildAcceptInvite;
+  description = 'Accept an invite from a particular guild.';
+  args = 'guildName';
+
+  async callback({ guildName } = { guildName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    if(player.guildName) return this.gameError('You are already in a guild!');
+
+    const guild = this.game.guildManager.getGuild(guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    this.game.guildManager.joinGuild(player.name, guildName, GuildMemberTier.Member);
+
+    this.game.databaseManager.clearAppsInvitesForPlayer(player.name, guildName);
+
+    this.gameSuccess(`Accepted invite for that guild.`);
+  }
+}
+
+export class GuildAcceptApplicationEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildAcceptApply;
+  description = 'Accept application invites from a person.';
+  args = 'playerName';
+
+  async callback({ playerName } = { playerName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    this.game.guildManager.joinGuild(playerName, guild.name, GuildMemberTier.Member);
+    this.game.databaseManager.forcePlayerToJoinGuild(playerName, guild.name);
+    this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
+
+    this.gameSuccess(`Accepted that members application.`);
   }
 }
 
@@ -420,13 +511,3 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
     this.gameSuccess(`Demoted ${demotePlayer}.`);
   }
 }
-
-/* TODO:
-- add invite member call (make sure one does not exist for that player/guild already, make sure recruitment mode allows this)
-- add apply member call (make sure one does not exist for player/guild already, make sure applications are open)
-- add ability to discard application
-- add call to remove application
-- add call to approve application (member must be online)
-- add call to remove invite
-- add call to approve invite
-*/

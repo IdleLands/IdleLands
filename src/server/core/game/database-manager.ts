@@ -310,6 +310,17 @@ export class DatabaseManager {
     }
   }
 
+  public forcePlayerToJoinGuild(playerName: string, guildName: string): Promise<any> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.getMongoRepository(Player).findOneAndUpdate({ name: playerName }, { $set: { guildName } });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#forcePlayerToJoinGuild`, e);
+    }
+  }
+
   public async loadAppsInvitesForPlayer(playerName: string): Promise<GuildInvite[]> {
     if(!this.connection) return null;
 

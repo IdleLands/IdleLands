@@ -89,7 +89,12 @@ export class GuildNonePage implements OnInit {
   }
 
   async acceptInv(appinv: IGuildApplication) {
+    this.socketService.emit(ServerEventName.GuildAcceptInvite, { guildName: appinv.guildName });
+    this.appinvs = [];
 
+    setTimeout(() => {
+      this.router.navigate(['guild', 'overview']);
+    }, 3000);
   }
 
   async cancelInv(appinv: IGuildApplication) {
