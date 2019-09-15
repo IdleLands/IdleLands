@@ -1,5 +1,6 @@
 
 import { Chance } from 'chance';
+import { clamp } from 'lodash';
 import { Singleton, AutoWired } from 'typescript-ioc';
 
 @Singleton
@@ -36,7 +37,7 @@ export class RNGService {
   }
 
   public likelihood(percent = 50): boolean {
-    return this.chance.bool({ likelihood: percent });
+    return this.chance.bool({ likelihood: clamp(percent, 0, 100) });
   }
 
   public weighted(items: any[], weights: number[]): any {

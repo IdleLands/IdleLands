@@ -70,13 +70,13 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.GuildHall]: (level) => level,
   [GuildBuilding.Mascot]: (level) => 0,
   [GuildBuilding.Crier]: (level) => 0,
-  [GuildBuilding.Tavern]: (level) => 0,
+  [GuildBuilding.Tavern]: (level) => level,
   [GuildBuilding.Enchantress]: (level) => 1 + Math.floor(level / 20),
-  [GuildBuilding.FortuneTeller]: (level) => 0,
+  [GuildBuilding.FortuneTeller]: (level) => level,
   [GuildBuilding.Merchant]: (level) => level,
   [GuildBuilding.WitchDoctor]: (level) => Math.floor((level * 100) / 100),
-  [GuildBuilding.FactoryScroll]: (level) => 0,
-  [GuildBuilding.FactoryItem]: (level) => 0,
+  [GuildBuilding.FactoryScroll]: (level) => level,
+  [GuildBuilding.FactoryItem]: (level) => level,
   [GuildBuilding.GeneratorWood]: (level) => level * 5,
   [GuildBuilding.GeneratorStone]: (level) => level * 5,
   [GuildBuilding.GeneratorClay]: (level) => level * 5,
@@ -97,7 +97,7 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
   [GuildBuilding.Tavern]: (level) => `Your members gambling events will cost more, but have higher DD odds/payoffs.`,
   [GuildBuilding.Enchantress]: (level) => `Your members enchantment cap will increase by ${1 + Math.floor(level / 20)}.`,
-  [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
+  [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will increase in potency.`,
   [GuildBuilding.Merchant]: (level) => `Your members merchant events will do generate items with +${level} item levels.`,
   [GuildBuilding.WitchDoctor]: (level) => `Your members witch events will increase in potency by ${level}%.`,
   [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
@@ -126,37 +126,37 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Clay]: level * 1000,
       [GuildResource.Stone]: level * 1000,
       [GuildResource.Wood]: level * 1000,
-      [GuildResource.Gold]: level * 100000 }
+      [GuildResource.Gold]: level * 1000000 }
   ),
   [GuildBuilding.Mascot]:               (level) => (
-    { [GuildResource.Gold]: level * 1000000 }
+    { [GuildResource.Gold]: level * 10000000 }
   ),
   [GuildBuilding.Crier]:                (level) => (
     { [GuildResource.Gold]: level * 100000, [GuildResource.Stone]: level * 1000 }
   ),
   [GuildBuilding.Tavern]:               (level) => (
-    { [GuildResource.Gold]: level * 1000000,
+    { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Stone]: level * 100,
       [GuildResource.Wood]: level * 100,
       [GuildResource.Clay]: level * 100 }
   ),
   [GuildBuilding.Enchantress]:          (level) => (
-    { [GuildResource.Gold]: level * 5000000, [GuildResource.Clay]: level * 1000 }
+    { [GuildResource.Gold]: level * 50000000, [GuildResource.Clay]: level * 1000 }
   ),
   [GuildBuilding.FortuneTeller]:        (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Astralium]: level * 1000 }
+    { [GuildResource.Gold]: level * 100000000, [GuildResource.Astralium]: level * 1000 }
   ),
   [GuildBuilding.Merchant]:             (level) => (
-    { [GuildResource.Gold]: level * 250000, [GuildResource.Wood]: level * 1000 }
+    { [GuildResource.Gold]: level * 25000000, [GuildResource.Wood]: level * 1000 }
   ),
   [GuildBuilding.WitchDoctor]:          (level) => (
-    { [GuildResource.Gold]: level * 250000, [GuildResource.Stone]: level * 1000 }
+    { [GuildResource.Gold]: level * 25000000, [GuildResource.Stone]: level * 1000 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
-    { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
   ),
   [GuildBuilding.FactoryItem]:          (level) => (
-    { [GuildResource.Gold]: level * 100000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
     { [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
@@ -171,22 +171,22 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Astralium]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GardenStrength]:       (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
   ),
   [GuildBuilding.GardenDexterity]:      (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Wood]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Wood]: level * 100 }
   ),
   [GuildBuilding.GardenAgility]:        (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 100 }
   ),
   [GuildBuilding.GardenConstitution]:   (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Stone]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Stone]: level * 100 }
   ),
   [GuildBuilding.GardenIntelligence]:   (level) => (
-    { [GuildResource.Gold]: level * 1000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500 }
   ),
   [GuildBuilding.GardenLuck]:           (level) => (
-    { [GuildResource.Gold]: level * 1000000,
+    { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Astralium]: level * 500,
       [GuildResource.Clay]: level * 100,
       [GuildResource.Stone]: level * 100,
