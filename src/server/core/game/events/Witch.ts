@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, AllStatsButSpecial, EventMessageType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, AllStatsButSpecial, EventMessageType, GuildBuilding } from '../../../../shared/interfaces';
 
 export class Witch extends Event {
   public static readonly WEIGHT = 3;
@@ -25,8 +25,17 @@ export class Witch extends Event {
   }
 
   private pickBuffStats(player: Player) {
+    const guild = this.guildManager.getGuildForPlayer(player);
+
     const stat = this.rng.pickone(AllStatsButSpecial);
-    const statModPercent = this.rng.pickone([-20, -10, -5, -1, 1, 5, 10, 20, 25]);
+    let statModPercent = this.rng.pickone([-20, -10, -5, -1, 1, 5, 10, 20, 25]);
+
+
+    if(guild) {
+      const bonus = guild.buildingBonus(GuildBuilding.WitchDoctor);
+      statModPercent *= ((100 + bonus) / 100);
+    }
+
     const statMod = Math.floor(player.getStat(stat) * (statModPercent / 100));
 
     return { stat, statModPercent, statMod };
