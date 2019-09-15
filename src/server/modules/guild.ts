@@ -265,6 +265,8 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
     const guild = this.game.guildManager.getGuild(guildName);
     if(!guild) return this.gameError('That guild is not valid!');
 
+    if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
+
     switch(guild.recruitment) {
       case 'Closed': {
         return this.gameError('Guild is closed and cannot be applied to.');
@@ -304,6 +306,8 @@ export class GuildInviteEvent extends ServerSocketEvent implements ServerEvent {
     if(!guild) return this.gameError('That guild is not valid!');
 
     if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
 
     try {
       await this.game.databaseManager.applyInviteToGuild(playerName, player.guildName, 'invite');
@@ -391,6 +395,8 @@ export class GuildAcceptInviteEvent extends ServerSocketEvent implements ServerE
     const guild = this.game.guildManager.getGuild(guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
+    if(!guild.canAnyoneJoin()) return this.gameError('Let them know to upgrade the academy first!');
+
     this.game.guildManager.joinGuild(player.name, guildName, GuildMemberTier.Member);
 
     this.game.databaseManager.clearAppsInvitesForPlayer(player.name, guildName);
@@ -412,6 +418,8 @@ export class GuildAcceptApplicationEvent extends ServerSocketEvent implements Se
     if(!guild) return this.gameError('Your guild is not valid!');
 
     if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
+    if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
 
     this.game.guildManager.joinGuild(playerName, guild.name, GuildMemberTier.Member);
     this.game.databaseManager.forcePlayerToJoinGuild(playerName, guild.name);

@@ -94,6 +94,10 @@ export class Guild implements IGuild {
     return stats;
   }
 
+  public canAnyoneJoin(): boolean {
+    return Object.keys(this.members).length < this.buildingBonus(GuildBuilding.Academy);
+  }
+
   public loop() {
     if(Date.now() < this.nextTick) return;
 
