@@ -43,7 +43,6 @@ export class Guild implements IGuild {
     if(!this.activeBuildings) {
         this.activeBuildings = {
         [GuildBuilding.GuildHall]: true,
-        [GuildBuilding.Stash]: true,
         [GuildBuilding.Mascot]: true,
         [GuildBuilding.Academy]: true
       };
@@ -51,7 +50,6 @@ export class Guild implements IGuild {
     if(!this.buildingLevels) {
       this.buildingLevels = {
         [GuildBuilding.GuildHall]: 1,
-        [GuildBuilding.Stash]: 1,
         [GuildBuilding.Mascot]: 1,
         [GuildBuilding.Academy]: 1
       };
@@ -74,6 +72,10 @@ export class Guild implements IGuild {
     return this.activeBuildings[building];
   }
 
+  public buildingBonus(building: GuildBuilding): number {
+    return GuildBuildingLevelValues[building](this.buildingLevels[building]);
+  }
+
   public calculateStats(): { [key in Stat]?: number } {
     const stats = { };
 
@@ -86,7 +88,7 @@ export class Guild implements IGuild {
       if(!this.isBuildingActive(building)) return;
       const stat = building.split(':')[1];
 
-      stats[stat] = GuildBuildingLevelValues[building](this.buildingLevels[building]);
+      stats[stat] = this.buildingBonus(building);
     });
 
     return stats;
@@ -112,7 +114,7 @@ export class Guild implements IGuild {
     Object.keys(generators).forEach((building: GuildBuilding) => {
       if(!this.isBuildingActive(building)) return;
 
-      this.resources[generators[building]] += GuildBuildingLevelValues[building](this.buildingLevels[building]);
+      this.resources[generators[building]] += this.buildingBonus(building);
     });
 
     Object.keys(factories).forEach((factory: GuildBuilding) => {

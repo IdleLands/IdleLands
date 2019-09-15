@@ -18,7 +18,6 @@ export enum GuildMemberTier {
 export enum GuildBuilding {
   Academy = 'academy',
   GuildHall = 'guildhall',
-  Stash = 'guildstash',
   Mascot = 'mascot',
   Crier = 'upkept:crier',
   Tavern = 'person:tavern',
@@ -44,7 +43,6 @@ export enum GuildBuilding {
 export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.Academy]: 'Academy',
   [GuildBuilding.GuildHall]: 'Guild Hall',
-  [GuildBuilding.Stash]: 'Guild Stash',
   [GuildBuilding.Mascot]: 'Mascot',
   [GuildBuilding.Crier]: 'Crier',
   [GuildBuilding.Tavern]: 'Tavern Keep',
@@ -70,7 +68,6 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
 export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
   [GuildBuilding.Academy]: (level) => `Your guild can hold ${(level + 1) * 5} total members.`,
   [GuildBuilding.GuildHall]: (level) => `Your guild buildings can be a maximum of level ${level}.`,
-  [GuildBuilding.Stash]: (level) => `You can hold ${(level * 2500).toLocaleString()} clay, stone, wood, and astralium.`,
   [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
   [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
   [GuildBuilding.Tavern]: (level) => `Your members gambling events will do something.`,
@@ -96,7 +93,6 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
 export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number) => number } = {
   [GuildBuilding.Academy]: (level) => (level + 1) * 5,
   [GuildBuilding.GuildHall]: (level) => level,
-  [GuildBuilding.Stash]: (level) => level * 2500,
   [GuildBuilding.Mascot]: (level) => 0,
   [GuildBuilding.Crier]: (level) => 0,
   [GuildBuilding.Tavern]: (level) => 0,
@@ -131,11 +127,6 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Stone]: level * 1000,
       [GuildResource.Wood]: level * 1000,
       [GuildResource.Gold]: level * 100000 }
-  ),
-  [GuildBuilding.Stash]:            (level) => (
-    { [GuildResource.Clay]: level * 100,
-      [GuildResource.Stone]: level * 100,
-      [GuildResource.Wood]: level * 100 }
   ),
   [GuildBuilding.Mascot]:               (level) => (
     { [GuildResource.Gold]: level * 1000000 }

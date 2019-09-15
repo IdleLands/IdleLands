@@ -5,13 +5,11 @@ import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
 import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
-import { Logger } from '../logger';
 
 @Singleton
 @AutoWired
 export class ItemGenerator {
 
-  @Inject private logger: Logger;
   @Inject private assetManager: AssetManager;
   @Inject private rng: RNGService;
 

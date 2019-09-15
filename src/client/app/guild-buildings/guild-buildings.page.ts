@@ -13,7 +13,7 @@ export class GuildBuildingsPage implements OnInit {
 
   public buildings = [
     { category: 'Basic Buildings', buildings: [
-      GuildBuilding.GuildHall, GuildBuilding.Academy, GuildBuilding.Stash, GuildBuilding.Mascot
+      GuildBuilding.GuildHall, GuildBuilding.Academy, GuildBuilding.Mascot
     ] },
     { category: 'Upkeeps', buildings: [
       GuildBuilding.Crier
