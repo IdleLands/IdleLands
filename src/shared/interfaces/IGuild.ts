@@ -220,6 +220,7 @@ export interface IGuild {
 
   members: { [key: string]: GuildMemberTier };
 
+
 }
 
 export enum GuildChannelOperation {

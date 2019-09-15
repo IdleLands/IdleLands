@@ -3,7 +3,7 @@ import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { set } from 'lodash';
 import { DatabaseManager } from './database-manager';
 import { GuildMemberTier, Channel, GuildChannelOperation } from '../../../shared/interfaces';
-import { Guild } from '../../../shared/models';
+import { Guild, Player } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
 
@@ -162,6 +162,13 @@ export class GuildManager {
     if(!guild) return;
 
     set(guild, key, value);
+  }
+
+  public getGuildForPlayer(player: Player): Guild {
+    if(player.guildName) {
+      const guild = this.getGuild(player.guildName);
+      return guild;
+    }
   }
 
 }
