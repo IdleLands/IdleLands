@@ -65,41 +65,16 @@ export const GuildBuildingNames: { [key in GuildBuilding]: string } = {
   [GuildBuilding.RaidPortal]: 'Raid Portal'
 };
 
-export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
-  [GuildBuilding.Academy]: (level) => `Your guild can hold ${(level + 1) * 5} total members.`,
-  [GuildBuilding.GuildHall]: (level) => `Your guild buildings can be a maximum of level ${level}.`,
-  [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
-  [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
-  [GuildBuilding.Tavern]: (level) => `Your members gambling events will do something.`,
-  [GuildBuilding.Enchantress]: (level) => `Your members enchanting events will do something.`,
-  [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
-  [GuildBuilding.Merchant]: (level) => `Your members merchant events will do something.`,
-  [GuildBuilding.WitchDoctor]: (level) => `Your members witch events will do something.`,
-  [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
-  [GuildBuilding.FactoryItem]: (level) => `Your guild will periodically generate items for all online members.`,
-  [GuildBuilding.GeneratorWood]: (level) => `Your guild will generate ${level * 5} wood per hour.`,
-  [GuildBuilding.GeneratorStone]: (level) => `Your guild will generate ${level * 5} stone per hour.`,
-  [GuildBuilding.GeneratorClay]: (level) => `Your guild will generate ${level * 5} clay per hour.`,
-  [GuildBuilding.GeneratorAstralium]: (level) => `Your guild will generate ${level * 5} astralium per hour.`,
-  [GuildBuilding.GardenStrength]: (level) => `Your guild will boost STR by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenDexterity]: (level) => `Your guild will boost DEX by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
-  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
-  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + (level * 50)}.`
-};
-
 export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number) => number } = {
   [GuildBuilding.Academy]: (level) => (level + 1) * 5,
   [GuildBuilding.GuildHall]: (level) => level,
   [GuildBuilding.Mascot]: (level) => 0,
   [GuildBuilding.Crier]: (level) => 0,
   [GuildBuilding.Tavern]: (level) => 0,
-  [GuildBuilding.Enchantress]: (level) => 0,
+  [GuildBuilding.Enchantress]: (level) => 1 + Math.floor(level / 20),
   [GuildBuilding.FortuneTeller]: (level) => 0,
-  [GuildBuilding.Merchant]: (level) => 0,
-  [GuildBuilding.WitchDoctor]: (level) => 0,
+  [GuildBuilding.Merchant]: (level) => level,
+  [GuildBuilding.WitchDoctor]: (level) => Math.floor((level * 100) / 100),
   [GuildBuilding.FactoryScroll]: (level) => 0,
   [GuildBuilding.FactoryItem]: (level) => 0,
   [GuildBuilding.GeneratorWood]: (level) => level * 5,
@@ -113,6 +88,31 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.GardenIntelligence]: (level) => level * 5,
   [GuildBuilding.GardenLuck]: (level) => level * 5,
   [GuildBuilding.RaidPortal]: (level) => 100 + (level * 50)
+};
+
+export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
+  [GuildBuilding.Academy]: (level) => `Your guild can hold ${(level + 1) * 5} total members.`,
+  [GuildBuilding.GuildHall]: (level) => `Your guild buildings can be a maximum of level ${level}.`,
+  [GuildBuilding.Mascot]: (level) => `It's just for bragging rights.`,
+  [GuildBuilding.Crier]: (level) => `You will periodically send messages notifying your guilds recruitment status.`,
+  [GuildBuilding.Tavern]: (level) => `Your members gambling events will cost more, but have higher DD odds/payoffs.`,
+  [GuildBuilding.Enchantress]: (level) => `Your members enchantment cap will increase by ${1 + Math.floor(level / 20)}.`,
+  [GuildBuilding.FortuneTeller]: (level) => `Your members providence events will do something.`,
+  [GuildBuilding.Merchant]: (level) => `Your members merchant events will do generate items with +${level} item levels.`,
+  [GuildBuilding.WitchDoctor]: (level) => `Your members witch events will increase in potency by ${level}%.`,
+  [GuildBuilding.FactoryScroll]: (level) => `Your guild will periodically generate buff scrolls for all online members.`,
+  [GuildBuilding.FactoryItem]: (level) => `Your guild will periodically generate items for all online members.`,
+  [GuildBuilding.GeneratorWood]: (level) => `Your guild will generate ${level * 5} wood per hour.`,
+  [GuildBuilding.GeneratorStone]: (level) => `Your guild will generate ${level * 5} stone per hour.`,
+  [GuildBuilding.GeneratorClay]: (level) => `Your guild will generate ${level * 5} clay per hour.`,
+  [GuildBuilding.GeneratorAstralium]: (level) => `Your guild will generate ${level * 5} astralium per hour.`,
+  [GuildBuilding.GardenStrength]: (level) => `Your guild will boost STR by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenDexterity]: (level) => `Your guild will boost DEX by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
+  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
+  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + (level * 50)}.`
 };
 
 export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number) => { [res in GuildResource]?: number } } = {

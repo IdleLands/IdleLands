@@ -25,15 +25,14 @@ export class Witch extends Event {
   }
 
   private pickBuffStats(player: Player) {
-    const guild = this.guildManager.getGuildForPlayer(player);
 
     const stat = this.rng.pickone(AllStatsButSpecial);
     let statModPercent = this.rng.pickone([-20, -10, -5, -1, 1, 5, 10, 20, 25]);
 
-
+    const guild = this.guildManager.getGuildForPlayer(player);
     if(guild) {
       const bonus = guild.buildingBonus(GuildBuilding.WitchDoctor);
-      statModPercent *= ((100 + bonus) / 100);
+      statModPercent *= bonus;
     }
 
     const statMod = Math.floor(player.getStat(stat) * (statModPercent / 100));

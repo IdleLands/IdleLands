@@ -3,7 +3,7 @@ import { extend } from 'lodash';
 import * as uuid from 'uuid/v4';
 
 import { Player } from './entity/Player.entity';
-import { IItem, ItemClass, ItemSlot, Stat, PartialItem } from '../interfaces';
+import { IItem, ItemClass, ItemSlot, Stat, PartialItem, GuildBuilding } from '../interfaces';
 
 const woodValues = {
   [Stat.STR]: 50,
@@ -118,7 +118,15 @@ export class Item implements IItem {
   }
 
   public isCurrentlyEnchantable(player: Player): boolean {
-    return this.enchantLevel < player.$statistics.get('Game/Premium/Upgrade/EnchantCap');
+    let maxEnchantCap = player.$statistics.get('Game/Premium/Upgrade/EnchantCap');
+
+    const guild = player.$$game.guildManager.getGuildForPlayer(player);
+    if(guild) {
+      const bonus = guild.buildingBonus(GuildBuilding.Enchantress);
+      maxEnchantCap += bonus;
+    }
+
+    return this.enchantLevel < maxEnchantCap;
   }
 
   public isUnderBoostablePercent(player: Player): boolean {
