@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
-import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding, GuildMemberTier } from '../../interfaces';
+import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding, GuildMemberTier, Stat, GuildBuildingLevelValues } from '../../interfaces';
 
 @Entity()
 export class Guild implements IGuild {
@@ -22,6 +22,8 @@ export class Guild implements IGuild {
   @Column() public activeBuildings: { [key in GuildBuilding]?: boolean };
   @Column() public buildingLevels: { [key in GuildBuilding]?: number };
   @Column() public members: { [key: string]: GuildMemberTier };
+  @Column() public nextTick: number;
+  @Column() public nextProcs: { [key in GuildBuilding]?: number };
 
   public init() {
     if(!this.createdAt) this.createdAt = Date.now();
@@ -55,6 +57,8 @@ export class Guild implements IGuild {
       };
     }
     if(!this.members) this.members = { };
+    if(!this.nextTick) this.nextTick = Date.now() + (60 * 60 * 1000);
+    if(!this.nextProcs) this.nextProcs = { };
   }
 
   public addMember(name: string, tier: GuildMemberTier) {
@@ -63,5 +67,58 @@ export class Guild implements IGuild {
 
   public removeMember(name: string) {
     delete this.members[name];
+  }
+
+  public isBuildingActive(building: GuildBuilding): boolean {
+    if(!building.includes(':')) return true;
+    return this.activeBuildings[building];
+  }
+
+  public calculateStats(): { [key in Stat]?: number } {
+    const stats = { };
+
+    const buildings = [
+      GuildBuilding.GardenAgility, GuildBuilding.GardenConstitution, GuildBuilding.GardenDexterity,
+      GuildBuilding.GardenIntelligence, GuildBuilding.GardenLuck, GuildBuilding.GardenStrength
+    ];
+
+    buildings.forEach(building => {
+      if(!this.isBuildingActive(building)) return;
+      const stat = building.split(':')[1];
+
+      stats[stat] = GuildBuildingLevelValues[building](this.buildingLevels[building]);
+    });
+
+    return stats;
+  }
+
+  public loop() {
+    if(Date.now() < this.nextTick) return;
+
+    this.nextTick = Date.now() + (60 * 60 * 1000);
+
+    const generators = {
+      [GuildBuilding.GeneratorAstralium]: GuildResource.Astralium,
+      [GuildBuilding.GeneratorClay]:      GuildResource.Clay,
+      [GuildBuilding.GeneratorStone]:     GuildResource.Stone,
+      [GuildBuilding.GeneratorWood]:      GuildResource.Wood
+    };
+
+    const factories = {
+      [GuildBuilding.FactoryItem]: () => { },
+      [GuildBuilding.FactoryScroll]: () => { },
+    };
+
+    Object.keys(generators).forEach((building: GuildBuilding) => {
+      if(!this.isBuildingActive(building)) return;
+
+      this.resources[generators[building]] += GuildBuildingLevelValues[building](this.buildingLevels[building]);
+    });
+
+    Object.keys(factories).forEach((factory: GuildBuilding) => {
+      if(!this.isBuildingActive(factory)) return;
+
+      // TODO: do factory callbacks, emit to subscription manager and try to give items to everyone
+    });
   }
 }

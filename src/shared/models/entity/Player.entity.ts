@@ -536,6 +536,14 @@ export class Player implements IPlayer {
     // start salvage at 100 for calculation purposes
     this.stats[Stat.SALVAGE] = 100;
 
+    let guildStats = { };
+    if(this.guildName) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        guildStats = guild.calculateStats();
+      }
+    }
+
     // dynamically-calculated
     // first, we do the addition-based adds
     const allStats = Object.keys(Stat).map(key => Stat[key]);
@@ -572,6 +580,9 @@ export class Player implements IPlayer {
         });
       });
 
+      if(guildStats[stat]) {
+        this.addStatTrail(stat, guildStats[stat], `Guild Garden`);
+      }
 
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GuildBuilding, GuildBuildingNames, GuildBuildingDescs,
-   GuildBuildingUpgradeCosts, ServerEventName } from '../../../shared/interfaces';
+   GuildBuildingUpgradeCosts, ServerEventName, GuildBuildingLevelValues } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-guild-buildings',
@@ -81,7 +81,7 @@ export class GuildBuildingsPage implements OnInit {
 
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
-    if(guild.buildingLevels[GuildBuilding.GuildHall] < level) return false;
+    if(GuildBuildingLevelValues[GuildBuilding.GuildHall](level) < level) return false;
 
     const costs = GuildBuildingUpgradeCosts[building](level);
 

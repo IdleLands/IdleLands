@@ -90,7 +90,33 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
   [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
   [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
-  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${level * 25}.`
+  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + (level * 50)}.`
+};
+
+export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number) => number } = {
+  [GuildBuilding.Academy]: (level) => (level + 1) * 5,
+  [GuildBuilding.GuildHall]: (level) => level,
+  [GuildBuilding.Stash]: (level) => level * 2500,
+  [GuildBuilding.Mascot]: (level) => 0,
+  [GuildBuilding.Crier]: (level) => 0,
+  [GuildBuilding.Tavern]: (level) => 0,
+  [GuildBuilding.Enchantress]: (level) => 0,
+  [GuildBuilding.FortuneTeller]: (level) => 0,
+  [GuildBuilding.Merchant]: (level) => 0,
+  [GuildBuilding.WitchDoctor]: (level) => 0,
+  [GuildBuilding.FactoryScroll]: (level) => 0,
+  [GuildBuilding.FactoryItem]: (level) => 0,
+  [GuildBuilding.GeneratorWood]: (level) => level * 5,
+  [GuildBuilding.GeneratorStone]: (level) => level * 5,
+  [GuildBuilding.GeneratorClay]: (level) => level * 5,
+  [GuildBuilding.GeneratorAstralium]: (level) => level * 5,
+  [GuildBuilding.GardenStrength]: (level) => level * 5,
+  [GuildBuilding.GardenDexterity]: (level) => level * 5,
+  [GuildBuilding.GardenAgility]: (level) => level * 5,
+  [GuildBuilding.GardenConstitution]: (level) => level * 5,
+  [GuildBuilding.GardenIntelligence]: (level) => level * 5,
+  [GuildBuilding.GardenLuck]: (level) => level * 5,
+  [GuildBuilding.RaidPortal]: (level) => 100 + (level * 50)
 };
 
 export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number) => { [res in GuildResource]?: number } } = {
