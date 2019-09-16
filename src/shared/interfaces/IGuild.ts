@@ -165,16 +165,20 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)) }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
-    { [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
+    { [GuildResource.Gold]: level * 1000000,
+      [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorStone]:       (level) => (
-    { [GuildResource.Stone]: Math.floor((level + 3) ** 2) }
+    { [GuildResource.Gold]: level * 1000000,
+      [GuildResource.Stone]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorClay]:        (level) => (
-    { [GuildResource.Clay]: Math.floor((level + 3) ** 2) }
+    { [GuildResource.Gold]: level * 1000000,
+      [GuildResource.Clay]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GeneratorAstralium]:   (level) => (
-    { [GuildResource.Astralium]: Math.floor((level + 3) ** 2) }
+    { [GuildResource.Gold]: level * 1000000,
+      [GuildResource.Astralium]: Math.floor((level + 3) ** 2) }
   ),
   [GuildBuilding.GardenStrength]:       (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
@@ -199,7 +203,8 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
       [GuildResource.Wood]: level * 100 }
   ),
   [GuildBuilding.RaidPortal]:           (level) => (
-    { [GuildResource.Astralium]: level * 1000 }
+    { [GuildResource.Gold]: level * 1000000000,
+      [GuildResource.Astralium]: level * 1000 }
   )
 };
 
