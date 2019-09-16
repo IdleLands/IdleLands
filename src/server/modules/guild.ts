@@ -226,7 +226,9 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     if(!GuildBuildingNames[building]) return this.gameError('Invalid building');
 
     const level = (guild.buildingLevels[building] || 0) + 1;
-    if(guild.buildingLevels[GuildBuilding.GuildHall] < level) return this.gameError('Guild hall must be leveled first.');
+    if(guild.buildingLevels[GuildBuilding.GuildHall] < level && building !== GuildBuilding.GuildHall) {
+      return this.gameError('Guild hall must be leveled first.');
+    }
 
     const costs = GuildBuildingUpgradeCosts[building](level);
 

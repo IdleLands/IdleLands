@@ -76,7 +76,7 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.Merchant]: (level) => level,
   [GuildBuilding.WitchDoctor]: (level) => Math.floor((level * 100) / 100),
   [GuildBuilding.FactoryScroll]: (level) => level,
-  [GuildBuilding.FactoryItem]: (level) => level,
+  [GuildBuilding.FactoryItem]: (level) => 25 + level,
   [GuildBuilding.GeneratorWood]: (level) => level * 5,
   [GuildBuilding.GeneratorStone]: (level) => level * 5,
   [GuildBuilding.GeneratorClay]: (level) => level * 5,
@@ -132,7 +132,7 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Gold]: level * 10000000 }
   ),
   [GuildBuilding.Crier]:                (level) => (
-    { [GuildResource.Gold]: level * 100000, [GuildResource.Stone]: level * 1000 }
+    { [GuildResource.Gold]: level * 1000000000 }
   ),
   [GuildBuilding.Tavern]:               (level) => (
     { [GuildResource.Gold]: level * 10000000,
@@ -153,10 +153,16 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
     { [GuildResource.Gold]: level * 25000000, [GuildResource.Stone]: level * 1000 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
+    { [GuildResource.Gold]: level * 10000000,
+      [GuildResource.Clay]: level * 300,
+      [GuildResource.Wood]: level * 1000,
+      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)) }
   ),
   [GuildBuilding.FactoryItem]:          (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Astralium]: Math.floor(level * (level ** 1.5)) }
+    { [GuildResource.Gold]: level * 10000000,
+      [GuildResource.Clay]: level * 300,
+      [GuildResource.Stone]: level * 1000,
+      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)) }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
     { [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
@@ -238,7 +244,13 @@ export enum GuildChannelOperation {
   Update,
 
   // used when a guild is disbanded
-  Remove
+  Remove,
+
+  // used to give out items to guild members
+  GiveItem,
+
+  // used to give out scrolls to guild members
+  GiveScroll
 }
 
 export const CalculateGuildLevel = (guild: IGuild) => {

@@ -170,7 +170,7 @@ export class Game implements IGame {
       }
     });
 
-    Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop());
+    Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
 
     if((this.ticks % 100) === 0) {
       this.globalQuestManager.tick();

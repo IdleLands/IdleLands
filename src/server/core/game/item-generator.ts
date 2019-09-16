@@ -3,7 +3,7 @@ import { random, sample, get, zip, extend } from 'lodash';
 
 import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
-import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat } from '../../../shared/interfaces';
+import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat, IBuffScrollItem, AllStatsButSpecial } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 
 @Singleton
@@ -299,5 +299,31 @@ export class ItemGenerator {
     if(item.score <= 0 && !opts.allowNegative) return null;
 
     return item;
+  }
+
+  public generateBuffScroll(bonus = 0): IBuffScrollItem {
+    const stats = { };
+
+    const chooseAndAddStat = () => {
+
+      const stat = this.rng.pickone(AllStatsButSpecial);
+      const val = bonus;
+
+      stats[stat] = stats[stat] || 0;
+      stats[stat] += Math.max(1, val);
+    };
+
+    chooseAndAddStat();
+    if(this.rng.likelihood(50)) chooseAndAddStat();
+    if(this.rng.likelihood(25)) chooseAndAddStat();
+
+    const scroll: IBuffScrollItem = {
+      id: this.rng.id(),
+      name: this.assetManager.scroll(),
+      stats,
+      expiresAt: Date.now() + (259200 * 1000) // 3 days in seconds * 1000
+    };
+
+    return scroll;
   }
 }

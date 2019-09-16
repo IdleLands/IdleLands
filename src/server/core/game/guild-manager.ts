@@ -2,10 +2,11 @@
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { set } from 'lodash';
 import { DatabaseManager } from './database-manager';
-import { GuildMemberTier, Channel, GuildChannelOperation } from '../../../shared/interfaces';
-import { Guild, Player } from '../../../shared/models';
+import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName, IBuffScrollItem } from '../../../shared/interfaces';
+import { Guild, Player, Item } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
+import { EventManager } from './event-manager';
 
 @Singleton
 @AutoWired
@@ -13,6 +14,7 @@ export class GuildManager {
 
   @Inject private db: DatabaseManager;
   @Inject private subscriptionManager: SubscriptionManager;
+  @Inject private eventManager: EventManager;
   @Inject private playerManager: PlayerManager;
 
   private guilds: { [key: string]: Guild } = { };
@@ -47,6 +49,16 @@ export class GuildManager {
 
         case GuildChannelOperation.Update: {
           this.updateGuild(args.guildName, args.key, args.value);
+          break;
+        }
+
+        case GuildChannelOperation.GiveItem: {
+          this.shareItem(args.guildName, args.item);
+          break;
+        }
+
+        case GuildChannelOperation.GiveScroll: {
+          this.shareItem(args.guildName, args.scroll);
           break;
         }
       }
@@ -169,6 +181,52 @@ export class GuildManager {
       const guild = this.getGuild(player.guildName);
       return guild;
     }
+  }
+
+  public initiateShareItem(guildName: string, item: IItem) {
+    this.subscriptionManager.emitToChannel(Channel.Guild, {
+      operation: GuildChannelOperation.GiveItem,
+      guildName,
+      item
+    });
+  }
+
+  public shareItem(guildName: string, itemData: IItem) {
+
+    const guild = this.getGuild(guildName);
+    if(!guild) return;
+
+    Object.keys(guild.members).forEach(member => {
+      const player = this.playerManager.getPlayer(member);
+      if(!player) return;
+
+      const item = new Item();
+      item.init(itemData);
+      item.regenerateUUID();
+
+      this.eventManager.doEventFor(player, EventName.FindItem, { fromGuild: true, item });
+    });
+  }
+
+  public initiateShareScroll(guildName: string, scroll: IBuffScrollItem) {
+    this.subscriptionManager.emitToChannel(Channel.Guild, {
+      operation: GuildChannelOperation.GiveScroll,
+      guildName,
+      scroll
+    });
+  }
+
+  public shareScroll(guildName: string, scroll: IBuffScrollItem) {
+
+    const guild = this.getGuild(guildName);
+    if(!guild) return;
+
+    Object.keys(guild.members).forEach(member => {
+      const player = this.playerManager.getPlayer(member);
+      if(!player) return;
+
+      player.$inventory.addBuffScroll(scroll);
+    });
   }
 
 }

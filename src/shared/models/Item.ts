@@ -75,6 +75,10 @@ export class Item implements IItem {
     this.recalculateScore();
   }
 
+  public regenerateUUID() {
+    this.id = uuid();
+  }
+
   public recalculateScore() {
     const score = this.calcScore();
     if(!this.baseScore) this.baseScore = score;

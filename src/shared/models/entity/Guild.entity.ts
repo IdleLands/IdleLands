@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
-import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding, GuildMemberTier, Stat, GuildBuildingLevelValues } from '../../interfaces';
+import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding, GuildMemberTier, Stat, GuildBuildingLevelValues, IGame } from '../../interfaces';
 
 @Entity()
 export class Guild implements IGuild {
@@ -98,7 +98,7 @@ export class Guild implements IGuild {
     return Object.keys(this.members).length < this.buildingBonus(GuildBuilding.Academy);
   }
 
-  public loop() {
+  public loop(game: IGame) {
     if(Date.now() < this.nextTick) return;
 
     this.nextTick = Date.now() + (60 * 60 * 1000);
@@ -111,8 +111,14 @@ export class Guild implements IGuild {
     };
 
     const factories = {
-      [GuildBuilding.FactoryItem]: () => { },
-      [GuildBuilding.FactoryScroll]: () => { },
+      [GuildBuilding.FactoryItem]: () => {
+        const item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
+        game.guildManager.initiateShareItem(this.name, item);
+      },
+      [GuildBuilding.FactoryScroll]: () => {
+        const item = game.itemGenerator.generateBuffScroll(this.buildingBonus(GuildBuilding.FactoryItem));
+        game.guildManager.initiateShareScroll(this.name, item);
+      },
     };
 
     Object.keys(generators).forEach((building: GuildBuilding) => {
@@ -124,7 +130,7 @@ export class Guild implements IGuild {
     Object.keys(factories).forEach((factory: GuildBuilding) => {
       if(!this.isBuildingActive(factory)) return;
 
-      // TODO: do factory callbacks, emit to subscription manager and try to give items to everyone
+      factories[factory]();
     });
   }
 }
