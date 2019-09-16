@@ -118,7 +118,7 @@ export class Guild implements IGuild {
           GuildResource.Astralium, GuildResource.Clay, GuildResource.Stone, GuildResource.Wood
         ]);
 
-        const resourceTaken = game.rngService.numberInRange(0, Math.floor(this.resources[resource] * 0.05));
+        const resourceTaken = Math.min(1000, game.rngService.numberInRange(0, Math.floor(this.resources[resource] * 0.05)));
         this.resources[resource] -= resourceTaken;
 
         const item: Item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
