@@ -2,11 +2,13 @@
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { set } from 'lodash';
 import { DatabaseManager } from './database-manager';
-import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName, IBuffScrollItem } from '../../../shared/interfaces';
+import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName,
+  IBuffScrollItem, GuildBuilding } from '../../../shared/interfaces';
 import { Guild, Player, Item } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
 import { EventManager } from './event-manager';
+import { DiscordManager } from './discord-manager';
 
 @Singleton
 @AutoWired
@@ -16,6 +18,7 @@ export class GuildManager {
   @Inject private subscriptionManager: SubscriptionManager;
   @Inject private eventManager: EventManager;
   @Inject private playerManager: PlayerManager;
+  @Inject private discordManager: DiscordManager;
 
   private guilds: { [key: string]: Guild } = { };
 
@@ -69,6 +72,7 @@ export class GuildManager {
     const guilds = await this.db.loadGuilds();
     guilds.forEach(guild => {
       this.addGuild(guild);
+      this.checkDiscordUpgradeForGuild(guild);
     });
   }
 
@@ -155,6 +159,7 @@ export class GuildManager {
     const player = this.playerManager.getPlayer(name);
     if(!player) return;
 
+    this.discordManager.removeGuildRole(player);
     player.guildName = '';
     player.$$game.updatePlayer(player);
   }
@@ -227,6 +232,12 @@ export class GuildManager {
 
       player.$inventory.addBuffScroll(scroll);
     });
+  }
+
+  public checkDiscordUpgradeForGuild(guild: Guild) {
+    if(guild.buildingLevels[GuildBuilding.Crier] < 1) return;
+
+    this.discordManager.createDiscordChannelForGuild(guild);
   }
 
 }

@@ -250,6 +250,10 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     );
 
     this.gameSuccess(`Leveled up your building!`);
+
+    if(building === GuildBuilding.Crier) {
+      this.game.guildManager.checkDiscordUpgradeForGuild(guild);
+    }
   }
 }
 

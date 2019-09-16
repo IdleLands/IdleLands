@@ -126,9 +126,6 @@ export class Game implements IGame {
     this.logger.log('Game', 'GM helper initializing...');
     await this.gmHelper.init();
 
-    this.logger.log('Game', 'Guild manager initializing...');
-    await this.guildManager.init();
-
     this.logger.log('Game', 'Chat helper initializing...');
     await this.chatHelper.init((msg: string) => {
       this.discordManager.sendMessage(msg);
@@ -138,6 +135,9 @@ export class Game implements IGame {
     await this.discordManager.init((msg: IMessage) => {
       this.chatHelper.sendMessageToGame(msg);
     }, id === 0);
+
+    this.logger.log('Game', 'Guild manager initializing...');
+    await this.guildManager.init();
 
     this.logger.log('Game', 'World initializing...');
     await this.world.init(this.assetManager.allMapAssets);
