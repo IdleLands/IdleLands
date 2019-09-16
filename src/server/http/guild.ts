@@ -60,3 +60,15 @@ export class GuildInvitesAndApplicationsAPICall extends ServerAPICall {
     });
   }
 }
+
+export class GuildRaidAPICall extends ServerAPICall {
+
+  static desc = 'Get the current raid bosses';
+  static params = 'maxLevel';
+
+  static init(app, game: Game) {
+    app.get('/guilds/raids', async (req, res) => {
+      res.json({ raids: game.guildManager.raidBosses(+req.query.maxLevel) });
+    });
+  }
+}

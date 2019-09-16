@@ -1,9 +1,10 @@
 
+import * as Chance from 'chance';
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { set } from 'lodash';
 import { DatabaseManager } from './database-manager';
 import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName,
-  IBuffScrollItem, GuildBuilding } from '../../../shared/interfaces';
+  IBuffScrollItem, GuildBuilding, AllBaseStats, Stat, Profession } from '../../../shared/interfaces';
 import { Guild, Player, Item } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
@@ -243,6 +244,42 @@ export class GuildManager {
     if(guild.buildingLevels[GuildBuilding.Crier] < 1) return;
 
     this.discordManager.createDiscordChannelForGuild(guild);
+  }
+
+  public raidBoss(level: number) {
+    if(level % 50 !== 0 || level < 100) return null;
+
+    const rng = new Chance(level + ' ' + new Date().getMonth());
+
+    const baseAttrs = {
+      cost: 1000000 * level,
+      level,
+      profession: '',
+      scaleStat: '',
+      stats: {
+        [Stat.HP]: 1000 * level
+      }
+    };
+
+    const scaleStat = rng.pickone(Object.values(AllBaseStats));
+    baseAttrs.scaleStat = scaleStat;
+
+    const profession = rng.pickone(Object.values(Profession));
+    baseAttrs.profession = profession;
+
+    Object.values(AllBaseStats).forEach(stat => {
+      baseAttrs.stats[stat] = 10 * level;
+    });
+
+    return baseAttrs;
+  }
+
+  public raidBosses(maxLevel: number) {
+    const bosses = [];
+    for(let i = 100; i <= maxLevel; i += 50) {
+      bosses.push(this.raidBoss(i));
+    }
+    return bosses;
   }
 
 }
