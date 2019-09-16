@@ -1,6 +1,7 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
-import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding, GuildMemberTier, Stat, GuildBuildingLevelValues, IGame } from '../../interfaces';
+import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
+   GuildMemberTier, Stat, GuildBuildingLevelValues, IGame } from '../../interfaces';
 
 @Entity()
 export class Guild implements IGuild {
