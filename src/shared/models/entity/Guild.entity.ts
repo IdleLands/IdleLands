@@ -2,6 +2,7 @@
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
 import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
    GuildMemberTier, Stat, GuildBuildingLevelValues, IGame } from '../../interfaces';
+import { Item } from '../Item';
 
 @Entity()
 export class Guild implements IGuild {
@@ -113,7 +114,19 @@ export class Guild implements IGuild {
 
     const factories = {
       [GuildBuilding.FactoryItem]: () => {
-        const item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
+        const resource = game.rngService.pickone([
+          GuildResource.Astralium, GuildResource.Clay, GuildResource.Stone, GuildResource.Wood
+        ]);
+
+        const resourceTaken = game.rngService.numberInRange(0, Math.floor(this.resources[resource] * 0.05));
+        this.resources[resource] -= resourceTaken;
+
+        const item: Item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
+        const boostedStat = game.rngService.pickone(Object.keys(item.stats) || Stat.STR);
+
+        item.stats[boostedStat] += resourceTaken;
+        item.recalculateScore();
+
         game.guildManager.initiateShareItem(this.name, item);
       },
       [GuildBuilding.FactoryScroll]: () => {
