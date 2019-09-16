@@ -18,7 +18,6 @@ export class SubmitCustomItemEvent extends ServerSocketEvent implements ServerEv
     // tslint:disable-next-line
     const eventRegex = /\[(?:event) (?:battle|blessGold|blessGoldParty|blessItem|blessXp|blessXpParty|enchant|findItem|flipStat|forsakeGold|forsakeItem|forsakeXp|levelDown|merchant|party|providence|tinker|witch)\] "[a-zA-Z0-9 ,;'%\.]+"/;
 
-    console.log(itemRegex.test(itemString), eventRegex.test(itemString));
     if(!itemRegex.test(itemString)
     && !eventRegex.test(itemString)) return this.gameError('Invalid item/event/text string.');
 
