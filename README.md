@@ -70,6 +70,11 @@ Discord variables are used to connect to Discord, which will sync chat between t
 * `DISCORD_CUSTOM_ITEM_CHANNEL_ID` - the Discord channel ID to send custom item submissions to
 * `DISCORD_GUILD_CHANNEL_GROUP_ID` - the Discord channel CATEGORY ID to put guild channels in
 
+You will also need the following roles:
+
+* `Verified`
+* `Guild Mod`
+
 #### IdleLands 3 Variables
 
 IL3 variables are used to connect to the old DB for the purposes of character imports.

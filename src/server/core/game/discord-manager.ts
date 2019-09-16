@@ -2,8 +2,9 @@ import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import * as Discord from 'discord.js';
 
 import { Logger } from '../logger';
-import { IMessage } from '../../../shared/interfaces';
+import { IMessage, GuildMemberTier } from '../../../shared/interfaces';
 import { Guild, Player } from '../../../shared/models';
+import { c } from 'tar';
 
 @Singleton
 @AutoWired
@@ -99,6 +100,11 @@ export class DiscordManager {
       if(!x.name.includes('Guild:')) return;
       user.removeRole(x);
     });
+
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    if(guildModRole) {
+      user.removeRole(guildModRole);
+    }
   }
 
   public async addGuildRole(player: Player) {
@@ -109,6 +115,12 @@ export class DiscordManager {
     const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
     if(guildRole && !user.roles.has(guildRole.id)) {
       await user.addRole(guildRole);
+    }
+
+    const guild = player.$$game.guildManager.getGuildForPlayer(player);
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    if(guildModRole && guild && guild.members[player.name] >= GuildMemberTier.Moderator) {
+      user.addRole(guildModRole);
     }
   }
 
@@ -159,6 +171,8 @@ export class DiscordManager {
   public async createDiscordChannelForGuild(guild: Guild) {
     if(!this.discordGuild) return null;
 
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+
     let role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
     if(!role) {
       role = await this.discordGuild.createRole({ name: `Guild: ${guild.name}`});
@@ -176,9 +190,15 @@ export class DiscordManager {
       VIEW_CHANNEL: true
     });
 
+    await channel.overwritePermissions(guildModRole, {
+      MANAGE_MESSAGES: true
+    });
+
     await channel.overwritePermissions(role, {
       VIEW_CHANNEL: true
     });
+
+    await channel;
 
     await channel.overwritePermissions(this.discordGuild.id, {
       VIEW_CHANNEL: false
