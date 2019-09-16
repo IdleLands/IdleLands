@@ -144,12 +144,13 @@ export class GuildManager {
     if(!player) return;
 
     player.guildName = guildName;
+    this.discordManager.addGuildRole(player);
     player.$$game.updatePlayer(player);
 
     this.db.clearAppsInvitesForPlayer(player.name);
   }
 
-  public leaveGuild(name: string, guildName: string) {
+  public async leaveGuild(name: string, guildName: string) {
     const guild = this.getGuild(guildName);
     if(!guild) throw new Error(`Guild ${guildName} does not exist; cannot leave it.`);
 
@@ -159,7 +160,7 @@ export class GuildManager {
     const player = this.playerManager.getPlayer(name);
     if(!player) return;
 
-    this.discordManager.removeGuildRole(player);
+    await this.discordManager.removeGuildRole(player);
     player.guildName = '';
     player.$$game.updatePlayer(player);
   }

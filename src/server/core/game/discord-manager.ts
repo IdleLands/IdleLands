@@ -95,9 +95,20 @@ export class DiscordManager {
     if(!player.discordTag || !player.guildName) return;
 
     const user = this.discordUserWithTag(player.discordTag);
+    this.discordGuild.roles.forEach(x => {
+      if(!x.name.includes('Guild:')) return;
+      user.removeRole(x);
+    });
+  }
+
+  public async addGuildRole(player: Player) {
+    if(!player.discordTag || !player.guildName) return;
+
+    const user = this.discordUserWithTag(player.discordTag);
+
     const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
-    if(guildRole) {
-      await user.removeRole(guildRole);
+    if(guildRole && !user.roles.has(guildRole.id)) {
+      await user.addRole(guildRole);
     }
   }
 
@@ -107,7 +118,7 @@ export class DiscordManager {
     const user = this.discordUserWithTag(player.discordTag);
     const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
     if(verified) {
-      await user.removeRole(verified);
+      user.removeRole(verified);
     }
 
     this.removeGuildRole(player);
@@ -123,12 +134,7 @@ export class DiscordManager {
       await user.addRole(verified);
     }
 
-    if(player.guildName) {
-      const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
-      if(guildRole && !user.roles.has(guildRole.id)) {
-        await user.addRole(guildRole);
-      }
-    }
+    this.addGuildRole(player);
   }
 
   public getUserRoles(tag: string) {
