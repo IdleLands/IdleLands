@@ -104,13 +104,13 @@ export class GuildOverviewPage implements OnInit {
             if(!values || !values.value || isNaN(+values.value) || !isFinite(+values.value)) return;
 
             if(['astralium', 'wood', 'clay', 'stone', 'gold'].includes(resource)) {
-              this.gameService.guild.resources[resource] += values.value;
-              this.socketService.emit(ServerEventName.GuildDonateResource, { resource, amount: values.value });
+              this.gameService.guild.resources[resource] += +values.value;
+              this.socketService.emit(ServerEventName.GuildDonateResource, { resource, amount: +values.value });
             }
 
             if(['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Astral'].includes(resource)) {
-              this.gameService.guild.crystals[`Crystal${resource}`] += values.value;
-              this.socketService.emit(ServerEventName.GuildDonateCrystal, { crystal: resource, amount: values.value });
+              this.gameService.guild.crystals[`Crystal${resource}`] += +values.value;
+              this.socketService.emit(ServerEventName.GuildDonateCrystal, { crystal: resource, amount: +values.value });
             }
           }
         }

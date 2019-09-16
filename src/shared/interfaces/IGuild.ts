@@ -9,6 +9,16 @@ export enum GuildResource {
   Gold = 'gold'
 }
 
+export enum GuildCrystal {
+  Red = 'CrystalRed',
+  Orange = 'CrystalOrange',
+  Yellow = 'CrystalYellow',
+  Green = 'CrystalGreen',
+  Blue = 'CrystalBlue',
+  Purple = 'CrystalPurple',
+  Astral = 'CrystalAstral'
+}
+
 export enum GuildMemberTier {
   Member = 1,
   Moderator = 5,
@@ -115,7 +125,8 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + (level * 50)}.`
 };
 
-export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number) => { [res in GuildResource]?: number } } = {
+export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
+  (level: number) => { [res in GuildResource | GuildCrystal]?: number } } = {
   [GuildBuilding.Academy]:              (level) => (
     { [GuildResource.Gold]: Math.floor((level ** 2) * 1000000),
       [GuildResource.Clay]: level * 100,
@@ -166,45 +177,59 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]: (level: number
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
     { [GuildResource.Gold]: level * 1000000,
-      [GuildResource.Wood]: Math.floor((level + 3) ** 2) }
+      [GuildResource.Wood]: Math.floor((level + 3) ** 2),
+      [GuildCrystal.Blue]: 1,
+      [GuildCrystal.Purple]: 1 }
   ),
   [GuildBuilding.GeneratorStone]:       (level) => (
     { [GuildResource.Gold]: level * 1000000,
-      [GuildResource.Stone]: Math.floor((level + 3) ** 2) }
+      [GuildResource.Stone]: Math.floor((level + 3) ** 2),
+      [GuildCrystal.Red]: 1,
+      [GuildCrystal.Yellow]: 1 }
   ),
   [GuildBuilding.GeneratorClay]:        (level) => (
     { [GuildResource.Gold]: level * 1000000,
-      [GuildResource.Clay]: Math.floor((level + 3) ** 2) }
+      [GuildResource.Clay]: Math.floor((level + 3) ** 2),
+      [GuildCrystal.Orange]: 1,
+      [GuildCrystal.Green]: 1 }
   ),
   [GuildBuilding.GeneratorAstralium]:   (level) => (
     { [GuildResource.Gold]: level * 1000000,
-      [GuildResource.Astralium]: Math.floor((level + 3) ** 2) }
+      [GuildResource.Astralium]: Math.floor((level + 3) ** 2),
+      [GuildCrystal.Astral]: 2 }
   ),
   [GuildBuilding.GardenStrength]:       (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500,
+      [GuildCrystal.Red]: 1 }
   ),
   [GuildBuilding.GardenDexterity]:      (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Wood]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Wood]: level * 100,
+      [GuildCrystal.Orange]: 1 }
   ),
   [GuildBuilding.GardenAgility]:        (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 100,
+      [GuildCrystal.Blue]: 1 }
   ),
   [GuildBuilding.GardenConstitution]:   (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Stone]: level * 100 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Stone]: level * 100,
+      [GuildCrystal.Yellow]: 1 }
   ),
   [GuildBuilding.GardenIntelligence]:   (level) => (
-    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500 }
+    { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500,
+      [GuildCrystal.Purple]: 1 }
   ),
   [GuildBuilding.GardenLuck]:           (level) => (
     { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Astralium]: level * 500,
       [GuildResource.Clay]: level * 100,
       [GuildResource.Stone]: level * 100,
-      [GuildResource.Wood]: level * 100 }
+      [GuildResource.Wood]: level * 100,
+      [GuildCrystal.Green]: 1 }
   ),
   [GuildBuilding.RaidPortal]:           (level) => (
     { [GuildResource.Gold]: level * 1000000000,
-      [GuildResource.Astralium]: level * 1000 }
+      [GuildResource.Astralium]: level * 1000,
+      [GuildCrystal.Astral]: 5 }
   )
 };
 

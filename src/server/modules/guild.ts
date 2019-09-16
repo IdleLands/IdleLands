@@ -232,15 +232,24 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
 
     const costs = GuildBuildingUpgradeCosts[building](level);
 
-    const canDo = Object.keys(costs).every(costKey => guild.resources[costKey] >= costs[costKey]);
+    const canDo = Object.keys(costs).every(costKey => guild.resources[costKey] || guild.crystals[costKey] >= costs[costKey]);
     if(!canDo) return this.gameError('Not enough resources.');
 
     Object.keys(costs).forEach(costKey => {
-      this.game.guildManager.updateGuildKey(
-        player.guildName,
-        `resources.${costKey}`,
-        guild.resources[costKey] - costs[costKey]
-      );
+
+      if(costKey.includes('Crystal')) {
+        this.game.guildManager.updateGuildKey(
+          player.guildName,
+          `crystals.${costKey}`,
+          guild.crystals[costKey] - costs[costKey]
+        );
+      } else {
+        this.game.guildManager.updateGuildKey(
+          player.guildName,
+          `resources.${costKey}`,
+          guild.resources[costKey] - costs[costKey]
+        );
+      }
     });
 
     this.game.guildManager.updateGuildKey(

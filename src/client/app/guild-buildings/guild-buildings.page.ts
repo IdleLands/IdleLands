@@ -85,7 +85,7 @@ export class GuildBuildingsPage implements OnInit {
 
     const costs = GuildBuildingUpgradeCosts[building](level);
 
-    return Object.keys(costs).every(costKey => guild.resources[costKey] >= costs[costKey]);
+    return Object.keys(costs).every(costKey => (guild.resources[costKey] || guild.crystals[costKey]) >= costs[costKey]);
   }
 
   upgrade(building: string): void {
@@ -94,6 +94,15 @@ export class GuildBuildingsPage implements OnInit {
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
     guild.buildingLevels[building] = level;
+
+    const costs = GuildBuildingUpgradeCosts[building](level);
+    Object.keys(costs).forEach(costKey => {
+      if(costKey.includes('Crystal')) {
+        guild.crystals[costKey] -= costs[costKey];
+      } else {
+        guild.resources[costKey] -= costs[costKey];
+      }
+    });
 
     this.socketService.emit(ServerEventName.GuildUpgradeBuilding, { building });
   }
