@@ -71,6 +71,10 @@ export class GuildManager {
   private async loadGuilds() {
     const guilds = await this.db.loadGuilds();
     guilds.forEach(guild => {
+      if(Object.keys(guild.members).length === 0) {
+        this.discordManager.removeDiscordChannelForGuild(guild);
+        return;
+      }
       this.addGuild(guild);
       this.checkDiscordUpgradeForGuild(guild);
     });
