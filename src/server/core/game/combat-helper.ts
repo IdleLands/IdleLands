@@ -475,7 +475,7 @@ export class CombatHelper {
     const stats = base.stats;
 
     Object.keys(stats).forEach(stat => {
-      const mult = stat === Stat.HP ? 1000 : 100;
+      const mult = stat === Stat.HP ? 10000 : 100;
 
       stats[stat] += players.length * mult;
     });
