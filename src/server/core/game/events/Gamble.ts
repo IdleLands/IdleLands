@@ -13,9 +13,9 @@ export class Gamble extends Event {
     const { ddOddsDivisor, ddBetMult, ddPayoffMult } = choice.extraData;
 
     if(valueChosen === 'Double') {
-      odds /= ddOddsDivisor;
-      payoff *= ddPayoffMult;
-      bet *= ddBetMult;
+      odds /= (ddOddsDivisor || 2);
+      payoff *= (ddPayoffMult || 2);
+      bet *= (ddBetMult || 3);
     }
 
     if(player.gold < bet) {

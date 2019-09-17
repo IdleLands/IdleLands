@@ -275,13 +275,31 @@ export class GuildManager {
   public raidBossRewards(level: number) {
     if(level % 50 !== 0 || level < 100) return [];
 
+    const tier = ((level - 100) / 50) + 1;
     const rng = new Chance(level + ' ' + new Date().getMonth());
 
     const possibleRewards = [
-      GachaReward.CrystalAstral, GachaReward.ItemGoatly, GachaReward.XPPlayerMax, GachaReward.ILPMD
+      GachaReward.CrystalAstral, GachaReward.ItemGodly, GachaReward.XPPlayerMax, GachaReward.ILPMD
     ];
 
+    if(tier >= 5) {
+      possibleRewards.push(GachaReward.ItemGoatly);
+    }
+
+    if(tier >= 20) {
+      possibleRewards.push(GachaReward.ItemOmega);
+    }
+
     const rewards = [rng.pickone(possibleRewards)];
+
+    if(tier >= 10) {
+      rewards.push(rng.pickone(possibleRewards));
+    }
+
+    if(tier >= 25) {
+      rewards.push(rng.pickone(possibleRewards));
+    }
+
     return rewards;
   }
 
