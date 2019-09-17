@@ -109,6 +109,7 @@ export class DiscordManager {
     if(!this.discordGuild || !player.discordTag || !player.guildName) return;
 
     const user = this.discordUserWithTag(player.discordTag);
+    if(!user) return;
 
     const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
     if(guildRole && !user.roles.has(guildRole.id)) {
@@ -126,6 +127,8 @@ export class DiscordManager {
     if(!this.discordGuild || !player.discordTag) return;
 
     const user = this.discordUserWithTag(player.discordTag);
+    if(!user) return;
+
     const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
     if(verified) {
       user.removeRole(verified);
@@ -138,6 +141,7 @@ export class DiscordManager {
     if(!this.discordGuild || !player.discordTag) return;
 
     const user = this.discordUserWithTag(player.discordTag);
+    if(!user) return;
 
     const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
     if(verified && !user.roles.has(verified.id)) {
