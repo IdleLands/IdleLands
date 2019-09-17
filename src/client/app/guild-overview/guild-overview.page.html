@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Guild Overview
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+  
+
+<ion-content padding>
+  <div class="blank-slate" *ngIf="!gameService.guild">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
+
+  <ion-row *ngIf="gameService.guild as guild">
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+        
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ guild.name }} [{{ guild.tag }}]</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-label>
+                Level {{ level(guild) }}
+              </ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-label class="ion-text-wrap" [innerHTML]="(guild.motd || 'no MOTD set') | linkify">
+              </ion-label>
+
+              <ion-button slot="end" *ngIf="gameService.isGuildMod" (click)="updateMOTD()">Change</ion-button>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Recruitment Mode</ion-label>
+
+              <ion-select [value]="guild.recruitment" 
+                          (ionChange)="changeRecruitment($event)"
+                          placeholder="choose recruitment"
+                          [disabled]="!gameService.isGuildMod"
+                          [interfaceOptions]="{ header: 'Change Recruitment Mode' }">
+                <ion-select-option *ngFor="let mode of ['Closed', 'Apply', 'Open']"
+                                   [value]="mode">{{ mode }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+        
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Resources</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'" [ngClass]="['gold']"></ion-icon>
+
+              <ion-label>
+                Gold (x{{ guild.resources.gold | number }})
+              </ion-label>
+
+              <ion-button slot="end" (click)="donate('gold')">Donate</ion-button>
+            </ion-item>
+
+            <ion-item *ngFor="let resource of ['wood', 'clay', 'stone', 'astralium']">
+              <ion-icon slot="start" [src]="'assets/icon/resource-' + resource + '.svg'" [ngClass]="[resource]"></ion-icon>
+
+              <ion-label>
+                {{ resource | titlecase }} (x{{ guild.resources[resource] | number }})
+              </ion-label>
+
+              <ion-button slot="end" (click)="donate(resource)">Donate</ion-button>
+            </ion-item>
+
+            <ion-item *ngFor="let crystal of crystals">
+              <ion-icon slot="start" [src]="'assets/icon/symbol-crystal.svg'" [style.color]="crystal.color"></ion-icon>
+
+              <ion-label>
+                {{ crystal.name }} Crystal (x{{ guild.crystals['Crystal' + crystal.name] || 0 | number }})
+              </ion-label>
+
+              <ion-button slot="end" (click)="donate(crystal.name)">Donate</ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+        
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Taxes</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-range min="0" max="50" snaps="true" pin="true" ticks="true" debounce="500"
+                         (ionChange)="updateTax('gold', $event)"
+                         [value]="guild.taxes.gold"
+                         [disabled]="!gameService.isGuildMod">
+                <ion-icon slot="start" [src]="'assets/icon/stat-gold.svg'" [ngClass]="['gold']"></ion-icon>
+                <ion-label slot="end">{{ guild.taxes.gold }}%</ion-label>
+              </ion-range>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

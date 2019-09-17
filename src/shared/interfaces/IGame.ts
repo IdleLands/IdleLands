@@ -26,7 +26,9 @@ export interface IGame {
   globalQuestManager: any;
   stripeHelper: any;
   gmHelper: any;
+  guildManager: any;
 
+  updatePlayer(player: IPlayer): void;
   sendClientUpdateForPlayer(player: IPlayer): void;
   doStartingPlayerStuff(player: IPlayer): void;
 }

@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player, Choice } from '../../../../shared/models';
-import { AdventureLogEventType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, GuildBuilding } from '../../../../shared/interfaces';
 
 export class Gamble extends Event {
   public static readonly WEIGHT = 15;
@@ -10,10 +10,12 @@ export class Gamble extends Event {
     if(valueChosen === 'No') return true;
 
     let { odds, bet, payoff } = choice.extraData;
+    const { ddOddsDivisor, ddBetMult, ddPayoffMult } = choice.extraData;
+
     if(valueChosen === 'Double') {
-      odds /= 2;
-      payoff *= 3;
-      bet = bet * 2;
+      odds /= ddOddsDivisor;
+      payoff *= ddPayoffMult;
+      bet *= ddBetMult;
     }
 
     if(player.gold < bet) {
@@ -25,7 +27,7 @@ export class Gamble extends Event {
     player.increaseStatistic(`Event/Gamble/Wager`, bet);
 
     if(this.rng.likelihood(odds)) {
-      eventManager.successMessage(player, `You won ${payoff.toLocaleString()} gold against the odds of ${odds}%!`);
+      eventManager.successMessage(player, `You won ${payoff.toLocaleString()} gold against the odds of ${odds.toFixed(2)}%!`);
       player.gainGold(payoff);
       player.increaseStatistic(`Event/Gamble/WinTimes`, 1);
       player.increaseStatistic(`Event/Gamble/Win`, payoff);
@@ -58,7 +60,21 @@ export class Gamble extends Event {
 
   public operateOn(player: Player) {
 
-    const baseCostFivePercent = Math.floor(player.gold * 0.05);
+    let baseCostMult = 0.05;
+    let ddOddsDivisor = 2;
+    let ddPayoffMult = 3;
+    let ddBetMult = 2;
+
+    const guild = this.guildManager.getGuildForPlayer(player);
+    if(guild) {
+      const bonus = guild.buildingBonus(GuildBuilding.Tavern);
+      baseCostMult += (bonus / 1000);
+      ddOddsDivisor = Math.max(10, ddOddsDivisor + (bonus / 100));
+      ddPayoffMult += (bonus / 100);
+      ddBetMult += (bonus / 100);
+    }
+
+    const baseCostFivePercent = Math.floor(player.gold * baseCostMult);
 
     const odds = this.rng.numberInRange(10, 50);
     const bet = this.rng.numberInRange(baseCostFivePercent, baseCostFivePercent * 5);
@@ -79,14 +95,17 @@ export class Gamble extends Event {
     const choice = this.getChoice({
       desc: `
         ${message} The odds are ${odds}% if you wager ${bet.toLocaleString()} gold, and the payoff is ${payoff.toLocaleString()} gold.
-        You can Double Down for a 50% odds reduction, but a 3x payoff.
+        You can Double Down for a ${(100 / ddBetMult).toFixed(2)}% odds reduction, but a ${ddPayoffMult.toFixed(2)}x payoff.
       `,
       choices: ['Yes', 'No', 'Double'],
       defaultChoice: player.getDefaultChoice(['Yes', 'No', 'Double']),
       extraData: {
         odds,
         bet,
-        payoff
+        payoff,
+        ddOddsDivisor,
+        ddBetMult,
+        ddPayoffMult
       }
     });
 

@@ -60,11 +60,18 @@ export class AstralGatePage implements OnInit, OnDestroy {
     alert.present();
   }
 
+  public canRoll(player: IPlayer, gacha: IGacha, rolls: number): boolean {
+    if(!gacha.requiredToken) return player.$premiumData.ilp >= gacha.rollCost * rolls;
+
+    if(gacha.requiredToken === 'Gold') return player.gold >= gacha.rollCost * rolls;
+    return false;
+  }
+
   async roll(gachaName: string, gacha: IGacha, numRolls: number, isFree: boolean) {
     const alert = await this.alertCtrl.create({
       header: `Roll ${gacha.name}`,
       message: `Are you sure you want to roll ${gacha.name} x${numRolls}?
-                ${isFree ? '' : `This will cost ${gacha.rollCost * numRolls} ILP.`}`,
+                ${isFree ? '' : `This will cost ${(gacha.rollCost * numRolls).toLocaleString()} ${gacha.requiredToken}.`}`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         { text: 'Yes, roll!', handler: () => {

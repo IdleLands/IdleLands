@@ -22,6 +22,11 @@ export class AstralGate extends BaseGachaRoller {
     { result: GachaReward.XPPetLG,        chance: GachaChance.Rare },
     { result: GachaReward.XPPetMax,       chance: GachaChance.XRare },
 
+    { result: GachaReward.ClaySM,         chance: GachaChance.Uncommon },
+    { result: GachaReward.WoodSM,         chance: GachaChance.Uncommon },
+    { result: GachaReward.StoneSM,        chance: GachaChance.Uncommon },
+    { result: GachaReward.AstraliumSM,    chance: GachaChance.Rare },
+
     { result: GachaReward.SoulBlue,       chance: GachaChance.XXRare },
     { result: GachaReward.SoulGreen,      chance: GachaChance.XXRare },
     { result: GachaReward.SoulOrange,     chance: GachaChance.XXRare },

@@ -38,6 +38,13 @@ export class PremiumPage implements OnInit {
       duration: 72,
       desc: 'Increase GOLD gain by +20% for all players for 3 days.',
       cost: FestivalCost.Gold
+    },
+    {
+      name: '+20% Salvage (3 days)',
+      type: FestivalType.Salvage,
+      duration: 72,
+      desc: 'Increase SALVAGE gain by +20% for all players for 3 days.',
+      cost: FestivalCost.Salvage
     }
   ];
 

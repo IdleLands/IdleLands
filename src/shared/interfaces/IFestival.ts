@@ -20,6 +20,7 @@ export interface IFestival {
 export enum FestivalType {
   XP = 'XP',
   Gold = 'Gold',
+  Salvage = 'Salvage',
   CoreStats = 'CoreStats'
 }
 
@@ -30,6 +31,7 @@ export const FestivalStats: { [key in FestivalType]: { [stat in Stat]?: number }
     [Stat.STR]: FESTIVAL_STAT_MULT, [Stat.AGI]: FESTIVAL_STAT_MULT, [Stat.CON]: FESTIVAL_STAT_MULT,
     [Stat.DEX]: FESTIVAL_STAT_MULT, [Stat.INT]: FESTIVAL_STAT_MULT, [Stat.LUK]: FESTIVAL_STAT_MULT
   },
+  [FestivalType.Salvage]: { [Stat.SALVAGE]: FESTIVAL_STAT_MULT },
   [FestivalType.XP]: { [Stat.XP]: FESTIVAL_STAT_MULT },
   [FestivalType.Gold]: { [Stat.GOLD]: FESTIVAL_STAT_MULT }
 };
@@ -37,5 +39,6 @@ export const FestivalStats: { [key in FestivalType]: { [stat in Stat]?: number }
 export const FestivalCost: { [key in FestivalType]: number } = {
   [FestivalType.CoreStats]: 50,
   [FestivalType.XP]: 70,
-  [FestivalType.Gold]: 90
+  [FestivalType.Gold]: 90,
+  [FestivalType.Salvage]: 110
 };

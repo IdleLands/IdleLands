@@ -11,6 +11,10 @@ import { SocketClusterService } from '../socket-cluster.service';
         <ion-icon slot="start" [src]="'assets/icon/action-sell.svg'"></ion-icon>
         Sell All
       </ion-item>
+      <ion-item button (click)="salvageAll()">
+        <ion-icon slot="start" [src]="'assets/icon/action-salvage.svg'"></ion-icon>
+        Salvage All
+      </ion-item>
     </ion-list>
   `,
 })
@@ -25,6 +29,11 @@ export class InventoryActionsPopover {
 
   sellAll() {
     this.socketService.emit(ServerEventName.ItemSellAll);
+    this.dismiss();
+  }
+
+  salvageAll() {
+    this.socketService.emit(ServerEventName.ItemSalvageAll);
     this.dismiss();
   }
 

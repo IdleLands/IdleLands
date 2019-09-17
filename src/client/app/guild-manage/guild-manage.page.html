@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Guild Members
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="invite()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  
+
+<ion-content>
+  <div class="blank-slate" *ngIf="!gameService.guild">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
+
+  <ion-row *ngIf="gameService.guild as guild">
+    <ion-col>
+      <ion-list>
+        <ion-list-header *ngIf="appinvs.length > 0">Applications / Invites</ion-list-header>
+        <ion-item *ngFor="let appinv of appinvs">
+          <ion-label>
+            {{ appinv.playerName }}
+          </ion-label>
+
+          <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Deny</ion-button>
+          <ion-button slot="end" (click)="acceptInv(appinv)" *ngIf="appinv.type === 'application'">Accept</ion-button>
+          <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'invite'">Rescind</ion-button>
+        </ion-item>
+
+        <ion-list-header>Members</ion-list-header>
+        <ion-item *ngFor="let member of guild.members | keyvalue">
+          <ion-icon slot="start" *ngIf="member.value === 1" name="star-outline"></ion-icon>
+          <ion-icon slot="start" *ngIf="member.value === 5" name="star-half"></ion-icon>
+          <ion-icon slot="start" *ngIf="member.value === 10" name="star"></ion-icon>
+          
+          <ion-label *ngIf="gameService.playerInfoHash[member.key] as player">
+            <h3 class="vertical-center">
+                {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+            </h3>
+            <p class="vertical-center ion-margin-start">
+              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
+              &nbsp; {{ player.profession }}
+            </p>
+          </ion-label>
+          
+          <ion-label *ngIf="!gameService.playerInfoHash[member.key]">
+            <h3 class="vertical-center">
+              {{ member.key }}
+            </h3>
+            <p class="vertical-center ion-margin-start">
+              Offline
+            </p>
+          </ion-label>
+
+          <ion-button slot="end" 
+                      *ngIf="member.key === gameService.playerRef.name" 
+                      (click)="leave()"
+                      color="danger">Leave</ion-button>
+          <ion-button slot="end" 
+                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value === 1" 
+                      (click)="kick(member.key)"
+                      color="danger">Kick</ion-button>
+          <ion-button slot="end" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 1 && gameService.isGuildLeader" 
+                      (click)="demote(member.key)"
+                      color="warning">Demote</ion-button>
+          <ion-button slot="end" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 10 && gameService.isGuildLeader"
+                      (click)="promote(member.key)" 
+                      color="warning">Promote</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-content>

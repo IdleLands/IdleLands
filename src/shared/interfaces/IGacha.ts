@@ -31,10 +31,27 @@ export enum GachaReward {
   GoldSM = 'gold:player:sm',
   GoldMD = 'gold:player:md',
   GoldLG = 'gold:player:lg',
+  GoldXL = 'gold:player:xl',
 
   ILPSM = 'ilp:player:sm',
   ILPMD = 'ilp:player:md',
   ILPLG = 'ilp:player:lg',
+
+  ClaySM = 'resource:clay:sm',
+  ClayMD = 'resource:clay:md',
+  ClayLG = 'resource:clay:lg',
+
+  WoodSM = 'resource:wood:sm',
+  WoodMD = 'resource:wood:md',
+  WoodLG = 'resource:wood:lg',
+
+  StoneSM = 'resource:stone:sm',
+  StoneMD = 'resource:stone:md',
+  StoneLG = 'resource:stone:lg',
+
+  AstraliumSM = 'resource:astralium:sm',
+  AstraliumMD = 'resource:astralium:md',
+  AstraliumLG = 'resource:astralium:lg',
 
   SoulGreen = 'collectible:Soul:Green',
   SoulYellow = 'collectible:Soul:Yellow',
@@ -91,10 +108,27 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.GoldSM]: 'Gold (Small)',
   [GachaReward.GoldMD]: 'Gold (Medium)',
   [GachaReward.GoldLG]: 'Gold (Large)',
+  [GachaReward.GoldXL]: 'Gold (XL)',
 
   [GachaReward.ILPSM]: 'ILP (Small)',
   [GachaReward.ILPMD]: 'ILP (Medium)',
   [GachaReward.ILPLG]: 'ILP (Large)',
+
+  [GachaReward.WoodSM]: 'Wood (Small)',
+  [GachaReward.WoodMD]: 'Wood (Medium)',
+  [GachaReward.WoodLG]: 'Wood (Large)',
+
+  [GachaReward.ClaySM]: 'Clay (Small)',
+  [GachaReward.ClayMD]: 'Clay (Medium)',
+  [GachaReward.ClayLG]: 'Clay (Large)',
+
+  [GachaReward.StoneSM]: 'Stone (Small)',
+  [GachaReward.StoneMD]: 'Stone (Medium)',
+  [GachaReward.StoneLG]: 'Stone (Large)',
+
+  [GachaReward.AstraliumSM]: 'Astralium (Small)',
+  [GachaReward.AstraliumMD]: 'Astralium (Medium)',
+  [GachaReward.AstraliumLG]: 'Astralium (Large)',
 
   [GachaReward.ItemBasic]: 'Item (Basic)',
   [GachaReward.ItemPro]: 'Item (Pro)',

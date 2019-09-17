@@ -31,6 +31,7 @@ import { IL3Linker } from './il3-linker';
 import { QuestHelper } from './quest-helper';
 import { GlobalQuestManager } from './global-quest-manager';
 import { StripeHelper } from './stripe-helper';
+import { GuildManager } from './guild-manager';
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
@@ -65,6 +66,7 @@ export class Game implements IGame {
   @Inject public questHelper: QuestHelper;
   @Inject public globalQuestManager: GlobalQuestManager;
   @Inject public stripeHelper: StripeHelper;
+  @Inject public guildManager: GuildManager;
   @Inject public world: World;
 
   private ticks = 0;
@@ -134,6 +136,9 @@ export class Game implements IGame {
       this.chatHelper.sendMessageToGame(msg);
     }, id === 0);
 
+    this.logger.log('Game', 'Guild manager initializing...');
+    await this.guildManager.init();
+
     this.logger.log('Game', 'World initializing...');
     await this.world.init(this.assetManager.allMapAssets);
 
@@ -164,6 +169,8 @@ export class Game implements IGame {
         this.databaseManager.savePlayer(player);
       }
     });
+
+    Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
 
     if((this.ticks % 100) === 0) {
       this.globalQuestManager.tick();

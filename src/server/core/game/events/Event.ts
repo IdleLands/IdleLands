@@ -11,6 +11,7 @@ import { SubscriptionManager } from '../subscription-manager';
 import { ItemGenerator } from '../item-generator';
 import { ProfessionHelper } from '../profession-helper';
 import { PartyHelper } from '../party-helper';
+import { GuildManager } from '../guild-manager';
 
 export abstract class Event {
   public static readonly WEIGHT: number = 0;
@@ -23,6 +24,7 @@ export abstract class Event {
   @Inject protected itemGenerator: ItemGenerator;
   @Inject protected subscriptionManager: SubscriptionManager;
   @Inject protected professionHelper: ProfessionHelper;
+  @Inject protected guildManager: GuildManager;
 
   protected statTiers = {
     t1: [Stat.AGI, Stat.DEX],

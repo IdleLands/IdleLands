@@ -116,6 +116,10 @@ export class FindItem extends Event {
       ? this._parseText(`%player found %item in a treasure chest!`, player, { item: item.fullName() })
       : '';
 
+    const guildText = opts.fromGuild
+      ? this._parseText(`%player found %item via the guild generator!`, player, { item: item.fullName() })
+      : '';
+
     const guardianText = opts.fromGuardian
       ? this._parseText(`%player found %item on the carcass of a Realm Guardian!`, player, { item: item.fullName() })
       : '';
@@ -129,6 +133,7 @@ export class FindItem extends Event {
       : '';
 
     const eventText = chestText
+                   || guildText
                    || guardianText
                    || pillageText
                    || petText

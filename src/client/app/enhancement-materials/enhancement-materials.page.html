@@ -9,6 +9,29 @@
 
 <ion-content padding>
   <ng-container *ngIf="(gameService.player$ | async) as player">
+
+    <ion-row *ngIf="player.$inventoryData">
+      <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding" *ngIf="player.$inventoryData.resources">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Salvaged Resources</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let resource of ['wood', 'clay', 'stone', 'astralium']">
+                <ion-icon slot="start" [src]="'assets/icon/resource-' + resource + '.svg'" [ngClass]="[resource]"></ion-icon>
+
+                <ion-label>
+                  {{ resource | titlecase }} (x{{ player.$inventoryData.resources[resource] | number }})
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
     <ion-row *ngIf="player.$petsData">
       <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
         <ion-card>
@@ -22,7 +45,7 @@
                 <ion-icon slot="start" [src]="'assets/icon/symbol-crystal.svg'" [style.color]="crystal.color"></ion-icon>
 
                 <ion-label>
-                  {{ crystal.name }} Crystal (x{{ player.$petsData.ascensionMaterials['Crystal' + crystal.name] || 0 }})
+                  {{ crystal.name }} Crystal (x{{ player.$petsData.ascensionMaterials['Crystal' + crystal.name] || 0 | number }})
                 </ion-label>
               </ion-item>
             </ion-list>
@@ -84,5 +107,6 @@
         </ion-card>
       </ion-col>
     </ion-row>
+
   </ng-container>
 </ion-content>

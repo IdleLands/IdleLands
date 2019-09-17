@@ -1,7 +1,7 @@
 import { AchievementType, AchievementRewardType, Achievement } from '../../../../shared/interfaces';
 import { Player } from '../../../../shared/models';
 
-export class Cheater extends Achievement {
+export class Impossible extends Achievement {
 
   static readonly statWatches = ['Item/Collectible/Find'];
   static readonly type = AchievementType.Explore;

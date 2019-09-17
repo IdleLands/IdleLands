@@ -130,6 +130,8 @@ export interface IPlayer extends ICharacter {
 
   $party?: IParty;
 
+  guildName?: string;
+
   loop(tick: number): Promise<void>;
   toSaveObject(): IPlayer;
 
@@ -137,9 +139,11 @@ export interface IPlayer extends ICharacter {
   gainXP(num: number, addMyXP: boolean): number;
   resetMaxXP(): void;
   gainGold(num: number, addMyGold: boolean): number;
+  spendGold(num: number): number;
 
   alwaysTryAddToInventory(item: IItem): void;
   sellItem(item: IItem): number;
+  salvageItem(item: IItem): { wood: number, clay: number, stone: number, astralium: number };
 
   changeProfessionWithRef(profession: string): void;
   changeProfession(profession: IProfession): void;

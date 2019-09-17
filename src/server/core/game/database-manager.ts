@@ -1,15 +1,16 @@
 
 import { Singleton, Inject } from 'typescript-ioc';
 import { Connection, createConnection, getConnectionOptions, MongoEntityManager, getMongoManager } from 'typeorm';
-import { extend } from 'lodash';
+import { extend, pick } from 'lodash';
 import { decompress } from 'lzutf8';
 
 import * as firebaseAdmin from 'firebase-admin';
 
-import { Player, Assets, GameSettings, GlobalQuests } from '../../../shared/models';
+import { Player, Assets, GameSettings, GlobalQuests, Guild, GuildInvite } from '../../../shared/models';
 import { Logger } from '../logger';
 import { SHARED_FIELDS } from './shared-fields';
 import { Festivals } from '../../../shared/models/entity/Festivals.entity';
+import { IGuildApplication } from '../../../shared/interfaces';
 
 const firebaseKey = process.env.FIREBASE_ADMIN_JSON;
 const firebaseProj = process.env.FIREBASE_ADMIN_DATABASE;
@@ -277,6 +278,137 @@ export class DatabaseManager {
 
     } catch(e) {
       this.logger.error(`DatabaseManager#saveSettings`, e);
+    }
+  }
+
+  // GUILD FUNCTIONS
+  public async loadBriefGuilds(): Promise<any[]> {
+    if(!this.connection) return null;
+
+    try {
+      const guilds = await this.connection.manager.find(Guild);
+      return guilds
+              .filter(g => g.recruitment !== 'Closed')
+              .map(guild => pick(guild, ['buildingLevels', 'name', 'tag', 'recruitment']));
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadBriefGuilds`, e);
+    }
+  }
+
+  public async clearAppsInvitesForPlayer(playerName: string, guildName?: string): Promise<any> {
+    if(!this.connection) return null;
+
+    const opts: any = { playerName };
+    if(guildName) opts.guildName = guildName;
+
+    try {
+      return this.connection.getMongoRepository(GuildInvite).deleteMany(opts);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#clearAppsInvitesForPlayer`, e);
+    }
+  }
+
+  public forcePlayerToJoinGuild(playerName: string, guildName: string): Promise<any> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.getMongoRepository(Player).findOneAndUpdate({ name: playerName }, { $set: { guildName } });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#forcePlayerToJoinGuild`, e);
+    }
+  }
+
+  public async loadAppsInvitesForPlayer(playerName: string): Promise<GuildInvite[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(GuildInvite, { playerName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadAppsInvitesForPlayer`, e);
+    }
+  }
+
+  public async loadAppsInvitesForGuild(guildName: string): Promise<GuildInvite[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(GuildInvite, { guildName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadAppsInvitesForGuild`, e);
+    }
+  }
+
+  public async applyInviteToGuild(playerName: string, guildName: string, type: 'invite'|'application'): Promise<any> {
+    if(!this.connection) return null;
+
+    const existing = await this.connection.manager.findOne(GuildInvite, { playerName, guildName, type });
+    if(existing) throw new Error('Already have an invite/application for this player/guild');
+
+    try {
+      return this.connection.manager.insert(GuildInvite, { playerName, guildName, type });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#applyInviteToGuild`, e);
+    }
+  }
+
+  public async loadGuilds(): Promise<Guild[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(Guild);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadGuilds`, e);
+    }
+  }
+
+  public async loadGuild(name: string): Promise<Guild> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.findOne(Guild, { name });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadGuild`, e);
+    }
+  }
+
+  public async saveGuild(guild: Guild): Promise<Guild> {
+    if(!this.connection) return null;
+
+    try {
+      return await this.connection.manager.save(Guild, guild);
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#saveGuild`, e);
+    }
+  }
+
+  public async loadGuildInvitesForPlayer(playerName: string): Promise<IGuildApplication[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(GuildInvite, { playerName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadGuildInvitesForPlayer`, e);
+    }
+  }
+
+  public async loadGuildInvitesForGuildName(guildName: string): Promise<IGuildApplication[]> {
+    if(!this.connection) return null;
+
+    try {
+      return this.connection.manager.find(GuildInvite, { guildName });
+
+    } catch(e) {
+      this.logger.error(`DatabaseManager#loadGuildInvitesForGuildName`, e);
     }
   }
 

@@ -33,7 +33,10 @@ export enum PermanentUpgrade {
   MaxStaminaBoost = 'maxStaminaBoost',
 
   // the maximum number of quests available to you at any given time
-  MaxQuestsCapBoost = 'maxQuestsCapBoost'
+  MaxQuestsCapBoost = 'maxQuestsCapBoost',
+
+  // the % to boost all salvaging by
+  SalvageBoost = 'salvageBoost'
 }
 
 export enum PremiumTier {

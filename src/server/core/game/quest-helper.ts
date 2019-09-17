@@ -34,6 +34,13 @@ const validStats = [
     maxScalar: 3
   },
   {
+    baseDesc: 'Salvage %value items',
+    stat: 'Item/Salvage/Times',
+    baseValue: 5,
+    minScalar: 1,
+    maxScalar: 3
+  },
+  {
     baseDesc: 'Battle %value times',
     stat: 'Combat/All/Times/Total',
     baseValue: 2,
@@ -88,7 +95,35 @@ const validStats = [
     baseValue: 10,
     minScalar: 3,
     maxScalar: 5
-  }
+  },
+  {
+    baseDesc: 'Salvage %value clay',
+    stat: 'Item/Salvage/ClayGain',
+    baseValue: 100,
+    minScalar: 3,
+    maxScalar: 4
+  },
+  {
+    baseDesc: 'Salvage %value wood',
+    stat: 'Item/Salvage/WoodGain',
+    baseValue: 100,
+    minScalar: 3,
+    maxScalar: 4
+  },
+  {
+    baseDesc: 'Salvage %value stone',
+    stat: 'Item/Salvage/StoneGain',
+    baseValue: 100,
+    minScalar: 3,
+    maxScalar: 4
+  },
+  {
+    baseDesc: 'Salvage %value astralium',
+    stat: 'Item/Salvage/AstraliumGain',
+    baseValue: 100,
+    minScalar: 3,
+    maxScalar: 4
+  },
 ];
 
 @Singleton
@@ -222,7 +257,10 @@ export class QuestHelper {
       [GachaReward.XPPlayerMax, GachaReward.XPPlayerMax, GachaReward.XPPlayerMax],
 
       // 1 godly item
-      [GachaReward.ItemGodly]
+      [GachaReward.ItemGodly],
+
+      // LG of all items
+      [GachaReward.StoneLG, GachaReward.WoodLG, GachaReward.ClayLG, GachaReward.AstraliumLG]
     ];
 
     const consolationPrizes = [
@@ -235,7 +273,9 @@ export class QuestHelper {
 
       [GachaReward.ItemBuffScrollRandom],
 
-      [GachaReward.XPPlayerMax, GachaReward.XPPetMax]
+      [GachaReward.XPPlayerMax, GachaReward.XPPetMax],
+
+      [GachaReward.StoneSM, GachaReward.WoodSM, GachaReward.ClaySM, GachaReward.AstraliumSM]
     ];
 
     const rewards = {
@@ -267,6 +307,9 @@ export class QuestHelper {
       { result: GachaReward.CrystalBlue,              chance: GachaChance.Rare },
       { result: GachaReward.CrystalPurple,            chance: GachaChance.Rare },
       { result: GachaReward.ItemIdle,                 chance: GachaChance.Uncommon },
+      { result: GachaReward.WoodSM,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.ClaySM,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.StoneSM,                  chance: GachaChance.Uncommon },
     ];
 
     const advancedRewards = [
@@ -278,17 +321,29 @@ export class QuestHelper {
       { result: GachaReward.XPPetLG,                  chance: GachaChance.Common },
       { result: GachaReward.XPPlayerLG,               chance: GachaChance.Common },
       { result: GachaReward.GoldLG,                   chance: GachaChance.Common },
+      { result: GachaReward.AstraliumSM,              chance: GachaChance.Uncommon },
+      { result: GachaReward.WoodMD,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.ClayMD,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.StoneMD,                  chance: GachaChance.Uncommon },
     ];
 
     const superRewards = [
       { result: GachaReward.ItemBuffScrollRandom,     chance: GachaChance.Uncommon },
       { result: GachaReward.ILPMD,                    chance: GachaChance.Uncommon },
       { result: GachaReward.ItemGoatly,               chance: GachaChance.XRare },
+      { result: GachaReward.AstraliumMD,              chance: GachaChance.Uncommon },
+      { result: GachaReward.WoodLG,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.ClayLG,                   chance: GachaChance.Uncommon },
+      { result: GachaReward.StoneLG,                  chance: GachaChance.Uncommon },
     ];
 
     const omegaRewards = [
       { result: GachaReward.ILPLG,                    chance: GachaChance.Uncommon },
       { result: GachaReward.ItemOmega,                chance: GachaChance.XXRare },
+      { result: GachaReward.AstraliumLG,              chance: GachaChance.Uncommon },
+      { result: GachaReward.WoodLG,                   chance: GachaChance.Common },
+      { result: GachaReward.ClayLG,                   chance: GachaChance.Common },
+      { result: GachaReward.StoneLG,                  chance: GachaChance.Common },
     ];
 
     const twoGoalAwards = [

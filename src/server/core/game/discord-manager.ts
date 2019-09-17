@@ -2,7 +2,9 @@ import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import * as Discord from 'discord.js';
 
 import { Logger } from '../logger';
-import { IMessage } from '../../../shared/interfaces';
+import { IMessage, GuildMemberTier } from '../../../shared/interfaces';
+import { Guild, Player } from '../../../shared/models';
+import { c } from 'tar';
 
 @Singleton
 @AutoWired
@@ -72,9 +74,9 @@ export class DiscordManager {
     this.discordChannel.send(message);
   }
 
-  public discordUserWithTag(tag: string) {
+  public discordUserWithTag(tag: string): Discord.GuildMember {
     if(!this.discordChannel) return null;
-    return this.discord.users.find(u => `${u.username}#${u.discriminator}` === tag);
+    return this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
   }
 
   public isTagInDiscord(tag: string): boolean {
@@ -86,6 +88,63 @@ export class DiscordManager {
     const roles = this.getUserRoles(tag);
     if(!roles) return false;
     return !!roles.find(r => r.name === role);
+  }
+
+  public async removeGuildRole(player: Player) {
+    if(!this.discordGuild || !player.discordTag || !player.guildName) return;
+
+    const user = this.discordUserWithTag(player.discordTag);
+    this.discordGuild.roles.forEach(x => {
+      if(!x.name.includes('Guild:')) return;
+      user.removeRole(x);
+    });
+
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    if(guildModRole) {
+      user.removeRole(guildModRole);
+    }
+  }
+
+  public async addGuildRole(player: Player) {
+    if(!this.discordGuild || !player.discordTag || !player.guildName) return;
+
+    const user = this.discordUserWithTag(player.discordTag);
+
+    const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
+    if(guildRole && !user.roles.has(guildRole.id)) {
+      await user.addRole(guildRole);
+    }
+
+    const guild = player.$$game.guildManager.getGuildForPlayer(player);
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    if(guildModRole && guild && guild.members[player.name] >= GuildMemberTier.Moderator) {
+      user.addRole(guildModRole);
+    }
+  }
+
+  public async removeAllRoles(player: Player) {
+    if(!this.discordGuild || !player.discordTag) return;
+
+    const user = this.discordUserWithTag(player.discordTag);
+    const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
+    if(verified) {
+      user.removeRole(verified);
+    }
+
+    this.removeGuildRole(player);
+  }
+
+  public async checkUserRoles(player: Player) {
+    if(!this.discordGuild || !player.discordTag) return;
+
+    const user = this.discordUserWithTag(player.discordTag);
+
+    const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
+    if(verified && !user.roles.has(verified.id)) {
+      await user.addRole(verified);
+    }
+
+    this.addGuildRole(player);
   }
 
   public getUserRoles(tag: string) {
@@ -105,6 +164,53 @@ export class DiscordManager {
     if(!channelRef) return null;
 
     channelRef.send(`Via ${fromPlayer}: ${itemText}`);
+  }
+
+  public async createDiscordChannelForGuild(guild: Guild) {
+    if(!this.discordGuild) return null;
+
+    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+
+    let role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
+    if(!role) {
+      role = await this.discordGuild.createRole({ name: `Guild: ${guild.name}`});
+    }
+
+    let channel = this.discordGuild.channels.find(x => x.name === guild.name.split(' ').join('-').toLowerCase());
+    if(!channel) {
+      channel = await this.discordGuild.createChannel(guild.name, 'text');
+    }
+
+    const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
+    await channel.setParent(categoryId);
+
+    await channel.overwritePermissions(this.discord.user.id, {
+      VIEW_CHANNEL: true
+    });
+
+    await channel.overwritePermissions(guildModRole, {
+      MANAGE_MESSAGES: true
+    });
+
+    await channel.overwritePermissions(role, {
+      VIEW_CHANNEL: true
+    });
+
+    await channel;
+
+    await channel.overwritePermissions(this.discordGuild.id, {
+      VIEW_CHANNEL: false
+    });
+  }
+
+  public removeDiscordChannelForGuild(guild: Guild) {
+    if(!this.discordGuild) return;
+
+    const role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
+    const channel = this.discordGuild.channels.find(x => x.name === guild.name.split(' ').join('-').toLowerCase());
+
+    if(role) role.delete();
+    if(channel) channel.delete();
   }
 
 }

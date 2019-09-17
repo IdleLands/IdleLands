@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone, includes, without, uniqBy } from 'lodash';
+import { sample, pickBy, clone, includes, without, uniqBy, capitalize } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -96,6 +96,8 @@ export class Player implements IPlayer {
   @Column() public buffWatches: { [key in Stat]?: IBuff[] };
   @Column() public cooldowns: { [key: string]: number };
   @Column() public lastLoc: { map: string, x: number, y: number };
+
+  @Column() public guildName?: string;
 
   // non-saved player vars
   // still serialized to the client
@@ -210,6 +212,8 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Game/Logins', 1);
 
+    this.validateGuild();
+
     this.recalculateStats();
 
     this.calculateStamina();
@@ -220,6 +224,15 @@ export class Player implements IPlayer {
 
     if(this.title && !this.availableTitles.includes(this.title)) {
       this.changeTitle('');
+    }
+  }
+
+  private validateGuild() {
+    if(!this.guildName) return;
+
+    const guild = this.$$game.guildManager.getGuild(this.guildName);
+    if(!guild || !guild.members[this.name]) {
+      this.guildName = '';
     }
   }
 
@@ -360,7 +373,28 @@ export class Player implements IPlayer {
     }
 
     this.increaseStatistic('Character/Gold/Gain', remainingGold);
-    this.gold += remainingGold;
+
+    if(this.guildName) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        const taxRate = guild.taxes.gold || 0;
+        if(taxRate > 0) {
+          const donatedGold = Math.floor(remainingGold * (taxRate / 100));
+
+          const existing = guild.resources.gold || 0;
+          this.increaseStatistic(`Guild/Donate/Resource/Gold`, donatedGold);
+          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.gold`, existing + donatedGold);
+
+          this.gold += remainingGold - donatedGold;
+
+        } else {
+          this.gold += remainingGold;
+        }
+      }
+    } else {
+      this.gold += remainingGold;
+    }
+
 
     return remainingGold;
   }
@@ -503,6 +537,17 @@ export class Player implements IPlayer {
 
     this.stats.specialName = this.$profession.specialStatName || '';
 
+    // start salvage at 100 for calculation purposes
+    this.stats[Stat.SALVAGE] = 100;
+
+    let guildStats = { };
+    if(this.guildName) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        guildStats = guild.calculateStats();
+      }
+    }
+
     // dynamically-calculated
     // first, we do the addition-based adds
     const allStats = Object.keys(Stat).map(key => Stat[key]);
@@ -539,6 +584,9 @@ export class Player implements IPlayer {
         });
       });
 
+      if(guildStats[stat]) {
+        this.addStatTrail(stat, guildStats[stat], `Guild Garden`);
+      }
 
       // make sure it is 0. no super negatives.
       this.stats[stat] = Math.max(0, this.stats[stat]);
@@ -596,10 +644,15 @@ export class Player implements IPlayer {
       });
     });
 
+    this.addStatTrail(Stat.SALVAGE, this.$statistics.get('Game/Premium/Upgrade/SalvageBoost'), 'Salvage Boost');
+
+    // lower salvage by 100 to compensate for the calculations
+    this.stats[Stat.SALVAGE] = Math.max(0, this.stats[Stat.SALVAGE] - 100);
+
     // base values
-    this.stats.hp = Math.max(1, this.stats.hp);
-    this.stats.xp = Math.max(1, this.stats.xp);
-    this.stats.gold = Math.max(0, this.stats.gold);
+    this.stats[Stat.HP] = Math.max(1, this.stats[Stat.HP]);
+    this.stats[Stat.XP] = Math.max(1, this.stats[Stat.XP]);
+    this.stats[Stat.GOLD] = Math.max(0, this.stats[Stat.GOLD]);
   }
 
   private initLinks() {
@@ -686,6 +739,11 @@ export class Player implements IPlayer {
   }
 
   public sellItem(item: Item): number {
+    if(this.$personalities.isActive('Salvager')) {
+      this.salvageItem(item);
+      return 0;
+    }
+
     let value = item.score > 10 ? item.score : 10;
 
     if(this.$personalities.isActive('Forager')) {
@@ -697,6 +755,39 @@ export class Player implements IPlayer {
     this.increaseStatistic('Item/Sell/GoldGain', modValue);
 
     return modValue;
+  }
+
+  public salvageItem(item: Item): { wood: number, clay: number, stone: number, astralium: number } {
+
+    const wood = item.woodValue(this);
+    const clay = item.clayValue(this);
+    const stone = item.stoneValue(this);
+    const astralium = item.astraliumValue(this);
+
+    const resources = { wood, clay, stone, astralium };
+
+    this.increaseStatistic('Item/Salvage/Times', 1);
+    this.increaseStatistic('Item/Salvage/WoodGain', wood);
+    this.increaseStatistic('Item/Salvage/ClayGain', clay);
+    this.increaseStatistic('Item/Salvage/StoneGain', stone);
+    this.increaseStatistic('Item/Salvage/AstraliumGain', astralium);
+
+    if(this.guildName && this.$personalities.isActive('SupporterOfTheCause')) {
+      const guild = this.$$game.guildManager.getGuild(this.guildName);
+      if(guild) {
+        Object.keys(resources).forEach(resource => {
+          if(!resources[resource]) return;
+
+          const existing = guild.resources[resource] || 0;
+          this.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, resources[resource]);
+          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.${resource}`, existing + resources[resource]);
+        });
+      }
+    } else {
+      this.$inventory.addResources({ clay, wood, stone, astralium });
+    }
+
+    return { clay, wood, stone, astralium };
   }
 
   public doChoice(choice: Choice, decisionIndex: number) {
@@ -938,6 +1029,13 @@ export class Player implements IPlayer {
       + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.MaxQuestsCapBoost)
     );
 
+    this.$statistics.set('Game/Premium/Upgrade/SalvageBoost',
+      0
+      + (allBuffBoosts[PermanentUpgrade.SalvageBoost] || 0)
+      + (allAchievementBoosts[PermanentUpgrade.SalvageBoost] || 0)
+      + this.$pets.getTotalPermanentUpgradeValue(PermanentUpgrade.SalvageBoost)
+    );
+
     this.$pets.validatePetMissionsAndQuantity(this);
     this.$choices.updateSize(this);
     this.$inventory.updateSize(this);
@@ -1148,6 +1246,7 @@ export class Player implements IPlayer {
 
   public setDiscordTag(discordTag: string) {
     if(!discordTag) {
+      this.$$game.discordManager.removeAllRoles(this);
       this.discordTag = '';
       this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
       this.$premium.setTier(PremiumTier.None);
@@ -1163,6 +1262,8 @@ export class Player implements IPlayer {
     if(this.$$game.discordManager.hasRole(discordTag, 'Collaborator')) {
       this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.Contributor);
     }
+
+    this.$$game.discordManager.checkUserRoles(this);
 
     this.$premium.setTier(newPremium);
   }

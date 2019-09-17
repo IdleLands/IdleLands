@@ -170,9 +170,10 @@ export class MovementHelper {
 
     if(weight.length === 0 || useWeights.length === 0) {
       this.logger.error('PlayerMovement',
-        new Error(`${player.name} in ${player.map} @ ${player.x},${player.y} is unable to move due to no weights.`)
+        new Error(`${player.name} in ${player.map} @ ${player.x},${player.y} is unable to move due to no weights.
+        Initial weights: ${weight}`)
       );
-      return;
+      return { index: -1, dir: -1 };
     }
 
     const dirIndex = this.rng.weighted(useIndexes, useWeights);
@@ -361,6 +362,8 @@ export class MovementHelper {
 
     let attempts = 1;
     let { index, dir } = this.pickRandomDirection(player, weight);
+
+    if(index === -1 || dir === -1) return;
 
     // follow the leader if we're a telesheep
     if(player.$party && player.$personalities.isActive('Telesheep')) {
