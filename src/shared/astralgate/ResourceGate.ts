@@ -10,13 +10,8 @@ export class ResourceGate extends BaseGachaRoller {
   rewards = [
     { result: GachaReward.XPPlayerSM,     chance: GachaChance.Common },
     { result: GachaReward.XPPlayerMD,     chance: GachaChance.Uncommon },
-    { result: GachaReward.XPPlayerLG,     chance: GachaChance.Rare },
-    { result: GachaReward.XPPlayerMax,    chance: GachaChance.XXXRare },
 
     { result: GachaReward.XPPetSM,        chance: GachaChance.Common },
-    { result: GachaReward.XPPetMD,        chance: GachaChance.Uncommon },
-    { result: GachaReward.XPPetLG,        chance: GachaChance.Rare },
-    { result: GachaReward.XPPetMax,       chance: GachaChance.XRare },
 
     { result: GachaReward.ClaySM,         chance: GachaChance.Uncommon },
     { result: GachaReward.WoodSM,         chance: GachaChance.Uncommon },
