@@ -170,7 +170,7 @@ export class GuildDonateCrystalEvent extends ServerSocketEvent implements Server
     if(!player.$pets.hasAscensionMaterial(resource, amount)) return this.gameError('Not enough.');
     player.$pets.subAscensionMaterial(resource, amount);
 
-    const existing = guild.resources[resource] || 0;
+    const existing = guild.crystals[resource] || 0;
 
     player.increaseStatistic(`Guild/Donate/Crystal/${capitalize(crystal)}`, amount);
 
