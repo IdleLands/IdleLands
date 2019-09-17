@@ -24,6 +24,7 @@ export class BlessItem extends Event {
 
     item.stats[stat] += boost;
     item.recalculateScore();
+    player.recalculateStats();
 
     this.emitMessage([player], allText, AdventureLogEventType.Item);
   }

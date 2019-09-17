@@ -58,7 +58,7 @@ export class Fighter extends BaseProfession implements IProfession {
       booster: true,
       duration: 720,
       stats: {
-        [Stat.XP]: Math.log(luk) * Math.log(player.level.total * scaler)
+        [Stat.XP]: Math.max(1, Math.log(luk)) * Math.log(player.level.total * scaler)
       }
     }, true);
 

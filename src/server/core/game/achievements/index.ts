@@ -28,6 +28,7 @@ export * from './Denier';
 export * from './Divine';
 export * from './Drunk';
 export * from './DungeonMaster';
+export * from './Engendered';
 export * from './Entitled';
 export * from './Explorer';
 export * from './Fallen';

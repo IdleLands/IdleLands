@@ -170,7 +170,7 @@ export class Premium extends PlayerOwned {
 
         if(sub === 'guardian') {
           if(!boss || !boss.collectibles || !boss.collectibles.length) return `xp:player:sm`;
-          return `collectible:guardian:${randomBoss}`;
+          return `collectible:guardian:${boss.collectibles[0].name}`;
         }
 
         if(sub === 'historical') {
@@ -208,7 +208,7 @@ export class Premium extends PlayerOwned {
   }
 
   private earnGachaRewards(player: Player, rewards: string[]): void {
-    const { creatures, items } = player.$$game.assetManager.allBossAssets;
+    const { creatures, items, collectibles } = player.$$game.assetManager.allBossAssets;
 
     rewards.forEach(reward => {
       const [main, sub, choice, quantity] = reward.split(':');
@@ -262,9 +262,10 @@ export class Premium extends PlayerOwned {
           }
 
           if(sub === 'guardian') {
-            const collectible = creatures[choice].collectibles[0];
+            const collectible = collectibles[choice];
+
             player.tryFindCollectible({
-              name: collectible.name,
+              name: choice,
               rarity: ItemClass.Guardian,
               description: collectible.flavorText,
               storyline: collectible.storyline

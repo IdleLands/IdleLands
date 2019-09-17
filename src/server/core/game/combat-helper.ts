@@ -352,6 +352,8 @@ export class CombatHelper {
 
   private getPlayerAntes(players: Player[]): { [name: string]: { gold: number, xp: number } } {
     return players.reduce((prev, cur) => {
+      if(!cur || !cur.name) return prev;
+
       prev[cur.name] = {
         gold: Math.floor(cur.gold * 0.01),
         xp: Math.floor(cur.xp.total * 0.05)
@@ -395,11 +397,13 @@ export class CombatHelper {
   }
 
   private getAllPartyCombatMembers(players: Player[]): ICombatCharacter[] {
-    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
+    return players.map(partyPlayer => this.createCombatCharacter(partyPlayer)).filter(Boolean);
   }
 
   public getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
     const basePets = players.map(player => {
+      if(!player) return;
+
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
       const pet = player.$pets.$activePet;
@@ -409,6 +413,8 @@ export class CombatHelper {
     }).filter(Boolean);
 
     const extraPets = players.reduce((prev, player) => {
+      if(!player) return prev;
+
       const extraCount = player.$statistics.get('Game/Premium/Upgrade/MaxPetsInCombat');
       if(extraCount <= 1) return prev;
 
@@ -588,6 +594,7 @@ export class CombatHelper {
   }
 
   public createCombatCharacter(player: Player): ICombatCharacter {
+    if(!player) return;
 
     const stats = clone(player.currentStats);
     const maxStats = clone(player.currentStats);

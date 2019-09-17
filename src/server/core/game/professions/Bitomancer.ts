@@ -51,7 +51,7 @@ export class Bitomancer extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): { success: boolean, message: string } {
 
-    const scaler = player.getStat(Stat.LUK) + player.getStat(Stat.INT);
+    const scaler = Math.max(1, player.getStat(Stat.LUK) + player.getStat(Stat.INT));
 
     const stats = { };
     Object.values([Stat.STR, Stat.INT, Stat.CON]).forEach(stat => {

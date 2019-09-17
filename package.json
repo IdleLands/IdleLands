@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "node dist/out-tsc/server/server/index.js",
+    "start": "node dist/out-tsc/server/server/index.js --inspect-workers",
     "start:client": "ng serve -o --host 0.0.0.0 --port 2468",
     "start:server": "ts-node --project src/server/tsconfig.server.json src/server/index.ts",
     "build:client": "ng build --prod",
@@ -20,7 +20,8 @@
     "seed": "node scripts/seed",
     "dummyplayers": "node scripts/client/client",
     "combattest": "ts-node --project src/server/tsconfig.server.json scripts/combat-test.ts",
-    "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts"
+    "itemtest": "ts-node --project src/server/tsconfig.server.json scripts/item-test.ts",
+    "debug:server": "TS_NODE_PROJECT=src/server/tsconfig.server.json node --inspect=0.0.0.0 -r ts-node/register src/server/index.ts"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",
@@ -39,7 +40,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.7.1",
     "@ionic/storage": "^2.2.0",
-    "censor-sensor": "^1.0.4",
+    "censor-sensor": "^1.0.5",
     "chance": "^1.0.18",
     "compression": "^1.7.4",
     "connect": "3.6.6",
@@ -82,6 +83,7 @@
     "socketcluster": "^14.3.2",
     "socketcluster-client": "^14.2.1",
     "stripe": "^7.8.0",
+    "systeminformation": "^4.14.8",
     "typeorm": "^0.2.14",
     "typescript": "~3.1.6",
     "typescript-ioc": "^1.2.5",

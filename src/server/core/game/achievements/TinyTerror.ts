@@ -16,7 +16,7 @@ export class TinyTerror extends Achievement {
     const coll1 = player.$collectibles.has('Dwarven Coin');
     const coll2 = player.$collectibles.has('Dwarven Protection Rune');
     const coll3 = player.$collectibles.has('Crystal Maul');
-    const kill = player.$statistics.get('BossKill/Boss/Venerable Dwarf Lord');
+    const kill = player.$statistics.get('BossKill/Boss/Venerable Dwarven Lord');
 
     return coll1 && coll2 && coll3 && kill ? 1 : 0;
   }
@@ -24,8 +24,8 @@ export class TinyTerror extends Achievement {
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
       { type: AchievementRewardType.Title, title: 'Dwarven Lord' },
-      { type: AchievementRewardType.Gender, gender: 'dwarven male' },
-      { type: AchievementRewardType.Gender, gender: 'dwarven female' }
+      { type: AchievementRewardType.Gender, gender: 'dwarf male' },
+      { type: AchievementRewardType.Gender, gender: 'dwarf female' }
     ];
 
     return baseRewards;
