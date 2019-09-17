@@ -481,7 +481,7 @@ export class CombatHelper {
     });
 
     stats[Stat.GOLD] = players.length * boss.level * 1000;
-    stats[Stat.XP]   = players.length * boss.level * 10000;
+    stats[Stat.XP]   = players.length * boss.level * 1000;
 
     const maxStats = Object.assign({ }, stats);
 
