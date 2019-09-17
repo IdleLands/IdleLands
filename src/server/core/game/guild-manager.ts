@@ -410,9 +410,9 @@ export class GuildManager {
         const playerRef = this.playerManager.getPlayer(char.realName);
         if(!playerRef) return;
 
-        const raidTier = (boss.level - 100) + 1;
+        const raidTier = ((boss.level - 100) / 50) + 1;
         playerRef.increaseStatistic(`Raid/Total/${didPlayersWin ? 'Win' : 'Lose'}`, 1);
-        playerRef.increaseStatistic(`Raid/Tier${raidTier}/${didPlayersWin ? 'Win' : 'Lose'}`, 1);
+        playerRef.increaseStatistic(`Raid/Tiered/Tier${raidTier}/${didPlayersWin ? 'Win' : 'Lose'}`, 1);
       });
   }
 
