@@ -55,7 +55,8 @@ ion-alert .alert-wrapper {
 
     &:first-child {
       text-align: right;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-all;
     }
 
     .move-right {
