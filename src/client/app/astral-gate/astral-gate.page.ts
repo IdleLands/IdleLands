@@ -71,7 +71,7 @@ export class AstralGatePage implements OnInit, OnDestroy {
     const alert = await this.alertCtrl.create({
       header: `Roll ${gacha.name}`,
       message: `Are you sure you want to roll ${gacha.name} x${numRolls}?
-                ${isFree ? '' : `This will cost ${(gacha.rollCost * numRolls).toLocaleString()} ${gacha.requiredToken}.`}`,
+                ${isFree ? '' : `This will cost ${(gacha.rollCost * numRolls).toLocaleString()} ${gacha.requiredToken || 'ILP'}.`}`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         { text: 'Yes, roll!', handler: () => {

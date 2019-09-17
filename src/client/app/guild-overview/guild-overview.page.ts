@@ -101,7 +101,7 @@ export class GuildOverviewPage implements OnInit {
         {
           text: 'Donate Resource',
           handler: async (values) => {
-            if(!values || !values.value || isNaN(+values.value) || !isFinite(+values.value)) return;
+            if(!values || !values.value || isNaN(+values.value) || !isFinite(+values.value) || +values.value <= 0) return;
 
             if(['astralium', 'wood', 'clay', 'stone', 'gold'].includes(resource)) {
               this.gameService.guild.resources[resource] += +values.value;
