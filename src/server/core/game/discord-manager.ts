@@ -180,9 +180,9 @@ export class DiscordManager {
       role = await this.discordGuild.createRole({ name: `Guild: ${guild.name}`});
     }
 
-    let channel = this.discordGuild.channels.find(x => x.name === guild.name.split(' ').join('-').toLowerCase());
+    let channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
     if(!channel) {
-      channel = await this.discordGuild.createChannel(guild.name, 'text');
+      channel = await this.discordGuild.createChannel(guild.tag, 'text');
     }
 
     const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
@@ -211,7 +211,7 @@ export class DiscordManager {
     if(!this.discordGuild) return;
 
     const role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
-    const channel = this.discordGuild.channels.find(x => x.name === guild.name.split(' ').join('-').toLowerCase());
+    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
 
     if(role) role.delete();
     if(channel) channel.delete();
