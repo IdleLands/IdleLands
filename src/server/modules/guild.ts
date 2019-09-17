@@ -558,13 +558,11 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
 
     this.game.guildManager.initiateEncounterRaidBoss(guild.name, boss);
 
-    /*
     this.game.guildManager.updateGuildKey(
       player.guildName,
       `resources.gold`,
       guild.resources.gold - boss.cost
     );
-    */
 
     this.gameSuccess(`Gathering people for raid! Check back in 5 seconds.`);
   }
