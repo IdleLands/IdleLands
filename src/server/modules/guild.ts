@@ -556,7 +556,7 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
 
     if(bossLevel > guild.buildingBonus(GuildBuilding.RaidPortal)) return this.gameError('Too high level, cheater');
 
-    this.game.guildManager.initiateEncounterRaidBoss(guild.name, boss);
+    this.game.guildManager.initiateEncounterRaidBoss(player.name, guild.name, boss);
 
     this.game.guildManager.updateGuildKey(
       player.guildName,

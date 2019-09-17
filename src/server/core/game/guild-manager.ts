@@ -346,7 +346,7 @@ export class GuildManager {
     this.guildRaidReadyPlayers[guildName].push(...supports);
   }
 
-  public initiateEncounterRaidBoss(guildName: string, boss) {
+  public initiateEncounterRaidBoss(initiator: string, guildName: string, boss) {
     const guild = this.getGuild(guildName);
     if(!guild) return;
 
@@ -388,7 +388,7 @@ export class GuildManager {
       const messageData: any = {
         when: Date.now(),
         type: AdventureLogEventType.Combat,
-        message: `${guildName} engaged in a raid fight against a level ${boss.level} ${boss.profession}!`,
+        message: `${initiator} initiated a guild raid boss fight for ${guildName} against a level ${boss.level} ${boss.profession}!`,
         combatString: emitString
       };
 
