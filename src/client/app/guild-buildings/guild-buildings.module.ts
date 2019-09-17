@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { GuildBuildingsPage } from './guild-buildings.page';
+import { RaidBossModal } from './raidboss.modal';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [GuildBuildingsPage]
+  declarations: [GuildBuildingsPage, RaidBossModal],
+  entryComponents: [RaidBossModal]
 })
 export class GuildBuildingsPageModule { }

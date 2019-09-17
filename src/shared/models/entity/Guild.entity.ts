@@ -75,7 +75,7 @@ export class Guild implements IGuild {
   }
 
   public buildingBonus(building: GuildBuilding): number {
-    return GuildBuildingLevelValues[building](this.buildingLevels[building]);
+    return GuildBuildingLevelValues[building](this.buildingLevels[building]) || 0;
   }
 
   public calculateStats(): { [key in Stat]?: number } {

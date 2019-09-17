@@ -97,7 +97,7 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.GardenConstitution]: (level) => level * 5,
   [GuildBuilding.GardenIntelligence]: (level) => level * 5,
   [GuildBuilding.GardenLuck]: (level) => level * 5,
-  [GuildBuilding.RaidPortal]: (level) => 100 + (level * 50)
+  [GuildBuilding.RaidPortal]: (level) => 100 + ((level - 1) * 50)
 };
 
 export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => string } = {
@@ -122,7 +122,7 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 5} for all online members.`,
   [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 5} for all online members.`,
   [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
-  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + (level * 50)}.`
+  [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + ((level - 1) * 50)}.`
 };
 
 export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
@@ -280,7 +280,16 @@ export enum GuildChannelOperation {
   GiveItem,
 
   // used to give out scrolls to guild members
-  GiveScroll
+  GiveScroll,
+
+  // used to collect all ICombatCharacters for a raid combat
+  RequestRaidAssistance,
+
+  // used when responding to RequestRaidAssistance
+  GiveRaidAssistance,
+
+  // used to share raid results with all involved players
+  RaidResults
 }
 
 export const CalculateGuildLevel = (guild: IGuild) => {

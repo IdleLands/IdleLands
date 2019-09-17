@@ -203,6 +203,61 @@ export class CombatHelper {
     return combat;
   }
 
+  createAndRunRaidCombat(guildName: string, players: ICombatCharacter[], boss) {
+
+    // if no party, just make a random name for this single person
+    const characters = { };
+    const parties = { };
+    const ante: any = { };
+
+    // player party
+    parties[0] = { id: 0, name: `${guildName}` };
+
+    // monster party
+    parties[1] = { id: 1, name: this.assets.party() };
+
+    // give players ids
+    let currentId = 0;
+
+    players.forEach(combatPlayer => {
+      combatPlayer.combatId = currentId;
+      combatPlayer.combatPartyId = 0;
+      characters[currentId] = combatPlayer;
+      ante[currentId] = { xp: 0, gold: 0 };
+      currentId++;
+    });
+
+    const monsters = [];
+
+    // generate monsters to fight against (each player gets one for their level)
+    const monster = this.createRaidBoss(players, boss);
+    monster.combatId = currentId;
+    monster.combatPartyId = 1;
+    monsters.push(monster);
+
+    characters[currentId] = monster;
+    currentId++;
+
+    const monsterAntes = this.getGenericAntes(monsters);
+    Object.assign(ante, monsterAntes);
+
+    ante[currentId - 1].gachas = boss.rewards;
+
+    const doCombat: ICombat = {
+      timestamp: Date.now(),
+      seed: Date.now(),
+      name: this.assets.battle(),
+      characters,
+      parties,
+      ante,
+      isRaid: true
+    };
+
+    const { combat, simulator } = this.startCombat(doCombat);
+
+    return { simulator, combat };
+  }
+
   createAndRunPvPCombat(player: Player, targeted: Player): ICombat {
 
     // if no party, just make a random name for this single person
@@ -272,7 +327,7 @@ export class CombatHelper {
     const simulator = new CombatSimulator(combat);
     simulator.events$.subscribe(({ action, data }) => {
       if(action === CombatAction.Victory) {
-        if(data.wasTie) return;
+        if(data.wasTie || combat.isRaid) return;
         this.handleRewards(data.combat, data.winningParty);
       }
 
@@ -310,7 +365,7 @@ export class CombatHelper {
     return combatChars.reduce((prev, cur) => {
       prev[cur.combatId] = {
         gold: Math.max(cur.level * 1000, Math.floor(cur.stats[Stat.GOLD])),
-        xp: Math.floor(this.calculatorHelper.calcLevelMaxXP(cur.level) * 0.05)
+        xp: cur.stats[Stat.XP] + Math.floor(this.calculatorHelper.calcLevelMaxXP(cur.level) * 0.05)
       };
       return prev;
     }, { });
@@ -343,7 +398,7 @@ export class CombatHelper {
     return players.map(partyPlayer => this.createCombatCharacter(partyPlayer));
   }
 
-  private getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
+  public getAllPartyCombatPets(players: Player[]): ICombatCharacter[] {
     const basePets = players.map(player => {
       if(!this.rng.likelihood(player.$pets.getCurrentValueForUpgrade(PetUpgrade.BattleJoinPercent))) return;
 
@@ -406,6 +461,33 @@ export class CombatHelper {
     }
 
     return monsterBase;
+  }
+
+  private createRaidBoss(players: ICombatCharacter[], boss: any): ICombatCharacter {
+    const base = cloneDeep(boss);
+
+    const stats = base.stats;
+
+    Object.keys(stats).forEach(stat => {
+      const mult = stat === Stat.HP ? 1000 : 100;
+
+      stats[stat] += players.length * mult;
+    });
+
+    stats[Stat.GOLD] = players.length * boss.level * 1000;
+    stats[Stat.XP]   = players.length * boss.level * 10000;
+
+    const maxStats = Object.assign({ }, stats);
+
+    const char: ICombatCharacter = {
+      name: `Level ${boss.level} ${boss.profession}`,
+      level: boss.level,
+      profession: boss.profession,
+      stats,
+      maxStats
+    };
+
+    return char;
   }
 
   private createBossMonster(proto: any): ICombatCharacter {
@@ -505,7 +587,7 @@ export class CombatHelper {
     return monsterBase;
   }
 
-  private createCombatCharacter(player: Player): ICombatCharacter {
+  public createCombatCharacter(player: Player): ICombatCharacter {
 
     const stats = clone(player.currentStats);
     const maxStats = clone(player.currentStats);
@@ -558,7 +640,7 @@ export class CombatHelper {
     };
   }
 
-  private handleRewards(combat: ICombat, winningParty: number) {
+  public handleRewards(combat: ICombat, winningParty: number) {
     const winningPlayers = Object.values(combat.characters)
       .filter(x => x.combatPartyId === winningParty)
       .map(x => this.playerManager.getPlayer(x.realName))
@@ -581,6 +663,7 @@ export class CombatHelper {
 
     const anteItems = Object.values(combat.ante).reduce((prev, cur) => prev.concat(cur.items || []), []);
     const anteCollectibles = Object.values(combat.ante).reduce((prev, cur) => prev.concat(cur.collectibles || []), []);
+    const anteGachas = Object.values(combat.ante).reduce((prev, cur) => prev.concat(cur.gachas || []), []);
 
     const { items, collectibles } = this.assets.allBossAssets;
 
@@ -597,6 +680,10 @@ export class CombatHelper {
 
       char.gainGold(earnedGold);
       char.gainXP(earnedXP);
+
+      if(anteGachas.length > 0) {
+        char.$premium.validateAndEarnGachaRewards(char, anteGachas);
+      }
 
       if(anteItems.length > 0) {
         anteItems.forEach(itemName => {

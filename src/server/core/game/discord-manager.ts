@@ -93,7 +93,7 @@ export class DiscordManager {
   }
 
   public async removeGuildRole(player: Player) {
-    if(!player.discordTag || !player.guildName) return;
+    if(!this.discordGuild || !player.discordTag || !player.guildName) return;
 
     const user = this.discordUserWithTag(player.discordTag);
     this.discordGuild.roles.forEach(x => {
@@ -108,7 +108,7 @@ export class DiscordManager {
   }
 
   public async addGuildRole(player: Player) {
-    if(!player.discordTag || !player.guildName) return;
+    if(!this.discordGuild || !player.discordTag || !player.guildName) return;
 
     const user = this.discordUserWithTag(player.discordTag);
 
@@ -125,7 +125,7 @@ export class DiscordManager {
   }
 
   public async removeAllRoles(player: Player) {
-    if(!player.discordTag) return;
+    if(!this.discordGuild || !player.discordTag) return;
 
     const user = this.discordUserWithTag(player.discordTag);
     const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
@@ -137,7 +137,7 @@ export class DiscordManager {
   }
 
   public async checkUserRoles(player: Player) {
-    if(!player.discordTag) return;
+    if(!this.discordGuild || !player.discordTag) return;
 
     const user = this.discordUserWithTag(player.discordTag);
 
@@ -206,6 +206,8 @@ export class DiscordManager {
   }
 
   public removeDiscordChannelForGuild(guild: Guild) {
+    if(!this.discordGuild) return;
+
     const role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
     const channel = this.discordGuild.channels.find(x => x.name === guild.name.split(' ').join('-').toLowerCase());
 

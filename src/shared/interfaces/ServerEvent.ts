@@ -111,6 +111,7 @@ export enum ServerEventName {
   GuildRejectApply = 'guild:rejectapply',
   GuildPromoteMember = 'guild:promote',
   GuildDemoteMember = 'guild:demote',
+  GuildRaidBoss = 'guild:raidboss',
 
   ExtraSubmitItem = 'extra:submititem'
 }

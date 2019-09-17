@@ -3,6 +3,8 @@ import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GuildBuilding, GuildBuildingNames, GuildBuildingDescs,
    GuildBuildingUpgradeCosts, ServerEventName, GuildBuildingLevelValues } from '../../../shared/interfaces';
+import { ModalController } from '@ionic/angular';
+import { RaidBossModal } from './raidboss.modal';
 
 @Component({
   selector: 'app-guild-buildings',
@@ -43,6 +45,7 @@ export class GuildBuildingsPage implements OnInit {
   public buildingUpgradeCosts = GuildBuildingUpgradeCosts;
 
   constructor(
+    private modalCtrl: ModalController,
     private socketService: SocketClusterService,
     public gameService: GameService
   ) { }
@@ -105,6 +108,14 @@ export class GuildBuildingsPage implements OnInit {
     });
 
     this.socketService.emit(ServerEventName.GuildUpgradeBuilding, { building });
+  }
+
+  async showRaidPortal() {
+    const modal = await this.modalCtrl.create({
+      component: RaidBossModal
+    });
+
+    return await modal.present();
   }
 
 }

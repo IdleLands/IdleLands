@@ -4,7 +4,7 @@ import { capitalize } from 'lodash';
 import { censorSensor } from '../core/static/profanity-filter';
 
 import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames,
-  GuildMemberTier, GuildBuildingUpgradeCosts } from '../../shared/interfaces';
+  GuildMemberTier, GuildBuildingUpgradeCosts, GuildBuildingLevelValues } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
@@ -532,5 +532,40 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
     );
 
     this.gameSuccess(`Demoted ${demotePlayer}.`);
+  }
+}
+
+export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildRaidBoss;
+  description = 'Attempt to fight a raid boss.';
+  args = 'bossLevel';
+
+  async callback({ bossLevel } = { bossLevel: 0 }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    const boss = this.game.guildManager.raidBoss(bossLevel);
+    if(!boss) return this.gameError('Invalid raid boss.');
+
+    if(guild.resources.gold < boss.cost) return this.gameError('Not enough gold to encounter raid boss.');
+
+    if(this.game.guildManager.isGuildRaiding(guild.name)) return this.gameError('Already raiding!');
+
+    if(bossLevel > guild.buildingBonus(GuildBuilding.RaidPortal)) return this.gameError('Too high level, cheater');
+
+    this.game.guildManager.initiateEncounterRaidBoss(guild.name, boss);
+
+    /*
+    this.game.guildManager.updateGuildKey(
+      player.guildName,
+      `resources.gold`,
+      guild.resources.gold - boss.cost
+    );
+    */
+
+    this.gameSuccess(`Gathering people for raid! Check back in 5 seconds.`);
   }
 }

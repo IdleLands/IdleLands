@@ -39,6 +39,9 @@
               </p>
             </ion-label>
   
+            <ion-button slot="end" 
+                        (click)="showRaidPortal()"
+                        *ngIf="guild.buildingLevels[building] > 0 && building === 'active:raidportal'">Raids</ion-button>
             <ion-button slot="end" [disabled]="!canUpgrade(building)" (click)="upgrade(building)">Upgrade</ion-button>
           </ion-item>
         </ng-container>

@@ -36,7 +36,9 @@ export interface ICombat {
   seed?: number;
   chance?: any;
   currentRound?: number;
-  ante?: { [id: string]: { gold: number, xp: number, items?: string[], collectibles?: string[] } };
+  ante?: { [id: string]: { gold: number, xp: number, items?: string[], collectibles?: string[], gachas?: string[] } };
   characters: { [id: string]: ICombatCharacter };
   parties: { [id: string]: ICombatParty };
+
+  isRaid?: boolean;
 }

@@ -17,7 +17,7 @@ import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { map, take, takeUntil, filter, first } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

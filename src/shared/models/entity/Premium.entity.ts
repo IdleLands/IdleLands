@@ -234,7 +234,7 @@ export class Premium extends PlayerOwned {
         }
 
         case 'gold': {
-          const goldEarned = { sm: 1000, md: 10000, lg: 100000 };
+          const goldEarned = { sm: 1000, md: 10000, lg: 100000, xl: 1000000 };
           player.gainGold(goldEarned[choice]);
           break;
         }

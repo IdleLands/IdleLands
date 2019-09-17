@@ -31,6 +31,7 @@ export enum GachaReward {
   GoldSM = 'gold:player:sm',
   GoldMD = 'gold:player:md',
   GoldLG = 'gold:player:lg',
+  GoldXL = 'gold:player:xl',
 
   ILPSM = 'ilp:player:sm',
   ILPMD = 'ilp:player:md',
@@ -107,6 +108,7 @@ export const GachaNameReward: { [key in GachaReward]: string } = {
   [GachaReward.GoldSM]: 'Gold (Small)',
   [GachaReward.GoldMD]: 'Gold (Medium)',
   [GachaReward.GoldLG]: 'Gold (Large)',
+  [GachaReward.GoldXL]: 'Gold (XL)',
 
   [GachaReward.ILPSM]: 'ILP (Small)',
   [GachaReward.ILPMD]: 'ILP (Medium)',
