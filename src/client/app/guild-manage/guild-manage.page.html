@@ -23,8 +23,8 @@
   <ion-row *ngIf="gameService.guild as guild">
     <ion-col>
       <ion-list>
-        <ion-list-header *ngIf="appinvs.length > 0">Applications / Invites</ion-list-header>
-        <ion-item *ngFor="let appinv of appinvs">
+        <ion-list-header *ngIf="appinvs.length > 0 && gameService.isGuildMod">Applications / Invites</ion-list-header>
+        <ion-item *ngFor="let appinv of appinvs" [class.ion-hide]="!gameService.isGuildMod">
           <ion-label>
             {{ appinv.playerName }}
           </ion-label>
