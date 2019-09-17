@@ -105,6 +105,7 @@ export class GuildNonePage implements OnInit {
 
   async apply(guild: IGuild) {
     this.socketService.emit(ServerEventName.GuildApplyJoin, { guildName: guild.name });
+    this.appinvs.push({ guildName: guild.name, playerName: this.gameService.playerRef.name, type: 'application' });
 
     if(guild.recruitment === 'Open') {
       setTimeout(() => {
