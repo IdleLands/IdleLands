@@ -94,6 +94,8 @@ export class DiscordManager {
     if(!this.discordGuild || !player.discordTag || !player.guildName) return;
 
     const user = this.discordUserWithTag(player.discordTag);
+    if(!user) return;
+
     this.discordGuild.roles.forEach(x => {
       if(!x.name.includes('Guild:')) return;
       user.removeRole(x);
@@ -199,8 +201,6 @@ export class DiscordManager {
     await channel.overwritePermissions(role, {
       VIEW_CHANNEL: true
     });
-
-    await channel;
 
     await channel.overwritePermissions(this.discordGuild.id, {
       VIEW_CHANNEL: false
