@@ -4,7 +4,8 @@ import { AutoWired, Singleton, Inject } from 'typescript-ioc';
 import { set, flatten } from 'lodash';
 import { DatabaseManager } from './database-manager';
 import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName,
-  IBuffScrollItem, GuildBuilding, AllBaseStats, Stat, Profession, GachaReward, ICombatCharacter, AdventureLogEventType, IAdventureLog, ICombat } from '../../../shared/interfaces';
+  IBuffScrollItem, GuildBuilding, AllBaseStats, Stat,
+  Profession, GachaReward, ICombatCharacter, AdventureLogEventType, ICombat } from '../../../shared/interfaces';
 import { Guild, Player, Item } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
