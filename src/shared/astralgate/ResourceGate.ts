@@ -4,7 +4,7 @@ import { GachaReward, GachaChance } from '../interfaces';
 export class ResourceGate extends BaseGachaRoller {
   name = 'Resource Gate';
   desc = 'A trip to the Resource Gate can bring you back salvage items and experience.';
-  rollCost = 100000;
+  rollCost = 1000000;
   requiredToken = 'Gold';
 
   rewards = [
