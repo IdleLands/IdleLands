@@ -27,6 +27,7 @@ export class FestivalManager {
       this.save();
     }
 
+    this.tick();
     this.festivals.init();
     this.subscribeToFestivalChanges();
   }
