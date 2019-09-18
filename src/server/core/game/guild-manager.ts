@@ -73,7 +73,7 @@ export class GuildManager {
         }
 
         case GuildChannelOperation.GiveScroll: {
-          this.shareItem(args.guildName, args.scroll);
+          this.shareScroll(args.guildName, args.scroll);
           break;
         }
 
