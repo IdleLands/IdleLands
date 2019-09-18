@@ -100,29 +100,29 @@ const validStats = [
     baseDesc: 'Salvage %value clay',
     stat: 'Item/Salvage/ClayGain',
     baseValue: 100,
-    minScalar: 3,
-    maxScalar: 4
+    minScalar: 2,
+    maxScalar: 3
   },
   {
     baseDesc: 'Salvage %value wood',
     stat: 'Item/Salvage/WoodGain',
     baseValue: 100,
-    minScalar: 3,
-    maxScalar: 4
+    minScalar: 2,
+    maxScalar: 3
   },
   {
     baseDesc: 'Salvage %value stone',
     stat: 'Item/Salvage/StoneGain',
     baseValue: 100,
-    minScalar: 3,
-    maxScalar: 4
+    minScalar: 2,
+    maxScalar: 3
   },
   {
     baseDesc: 'Salvage %value astralium',
     stat: 'Item/Salvage/AstraliumGain',
     baseValue: 100,
-    minScalar: 3,
-    maxScalar: 4
+    minScalar: 2,
+    maxScalar: 3
   },
 ];
 
