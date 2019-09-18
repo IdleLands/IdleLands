@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Guild Members
+      Guild Members <span *ngIf="gameService.guild">({{ (gameService.guild.members | keyvalue).length }}/{{ maxMembers }})</span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="invite()">
@@ -25,8 +25,15 @@
       <ion-list>
         <ion-list-header *ngIf="appinvs.length > 0 && gameService.isGuildMod">Applications / Invites</ion-list-header>
         <ion-item *ngFor="let appinv of appinvs" [class.ion-hide]="!gameService.isGuildMod">
-          <ion-label>
-            {{ appinv.playerName }}
+          
+          <ion-label *ngIf="gameService.playerInfoHash[appinv.playerName] as player">
+            <h3 class="vertical-center">
+                {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+            </h3>
+            <p class="vertical-center ion-margin-start">
+              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
+              &nbsp; {{ player.profession }}
+            </p>
           </ion-label>
 
           <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Deny</ion-button>

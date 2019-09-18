@@ -84,7 +84,8 @@ export class GuildBuildingsPage implements OnInit {
 
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
-    if(GuildBuildingLevelValues[GuildBuilding.GuildHall](level) < level) return false;
+    if(building !== GuildBuilding.GuildHall
+    && GuildBuildingLevelValues[GuildBuilding.GuildHall](guild.buildingLevels[GuildBuilding.GuildHall]) < level) return false;
 
     const costs = GuildBuildingUpgradeCosts[building](level);
 
@@ -96,6 +97,9 @@ export class GuildBuildingsPage implements OnInit {
 
     const guild = this.gameService.guild;
     const level = (guild.buildingLevels[building] || 0) + 1;
+    if(building !== GuildBuilding.GuildHall
+    && GuildBuildingLevelValues[GuildBuilding.GuildHall](guild.buildingLevels[GuildBuilding.GuildHall]) < level) return;
+
     guild.buildingLevels[building] = level;
 
     const costs = GuildBuildingUpgradeCosts[building](level);

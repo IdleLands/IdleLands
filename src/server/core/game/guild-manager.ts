@@ -418,6 +418,7 @@ export class GuildManager {
   public handleCombatRewards(guildName: string, boss, combat: ICombat, winningParty: number) {
 
     const didPlayersWin = winningParty === 0;
+    const catString =
 
     this.combatHelper.handleRewards(combat, winningParty);
 

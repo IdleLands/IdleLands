@@ -550,6 +550,8 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
     const boss = this.game.guildManager.raidBoss(bossLevel);
     if(!boss) return this.gameError('Invalid raid boss.');
 
+    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+
     if(guild.resources.gold < boss.cost) return this.gameError('Not enough gold to encounter raid boss.');
 
     if(this.game.guildManager.isGuildRaiding(guild.name)) return this.gameError('Already raiding!');
