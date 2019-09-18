@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SocketClusterService } from '../socket-cluster.service';
 import { GameService } from '../game.service';
 import { AlertController } from '@ionic/angular';
-import { ServerEventName, GuildMemberTier, IGuildApplication } from '../../../shared/interfaces';
+import { ServerEventName, GuildMemberTier, IGuildApplication,
+  GuildBuilding, GuildBuildingLevelValues } from '../../../shared/interfaces';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -15,6 +16,10 @@ import { map } from 'rxjs/operators';
 export class GuildManagePage implements OnInit {
 
   public appinvs: IGuildApplication[] = [];
+
+  public get maxMembers(): number {
+    return GuildBuildingLevelValues[GuildBuilding.Academy](this.gameService.guild.buildingLevels[GuildBuilding.Academy]);
+  }
 
   constructor(
     private http: HttpClient,

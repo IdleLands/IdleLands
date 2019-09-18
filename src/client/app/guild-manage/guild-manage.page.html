@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Guild Members
+      Guild Members <span *ngIf="gameService.guild">({{ (gameService.guild.members | keyvalue).length }}/{{ maxMembers }})</span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="invite()">
