@@ -27,7 +27,9 @@ import { map } from 'rxjs/operators';
             <p>Rewards: <span *ngFor="let reward of boss.rewards">{{ rewardName(reward) }}</span>
           </ion-label>
 
-          <ion-button slot="end" [disabled]="gameService.guild.resources.gold < boss.cost" (click)="runRaid(boss.level)">Fight</ion-button>
+          <ion-button slot="end"
+                      *ngIf="gameService.isGuildMod"
+                      [disabled]="gameService.guild.resources.gold < boss.cost" (click)="runRaid(boss.level)">Fight</ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
