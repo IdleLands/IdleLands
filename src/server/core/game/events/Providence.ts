@@ -157,7 +157,7 @@ export class Providence extends Event {
     let bonus = 0;
     const guild = this.guildManager.getGuildForPlayer(player);
     if(guild) {
-      bonus = guild.buildingBonus(GuildBuilding.FortuneTeller);
+      bonus = guild.activeBuildingBonus(GuildBuilding.FortuneTeller);
     }
 
     const canGainXp = player.level.total < player.level.maximum - 100;

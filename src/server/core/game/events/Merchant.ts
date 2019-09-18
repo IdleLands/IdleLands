@@ -90,8 +90,8 @@ export class Merchant extends Event {
 
       if(player.guildName) {
         const guild = this.guildManager.getGuild(player.guildName);
-        if(guild && guild.isBuildingActive(GuildBuilding.Merchant)) {
-          bonus += guild.buildingBonus(GuildBuilding.Merchant);
+        if(guild) {
+          bonus += guild.activeBuildingBonus(GuildBuilding.Merchant);
         }
       }
 

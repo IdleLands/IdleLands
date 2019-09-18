@@ -67,7 +67,7 @@ export class Gamble extends Event {
 
     const guild = this.guildManager.getGuildForPlayer(player);
     if(guild) {
-      const bonus = guild.buildingBonus(GuildBuilding.Tavern);
+      const bonus = guild.activeBuildingBonus(GuildBuilding.Tavern);
       baseCostMult += (bonus / 1000);
       ddOddsDivisor = Math.max(10, ddOddsDivisor + (bonus / 100));
       ddPayoffMult += (bonus / 100);

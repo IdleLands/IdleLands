@@ -126,7 +126,7 @@ export class Item implements IItem {
 
     const guild = player.$$game.guildManager.getGuildForPlayer(player);
     if(guild) {
-      const bonus = guild.buildingBonus(GuildBuilding.Enchantress);
+      const bonus = guild.activeBuildingBonus(GuildBuilding.Enchantress);
       maxEnchantCap += bonus;
     }
 

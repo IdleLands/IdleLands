@@ -31,7 +31,7 @@ export class Witch extends Event {
 
     const guild = this.guildManager.getGuildForPlayer(player);
     if(guild) {
-      const bonus = guild.buildingBonus(GuildBuilding.WitchDoctor);
+      const bonus = guild.activeBuildingBonus(GuildBuilding.WitchDoctor);
       statModPercent *= bonus;
     }
 

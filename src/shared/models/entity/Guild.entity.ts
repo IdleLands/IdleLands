@@ -74,6 +74,11 @@ export class Guild implements IGuild {
     return this.activeBuildings[building];
   }
 
+  public activeBuildingBonus(building: GuildBuilding): number {
+    if(!this.isBuildingActive(building)) return 0;
+    return GuildBuildingLevelValues[building](this.buildingLevels[building]) || 0;
+  }
+
   public buildingBonus(building: GuildBuilding): number {
     return GuildBuildingLevelValues[building](this.buildingLevels[building]) || 0;
   }
