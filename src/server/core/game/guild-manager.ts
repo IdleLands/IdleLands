@@ -20,7 +20,6 @@ export class GuildManager {
 
   @Inject private db: DatabaseManager;
   @Inject private subscriptionManager: SubscriptionManager;
-  @Inject private eventManager: EventManager;
   @Inject private playerManager: PlayerManager;
   @Inject private discordManager: DiscordManager;
   @Inject private combatHelper: CombatHelper;
@@ -241,7 +240,7 @@ export class GuildManager {
       item.init(itemData);
       item.regenerateUUID();
 
-      this.eventManager.doEventFor(player, EventName.FindItem, { fromGuild: true, item });
+      player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuild: true, item });
     });
   }
 
