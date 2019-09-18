@@ -6,25 +6,26 @@ import { Player } from './entity/Player.entity';
 import { IItem, ItemClass, ItemSlot, Stat, PartialItem, GuildBuilding } from '../interfaces';
 
 const woodValues = {
-  [Stat.STR]: 50,
-  [Stat.DEX]: 100,
-  [Stat.AGI]: 100
+  [Stat.STR]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const clayValues = {
-  [Stat.INT]: 50,
-  [Stat.DEX]: 100,
-  [Stat.AGI]: 100
+  [Stat.INT]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const stoneValues = {
-  [Stat.CON]: 50,
-  [Stat.DEX]: 100,
-  [Stat.AGI]: 100
+  [Stat.CON]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const astraliumValues = {
-  [Stat.LUK]: 500,
+  [Stat.HP]: 250,
+  [Stat.LUK]: 100,
   [Stat.XP]: 25,
   [Stat.GOLD]: 50
 };
