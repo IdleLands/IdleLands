@@ -95,7 +95,7 @@ export class Gamble extends Event {
     const choice = this.getChoice({
       desc: `
         ${message} The odds are ${odds}% if you wager ${bet.toLocaleString()} gold, and the payoff is ${payoff.toLocaleString()} gold.
-        You can Double Down for a ${(100 * (1 - ddOddsDivisor).toFixed(2)}% odds reduction, but a ${ddPayoffMult.toFixed(2)}x payoff.
+        You can Double Down for a ${(100 * (1 - (1 / ddOddsDivisor)).toFixed(2)}% odds reduction, but a ${ddPayoffMult.toFixed(2)}x payoff.
       `,
       choices: ['Yes', 'No', 'Double'],
       defaultChoice: player.getDefaultChoice(['Yes', 'No', 'Double']),
