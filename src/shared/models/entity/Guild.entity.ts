@@ -130,13 +130,13 @@ export class Guild implements IGuild {
     };
 
     Object.keys(generators).forEach((building: GuildBuilding) => {
-      if(!this.isBuildingActive(building)) return;
+      if(!this.isBuildingActive(building) || !this.buildingBonus(building)) return;
 
       this.resources[generators[building]] += this.buildingBonus(building);
     });
 
     Object.keys(factories).forEach((factory: GuildBuilding) => {
-      if(!this.isBuildingActive(factory)) return;
+      if(!this.isBuildingActive(factory) || !this.buildingBonus(factory)) return;
 
       factories[factory]();
     });
