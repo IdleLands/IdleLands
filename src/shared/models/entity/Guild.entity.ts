@@ -124,7 +124,7 @@ export class Guild implements IGuild {
       },
 
       [GuildBuilding.FactoryScroll]: () => {
-        const item = game.itemGenerator.generateBuffScroll(this.buildingBonus(GuildBuilding.FactoryItem));
+        const item = game.itemGenerator.generateBuffScroll(this.buildingBonus(GuildBuilding.FactoryScroll));
         game.guildManager.initiateShareScroll(this.name, item);
       },
     };
