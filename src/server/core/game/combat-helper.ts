@@ -475,12 +475,12 @@ export class CombatHelper {
     const stats = base.stats;
 
     Object.keys(stats).forEach(stat => {
-      const mult = stat === Stat.HP ? 10000 : 1000;
+      const mult = stat === Stat.HP ? 25000 : 1500;
 
       stats[stat] += players.length * mult;
     });
 
-    stats[Stat.GOLD] = players.length * boss.level * 1000;
+    stats[Stat.GOLD] = 0;
     stats[Stat.XP]   = players.length * boss.level * 1000;
 
     const maxStats = Object.assign({ }, stats);

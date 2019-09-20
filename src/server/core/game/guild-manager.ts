@@ -313,7 +313,7 @@ export class GuildManager {
       profession: '',
       scaleStat: '',
       stats: {
-        [Stat.HP]: 10000 * level
+        [Stat.HP]: 25000 * level
       },
       rewards: this.raidBossRewards(level)
     };
