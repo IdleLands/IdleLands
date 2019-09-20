@@ -360,6 +360,8 @@ export class GuildManager {
   }
 
   private addSupportMembers(guildName: string, supports: ICombatCharacter[]) {
+    if(!this.guildRaidReadyPlayers[guildName]) return;
+
     this.guildRaidReadyPlayers[guildName].push(...supports);
   }
 
@@ -374,6 +376,7 @@ export class GuildManager {
 
     setTimeout(() => {
       const availHelp = this.guildRaidReadyPlayers[guildName];
+      delete this.guildRaidReadyPlayers[guildName];
 
       // refund cost in case of no help
       if(availHelp.length === 0) {
@@ -410,14 +413,12 @@ export class GuildManager {
       };
 
       this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
-      delete this.guildRaidReadyPlayers[guildName];
     }, 5000);
   }
 
   public handleCombatRewards(guildName: string, boss, combat: ICombat, winningParty: number) {
 
     const didPlayersWin = winningParty === 0;
-    const catString =
 
     this.combatHelper.handleRewards(combat, winningParty);
 
