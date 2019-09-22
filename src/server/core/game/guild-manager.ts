@@ -278,7 +278,7 @@ export class GuildManager {
     const rng = new Chance(level + ' ' + new Date().getMonth());
 
     const possibleRewards = [
-      GachaReward.CrystalAstral, GachaReward.ItemGodly, GachaReward.XPPlayerMax, GachaReward.ILPMD
+      GachaReward.CrystalAstral, GachaReward.ItemGodly, GachaReward.XPPlayerMax, GachaReward.ILPSM
     ];
 
     if(tier >= 5) {
