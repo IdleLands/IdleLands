@@ -278,11 +278,18 @@ export class GuildManager {
     const rng = new Chance(level + ' ' + new Date().getMonth());
 
     const possibleRewards = [
-      GachaReward.CrystalAstral, GachaReward.ItemGodly, GachaReward.XPPlayerMax, GachaReward.ILPSM
+      GachaReward.CrystalRed, GachaReward.CrystalOrange, GachaReward.CrystalYellow,
+      GachaReward.CrystalGreen, GachaReward.CrystalBlue, GachaReward.CrystalPurple,
+      GachaReward.ItemIdle, GachaReward.XPPlayerMax, GachaReward.ILPSM
     ];
 
     if(tier >= 5) {
+      possibleRewards.push(GachaReward.ItemGodly);
+    }
+
+    if(tier >= 10) {
       possibleRewards.push(GachaReward.ItemGoatly);
+      possibleRewards.push(GachaReward.CrystalAstral);
     }
 
     if(tier >= 20) {
@@ -291,7 +298,7 @@ export class GuildManager {
 
     const rewards = [rng.pickone(possibleRewards)];
 
-    if(tier >= 10) {
+    if(tier >= 15) {
       rewards.push(rng.pickone(possibleRewards));
     }
 
