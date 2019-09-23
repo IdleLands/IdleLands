@@ -69,6 +69,40 @@ export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class SalvageItemEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemSalvage;
+  description = 'Salvage an item in your inventory.';
+  args = 'itemId';
+
+  async callback({ itemId } = { itemId: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const foundItem = player.$inventory.getItemFromInventory(itemId);
+    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+
+    if(foundItem.locked) return this.gameError('Item is currently locked. Unlock it to salvage it.');
+
+    const { wood, stone, clay, astralium } = player.salvageItem(foundItem);
+    player.$inventory.removeItemFromInventory(foundItem);
+
+    this.game.updatePlayer(player);
+
+    if(wood === 0 && clay === 0 && stone === 0 && astralium === 0) {
+      return this.gameSuccess(`Salvaged ${foundItem.name}, but got no resources!`);
+    }
+
+    const resources = [
+      wood > 0 ? `${wood.toLocaleString()} wood` : '',
+      clay > 0 ? `${clay.toLocaleString()} clay` : '',
+      stone > 0 ? `${stone.toLocaleString()} stone` : '',
+      astralium > 0 ? `${astralium.toLocaleString()} astralium` : ''
+    ].filter(Boolean).join(', ');
+
+    this.gameSuccess(`Salvaged ${foundItem.name} for ${resources}!`);
+  }
+}
+
 export class LockItemEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.ItemLock;
   description = 'Lock an item in your inventory.';
@@ -152,6 +186,54 @@ export class SellAllEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.updatePlayer(player);
     this.gameSuccess(`Sold ${numItems} item(s) for ${totalValue.toLocaleString()} gold!`);
+  }
+}
+
+export class SalvageAllEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.ItemSalvageAll;
+  description = 'Salvage all items in your inventory.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    let numItems = 0;
+    let totalClay = 0;
+    let totalWood = 0;
+    let totalStone = 0;
+    let totalAstralium = 0;
+
+    const items = player.$inventory.itemsFromInventory();
+    const removeItems = [];
+    items.forEach(item => {
+      if(item.locked) return;
+
+      const { clay, wood, stone, astralium } = player.salvageItem(item);
+      removeItems.push(item);
+
+      numItems++;
+      totalClay += clay;
+      totalWood += wood;
+      totalStone += stone;
+      totalAstralium += astralium;
+    });
+
+    player.$inventory.removeItemFromInventory(...removeItems);
+
+    if(totalWood === 0 && totalClay === 0 && totalStone === 0 && totalAstralium === 0) {
+      return this.gameSuccess(`Salvaged ${numItems} items, but got no resources!`);
+    }
+
+    const resources = [
+      totalWood > 0 ? `${totalWood.toLocaleString()} wood` : '',
+      totalClay > 0 ? `${totalClay.toLocaleString()} clay` : '',
+      totalStone > 0 ? `${totalStone.toLocaleString()} stone` : '',
+      totalAstralium > 0 ? `${totalAstralium.toLocaleString()} astralium` : ''
+    ].filter(Boolean).join(', ');
+
+    this.game.updatePlayer(player);
+    this.gameSuccess(`Salvaged ${numItems} item(s) for ${resources}!`);
   }
 }
 

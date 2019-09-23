@@ -1,6 +1,6 @@
 import { Event } from './Event';
 import { Player, Choice, Item } from '../../../../shared/models';
-import { AdventureLogEventType, ServerEventName, EventName, EventMessageType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ServerEventName, EventName, EventMessageType, GuildBuilding } from '../../../../shared/interfaces';
 
 export class Merchant extends Event {
   public static readonly WEIGHT = 45;
@@ -69,7 +69,7 @@ export class Merchant extends Event {
   }
 
   public operateOn(player: Player, opts: { merchantBonus }) {
-    const bonus = +opts.merchantBonus || 0;
+    let bonus = +opts.merchantBonus || 0;
 
     let item = null;
     let cost = 0;
@@ -87,6 +87,14 @@ export class Merchant extends Event {
       player.increaseStatistic(`Event/Merchant/Item`, 1);
       choices = ['Yes', 'No', 'Compare', 'Inventory'];
       pickableChoices = ['Yes', 'No', 'Inventory'];
+
+      if(player.guildName) {
+        const guild = this.guildManager.getGuild(player.guildName);
+        if(guild) {
+          bonus += guild.activeBuildingBonus(GuildBuilding.Merchant);
+        }
+      }
+
       item = this.itemGenerator.generateItemForPlayer(player, { generateLevel: bonus });
       if(!item) {
         player.increaseStatistic(`Event/Merchant/Nothing`, 1);

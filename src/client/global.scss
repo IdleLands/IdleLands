@@ -55,7 +55,8 @@ ion-alert .alert-wrapper {
 
     &:first-child {
       text-align: right;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-all;
     }
 
     .move-right {
@@ -185,4 +186,28 @@ ion-progress-bar {
     --width: 600px;
     --min-width: 600px;
   }
+}
+
+.clay {
+  color: #835A36;
+}
+
+.wood {
+  color: #966F33;
+}
+
+.stone {
+  color: #38464B;
+}
+
+.astralium {
+  color: #9400D3;
+}
+
+.gold {
+  color: gold;
+}
+
+.ion-color-light{
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 1));
 }

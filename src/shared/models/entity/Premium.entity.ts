@@ -234,7 +234,7 @@ export class Premium extends PlayerOwned {
         }
 
         case 'gold': {
-          const goldEarned = { sm: 1000, md: 10000, lg: 100000 };
+          const goldEarned = { sm: 1000, md: 10000, lg: 100000, xl: 1000000 };
           player.gainGold(goldEarned[choice]);
           break;
         }
@@ -242,6 +242,12 @@ export class Premium extends PlayerOwned {
         case 'ilp': {
           const ilpEarned = { sm: 10, md: 50, lg: 100 };
           player.gainILP(ilpEarned[choice]);
+          break;
+        }
+
+        case 'resource': {
+          const resourceEarned = { sm: 1, md: 10, lg: 100 };
+          player.$inventory.addResources({ [sub]: resourceEarned[choice] });
           break;
         }
 

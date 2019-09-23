@@ -17,7 +17,8 @@ export enum AdventureType {
   MagicalItemSearch = 'magicalitemsearch',
   EnhancementSearch = 'enhancementsearch',
   Adventure = 'adventure',
-  AdventurersGraveyard = 'adventurersgraveyard'
+  AdventurersGraveyard = 'adventurersgraveyard',
+  Salvage = 'salvage'
 }
 
 export const AdventureNames: { [key in AdventureType]: string } = {
@@ -28,7 +29,8 @@ export const AdventureNames: { [key in AdventureType]: string } = {
   [AdventureType.MagicalItemSearch]: 'Magical Item Search (Rare)',
   [AdventureType.EnhancementSearch]: 'Pet Enhancement Material Search',
   [AdventureType.Adventure]: 'Idle Adventure',
-  [AdventureType.AdventurersGraveyard]: 'Graverobbing the Adventurers Graveyard'
+  [AdventureType.AdventurersGraveyard]: 'Graverobbing the Adventurers Graveyard',
+  [AdventureType.Salvage]: 'Natural Resources Dig'
 };
 
 export const AdventureDescriptions: { [key in AdventureType]: string } = {
@@ -39,7 +41,8 @@ export const AdventureDescriptions: { [key in AdventureType]: string } = {
   [AdventureType.MagicalItemSearch]: 'Search for magical items in the realm of Idliathlia.',
   [AdventureType.EnhancementSearch]: 'Hunt down pet enhancement materials.',
   [AdventureType.Adventure]: 'Set sail on the winds of adventure.',
-  [AdventureType.AdventurersGraveyard]: 'Go to the olde Adventurer Graveyard and bring back an item.'
+  [AdventureType.AdventurersGraveyard]: 'Go to the olde Adventurer Graveyard and bring back an item.',
+  [AdventureType.Salvage]: 'Send your pets to seek out the natural resources of the realm.'
 };
 
 export const AdventureRequirements: { [key in AdventureType]?: (player: IPlayer) => boolean } = {
@@ -66,6 +69,11 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.GoldSM,                   chance: GachaChance.VeryCommon },
     { result: GachaReward.GoldMD,                   chance: GachaChance.Common },
     { result: GachaReward.GoldLG,                   chance: GachaChance.Uncommon },
+
+    { result: GachaReward.ClaySM,                   chance: GachaChance.Common },
+    { result: GachaReward.WoodSM,                   chance: GachaChance.Common },
+    { result: GachaReward.StoneSM,                  chance: GachaChance.Common },
+    { result: GachaReward.AstraliumSM,              chance: GachaChance.Uncommon },
 
     { result: GachaReward.ItemBasic,                chance: GachaChance.Rare },
     { result: GachaReward.ItemPro,                  chance: GachaChance.XRare },
@@ -134,6 +142,11 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.XPPlayerMD,               chance: GachaChance.Common },
     { result: GachaReward.XPPlayerLG,               chance: GachaChance.Uncommon },
 
+    { result: GachaReward.ClaySM,                   chance: GachaChance.Common },
+    { result: GachaReward.WoodSM,                   chance: GachaChance.Common },
+    { result: GachaReward.StoneSM,                  chance: GachaChance.Common },
+    { result: GachaReward.AstraliumSM,              chance: GachaChance.Uncommon },
+
     { result: GachaReward.CrystalRed,               chance: GachaChance.XRare },
     { result: GachaReward.CrystalOrange,            chance: GachaChance.XRare },
     { result: GachaReward.CrystalYellow,            chance: GachaChance.XRare },
@@ -153,18 +166,38 @@ export const AdventureRewards: { [key in AdventureType]: Array<{ result: GachaRe
     { result: GachaReward.ItemBasic,                chance: GachaChance.Rare },
     { result: GachaReward.ItemPro,                  chance: GachaChance.XRare },
     { result: GachaReward.ItemIdle,                 chance: GachaChance.XXRare },
+  ],
+  [AdventureType.Salvage]: [
+    { result: GachaReward.XPPetSM,                  chance: GachaChance.VeryCommon },
+    { result: GachaReward.XPPlayerSM,               chance: GachaChance.VeryCommon },
+
+    { result: GachaReward.ClaySM,                   chance: GachaChance.Common },
+    { result: GachaReward.WoodSM,                   chance: GachaChance.Common },
+    { result: GachaReward.StoneSM,                  chance: GachaChance.Common },
+    { result: GachaReward.AstraliumSM,              chance: GachaChance.Uncommon },
+
+    { result: GachaReward.ClayMD,                   chance: GachaChance.Rare },
+    { result: GachaReward.WoodMD,                   chance: GachaChance.Rare },
+    { result: GachaReward.StoneMD,                  chance: GachaChance.Rare },
+    { result: GachaReward.AstraliumMD,              chance: GachaChance.XRare },
+
+    { result: GachaReward.ClayLG,                   chance: GachaChance.XXXRare },
+    { result: GachaReward.WoodLG,                   chance: GachaChance.XXXRare },
+    { result: GachaReward.StoneLG,                  chance: GachaChance.XXXRare },
+    { result: GachaReward.AstraliumLG,              chance: GachaChance.XXXXRare },
   ]
 };
 
 export const AdventureChances: Array<{ chance: GachaChance, result: AdventureType }> = [
   { result: AdventureType.Adventure,            chance: GachaChance.Common },
   { result: AdventureType.Combat,               chance: GachaChance.Common },
-  { result: AdventureType.BossHunt,             chance: GachaChance.Common },
-  { result: AdventureType.TimeTravel,           chance: GachaChance.Common },
+  { result: AdventureType.BossHunt,             chance: GachaChance.Uncommon },
+  { result: AdventureType.TimeTravel,           chance: GachaChance.Uncommon },
   { result: AdventureType.MerchantGuild,        chance: GachaChance.Common },
-  { result: AdventureType.EnhancementSearch,    chance: GachaChance.Common },
+  { result: AdventureType.EnhancementSearch,    chance: GachaChance.VeryCommon },
   { result: AdventureType.AdventurersGraveyard, chance: GachaChance.Common },
-  { result: AdventureType.MagicalItemSearch,    chance: GachaChance.Common }
+  { result: AdventureType.MagicalItemSearch,    chance: GachaChance.Uncommon },
+  { result: AdventureType.Salvage,              chance: GachaChance.Uncommon }
 ];
 
 export const AdventureDurationChances: Array<{ chance: GachaChance, result: AdventureDuration }> = [

@@ -4,7 +4,7 @@ import { find, pull, sumBy } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { Item } from '../Item';
-import { ItemSlot, TeleportItemLocation, IBuffScrollItem, IBuff } from '../../interfaces';
+import { ItemSlot, TeleportItemLocation, IBuffScrollItem, IBuff, GuildResource } from '../../interfaces';
 import { Player } from './Player.entity';
 
 @Entity()
@@ -28,13 +28,17 @@ export class Inventory extends PlayerOwned {
   @Column()
   private buffScrolls: IBuffScrollItem[];
 
+  @Column()
+  private resources: { astralium: number, wood: number, clay: number, stone: number };
+
   public get $inventoryData() {
     return {
       equipment: this.equipment,
       items: this.items,
       size: this.size,
       teleportScrolls: this.teleportScrolls,
-      buffScrolls: this.buffScrolls
+      buffScrolls: this.buffScrolls,
+      resources: this.resources
     };
   }
 
@@ -44,6 +48,14 @@ export class Inventory extends PlayerOwned {
     if(!this.items) this.items = [];
     if(!this.teleportScrolls) this.teleportScrolls = { };
     if(!this.buffScrolls) this.buffScrolls = [];
+    if(!this.resources) {
+      this.resources = {
+        [GuildResource.Astralium]: 0,
+        [GuildResource.Wood]: 0,
+        [GuildResource.Clay]: 0,
+        [GuildResource.Stone]: 0
+      };
+    }
   }
 
   // basic functions
@@ -176,5 +188,32 @@ export class Inventory extends PlayerOwned {
     pull(this.buffScrolls, scroll);
 
     return true;
+  }
+
+  public addResources(
+    opts: {
+      [GuildResource.Wood]?: number,
+      [GuildResource.Clay]?: number,
+      [GuildResource.Stone]?: number,
+      [GuildResource.Astralium]?: number
+    } = {
+      [GuildResource.Wood]: 0,
+      [GuildResource.Clay]: 0,
+      [GuildResource.Stone]: 0,
+      [GuildResource.Astralium]: 0
+    }
+  ) {
+    if(opts[GuildResource.Wood]) this.resources[GuildResource.Wood] += opts[GuildResource.Wood];
+    if(opts[GuildResource.Clay]) this.resources[GuildResource.Clay] += opts[GuildResource.Clay];
+    if(opts[GuildResource.Stone]) this.resources[GuildResource.Stone] += opts[GuildResource.Stone];
+    if(opts[GuildResource.Astralium]) this.resources[GuildResource.Astralium] += opts[GuildResource.Astralium];
+  }
+
+  public hasResource(res: GuildResource, amount: number): boolean {
+    return this.resources[res] >= amount;
+  }
+
+  public spendResource(res: GuildResource, amount: number) {
+    this.resources[res] -= amount;
   }
 }

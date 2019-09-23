@@ -237,3 +237,33 @@ export class GMResetGlobalEvent extends ServerSocketEvent implements ServerEvent
     this.game.globalQuestManager.resetAllQuests();
   }
 }
+
+export class GMGiveGuildResourcesEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMGiveGuildResrouces;
+  description = 'GM: Give resources to a guild';
+  args = 'guildName, gold, wood, clay, stone, astralium';
+
+  async callback({ guildName, gold, wood, clay, stone, astralium } = { guildName: '', gold: 0, wood: 0, clay: 0, stone: 0, astralium: 0 }) {
+    const myPlayer = this.player;
+    if(!myPlayer) return this.notConnected();
+
+    if(myPlayer.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
+
+    const guild = this.game.guildManager.getGuild(guildName);
+    if(!guild) return this.gameError('That guild is not valid!');
+
+    const resources = { gold, wood, clay, stone, astralium };
+
+    ['gold', 'wood', 'clay', 'stone', 'astralium'].forEach(resource => {
+      const amount = +(resources[resource] || 0);
+      if(!amount) return;
+
+      if(isNaN(amount)) return this.gameError('Gold value invalid.');
+
+      const existing = guild.resources[resource] || 0;
+      this.game.guildManager.updateGuildKey(guildName, `resources.${resource}`, existing + amount);
+    });
+
+    this.gameMessage(`Did it.`);
+  }
+}

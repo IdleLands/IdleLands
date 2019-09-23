@@ -14,7 +14,7 @@
         <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
           <ion-card *ngIf="player.$premiumData">
             <ion-card-header>
-              <ion-card-subtitle>You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="!gacha.value.requiredToken">You have {{ player.$premiumData.ilp | number }} ILP</ion-card-subtitle>
               <ion-card-title>
                 <ion-row class="vertical-center">
                   <ion-col class="vertical-center">
@@ -43,8 +43,8 @@
                 </ion-col>
   
                 <ion-col text-right>
-                  <ion-button [disabled]="premium.ilp < gacha.value.rollCost" (click)="roll(gacha.key, gacha.value, 1)">Roll ({{ gacha.value.rollCost }} ILP)</ion-button>
-                  <ion-button [disabled]="premium.ilp < gacha.value.rollCost * 10" (click)="roll(gacha.key, gacha.value, 10)">Roll x10 ({{ gacha.value.rollCost * 10 }} ILP)</ion-button>
+                  <ion-button [disabled]="!canRoll(player, gacha.value, 1)" (click)="roll(gacha.key, gacha.value, 1)">Roll ({{ gacha.value.rollCost | number }} {{ gacha.value.requiredToken || 'ILP' }})</ion-button>
+                  <ion-button [disabled]="!canRoll(player, gacha.value, 10)" (click)="roll(gacha.key, gacha.value, 10)">Roll x10 ({{ gacha.value.rollCost * 10 | number }} {{ gacha.value.requiredToken || 'ILP' }})</ion-button>
                 </ion-col>
               </ion-row>
             </ion-card-content>

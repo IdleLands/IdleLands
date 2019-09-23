@@ -1,7 +1,7 @@
 
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
-import { AdventureLogEventType, ItemClass, ItemSlot, EventMessageType } from '../../../../shared/interfaces';
+import { AdventureLogEventType, ItemClass, ItemSlot, EventMessageType, GuildBuilding } from '../../../../shared/interfaces';
 import { Item } from '../../../../shared/models';
 
 export class Providence extends Event {
@@ -20,13 +20,15 @@ export class Providence extends Event {
     ilp: 1
   };
 
-  private createProvidenceItem(multiplier = 1, t1shift = 0, t2shift = 0, t3shift = 0): Item {
+  private createProvidenceItem(multiplier = 1, t1shift = 0, t2shift = 0, t3shift = 0, bonus = 0): Item {
     const baseItem: any = {
       type: ItemSlot.Providence,
       itemClass: ItemClass.Newbie,
       name: this.assetManager.providence(),
       stats: { }
     };
+
+    multiplier += (bonus / 25);
 
     this.statTiers.t1.forEach(stat => {
       if(this.rng.likelihood(20)) return;
@@ -52,18 +54,28 @@ export class Providence extends Event {
       );
     });
 
+    if(bonus > 50) {
+      this.statTiers.t4.forEach(stat => {
+        if(this.rng.likelihood(50)) return;
+        baseItem.stats[stat] = this.rng.numberInRange(
+          Math.min(-1, (-5) * multiplier),
+          (5) * multiplier
+        );
+      });
+    }
+
     const item = new Item();
     item.init(baseItem);
 
     return item;
   }
 
-  private handleProvidenceData(player: Player, providenceData): string {
+  private handleProvidenceData(player: Player, providenceData, bonus: number): string {
     let message = '';
 
     const { xp, level, gender, profession, gold } = providenceData;
 
-    if(xp && this.rng.likelihood(this.PROBABILITIES.xp)) {
+    if(xp && this.rng.likelihood(this.PROBABILITIES.xp + Math.floor(bonus / 20))) {
       const curPlayerXp = player.xp.total;
       const lostXp = curPlayerXp - xp;
 
@@ -77,7 +89,7 @@ export class Providence extends Event {
         player.xp.set(player.xp.maximum + lostXp);
       }
 
-    } else if(level && this.rng.likelihood(this.PROBABILITIES.level)) {
+    } else if(level && this.rng.likelihood(this.PROBABILITIES.level + Math.floor(bonus / 50))) {
       player.level.add(level);
       player.resetMaxXP();
       message = `${message} ${level > 0 ? 'Gained' : 'Lost'} ${Math.abs(level)} levels!`;
@@ -88,7 +100,7 @@ export class Providence extends Event {
       message = `${message} Gender is now ${gender}!`;
     }
 
-    if(gold && this.rng.likelihood(this.PROBABILITIES.gold)) {
+    if(gold && this.rng.likelihood(this.PROBABILITIES.gold + Math.floor(bonus / 35))) {
       player.gold += gold;
       message = `${message} ${gold > 0 ? 'Gained' : 'Lost'} ${Math.abs(gold).toLocaleString()} gold!`;
     }
@@ -111,7 +123,7 @@ export class Providence extends Event {
       message = `${message} Title change!`;
     }
 
-    if(this.rng.likelihood(this.PROBABILITIES.ilp)) {
+    if(this.rng.likelihood(this.PROBABILITIES.ilp + Math.min(19, Math.floor(bonus / 100)))) {
       player.gainILP(5);
       message = `${message} Got ILP!`;
     }
@@ -119,10 +131,10 @@ export class Providence extends Event {
     return message;
   }
 
-  private basicProvidence(player: Player, baseMessage: string, providenceData): string {
+  private basicProvidence(player: Player, baseMessage: string, providenceData, bonus: number): string {
     const providence = player.$inventory.itemInEquipmentSlot(ItemSlot.Providence);
 
-    baseMessage = `${baseMessage} ${this.handleProvidenceData(player, providenceData).trim()}`;
+    baseMessage = `${baseMessage} ${this.handleProvidenceData(player, providenceData, bonus).trim()}`;
 
     if(providence && this.rng.likelihood(this.PROBABILITIES.clearProvidence)) {
       player.forceUnequip(providence);
@@ -130,7 +142,7 @@ export class Providence extends Event {
       baseMessage = `${baseMessage} Providence cleared!`;
 
     } else if(!providence && this.rng.likelihood(this.PROBABILITIES.newProvidence)) {
-      const newProvidence = this.createProvidenceItem(Math.round(player.level.total / 10));
+      const newProvidence = this.createProvidenceItem(Math.round(player.level.total / 10), 0, 0, 0, bonus);
       player.equip(newProvidence);
 
       baseMessage = `${baseMessage} Gained Divine Providence!`;
@@ -142,18 +154,24 @@ export class Providence extends Event {
   }
 
   public operateOn(player: Player) {
+    let bonus = 0;
+    const guild = this.guildManager.getGuildForPlayer(player);
+    if(guild) {
+      bonus = guild.activeBuildingBonus(GuildBuilding.FortuneTeller);
+    }
+
     const canGainXp = player.level.total < player.level.maximum - 100;
 
     const providenceData = {
       xp: this.rng.numberInRange(-player.xp.maximum, canGainXp ? player.xp.maximum : 0),
-      level: this.rng.numberInRange(-3, canGainXp ? 2 : 0),
+      level: this.rng.numberInRange(-3 - Math.floor(bonus / 10), canGainXp ? 2 + Math.floor(bonus / 25) : 0),
       gender: this.rng.pickone(player.availableGenders),
       profession: this.rng.pickone(player.$statistics.getChildren('Profession')) || 'Generalist',
       gold: this.rng.numberInRange(-Math.min(300 * player.level.total, player.gold), 200 * player.level.total)
     };
 
     const baseMessage = this.eventText(EventMessageType.Providence, player, { });
-    const finalMessage = this.basicProvidence(player, baseMessage, providenceData);
+    const finalMessage = this.basicProvidence(player, baseMessage, providenceData, bonus);
 
     this.emitMessage([player], finalMessage, AdventureLogEventType.Meta);
   }

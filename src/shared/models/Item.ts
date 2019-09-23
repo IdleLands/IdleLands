@@ -3,36 +3,31 @@ import { extend } from 'lodash';
 import * as uuid from 'uuid/v4';
 
 import { Player } from './entity/Player.entity';
-import { IItem, ItemClass, ItemSlot, Stat, PartialItem } from '../interfaces';
+import { IItem, ItemClass, ItemSlot, Stat, PartialItem, GuildBuilding } from '../interfaces';
 
 const woodValues = {
-  [Stat.HP]: 100,
-
-  [Stat.STR]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.STR]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const clayValues = {
-  [Stat.HP]: 100,
-
-  [Stat.INT]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.INT]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const stoneValues = {
-  [Stat.HP]: 100,
-
-  [Stat.CON]: 5,
-  [Stat.DEX]: 10,
-  [Stat.AGI]: 10
+  [Stat.CON]: 25,
+  [Stat.DEX]: 50,
+  [Stat.AGI]: 50
 };
 
 const astraliumValues = {
-  [Stat.LUK]: 5,
-  [Stat.XP]: 1,
-  [Stat.GOLD]: 10
+  [Stat.HP]: 250,
+  [Stat.LUK]: 100,
+  [Stat.XP]: 25,
+  [Stat.GOLD]: 50
 };
 
 export const ItemScoreValues = {
@@ -67,7 +62,7 @@ export class Item implements IItem {
   static calcScoreForHash(hash: any): number {
     return Object.keys(ItemScoreValues)
       .map(statKey => (hash[statKey] || 0) * ItemScoreValues[statKey])
-      .reduce((prev, cur) => prev + cur, 0);
+      .reduce((prev, cur) => Math.floor(prev + cur), 0);
   }
 
   init(opts: PartialItem) {
@@ -79,6 +74,10 @@ export class Item implements IItem {
     if(!this.enchantLevel) this.enchantLevel = 0;
 
     this.recalculateScore();
+  }
+
+  public regenerateUUID() {
+    this.id = uuid();
   }
 
   public recalculateScore() {
@@ -97,9 +96,14 @@ export class Item implements IItem {
   }
 
   private resourceValue(player: Player, hash: any): number {
-    return Object.keys(hash)
-      .map(statKey => Math.floor((this.stats[statKey] || 0) / hash[statKey]))
-      .reduce((prev, cur) => prev + cur, 0);
+
+    const modPercent = player.getStat(Stat.SALVAGE);
+
+    const baseSalvage = Object.keys(hash)
+      .map(statKey => Math.max(0, this.stats[statKey] || 0) / hash[statKey])
+      .reduce((prev, cur) => Math.floor(prev + cur), 0);
+
+    return Math.floor(baseSalvage + ((modPercent / 100) * baseSalvage));
   }
 
   public woodValue(player: Player): number {
@@ -119,7 +123,15 @@ export class Item implements IItem {
   }
 
   public isCurrentlyEnchantable(player: Player): boolean {
-    return this.enchantLevel < player.$statistics.get('Game/Premium/Upgrade/EnchantCap');
+    let maxEnchantCap = player.$statistics.get('Game/Premium/Upgrade/EnchantCap');
+
+    const guild = player.$$game.guildManager.getGuildForPlayer(player);
+    if(guild) {
+      const bonus = guild.activeBuildingBonus(GuildBuilding.Enchantress);
+      maxEnchantCap += bonus;
+    }
+
+    return this.enchantLevel < maxEnchantCap;
   }
 
   public isUnderBoostablePercent(player: Player): boolean {

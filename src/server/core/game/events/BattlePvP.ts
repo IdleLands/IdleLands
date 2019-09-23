@@ -1,4 +1,5 @@
 
+import { sample } from 'lodash';
 import { Event } from './Event';
 import { Player } from '../../../../shared/models/entity';
 import { AdventureLogEventType, ICombat, EventMessageType } from '../../../../shared/interfaces';
@@ -19,7 +20,7 @@ export class BattlePvP extends Event {
       return;
     }
 
-    const chosenTarget = checkPlayers[0];
+    const chosenTarget = sample(checkPlayers);
 
     const allPlayers = [];
     allPlayers.push(...(player.$party ? player.$party.members : [player.name]));

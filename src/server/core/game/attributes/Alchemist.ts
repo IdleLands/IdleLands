@@ -24,11 +24,11 @@ export class Alchemist extends BaseAttribute implements IAttribute {
     }
 
     const goldTaken = player.$pets.$activePet.gold.total;
-    player.$pets.$activePet.gainXP(goldTaken, false);
+    player.$pets.$activePet.gainXP(Math.floor(Math.sqrt(goldTaken)), false);
     player.$pets.$activePet.gainGold(-goldTaken, false);
 
     if(goldTaken === 0) return { success: false, message: 'The experiment was a failure; there is no gold to be taken.' };
 
-    return { success: true, message: `Your pet has gained ${goldTaken.toLocaleString()} exp!` };
+    return { success: true, message: `Your pet has gained ${Math.floor(Math.sqrt(goldTaken)).toLocaleString()} exp!` };
   }
 }

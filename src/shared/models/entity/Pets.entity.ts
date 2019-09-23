@@ -197,6 +197,17 @@ export class Pets extends PlayerOwned {
     this.ascensionMaterials[material]++;
   }
 
+  hasAscensionMaterial(material: string, amount: number): boolean {
+    return this.ascensionMaterials[material] >= amount;
+  }
+
+  subAscensionMaterial(material: string, amount: number): void {
+    if(!this.ascensionMaterials[material]) return;
+
+    this.ascensionMaterials[material] -= amount;
+    this.ascensionMaterials[material] = Math.max(0, this.ascensionMaterials[material]);
+  }
+
   ascend(player: Player): boolean {
     const pet = this.$activePet;
     if(pet.rating >= 5 || !pet.level.atMaximum()) return false;

@@ -11,7 +11,9 @@ export enum Stat {
   SPECIAL = 'special',
 
   XP = 'xp',
-  GOLD = 'gold'
+  GOLD = 'gold',
+
+  SALVAGE = 'salvage'
 }
 
 export const StatPartners = {
@@ -47,4 +49,5 @@ export const StatPartnerDivisor = {
 };
 
 export const AllStats = Object.keys(Stat).map(stat => Stat[stat]);
-export const AllStatsButSpecial = AllStats.filter(x => x !== Stat.SPECIAL);
+export const AllStatsButSpecial = AllStats.filter(x => x !== Stat.SPECIAL && x !== Stat.SALVAGE);
+export const AllBaseStats = [Stat.STR, Stat.INT, Stat.CON, Stat.DEX, Stat.AGI, Stat.LUK];

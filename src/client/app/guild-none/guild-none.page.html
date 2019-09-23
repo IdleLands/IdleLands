@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Guilds
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="blank-slate" *ngIf="!isLoading && (!guilds || guilds.length === 0)">
+    There are no recruiting guilds :( &nbsp;<ion-button (click)="makeGuild()">Create one?</ion-button>
+  </div>
+
+  <div class="blank-slate" *ngIf="isLoading">
+    <ion-spinner></ion-spinner> &nbsp;Loading...
+  </div>
+
+  <ion-row *ngIf="guilds?.length > 0">
+    <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding">
+      <ion-list>
+        <ion-list-header>Make a Guild</ion-list-header>
+        <ion-item>
+          <ion-label>
+            You can make a guild for 100,000,000 gold.
+          </ion-label>
+          
+          <ion-button slot="end" (click)="makeGuild()">Create</ion-button>
+        </ion-item>
+
+        <ion-list-header *ngIf="appinvs.length">Active Invites / Applications</ion-list-header>
+
+        <ion-item *ngFor="let appinv of appinvs">
+          <ion-label>
+            {{ appinv.guildName }}
+          </ion-label>
+
+          <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Withdraw</ion-button>
+          <ion-button slot="end" (click)="acceptInv(appinv)" *ngIf="appinv.type === 'invite'">Accept</ion-button>
+        </ion-item>
+
+        <ion-list-header>Recruiting Guilds</ion-list-header>
+
+        <ion-item *ngFor="let guild of guilds">
+          <ion-label>
+            <h3>{{ guild.name }} [{{ guild.tag }}]</h3>
+            <p>Level {{ guildLevel(guild) }}</p>
+          </ion-label>
+
+          <ion-button slot="end" (click)="apply(guild)">{{ guild.recruitment === 'Apply' ? 'Apply' : 'Join' }}</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-content>

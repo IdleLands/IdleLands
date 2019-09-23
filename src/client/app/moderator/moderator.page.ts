@@ -7,6 +7,7 @@ import { ToggleMuteModal } from './togglemute.modal';
 import { ModTierModal } from './modtier.modal';
 import { ModFestivalModal } from './modfestival.modal';
 import { ModItemModal } from './moditem.modal';
+import { ModGuildResourcesModal } from './modguildresources.modal';
 
 @Component({
   selector: 'app-moderator',
@@ -76,6 +77,15 @@ export class ModeratorPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: ModFestivalModal
+    });
+
+    await modal.present();
+  }
+
+  async giveGuildResources() {
+
+    const modal = await this.modalCtrl.create({
+      component: ModGuildResourcesModal
     });
 
     await modal.present();
