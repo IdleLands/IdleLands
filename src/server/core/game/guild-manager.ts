@@ -274,8 +274,11 @@ export class GuildManager {
   public raidBossRewards(level: number) {
     if(level % 50 !== 0 || level < 100) return [];
 
+    let now = new Date();
+    let dayOfYear = (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(now.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
+    
     const tier = ((level - 100) / 50) + 1;
-    const rng = new Chance(level + ' ' + new Date().getMonth());
+    const rng = new Chance(level + ' ' + dayOfYear);
 
     const possibleRewards = [
       GachaReward.CrystalRed, GachaReward.CrystalOrange, GachaReward.CrystalYellow,
