@@ -240,6 +240,8 @@ export class GuildManager {
       item.init(itemData);
       item.regenerateUUID();
 
+      if(item.score === 0) return;
+
       player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuild: true, item });
     });
   }
