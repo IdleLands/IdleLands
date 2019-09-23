@@ -363,4 +363,8 @@ const init = async () => {
   process.exit(0);
 };
 
-init();
+try {
+  init();
+} catch(e) {
+  console.error(e);
+}
