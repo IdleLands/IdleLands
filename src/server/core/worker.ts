@@ -101,3 +101,7 @@ export class GameWorker extends SCWorker {
 }
 
 const gameWorker = new GameWorker();
+
+gameWorker.on('error', err => {
+  console.error('SCWorker GameWorker', err);
+});
