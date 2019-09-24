@@ -36,7 +36,7 @@ export class DiscordManager {
     this.discordChannel = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
-      this.logger.error(new Error(error.message));
+      this.logger.error('Discord', new Error(error.message));
     });
 
     this.discord.on('message', (message) => {
