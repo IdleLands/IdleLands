@@ -4,7 +4,6 @@ import * as Discord from 'discord.js';
 import { Logger } from '../logger';
 import { IMessage, GuildMemberTier } from '../../../shared/interfaces';
 import { Guild, Player } from '../../../shared/models';
-import { c } from 'tar';
 
 @Singleton
 @AutoWired
