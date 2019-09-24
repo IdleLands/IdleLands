@@ -62,12 +62,14 @@ export class GameWorker extends SCWorker {
 
     httpServer.on('request', app);
 
+    scServer.on('handshake', socket => {
+      socket.on('error', err => {
+        console.error('Socket', socket.playerName, err);
+      });
+    });
+
     // initialize all the socket commands for the newly connected client
     scServer.on('connection', (socket) => {
-
-      socket.on('error', err => {
-        console.error('Socket', err);
-      });
 
       Object.values(allEvents).forEach((EvtCtor: any) => {
         const evtInst = new EvtCtor(game, socket);
