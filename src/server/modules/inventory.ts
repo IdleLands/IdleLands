@@ -78,21 +78,20 @@ export class SalvageItemEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const foundItem = (function() {
-      if(itemSlot == null) {
-        return player.$inventory.getItemFromInventory(itemId);
-      } else {
-        return player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
-      }
-    })()
+    let foundItem;
+    if(!itemSlot) {
+      foundItem = player.$inventory.getItemFromInventory(itemId);
+    } else {
+      foundItem = player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
+    }
 
-    if(!foundItem) return this.gameError('Could not find that item in your inventory or equiped gear.');
+    if(!foundItem) return this.gameError('Could not find that item in your inventory or equipped gear.');
 
     if(foundItem.locked) return this.gameError('Item is currently locked. Unlock it to salvage it.');
 
     const { wood, stone, clay, astralium } = player.salvageItem(foundItem);
 
-    if(itemSlot == null) {
+    if(!itemSlot) {
       player.$inventory.removeItemFromInventory(foundItem);
     } else {
       player.$inventory.unequipItem(foundItem);
