@@ -12,6 +12,8 @@
 
 The game is only tested against MongoDB. TypeORM currently lacks support for joins, etc and these are done manually. Additionally, the `seed` process requires using MongoDB. This could be cleaned up in the future, but is not a priority right now.
 
+Additionally, it is recommended to set up a mLab account for your MongoDB tests. This is what IdleLands uses. Some developers have reported trouble setting up a local MongoDB due to some strange errors that don't exist when using mLab.
+
 ## Getting Started
 
 * Clone the repo
