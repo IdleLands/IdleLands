@@ -152,7 +152,7 @@ export class GuildDonateResourceEvent extends ServerSocketEvent implements Serve
 
 export class GuildDonateAllSalvagedResourcesEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildDonateAllSalvagedResources;
-  description = 'Donate a all salvaged resources to the guild.';
+  description = 'Donate all salvaged resources to the guild.';
   args = 'playerResources, guildResources';
 
   async callback({ playerResources, guildResources } = { playerResources: [], guildResources: [] }) {
