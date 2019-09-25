@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { EnhancementMaterialsPage } from './enhancement-materials.page';
+import { ResourcesPopover } from './resources.popover';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [EnhancementMaterialsPage]
+  declarations: [EnhancementMaterialsPage, ResourcesPopover],
+  entryComponents: [ResourcesPopover]
 })
 export class EnhancementMaterialsPageModule { }

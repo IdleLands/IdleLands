@@ -14,7 +14,17 @@
       <ion-col size-xs="12" offset-xs="0" size-md="8" offset-md="2" class="ion-padding" *ngIf="player.$inventoryData.resources">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Salvaged Resources</ion-card-title>
+            <ion-row class="full-width">
+              <ion-col size="9" class="vertical-center">
+                <ion-card-title>Salvaged Resources</ion-card-title>
+              </ion-col>
+
+              <ion-col size="3" *ngIf="gameService.guild as guild">
+                <ion-button color="dark" class="ion-float-right" fill="outline" size="small" (click)="resourcesActions($event, player.$inventoryData.resources, guild.resources)">
+                  <ion-icon slot="icon-only" name="more"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
           </ion-card-header>
 
           <ion-card-content>
@@ -25,9 +35,6 @@
                 <ion-label>
                   {{ resource | titlecase }} (x{{ player.$inventoryData.resources[resource] | number }})
                 </ion-label>
-              </ion-item>
-              <ion-item *ngIf="gameService.guild as guild">
-                <ion-button slot="end" (click)="donateAllResources(player.$inventoryData.resources, guild.resources)">Donate All</ion-button>
               </ion-item>
             </ion-list>
           </ion-card-content>
