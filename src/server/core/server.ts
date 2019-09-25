@@ -46,6 +46,7 @@ const options = {
   killMasterOnSignal: false,
   environment: environment,
   logLevel: 1,
+  protocolOptions: null,
 
   pingInterval: 15000,
   pingTimeout: 50000,
