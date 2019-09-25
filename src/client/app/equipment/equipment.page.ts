@@ -46,6 +46,9 @@ export class EquipmentPage {
           } else {
             this.socketService.emit(ServerEventName.ItemUnlock, { itemSlot: chosenItem.type });
           }
+        },
+        salvageCallback: () => {
+          this.socketService.emit(ServerEventName.ItemSalvage, { itemId: item.id, itemSlot: item.type });
         }
       },
       event: $event,

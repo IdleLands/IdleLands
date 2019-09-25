@@ -72,19 +72,31 @@ export class SellItemEvent extends ServerSocketEvent implements ServerEvent {
 export class SalvageItemEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.ItemSalvage;
   description = 'Salvage an item in your inventory.';
-  args = 'itemId';
+  args = 'itemId?, itemSlot?';
 
-  async callback({ itemId } = { itemId: '' }) {
+  async callback({ itemId, itemSlot } = { itemId: '', itemSlot: '' }) {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    const foundItem = player.$inventory.getItemFromInventory(itemId);
-    if(!foundItem) return this.gameError('Could not find that item in your inventory.');
+    const foundItem = (function() {
+      if(itemSlot == null) {
+        return player.$inventory.getItemFromInventory(itemId);
+      } else {
+        return player.$inventory.itemInEquipmentSlot(<ItemSlot>itemSlot);
+      }
+    })()
+
+    if(!foundItem) return this.gameError('Could not find that item in your inventory or equiped gear.');
 
     if(foundItem.locked) return this.gameError('Item is currently locked. Unlock it to salvage it.');
 
     const { wood, stone, clay, astralium } = player.salvageItem(foundItem);
-    player.$inventory.removeItemFromInventory(foundItem);
+
+    if(itemSlot == null) {
+      player.$inventory.removeItemFromInventory(foundItem);
+    } else {
+      player.$inventory.unequipItem(foundItem);
+    }
 
     this.game.updatePlayer(player);
 
