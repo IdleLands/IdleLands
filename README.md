@@ -86,6 +86,10 @@ IL3 variables are used to connect to the old DB for the purposes of character im
 * `npm run start:server` - start the server
 * `npm run start:client` - start the client
 
+## Improving Server Performance on Windows
+
+If you have trouble or slowness running IdleLands server on Windows, try using `TS_NODE_TRANSPILE_ONLY=1` as an env variable. This will alleviate most issues.
+
 ## Making Yourself A GM
 
 To test any moderator-related features, you will need to be a GM. Doing so is as easy a quick DB query:
