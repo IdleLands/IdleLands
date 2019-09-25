@@ -1952,10 +1952,11 @@
     
     itemFindQualityBoost:
       - { v: 0,    c: 0 }
-      - { v: 150,  c: 10000000 }
+      - { v: 1,    c: 10000000 }
 
     itemFindLevelBoost:
       - { v: 0,    c: 0 }
+      - { v: 150,  c: 10000000 }
 
     itemFindLevelPercent:
       - { v: 0,   c: 0 }
