@@ -150,6 +150,47 @@ export class GuildDonateResourceEvent extends ServerSocketEvent implements Serve
   }
 }
 
+export class GuildDonateAllSalvagedResourcesEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildDonateAllSalvagedResources;
+  description = 'Donate all salvaged resources to the guild.';
+  args = 'playerResources, guildResources';
+
+  async callback({ playerResources, guildResources } = { playerResources: [], guildResources: [] }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return this.gameError('Your guild is not valid!');
+
+    const resources = ['wood', 'clay', 'stone', 'astralium'];
+    let gameSuccessMessage = 'Donated';
+
+    resources.forEach((resource) => {
+      let amount = playerResources[resource];
+      amount = Math.round(+amount);
+      if(isNaN(amount) || !isFinite(amount) || amount <= 0) return this.gameError(`Invalid donation amount for ${resource}.`);
+
+      if(!player.$inventory.hasResource(<GuildResource>resource, amount)) return this.gameError(`Not enough ${resource}.`);
+
+      guildResources[resource] += +playerResources[resource];
+      player.$inventory.spendResource(<GuildResource>resource, amount);
+
+      const existing = guild.resources[resource] || 0;
+
+      player.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, amount);
+
+      this.game.guildManager.updateGuildKey(player.guildName, `resources.${resource}`, existing + amount);
+
+      gameSuccessMessage += ` ${amount} ${resource},`;
+    });
+
+    gameSuccessMessage = gameSuccessMessage.substring(0, gameSuccessMessage.length - 1);
+    gameSuccessMessage += ' to guild.';
+
+    this.gameSuccess(gameSuccessMessage);
+  }
+}
+
 export class GuildDonateCrystalEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildDonateCrystal;
   description = 'Donate a crystal resource to the guild.';
