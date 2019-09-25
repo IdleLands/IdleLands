@@ -2130,7 +2130,7 @@
 
   requirements:
     statistics:
-      Item/Salvage/Times: 100000
+      Item/Salvage/Times: 10000
     collectibles:
       - Twisted Turnip
       - Leviathan Egg
