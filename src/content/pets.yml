@@ -1952,10 +1952,11 @@
     
     itemFindQualityBoost:
       - { v: 0,    c: 0 }
-      - { v: 150,  c: 10000000 }
+      - { v: 1,    c: 10000000 }
 
     itemFindLevelBoost:
       - { v: 0,    c: 0 }
+      - { v: 150,  c: 10000000 }
 
     itemFindLevelPercent:
       - { v: 0,   c: 0 }
@@ -2129,7 +2130,7 @@
 
   requirements:
     statistics:
-      Item/Salvage/Times: 100000
+      Item/Salvage/Times: 10000
     collectibles:
       - Twisted Turnip
       - Leviathan Egg

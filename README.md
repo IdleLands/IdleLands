@@ -12,6 +12,8 @@
 
 The game is only tested against MongoDB. TypeORM currently lacks support for joins, etc and these are done manually. Additionally, the `seed` process requires using MongoDB. This could be cleaned up in the future, but is not a priority right now.
 
+Additionally, it is recommended to set up a mLab account for your MongoDB tests. This is what IdleLands uses. Some developers have reported trouble setting up a local MongoDB due to some strange errors that don't exist when using mLab.
+
 ## Getting Started
 
 * Clone the repo
@@ -85,6 +87,10 @@ IL3 variables are used to connect to the old DB for the purposes of character im
 
 * `npm run start:server` - start the server
 * `npm run start:client` - start the client
+
+## Improving Server Performance on Windows
+
+If you have trouble or slowness running IdleLands server on Windows, try using `TS_NODE_TRANSPILE_ONLY=1` as an env variable. This will alleviate most issues.
 
 ## Making Yourself A GM
 

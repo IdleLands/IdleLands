@@ -23,6 +23,10 @@ import { EquipSomethingElseModal } from './equipsomethingelse.modal';
         <ion-icon slot="start" [src]="'assets/icon/action-lock.svg'"></ion-icon>
         Lock This
       </ion-item>
+      <ion-item button (click)="salvage()" *ngIf="item && !item.locked && salvageCallback">
+        <ion-icon slot="start" [src]="'assets/icon/action-salvage.svg'"></ion-icon>
+        Salvage This
+      </ion-item>
     </ion-list>
   `,
 })
@@ -33,6 +37,7 @@ export class EquipmentItemPopover {
   @Input() public somethingElseCallback: Function;
   @Input() public unequipCallback: Function;
   @Input() public lockCallback: Function;
+  @Input() public salvageCallback: Function;
 
   constructor(
     private popoverCtrl: PopoverController,
@@ -61,6 +66,11 @@ export class EquipmentItemPopover {
 
   unequip() {
     this.unequipCallback(this.item);
+    this.dismiss();
+  }
+
+  salvage() {
+    this.salvageCallback(this.item.id, this.item.type);
     this.dismiss();
   }
 

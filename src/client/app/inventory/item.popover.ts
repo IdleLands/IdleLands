@@ -56,7 +56,7 @@ export class InventoryItemPopover {
   }
 
   salvage() {
-    this.socketService.emit(ServerEventName.ItemSalvage, { itemId: this.item.id });
+    this.socketService.emit(ServerEventName.ItemSalvage, { itemId: this.item.id, itemSlot: null });
     this.dismiss();
   }
 

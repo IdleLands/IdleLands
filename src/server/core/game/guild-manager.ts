@@ -196,8 +196,14 @@ export class GuildManager {
   }
 
   public updateGuildKey(guildName: string, key: string, value: any): void {
+    const guild = this.getGuild(guildName);
+
+    if(key === 'motd' && value !== guild.motd) {
+      this.discordManager.setGuildTopic(guild, value);
+    }
+
     this.updateGuild(guildName, key, value);
-    this.saveGuild(this.getGuild(guildName));
+    this.saveGuild(guild);
 
     this.subscriptionManager.emitToChannel(Channel.Guild, {
       operation: GuildChannelOperation.Update,

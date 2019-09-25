@@ -73,6 +73,14 @@ export class DiscordManager {
     this.discordChannel.send(message);
   }
 
+  public setGuildTopic(guild: Guild, topic: string) {
+    const charLimit = 500;
+    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    if(!channel || !guild) return;
+    channel.setTopic(topic.substring(0, charLimit));
+    channel.send(`<☆System> ${topic}`);
+  }
+
   public discordUserWithTag(tag: string): Discord.GuildMember {
     if(!this.discordChannel) return null;
     return this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
