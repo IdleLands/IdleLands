@@ -26,6 +26,9 @@
                   {{ resource | titlecase }} (x{{ player.$inventoryData.resources[resource] | number }})
                 </ion-label>
               </ion-item>
+              <ion-item *ngIf="gameService.guild as guild">
+                <ion-button slot="end" (click)="donateAllResources(player.$inventoryData.resources, guild.resources)">Donate All</ion-button>
+              </ion-item>
             </ion-list>
           </ion-card-content>
         </ion-card>

@@ -26,6 +26,7 @@ export class EnhancementMaterialsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.gameService.loadGuild();
   }
 
   useTeleportScroll(scroll: string) {
@@ -40,4 +41,13 @@ export class EnhancementMaterialsPage implements OnInit {
     this.socketService.emit(ServerEventName.ItemBuffScroll, { scrollId });
   }
 
+  donateAllResources(playerResources: any, guildResources: any) {
+    const resources = ['astralium', 'wood', 'clay', 'stone'];
+    resources.forEach((resource) => {
+      if(playerResources[resource] > 0) {
+        guildResources[resource] += +playerResources[resource];
+        this.socketService.emit(ServerEventName.GuildDonateResource, { resource, amount: +playerResources[resource] });
+      }
+    });
+  }
 }
