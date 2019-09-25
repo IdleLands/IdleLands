@@ -26,6 +26,8 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     if(guildName.length > 20) return this.gameError('Guild name must not be greater than 20 characters.');
     if(guildTag.length > 5) return this.gameError('Guild tag must not be greater than 5 characters.');
 
+    if(guildTag.match(/[^a-zA-Z]/)) return this.gameError('Guild tag must only contain letters.');
+
     if(censorSensor.isProfaneIsh(guildName)) return this.gameError(`Guild name is a bit too crude.`);
     if(censorSensor.isProfaneIsh(guildTag)) return this.gameError(`Guild tag is a bit too crude.`);
 
