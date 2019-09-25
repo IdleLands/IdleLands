@@ -52,7 +52,7 @@ export class EnhancementMaterialsPage implements OnInit {
       component: ResourcesPopover,
       componentProps: {
         donateAllCallback: () => {
-          this.socketService.emit(ServerEventName.GuildDonateAllSalvagedResources, {playerResources, guildResources});
+          this.socketService.emit(ServerEventName.GuildDonateAllSalvagedResources, { playerResources, guildResources });
         }
       },
       event: $event,
