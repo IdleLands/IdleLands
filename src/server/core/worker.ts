@@ -63,9 +63,9 @@ export class GameWorker extends SCWorker {
     httpServer.on('request', app);
 
     scServer.on('handshake', socket => {
-      socket.on('error', err => {
-        console.error('Socket', socket.playerName, err);
-      });
+      // socket.on('error', err => {
+        // console.error('Socket', socket.playerName, err);
+      // });
     });
 
     // initialize all the socket commands for the newly connected client
