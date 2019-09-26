@@ -198,8 +198,8 @@ export class GuildManager {
   public updateGuildKey(guildName: string, key: string, value: any): void {
     const guild = this.getGuild(guildName);
 
-    if(key === 'motd' && value !== guild.motd) {
-      this.discordManager.setGuildTopic(guild, value);
+    if(key === 'motd' && value === guild.motd) {
+      return;
     }
 
     this.updateGuild(guildName, key, value);
@@ -397,11 +397,8 @@ export class GuildManager {
 
       // refund cost in case of no help
       if(availHelp.length === 0) {
-        this.updateGuildKey(
-          guildName,
-          `resources.gold`,
-          guild.resources.gold + boss.cost
-        );
+        this.updateGuildKey(guildName, `resources.gold`, guild.resources.gold + boss.cost);
+        this.discordManager.notifyGuildChannel(initiator, guild, 'raid', `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was there to help him, so he took the raid money and walked away.`);
         return;
       }
 
@@ -430,6 +427,7 @@ export class GuildManager {
       };
 
       this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
+      this.discordManager.notifyGuildChannel(initiator, guild, `raid`, messageData.message);
     }, 5000);
   }
 
