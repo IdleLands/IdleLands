@@ -260,11 +260,12 @@ export class GuildToggleBuildingEvent extends ServerSocketEvent implements Serve
       });
     }
 
-    this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
     if(guild.activeBuildings[building]) {
-      this.game.discordManager.notifyGuildChannel(player.name, guild, `activeBuildings`, `${player.name} has activated ${GuildBuildingNames[building]}.`);
-    } else {
       this.game.discordManager.notifyGuildChannel(player.name, guild, `activeBuildings`, `${player.name} has deactivated ${GuildBuildingNames[building]}.`);
+      this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+    } else {
+      this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+      this.game.discordManager.notifyGuildChannel(player.name, guild, `activeBuildings`, `${player.name} has activated ${GuildBuildingNames[building]}.`);
     }
   }
 }

@@ -77,6 +77,8 @@ export class DiscordManager {
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
     const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
 
+    console.log(crierLevel);
+    console.log(crierLevel);
     if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key == 'resources') return;
     else if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
       const charLimit = 500;
@@ -85,7 +87,7 @@ export class DiscordManager {
     } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key) || crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
       return;
     }
-    channel.send(`<☆System> ${message}`);
+    (channel as any).send(`<☆System> ${message}`);
   }
 
   public discordUserWithTag(tag: string): Discord.GuildMember {
