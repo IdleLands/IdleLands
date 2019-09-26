@@ -52,7 +52,7 @@ export class Mage extends BaseProfession implements IProfession {
 
 public oocAbility(player: Player): { success: boolean, message: string } {
 
-    const scaler = player.$statistics.get('Profession/Mage/Become') || 1;
+    const scaler = (player.$statistics.get('Profession/Mage/Become') || 1) + (player.$statistics.get('Profession/Mage/AbilityUses') || 1);
 
     const int = player.getStat(Stat.INT) * scaler;
     const goldGained = Math.max(player.gainGold(int), 10);
