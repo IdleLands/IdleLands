@@ -48,7 +48,7 @@ export class Fighter extends BaseProfession implements IProfession {
 
 
   public oocAbility(player: Player): { success: boolean, message: string } {
-    const scaler = player.$statistics.get('Profession/Fighter/Become') || 1;
+    const scaler = (player.$statistics.get('Profession/Fighter/Become') || 1) + (player.$statistics.get('Profession/Fighter/AbilityUses' || 1);
 
     const luk = player.getStat(Stat.LUK) * scaler;
 
