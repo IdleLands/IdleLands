@@ -398,7 +398,12 @@ export class GuildManager {
       // refund cost in case of no help
       if(availHelp.length === 0) {
         this.updateGuildKey(guildName, `resources.gold`, guild.resources.gold + boss.cost);
-        this.discordManager.notifyGuildChannel(initiator, guild, 'raid', `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was there to help him, so he took the raid money and walked away.`);
+        this.discordManager.notifyGuildChannel(
+          initiator,
+          guild,
+          'raid',
+          `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was able to fight.`
+        );
         return;
       }
 

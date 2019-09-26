@@ -79,12 +79,14 @@ export class DiscordManager {
 
     console.log(crierLevel);
     console.log(crierLevel);
-    if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key == 'resources') return;
+    if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
     else if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
       const charLimit = 500;
       if(!channel || !guild) return;
       channel.setTopic(message.substring(0, charLimit));
-    } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key) || crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
+    } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key)) {
+      return;
+    } else if(crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
       return;
     }
     (channel as any).send(`<☆System> ${message}`);

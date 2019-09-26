@@ -149,7 +149,12 @@ export class GuildDonateResourceEvent extends ServerSocketEvent implements Serve
     player.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, amount);
 
     this.game.guildManager.updateGuildKey(player.guildName, `resources.${resource}`, existing + amount);
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `resources`, `${player.name} has donated ${amount} of ${resource} to the guild treasury.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `resources`,
+      `${player.name} has donated ${amount} of ${resource} to the guild treasury.`
+    );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
   }
@@ -229,7 +234,12 @@ export class GuildDonateCrystalEvent extends ServerSocketEvent implements Server
     player.increaseStatistic(`Guild/Donate/Crystal/${capitalize(crystal)}`, amount);
 
     this.game.guildManager.updateGuildKey(player.guildName, `crystals.${resource}`, existing + amount);
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `crystals`, `${player.name} has donated ${amount} of ${crystal} Crystals to the guild treasury.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `crystals`,
+      `${player.name} has donated ${amount} of ${crystal} Crystals to the guild treasury.`
+    );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
   }
@@ -261,11 +271,21 @@ export class GuildToggleBuildingEvent extends ServerSocketEvent implements Serve
     }
 
     if(guild.activeBuildings[building]) {
-      this.game.discordManager.notifyGuildChannel(player.name, guild, `activeBuildings`, `${player.name} has deactivated ${GuildBuildingNames[building]}.`);
+      this.game.discordManager.notifyGuildChannel(
+        player.name,
+        guild,
+        `activeBuildings`,
+        `${player.name} has deactivated ${GuildBuildingNames[building]}.`
+      );
       this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
     } else {
       this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
-      this.game.discordManager.notifyGuildChannel(player.name, guild, `activeBuildings`, `${player.name} has activated ${GuildBuildingNames[building]}.`);
+      this.game.discordManager.notifyGuildChannel(
+        player.name,
+        guild,
+        `activeBuildings`,
+        `${player.name} has activated ${GuildBuildingNames[building]}.`
+      );
     }
   }
 }
@@ -308,7 +328,12 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     });
 
     guildManager.updateGuildKey(player.guildName, `buildingLevels.${building}`, (guild.buildingLevels[building] || 0) + 1);
-    discordManager.notifyGuildChannel(player.name, guild, `buildingLevels`, `${player.name} has upgraded ${GuildBuildingNames[building]} to level '${(guild.buildingLevels[building] || 0)}'.`);
+    discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `buildingLevels`,
+      `${player.name} has upgraded ${GuildBuildingNames[building]} to level '${(guild.buildingLevels[building] || 0)}'.`
+    );
 
     this.gameSuccess(`Leveled up your building!`);
 
@@ -447,7 +472,12 @@ export class GuildRejectApplicationEvent extends ServerSocketEvent implements Se
     // we don't check if the guild exists here in case someone makes a guild, invites people, then kills the guild
     this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
 
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `members`, `${player.name} has denied ${playerName}'s application to join the guild.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has denied ${playerName}'s application to join the guild.`
+    );
 
     this.gameSuccess(`Withdrew/removed applications/invites for that guild.`);
   }
@@ -497,7 +527,12 @@ export class GuildAcceptApplicationEvent extends ServerSocketEvent implements Se
     this.game.databaseManager.forcePlayerToJoinGuild(playerName, guild.name);
     this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
 
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `members`, `${player.name} has accepted ${playerName}'s application to join the guild.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has accepted ${playerName}'s application to join the guild.`
+    );
 
     this.gameSuccess(`Accepted that members application.`);
   }
@@ -524,7 +559,12 @@ export class GuildKickEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.guildManager.initiateLeaveGuild(kickPlayer, player.guildName);
 
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `members`, `${player.name} has kicked ${kickPlayer} out from the guild.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has kicked ${kickPlayer} out from the guild.`
+    );
 
     this.gameSuccess(`Kicked ${kickPlayer} from guild.`);
   }
@@ -548,20 +588,25 @@ export class GuildPromoteEvent extends ServerSocketEvent implements ServerEvent 
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
-    let newTierName = "";
+    let newTierName = '';
     if(member === GuildMemberTier.Member) {
       newTier = GuildMemberTier.Moderator;
-      newTierName = "Moderator";
+      newTierName = 'Moderator';
     }
     if(member === GuildMemberTier.Moderator) {
       newTier = GuildMemberTier.Leader;
-      newTierName = "Leader";
+      newTierName = 'Leader';
     }
 
     if(newTier === 0) return this.gameError('Cannot promote anymore.');
 
     this.game.guildManager.updateGuildKey(player.guildName, `members.${promotePlayer}`, newTier);
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `members`, `${player.name} has promoted ${promotePlayer} to '${newTierName}'.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has promoted ${promotePlayer} to '${newTierName}'.`
+    );
 
     this.gameSuccess(`Promoted ${promotePlayer}.`);
   }
@@ -585,20 +630,25 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
-    let newTierName = "";
+    let newTierName = '';
     if(member === GuildMemberTier.Leader) {
       newTier = GuildMemberTier.Moderator;
-      newTierName = "Moderator";
+      newTierName = 'Moderator';
     }
     if(member === GuildMemberTier.Moderator) {
       newTier = GuildMemberTier.Member;
-      newTierName = "Member";
+      newTierName = 'Member';
     }
 
     if(newTier === 0) return this.gameError('Cannot demote anymore.');
 
     this.game.guildManager.updateGuildKey(player.guildName, `members.${demotePlayer}`, newTier);
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `members`, `${player.name} has demoted ${demotePlayer} to '${newTierName}'.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has demoted ${demotePlayer} to '${newTierName}'.`
+    );
 
     this.gameSuccess(`Demoted ${demotePlayer}.`);
   }
@@ -630,7 +680,12 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
     this.game.guildManager.initiateEncounterRaidBoss(player.name, guild.name, boss);
 
     this.game.guildManager.updateGuildKey(player.guildName, `resources.gold`, guild.resources.gold - boss.cost);
-    this.game.discordManager.notifyGuildChannel(player.name, guild, `resources`, `${player.name} spent ${boss.cost} gold to initiate a raid.`);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `resources`,
+      `${player.name} spent ${boss.cost} gold to initiate a raid.`
+    );
 
     this.gameSuccess(`Gathering people for raid! Check back in 5 seconds.`);
   }
