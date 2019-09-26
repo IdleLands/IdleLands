@@ -47,13 +47,10 @@ export class SandwichArtist extends BaseProfession implements IProfession {
 
   public oocAbility(player: Player): { success: boolean, message: string } {
     const become = player.$statistics.get('Profession/SandwichArtist/Become') || 1;
-    
     const use = player.$statistics.get('Profession/SandwichArtist/AbilityUses') || 1;
-    
     const scaler = become + use;
-    
     const luk = player.getStat(Stat.LUK) * scaler;
-    
+
     player.grantBuff({
       name: 'Panhandle',
       statistic: 'Character/Ticks',
