@@ -78,7 +78,7 @@ export class DiscordManager {
     const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
 
     if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
-    
+
     if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
       const charLimit = 500;
       if(!channel || !guild) return;
