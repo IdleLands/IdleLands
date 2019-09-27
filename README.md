@@ -98,19 +98,19 @@ To test any moderator-related features, you will need to be a GM. Doing so is as
 db.getCollection('player').update({ name: 'YOUR_CHARACTER_NAME' }, { $set: { modTier: 5 } });
 ```
 
-## Setting up Discord Server and Bot for local testing
+## Setting Up a Discord Server and Bot for Local Testing
 
-* Open [this](https://thomlom.dev/create-a-discord-bot-under-15-minutes/) guide
+* Open [this](https://thomlom.dev/create-a-discord-bot-under-15-minutes/) guide.
 * Clone/Download the attached [Discord Bot](https://github.com/thomlom/discord-bot-example) repo on the bottom of the site
-* Start from **Get that token** and **Add our bot to a server** chapter of the guide (make your bot require Administrator role), and then follow **Getting started** of the [Discord Bot](https://github.com/thomlom/discord-bot-example) repo
+* Start from **Get that token** and **Add our bot to a server** chapter of the guide (make sure your bot has Administrator permission), and then follow **Getting started** of the [Discord Bot](https://github.com/thomlom/discord-bot-example) repo.
 * Your bot should be **ONLINE** on your Discord server before you proceed further.
-* Read through **Discord Variables** part of this README
+* Read through **Discord Variables** part of this README.
 * `DISCORD_SECRET` env variable is your Bot's token. The same one you copied into the `.env` file of your bot.
-* Create roles `Verified` and `Guild Mod` on your Discord server, and give them administrator rights
-* Activate `Developer Mode` in your Discord App: Settings -> Appearance -> Developer Mode
-* Right-click onto your Discord server's `#general` and click on **Copy ID** which you set as `DISCORD_CHANNEL_ID` env variable
-* Right-click onto your Discord server's icon on the left side of the window and click on **Copy ID** which you set as `DISCORD_GUILD_ID` env variable
-* Create `Guild` category by right-clicking into the area of channels on your Discord Server
-* Right-click on the `Guild` category and click on **Copy ID** which you set as `DISCORD_GUILD_CHANNEL_GROUP_ID` env variable
+* Create roles `Verified` and `Guild Mod` on your Discord server.
+* Activate `Developer Mode` in your Discord App: Settings -> Appearance -> Developer Mode.
+* Right-click onto your Discord server's `#general` and click on **Copy ID** which you set as `DISCORD_CHANNEL_ID` env variable.
+* Right-click onto your Discord server's icon on the left side of the window and click on **Copy ID** which you set as `DISCORD_GUILD_ID` env variable.
+* Create `Guild` category by right-clicking into the area of channels on your Discord Server.
+* Right-click on the `Guild` category and click on **Copy ID** which you set as `DISCORD_GUILD_CHANNEL_GROUP_ID` env variable.
 * You may create another chat room for custom-items and copy its ID into your `.env`, but unless you are going to work with them, you (probably) don't need to do so.
 * If everything was set correctly, the bot should be alive and able to write into the respective channels.
