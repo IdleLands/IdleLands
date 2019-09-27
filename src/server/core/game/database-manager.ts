@@ -380,7 +380,7 @@ export class DatabaseManager {
   }
 
   public async saveGuild(guild: Guild): Promise<Guild> {
-    if(!this.connection) return null;
+    if(!this.connection || !guild) return null;
 
     try {
       return await this.connection.manager.save(Guild, guild);
