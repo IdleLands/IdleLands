@@ -153,7 +153,7 @@ export class GuildDonateResourceEvent extends ServerSocketEvent implements Serve
       player.name,
       guild,
       `resources`,
-      `${player.name} has donated ${amount} of ${resource} to the guild treasury.`
+      `${player.name} has donated ${amount.toLocaleString()} of ${resource} to the guild treasury.`
     );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
@@ -238,7 +238,7 @@ export class GuildDonateCrystalEvent extends ServerSocketEvent implements Server
       player.name,
       guild,
       `crystals`,
-      `${player.name} has donated ${amount} of ${crystal} Crystals to the guild treasury.`
+      `${player.name} has donated ${amount.toLocaleString()} of ${crystal} Crystals to the guild treasury.`
     );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
@@ -684,7 +684,7 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
       player.name,
       guild,
       `resources`,
-      `${player.name} spent ${boss.cost} gold to initiate a raid.`
+      `${player.name} spent ${boss.cost.toLocaleString()} gold to initiate a raid.`
     );
 
     this.gameSuccess(`Gathering people for raid! Check back in 5 seconds.`);
