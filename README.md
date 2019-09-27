@@ -104,7 +104,9 @@ db.getCollection('player').update({ name: 'YOUR_CHARACTER_NAME' }, { $set: { mod
 * Clone/Download the attached [Discord Bot](https://github.com/thomlom/discord-bot-example) repo on the bottom of the site
 * Start from **Get that token** and **Add our bot to a server** chapter of the guide (make your bot require Administrator role), and then follow **Getting started** of the [Discord Bot](https://github.com/thomlom/discord-bot-example) repo
 * Your bot should be **ONLINE** on your Discord server before you proceed further.
+* Read through **Discord Variables** part of this README
 * `DISCORD_SECRET` env variable is your Bot's token. The same one you copied into the `.env` file of your bot.
+* Create roles `Verified` and `Guild Mod` on your Discord server, and give them administrator rights
 * Activate `Developer Mode` in your Discord App: Settings -> Appearance -> Developer Mode
 * Right-click onto your Discord server's `#general` and click on **Copy ID** which you set as `DISCORD_CHANNEL_ID` env variable
 * Right-click onto your Discord server's icon on the left side of the window and click on **Copy ID** which you set as `DISCORD_GUILD_ID` env variable
