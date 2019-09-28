@@ -2,9 +2,8 @@ import { Singleton, AutoWired, Inject } from 'typescript-ioc';
 import * as Discord from 'discord.js';
 
 import { Logger } from '../logger';
-import { IMessage, GuildMemberTier } from '../../../shared/interfaces';
+import { IMessage, GuildMemberTier, GuildBuilding } from '../../../shared/interfaces';
 import { Guild, Player } from '../../../shared/models';
-import { c } from 'tar';
 
 @Singleton
 @AutoWired
@@ -37,7 +36,7 @@ export class DiscordManager {
     this.discordChannel = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
-      this.logger.error(new Error(error.message));
+      this.logger.error('Discord', new Error(error.message));
     });
 
     this.discord.on('message', (message) => {
@@ -72,6 +71,24 @@ export class DiscordManager {
     if(!this.discordChannel) return;
 
     this.discordChannel.send(message);
+  }
+
+  public notifyGuildChannel(playerName: string, guild: Guild, key: string, message: string) {
+    const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
+    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+
+    if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
+
+    if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
+      const charLimit = 500;
+      if(!channel || !guild) return;
+      channel.setTopic(message.substring(0, charLimit));
+    } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key)) {
+      return;
+    } else if(crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
+      return;
+    }
+    (channel as any).send(`<☆System> ${message}`);
   }
 
   public discordUserWithTag(tag: string): Discord.GuildMember {

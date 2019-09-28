@@ -13,7 +13,7 @@
     "build:server": "tsc --project src/server/tsconfig.server.json",
     "test": "npm run test:client && npm run test:server",
     "test:client": "npm run lint:client && npm run build:client",
-    "test:server": "npm run lint:server",
+    "test:server": "npm run lint:server && npm run build:server",
     "lint:client": "ng lint",
     "lint:server": "tslint --project src/server/tsconfig.server.json",
     "setup": "node scripts/post-install && npm run seed",

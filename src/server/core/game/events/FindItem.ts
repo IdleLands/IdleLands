@@ -41,7 +41,7 @@ export class FindItem extends Event {
 
   public operateOn(player: Player, opts: any = { item: null, fromPet: false, fromGuardian: false, fromPillage: false, fromChest: false }) {
     const item: Item = opts.item || this.itemGenerator.generateItemForPlayer(player);
-    if(!item) {
+    if(!item || item.score === 0) {
       player.increaseStatistic(`Event/FindItem/Nothing`, 1);
       return;
     }

@@ -196,8 +196,14 @@ export class GuildManager {
   }
 
   public updateGuildKey(guildName: string, key: string, value: any): void {
+    const guild = this.getGuild(guildName);
+
+    if(key === 'motd' && value === guild.motd) {
+      return;
+    }
+
     this.updateGuild(guildName, key, value);
-    this.saveGuild(this.getGuild(guildName));
+    this.saveGuild(guild);
 
     this.subscriptionManager.emitToChannel(Channel.Guild, {
       operation: GuildChannelOperation.Update,
@@ -239,6 +245,8 @@ export class GuildManager {
       const item = new Item();
       item.init(itemData);
       item.regenerateUUID();
+
+      if(item.score === 0) return;
 
       player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromGuild: true, item });
     });
@@ -322,7 +330,7 @@ export class GuildManager {
       profession: '',
       scaleStat: '',
       stats: {
-        [Stat.HP]: 25000 * level
+        [Stat.HP]: 100000 * level
       },
       rewards: this.raidBossRewards(level)
     };
@@ -389,10 +397,12 @@ export class GuildManager {
 
       // refund cost in case of no help
       if(availHelp.length === 0) {
-        this.updateGuildKey(
-          guildName,
-          `resources.gold`,
-          guild.resources.gold + boss.cost
+        this.updateGuildKey(guildName, `resources.gold`, guild.resources.gold + boss.cost);
+        this.discordManager.notifyGuildChannel(
+          initiator,
+          guild,
+          'raid',
+          `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was able to fight.`
         );
         return;
       }
@@ -422,6 +432,7 @@ export class GuildManager {
       };
 
       this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
+      this.discordManager.notifyGuildChannel(initiator, guild, `raid`, messageData.message);
     }, 5000);
   }
 

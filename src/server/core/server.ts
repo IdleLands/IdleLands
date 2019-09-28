@@ -46,6 +46,10 @@ const options = {
   killMasterOnSignal: false,
   environment: environment,
   logLevel: 1,
+  protocolOptions: null,
+
+  pingInterval: 15000,
+  pingTimeout: 50000,
 
   brokerOptions: {
     host: process.env.SCC_BROKER_REDIS_HOST,

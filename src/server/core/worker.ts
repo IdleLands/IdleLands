@@ -62,8 +62,15 @@ export class GameWorker extends SCWorker {
 
     httpServer.on('request', app);
 
+    scServer.on('handshake', socket => {
+      // socket.on('error', err => {
+        // console.error('Socket', socket.playerName, err);
+      // });
+    });
+
     // initialize all the socket commands for the newly connected client
     scServer.on('connection', (socket) => {
+
       Object.values(allEvents).forEach((EvtCtor: any) => {
         const evtInst = new EvtCtor(game, socket);
         socket.on(evtInst.event, async (args) => {
@@ -95,9 +102,13 @@ export class GameWorker extends SCWorker {
     });
 
     scServer.on('error', (err) => {
-      console.error(err);
+      console.error('SCWorker', err);
     });
   }
 }
 
 const gameWorker = new GameWorker();
+
+gameWorker.on('error', err => {
+  console.error('SCWorker GameWorker', err);
+});

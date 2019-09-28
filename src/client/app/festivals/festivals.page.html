@@ -13,7 +13,7 @@
     </ion-row>
 
     <ion-row offset-xs="0" offset-md="3" class="ion-padding">
-      <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
+      <ng-container *ngFor="let stat of ['salvage', 'str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
         <ion-col size-xs="6" size-md="4" *ngIf="aggregate.stats[stat]" class="vertical-center">
           <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end">
           </ion-icon>
@@ -51,7 +51,7 @@
 
           <ion-card-content>
             <ion-row>
-              <ng-container *ngFor="let stat of ['str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
+              <ng-container *ngFor="let stat of ['salvage', 'str', 'int', 'dex', 'agi', 'con', 'luk', 'hp', 'xp', 'gold']">
                 <ion-col size-xs="6" size-md="4" *ngIf="item.stats[stat]" class="vertical-center">
                   <ion-icon class="stat-icon" [src]="'assets/icon/stat-' + stat + '.svg'" class="ion-margin-end">
                   </ion-icon>

@@ -17,11 +17,11 @@
 
       <!-- tabs must request data like this or it doesn't work -->
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="hasBuyablePets(player)" color="secondary">
+        <ion-badge *ngIf="uiService.hasBuyablePets(player)" color="secondary">
           {{ (player.$petsData.buyablePets | keyvalue).length }}
         </ion-badge>
 
-        <ion-badge *ngIf="!hasBuyablePets(player) && canAnyPetGather(player)" color="success">
+        <ion-badge *ngIf="!uiService.hasBuyablePets(player) && uiService.canAnyPetGather(player)" color="success">
           Gather
         </ion-badge>
       </ng-container>
@@ -33,7 +33,7 @@
       <ion-label>Adventures</ion-label>
 
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge color="success" *ngIf="player.$petsData && isAnyAdventureComplete(player.$petsData.adventures)">Complete</ion-badge>
+        <ion-badge color="success" *ngIf="player.$petsData && uiService.isAnyAdventureComplete(player.$petsData.adventures)">Complete</ion-badge>
       </ng-container>
     </ion-tab-button>
   </ion-tab-bar>

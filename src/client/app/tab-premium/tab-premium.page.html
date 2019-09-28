@@ -18,7 +18,7 @@
 
       <!-- tabs must request data like this or it doesn't work -->
       <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$premiumData && canDoPremium(player)" color="secondary">Free Roll</ion-badge>
+        <ion-badge *ngIf="player.$premiumData && uiService.canDoPremium(player)" color="secondary">Free Roll</ion-badge>
       </ng-container>
     </ion-tab-button>
 
