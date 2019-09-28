@@ -14,6 +14,7 @@ import { sample } from 'lodash';
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
 import { IPlayer, ServerEventName, IPet } from '../../shared/interfaces';
+import { UiService } from './ui.service';
 
 @Component({
   selector: 'app-root',
@@ -38,14 +39,17 @@ export class AppComponent {
 
     { name: 'Accomplishments', icon: 'achievements', url: '/accomplishments' },
 
-    { name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
-      return this.gameService.unreadMessages;
-    } },
+    {
+      name: 'Chat', icon: 'chat', url: '/chat', badgeColor: 'primary', badge: () => {
+        return this.gameService.unreadMessages;
+      }
+    },
 
-    { name: 'Gear', icon: 'gear', url: '/gear', badgeColor: 'secondary', badge: (player) => {
-      if(!player.$inventoryData || !player.$inventoryData.buffScrolls || !player.$inventoryData.buffScrolls.length) return;
-      return player.$inventoryData.buffScrolls.length + ' Scroll(s)';
-    } },
+    {
+      name: 'Gear', icon: 'gear', url: '/gear', badgeColor: 'secondary', badge: (player) => {
+        return this.uiService.getPlayerScrolls(player);
+      }
+    },
 
     { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guildName },
 
@@ -53,44 +57,29 @@ export class AppComponent {
 
     { name: 'Map', icon: 'map', url: '/map' },
 
-    { name: 'Pets', icon: 'allpets', url: '/pets', badgeColor: 'success', badge: (player) => {
-      if(!player.$petsData) return false;
+    {
+      name: 'Pets', icon: 'allpets', url: '/pets', badgeColor: 'success', badge: (player) => {
+        return this.uiService.isPetsAdventureCompleted(player);
+      }
+    },
 
-      const anyComplete = player.$petsData.adventures.some(x => x.finishAt && x.finishAt < Date.now());
+    {
+      name: 'Premium', icon: 'premium', url: '/premium', badge: (player) => {
+        return this.uiService.canDoFreeRolls(player);
+      }
+    },
 
-      const anyGather = Object.values(player.$petsData.allPets).some((pet: IPet) => {
-        if(!pet.gatherTick) return false;
-        if(pet.gatherTick <= Date.now()) return true;
-        return false;
-      });
+    {
+      name: 'Quests', icon: 'questglobal', url: '/quests', badgeColor: 'success', badge: (player) => {
+        return this.uiService.isAnyQuestComplete(player);
+      }
+    },
 
-      if(!anyComplete && !anyGather) return false;
-
-      return anyComplete ? 'Complete' : 'Gather';
-    } },
-
-    { name: 'Premium', icon: 'premium', url: '/premium', badge: (player) => {
-      if(!player.$premiumData) return false;
-
-      const canDoFree = player.$premiumData.gachaFreeRolls['Astral Gate'] < Date.now();
-      if(!canDoFree) return false;
-
-      return 'Free Roll';
-    } },
-
-    { name: 'Quests', icon: 'questglobal', url: '/quests', badgeColor: 'success', badge: (player) => {
-      if(!player.$questsData) return false;
-
-      const anyComplete = player.$questsData.quests.some(x => x.objectives.every(obj => obj.progress >= obj.statisticValue));
-      if(!anyComplete) return false;
-
-      return 'Complete';
-    } },
-
-    { name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
-      if(player.authId) return false;
-      return 'Unsynced';
-    } }
+    {
+      name: 'Settings', icon: 'settings', url: '/settings', badgeColor: 'danger', badge: (player) => {
+        return this.uiService.isSettingsUnSynced(player);
+      }
+    }
   ];
 
   constructor(
@@ -103,7 +92,8 @@ export class AppComponent {
     private modalCtrl: ModalController,
     private storage: Storage,
     private socketService: SocketClusterService,
-    public gameService: GameService
+    public gameService: GameService,
+    public uiService: UiService
   ) {
     this.initializeApp();
     this.watchRouteChanges();
@@ -112,8 +102,8 @@ export class AppComponent {
   }
 
   public playerCircleText(player: IPlayer) {
-    if(player.level.__current === player.level.maximum) return '!';
-    if(player.ascensionLevel > 0) return player.ascensionLevel;
+    if (player.level.__current === player.level.maximum) return '!';
+    if (player.ascensionLevel > 0) return player.ascensionLevel;
     return 'XP';
   }
 
@@ -128,10 +118,12 @@ export class AppComponent {
       message: 'Are you sure you want to log out?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Yes, log out!', handler: async () => {
-          await this.router.navigate(['/home']);
-          this.gameService.logout();
-        } }
+        {
+          text: 'Yes, log out!', handler: async () => {
+            await this.router.navigate(['/home']);
+            this.gameService.logout();
+          }
+        }
       ]
     });
 
@@ -147,7 +139,7 @@ export class AppComponent {
     window.onpopstate = async () => {
       try {
         const element = await this.modalCtrl.getTop();
-        if(element) { element.dismiss(); }
+        if (element) { element.dismiss(); }
       } catch (e) { }
     };
 
@@ -162,7 +154,7 @@ export class AppComponent {
   }
 
   private watchAppChanges() {
-    if(!this.updates.isEnabled) { return; }
+    if (!this.updates.isEnabled) { return; }
 
     interval(1000 * 60 * 15).subscribe(() => this.updates.checkForUpdate());
     this.updates.available.subscribe(() => {
@@ -186,12 +178,12 @@ export class AppComponent {
         const isChat = x.urlAfterRedirects.includes('/chat');
         this.hiddenPlayerMenu = !isChat;
 
-        if(!isHome && !this.gameService.hasPlayer && !isShare) {
+        if (!isHome && !this.gameService.hasPlayer && !isShare) {
           await this.router.navigate(['/home']);
           this.hiddenSplitPane = true;
         }
 
-        if(!isHome && !x.urlAfterRedirects.includes('/combat') && !isShare) {
+        if (!isHome && !x.urlAfterRedirects.includes('/combat') && !isShare) {
           this.storage.set('lastUrl', x.urlAfterRedirects);
         }
       });
@@ -206,85 +198,85 @@ export class AppComponent {
     this.clouds++;
 
     const clicks = {
-      0:    'IdleLands',
-      5:    'Why are you doing this?',
-      10:   'There are better things to do...',
-      20:   'Go back to idling!',
-      50:   'Stop that.',
-      60:   'Really, stop that.',
-      70:   'Please?',
-      75:   'Please??',
-      80:   'Please???',
-      85:   'Please????',
-      90:   'Please?????',
-      95:   'Please??????',
-      100:  'Please???????',
-      105:  'Fine.',
-      120:  'I have accepted this.',
-      150:  'Okay, maybe not really.',
-      170:  'You\'re being pretty annoying.',
-      200:  'LEAVE ME ALONE',
-      201:  'OR ELSE',
-      202:  'I WILL DISCONNECT YOU',
-      205:  '... That didn\'t stop you?',
-      210:  'I was being mean :(',
-      211:  'Please come back :(',
-      212:  'I didn\'t mean it :(',
-      215:  'Sigh...',
-      220:  'Okay, we\'re done here.',
-      225:  'No, really, we\'re done.',
-      250:  'I SAID WE\'RE DONE!',
-      275:  'NO SOUP FOR YOU!',
-      300:  'GOOD DAY SIR (or madam)!',
-      350:  'W',
-      351:  'H',
-      352:  'Y',
-      355:  '...',
-      356:  '....',
-      357:  '.....',
-      358:  '......',
-      359:  '.......',
-      360:  '........',
-      361:  '.........................................',
-      362:  'Goodbye.',
-      363:  '...',
-      366:  'Okay, this is getting really old.',
-      388:  'You WILL be disconnected!',
-      390:  'Try me.',
-      391:  'You really will.',
-      398:  'Don\t tempt me!',
-      399:  'Okay, here goes...'
+      0: 'IdleLands',
+      5: 'Why are you doing this?',
+      10: 'There are better things to do...',
+      20: 'Go back to idling!',
+      50: 'Stop that.',
+      60: 'Really, stop that.',
+      70: 'Please?',
+      75: 'Please??',
+      80: 'Please???',
+      85: 'Please????',
+      90: 'Please?????',
+      95: 'Please??????',
+      100: 'Please???????',
+      105: 'Fine.',
+      120: 'I have accepted this.',
+      150: 'Okay, maybe not really.',
+      170: 'You\'re being pretty annoying.',
+      200: 'LEAVE ME ALONE',
+      201: 'OR ELSE',
+      202: 'I WILL DISCONNECT YOU',
+      205: '... That didn\'t stop you?',
+      210: 'I was being mean :(',
+      211: 'Please come back :(',
+      212: 'I didn\'t mean it :(',
+      215: 'Sigh...',
+      220: 'Okay, we\'re done here.',
+      225: 'No, really, we\'re done.',
+      250: 'I SAID WE\'RE DONE!',
+      275: 'NO SOUP FOR YOU!',
+      300: 'GOOD DAY SIR (or madam)!',
+      350: 'W',
+      351: 'H',
+      352: 'Y',
+      355: '...',
+      356: '....',
+      357: '.....',
+      358: '......',
+      359: '.......',
+      360: '........',
+      361: '.........................................',
+      362: 'Goodbye.',
+      363: '...',
+      366: 'Okay, this is getting really old.',
+      388: 'You WILL be disconnected!',
+      390: 'Try me.',
+      391: 'You really will.',
+      398: 'Don\t tempt me!',
+      399: 'Okay, here goes...'
     };
 
     const msg = clicks[this.clouds];
 
-    if(msg) {
+    if (msg) {
       const allColors = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark', 'medium', 'light'];
       let type = 'primary';
 
-      if(this.clouds >= 50)  type = 'secondary';
-      if(this.clouds >= 60)  type = 'tertiary';
+      if (this.clouds >= 50) type = 'secondary';
+      if (this.clouds >= 60) type = 'tertiary';
 
-      if(this.clouds >= 70)  type = 'success';
+      if (this.clouds >= 70) type = 'success';
 
-      if(this.clouds >= 105) type = 'warning';
+      if (this.clouds >= 105) type = 'warning';
 
-      if(this.clouds >= 200) type = sample(['dark', 'medium', 'light']);
+      if (this.clouds >= 200) type = sample(['dark', 'medium', 'light']);
 
-      if(this.clouds >= 355) type = sample(allColors);
-      if(this.clouds >= 366) type = 'danger';
+      if (this.clouds >= 355) type = sample(allColors);
+      if (this.clouds >= 366) type = 'danger';
 
       this.socketService.toastNotify({ message: msg, type });
     }
 
-    if(this.clouds > 400) window.location.reload();
+    if (this.clouds > 400) window.location.reload();
   }
 
   private watchSpecialEvents() {
 
     // "recent combat" toast popup
     this.socketService.register(ServerEventName.AdventureLogAdd, ({ type, combatString }) => {
-      if(type !== 'combat' || !combatString) return;
+      if (type !== 'combat' || !combatString) return;
 
       this.socketService.toastNotify({
         header: 'Recent Combat!',
