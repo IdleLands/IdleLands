@@ -12,7 +12,13 @@
 
 The game is only tested against MongoDB. TypeORM currently lacks support for joins, etc and these are done manually. Additionally, the `seed` process requires using MongoDB. This could be cleaned up in the future, but is not a priority right now.
 
-Additionally, it is recommended to set up a mLab account for your MongoDB tests. This is what IdleLands uses. Some developers have reported trouble setting up a local MongoDB due to some strange errors that don't exist when using mLab.
+Additionally, it is recommended to set up a mLab account for your MongoDB tests or you can use our `docker-compose`, which you can run locally via `docker-compose up`.
+This will spin up two docker container. First one will be your MongoDB database and the second one is tool called Mongo Express. Here you can manage your database collection very easily.
+
+To connect to docker MongoDB instance use at .env file this environment variable: `TYPEORM_URL=mongodb://admin-user:admin-password@127.0.0.1:27017/admin?retryWrites=true&w=majority`.
+
+To check Mongo Express, open your browser and navigate to: `http:localhost:8081`.
+
 
 ## Getting Started
 
