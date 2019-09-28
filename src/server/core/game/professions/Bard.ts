@@ -53,7 +53,7 @@ export class Bard extends BaseProfession implements IProfession {
 
     const stats = { };
     Object.values(AllStatsButSpecial).forEach(stat => {
-      const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * -5, bardicShift * 10));
+      const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * -10, bardicShift * 10));
       if(val === 0) return;
 
       stats[stat] = val;

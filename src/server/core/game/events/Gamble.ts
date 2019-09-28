@@ -43,7 +43,7 @@ export class Gamble extends Event {
 
     } else {
       eventManager.errorMessage(player,
-        `You lost ${bet.toLocaleString()} gold against the odds of ${odds}%! Better luck next time.`);
+        `You lost ${bet.toLocaleString()} gold against the odds of ${odds.toFixed(2)}%! Better luck next time.`);
       player.increaseStatistic(`Event/Gamble/LoseTimes`, 1);
 
       if(valueChosen === 'Double') {
@@ -51,7 +51,7 @@ export class Gamble extends Event {
       }
 
       const allText = `${player.fullName()} bet ${bet.toLocaleString()} gold at the gambling table against the odds
-        of ${odds}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and lost it all.`;
+        of ${odds.toFixed(2)}%${valueChosen === 'Double' ? ' (Double Down)' : ''} and lost it all.`;
       this.emitMessage([player], allText, AdventureLogEventType.Gold);
     }
 

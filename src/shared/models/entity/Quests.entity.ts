@@ -178,7 +178,7 @@ export class Quests extends PlayerOwned {
 
     player.increaseStatistic(`Quest/Global/Map/${quest.objectives[0].requireMap}`, 1);
 
-    const maxContributions = sortBy(Object.keys(totalSums), pl => totalSums[pl]);
+    const maxContributions = sortBy(Object.keys(totalSums), pl => -totalSums[pl]);
 
     let rewardKey = 'other';
     if(maxContributions[0] === player.name) {

@@ -254,6 +254,8 @@ export class GMGiveGuildResourcesEvent extends ServerSocketEvent implements Serv
 
     const resources = { gold, wood, clay, stone, astralium };
 
+    let guildMessage = `${myPlayer.name} has given`;
+
     ['gold', 'wood', 'clay', 'stone', 'astralium'].forEach(resource => {
       const amount = +(resources[resource] || 0);
       if(!amount) return;
@@ -262,7 +264,13 @@ export class GMGiveGuildResourcesEvent extends ServerSocketEvent implements Serv
 
       const existing = guild.resources[resource] || 0;
       this.game.guildManager.updateGuildKey(guildName, `resources.${resource}`, existing + amount);
+      guildMessage += ` ${amount} ${resource},`;
     });
+
+    guildMessage = guildMessage.substring(0, guildMessage.length - 1);
+    guildMessage += ' to the guild treasury.';
+
+    this.game.discordManager.notifyGuildChannel(myPlayer.name, guild, `resources`, guildMessage);
 
     this.gameMessage(`Did it.`);
   }
