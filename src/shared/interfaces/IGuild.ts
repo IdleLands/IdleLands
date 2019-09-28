@@ -84,7 +84,7 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.Enchantress]: (level) => 1 + Math.floor(level / 20),
   [GuildBuilding.FortuneTeller]: (level) => level,
   [GuildBuilding.Merchant]: (level) => level,
-  [GuildBuilding.WitchDoctor]: (level) => Math.floor((level * 100) / 100),
+  [GuildBuilding.WitchDoctor]: (level) => Math.floor(level / 100),
   [GuildBuilding.FactoryScroll]: (level) => level,
   [GuildBuilding.FactoryItem]: (level) => 25 + level,
   [GuildBuilding.GeneratorWood]: (level) => level * 5,
