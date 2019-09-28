@@ -775,13 +775,18 @@ export class Player implements IPlayer {
     if(this.guildName && this.$personalities.isActive('SupporterOfTheCause')) {
       const guild = this.$$game.guildManager.getGuild(this.guildName);
       if(guild) {
+        let guildMessage = `${this.name} has donated`;
         Object.keys(resources).forEach(resource => {
           if(!resources[resource]) return;
 
           const existing = guild.resources[resource] || 0;
           this.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, resources[resource]);
-          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.${resource}`, existing + resources[resource]);
+          this.$$game.guildManager.updateGuildKey(this.name, this.guildName, `resources.${resource}`, existing + resources[resource]);
+          guildMessage += ` ${resources[resource]} ${resource},`;
         });
+        guildMessage = guildMessage.substring(0, guildMessage.length - 1);
+        guildMessage += ' to the guild treasury.';
+        this.$$game.discordManager.notifyGuildChannel(this.name, guild, `resources`, guildMessage);
       }
     } else {
       this.$inventory.addResources({ clay, wood, stone, astralium });

@@ -6,6 +6,7 @@ import { censorSensor } from '../core/static/profanity-filter';
 import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildingNames,
   GuildMemberTier, GuildBuildingUpgradeCosts, GuildBuildingLevelValues } from '../../shared/interfaces';
 import { ServerSocketEvent } from '../../shared/models';
+import { GuildManager } from '../core/game/guild-manager';
 
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildCreate;
@@ -66,6 +67,7 @@ export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent
 
     if(!['Closed', 'Open', 'Apply'].includes(newMode)) return this.gameError('Invalid recruit mode.');
     this.game.guildManager.updateGuildKey(player.guildName, 'recruitment', newMode);
+    this.game.discordManager.notifyGuildChannel(player.name, guild, 'recruitment', `${player.name} has set recruit mode to '${newMode}'.`);
 
     this.gameSuccess(`Set guild recruit mode to ${newMode}.`);
   }
@@ -87,6 +89,7 @@ export class GuildSetMOTDEvent extends ServerSocketEvent implements ServerEvent 
 
     if(newMOTD.length > 2000) newMOTD = newMOTD.slice(0, 2000);
 
+    this.game.discordManager.notifyGuildChannel(player.name, guild, 'motd', newMOTD);
     this.game.guildManager.updateGuildKey(player.guildName, 'motd', newMOTD);
 
     this.gameSuccess(`Set guild MOTD.`);
@@ -113,6 +116,7 @@ export class GuildSetResourceTaxEvent extends ServerSocketEvent implements Serve
     newTax = Math.round(newTax);
 
     this.game.guildManager.updateGuildKey(player.guildName, `taxes.${resource}`, newTax);
+    this.game.discordManager.notifyGuildChannel(player.name, guild, `taxes`, `${player.name} has set tax for ${resource} at ${newTax}%.`);
 
     this.gameSuccess(`Set guild ${resource} tax to ${newTax}%.`);
   }
@@ -145,6 +149,12 @@ export class GuildDonateResourceEvent extends ServerSocketEvent implements Serve
     player.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, amount);
 
     this.game.guildManager.updateGuildKey(player.guildName, `resources.${resource}`, existing + amount);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `resources`,
+      `${player.name} has donated ${amount.toLocaleString()} of ${resource} to the guild treasury.`
+    );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
   }
@@ -164,6 +174,7 @@ export class GuildDonateAllSalvagedResourcesEvent extends ServerSocketEvent impl
 
     const resources = ['wood', 'clay', 'stone', 'astralium'];
     let gameSuccessMessage = 'Donated';
+    let guildMessage = `${player.name} has donated`;
 
     resources.forEach((resource) => {
       let amount = playerResources[resource];
@@ -182,10 +193,15 @@ export class GuildDonateAllSalvagedResourcesEvent extends ServerSocketEvent impl
       this.game.guildManager.updateGuildKey(player.guildName, `resources.${resource}`, existing + amount);
 
       gameSuccessMessage += ` ${amount} ${resource},`;
+      guildMessage += ` ${amount} ${resource},`;
     });
 
     gameSuccessMessage = gameSuccessMessage.substring(0, gameSuccessMessage.length - 1);
+    guildMessage = gameSuccessMessage.substring(0, gameSuccessMessage.length - 1);
     gameSuccessMessage += ' to guild.';
+    guildMessage += ' to the guild treasury.';
+
+    this.game.discordManager.notifyGuildChannel(player.name, guild, `resources`, guildMessage);
 
     this.gameSuccess(gameSuccessMessage);
   }
@@ -218,6 +234,12 @@ export class GuildDonateCrystalEvent extends ServerSocketEvent implements Server
     player.increaseStatistic(`Guild/Donate/Crystal/${capitalize(crystal)}`, amount);
 
     this.game.guildManager.updateGuildKey(player.guildName, `crystals.${resource}`, existing + amount);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `crystals`,
+      `${player.name} has donated ${amount.toLocaleString()} of ${crystal} Crystals to the guild treasury.`
+    );
 
     this.gameSuccess(`Donated ${amount} ${resource} to guild.`);
   }
@@ -248,7 +270,23 @@ export class GuildToggleBuildingEvent extends ServerSocketEvent implements Serve
       });
     }
 
-    this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+    if(guild.activeBuildings[building]) {
+      this.game.discordManager.notifyGuildChannel(
+        player.name,
+        guild,
+        `activeBuildings`,
+        `${player.name} has deactivated ${GuildBuildingNames[building]}.`
+      );
+      this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+    } else {
+      this.game.guildManager.updateGuildKey(player.guildName, `activeBuildings.${building}`, !guild.activeBuildings[building]);
+      this.game.discordManager.notifyGuildChannel(
+        player.name,
+        guild,
+        `activeBuildings`,
+        `${player.name} has activated ${GuildBuildingNames[building]}.`
+      );
+    }
   }
 }
 
@@ -278,27 +316,23 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     const canDo = Object.keys(costs).every(costKey => (guild.resources[costKey] || guild.crystals[costKey]) >= costs[costKey]);
     if(!canDo) return this.gameError('Not enough resources.');
 
-    Object.keys(costs).forEach(costKey => {
+    const guildManager = this.game.guildManager;
+    const discordManager = this.game.discordManager;
 
+    Object.keys(costs).forEach(costKey => {
       if(costKey.includes('Crystal')) {
-        this.game.guildManager.updateGuildKey(
-          player.guildName,
-          `crystals.${costKey}`,
-          guild.crystals[costKey] - costs[costKey]
-        );
+        guildManager.updateGuildKey(player.guildName, `crystals.${costKey}`, guild.crystals[costKey] - costs[costKey]);
       } else {
-        this.game.guildManager.updateGuildKey(
-          player.guildName,
-          `resources.${costKey}`,
-          guild.resources[costKey] - costs[costKey]
-        );
+        guildManager.updateGuildKey(player.guildName, `resources.${costKey}`, guild.resources[costKey] - costs[costKey]);
       }
     });
 
-    this.game.guildManager.updateGuildKey(
-      player.guildName,
-      `buildingLevels.${building}`,
-      (guild.buildingLevels[building] || 0) + 1
+    guildManager.updateGuildKey(player.guildName, `buildingLevels.${building}`, (guild.buildingLevels[building] || 0) + 1);
+    discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `buildingLevels`,
+      `${player.name} has upgraded ${GuildBuildingNames[building]} to level '${(guild.buildingLevels[building] || 0)}'.`
     );
 
     this.gameSuccess(`Leveled up your building!`);
@@ -336,13 +370,14 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
         } catch(e) {
           return this.gameError('You already have an application for that guild.');
         }
-
+        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${player.name} has applied to join the guild.`);
         this.gameSuccess(`You applied to the guild!`);
         break;
       }
 
       case 'Open': {
         this.game.guildManager.joinGuild(player.name, guildName, GuildMemberTier.Member);
+        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${player.name} has joined the guild.`);
         this.gameSuccess(`You joined the guild!`);
         break;
       }
@@ -398,6 +433,8 @@ export class GuildLeaveEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.guildManager.initiateLeaveGuild(player.name, player.guildName);
 
+    this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${player.name} has left the guild.`);
+
     this.gameSuccess(`Left guild.`);
   }
 }
@@ -434,6 +471,13 @@ export class GuildRejectApplicationEvent extends ServerSocketEvent implements Se
 
     // we don't check if the guild exists here in case someone makes a guild, invites people, then kills the guild
     this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
+
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has denied ${playerName}'s application to join the guild.`
+    );
 
     this.gameSuccess(`Withdrew/removed applications/invites for that guild.`);
   }
@@ -483,6 +527,13 @@ export class GuildAcceptApplicationEvent extends ServerSocketEvent implements Se
     this.game.databaseManager.forcePlayerToJoinGuild(playerName, guild.name);
     this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
 
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has accepted ${playerName}'s application to join the guild.`
+    );
+
     this.gameSuccess(`Accepted that members application.`);
   }
 }
@@ -508,6 +559,13 @@ export class GuildKickEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.guildManager.initiateLeaveGuild(kickPlayer, player.guildName);
 
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has kicked ${kickPlayer} out from the guild.`
+    );
+
     this.gameSuccess(`Kicked ${kickPlayer} from guild.`);
   }
 }
@@ -530,15 +588,24 @@ export class GuildPromoteEvent extends ServerSocketEvent implements ServerEvent 
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
-    if(member === GuildMemberTier.Member) newTier = GuildMemberTier.Moderator;
-    if(member === GuildMemberTier.Moderator) newTier = GuildMemberTier.Leader;
+    let newTierName = '';
+    if(member === GuildMemberTier.Member) {
+      newTier = GuildMemberTier.Moderator;
+      newTierName = 'Moderator';
+    }
+    if(member === GuildMemberTier.Moderator) {
+      newTier = GuildMemberTier.Leader;
+      newTierName = 'Leader';
+    }
 
     if(newTier === 0) return this.gameError('Cannot promote anymore.');
 
-    this.game.guildManager.updateGuildKey(
-      player.guildName,
-      `members.${promotePlayer}`,
-      newTier
+    this.game.guildManager.updateGuildKey(player.guildName, `members.${promotePlayer}`, newTier);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has promoted ${promotePlayer} to '${newTierName}'.`
     );
 
     this.gameSuccess(`Promoted ${promotePlayer}.`);
@@ -563,15 +630,24 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
-    if(member === GuildMemberTier.Leader) newTier = GuildMemberTier.Moderator;
-    if(member === GuildMemberTier.Moderator) newTier = GuildMemberTier.Member;
+    let newTierName = '';
+    if(member === GuildMemberTier.Leader) {
+      newTier = GuildMemberTier.Moderator;
+      newTierName = 'Moderator';
+    }
+    if(member === GuildMemberTier.Moderator) {
+      newTier = GuildMemberTier.Member;
+      newTierName = 'Member';
+    }
 
     if(newTier === 0) return this.gameError('Cannot demote anymore.');
 
-    this.game.guildManager.updateGuildKey(
-      player.guildName,
-      `members.${demotePlayer}`,
-      newTier
+    this.game.guildManager.updateGuildKey(player.guildName, `members.${demotePlayer}`, newTier);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `members`,
+      `${player.name} has demoted ${demotePlayer} to '${newTierName}'.`
     );
 
     this.gameSuccess(`Demoted ${demotePlayer}.`);
@@ -603,10 +679,12 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
 
     this.game.guildManager.initiateEncounterRaidBoss(player.name, guild.name, boss);
 
-    this.game.guildManager.updateGuildKey(
-      player.guildName,
-      `resources.gold`,
-      guild.resources.gold - boss.cost
+    this.game.guildManager.updateGuildKey(player.guildName, `resources.gold`, guild.resources.gold - boss.cost);
+    this.game.discordManager.notifyGuildChannel(
+      player.name,
+      guild,
+      `resources`,
+      `${player.name} spent ${boss.cost.toLocaleString()} gold to initiate a raid.`
     );
 
     this.gameSuccess(`Gathering people for raid! Check back in 5 seconds.`);
