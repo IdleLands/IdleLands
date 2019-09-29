@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
 
   <ng-container *ngIf="gameService.player$ | async as player">
     <ion-row>
@@ -255,7 +255,7 @@
                   <ion-icon slot="start" 
                             [src]="'assets/icon/stat-' + (actualBuff.booster ? 'booster' : 'injury') + '.svg'"></ion-icon>
 
-                  <ion-label text-wrap>
+                  <ion-label class="ion-text-wrap">
                     <h2>{{ actualBuff.name }} ({{ actualBuff.duration }} {{ buff.key }})</h2>
                     <span *ngFor="let stat of (actualBuff.stats || {}) | keyvalue" class="vertical-center" [class.hidden]="stat.value === 0">
                       <ion-icon [src]="'assets/icon/stat-' + stat.key + '.svg'" class="ion-margin-end"></ion-icon> 

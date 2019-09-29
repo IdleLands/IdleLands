@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.adventures$ | async) as adventures">
     
     <ion-row *ngFor="let adventure of adventures">
@@ -28,7 +28,7 @@
             {{ adventureNames[adventure.type] }}
           </ion-col>
 
-          <ion-col text-right>
+          <ion-col class="ion-text-right">
             <ion-badge *ngIf="!adventure.finishAt" color="secondary">{{ adventure.duration }} hours</ion-badge>
             <ion-badge *ngIf="adventure.finishAt && !isAdventureDone(adventure)" color="tertiary">
               Done in <countdown-timer [end]="adventure.finishAt"></countdown-timer>
@@ -53,10 +53,10 @@
       </ion-row>
 
       <ion-row>
-        <ion-col text-right *ngIf="!adventure.finishAt">
+        <ion-col class="ion-text-right" *ngIf="!adventure.finishAt">
           <ion-button (click)="embark(adventure)">Embark</ion-button>
         </ion-col>
-        <ion-col text-right *ngIf="adventure.finishAt && isAdventureDone(adventure)">
+        <ion-col class="ion-text-right" *ngIf="adventure.finishAt && isAdventureDone(adventure)">
           <ion-button (click)="collect(adventure)">Collect Rewards</ion-button>
         </ion-col>
       </ion-row>

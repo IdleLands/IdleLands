@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.items$ | async) as items">
     <div class="blank-slate" *ngIf="!items?.length">
       You have no items in your inventory.

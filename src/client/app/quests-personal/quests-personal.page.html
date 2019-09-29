@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
 
   <ng-container *ngIf="(gameService.player$ | async) as player">
     
@@ -21,7 +21,7 @@
                     {{ quest.name }}
                   </ion-col>
         
-                  <ion-col text-right>
+                  <ion-col class="ion-text-right">
                     <ion-button color="dark" fill="outline" size="small" (click)="reroll(quest)">
                       <ion-icon slot="icon-only" name="refresh"></ion-icon>
                     </ion-button>
@@ -44,7 +44,7 @@
               </ion-row>
 
               <ion-row *ngIf="canCollect(quest)">
-                <ion-col text-right>
+                <ion-col class="ion-text-right">
                   <ion-button (click)="collect(quest)">Collect</ion-button>
                 </ion-col>
               </ion-row>

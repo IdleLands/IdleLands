@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <ng-container *ngIf="player.$inventoryData">
       <ion-row *ngFor="let slot of slots" [class.ion-hide]="!player.$inventoryData.equipment[slot] && canHideSlot(slot)">

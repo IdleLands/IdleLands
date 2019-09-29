@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.choices$ | async) as choices">
     <div class="blank-slate" *ngIf="!choices?.length">
       You have no choices to make.
