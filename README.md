@@ -12,7 +12,13 @@
 
 The game is only tested against MongoDB. TypeORM currently lacks support for joins, etc and these are done manually. Additionally, the `seed` process requires using MongoDB. This could be cleaned up in the future, but is not a priority right now.
 
-Additionally, it is **recommended** to set up a [mLab](https://mlab.com/) account for your MongoDB tests instead of using local MongoDB. Some developers have reported trouble setting up a local MongoDB due to some strange errors that don't exist when using mLab.
+Additionally, it is recommended to set up a mLab account for your MongoDB tests or you can use our `docker-compose`, which you can run locally via `docker-compose up`.
+This will spin up two Docker containers. First one will be your MongoDB database and the second one is tool called Mongo Express. Here you can manage your database collections very easily.
+
+To connect to Docker MongoDB instance create `.env` file (see `Environment Variables`) and set `TYPEORM_URL` environment variable to: `mongodb://admin-user:admin-password@127.0.0.1:27017/admin?retryWrites=true&w=majority`.
+
+To check Mongo Express, open your browser and navigate to: `http:localhost:8081`.
+
 
 ## Getting Started
 
