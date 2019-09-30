@@ -52,7 +52,7 @@ export class Bard extends BaseProfession implements IProfession {
     const bardicShift = Math.sqrt(scaler / 2);
 
     const luk = player.getStat(Stat.LUK);
-    const range = math.round(math.log10(luk));
+    const range = Math.round(Math.log10(luk));
 
     const stats = { };
     Object.values(AllStatsButSpecial).forEach(stat => {
