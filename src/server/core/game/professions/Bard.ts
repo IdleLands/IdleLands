@@ -51,9 +51,12 @@ export class Bard extends BaseProfession implements IProfession {
     const scaler = (player.$statistics.get('Profession/Bard/AbilityUses') || 1) + (player.$statistics.get('Profession/Bard/Become') || 1);
     const bardicShift = Math.sqrt(scaler / 2);
 
+    const luk = player.getStat(Stat.LUK);
+    const range = math.round(math.log10(luk));
+
     const stats = { };
     Object.values(AllStatsButSpecial).forEach(stat => {
-      const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * -10, bardicShift * 10));
+      const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * (-11 + range), bardicShift * (9 + range)));
       if(val === 0) return;
 
       stats[stat] = val;
