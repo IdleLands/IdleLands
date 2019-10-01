@@ -1,5 +1,5 @@
 import { BaseProfession } from './Profession';
-import { Stat, AllStatsButSpecial } from '../../../../shared/interfaces/Stat';
+import { Stat, AllStatsButSpecialInclSalvage } from '../../../../shared/interfaces/Stat';
 import { Player } from '../../../../shared/models/entity';
 import { IProfession, IFestival } from '../../../../shared/interfaces';
 
@@ -55,7 +55,7 @@ export class Bard extends BaseProfession implements IProfession {
     const range = Math.round(Math.log10(luk));
 
     const stats = { };
-    Object.values(AllStatsButSpecial).forEach(stat => {
+    Object.values(AllStatsButSpecialInclSalvage).forEach(stat => {
       const val = Math.floor(player.$$game.rngService.numberInRange(bardicShift * (-11 + range), bardicShift * (9 + range)));
       if(val === 0) return;
 

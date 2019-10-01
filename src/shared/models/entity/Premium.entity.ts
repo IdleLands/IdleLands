@@ -3,8 +3,9 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 
 import { PlayerOwned } from './PlayerOwned';
 import { PermanentUpgrade, PremiumTier, PremiumScale, ItemClass, GachaReward,
-  TeleportItemLocation, IBuffScrollItem, AllStatsButSpecial, StatPartners, EventName,
-  FestivalType, FestivalCost, IFestival, FestivalStats, OtherILPPurchase, OtherILPCosts, StatPartnerDivisor } from '../../interfaces';
+  TeleportItemLocation, IBuffScrollItem, StatPartners, EventName,
+  FestivalType, FestivalCost, IFestival, FestivalStats, OtherILPPurchase,
+  OtherILPCosts, StatPartnerDivisor, AllStatsButSpecialInclSalvage } from '../../interfaces';
 
 import * as Gachas from '../../../shared/astralgate';
 import { Player } from './Player.entity';
@@ -321,7 +322,7 @@ export class Premium extends PlayerOwned {
 
               const chooseAndAddStat = () => {
 
-                const stat = player.$$game.rngService.pickone(AllStatsButSpecial);
+                const stat = player.$$game.rngService.pickone(AllStatsButSpecialInclSalvage);
                 const val = Math.floor(player.getStat(StatPartners[stat]) / StatPartnerDivisor[stat]);
 
                 stats[stat] = stats[stat] || 0;
