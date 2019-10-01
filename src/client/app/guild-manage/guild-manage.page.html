@@ -35,6 +35,15 @@
               &nbsp; {{ player.profession }}
             </p>
           </ion-label>
+          
+          <ion-label *ngIf="!gameService.playerInfoHash[appinv.playerName]">
+            <h3 class="vertical-center">
+              {{ appinv.playerName }}
+            </h3>
+            <p class="vertical-center ion-margin-start">
+              Offline
+            </p>
+          </ion-label>
 
           <ion-button slot="end" (click)="cancelInv(appinv)" *ngIf="appinv.type === 'application'">Deny</ion-button>
           <ion-button slot="end" (click)="acceptInv(appinv)" *ngIf="appinv.type === 'application'">Accept</ion-button>
