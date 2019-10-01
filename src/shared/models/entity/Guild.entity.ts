@@ -102,6 +102,7 @@ export class Guild implements IGuild {
   }
 
   public canAnyoneJoin(): boolean {
+    if(Object.keys(this.members).length === 0) return false;
     return Object.keys(this.members).length < this.buildingBonus(GuildBuilding.Academy);
   }
 

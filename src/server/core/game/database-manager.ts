@@ -289,6 +289,7 @@ export class DatabaseManager {
       const guilds = await this.connection.manager.find(Guild);
       return guilds
               .filter(g => g.recruitment !== 'Closed')
+              .filter(g => Object.keys(g.members).length > 0)
               .map(guild => pick(guild, ['buildingLevels', 'name', 'tag', 'recruitment']));
 
     } catch(e) {
