@@ -314,7 +314,8 @@ export class Pet implements IPet {
   public doUpgrade(upgrade: PetUpgrade) {
     this.upgradeLevels[upgrade]++;
 
-    if(upgrade === PetUpgrade.GatherTime) {
+    const upgradeGatherTime = this.$$game.petHelper.getPetUpgradeValue(this, PetUpgrade.GatherTime) * 1000;
+    if(upgrade === PetUpgrade.GatherTime && this.gatherTick.valueOf() > (Date.now() + upgradeGatherTime)) {
       this.updateGatherTick();
     }
   }
