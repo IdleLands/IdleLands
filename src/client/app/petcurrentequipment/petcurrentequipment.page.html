@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <ng-container *ngIf="player.$petsData.allPets[player.$petsData.currentPet] as pet">
       <ng-container *ngFor="let equipSlot of slots">

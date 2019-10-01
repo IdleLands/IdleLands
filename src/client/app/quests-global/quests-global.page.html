@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
 
   <div class="blank-slate" *ngIf="!isLoading && (!quests || quests.length === 0)">
     There are no global quests :(
@@ -30,7 +30,7 @@
                 {{ quest.name }}
               </ion-col>
   
-              <ion-col text-right>
+              <ion-col class="ion-text-right">
                 <ion-button size="small" text-right color="tertiary" (click)="showRewards(quest)">Rewards</ion-button>
               </ion-col>
             </ion-row>
@@ -54,7 +54,7 @@
           </ion-row>
 
           <ion-row *ngIf="canCollect(quest)">
-            <ion-col text-right>
+            <ion-col class="ion-text-right">
               <ion-button (click)="collect(quest)">Collect</ion-button>
             </ion-col>
           </ion-row>

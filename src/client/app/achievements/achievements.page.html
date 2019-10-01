@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.achievements$ | async) as achievements">
     <div class="blank-slate" *ngIf="!achievements?.length">
       You have no achievements.

@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="gameService.adventureLog$ | async as log">
     <div class="blank-slate" *ngIf="log.length === 0">
       You have no adventure log data.

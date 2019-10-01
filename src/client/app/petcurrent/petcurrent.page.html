@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <div class="blank-slate" *ngIf="!player?.$petsData?.currentPet">
       You have no current pet.
@@ -178,7 +178,7 @@
 
                 <ion-item *ngFor="let upgrade of pet.permanentUpgrades | keyvalue">
 
-                  <ion-label text-wrap>
+                  <ion-label class="ion-text-wrap">
                     <h3>{{ properPermanentUpgradeNames[upgrade.key] }} +{{ upgrade.value }}</h3>
                   </ion-label>
                 </ion-item>

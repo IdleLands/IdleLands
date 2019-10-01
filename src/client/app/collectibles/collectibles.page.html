@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.collectibles$ | async) as collectibles">
     <div class="blank-slate" *ngIf="!collectibles?.length">
       You have no collectibles.

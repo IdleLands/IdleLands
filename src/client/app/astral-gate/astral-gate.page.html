@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ng-container *ngIf="(gameService.player$ | async) as player">
     <ng-container *ngIf="player.$premiumData as premium">
       <ion-row *ngFor="let gacha of gachas">
@@ -21,8 +21,8 @@
                     {{ gacha.value.name }}
                   </ion-col>
   
-                  <ion-col text-right>
-                    <ion-button size="small" text-right color="tertiary" (click)="showOdds(gacha.value)">Odds</ion-button>
+                  <ion-col class="ion-text-right">
+                    <ion-button size="small" class="ion-text-right" color="tertiary" (click)="showOdds(gacha.value)">Odds</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-card-title>
@@ -42,7 +42,7 @@
                   <ion-button color="secondary" (click)="roll(gacha.key, gacha.value, 10, true)">Free Roll</ion-button>
                 </ion-col>
   
-                <ion-col text-right>
+                <ion-col class="ion-text-right">
                   <ion-button [disabled]="!canRoll(player, gacha.value, 1)" (click)="roll(gacha.key, gacha.value, 1)">Roll ({{ gacha.value.rollCost | number }} {{ gacha.value.requiredToken || 'ILP' }})</ion-button>
                   <ion-button [disabled]="!canRoll(player, gacha.value, 10)" (click)="roll(gacha.key, gacha.value, 10)">Roll x10 ({{ gacha.value.rollCost * 10 | number }} {{ gacha.value.requiredToken || 'ILP' }})</ion-button>
                 </ion-col>

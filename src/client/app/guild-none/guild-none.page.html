@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
 
   <div class="blank-slate" *ngIf="!isLoading && (!guilds || guilds.length === 0)">
     There are no recruiting guilds :( &nbsp;<ion-button (click)="makeGuild()">Create one?</ion-button>

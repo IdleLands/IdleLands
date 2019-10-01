@@ -29,7 +29,7 @@
           </div>
           <ion-list>
             <ion-item *ngFor="let message of gameService.messages" class="chat-message" (contextmenu)="openPopover(message.realPlayerName, $event)">
-              <ion-label text-wrap>
+              <ion-label class="ion-text-wrap">
                 <h2>
                     <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
                   <span class="chat-username">{{ message.playerName }}</span>
