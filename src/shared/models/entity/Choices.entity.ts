@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { find, pull, isArray } from 'lodash';
+import { find, sample, isArray } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 import { IChoice } from '../../interfaces';
@@ -80,6 +80,22 @@ export class Choices extends PlayerOwned {
   }
 
   public addChoice(player: Player, choice: Choice) {
+
+    if(player.$personalities.isActive('Affirmer') && choice.choices.indexOf('Yes') > -1) {
+      this.makeDecision(player, choice, choice.choices.indexOf('Yes'));
+      return;
+    }
+
+    if(player.$personalities.isActive('Denier') && choice.choices.indexOf('No') > -1) {
+      this.makeDecision(player, choice, choice.choices.indexOf('No'));
+      return;
+    }
+
+    if(player.$personalities.isActive('Indecisive')) {
+      this.makeDecision(player, choice, choice.choices.indexOf(sample(choice.choices)));
+      return;
+    }
+
     this.choices[choice.foundAt] = choice;
 
     const allChoiceKeys = Object.keys(this.choices);
