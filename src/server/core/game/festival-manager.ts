@@ -70,7 +70,8 @@ export class FestivalManager {
       endTime: endTime.getTime(),
       stats: {
         [Stat.XP]: player.ascensionLevel,
-        [Stat.GOLD]: player.ascensionLevel
+        [Stat.GOLD]: player.ascensionLevel,
+        [Stat.SALVAGE]: player.ascensionLevel
       }
     });
 
