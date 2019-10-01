@@ -3,7 +3,8 @@ import { random, sample, get, zip, extend } from 'lodash';
 
 import { AssetManager } from './asset-manager';
 import { Item, Player } from '../../../shared/models';
-import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat, IBuffScrollItem, AllStatsButSpecial } from '../../../shared/interfaces';
+import { ItemClass, ItemSlot, AllStats, GenerateableItemSlot, Stat,
+  IBuffScrollItem, AllStatsButSpecialInclSalvage } from '../../../shared/interfaces';
 import { RNGService } from './rng-service';
 
 @Singleton
@@ -350,8 +351,16 @@ export class ItemGenerator {
 
     const chooseAndAddStat = () => {
 
-      const stat = this.rng.pickone(AllStatsButSpecial);
-      const val = bonus;
+      const stat = this.rng.pickone(AllStatsButSpecialInclSalvage);
+      let val = bonus;
+
+      if(stat === Stat.SALVAGE) {
+        val = Math.floor(val / 3);
+      }
+
+      if(stat === Stat.XP || stat === Stat.GOLD) {
+        val = Math.floor(val / 2);
+      }
 
       stats[stat] = stats[stat] || 0;
       stats[stat] += Math.max(1, val);
