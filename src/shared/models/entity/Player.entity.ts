@@ -781,7 +781,7 @@ export class Player implements IPlayer {
 
           const existing = guild.resources[resource] || 0;
           this.increaseStatistic(`Guild/Donate/Resource/${capitalize(resource)}`, resources[resource]);
-          this.$$game.guildManager.updateGuildKey(this.name, this.guildName, `resources.${resource}`, existing + resources[resource]);
+          this.$$game.guildManager.updateGuildKey(this.guildName, `resources.${resource}`, existing + resources[resource]);
           guildMessage += ` ${resources[resource]} ${resource},`;
         });
         guildMessage = guildMessage.substring(0, guildMessage.length - 1);
