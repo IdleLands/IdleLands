@@ -107,8 +107,7 @@ export class Choices extends PlayerOwned {
     if(allChoiceKeys.length > this.size) {
       const poppedChoice = this.choices[allChoiceKeys[0]];
       player.increaseStatistic(`Character/Choose/Ignore`, 1);
-      const shouldRemove = player.$$game.eventManager.doChoiceFor(this, choice, poppedChoice.defaultChoice);
-      this.makeDecision(player, poppedChoice, poppedChoice.choices.indexOf(poppedChoice.defaultChoice), shouldRemove);
+      this.removeChoice(poppedChoice);
     }
   }
 
