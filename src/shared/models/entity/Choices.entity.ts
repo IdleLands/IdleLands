@@ -82,20 +82,20 @@ export class Choices extends PlayerOwned {
   public addChoice(player: Player, choice: Choice) {
 
     if(player.$personalities.isActive('Affirmer') && choice.choices.indexOf('Yes') > -1) {
-      const shouldRemove = player.$$game.eventManager.doChoiceFor(this, choice, 'Yes');
+      const shouldRemove = player.$$game.eventManager.doChoiceFor(player, choice, 'Yes');
       this.makeDecision(player, choice, choice.choices.indexOf('Yes'), shouldRemove);
       return;
     }
 
     if(player.$personalities.isActive('Denier') && choice.choices.indexOf('No') > -1) {
-      const shouldRemove = player.$$game.eventManager.doChoiceFor(this, choice, 'No');
+      const shouldRemove = player.$$game.eventManager.doChoiceFor(player, choice, 'No');
       this.makeDecision(player, choice, choice.choices.indexOf('No'), shouldRemove);
       return;
     }
 
     if(player.$personalities.isActive('Indecisive')) {
       const decision = sample(choice.choices);
-      const shouldRemove = player.$$game.eventManager.doChoiceFor(this, choice, decision);
+      const shouldRemove = player.$$game.eventManager.doChoiceFor(player, choice, decision);
       this.makeDecision(player, choice, choice.choices.indexOf(decision), shouldRemove);
       return;
     }
