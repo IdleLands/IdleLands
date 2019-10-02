@@ -94,7 +94,7 @@ export class Choices extends PlayerOwned {
     }
 
     if(player.$personalities.isActive('Indecisive')) {
-      const decision = sample(choice.choices);
+      const decision = choice.defaultChoice;
       const shouldRemove = player.$$game.eventManager.doChoiceFor(player, choice, decision);
       this.makeDecision(player, choice, choice.choices.indexOf(choice.defaultChoice), shouldRemove);
       return;
