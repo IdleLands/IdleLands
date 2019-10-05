@@ -1,6 +1,6 @@
 import { Personality } from '../../../../shared/interfaces';
 
 export class Denier extends Personality {
-  static description = 'All incoming choices will be set to "No" as their default action.';
+  static description = 'All incoming choices will automatically be denied with the "No" action.';
   static toggleOff = ['Affirmer', 'Indecisive'];
 }
