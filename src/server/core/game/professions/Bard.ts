@@ -49,10 +49,10 @@ export class Bard extends BaseProfession implements IProfession {
   public oocAbility(player: Player): { success: boolean, message: string } {
 
     const scaler = (player.$statistics.get('Profession/Bard/AbilityUses') || 1) + (player.$statistics.get('Profession/Bard/Become') || 1);
-    const bardicShift = Math.sqrt(scaler / 2);
+    const bardicShift = Math.max(1, Math.sqrt(scaler / 2));
 
     const luk = player.getStat(Stat.LUK);
-    const range = Math.round(Math.log10(luk));
+    const range = Math.max(1, Math.round(Math.log10(luk)));
 
     const stats = { };
     Object.values(AllStatsButSpecialInclSalvage).forEach(stat => {
