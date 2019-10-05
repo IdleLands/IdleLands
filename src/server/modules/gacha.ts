@@ -10,7 +10,7 @@ export class GateRollEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
-    if(numRolls !== 1 && numRolls !== 10) return this.gameError('Invalid number of rolls specified.');
+    if(numRolls !== 1 && numRolls !== 10 && numRolls !== 100) return this.gameError('Invalid number of rolls specified.');
 
     const rollRewards = player.$premium.doGachaRoll(player, astralGateName, numRolls);
     if(!rollRewards) return this.gameError('You do not have enough currency to do that roll!');
