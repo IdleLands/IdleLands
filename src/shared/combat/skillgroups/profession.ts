@@ -897,7 +897,7 @@ export const ProfessionSkillMap: { [key in Profession]: ICombatWeightedSkillChoi
           [
             Targets(Targetting.SingleEnemy), EffectsPerTarget(1),
             Description(`%source threw ${bottleCount} empty bottles at %target dealing %value damage!`),
-            StatMod(Stat.HP, (caster, target) => target.stats[Stat.HP] * (bottleCount / 200))
+            StatMod(Stat.HP, (caster, target) => -target.stats[Stat.HP] * (bottleCount / 200))
           ]
         ];
       }
