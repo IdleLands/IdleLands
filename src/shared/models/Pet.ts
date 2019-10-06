@@ -72,7 +72,7 @@ export class Pet implements IPet {
     if(!this.upgradeLevels) this.upgradeLevels = { };
     if(!this.equipment) this.equipment = { };
     if(!this.gatherTick && this.upgradeLevels[PetUpgrade.GatherTime]) this.updateGatherTick();
-    if(!this.affinity) this.affinity = sample(Object.values(PetAffinity));
+    if(!this.affinity) this.affinity = sample(Object.values(PetAffinity).filter(x => x !== PetAffinity.None));
     if(!this.attribute) this.attribute = PetAttribute.Cursed;
 
     // reset some aspects
