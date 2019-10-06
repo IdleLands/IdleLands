@@ -132,7 +132,7 @@ export class ChangeDiscordTagEvent extends ServerSocketEvent implements ServerEv
       return this.gameMessage('Unset your Discord tag! Your Premium benefits have been reset.');
     }
 
-    if(player.discordTag && discordTag !== player.discordTag) {
+    if(discordTag !== player.discordTag) {
       if(!this.game.discordManager.isTagInDiscord(discordTag)) return this.gameError('That user is not in Discord!');
       if(await this.game.databaseManager.findPlayerWithDiscordTag(discordTag)) return this.gameError('That Discord tag is already taken!');
     }
