@@ -13,7 +13,7 @@ export class Necromancer extends BaseProfession implements IProfession {
   public readonly statForStats = {
     [Stat.HP]: {
       [Stat.CON]: 2,
-      [Stat.INT]: 5
+      [Stat.INT]: 3
     }
   };
 
