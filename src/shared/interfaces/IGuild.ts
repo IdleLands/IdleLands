@@ -86,7 +86,7 @@ export const GuildBuildingLevelValues: { [key in GuildBuilding]: (level: number)
   [GuildBuilding.Merchant]: (level) => level * 3,
   [GuildBuilding.WitchDoctor]: (level) => Math.floor(level / 100),
   [GuildBuilding.FactoryScroll]: (level) => level,
-  [GuildBuilding.FactoryItem]: (level) => 50 + level,
+  [GuildBuilding.FactoryItem]: (level) => 50 * level,
   [GuildBuilding.GeneratorWood]: (level) => level * 5,
   [GuildBuilding.GeneratorStone]: (level) => level * 5,
   [GuildBuilding.GeneratorClay]: (level) => level * 5,
