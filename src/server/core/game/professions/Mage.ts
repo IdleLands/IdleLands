@@ -12,7 +12,7 @@ export class Mage extends BaseProfession implements IProfession {
 
   public readonly statForStats = {
     [Stat.HP]: {
-      [Stat.CON]: 5,
+      [Stat.CON]: 4,
       [Stat.INT]: 1
     },
     [Stat.SPECIAL]: {
