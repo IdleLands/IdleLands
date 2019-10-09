@@ -25,6 +25,7 @@ export class Guild implements IGuild {
   @Column() public buildingLevels: { [key in GuildBuilding]?: number };
   @Column() public members: { [key: string]: GuildMemberTier };
   @Column() public nextTick: number;
+  @Column() public factoryTick: number;
   @Column() public nextProcs: { [key in GuildBuilding]?: number };
 
   public init() {
@@ -58,6 +59,7 @@ export class Guild implements IGuild {
     }
     if(!this.members) this.members = { };
     if(!this.nextTick) this.nextTick = Date.now() + (60 * 60 * 1000);
+    if(!this.factoryTick) this.factoryTick = this.nextTick;
     if(!this.nextProcs) this.nextProcs = { };
   }
 
@@ -118,17 +120,21 @@ export class Guild implements IGuild {
       [GuildBuilding.GeneratorWood]:      GuildResource.Wood
     };
 
-    const factories = {
-      [GuildBuilding.FactoryItem]: () => {
-        const item: Item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
-        game.guildManager.initiateShareItem(this.name, item);
-      },
+    if (Date.now() >= this.factoryTick) {
+      // Keep factoryTick in sync, but add 2 more hours
+      this.factoryTick = this.nextTick + (2 * 60 * 60 * 1000);
+      const factories = {
+        [GuildBuilding.FactoryItem]: () => {
+          const item: Item = game.itemGenerator.generateItem({ generateLevel: this.buildingBonus(GuildBuilding.FactoryItem) });
+          game.guildManager.initiateShareItem(this.name, item);
+        },
 
-      [GuildBuilding.FactoryScroll]: () => {
-        const item = game.itemGenerator.generateBuffScroll(this.buildingBonus(GuildBuilding.FactoryScroll));
-        game.guildManager.initiateShareScroll(this.name, item);
-      },
-    };
+        [GuildBuilding.FactoryScroll]: () => {
+          const item = game.itemGenerator.generateBuffScroll(this.buildingBonus(GuildBuilding.FactoryScroll));
+          game.guildManager.initiateShareScroll(this.name, item);
+        },
+      };
+    }
 
     Object.keys(generators).forEach((building: GuildBuilding) => {
       if(!this.isBuildingActive(building) || !this.buildingBonus(building)) return;
