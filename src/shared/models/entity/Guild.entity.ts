@@ -126,7 +126,7 @@ export class Guild implements IGuild {
       this.resources[generators[building]] += this.buildingBonus(building);
     });
 
-    if (Date.now() >= this.factoryTick) {
+    if (!this.factoryTick || (Date.now() >= this.factoryTick)) {
       // Keep factoryTick in sync, but add 2 more hours
       this.factoryTick = this.nextTick + (2 * 60 * 60 * 1000);
       const factories = {
