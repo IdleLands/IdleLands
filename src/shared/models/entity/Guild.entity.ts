@@ -120,6 +120,12 @@ export class Guild implements IGuild {
       [GuildBuilding.GeneratorWood]:      GuildResource.Wood
     };
 
+    Object.keys(generators).forEach((building: GuildBuilding) => {
+      if(!this.isBuildingActive(building) || !this.buildingBonus(building)) return;
+
+      this.resources[generators[building]] += this.buildingBonus(building);
+    });
+    
     if (Date.now() >= this.factoryTick) {
       // Keep factoryTick in sync, but add 2 more hours
       this.factoryTick = this.nextTick + (2 * 60 * 60 * 1000);
@@ -134,18 +140,12 @@ export class Guild implements IGuild {
           game.guildManager.initiateShareScroll(this.name, item);
         },
       };
+      
+      Object.keys(factories).forEach((factory: GuildBuilding) => {
+        if(!this.isBuildingActive(factory) || !this.buildingBonus(factory)) return;
+
+        factories[factory]();
+      });
     }
-
-    Object.keys(generators).forEach((building: GuildBuilding) => {
-      if(!this.isBuildingActive(building) || !this.buildingBonus(building)) return;
-
-      this.resources[generators[building]] += this.buildingBonus(building);
-    });
-
-    Object.keys(factories).forEach((factory: GuildBuilding) => {
-      if(!this.isBuildingActive(factory) || !this.buildingBonus(factory)) return;
-
-      factories[factory]();
-    });
   }
 }
