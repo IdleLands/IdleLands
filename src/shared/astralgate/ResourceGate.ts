@@ -21,11 +21,7 @@ export class ResourceGate extends BaseGachaRoller {
     { result: GachaReward.ClayLG,         chance: GachaChance.XRare },
     { result: GachaReward.WoodLG,         chance: GachaChance.XRare },
     { result: GachaReward.StoneLG,        chance: GachaChance.XRare },
-    { result: GachaReward.AstraliumLG,    chance: GachaChance.XXRare },
-
-    { result: GachaReward.GoldMD,         chance: GachaChance.XRare },
-    { result: GachaReward.GoldLG,         chance: GachaChance.Rare },
-    { result: GachaReward.GoldXL,         chance: GachaChance.XXRare }
+    { result: GachaReward.AstraliumLG,    chance: GachaChance.XXRare }
   ];
 }
 
