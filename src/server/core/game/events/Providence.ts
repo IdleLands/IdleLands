@@ -153,7 +153,7 @@ export class Providence extends Event {
     return baseMessage;
   }
 
-  public operateOn(player: Player) {
+  public operateOn(player: Player, opts?) {
     let bonus = 0;
     const guild = this.guildManager.getGuildForPlayer(player);
     if(guild) {
@@ -162,11 +162,16 @@ export class Providence extends Event {
 
     const canGainXp = player.level.total < player.level.maximum - 100;
 
+    let profession = this.rng.pickone(player.$statistics.getChildren('Profession')) || 'Generalist';
+    if(opts && opts.preventClassChange) {
+      profession = player.profession;
+    }
+
     const providenceData = {
       xp: this.rng.numberInRange(-player.xp.maximum, canGainXp ? player.xp.maximum : 0),
       level: this.rng.numberInRange(-3 - Math.floor(bonus / 10), canGainXp ? 2 + Math.floor(bonus / 25) : 0),
       gender: this.rng.pickone(player.availableGenders),
-      profession: this.rng.pickone(player.$statistics.getChildren('Profession')) || 'Generalist',
+      profession,
       gold: this.rng.numberInRange(-Math.min(300 * player.level.total, player.gold), 200 * player.level.total)
     };
 
