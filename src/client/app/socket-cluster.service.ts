@@ -55,6 +55,8 @@ export class SocketClusterService {
     this.hasInit = true;
 
     this.initSocket();
+
+    (window as any).__emitSocket = (e, d) => this.emit(e, d);
   }
 
   private initSocket() {

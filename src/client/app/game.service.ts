@@ -340,6 +340,7 @@ export class GameService {
   private refreshPlayerInfoHash() {
     this.playerInfoHash = { };
     this.allPlayers.forEach(p => this.playerInfoHash[p.name] = p);
+    (window as any).__allPlayers = this.playerInfoHash;
   }
 
   private initCharacterWatches() {
