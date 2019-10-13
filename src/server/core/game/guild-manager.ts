@@ -412,7 +412,6 @@ export class GuildManager {
       simulator.events$.subscribe(({ action, data }) => {
         if(action === CombatAction.Victory) {
           this.discordManager.notifyGuildChannel(initiator, guild, `raid`, `The combat was ${data.winningParty === 0 ? 'won' : 'lost'}!`);
-          
           this.subscriptionManager.emitToChannel(Channel.Guild, {
             operation: GuildChannelOperation.RaidResults, guildName, combat, winningParty: data.winningParty, boss
           });
