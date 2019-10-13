@@ -411,7 +411,10 @@ export class GuildManager {
 
       simulator.events$.subscribe(({ action, data }) => {
         if(action === CombatAction.Victory) {
-          this.discordManager.notifyGuildChannel(initiator, guild, `raid`, `The combat was ${data.winningParty === 0 ? 'won' : 'lost'}!`);
+          const winnerMsg = data.winningParty === 0 ? 'WIN' : 'LOSE';
+          const message = `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was able to fight. [${winnerMsg}]`;
+          this.discordManager.notifyGuildChannel(initiator, guild, `raid`, message);
+
           this.subscriptionManager.emitToChannel(Channel.Guild, {
             operation: GuildChannelOperation.RaidResults, guildName, combat, winningParty: data.winningParty, boss
           });
@@ -433,7 +436,6 @@ export class GuildManager {
       };
 
       this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
-      this.discordManager.notifyGuildChannel(initiator, guild, `raid`, messageData.message);
     }, 5000);
   }
 
