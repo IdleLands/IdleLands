@@ -412,7 +412,8 @@ export class GuildManager {
       simulator.events$.subscribe(({ action, data }) => {
         if(action === CombatAction.Victory) {
           const winnerMsg = data.winningParty === 0 ? 'WIN' : 'LOSE';
-          const message = `${initiator} initiated a guild raid boss fight for ${guildName} but nobody was able to fight. [${winnerMsg}]`;
+          const message = `${initiator} initiated a guild raid boss fight
+          for ${guildName} against a level ${boss.level} ${boss.profession}! [${winnerMsg}]`;
           this.discordManager.notifyGuildChannel(initiator, guild, `raid`, message);
 
           this.subscriptionManager.emitToChannel(Channel.Guild, {
