@@ -27,22 +27,22 @@ const StepperAchievementTitles: { [key in Profession]: string } = {
 };
 
 const ClassChangeTitles: { [key in Profession]: string[] } = {
-  [Profession.Archer]: ['Off-Target', 'Inaccurate', 'Good Shot', 'Precise', 'Exact'],
-  [Profession.Barbarian]: ['Uncouth', 'Rude', 'Lowbrow', 'Philistine', 'Uncivilized'],
-  [Profession.Bard]: ['Tone Deaf', 'Melodic', 'Harmonic', 'Symphonic', 'Operatic'],
-  [Profession.Bitomancer]: ['Beta Tester', 'Code Monkey', 'Geek', 'Cyberpunk', 'l33t h4x0r'],
-  [Profession.Cleric]: ['Sanctimonious', 'Pious', 'Devout', 'Righteous', 'Saintly'],
-  [Profession.Fighter]: ['Ornery', 'Combatative', 'Pugilistic', 'Militant', 'Bellicose'],
-  [Profession.Generalist]: ['Vague', 'Undifferentiated', 'Average', 'Versatile', 'Well-Rounded'],
-  [Profession.Jester]: ['Unfunny', 'Laughable', 'Amusing', 'Hilarious', 'Hysterical'],
-  [Profession.Mage]: ['Charlatan', 'Conjurer', 'Wizard', 'Warlock', 'Shaman'],
-  [Profession.MagicalMonster]: ['Gnome', 'Goblin', 'Centaur', 'Griffin', 'Manticore'],
-  [Profession.Monster]: ['Yucky', 'Deformed', 'Freak of Nature', 'Grotesque', 'Inhuman'],
-  [Profession.Necromancer]: ['Morbid', 'Gravedigger', 'Witch Doctor', 'Dark Artist', 'Thaumaturge'],
-  [Profession.Pirate]: ['Damp', 'Swabbie', 'Keelhauler', 'Scurvy', 'Old Salt'],
-  [Profession.Rogue]: ['Naughty', 'Bad Egg', 'Rascal', 'Rapscallion', 'Blackguard'],
+  [Profession.Archer]: ['Off-Target', 'Inaccurate', 'Good Shot', 'Precise', 'Exact', 'Sure-fire'],
+  [Profession.Barbarian]: ['Uncouth', 'Rude', 'Lowbrow', 'Philistine', 'Uncivilized', 'Savage'],
+  [Profession.Bard]: ['Tone Deaf', 'Melodic', 'Harmonic', 'Symphonic', 'Operatic', 'Exhilarating'],
+  [Profession.Bitomancer]: ['Beta Tester', 'Code Monkey', 'Geek', 'Cyberpunk', 'l33t h4x0r', 'SuperNerd'],
+  [Profession.Cleric]: ['Sanctimonious', 'Pious', 'Devout', 'Righteous', 'Saintly', 'Holy'],
+  [Profession.Fighter]: ['Ornery', 'Combatative', 'Pugilistic', 'Militant', 'Bellicose', 'Bloodthirsty'],
+  [Profession.Generalist]: ['Vague', 'Undifferentiated', 'Average', 'Versatile', 'Well-Rounded', 'Versatile'],
+  [Profession.Jester]: ['Unfunny', 'Laughable', 'Amusing', 'Hilarious', 'Hysterical', 'Ridiculous'],
+  [Profession.Mage]: ['Charlatan', 'Conjurer', 'Wizard', 'Warlock', 'Shaman', 'Arcane Master'],
+  [Profession.MagicalMonster]: ['Gnome', 'Goblin', 'Centaur', 'Griffin', 'Manticore', 'Dragon'],
+  [Profession.Monster]: ['Yucky', 'Deformed', 'Freak of Nature', 'Grotesque', 'Inhuman', 'Horrifying'],
+  [Profession.Necromancer]: ['Morbid', 'Gravedigger', 'Witch Doctor', 'Dark Artist', 'Thaumaturge', 'Dark Lord'],
+  [Profession.Pirate]: ['Damp', 'Swabbie', 'Keelhauler', 'Scurvy', 'Old Salt', 'Freebooter'],
+  [Profession.Rogue]: ['Naughty', 'Bad Egg', 'Rascal', 'Rapscallion', 'Blackguard', 'Crook'],
   [Profession.SandwichArtist]: ['Bologna Botticelli', 'Grilled Cheese Gaugin', 'Roast Beef Rembrandt',
-                                'Pepperoni Picasso', 'Muffuletta Michaelangelo']
+                                'Pepperoni Picasso', 'Muffuletta Michaelangelo', 'Pastry Prodigy']
 };
 
 @Singleton
@@ -131,7 +131,7 @@ export class AchievementManager {
       };
     });
 
-    const becomeTierMap = [5, 15, 25, 50, 100];
+    const becomeTierMap = [5, 15, 25, 50, 100, 1000];
 
     const becomer: any[] = allClasses.map(x => {
       return {
@@ -154,6 +154,7 @@ export class AchievementManager {
         },
         calculateTier: (player: Player) => {
           const base = player.$statistics.get(`Profession/${x}/Become`);
+          if(base >= 1000) return 6;
           if(base >= 100) return 5;
           if(base >= 50)  return 4;
           if(base >= 25)  return 3;
