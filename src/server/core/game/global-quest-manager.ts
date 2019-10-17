@@ -172,7 +172,7 @@ export class GlobalQuestManager {
         updates.push({
           questIndex: qIndex,
           objIndex: index,
-          boost: val,
+          boost: Math.min(val, obj.statisticValue),
           from: player.name
         });
       });
