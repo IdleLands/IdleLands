@@ -178,20 +178,20 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
   [GuildBuilding.GeneratorWood]:        (level) => (
     { [GuildResource.Gold]: level * 1000000,
       [GuildResource.Wood]: Math.floor((level + 3) ** 2),
-      [GuildCrystal.Blue]: 1,
-      [GuildCrystal.Purple]: 1 }
+      [GuildCrystal.Blue]: 5,
+      [GuildCrystal.Purple]: 5 }
   ),
   [GuildBuilding.GeneratorStone]:       (level) => (
     { [GuildResource.Gold]: level * 1000000,
       [GuildResource.Stone]: Math.floor((level + 3) ** 2),
-      [GuildCrystal.Red]: 1,
-      [GuildCrystal.Yellow]: 1 }
+      [GuildCrystal.Red]: 5,
+      [GuildCrystal.Yellow]: 5 }
   ),
   [GuildBuilding.GeneratorClay]:        (level) => (
     { [GuildResource.Gold]: level * 1000000,
       [GuildResource.Clay]: Math.floor((level + 3) ** 2),
-      [GuildCrystal.Orange]: 1,
-      [GuildCrystal.Green]: 1 }
+      [GuildCrystal.Orange]: 5,
+      [GuildCrystal.Green]: 5 }
   ),
   [GuildBuilding.GeneratorAstralium]:   (level) => (
     { [GuildResource.Gold]: level * 1000000,
@@ -200,23 +200,23 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
   ),
   [GuildBuilding.GardenStrength]:       (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Stone]: level * 500,
-      [GuildCrystal.Red]: 1 }
+      [GuildCrystal.Red]: 5 }
   ),
   [GuildBuilding.GardenDexterity]:      (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Wood]: level * 100,
-      [GuildCrystal.Orange]: 1 }
+      [GuildCrystal.Orange]: 5 }
   ),
   [GuildBuilding.GardenAgility]:        (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 100,
-      [GuildCrystal.Blue]: 1 }
+      [GuildCrystal.Blue]: 5 }
   ),
   [GuildBuilding.GardenConstitution]:   (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Stone]: level * 100,
-      [GuildCrystal.Yellow]: 1 }
+      [GuildCrystal.Yellow]: 5 }
   ),
   [GuildBuilding.GardenIntelligence]:   (level) => (
     { [GuildResource.Gold]: level * 10000000, [GuildResource.Clay]: level * 500, [GuildResource.Wood]: level * 500,
-      [GuildCrystal.Purple]: 1 }
+      [GuildCrystal.Purple]: 5 }
   ),
   [GuildBuilding.GardenLuck]:           (level) => (
     { [GuildResource.Gold]: level * 10000000,
@@ -224,7 +224,7 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
       [GuildResource.Clay]: level * 100,
       [GuildResource.Stone]: level * 100,
       [GuildResource.Wood]: level * 100,
-      [GuildCrystal.Green]: 1 }
+      [GuildCrystal.Green]: 5 }
   ),
   [GuildBuilding.RaidPortal]:           (level) => (
     { [GuildResource.Gold]: level * 1000000000,
