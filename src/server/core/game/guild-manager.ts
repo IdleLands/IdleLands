@@ -293,29 +293,40 @@ export class GuildManager {
     const possibleRewards = [
       GachaReward.CrystalRed, GachaReward.CrystalOrange, GachaReward.CrystalYellow,
       GachaReward.CrystalGreen, GachaReward.CrystalBlue, GachaReward.CrystalPurple,
-      GachaReward.ItemIdle, GachaReward.XPPlayerMax, GachaReward.ILPSM
+      GachaReward.ItemIdle, GachaReward.XPPetMax, GachaReward.ItemTeleportScrollRandom
     ];
 
     if(tier >= 5) {
-      possibleRewards.push(GachaReward.ItemGodly);
+      possibleRewards.push(GachaReward.ILPSM);
     }
 
     if(tier >= 10) {
-      possibleRewards.push(GachaReward.ItemGoatly);
-      possibleRewards.push(GachaReward.CrystalAstral);
+      possibleRewards.push(GachaReward.ItemGodly);
+    }
+
+    if(tier >= 15) {
+      possibleRewards.push(GachaReward.XPPlayerMax);
     }
 
     if(tier >= 20) {
+      possibleRewards.push(GachaReward.ItemGoatly);
+    }
+
+    if(tier >= 25) {
+      possibleRewards.push(GachaReward.CrystalAstral);
+    }
+
+    if(tier >= 50) {
       possibleRewards.push(GachaReward.ItemOmega);
     }
 
     const rewards = [rng.pickone(possibleRewards)];
 
-    if(tier >= 15) {
+    if(tier >= 30) {
       rewards.push(rng.pickone(possibleRewards));
     }
 
-    if(tier >= 25) {
+    if(tier >= 40) {
       rewards.push(rng.pickone(possibleRewards));
     }
 
