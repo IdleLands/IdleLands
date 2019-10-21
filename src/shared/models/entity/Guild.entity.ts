@@ -27,6 +27,7 @@ export class Guild implements IGuild {
   @Column() public nextTick: number;
   @Column() public factoryTick: number;
   @Column() public nextProcs: { [key in GuildBuilding]?: number };
+  @Column() public nextRaidAvailability: { [key: string]: number };
 
   public init() {
     if(!this.createdAt) this.createdAt = Date.now();
@@ -61,6 +62,7 @@ export class Guild implements IGuild {
     if(!this.nextTick) this.nextTick = Date.now() + (60 * 60 * 1000);
     if(!this.factoryTick) this.factoryTick = this.nextTick;
     if(!this.nextProcs) this.nextProcs = { };
+    if(!this.nextRaidAvailability) this.nextRaidAvailability = { };
   }
 
   public addMember(name: string, tier: GuildMemberTier) {

@@ -382,9 +382,11 @@ export class GuildManager {
     this.guildRaidReadyPlayers[guildName].push(...supports);
   }
 
-  public initiateEncounterRaidBoss(initiator: string, guildName: string, boss) {
+  public initiateEncounterRaidBoss(initiator: string, guildName: string, boss): boolean {
     const guild = this.getGuild(guildName);
     if(!guild) return;
+
+    if(Date.now() < guild.nextRaidAvailability[boss.level]) return false;
 
     this.guildRaidReadyPlayers = this.guildRaidReadyPlayers || { };
     this.guildRaidReadyPlayers[guildName] = this.guildRaidReadyPlayers[guildName] || [];
@@ -412,6 +414,13 @@ export class GuildManager {
       simulator.events$.subscribe(({ action, data }) => {
         if(action === CombatAction.Victory) {
           const winnerMsg = data.winningParty === 0 ? '[WIN]' : '[LOSE]';
+
+          // if a raid is beaten, it goes on CD for 30 mins (+1 min per 50 boss levels)
+          if(data.winningParty === 0) {
+            guild.nextRaidAvailability[boss.level] = Date.now() + (30 + (boss.level / 50)) * 60 * 1000;
+            this.saveGuild(guild);
+          }
+
           this.discordManager.notifyGuildChannel(
             initiator,
             guild,
@@ -441,6 +450,8 @@ export class GuildManager {
 
       this.subscriptionManager.emitToChannel(Channel.PlayerAdventureLog, { playerNames, data: messageData });
     }, 5000);
+
+    return true;
   }
 
   public handleCombatRewards(guildName: string, boss, combat: ICombat, winningParty: number) {

@@ -25,11 +25,14 @@ import { map } from 'rxjs/operators';
             <p>Costs {{ boss.cost | number }} gold</p>
             <p>Special Scale Stat: {{ boss.scaleStat | uppercase }}</p>
             <p>Rewards: <span *ngFor="let reward of boss.rewards">{{ rewardName(reward) }}</span>
+            <p *ngIf="!canRaid(boss.level)">Available at {{ gameService.guild.nextRaidAvailability[boss.level] | date:'medium' }}</p>
           </ion-label>
 
           <ion-button slot="end"
                       *ngIf="gameService.isGuildMod"
-                      [disabled]="gameService.guild.resources.gold < boss.cost" (click)="runRaid(boss.level)">Fight</ion-button>
+                      [disabled]="gameService.guild.resources.gold < boss.cost || !canRaid(boss.level)" (click)="runRaid(boss.level)">
+                      Fight
+          </ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -54,6 +57,11 @@ export class RaidBossModal implements OnInit {
     .subscribe(raids => {
       this.bosses = raids;
     });
+  }
+
+  public canRaid(bossLevel: number) {
+    if(!this.gameService.guild.nextRaidAvailability[bossLevel]) return true;
+    return this.gameService.guild.nextRaidAvailability[bossLevel] <= Date.now();
   }
 
   public runRaid(bossLevel: number) {

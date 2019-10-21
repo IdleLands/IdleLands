@@ -74,6 +74,8 @@ export class DiscordManager {
   }
 
   public notifyGuildChannel(playerName: string, guild: Guild, key: string, message: string) {
+    if(!this.discordGuild) return;
+
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
     const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
 
