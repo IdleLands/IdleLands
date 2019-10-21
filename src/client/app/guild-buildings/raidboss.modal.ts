@@ -60,7 +60,7 @@ export class RaidBossModal implements OnInit {
   }
 
   public canRaid(bossLevel: number) {
-    if(!this.gameService.guild.nextRaidAvailability[bossLevel]) return true;
+    if(!this.gameService.guild.nextRaidAvailability || !this.gameService.guild.nextRaidAvailability[bossLevel]) return true;
     return this.gameService.guild.nextRaidAvailability[bossLevel] <= Date.now();
   }
 
