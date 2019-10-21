@@ -55,7 +55,7 @@ public oocAbility(player: Player): { success: boolean, message: string } {
 
     const scaler = (player.$statistics.get('Profession/Mage/Become') || 1) + (player.$statistics.get('Profession/Mage/AbilityUses') || 1);
 
-    const int = player.getStat(Stat.INT) * scaler;
+    const int = player.getStat(Stat.INT) * Math.log(scaler);
     const goldGained = Math.max(player.gainGold(int), 10);
     this.emitProfessionMessage(player, `You gained ${goldGained.toLocaleString()} GOLD via Alchemy!`);
     return { success: true, message: `You gained ${goldGained.toLocaleString()} GOLD!` };
