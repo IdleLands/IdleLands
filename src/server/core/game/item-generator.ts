@@ -123,8 +123,17 @@ export class ItemGenerator {
     { itemClass: ItemClass.Idle,    levelReq: 100 },
     { itemClass: ItemClass.Godly,   levelReq: 500 },
     { itemClass: ItemClass.Goatly,  levelReq: 1000 },
-    { itemClass: ItemClass.Omega,   levelReq: 5000 }
+    { itemClass: ItemClass.Omega,   levelReq: 2500 }
   ];
+
+  public readonly levelTierHash = {
+    [ItemClass.Basic]: 10,
+    [ItemClass.Pro]: 50,
+    [ItemClass.Idle]: 100,
+    [ItemClass.Godly]: 500,
+    [ItemClass.Goatly]: 1000,
+    [ItemClass.Omega]: 2500
+  };
 
   private allAssetScoreSorted: { [key in ItemSlot | 'prefix' | 'suffix']?: { [key2 in ItemClass]: any[] } } = { };
 

@@ -9,8 +9,8 @@ import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName,
 import { Guild, Player, Item } from '../../../shared/models';
 import { PlayerManager } from './player-manager';
 import { SubscriptionManager } from './subscription-manager';
-import { EventManager } from './event-manager';
 import { DiscordManager } from './discord-manager';
+import { ItemGenerator } from './item-generator';
 import { CombatHelper } from './combat-helper';
 import { CombatAction } from '../../../shared/combat/combat-simulator';
 
@@ -23,6 +23,7 @@ export class GuildManager {
   @Inject private playerManager: PlayerManager;
   @Inject private discordManager: DiscordManager;
   @Inject private combatHelper: CombatHelper;
+  @Inject private itemGenerator: ItemGenerator;
 
   private guilds: { [key: string]: Guild } = { };
   private guildRaidReadyPlayers: { [key: string]: ICombatCharacter[] };
@@ -241,6 +242,8 @@ export class GuildManager {
     Object.keys(guild.members).forEach(member => {
       const player = this.playerManager.getPlayer(member);
       if(!player) return;
+
+      if(player.level < this.itemGenerator.levelTierHash[itemData.itemClass]) return;
 
       const item = new Item();
       item.init(itemData);
