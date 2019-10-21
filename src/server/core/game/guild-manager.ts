@@ -389,6 +389,7 @@ export class GuildManager {
     const guild = this.getGuild(guildName);
     if(!guild) return;
 
+    guild.nextRaidAvailability = guild.nextRaidAvailability || { };
     if(Date.now() < guild.nextRaidAvailability[boss.level]) return false;
 
     this.guildRaidReadyPlayers = this.guildRaidReadyPlayers || { };
