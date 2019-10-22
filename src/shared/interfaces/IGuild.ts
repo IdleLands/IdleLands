@@ -131,7 +131,8 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
     { [GuildResource.Gold]: Math.floor((level ** 2) * 1000000),
       [GuildResource.Clay]: level * 1000,
       [GuildResource.Stone]: level * 1000,
-      [GuildResource.Wood]: level * 1000 }
+      [GuildResource.Wood]: level * 1000,
+      [GuildCrystal.Blue]: 1 }
   ),
   [GuildBuilding.GuildHall]:            (level) => (
     { [GuildResource.Clay]: level * 1000,
@@ -149,31 +150,40 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
     { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Stone]: level * 100,
       [GuildResource.Wood]: level * 100,
-      [GuildResource.Clay]: level * 100 }
+      [GuildResource.Clay]: level * 100,
+      [GuildCrystal.Orange]: 2 }
   ),
   [GuildBuilding.Enchantress]:          (level) => (
-    { [GuildResource.Gold]: level * 50000000, [GuildResource.Clay]: level * 1000 }
+    { [GuildResource.Gold]: level * 50000000, [GuildResource.Clay]: level * 1000,
+      [GuildCrystal.Purple]: 2 }
   ),
   [GuildBuilding.FortuneTeller]:        (level) => (
-    { [GuildResource.Gold]: level * 100000000, [GuildResource.Astralium]: level * 1000 }
+    { [GuildResource.Gold]: level * 100000000, [GuildResource.Astralium]: level * 1000,
+      [GuildCrystal.Blue]: 2 }
   ),
   [GuildBuilding.Merchant]:             (level) => (
-    { [GuildResource.Gold]: level * 25000000, [GuildResource.Wood]: level * 1000 }
+    { [GuildResource.Gold]: level * 25000000, [GuildResource.Wood]: level * 1000,
+      [GuildCrystal.Yellow]: 2 }
   ),
   [GuildBuilding.WitchDoctor]:          (level) => (
-    { [GuildResource.Gold]: level * 25000000, [GuildResource.Stone]: level * 1000 }
+    { [GuildResource.Gold]: level * 25000000, [GuildResource.Stone]: level * 1000,
+      [GuildCrystal.Green]: 2 }
   ),
   [GuildBuilding.FactoryScroll]:        (level) => (
     { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Clay]: level * 300,
       [GuildResource.Wood]: level * 1000,
-      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)) }
+      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)),
+      [GuildCrystal.Green]: 1,
+      [GuildCrystal.Purple]: 1 }
   ),
   [GuildBuilding.FactoryItem]:          (level) => (
     { [GuildResource.Gold]: level * 10000000,
       [GuildResource.Clay]: level * 300,
       [GuildResource.Stone]: level * 1000,
-      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)) }
+      [GuildResource.Astralium]: Math.floor((level + 1) * ((level + 1) ** 1.5)),
+      [GuildCrystal.Orange]: 1,
+      [GuildCrystal.Yellow]: 1 }
   ),
   [GuildBuilding.GeneratorWood]:        (level) => (
     { [GuildResource.Gold]: level * 1000000,
