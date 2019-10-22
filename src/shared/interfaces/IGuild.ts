@@ -131,8 +131,7 @@ export const GuildBuildingUpgradeCosts: { [key in GuildBuilding]:
     { [GuildResource.Gold]: Math.floor((level ** 2) * 1000000),
       [GuildResource.Clay]: level * 1000,
       [GuildResource.Stone]: level * 1000,
-      [GuildResource.Wood]: level * 1000,
-      [GuildCrystal.Red]: 1 }
+      [GuildResource.Wood]: level * 1000 }
   ),
   [GuildBuilding.GuildHall]:            (level) => (
     { [GuildResource.Clay]: level * 1000,
