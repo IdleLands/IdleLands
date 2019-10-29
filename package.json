@@ -63,7 +63,7 @@
     "minimist": "1.1.0",
     "mixel": "^1.0.4",
     "mongodb": "^3.1.13",
-    "morgan": "1.7.0",
+    "morgan": "1.9.1",
     "ng-circle-progress": "^1.4.0",
     "ngx-countdown-timer": "^0.1.9",
     "ngx-filter-pipe": "^2.1.2",
