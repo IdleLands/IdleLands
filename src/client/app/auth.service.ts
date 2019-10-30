@@ -48,7 +48,9 @@ export class AuthService {
       if(provider === auth.EmailAuthProvider) {
         const alert = await this.alertCtrl.create({
           header: 'Email/Password Sync',
-          subHeader: 'Enter your email and desired password to sync with here.',
+          subHeader: `Enter your email and desired password to sync with here. 
+                      You can enter in any email address and password. 
+                      You should not use the same password you would use to sign into the email you use here.`,
           inputs: [
             {
               name: 'emailAddress',
@@ -64,7 +66,7 @@ export class AuthService {
           buttons: [
             { text: 'Cancel', handler: reject },
             {
-              text: 'Sign In',
+              text: 'Sync To This Email',
               handler: async (values) => {
                 const { emailAddress, password } = values;
 
