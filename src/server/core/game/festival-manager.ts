@@ -61,10 +61,10 @@ export class FestivalManager {
 
   public getFestivalDetails(festival: IFestival) {
     const keys = {
-      day : 86400,
-      hour : 3600,
-      minute : 60,
-      second : 1
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+      second: 1
     };
 
     let duration = ((festival.endTime - Date.now()) / 1000) + 1;
