@@ -62,6 +62,8 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
       }
     }
 
+    message = message.slice(0, 500);
+
     this.game.chatHelper.sendMessageFromClient({
       timestamp: Date.now(),
       message,
