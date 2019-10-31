@@ -79,7 +79,7 @@ export class FestivalManager {
       }
     });
 
-    return `Stat Boosts: ${this.getFestivalStatString(festival)}. It will last ${stamp.join(', ')}`;
+    return `Stat Boosts: ${this.getFestivalStatString(festival)}. It will last ${stamp.join(', ')}.`;
   }
 
   public startAscensionFestival(player: Player) {
