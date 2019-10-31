@@ -66,7 +66,7 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
 
     this.game.chatHelper.sendMessageFromClient({
       timestamp: Date.now(),
-      emittedMessage,
+      message,
 
       realPlayerName: player.name,
       playerName: `${player.name}${player.title ? `, the ${player.title}` : ''}`,
