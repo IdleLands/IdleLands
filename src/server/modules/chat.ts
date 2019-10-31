@@ -61,7 +61,7 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
         player.mutedUntil = Date.now() + 1000 * 60 * 15;
       }
     }
-    
+
     message = message.slice(0, 500);
 
     this.game.chatHelper.sendMessageFromClient({
