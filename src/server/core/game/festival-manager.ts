@@ -59,6 +59,29 @@ export class FestivalManager {
       .join(', ');
   }
 
+  public getFestivalDetails(festival: IFestival) {
+    const keys = {
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+      second: 1
+    };
+
+    let duration = ((festival.endTime - Date.now()) / 1000) + 1;
+    const resp = { };
+    const stamp = [];
+
+    Object.keys(keys).forEach(function (key) {
+      resp[key] = Math.floor(duration / keys[key]);
+      duration -= resp[key] * keys[key];
+      if(resp[key] > 0) {
+        stamp.push(`${resp[key]} ${resp[key] === 1 ? key : key + 's'}`);
+      }
+    });
+
+    return `Stat Boosts: ${this.getFestivalStatString(festival)}. It will last ${stamp.join(', ')}.`;
+  }
+
   public startAscensionFestival(player: Player) {
 
     const endTime = new Date();
@@ -78,7 +101,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${festival.name}" has started! ${this.getFestivalDetails(festival)}`,
       playerName: '☆System'
     });
   }
@@ -90,7 +113,7 @@ export class FestivalManager {
     this.initiateAddFestival(addedFestival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${addedFestival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${addedFestival.name}" has started! ${this.getFestivalDetails(festival)}`,
       playerName: `☆${player.name}`
     });
   }
@@ -99,7 +122,7 @@ export class FestivalManager {
     this.initiateAddFestival(festival);
 
     this.chat.sendMessageFromClient({
-      message: `A new festival "${festival.name}" has started! Stat Boosts: ${this.getFestivalStatString(festival)}`,
+      message: `A new festival "${festival.name}" has started! ${this.getFestivalDetails(festival)}`,
       playerName: '☆System'
     });
   }
