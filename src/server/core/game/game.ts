@@ -144,6 +144,12 @@ export class Game implements IGame {
 
     this.logger.log('Game', 'Global quest manager initializing...');
     await this.globalQuestManager.init();
+    
+    
+    this.chatHelper.sendMessageFromClient({
+      message: `The server has rebooted.`,
+      playerName: '☆System'
+    });
 
     this.loop();
   }
