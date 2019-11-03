@@ -14,12 +14,12 @@
   --ion-color-secondary-shade: #4b4d50;
   --ion-color-secondary-tint: #66686b;
 
-  --ion-color-tertiary: #000180;
+  --ion-color-tertiary: #222428;
   --ion-color-tertiary-rgb: 0,1,128;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255,255,255;
-  --ion-color-tertiary-shade: #000171;
-  --ion-color-tertiary-tint: #1a1a8d;
+  --ion-color-tertiary-shade: #1e2023;
+  --ion-color-tertiary-tint: #383a3e;
 
   --ion-color-success: #005D00;
   --ion-color-success-rgb: 0,93,0;
@@ -70,7 +70,7 @@
     --color: #fff;
     --button-color: #fff;
   }
-  
+
   ion-label, .desc-container, .stat-container {
     &.ion-color-success {
       color: #00aa00 !important;
