@@ -8,7 +8,7 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-  
+
 
 <ion-content>
   <div class="blank-slate" *ngIf="!gameService.guild">
@@ -21,32 +21,32 @@
         <ng-container *ngFor="let buildingGroup of buildings">
           <ion-list-header>{{ buildingGroup.category }}</ion-list-header>
           <ion-item *ngFor="let building of buildingGroup.buildings">
-  
-            <ion-icon slot="start" 
-                      color="primary"
+
+            <ion-icon slot="start"
+                      color="tertiary"
                       [name]="iconForBuilding(building)"
                       (click)="toggleBuilding(building, !guild.activeBuildings[building])"
                       ></ion-icon>
-  
+
             <ion-label class="ion-text-wrap">
               <h3>{{ buildingNames[building] }} (Level {{ guild.buildingLevels[building] || 0 }})</h3>
               <p>{{ buildingDescs[building](guild.buildingLevels[building] || 0) }}</p>
               <p>
-                Upgrade cost: 
+                Upgrade cost:
                 <span *ngFor="let res of buildingUpgradeCosts[building]((guild.buildingLevels[building] || 0) + 1) | keyvalue">
                   <strong>{{ res.key | titlecase }}</strong> x{{ res.value | number }}&nbsp;
                 </span>
               </p>
             </ion-label>
-  
-            <ion-button slot="end" 
+
+            <ion-button slot="end"
                         (click)="showRaidPortal()"
                         *ngIf="guild.buildingLevels[building] > 0 && building === 'active:raidportal'">Raids</ion-button>
             <ion-button slot="end" [disabled]="!canUpgrade(building)" (click)="upgrade(building)">Upgrade</ion-button>
           </ion-item>
         </ng-container>
       </ion-list>
-  
+
     </ion-col>
   </ion-row>
 </ion-content>
