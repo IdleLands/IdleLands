@@ -105,7 +105,7 @@ export const PremiumGoldCollectibleInfo = {
     description : 'An entire castle containing 1 billion gold',
     storyline : 'You purchased this from the premium store.'
   }
-}
+};
 
 export const PremiumGoldCollectibles = {
   ['Pot of Gold'] : 100_000,
