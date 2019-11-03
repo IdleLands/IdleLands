@@ -79,31 +79,31 @@ export const PremiumGoldCollectibleInfo = {
     name : 'Pot of Gold',
     rarity : 'basic',
     description : 'A small pot containing 100,000 gold.',
-    storyline : 'You purchased this from the premium store.'
+    storyline : 'Premium store.'
   },
   ['Cauldron of Gold'] : {
     name : 'Cauldron of Gold',
     rarity : 'basic',
     description : 'A hefty cauldron containing 1 million gold.',
-    storyline : 'You purchased this from the premium store.'
+    storyline : 'Premium store.'
   },
   ['Barrel of Gold'] : {
     name : 'Barrel of Gold',
     rarity : 'basic',
-    description : 'A large barrel packed to the brim with 10 million gold',
-    storyline : 'You purchased this from the premium store.'
+    description : 'A large barrel packed to the brim with 10 million gold.',
+    storyline : 'Premium store.'
   },
   ['Truck of Gold'] : {
     name : 'Truck of Gold',
     rarity : 'basic',
     description : 'A truck load of gold! 100 million, to be exact.',
-    storyline : 'You purchased this from the premium store.'
+    storyline : 'Premium store.'
   },
   ['Castle of Gold'] : {
     name : 'Castle of Gold',
     rarity : 'basic',
-    description : 'An entire castle containing 1 billion gold',
-    storyline : 'You purchased this from the premium store.'
+    description : 'An entire castle containing 1 billion gold!',
+    storyline : 'Premium store.'
   }
 };
 
