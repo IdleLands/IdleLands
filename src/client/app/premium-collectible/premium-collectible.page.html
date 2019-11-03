@@ -17,26 +17,29 @@
           <ion-card-header>
             <ion-card-subtitle>You have {{ player.gold | number }} Gold</ion-card-subtitle>
             <ion-card-title>
-              Genders
+              Buy Collectibles
             </ion-card-title>
+            <p>You have spent {{ totalSpent(player.$collectiblesData.collectibles) }} gold here!</p>
           </ion-card-header>
 
           <ion-card-content>
             <ion-list>
-              <ion-item *ngFor="let gender of genders">
-                <app-gendervatar slot="start" [gender]="gender.key"></app-gendervatar>
+              <ion-item *ngFor="let collectible of collectibles">
 
                 <ion-label class="ion-text-wrap">
-                  <h3>{{ gender.name }}</h3>
+                  <h3>
+                    {{ collectible.key }}
+                  </h3>
+                  <p class="small">Owned: {{ (player.$collectiblesData.collectibles[collectible.key] || { touched : 0 }).touched }}</p>
                 </ion-label>
 
                 <ion-button slot="end"
-                            (click)="buyGender(gender)"
-                            *ngIf="!player.$achievementsData.permanentGenders[gender.key]"
-                            [disabled]="player.gold < gender.cost">
-                            Buy ({{ gender.cost | number }} Gold)
+                            (click)="buyGoldCollectible(collectible)"
+                            [disabled]="player.gold < collectible.cost">
+                  Buy ({{ collectible.cost.toLocaleString() }} Gold)
                 </ion-button>
               </ion-item>
+
             </ion-list>
           </ion-card-content>
         </ion-card>

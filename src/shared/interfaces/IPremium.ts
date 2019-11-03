@@ -74,6 +74,47 @@ export const OtherILPCosts: { [key in OtherILPPurchase]: number } = {
   [OtherILPPurchase.ResetCooldowns]: 50
 };
 
+export const PremiumGoldCollectibleInfo = {
+  ['Pot of Gold'] : {
+    name : 'Pot of Gold',
+    rarity : 'basic',
+    description : 'A small pot containing 100,000 gold.',
+    storyline : 'You purchased this from the premium store.'
+  },
+  ['Cauldron of Gold'] : {
+    name : 'Cauldron of Gold',
+    rarity : 'basic',
+    description : 'A hefty cauldron containing 1 million gold.',
+    storyline : 'You purchased this from the premium store.'
+  },
+  ['Barrel of Gold'] : {
+    name : 'Barrel of Gold',
+    rarity : 'basic',
+    description : 'A large barrel packed to the brim with 10 million gold',
+    storyline : 'You purchased this from the premium store.'
+  },
+  ['Truck of Gold'] : {
+    name : 'Truck of Gold',
+    rarity : 'basic',
+    description : 'A truck load of gold! 100 million, to be exact.',
+    storyline : 'You purchased this from the premium store.'
+  },
+  ['Castle of Gold'] : {
+    name : 'Castle of Gold',
+    rarity : 'basic',
+    description : 'An entire castle containing 1 billion gold',
+    storyline : 'You purchased this from the premium store.'
+  }
+}
+
+export const PremiumGoldCollectibles = {
+  ['Pot of Gold'] : 100_000,
+  ['Cauldron of Gold'] : 1_000_000,
+  ['Barrel of Gold'] : 10_000_000,
+  ['Truck of Gold'] : 100_000_000,
+  ['Castle of Gold'] : 1_000_000_000,
+};
+
 export const GoldGenderCost: { [key in Profession]: number } = {
   [Profession.Archer]: 500_000_000,
   [Profession.Barbarian]: 50_000_000,

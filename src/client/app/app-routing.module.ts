@@ -60,6 +60,12 @@ const routes: Routes = [
         { path: '', loadChildren: './premium-gold/premium-gold.module#PremiumGoldPageModule' }
       ]
     },
+
+    { path: 'collectible',
+      children: [
+        { path: '', loadChildren: './premium-collectible/premium-collectible.module#PremiumCollectiblePageModule' }
+      ]
+    },
     {
       path: 'festivals',
       children: [

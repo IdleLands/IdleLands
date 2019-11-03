@@ -1,5 +1,5 @@
 import { ServerSocketEvent } from '../../shared/models';
-import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType, OtherILPPurchase, GoldGenderCost } from '../../shared/interfaces';
+import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType, OtherILPPurchase, PremiumGoldCollectibleInfo, PremiumGoldCollectibles, GoldGenderCost } from '../../shared/interfaces';
 
 export class PremiumILPBuy extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PremiumBuyILP;
@@ -83,6 +83,34 @@ export class PremiumOtherEvent extends ServerSocketEvent implements ServerEvent 
   }
 }
 
+export class PremiumCollectibleBuy extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.PremiumGoldCollectible;
+  description = 'Buy a collectible using gold.';
+  args = 'collectible';
+
+  async callback({ collectible } = { collectible : '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+    if(!collectible) return this.gameError('Invalid collectible');
+
+    const cost = PremiumGoldCollectibles[collectible];
+    if(!cost) return this.gameError('Collectible does not have an associated cost.');
+
+    const hasGold = player.gold > cost;
+    if(!hasGold) return this.gameError('You do not have enough gold to buy that, or an error occurred.');
+
+    const target = PremiumGoldCollectibleInfo[collectible];
+    if(!target) return this.gameError('Unable to find collectible information.');
+
+    player.tryFindCollectible(target);
+    player.spendGold(cost);
+
+    this.gameMessage(`Successfully purchased a ${collectible}. Shiny!`);
+
+    this.game.updatePlayer(player);
+  }
+}
+
 export class PremiumGenderBuy extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PremiumGoldGender;
   description = 'Buy a golden gender using gold.';
@@ -100,7 +128,7 @@ export class PremiumGenderBuy extends ServerSocketEvent implements ServerEvent {
     if(player.$achievements.hasBoughtGender(gender)) return this.gameError('That gender has already been purchased!');
 
     const hasGold = player.gold > cost;
-    if(!hasGold) return this.gameError('You do not have enough ILP to buy that, or an error occurred.');
+    if(!hasGold) return this.gameError('You do not have enough gold to buy that, or an error occurred.');
 
     player.$achievements.buyGender(gender);
     player.spendGold(cost);
