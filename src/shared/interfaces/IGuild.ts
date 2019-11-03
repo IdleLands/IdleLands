@@ -121,7 +121,7 @@ export const GuildBuildingDescs: { [key in GuildBuilding]: (level: number) => st
   [GuildBuilding.GardenAgility]: (level) => `Your guild will boost AGI by ${level * 10} for all online members.`,
   [GuildBuilding.GardenConstitution]: (level) => `Your guild will boost CON by ${level * 10} for all online members.`,
   [GuildBuilding.GardenIntelligence]: (level) => `Your guild will boost INT by ${level * 10} for all online members.`,
-  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 10} for all online members.`,
+  [GuildBuilding.GardenLuck]: (level) => `Your guild will boost LUK by ${level * 5} for all online members.`,
   [GuildBuilding.RaidPortal]: (level) => `Your guild can encounter raid bosses up to level ${100 + ((level - 1) * 50)}.`
 };
 
