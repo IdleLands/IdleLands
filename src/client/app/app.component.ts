@@ -47,7 +47,7 @@ export class AppComponent {
 
     {
       name: 'Gear', icon: 'gear', url: '/gear', badgeColor: 'secondary', badge: (player) => {
-        return this.uiService.getPlayerScrolls(player);
+        return this.uiService.isPlayerInventoryFull(player) || this.uiService.getPlayerScrolls(player);
       }
     },
 
