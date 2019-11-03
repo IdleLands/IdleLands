@@ -33,7 +33,7 @@ const ClassChangeTitles: { [key in Profession]: string[] } = {
   [Profession.Bitomancer]: ['Beta Tester', 'Code Monkey', 'Geek', 'Cyberpunk', 'l33t h4x0r', 'SuperNerd'],
   [Profession.Cleric]: ['Sanctimonious', 'Pious', 'Devout', 'Righteous', 'Saintly', 'Holy'],
   [Profession.Fighter]: ['Ornery', 'Combatative', 'Pugilistic', 'Militant', 'Bellicose', 'Bloodthirsty'],
-  [Profession.Generalist]: ['Vague', 'Undifferentiated', 'Average', 'Versatile', 'Well-Rounded', 'Versatile'],
+  [Profession.Generalist]: ['Vague', 'Undifferentiated', 'Average', 'Versatile', 'Well-Rounded', 'Resourceful'],
   [Profession.Jester]: ['Unfunny', 'Laughable', 'Amusing', 'Hilarious', 'Hysterical', 'Ridiculous'],
   [Profession.Mage]: ['Charlatan', 'Conjurer', 'Wizard', 'Warlock', 'Shaman', 'Arcane Master'],
   [Profession.MagicalMonster]: ['Gnome', 'Goblin', 'Centaur', 'Griffin', 'Manticore', 'Dragon'],
