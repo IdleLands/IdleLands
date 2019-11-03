@@ -78,31 +78,31 @@ export const PremiumGoldCollectibleInfo = {
   ['Pot of Gold']: {
     name: 'Pot of Gold',
     rarity: 'basic',
-    description: 'A small pot containing 100,000 gold.',
+    description: 'A small pot of gold that a merchant would give to their children for their weekly allowance.',
     storyline: 'Premium store.'
   },
   ['Cauldron of Gold']: {
     name: 'Cauldron of Gold',
     rarity: 'basic',
-    description: 'A hefty cauldron containing 1 million gold.',
+    description: 'A big cauldron that merchants use to heat up gold so they can make gold bars.',
     storyline: 'Premium store.'
   },
   ['Barrel of Gold']: {
     name: 'Barrel of Gold',
     rarity: 'basic',
-    description: 'A large barrel packed to the brim with 10 million gold.',
+    description: 'A barrel with gold trim that has a merchant\'s emblem on the side of it.',
     storyline: 'Premium store.'
   },
   ['Truck of Gold']: {
     name: 'Truck of Gold',
     rarity: 'basic',
-    description: 'A truck load of gold! 100 million, to be exact.',
+    description: 'An ancient artifact that some merchants use to move around their barrels of gold.',
     storyline: 'Premium store.'
   },
   ['Castle of Gold']: {
     name: 'Castle of Gold',
     rarity: 'basic',
-    description: 'An entire castle containing 1 billion gold!',
+    description: 'A small castle where all the furnishing are made of out gold, some merchants use this as their vacation homes.',
     storyline: 'Premium store.'
   }
 };
