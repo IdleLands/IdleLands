@@ -1,5 +1,10 @@
 import { ServerSocketEvent } from '../../shared/models';
-import { ServerEvent, ServerEventName, PermanentUpgrade, FestivalType, OtherILPPurchase, PremiumGoldCollectibleInfo, PremiumGoldCollectibles, GoldGenderCost } from '../../shared/interfaces';
+import {
+  ServerEvent, ServerEventName,
+  PermanentUpgrade, FestivalType,
+  OtherILPPurchase, PremiumGoldCollectibleInfo,
+  PremiumGoldCollectibles, GoldGenderCost
+} from '../../shared/interfaces';
 
 export class PremiumILPBuy extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.PremiumBuyILP;
