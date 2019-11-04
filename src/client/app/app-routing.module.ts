@@ -61,11 +61,6 @@ const routes: Routes = [
       ]
     },
 
-    { path: 'collectible',
-      children: [
-        { path: '', loadChildren: './premium-collectible/premium-collectible.module#PremiumCollectiblePageModule' }
-      ]
-    },
     {
       path: 'festivals',
       children: [
