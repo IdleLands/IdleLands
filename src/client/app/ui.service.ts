@@ -66,7 +66,13 @@ export class UiService {
   }
 
   public getPlayerScrolls(player: IPlayer): any {
-    if (!player.$inventoryData || !player.$inventoryData.buffScrolls || !player.$inventoryData.buffScrolls.length) return;
+    if (!player.$inventoryData || !player.$inventoryData.buffScrolls || !player.$inventoryData.buffScrolls.length) return false;
     return player.$inventoryData.buffScrolls.length + ' Scroll(s)';
   }
+
+  public isPlayerInventoryFull(player: IPlayer): any {
+    if(!player.$inventoryData || !player.$inventoryData.items) return false;
+    return player.$inventoryData.items.length >= player.$inventoryData.size ? 'Full Inventory' : false;
+  }
+
 }
