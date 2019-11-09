@@ -67,7 +67,8 @@ export class FestivalManager {
       second: 1
     };
 
-    let duration = ((festival.endTime - Date.now()) / 1000) + 1;
+    const milliseconds = festival.endTime - Date.now();
+    let duration = Math.floor((milliseconds + 500) / 1000);
     const resp = { };
     const stamp = [];
 
