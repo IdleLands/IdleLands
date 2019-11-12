@@ -136,6 +136,7 @@ export class Premium extends PlayerOwned {
     if(!gacha.canRoll(player, numRolls)) return false;
 
     if(gacha.canRollFree(player)) {
+      numRolls = 10;
       this.gachaFreeRolls[gacha.name] = gacha.getNextGachaFreeInterval();
       player.increaseStatistic('Astral Gate/Roll/Free', 1);
     } else {
