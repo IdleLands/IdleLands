@@ -66,6 +66,7 @@ export enum ServerEventName {
   PremiumFestival = 'premium:festival',
   PremiumOther = 'premium:other',
   PremiumGoldGender = 'premium:goldgender',
+  PremiumGoldCollectible = 'premium:goldcollectible',
 
   ChoiceMake = 'choice:make',
 
