@@ -98,6 +98,8 @@ export class PremiumCollectibleBuy extends ServerSocketEvent implements ServerEv
     if(!player) return this.notConnected();
     if(!collectible) return this.gameError('Invalid collectible');
 
+    return this.gameError('Gold collectibles are temporarily disabled');
+
     const cost = PremiumGoldCollectibles[collectible];
     if(!cost) return this.gameError('Collectible does not have an associated cost.');
 
