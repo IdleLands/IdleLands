@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
-import { Profession, GoldGenderCost, ServerEventName, PremiumGoldCollectibles} from '../../../shared/interfaces';
+import { Profession, GoldGenderCost, ServerEventName, PremiumGoldCollectibles } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-premium-gold',
