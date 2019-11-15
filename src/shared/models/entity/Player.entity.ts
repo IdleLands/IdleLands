@@ -883,7 +883,7 @@ export class Player implements IPlayer {
       if(includes(choices, 'Sell')) return 'Sell';
       if(includes(choices, 'Inventory')) return 'Inventory';
       if(choices.length === 2 && includes(choices, 'Yes') && includes(choices, 'No')){
-        return Math.random() > 0.5 ? 'Yes' : 'No'
+        return sample(['Yes', 'No']);
       }
     }
     if(this.$personalities.isActive('Denier') && includes(choices, 'No')) return 'No';
