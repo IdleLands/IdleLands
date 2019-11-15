@@ -100,6 +100,13 @@ export class Choices extends PlayerOwned {
       return;
     }
 
+    if(player.$personalities.isActive('Fancypants')) {
+      const decision = choice.defaultChoice;
+      const shouldRemove = player.$$game.eventManager.doChoiceFor(player, choice, decision);
+      this.makeDecision(player, choice, choice.choices.indexOf(choice.defaultChoice), shouldRemove);
+      return;
+    }
+
     this.choices[choice.foundAt] = choice;
 
     const allChoiceKeys = Object.keys(this.choices);
@@ -125,6 +132,10 @@ export class Choices extends PlayerOwned {
 
     if(player.$personalities.isActive('Indecisive')) {
       player.increaseStatistic(`Character/Choose/Personality/Indecisive`, 1);
+    }
+
+    if(player.$personalities.isActive('Fancypants')) {
+      player.increaseStatistic(`Character/Choose/Personality/Fancypants`, 1);
     }
 
     if(doRemove) this.removeChoice(choice);
