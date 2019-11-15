@@ -58,7 +58,7 @@ export const ProfessionPreRoundSkillMap: { [key in Profession]: ICombatWeightedS
   ],
 
   [Profession.Necromancer]: [
-    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 1)],
+    { skills: [RegenerateHP(caster => (caster.maxStats[Stat.HP] - caster.stats[Stat.HP]) / 10)],
               canUse: (caster, combat) => caster.stats[Stat.HP] < caster.maxStats[Stat.HP] }
   ],
 
