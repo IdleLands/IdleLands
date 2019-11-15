@@ -7,6 +7,7 @@ export * from './Delver';
 export * from './Denier';
 export * from './Dextrous';
 export * from './Drunk';
+export * from './Fancypants';
 export * from './Follower';
 export * from './Forager';
 export * from './Fortuitous';

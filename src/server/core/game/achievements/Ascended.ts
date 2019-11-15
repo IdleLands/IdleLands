@@ -11,6 +11,10 @@ export class Ascended extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier * 5}% more XP and GOLD for ascending ${tier} time(s). Title: Ascended.`;
 
+    if(tier >= 1) {
+      baseStr = `${baseStr} Personality: Fancypants.`;
+    }
+
     if(tier >= 3) {
       baseStr = `${baseStr} Personality: Autoscender.`;
     }
@@ -54,6 +58,10 @@ export class Ascended extends Achievement {
         [Stat.GOLD]: 1 + (tier * 0.05)
       } }
     ];
+
+    if(tier >= 1) {
+      baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Fancypants' });
+    }
 
     if(tier >= 3) {
       baseRewards.push({ type: AchievementRewardType.Personality, personality: 'Autoscender' });

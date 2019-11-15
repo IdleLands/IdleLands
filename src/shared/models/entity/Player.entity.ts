@@ -878,6 +878,14 @@ export class Player implements IPlayer {
   }
 
   public getDefaultChoice(choices: string[]): string {
+    if(this.$personalities.isActive('Fancypants')) {
+      if(includes(choices, 'Double')) return 'Double';
+      if(includes(choices, 'Sell')) return 'Sell';
+      if(includes(choices, 'Inventory')) return 'Inventory';
+      if(choices.length === 2 && includes(choices, 'Yes') && includes(choices, 'No')){
+        return Math.random() > 0.5 ? 'Yes' : 'No'
+      }
+    }
     if(this.$personalities.isActive('Denier') && includes(choices, 'No')) return 'No';
     if(this.$personalities.isActive('Affirmer') && includes(choices, 'Yes')) return 'Yes';
     if(this.$personalities.isActive('Indecisive')) return sample(choices);
