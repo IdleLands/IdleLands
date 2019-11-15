@@ -882,7 +882,7 @@ export class Player implements IPlayer {
       if(includes(choices, 'Double')) return 'Double';
       if(includes(choices, 'Sell')) return 'Sell';
       if(includes(choices, 'Inventory')) return 'Inventory';
-      if(choices.length === 2 && includes(choices, 'Yes') && includes(choices, 'No')){
+      if(choices.length === 2 && includes(choices, 'Yes') && includes(choices, 'No')) {
         return sample(['Yes', 'No']);
       }
     }
