@@ -107,6 +107,29 @@ export class GMSetNameEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class GMSetClassEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMSetClass;
+  description = 'GM: Set class for a player';
+  args = 'player, newClass';
+
+  async callback({ player, newClass } = { player: '', newClass: '' }) {
+    // foo
+    const myPlayer = this.player;
+    if(!myPlayer) return this.notConnected();
+
+    if(myPlayer.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
+
+    const playerRef = this.game.playerManager.getPlayer(player);
+    if(!playerRef) return this.gameError('Count not find that player.');
+
+    const profession = this.game.professionHelper.getProfession(newClass);
+    if(!profession) return this.gameError('Could not find targeted profession/class.');
+
+    playerRef.changeProfession(profession);
+    this.gameMessage(`Set ${player}'s class to ${newClass}`);
+  }
+}
+
 export class GMSetLevelEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GMSetLevel;
   description = 'GM: Set level for a player';

@@ -49,12 +49,13 @@
               <ion-item (click)="setMOTD()" button><ion-icon name="paper" slot="start"></ion-icon> Set MOTD</ion-item>
               <ion-item (click)="createFestival()" button><ion-icon name="planet" slot="start"></ion-icon> Start Festival</ion-item>
               <ion-item (click)="resetGlobal()" button color="warning"><ion-icon name="bonfire" slot="start"></ion-icon> Reset All Global Quests</ion-item>
-              
+
               <ion-list-header>Player-specific Modifications (cloud = online/offline)</ion-list-header>
               <ion-item (click)="setPlayerId()" button><ion-icon name="cloud-outline" slot="start"></ion-icon> Change Player Id</ion-item>
               <ion-item (click)="setStatistic()" button><ion-icon name="cloud" slot="start"></ion-icon> Set Statistic</ion-item>
               <ion-item (click)="setName()" button><ion-icon name="cloud-outline" slot="start"></ion-icon> Set Name</ion-item>
               <ion-item (click)="setLevel()" button><ion-icon name="cloud" slot="start"></ion-icon> Set Level</ion-item>
+              <ion-item (click)="setClassTarget()" button><ion-icon name="cloud" slot="start"></ion-icon> Set Class</ion-item>
               <ion-item (click)="setLocation()" button disabled color="cloud"><ion-icon name="cloud" slot="start"></ion-icon> Set Location</ion-item>
               <ion-item (click)="giveILP()" button><ion-icon name="cloud" slot="start"></ion-icon> Give ILP</ion-item>
               <ion-item (click)="giveGold()" button><ion-icon name="cloud" slot="start"></ion-icon> Give Gold</ion-item>
