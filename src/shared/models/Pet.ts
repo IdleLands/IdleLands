@@ -107,7 +107,7 @@ export class Pet implements IPet {
       this.gainGold(0);
     }
 
-    if(this.$player.$personalities.isActive('Forager') && this.gold.total === this.gold.maximum) {
+    if(this.$player.$personalities.isActive('Forager') && this.gold.atMaximum()) {
       this.$player.gainGold(Math.floor(this.gold.total / 2), true);
       this.gold.total = 0;
     }
