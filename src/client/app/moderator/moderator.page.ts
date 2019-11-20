@@ -216,7 +216,7 @@ export class ModeratorPage implements OnInit {
   }
 
   async setClass(name) {
-    let inputData = [];
+    const inputData = [];
     const professions = [
       'Archer', 'Barbarian', 'Bard',
       'Bitomancer', 'Cleric', 'Fighter', 'Generalist',
@@ -230,8 +230,8 @@ export class ModeratorPage implements OnInit {
         type: 'radio',
         label: profession,
         value: profession
-      })
-    })
+      });
+    });
 
     const alert = await this.alertCtrl.create({
       header: 'Set Class 2/2',
