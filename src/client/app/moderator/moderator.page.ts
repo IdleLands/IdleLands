@@ -206,7 +206,7 @@ export class ModeratorPage implements OnInit {
         {
           text: 'Pick Class...',
           handler: async (values) => {
-            this.setClass(values.player)
+            this.setClass(values.player);
           }
         }
       ]
