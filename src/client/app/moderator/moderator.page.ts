@@ -192,6 +192,68 @@ export class ModeratorPage implements OnInit {
     alert.present();
   }
 
+  async setClassTarget() {
+    const alert = await this.alertCtrl.create({
+      header: 'Set Class 1/2',
+      subHeader: 'Type the name of the player you want to change the class of.',
+      inputs: [{
+          name: 'player',
+          type: 'text',
+          placeholder: 'Player'
+        }],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Pick Class...',
+          handler: async (values) => {
+            this.setClass(values.player);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  async setClass(name) {
+    const inputData = [];
+    const professions = [
+      'Archer', 'Barbarian', 'Bard',
+      'Bitomancer', 'Cleric', 'Fighter', 'Generalist',
+      'Jester', 'Mage', 'MagicalMonster', 'Monster',
+      'Necromancer', 'Pirate', 'Rogue', 'SandwichArtist'
+    ];
+
+    professions.forEach(profession => {
+      inputData.push({
+        name: 'newClass',
+        type: 'radio',
+        label: profession,
+        value: profession
+      });
+    });
+
+    const alert = await this.alertCtrl.create({
+      header: 'Set Class 2/2',
+      subHeader: `Select ${name}'s new class`,
+      inputs: inputData,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Set Class',
+          handler: async (newClass) => {
+            if(!newClass || !name) return;
+            this.socketService.emit(ServerEventName.GMSetClass, {
+              newClass: newClass, player: name
+            });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   async setLevel() {
     const alert = await this.alertCtrl.create({
       header: 'Set Level',
