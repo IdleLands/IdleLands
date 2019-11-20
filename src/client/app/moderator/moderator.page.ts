@@ -242,7 +242,7 @@ export class ModeratorPage implements OnInit {
         {
           text: 'Set Class',
           handler: async (newClass) => {
-            if(!newClass|| !name) return;
+            if(!newClass || !name) return;
             this.socketService.emit(ServerEventName.GMSetClass, {
               newClass: newClass, player: name
             });
