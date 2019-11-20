@@ -94,6 +94,12 @@ export class Pets extends PlayerOwned {
       Object.values(this.allPets).forEach(pet => {
         pet.loop(true);
       });
+      const activePet = this.allPets[player.$pets.currentPet];
+      if(activePet) {
+        // Half of pet gold (50% Forager)
+        player.gainGold(Math.floor(activePet.gold.__current / 2));
+        activePet.gold.__current = 0;
+      }
     }
   }
 
