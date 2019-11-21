@@ -353,9 +353,9 @@ export class Player implements IPlayer {
     return totalXP;
   }
 
-  public spendGold(gold = 0): number {
+  public spendGold(gold = 0, addMyGold = true): number {
     this.increaseStatistic('Character/Gold/Spend', gold);
-    return this.gainGold(-gold);
+    return this.gainGold(-gold, addMyGold);
   }
 
   public gainGold(gold = 0, addMyGold = true): number {
