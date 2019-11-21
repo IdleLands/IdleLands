@@ -358,7 +358,7 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
     if(!guild) return this.gameError('That guild is not valid!');
 
     if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
-    const playerTag = `${player.name} ${player.ascensionLevel}★${player.level}`;
+    const playerTag = `${player.name}, the level ${player.ascensionLevel}★${player.level.total} ${player.profession}`;
 
     switch(guild.recruitment) {
       case 'Closed': {
