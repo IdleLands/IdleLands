@@ -358,6 +358,7 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
     if(!guild) return this.gameError('That guild is not valid!');
 
     if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
+    const playerTag = `${player.name} ${player.ascensionLevel}★${player.level}`;
 
     switch(guild.recruitment) {
       case 'Closed': {
@@ -370,14 +371,14 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
         } catch(e) {
           return this.gameError('You already have an application for that guild.');
         }
-        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${player.name} has applied to join the guild.`);
+        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${playerTag} has applied to join the guild.`);
         this.gameSuccess(`You applied to the guild!`);
         break;
       }
 
       case 'Open': {
         this.game.guildManager.joinGuild(player.name, guildName, GuildMemberTier.Member);
-        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${player.name} has joined the guild.`);
+        this.game.discordManager.notifyGuildChannel(player.name, guild, `recruitment`, `${playerTag} has joined the guild.`);
         this.gameSuccess(`You joined the guild!`);
         break;
       }
