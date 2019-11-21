@@ -11,7 +11,6 @@ export class Festive extends Achievement {
   static descriptionForTier(tier: number): string {
     let baseStr = `Gain +${tier} achievement(s) for spending ${Math.pow(Festive.base, tier).toLocaleString()} ILP on festivals.`;
 
-
     if(tier >= 6) {
       baseStr = `${baseStr} Title: Festive Fox.`;
     }
