@@ -33,6 +33,7 @@ export * from './Entitled';
 export * from './Explorer';
 export * from './Fallen';
 export * from './Fateful';
+export * from './Festive';
 export * from './Fool';
 export * from './Forager';
 export * from './Forsaken';
