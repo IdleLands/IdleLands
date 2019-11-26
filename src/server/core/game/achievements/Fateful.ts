@@ -37,7 +37,7 @@ export class Fateful extends Achievement {
     }
 
     if(tier >= 3) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Forsaken Fox' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Forsaken Fish' });
     }
 
     return baseRewards;
