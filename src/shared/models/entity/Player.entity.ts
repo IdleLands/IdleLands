@@ -59,6 +59,7 @@ export class Player implements IPlayer {
   @Column() public authType: string;
   @Column() public modTier: ModeratorTier;
   @Column() public mutedUntil: number;
+  @Column() public guildAppBanned: boolean;
   @Column() public lastMessageSent: number;
   @Column() public messageCooldown: number;
 
@@ -180,6 +181,9 @@ export class Player implements IPlayer {
     if(!this.$statTrail) this.$statTrail = { };
     if(!this.buffWatches) this.buffWatches = { };
     if(!this.cooldowns) this.cooldowns = { };
+    if(typeof this.guildAppBanned === 'undefined') {
+      this.guildAppBanned = false;
+    }
 
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];

@@ -83,6 +83,18 @@ export class GMHelper {
     });
   }
 
+  public guildAppBan(playerName: string) {
+    const player = this.playerManager.getPlayer(playerName);
+
+    if(!player) return;
+    if(player.modTier) return;
+
+    player.guildAppBanned = !player.guildAppBanned;
+
+    this.playerManager.updatePlayer(player, PlayerChannelOperation.SpecificUpdate);
+    return player.guildAppBanned;
+  }
+
   public mute({ playerName, duration }) {
     const player = this.playerManager.getPlayer(playerName);
     if(!player) return;

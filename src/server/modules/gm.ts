@@ -16,6 +16,20 @@ export class GMMotdEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class GMToggleGuildAppBanEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMToggleGuildAppBan;
+  description = 'GM: Toggle a player\'s ability to send guild applications';
+  args = 'playerName';
+
+  async callback({ playerName } = { playerName: '' }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+    if(player.modTier < ModeratorTier.ChatMod) return this.gameError('Lol no.');
+    const result = this.game.gmHelper.guildAppBan(playerName);
+    this.gameMessage(`${playerName} can ${ result ? 'no longer' : 'now' } send guild applications.`);
+  }
+}
+
 export class GMToggleMuteEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GMToggleMute;
   description = 'GM: Toggle mute for a player';

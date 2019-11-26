@@ -352,6 +352,8 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.guildAppBanned) return this.gameError(`You are not allowed to send guild applications`);
+
     if(player.guildName) return this.gameError('You already are in a guild!');
 
     const guild = this.game.guildManager.getGuild(guildName);

@@ -64,6 +64,31 @@ export class ModeratorPage implements OnInit {
     await modal.present();
   }
 
+  async toggleGuildAppBan() {
+    const alert = await this.alertCtrl.create({
+      header: 'Toggle guild apply ban',
+      subHeader: 'Enter the player name',
+      inputs: [{
+        name: 'player',
+        type: 'text',
+        placeholder: 'Player'
+      }],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Toggle!',
+          handler: async (values) => {
+            if(!values) return;
+            console.log(values);
+            this.socketService.emit(ServerEventName.GMToggleGuildAppBan, { playerName: values.player });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   async toggleMods() {
 
     const modal = await this.modalCtrl.create({
