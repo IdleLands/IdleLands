@@ -70,7 +70,7 @@ export class DiscordManager {
   public sendMessage(message: string): void {
     if(!this.discordChannel) return;
 
-    this.discordChannel.send(message);
+    this.sendChannelMessage(this.discordChannel, message);
   }
 
   public notifyGuildChannel(playerName: string, guild: Guild, key: string, message: string) {
@@ -90,7 +90,7 @@ export class DiscordManager {
     } else if(crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
       return;
     }
-    (channel as any).send(`<☆System> ${message}`);
+    this.sendChannelMessage(channel, `<☆System> ${message}`);
   }
 
   public discordUserWithTag(tag: string): Discord.GuildMember {
@@ -179,6 +179,18 @@ export class DiscordManager {
     return guildUser.roles;
   }
 
+  public sendChannelMessage(channel: any, message: string) {
+    // Stop the bot mentioning everyone or here
+    message = message.replace(/@everyone/gi, 'everyone').replace(/@here/gi, 'here');
+    // Add ability to @ users
+    (message.match(/(@[^\s|\W]+)/gi) || []).forEach(function(match) {
+      const name = match.substr(1);
+      const user = channel.members.find(val => val.user.username === name || val.nickname === name);
+      if(user) message = message.replace(match, `<@${user.id}>`);
+    });
+    channel.send(message);
+  }
+
   public submitCustomItem(fromPlayer: string, itemText: string) {
     if(!this.discordGuild) return null;
 
@@ -188,7 +200,7 @@ export class DiscordManager {
     const channelRef = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID);
     if(!channelRef) return null;
 
-    channelRef.send(`Via ${fromPlayer}: ${itemText}`);
+    this.sendChannelMessage(channelRef, `Via ${fromPlayer}: ${itemText}`);
   }
 
   public async createDiscordChannelForGuild(guild: Guild) {
