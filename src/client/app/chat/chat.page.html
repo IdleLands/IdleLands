@@ -31,8 +31,9 @@
             <ion-item *ngFor="let message of gameService.messages" class="chat-message" (contextmenu)="openPopover(message.realPlayerName, $event)">
               <ion-label class="ion-text-wrap">
                 <h2>
-                    <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
+                  <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
                   <span class="chat-username">{{ message.playerName }}</span>
+                  <span class="chat-guild-tag" *ngIf="message.guildTag"> [{{ message.guildTag }}]</span>
                   <span class="chat-timestamp">{{ message.timestamp | date:'short' }}</span>
                 </h2>
                 <p [innerHTML]="message.message | linkify | replaceDiscordEmoji"></p>
@@ -41,7 +42,7 @@
           </ion-list>
         </ion-col>
       </ion-row>
-    
+
       <ion-row class="input-area">
         <ion-col class="text-entry">
           <ion-item>
