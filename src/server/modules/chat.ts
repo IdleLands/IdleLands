@@ -64,10 +64,11 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
 
     message = message.slice(0, 500);
 
+    const playerGuild = this.game.guildManager.getGuild(player.guildName);
     this.game.chatHelper.sendMessageFromClient({
       timestamp: Date.now(),
       message,
-
+      guildTag: playerGuild ? playerGuild.tag : '',
       realPlayerName: player.name,
       playerName: `${player.name}${player.title ? `, the ${player.title}` : ''}`,
       playerLevel: player.level.total,

@@ -40,7 +40,9 @@ export class ChatHelper {
       return;
     }
 
-    this.onMessageCallback(`<${message.playerName} ${message.playerAscension || 0}★${message.playerLevel}> ${message.message}`);
+    const levelString = `${message.playerAscension || 0}★${message.playerLevel}`;
+    const guildString = message.guildTag ? `[${message.guildTag}] ` : '';
+    this.onMessageCallback(`<${message.playerName} ${guildString}${levelString}> ${message.message}`);
   }
 
 }
