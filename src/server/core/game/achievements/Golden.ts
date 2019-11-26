@@ -19,6 +19,10 @@ export class Golden extends Achievement {
       baseStr = `${baseStr} Title: Golden Child. Pet Attribute: Golden.`;
     }
 
+    if(tier >= 10) {
+      baseStr = `${baseStr} Title: Keeper of the Golden Bucket.`;
+    }
+
     return baseStr;
   }
 
@@ -41,6 +45,10 @@ export class Golden extends Achievement {
     if(tier >= 5) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Golden Child' });
       baseRewards.push({ type: AchievementRewardType.PetAttribute, petattr: PetAttribute.Golden });
+    }
+
+    if(tier >= 10) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Keeper of the Golden Bucket' });
     }
 
     return baseRewards;
