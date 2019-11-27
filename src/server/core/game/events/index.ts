@@ -14,6 +14,7 @@ export * from './Battle';
 export * from './BattlePvP';
 export * from './BattleBoss';
 
+export * from './Portal';
 export * from './Party';
 export * from './PartyLeave';
 
