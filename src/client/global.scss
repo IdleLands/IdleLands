@@ -46,7 +46,7 @@ ion-alert .alert-wrapper {
 }
 
 .stat-trail-table, .odds-table, .party-table {
-  border-spacing: 1px; 
+  border-spacing: 1px;
   width: 100%;
 
   td {
@@ -80,22 +80,22 @@ ion-alert .alert-wrapper {
   .item-compare-table {
     border-spacing: 1px;
     width: 100%;
-  
+
     td {
       padding: 5px;
       border: 1px solid #666;
-  
+
       &.desc {
         width: 100px;
         font-weight: bold;
-  
+
         .desc-container {
           display: flex;
           justify-content: space-around;
           color: var(--ion-color-base);
         }
       }
-  
+
       &.stat-container {
         color: var(--ion-color-base);
       }
@@ -204,10 +204,42 @@ ion-progress-bar {
   color: #9400D3;
 }
 
+.crystal-green {
+  color: forestgreen;
+}
+
+.crystal-yellow {
+  color: goldenrod;
+}
+
+.crystal-blue {
+  color: cadetblue;
+}
+
+.crystal-red {
+  color: maroon;
+}
+
+.crystal-purple {
+  color: purple;
+}
+
+.crystal-orange {
+  color: orange;
+}
+
+.crystal-astral {
+  color: #ccc;
+}
+
 .gold {
   color: gold;
 }
 
 .ion-color-light{
     filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 1));
+}
+
+.gate-reward-table .alert-message{
+  max-height: 80%;
 }

@@ -583,10 +583,109 @@ export class GameService {
     return `UNKNOWN REWARD ${reward}`;
   }
 
+  public determineRewardIcon(reward: string) {
+
+    if(reward.includes('resource:wood')) {
+      return 'resource-wood';
+    }
+
+    if(reward.includes('resource:clay')) {
+      return 'resource-clay';
+    }
+
+    if(reward.includes('resource:stone')) {
+      return 'resource-stone';
+    }
+
+    if(reward.includes('resource:astralium')) {
+      return 'resource-astralium';
+    }
+
+    if(reward.includes('teleportscroll') || reward.includes('buffscroll')) {
+      return 'symbol-scroll';
+    }
+
+    if(reward.includes('collectible:')) {
+      return 'category-collectibles';
+    }
+
+    if(reward.includes('item:guardian')) {
+      return 'category-gear';
+    }
+
+    if(reward.includes('ilp:player')) {
+      return 'category-premium';
+    }
+
+    if(reward.includes('item:Crystal')) {
+      return 'symbol-crystal';
+    }
+
+    if(reward.includes('gold:player')) {
+      return 'stat-gold';
+    }
+
+    if(reward.includes('xp:pet') || reward.includes('xp:player')) {
+      return 'stat-xp';
+    }
+
+    return 'symbol-special';
+  }
+
+  public generateRewardRender(reward) {
+    return `
+      <ion-item class="item-label item in-list">
+        <ion-icon class="${reward.color ? reward.color : ''}" slot="start" src="assets/icon/${reward.icon}.svg"></ion-icon>
+        <ion-label> ${reward.name}</ion-label>
+        <ion-badge color="primary">x${reward.quantity}</ion-badge>
+      </ion-item>
+      `;
+  }
+
   public async showRewards(title: string, rewards) {
+    const compressed = { };
+    const self = this;
+    let rewardList = ``;
+
+    rewards.forEach(function(reward) {
+      if(!compressed[reward]) {
+        compressed[reward] = {
+          icon: self.determineRewardIcon(reward),
+          name: self.determineRewardName(reward),
+          quantity : 1,
+          color: null
+        };
+
+        // Extract color class from reward
+
+        // Resources (wood, stone, ect)
+        if(reward.includes('resource:')) {
+          compressed[reward].color = reward.split('resource:').pop().split(':').shift();
+        }
+
+        // Gold (duh)
+        if(reward.includes('gold:player')) {
+          compressed[reward].color = 'gold';
+        }
+
+        // Crystals
+        if(reward.includes('item:Crystal:')) {
+          compressed[reward].color = `crystal-${reward.split(':').pop().toLowerCase()}`;
+        }
+
+      } else compressed[reward].quantity++;
+    });
+
+    Object.keys(compressed).sort(function(a, b) {
+      return compressed[a].quantity - compressed[b].quantity;
+    }).reverse().forEach(x => {
+      rewardList = `${rewardList} ${this.generateRewardRender(compressed[x])}`;
+    });
+
     const alert = await this.alertCtrl.create({
       header: title,
-      message: '<ol>' + rewards.map(x => this.determineRewardName(x)).map(x => '<li>' + x + '</li>').join('') + '</ol>',
+      message: `<ion-list>${rewardList}</ion-list>`,
+      cssClass: 'gate-reward-table',
       buttons: [
         'OK'
       ]
