@@ -218,7 +218,7 @@ export class ModeratorPage implements OnInit {
   async setPlayerLocation() {
     const alert = await this.alertCtrl.create({
       header: 'Teleport player',
-      subHeader: 'Type the name of the player then the X, Y, Map location.<br>You can also use the teleport name (overrides custom teleport).',
+      subHeader: 'Type the name of the player then the X, Y, Map location. You can also use the teleport name (overrides custom teleport).',
       inputs: [
         {
           name: 'player',
