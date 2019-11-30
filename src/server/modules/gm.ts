@@ -107,6 +107,41 @@ export class GMSetNameEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class GMSetPlayerLocation extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GMSetPlayerLocation;
+  description = 'GM: Teleport a player to a certain location';
+  args = 'player, x, y, map, teleport';
+
+  async callback({ player, x, y, map, teleport } = { player: '', x: 10, y: 10, map: 'Norkos', teleport: '' }) {
+    const myPlayer = this.player;
+    if(!myPlayer) return this.notConnected();
+
+    if(myPlayer.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
+    const playerRef = this.game.playerManager.getPlayer(player);
+    if(!playerRef) return this.gameError('Could not find that player.');
+
+    const allTeleports = this.game.assetManager.allTeleports;
+    let target = {
+      x: x,
+      y: y,
+      map: map
+    };
+
+    // Are we using one of the existing teleports?
+    if(teleport !== '') {
+      if(!allTeleports[teleport]) return this.gameError('Unable to find the requested teleport');
+      target = allTeleports[teleport];
+    }
+
+    // Now verify that we can actually teleport there and that the player is not out of bounds
+    const tile = myPlayer.$$game.movementHelper.isValidTile(target.map, target.x, target.y);
+    if(!tile) return this.gameError('Unfortunately you can not teleport a player into limbo. Please enter a valid location.');
+
+    myPlayer.$$game.movementHelper.doTeleport(playerRef, target);
+    this.gameMessage(`Teleported ${playerRef.name} to x=${target.x}, y=${target.y}, map=${target.map}`);
+  }
+}
+
 export class GMSetClassEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GMSetClass;
   description = 'GM: Set class for a player';
@@ -120,7 +155,7 @@ export class GMSetClassEvent extends ServerSocketEvent implements ServerEvent {
     if(myPlayer.modTier < ModeratorTier.GameMod) return this.gameError('Lol no.');
 
     const playerRef = this.game.playerManager.getPlayer(player);
-    if(!playerRef) return this.gameError('Count not find that player.');
+    if(!playerRef) return this.gameError('Could not find that player.');
 
     const profession = this.game.professionHelper.getProfession(newClass);
     if(!profession) return this.gameError('Could not find targeted profession/class.');

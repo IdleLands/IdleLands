@@ -215,6 +215,58 @@ export class ModeratorPage implements OnInit {
     alert.present();
   }
 
+  async setPlayerLocation() {
+    const alert = await this.alertCtrl.create({
+      header: 'Teleport player',
+      subHeader: 'Type the name of the player then the X, Y, Map location. You can also use the teleport name (overrides custom teleport).',
+      inputs: [
+        {
+          name: 'player',
+          type: 'text',
+          placeholder: 'Player'
+        },
+        {
+          name: 'pos-x',
+          type: 'number',
+          placeholder: 'x'
+        },
+        {
+          name: 'pos-y',
+          type: 'number',
+          placeholder: 'y'
+        },
+        {
+          name: 'map',
+          type: 'text',
+          placeholder: 'map'
+        },
+        {
+          name: 'teleport-name',
+          type: 'text',
+          placeholder: 'Teleport Name - EG: fatepools'
+        }
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Teleport!',
+          handler: async (values) => {
+            if(!values) return;
+            this.socketService.emit(ServerEventName.GMSetPlayerLocation, {
+              player: values.player,
+              x: values['pos-x'],
+              y: values['pos-y'],
+              map: values['map'],
+              teleport: values['teleport-name']
+            });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   async setClass(name) {
     const inputData = [];
     const professions = [

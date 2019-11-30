@@ -39,6 +39,17 @@ export class MovementHelper {
     return this.assets.allTeleports[name];
   }
 
+  public isValidTile(map: string, x: number, y: number): boolean {
+    // Does the map exist?
+    const $map = this.world.getMap(map);
+    if(!$map) return false;
+    // Does tile exist?
+    const $tile = $map.getTile(x, y);
+    if(!$tile) return false;
+    // Is it out of bounds?
+    return !(x <= 0 || y <= 0 || x >= $map.width || y >= $map.height);
+  }
+
   public moveToStart(player: Player): void {
     player.setPos(10, 10, 'Norkos', 'Norkos Town');
   }

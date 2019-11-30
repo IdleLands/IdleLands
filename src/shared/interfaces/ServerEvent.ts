@@ -88,6 +88,7 @@ export enum ServerEventName {
   GMSetName = 'gm:setname',
   GMSetLevel = 'gm:setlevel',
   GMSetClass = 'gm:setclass',
+  GMSetPlayerLocation = 'gm:setplayerlocation',
   GMGiveILP = 'gm:giveilp',
   GMGiveGold = 'gm:givegold',
   GMGiveGuildResrouces = 'gm:giveguildresources',
