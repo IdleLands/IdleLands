@@ -120,7 +120,7 @@ export class GMSetPlayerLocation extends ServerSocketEvent implements ServerEven
     const playerRef = this.game.playerManager.getPlayer(player);
     if(!playerRef) return this.gameError('Could not find that player.');
 
-    const allTeleports = this.game.assetManager.teleports;
+    const allTeleports = this.game.assetManager.allTeleports;
     let target = {
       x: x,
       y: y,
