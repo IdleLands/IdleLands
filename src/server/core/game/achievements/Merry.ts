@@ -42,8 +42,8 @@ static descriptionForTier(tier: number): string {
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
-       baseRewards.push({ type: AchievementRewardType.Title, title: 'Merry' });
-    ]
+      { type: AchievementRewardType.Title, title: 'Merry' }
+    ];
 
     if(tier >= 2) {
      baseRewards.push({ type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.AdventureLogSizeBoost]: 1 } });
