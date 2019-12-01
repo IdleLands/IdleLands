@@ -19,7 +19,7 @@ static descriptionForTier(tier: number): string {
 
     return baseStr;
   }
-  
+
   static calculateTier(player: Player): number {
     const coll1 = player.$collectibles.has('Wooden Toy');
     const coll2 = player.$collectibles.has('Elf Shoe');
@@ -28,22 +28,22 @@ static descriptionForTier(tier: number): string {
     const kill1 = player.$statistics.get('BossKill/Boss/Toy Maker Elf');
     const kill2 = player.$statistics.get('BossKill/Boss/Reindeer Warden');
     const kill3 = player.$statistics.get('BossKill/Boss/Santa, Lord of Presents');
-    const chest1 = player.$statistics.get('Treasure/Chest/Christmas Gear');    
+    const chest1 = player.$statistics.get('Treasure/Chest/Christmas Gear');
 
-    const multi = coll1 && coll2 && coll3 && kill1 && kill2 && kill3 && chest1 ? 1 : 0;
-    const sum = ((kill1 + kill2 + kill3 + chest1)/4);
+    const multi = coll1 && coll2 && coll3 && coll4 && kill1 && kill2 && kill3 && chest1 ? 1 : 0;
+    const sum = ((kill1 + kill2 + kill3 + chest1) / 4);
     const steps = (multi * sum);
-    
+
     if(steps >= 7) return 3;
     if(steps >= 3) return 2;
     if(steps >= 1) return 1;
     return 0;
   }
-  
+
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
        baseRewards.push({ type: AchievementRewardType.Title, title: 'Merry' });
-    ];
+    ]
 
     if(tier >= 2) {
      baseRewards.push({ type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.AdventureLogSizeBoost]: 1 } });
