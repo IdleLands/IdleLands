@@ -1,4 +1,3 @@
-
 export * from './Achiever';
 export * from './Adventurous';
 export * from './Affirmer';
@@ -51,6 +50,7 @@ export * from './Impossible';
 export * from './Indecisive';
 export * from './Jailbird';
 export * from './Leveler';
+export * from './Merry';
 export * from './Muscled';
 export * from './Newbie';
 export * from './Partier';
