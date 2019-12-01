@@ -3,8 +3,8 @@ import { Player } from '../../../../shared/models';
 
 export class Merry extends Achievement {
 
-  static readonly statWatches = ['Item/Collectible/Find'];
-  static readonly type = AchievementType.Explore;
+  static readonly statWatches = ['BosskKill/Total'];
+  static readonly type = AchievementType.Special;
 
 static descriptionForTier(tier: number): string {
     let baseStr = `You were given the gift of a title for joining the spirit of Winter.`;
