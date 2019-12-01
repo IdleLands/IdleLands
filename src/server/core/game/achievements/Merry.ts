@@ -7,7 +7,7 @@ export class Merry extends Achievement {
   static readonly type = AchievementType.Explore;
 
 static descriptionForTier(tier: number): string {
-    const baseStr = `You were given the gift of a title for joining the spirit of Winter.`;
+    let baseStr = `You were given the gift of a title for joining the spirit of Winter.`;
 
     if(tier >= 2) {
       baseStr = `You were given the gift of a title and +1 Adventure Log Size for joining the spirit of Winter.`;
