@@ -3,7 +3,7 @@ import { Player } from '../../../../shared/models';
 
 export class Merry extends Achievement {
 
-  static readonly statWatches = ['BosskKill/Total'];
+  static readonly statWatches = ['BossKill/Total'];
   static readonly type = AchievementType.Special;
 
 static descriptionForTier(tier: number): string {
