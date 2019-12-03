@@ -302,6 +302,8 @@ export class Premium extends PlayerOwned {
 
           if(sub === 'generated') {
             for(let i = 0; i < quantityNum; i++) {
+              if(player.level < player.$$game.itemGenerator.levelTierHash[choice]) continue;
+
               const generatedItem = player.$$game.itemGenerator.generateItem({ forceClass: choice });
               player.$$game.eventManager.doEventFor(player, EventName.FindItem, { fromPet: true, item: generatedItem });
             }
