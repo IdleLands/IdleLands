@@ -8,7 +8,7 @@ export class Mage extends BaseProfession implements IProfession {
   public readonly specialStatName = 'Mana';
   public readonly oocAbilityName = 'Alchemy';
   public readonly oocAbilityDesc = 'Gain GOLD based on your INT.';
-  public readonly oocAbilityCost = 10;
+  public readonly oocAbilityCost = 25;
 
   public readonly statForStats = {
     [Stat.HP]: {

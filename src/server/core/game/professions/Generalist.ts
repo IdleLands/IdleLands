@@ -7,7 +7,7 @@ export class Generalist extends BaseProfession implements IProfession {
 
   public readonly oocAbilityName = 'Generalize';
   public readonly oocAbilityDesc = 'Gain XP based on your LUK.';
-  public readonly oocAbilityCost = 10;
+  public readonly oocAbilityCost = 25;
 
   public readonly statForStats = {
     [Stat.HP]: {
