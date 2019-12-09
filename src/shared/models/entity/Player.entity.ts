@@ -59,6 +59,7 @@ export class Player implements IPlayer {
   @Column() public authType: string;
   @Column() public modTier: ModeratorTier;
   @Column() public mutedUntil: number;
+  @Column() public guildAppBanned: boolean;
   @Column() public lastMessageSent: number;
   @Column() public messageCooldown: number;
 

@@ -84,6 +84,7 @@ export enum ServerEventName {
   GMChangeModTier = 'gm:modtier',
   GMStartFestival = 'gm:startfestival',
   GMToggleMute = 'gm:togglemute',
+  GMToggleGuildAppBan = 'gm:toggleguildappban',
   GMSetStatistic = 'gm:setstatistic',
   GMSetName = 'gm:setname',
   GMSetLevel = 'gm:setlevel',
