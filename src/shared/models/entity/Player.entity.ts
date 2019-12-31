@@ -426,6 +426,7 @@ export class Player implements IPlayer {
     const items = this.$game.itemGenerator.generateNewbieItems();
     items.forEach(item => this.$inventory.equipItem(item));
     this.$inventory.clearInventory();
+    this.$inventory.clearBuffScrolls();
 
     this.increaseStatistic('Character/Ascension/Collectibles', this.$collectibles.getFoundOwnedCollectibles().length);
     this.$collectibles.resetFoundAts();

@@ -167,6 +167,10 @@ export class Inventory extends PlayerOwned {
     return true;
   }
 
+  public clearBuffScrolls(): void {
+    this.buffScrolls = [];
+  }
+
   public addBuffScroll(scroll: IBuffScrollItem): void {
     this.buffScrolls.push(scroll);
   }
