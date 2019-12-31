@@ -326,7 +326,7 @@ export class Premium extends PlayerOwned {
               const chooseAndAddStat = () => {
 
                 const stat = player.$$game.rngService.pickone(AllStatsButSpecialInclSalvage);
-                let val = player.ascensionLevel * 10;
+                let val = (player.ascensionLevel + 1) * 10;
 
                 if(stat === Stat.SALVAGE) {
                   val = 5;
