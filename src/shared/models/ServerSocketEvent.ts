@@ -37,7 +37,7 @@ export class ServerSocketEvent {
   }
 
   protected socketAddress() {
-    return this.socket.remoteAddress;
+    return this.socket.clientAddress;
   }
 
   protected setPlayer(player: IPlayer) {

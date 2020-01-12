@@ -145,8 +145,8 @@ export class PlayerManager {
 
     player.loggedIn = true;
     // Add IP if it's not already stored
-    player.ips = _.union(player.ips, [socket.socket.remoteAddress]);
-    player.ip = socket.socket.remoteAddress;
+    player.ips = _.union(player.ips, [socket.socket.clientAddress]);
+    player.ip = socket.socket.clientAddress;
 
     this.playerWatches[player.name] = observe(player);
 
