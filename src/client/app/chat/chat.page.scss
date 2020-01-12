@@ -1,18 +1,18 @@
 
 .chat-container {
   height: 100%;
-  
+
   .chat-area {
     display: flex;
     flex-direction: column;
-  
+
     height: 100%;
 
     .motd-area {
       border-bottom: 1px solid #000;
       min-height: 50px;
     }
-  
+
     .output-area {
       flex-grow: 1;
 
@@ -25,7 +25,7 @@
         --inner-border-width: 0 0 0 0;
       }
     }
-    
+
     .input-area {
       border-top: 1px solid #000;
       min-height: 60px;
@@ -51,4 +51,15 @@
 .chat-discord {
   margin-right: 5px;
   font-size: 0.6rem;
+}
+
+.chat-address {
+  margin-left: 5px;
+  font-size: 0.6rem;
+  font-style: italic;
+  margin-right: 5px;
+  color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

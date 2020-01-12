@@ -10,4 +10,5 @@ export interface IMessage {
   playerAscension?: number;
 
   fromDiscord?: boolean;
+  address?: string;
 }
