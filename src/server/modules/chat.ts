@@ -72,7 +72,8 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
       realPlayerName: player.name,
       playerName: `${player.name}${player.title ? `, the ${player.title}` : ''}`,
       playerLevel: player.level.total,
-      playerAscension: player.ascensionLevel
+      playerAscension: player.ascensionLevel,
+      address: player.ip
     });
   }
 }
