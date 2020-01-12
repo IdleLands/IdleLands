@@ -27,11 +27,10 @@
           <div class="blank-slate" *ngIf="gameService.messages.length === 0">
             No messages sent... yet!
           </div>
-          <ion-list *ngIf="gameService.player$ | async as player">
+          <ion-list>
             <ion-item *ngFor="let message of gameService.messages" class="chat-message" (contextmenu)="openPopover(message.realPlayerName, $event)">
               <ion-label class="ion-text-wrap">
                 <h2>
-                  <span class="chat-address" *ngIf="player.modTier">{{message.address}}</span>
                   <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
                   <span class="chat-username">{{ message.playerName }}</span>
                   <span class="chat-guild-tag" *ngIf="message.guildTag"> [{{ message.guildTag }}]</span>
