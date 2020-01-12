@@ -100,7 +100,10 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
 
     // Check if that IP is banned
     const banned = await this.game.databaseManager.checkForIPBan(this.socketAddress());
-    if(banned) return this.gameError('You have been permanently banned.');
+    if(banned && banned.ips.length > 0) {
+      console.log(`Ban matched user: ${banned.name}(${banned._id})`);
+      return this.gameError('You have been permanently banned.');
+    }
 
     if(!character) {
 
@@ -230,7 +233,10 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
 
     // Check if that IP is banned
     const banned = await this.game.databaseManager.checkForIPBan(this.socketAddress());
-    if(banned) return this.gameError('You have been permanently banned.');
+    if(banned && banned.ips.length > 0) {
+      console.log(`Ban matched user: ${banned.name}(${banned._id})`);
+      return this.gameError('You have been permanently banned.');
+    }
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 
