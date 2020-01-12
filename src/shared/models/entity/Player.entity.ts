@@ -53,6 +53,8 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public userId: string;
   @Column() public currentUserId: string;
+  @Column() public lastIP: string;
+  @Column() public banned: boolean;
 
   @Column() public authId: string;
   @Column() public authSyncedTo: string;
@@ -68,6 +70,7 @@ export class Player implements IPlayer {
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
+  @Column() public lastOnline: number;
 
   // player-related vars
   @Index({ unique: true })
@@ -105,6 +108,7 @@ export class Player implements IPlayer {
   public sessionId: string;
 
   private stats: any;
+
   public get currentStats() {
     return this.stats;
   }

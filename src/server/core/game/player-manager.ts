@@ -143,6 +143,7 @@ export class PlayerManager {
     }
 
     player.loggedIn = true;
+    player.lastIP = socket.socket.remoteAddress;
 
     this.playerWatches[player.name] = observe(player);
 
