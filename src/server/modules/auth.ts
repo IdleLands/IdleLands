@@ -56,6 +56,7 @@ export class SignOutEvent extends ServerSocketEvent implements ServerEvent {
     if(!player) return this.notConnected();
 
     player.loggedIn = false;
+    player.lastOnline = Date.now();
     this.game.databaseManager.savePlayer(player);
     this.game.playerManager.removePlayer(player);
 
@@ -96,6 +97,10 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
 
     // try to load a character with this id/name
     let character = await this.game.databaseManager.checkIfPlayerExists({ currentUserId: userId, name });
+
+    // Check if that IP is banned
+    const banned = await this.game.databaseManager.checkForIPBan(this.socketAddress());
+    if(banned) return this.gameError('You have been permanently banned.');
 
     if(!character) {
 
@@ -222,6 +227,10 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     // we have passed all of the checks, so lets hit the database again, why not?
     const character = await this.game.databaseManager.loadPlayer(this.game, searchOpts);
     if(!character) return this.gameError('Your player could not be loaded for some reason.');
+
+    // Check if that IP is banned
+    const banned = await this.game.databaseManager.checkForIPBan(this.socketAddress());
+    if(banned) return this.gameError('You have been permanently banned.');
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
 
