@@ -145,8 +145,8 @@ export class PlayerManager {
 
     player.loggedIn = true;
     // Add IP if it's not already stored
-    player.ips = _.union(player.ips, [socket.socket.clientAddress]);
-    player.ip = socket.socket.clientAddress;
+    player.ips = _.union(player.ips, [socket.socket.request.headers['x-forwarded-for']]);
+    player.ip = socket.socket.request.headers['x-forwarded-for'];
 
     this.playerWatches[player.name] = observe(player);
 

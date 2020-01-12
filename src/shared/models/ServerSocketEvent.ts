@@ -37,7 +37,7 @@ export class ServerSocketEvent {
   }
 
   protected socketAddress() {
-    return this.socket.clientAddress;
+    return this.socket.request.headers['x-forwarded-for'];
   }
 
   protected setPlayer(player: IPlayer) {
