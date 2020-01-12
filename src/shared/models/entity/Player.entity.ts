@@ -53,8 +53,8 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public userId: string;
   @Column() public currentUserId: string;
-  @Column() public lastIP: string;
   @Column() public banned: boolean;
+  @Column() public ips: string[];
 
   @Column() public authId: string;
   @Column() public authSyncedTo: string;

@@ -45,7 +45,7 @@ export class DatabaseManager {
   }
 
   public async checkForIPBan(ip: string) {
-    return await this.manager.findOne(Player, { lastIP: ip, banned: true });
+    return await this.manager.findOne(Player, { ips: ip, banned: true });
   }
 
   // Ban or unban a user
