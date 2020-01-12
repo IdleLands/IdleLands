@@ -44,7 +44,7 @@ export class DatabaseManager {
     await this.manager.updateMany(Player, { }, { $set: { loggedIn: false } });
   }
 
-  public async checkForIPBan(ip: string) {
+  public async checkForIPBan(ip: string[]) {
     return await this.manager.findOne(Player, { ips: ip, banned: true });
   }
 
