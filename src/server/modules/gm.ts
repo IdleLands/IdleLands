@@ -1,6 +1,5 @@
 import { ServerSocketEvent, Item } from '../../shared/models';
 import { ServerEvent, ServerEventName, ModeratorTier, IItem, EventName } from '../../shared/interfaces';
-import { isString } from 'lodash';
 
 export class GMMotdEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GMSetMOTD;
@@ -27,24 +26,7 @@ export class GMToggleGuildAppBanEvent extends ServerSocketEvent implements Serve
     if(!player) return this.notConnected();
     if(player.modTier < ModeratorTier.ChatMod) return this.gameError('Lol no.');
     const result = this.game.gmHelper.guildAppBan(playerName);
-    if(isString(result)) this.gameError(result);
-    else this.gameMessage(`${playerName} can ${ result ? 'no longer' : 'now' } send guild applications.`);
-  }
-}
-
-export class GMToggleBannedEvent extends ServerSocketEvent implements ServerEvent {
-  event = ServerEventName.GMToggleBanned;
-  description = 'GM: Ban or unban a user.';
-  args = 'playerName';
-
-  async callback({ playerName } = { playerName: '' }) {
-    const player = this.player;
-    if(!player) return this.notConnected();
-    if(player.modTier < ModeratorTier.ChatMod) return this.gameError('Lol no.');
-
-    const result = await this.game.gmHelper.toggleBan(playerName);
-    if(isString(result)) this.gameError(result);
-    else this.gameMessage(`${playerName} has been ${ result ? 'banned.' : 'unbanned.' }`);
+    this.gameMessage(`${playerName} can ${ result ? 'no longer' : 'now' } send guild applications.`);
   }
 }
 

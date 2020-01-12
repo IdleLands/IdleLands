@@ -7,7 +7,6 @@ import { Player } from '../../../shared/models/entity';
 import { ServerEventName, PlayerChannelOperation, Channel } from '../../../shared/interfaces';
 import { SubscriptionManager } from './subscription-manager';
 import { DiscordManager } from './discord-manager';
-import * as _ from 'lodash';
 
 @Singleton
 @AutoWired
@@ -144,8 +143,6 @@ export class PlayerManager {
     }
 
     player.loggedIn = true;
-    // Add IP if it's not already stored
-    player.ips = _.union(player.ips, [socket.socket.remoteAddress]);
 
     this.playerWatches[player.name] = observe(player);
 
