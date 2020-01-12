@@ -44,6 +44,23 @@ export class DatabaseManager {
     await this.manager.updateMany(Player, { }, { $set: { loggedIn: false } });
   }
 
+  public async checkForIPBan(ip: string[]) {
+    if(!ip || ip.length === 0) return false;
+    return await this.manager.findOne(Player, { ips: ip, banned: true });
+  }
+
+  // Ban or unban a user
+  public async togglePlayerBan(playerName: string) {
+    // Check user exists
+    const player = await this.manager.findOne(Player, { name: playerName });
+    if(!player) return 'Player not found.';
+    if(player.modTier) return 'Player is a moderator.';
+
+    // Attempt to update the document
+    const result = await this.manager.updateOne(Player, { name: playerName }, { $set: { banned: !player.banned } });
+    return result.result.ok ? !player.banned : 'Unable to update document.';
+  }
+
   // internal API calls
   public async checkIfPlayerExists(query): Promise<Player> {
     if(!this.connection) return null;

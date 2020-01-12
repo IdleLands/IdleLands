@@ -89,6 +89,30 @@ export class ModeratorPage implements OnInit {
     alert.present();
   }
 
+  async toggleBanned() {
+    const alert = await this.alertCtrl.create({
+      header: 'Ban or Unban a user',
+      subHeader: 'Any user with the same IP will not be able to log in or register.',
+      inputs: [{
+        name: 'player',
+        type: 'text',
+        placeholder: 'Player Name'
+      }],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Toggle!',
+          handler: async (values) => {
+            if(!values) return;
+            this.socketService.emit(ServerEventName.GMToggleBanned, { playerName: values.player });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   async toggleMods() {
 
     const modal = await this.modalCtrl.create({
