@@ -92,6 +92,7 @@ export class GameWorker extends SCWorker {
       if(!player) return;
 
       player.loggedIn = false;
+      player.lastOnline = Date.now();
 
       setTimeout(() => {
         const checkAgainPlayer = game.playerManager.getPlayer(socket.playerName);

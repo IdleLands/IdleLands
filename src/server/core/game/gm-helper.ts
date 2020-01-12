@@ -86,13 +86,22 @@ export class GMHelper {
   public guildAppBan(playerName: string) {
     const player = this.playerManager.getPlayer(playerName);
 
-    if(!player) return;
-    if(player.modTier) return;
+    if(!player) return 'Player not found.';
+    if(player.modTier) return 'Player is a moderator.';
 
     player.guildAppBanned = !player.guildAppBanned;
 
     this.playerManager.updatePlayer(player, PlayerChannelOperation.SpecificUpdate);
     return player.guildAppBanned;
+  }
+
+  public async toggleBan(playerName: string) {
+    const player = this.playerManager.getPlayer(playerName);
+    const results = await this.db.togglePlayerBan(playerName);
+
+    // If the player is online, remove them from the player manager
+    if(player) this.playerManager.removePlayer(player, true);
+    return results;
   }
 
   public mute({ playerName, duration }) {

@@ -36,6 +36,10 @@ export class ServerSocketEvent {
     this.emit(ServerEventName.GameMessage, { message: err });
   }
 
+  protected socketAddress() {
+    return this.socket.remoteAddress;
+  }
+
   protected setPlayer(player: IPlayer) {
     if(!player) {
       this.socket.playerName = null;
