@@ -170,10 +170,15 @@ export class ChangeIdleLands3CharacterEvent extends ServerSocketEvent implements
     if(player.il3CharName && il3CharName !== player.il3CharName) {
       if(await this.game.databaseManager.findPlayerWithIL3Name(il3CharName)) return this.gameError('That IL3 Character is already taken!');
     }
+    const stats = await this.game.il3Linker.getIL3Stats(il3CharName);
+    if(!stats) {
+      this.gameMessage('That character does not exist!');
+      this.game.updatePlayer(player);
+      return;
+    }
 
     player.il3CharName = il3CharName;
 
-    const stats = await this.game.il3Linker.getIL3Stats(il3CharName);
 
     player.syncIL3(stats || { });
     this.gameMessage('You updated your IL3 Character!');
