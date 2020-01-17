@@ -180,7 +180,7 @@ export class ChangeIdleLands3CharacterEvent extends ServerSocketEvent implements
     player.il3CharName = il3CharName;
 
 
-    player.syncIL3(stats);
+    player.syncIL3(stats || { });
     this.gameMessage('You updated your IL3 Character!');
 
     this.game.updatePlayer(player);
