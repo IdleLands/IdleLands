@@ -924,6 +924,8 @@ export class Player implements IPlayer {
   }
 
   public syncIL3(stats) {
+    if(!stats) return;
+    
     this.$statistics.set('Game/IdleLands2/Played', stats.Ancient ? 1 : 0);
     this.$statistics.set('Game/IdleLands3/Played', stats ? 1 : 0);
     this.$statistics.set('Game/IdleLands3/Donator', stats.Donator ? 1 : 0);
