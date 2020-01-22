@@ -120,6 +120,11 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
 
       // if there is no one by that name, create a player
       character = await this.game.databaseManager.createPlayer(this.game, name, userId);
+      
+      this.game.chatHelper.sendMessageFromClient({
+        message: `Welcome ${name} to IdleLands!`,
+        playerName: '☆System'
+      });
     }
 
     this.emit(ServerEventName.CharacterSync, character);
