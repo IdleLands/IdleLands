@@ -269,6 +269,36 @@ other:
     formalName: the North Pole
     x: 115
     y: 1
+  leprechaun:
+    map: Norkos
+    formalName: the Clover Plains
+    x: 4
+    y: 45
+  school:
+    map: Norkos
+    formalName: the Learning Land
+    x: 4
+    y: 45
+  hallows:
+    map: Norkos
+    formalName: the Spooky Space
+    x: 121
+    y: 43
+  fireworks:
+    map: Norkos
+    formalName: the Explosive Fields
+    x: 238
+    y: 39
+  anniversary:
+    map: Norkos
+    formalName: the Resting Place
+    x: 4
+    y: 45
+  eggs:
+    map: Norkos
+    formalName: the Egg Fields
+    x: 35
+    y: 1
   valentines:
     map: Norkos
     formalName: the Dungeon of Love

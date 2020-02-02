@@ -624,6 +624,17 @@ Deep Well Access Card:
     hp: 10000
     xp: 3
     vector: 1
+Eighteen Thousand Leaf Clover:
+  type: charm
+  stats:
+    luk: 20000
+    gold: 1000
+    con: -10000
+Spiky Blue Egg:
+  type: charm
+  stats:
+    agi: 1000000
+    gold: 100
 Repeating Clockborg Arrow Launcher:
   type: head
   stats:
@@ -635,6 +646,15 @@ Repeating Clockborg Arrow Launcher:
     xp: 7
   aReqClassy:_Archer: 1
   cReqMysterious_Obsidian_Block: 2
+Wingsaber, Whirling Blade of the Idling Gods:
+  type: mainhand
+  stats:
+    str: 100000
+    int: 100000
+    luk: 100000
+    con: 100000
+    dex: 100000
+    agi: 100000
 Gnarled Mandibles:
   type: head
   stats:
@@ -691,3 +711,10 @@ Subtle Sapphire:
     dex: 1000
     agi: 1000
     luk: 500
+Orikoko, Ornament of the Idling Gods:
+  type: trinket
+  stats:
+    xp: 500
+    gold: 500
+    luk: 500
+    hp: 500000
