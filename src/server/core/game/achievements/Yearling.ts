@@ -21,10 +21,10 @@ export class Yearling extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const startDate = new Date(player.createdAt);
-    const now = new Date();
+    const startDate = player.createdAt;
+    const now = Date.now();
 
-    return now.getFullYear() - startDate.getFullYear();
+    return Math.floor(((now - startDate) / (1000 * 3600 * 24)) / 365);
   }
 
   static rewardsForTier(tier: number): any[] {
