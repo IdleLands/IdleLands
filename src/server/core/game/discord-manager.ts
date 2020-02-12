@@ -95,7 +95,7 @@ export class DiscordManager {
 
   public discordUserWithTag(tag: string): Discord.GuildMember {
     if(!this.discordChannel) return null;
-    return this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
+    return this.discordGuild.members.find(u => u.user.tag === tag);
   }
 
   public isTagInDiscord(tag: string): boolean {
