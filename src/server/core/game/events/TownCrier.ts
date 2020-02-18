@@ -54,6 +54,11 @@ const townCrierMessages = [
     link: 'https://rair.land',
     origin: 'system'
   },
+  {
+    message: `Want to see the global leaderboards? Check it out!`,
+    link: 'https://global.idle.land/leaderboard',
+    origin: 'system'
+  },
 ];
 
 export class TownCrier extends Event {
