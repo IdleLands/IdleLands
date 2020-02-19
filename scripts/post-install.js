@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 
+console.log('Beginning setup at ' + new Date());
+
 download('IdleLands/Custom-Assets', 'assets/content', () => {});
 download('IdleLands/Maps',          'assets/maps', () => {
   fs.writeFileSync('./src/client/assets/tiles.png', fs.readFileSync('./assets/maps/img/tiles.png'));

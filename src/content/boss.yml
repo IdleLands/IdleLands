@@ -510,6 +510,68 @@ Santa, Lord of Presents:
   items:
   - name: The Naughty List
     dropPercent: 80
+Big Small Leprechaun:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Jester
+    gender: male
+    level: 350
+    stats:
+      hp: 2275800
+      luk: 2500000
+      dex: 23000
+      con: 35000
+      agi: 17010
+      str: 44000
+      int: 9000
+  items:
+  - name: Eighteen Thousand Leaf Clover
+    dropPercent: 10
+Eggman:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: SandwichArtist
+    gender: male
+    level: 500
+    stats:
+      hp: 7275800
+      luk: 10000
+      dex: 150000
+      con: 250000
+      agi: 1007010
+      str: 85000
+      int: 90000
+  items:
+  - name: Spiky Blue Egg
+    dropPercent: 10
+  collectibles:
+  - name: Mustached Egg
+    dropPercent: 10
+The Creator:
+  respawn: 10800
+  availableScore: 1000000
+  attributes:
+    profession: Jester
+    gender: male
+    level: 5000
+    stats:
+      hp: 1000000000
+      luk: 500000
+      dex: 500000
+      con: 500000
+      agi: 500000
+      str: 500000
+      int: 500000
+  items:
+  - name: Wingsaber, Whirling Blade of the Idling Gods
+    dropPercent: 100
+  - name: Orikoko, Ornament of the Idling Gods
+    dropPercent: 100
+  collectibles:
+  - name: Dewein, Carving of the Idling Gods
+    dropPercent: 100
 Lucifer the Flame-Born:
   respawn: 10800
   availableScore: 2400
@@ -1767,3 +1829,153 @@ Five-Legged Beetle Lord:
   items:
   - name: Gnarled Mandibles
     dropPercent: 85
+
+Thomas Deatherson:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Necromancer
+    level: 500
+    stats:
+      hp: 2500000
+      str: 15250
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 8000
+      luk: 4800
+
+John Fistpeter:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Monster
+    level: 500
+    stats:
+      hp: 2500000
+      str: 15250
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 8000
+      luk: 4800
+
+Benjamin Hanglin:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Pirate
+    level: 500
+    stats:
+      hp: 2500000
+      str: 15250
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 8000
+      luk: 4800
+
+Substitute Teacher Abigail:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Cleric
+    level: 250
+    stats:
+      hp: 125000
+      str: 9000
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 80000
+      luk: 4800
+
+Class Clown Chris:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Jester
+    level: 250
+    stats:
+      hp: 125000
+      str: 9000
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 80000
+      luk: 480000
+
+Jock Joe:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Pirate
+    level: 250
+    stats:
+      hp: 125000
+      str: 50000
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 80000
+      luk: 4800
+
+Computer Nerd Kyle:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Bitomancer
+    level: 250
+    stats:
+      hp: 125000
+      str: 50000
+      con: 16000
+      dex: 9000
+      agi: 9000
+      int: 800000
+      luk: 4800
+
+Band Geek David:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Bard
+    level: 250
+    stats:
+      hp: 125000
+      str: 50000
+      con: 16000
+      dex: 90000
+      agi: 90000
+      int: 80000
+      luk: 48000
+
+Jack:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: Monster
+    level: 750
+    stats:
+      hp: 12500000
+      str: 5000
+      con: 1600
+      dex: 9000
+      agi: 9000
+      int: 8000
+      luk: 4800
+
+Gobbler:
+  respawn: 10800
+  availableScore: 900000
+  attributes:
+    profession: SandwichArtist
+    level: 750
+    stats:
+      hp: 12500000
+      str: 500000
+      con: 1600
+      dex: 900000
+      agi: 9000
+      int: 800000
+      luk: 4800
