@@ -103,7 +103,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public signUp() {
     if(!this.canSignUp) return;
-    this.socketService.emit(ServerEventName.AuthRegister, { name: this.charName, userId: this.userId });
+    this.socketService.emit(ServerEventName.AuthRegister, { name: this.charName, userId: this.userId, hardcore: this.hardcore });
   }
 
   private needsName() {
