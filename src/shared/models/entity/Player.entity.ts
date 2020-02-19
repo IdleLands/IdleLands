@@ -76,6 +76,7 @@ export class Player implements IPlayer {
   // player-related vars
   @Index({ unique: true })
   @Column() public name: string;
+  @Column() public hardcore: boolean;
   @Column() public ascensionLevel: number;
   @Column() public lastAscension: number;
   @Column() public level: RestrictedNumber;
@@ -186,6 +187,7 @@ export class Player implements IPlayer {
     if(!this.$statTrail) this.$statTrail = { };
     if(!this.buffWatches) this.buffWatches = { };
     if(!this.cooldowns) this.cooldowns = { };
+    if(!this.hardcore) this.hardcore = false;
 
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
