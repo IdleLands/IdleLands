@@ -89,7 +89,7 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
   description = 'Sign in to IdleLands with a name and a userid.';
   args = 'userId, name';
 
-  async callback({ userId, name } = { userId: '', name: '' }) {
+  async callback({ userId, name, hardcore } = { userId: '', name: '', hardcore: false }) {
     if(this.playerName) return this.gameError('You are already connected!');
     if(!userId || !name) return this.gameError(`${this.event} requires a userId and a name.`);
     if(name.length < 2 || name.length > 20) return this.gameError(`Character name must be between 2 and 20 characters.`);
@@ -119,10 +119,12 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
       }
 
       // if there is no one by that name, create a player
-      character = await this.game.databaseManager.createPlayer(this.game, name, userId);
+      character = await this.game.databaseManager.createPlayer(this.game, name, userId, hardcore);
 
+      if(hardcore) {
+        
       this.game.chatHelper.sendMessageFromClient({
-        message: `Welcome ${name} to IdleLands!`,
+        message: (hardcore ? `Wish ${name} the best of luck in Hardcore!` : `Welcome ${name} to IdleLands!`),
         playerName: '☆System'
       });
     }
