@@ -75,11 +75,11 @@ export class DatabaseManager {
   }
 
   // PLAYER FUNCTIONS
-  public async createPlayer(game, name, userId): Promise<Player> {
+  public async createPlayer(game, name, userId, hardcore): Promise<Player> {
     if(!this.connection) return null;
 
     const player = new Player();
-    extend(player, { name, userId, currentUserId: userId, $game: game });
+    extend(player, { name, userId, currentUserId: userId, $game: game, hardcore });
     player.init();
 
     try {
