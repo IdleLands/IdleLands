@@ -187,7 +187,7 @@ export class ItemGenerator {
       offhand:  ['Chunk of Rust', 'Shaking Fist', 'Upside-down Map', 'Sticker Book', 'Stolen Dagger'],
       charm:    ['Ancient Bracelet', 'Family Photo', 'Third Place Bowling Trophy', 'Love Letter']
     };
-
+    
     const r = () => random(-1, 2);
 
     const equipment = [];
@@ -204,6 +204,24 @@ export class ItemGenerator {
       equipment.push(item);
     });
 
+    return equipment;
+  }
+  
+  public generateNewbieHardcoreItems(): Item[] {
+    const equipment = [];
+    
+    const body = new Item();
+    body.init({
+      type: body,
+      itemClass: ItemClass.Newbie,
+      name: 'Hardcore Shirt',
+      stats: {str: 20, hp: 25, xp: 2}
+    });
+    equipment.push(body);
+    
+    
+    
+    
     return equipment;
   }
 
