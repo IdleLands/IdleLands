@@ -58,6 +58,7 @@ export * from './PKer';
 export * from './Premium';
 export * from './Quickfooted';
 export * from './Raider';
+export * from './Romantic';
 export * from './Salvager';
 export * from './Scrambler';
 export * from './Slayer';
