@@ -17,7 +17,7 @@ export class StatisticsPage implements OnInit, OnDestroy {
 
   public statistics = { };
   public statCats = [
-    ['Game', 'Event', 'Profession', 'Character', 'Guild'],
+    ['Game', 'Hardcore', 'Event', 'Profession', 'Character', 'Guild'],
     ['Astral Gate', 'Item', 'Pet', 'Environment', 'Combat', 'Raid', 'BossKill', 'Treasure', 'Quest'],
     ['Map']
   ];
