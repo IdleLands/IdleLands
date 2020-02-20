@@ -233,6 +233,10 @@ export class Player implements IPlayer {
     if(this.title && !this.availableTitles.includes(this.title)) {
       this.changeTitle('');
     }
+    
+    if(this.hardcore) {
+      this.$statistics.set('Game/Hardcore', 1);
+    }
   }
 
   private validateGuild() {
