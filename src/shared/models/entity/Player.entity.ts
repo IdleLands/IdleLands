@@ -272,6 +272,8 @@ export class Player implements IPlayer {
   }
 
   async loop(tick: number): Promise<void> {
+    
+    if(this.hardcore && this.$statistics.get('Hardcore/Dead') == 1) return;
 
     this.increaseStatistic('Character/Ticks', 1);
 
