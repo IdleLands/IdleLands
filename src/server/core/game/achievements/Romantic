@@ -28,8 +28,8 @@ static descriptionForTier(tier: number): string {
     const kill2 = player.$statistics.get('BossKill/Boss/The Bloodkeeper');
     const chest1 = player.$statistics.get('Treasure/Chest/Valentine Gear');
 
-    const multi = coll1 && coll2 && coll3 && coll4 && kill1 && kill2 && kill3 && chest1 ? 1 : 0;
-    const sum = ((kill1 + kill2 + kill3 + chest1) / 4);
+    const multi = coll1 && coll2 && coll3 && kill1 && kill2 && chest1 ? 1 : 0;
+    const sum = ((kill1 + kill2 + chest1) / 4);
     const steps = (multi * sum);
 
     if(steps >= 7) return 3;
