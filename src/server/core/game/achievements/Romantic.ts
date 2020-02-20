@@ -14,7 +14,8 @@ static descriptionForTier(tier: number): string {
     }
 
     if(tier >= 3) {
-      baseStr = `You've been shot with Cupid's arrow, got a card from a secret admirer and a kiss from your Valentine. Rewards: 2 titles, inventory size boost +1.`;
+      baseStr = `You've been shot with Cupid's arrow, got a card from a secret admirer and a kiss from your Valentine.`;
+      baseStr = `${baseStr} Rewards: 2 titles, inventory size boost +1.`;
     }
 
     return baseStr;
