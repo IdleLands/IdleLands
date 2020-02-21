@@ -20,6 +20,7 @@ import { AuthService } from '../auth.service';
 export class HomePage implements OnInit, OnDestroy {
 
   public charName: string;
+  public hardcore: boolean;
   public loading = true;
   public needsSignUp: boolean;
   public hasError: boolean;
