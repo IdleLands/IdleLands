@@ -121,10 +121,8 @@ export class RegisterEvent extends ServerSocketEvent implements ServerEvent {
       // if there is no one by that name, create a player
       character = await this.game.databaseManager.createPlayer(this.game, name, userId, hardcore);
 
-      if(hardcore) {
-        
       this.game.chatHelper.sendMessageFromClient({
-        message: (hardcore ? `Wish ${name} the best of luck in Hardcore!` : `Welcome ${name} to IdleLands!`),
+        message: ( hardcore ? `Wish ${name} the best of luck in Hardcore!` : `Welcome ${name} to IdleLands!` ),
         playerName: '☆System'
       });
     }
