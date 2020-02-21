@@ -71,6 +71,7 @@ export interface IPlayer extends ICharacter {
   modTier: ModeratorTier;
   discordTag: string;
   il3CharName: string;
+  hardcore: boolean;
 
   createdAt: number;
 
