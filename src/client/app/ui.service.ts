@@ -23,6 +23,7 @@ export class UiService {
   }
 
   public canDoPremium(player: IPlayer) {
+    if(player.hardcore) return false;
     return player.$premiumData.gachaFreeRolls['Astral Gate'] < Date.now();
   }
 
