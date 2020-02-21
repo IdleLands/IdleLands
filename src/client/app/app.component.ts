@@ -51,9 +51,9 @@ export class AppComponent {
       }
     },
 
-    { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guildName },
+    { name: 'Guilds', icon: 'guild', url: '/guilds', hideIf: (player) => player.guildName || player.hardcore },
 
-    { name: 'Guild', icon: 'guild', url: '/guild', hideIf: (player) => !player.guildName },
+    { name: 'Guild', icon: 'guild', url: '/guild', hideIf: (player) => !player.guildName || player.hardcore },
 
     { name: 'Map', icon: 'map', url: '/map' },
 
