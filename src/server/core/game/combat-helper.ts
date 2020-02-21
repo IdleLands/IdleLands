@@ -341,7 +341,13 @@ export class CombatHelper {
 
         playerRef.increaseStatistic(statistic, value);
         
-        if(playerRef.hardcore && data.winningParty !== 0 && !data.wasTie) playerRef.$statistics.set(`Hardcore/Dead`, 1);
+        if(playerRef.hardcore && data.winningParty !== 0 && !data.wasTie) {
+          playerRef.$statistics.set(`Hardcore/Dead`, 1);
+          playerRef.$$game.chatHelper.sendMessageFromClient({
+            message: `Hardcore player ${playerRef.name} has passed on.`,
+            playerName: '☆System'
+          });
+        }
       }
     });
 
