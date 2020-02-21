@@ -8,7 +8,7 @@ export class BattlePvP extends Event {
   public static readonly WEIGHT = 3;
 
   public operateOn(player: Player) {
-    
+
     if(player.hardcore) {
       this.emitMessage([player], 'Your thirst for danger scared away any potential combat partners!', AdventureLogEventType.Party);
       return;

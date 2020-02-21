@@ -12,7 +12,7 @@ export class Party extends Event {
         'You almost started looking for a party before you realized you did not want one!', AdventureLogEventType.Party);
       return;
     }
-    
+
     if(player.hardcore) {
       this.emitMessage([player], 'You looked for a party, but you are too Hardcore for anyone to join you!', AdventureLogEventType.Party);
       return;

@@ -233,7 +233,7 @@ export class Player implements IPlayer {
     if(this.title && !this.availableTitles.includes(this.title)) {
       this.changeTitle('');
     }
-    
+
     if(this.hardcore) {
       this.$statistics.set('Game/Hardcore', 1);
     }
@@ -272,8 +272,8 @@ export class Player implements IPlayer {
   }
 
   async loop(tick: number): Promise<void> {
-    
-    if(this.hardcore && this.$statistics.get('Hardcore/Dead') == 1) return;
+
+    if(this.hardcore && this.$statistics.get('Hardcore/Dead') === 1) return;
 
     this.increaseStatistic('Character/Ticks', 1);
 

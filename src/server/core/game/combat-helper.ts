@@ -340,7 +340,7 @@ export class CombatHelper {
         if(isNaN(value) || !isFinite(value)) return;
 
         playerRef.increaseStatistic(statistic, value);
-        
+
         if(playerRef.hardcore && data.winningParty !== 0 && !data.wasTie) {
           playerRef.$statistics.set(`Hardcore/Dead`, 1);
           playerRef.$$game.chatHelper.sendMessageFromClient({

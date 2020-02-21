@@ -41,7 +41,7 @@ export class Witch extends Event {
   }
 
   public operateOn(player: Player) {
-    
+
     if(player.hardcore) {
       this.emitMessage([player],
        'You met with a Witch and had a nice chat about the difficulties of Hardcore life.  You left with no further incident.',
