@@ -1,30 +1,31 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom">
+    <!-- tabs must request data like this or it doesn't work -->
+    <ng-container *ngIf="(gameService.player$ | async) as player">
 
-    <ion-tab-button tab="ilp">
-      <ion-icon [src]="'assets/icon/category-premium.svg'"></ion-icon>
-      <ion-label>ILP</ion-label>
-    </ion-tab-button>
+      <ion-tab-button tab="ilp" [class.ion-hide]="player.hardcore">
+        <ion-icon [src]="'assets/icon/category-premium.svg'"></ion-icon>
+        <ion-label>ILP</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button tab="gold">
-      <ion-icon [src]="'assets/icon/stat-gold.svg'"></ion-icon>
-      <ion-label>Gold</ion-label>
-    </ion-tab-button>
+      <ion-tab-button tab="gold">
+        <ion-icon [src]="'assets/icon/stat-gold.svg'"></ion-icon>
+        <ion-label>Gold</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button tab="astral-gate">
-      <ion-icon [src]="'assets/icon/category-astralgate.svg'"></ion-icon>
-      <ion-label>Astral Gate</ion-label>
+        <ion-tab-button tab="astral-gate" [class.ion-hide]="player.hardcore">
+          <ion-icon [src]="'assets/icon/category-astralgate.svg'"></ion-icon>
+          <ion-label>Astral Gate</ion-label>
+          
+          <ion-badge *ngIf="player.$premiumData && uiService.canDoPremium(player)" color="secondary">Free Roll</ion-badge>
+        </ion-tab-button>
 
-      <!-- tabs must request data like this or it doesn't work -->
-      <ng-container *ngIf="(gameService.player$ | async) as player">
-        <ion-badge *ngIf="player.$premiumData && uiService.canDoPremium(player)" color="secondary">Free Roll</ion-badge>
-      </ng-container>
-    </ion-tab-button>
+      <ion-tab-button tab="festivals" [class.ion-hide]="player.hardcore">
+        <ion-icon [src]="'assets/icon/category-festivals.svg'"></ion-icon>
+        <ion-label>Festivals</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button tab="festivals">
-      <ion-icon [src]="'assets/icon/category-festivals.svg'"></ion-icon>
-      <ion-label>Festivals</ion-label>
-    </ion-tab-button>
+    </ng-container>
   </ion-tab-bar>
 </ion-tabs>
