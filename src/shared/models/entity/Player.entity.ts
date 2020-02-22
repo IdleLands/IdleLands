@@ -1296,4 +1296,12 @@ export class Player implements IPlayer {
 
     this.$premium.setTier(newPremium);
   }
+
+  public killHardcore() {
+    this.$statistics.set(`Hardcore/Dead`, 1);
+    this.$$game.chatHelper.sendMessageFromClient({
+      message: `Hardcore player ${this.name} has passed on.`,
+      playerName: '☆System'
+    });
+  }
 }
