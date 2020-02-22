@@ -196,7 +196,7 @@ export class AchievementManager {
     const existingAchAt = alwaysGet ? player.$achievements.getAchievementAchieved(ach.name) : 0;
 
     const achObj: IAchievement = {
-      name: ach.name,
+      name: ach.prefix ? ach.prefix + ': ' + ach.name : ach.name,
       achievedAt: existingAchAt || Date.now(),
       tier,
       desc: ach.descriptionForTier(tier),

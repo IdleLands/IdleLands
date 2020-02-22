@@ -48,6 +48,8 @@ export abstract class Achievement {
   static readonly statWatches: string[];
   static readonly type: AchievementType = AchievementType.Special;
 
+  static prefix: string;
+
   static descriptionForTier(tier: number): string {
     return `Error: no desc for ach`;
   }
