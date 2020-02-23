@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column } from 'typeorm';
-import { get, set, isNumber } from 'lodash';
+import { get, set, unset, isNumber } from 'lodash';
 
 import { PlayerOwned } from './PlayerOwned';
 
@@ -56,6 +56,10 @@ export class Statistics extends PlayerOwned {
     if(isNaN(value) || !isFinite(value)) return;
 
     set(this.statistics, stat.split('/'), value);
+  }
+
+  public unset(stat: string): void {
+     unset(this.statistics, stat.split('/'));
   }
 
   public getChildren(stat: string): string[] {
