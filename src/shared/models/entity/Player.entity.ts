@@ -77,6 +77,7 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public name: string;
   @Column() public hardcore: boolean;
+  @Column() public dead: boolean;
   @Column() public ascensionLevel: number;
   @Column() public lastAscension: number;
   @Column() public level: RestrictedNumber;
@@ -236,6 +237,7 @@ export class Player implements IPlayer {
 
     if(this.hardcore) {
       this.$statistics.set('Game/Hardcore', 1);
+      if(this.$statistics.get(`Hardcore/Dead`)) this.dead = true;
     }
   }
 
@@ -1297,11 +1299,71 @@ export class Player implements IPlayer {
     this.$premium.setTier(newPremium);
   }
 
-  public killHardcore() {
+  public killHardcore(): void {
+    this.dead = true;
     this.$statistics.set(`Hardcore/Dead`, 1);
     this.$$game.chatHelper.sendMessageFromClient({
       message: `Hardcore player ${this.name} has passed on.`,
       playerName: '☆System'
     });
+  }
+
+  public reviveHardcore(): void {
+    if(!this.$statistics.get('Hardcore/Dead')) return;
+
+    this.lastAscension = null;
+    this.ascensionLevel = 0;
+
+    this.level.minimum = 1;
+    this.level.set(1);
+
+    this.xp.set(0);
+    this.xp.maximum = this.$$game.calculatorHelper.calcLevelMaxXP(1);
+
+    const counts = {
+      Ascensions: this.$statistics.get('Character/Ascension/Times'),
+      Levels: this.$statistics.get('Character/Experience/Levels'),
+      Ticks: this.$statistics.get('Character/Ticks'),
+      Steps: this.$statistics.get('Character/Movement/Steps/Normal'),
+      Gold: this.gold
+    };
+
+    Object.keys(counts).forEach((stat) => {
+      const value = counts[stat];
+      this.increaseStatistic(`Hardcore/Total/${stat}`, value);
+      if(value > this.$statistics.get(`Hardcore/Best/${stat}`)) this.$statistics.set(`Hardcore/Best/${stat}`, value);
+    });
+
+    this.increaseStatistic('Hardcore/Total/Deaths', 1);
+
+    this.level.maximum = 100;
+
+    this.gold = 0;
+
+    // Remove all pets
+
+    const items = this.$game.itemGenerator.generateNewbieHardcoreItems();
+    items.forEach(item => this.$inventory.equipItem(item));
+    this.$inventory.clearInventory();
+    this.$inventory.clearBuffScrolls();
+
+    // Remove all collectibles
+
+    this.increaseStatistic('Character/Ascension/Collectibles', this.$collectibles.getFoundOwnedCollectibles().length);
+    this.$collectibles.resetFoundAts();
+
+    this.$choices.removeAllChoices();
+
+    this.buffWatches = { };
+
+    this.$$game.chatHelper.sendMessageFromClient({
+      message: `Hardcore player ${this.name} has risen anew.  Wish them luck.`,
+      playerName: '☆System'
+    });
+
+    this.setPos(10, 10, 'Norkos', 'Norkos Town');
+
+    this.calculateStamina();
+    this.recalculateStats();
   }
 }

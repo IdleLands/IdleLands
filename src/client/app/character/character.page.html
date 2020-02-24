@@ -36,6 +36,14 @@
                 <ion-button slot="end" color="primary" (click)="ascend()">Ascend</ion-button>
               </ion-item>
 
+              <ion-item *ngIf="player.hardcore && player.dead">
+                <ion-icon slot="start" [src]="'assets/icon/symbol-restart.svg'"></ion-icon>
+
+                <span class="ion-padding-start">You are dead.  Would you like to restart?</span>
+
+                <ion-button slot="end" color="primary" (click)="reviveHardcore()">Restart</ion-button>
+              </ion-item>
+
               <ion-item>
                 <app-gendervatar slot="start" [gender]="player.gender"></app-gendervatar> 
 
