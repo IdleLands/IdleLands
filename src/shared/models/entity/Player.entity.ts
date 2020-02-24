@@ -646,7 +646,7 @@ export class Player implements IPlayer {
       });
 
       // festivals
-      if(stat !== Stat.SPECIAL) {
+      if(stat !== Stat.SPECIAL && !player.hardcore) {
         this.addStatTrail(stat, Math.floor(statBase * this.$$game.festivalManager.getMultiplier(stat)), 'Festivals');
       }
     });
