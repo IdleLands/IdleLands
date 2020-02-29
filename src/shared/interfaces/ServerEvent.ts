@@ -22,6 +22,8 @@ export enum ServerEventName {
   CharacterDivineDirection = 'character:divinedirection',
   CharacterLeaveParty = 'character:leaveparty',
 
+  CharacterHardcoreRevive = 'character:hardcorerevive',
+
   CharacterDiscordTag = 'character:changediscordtag',
   CharacterChangeIdlelands3 = 'character:changeidlelands3',
 
