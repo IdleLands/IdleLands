@@ -13,6 +13,7 @@ import { DiscordManager } from './discord-manager';
 import { ItemGenerator } from './item-generator';
 import { CombatHelper } from './combat-helper';
 import { CombatAction } from '../../../shared/combat/combat-simulator';
+import { isNumber } from 'lodash';
 
 @Singleton
 @AutoWired
@@ -102,8 +103,27 @@ export class GuildManager {
         this.discordManager.removeDiscordChannelForGuild(guild);
         return;
       }
+
+      // Update old guild members to the new interface
+      Object.keys(guild.members).forEach(key => {
+        const member = guild.members[key];
+        if(isNumber(member)) {
+          guild.members[key] = {
+            name: `${key}`,
+            rank: +member
+          };
+        }
+      });
+
       this.addGuild(guild);
       this.checkDiscordUpgradeForGuild(guild);
+    });
+  }
+
+  public saveAll(): void {
+    Object.keys(this.allGuilds).forEach(key => {
+      // console.log(`Saving guild: ${key}`);
+      return this.saveGuild(this.getGuild(key));
     });
   }
 
@@ -168,11 +188,11 @@ export class GuildManager {
     const guild = this.getGuild(guildName);
     if(!guild) throw new Error(`Guild ${guildName} does not exist; cannot join it.`);
 
-    guild.addMember(name, tier);
-    this.saveGuild(guild);
-
     const player = this.playerManager.getPlayer(name);
     if(!player) return;
+
+    guild.addMember(player, tier);
+    this.saveGuild(guild);
 
     player.guildName = guildName;
     this.discordManager.addGuildRole(player);
@@ -194,6 +214,16 @@ export class GuildManager {
     await this.discordManager.removeGuildRole(player);
     player.guildName = '';
     player.$$game.updatePlayer(player);
+  }
+
+  // Update guild member information
+  public updateGuildMember(playerName: string) {
+    const player = this.playerManager.getPlayer(playerName);
+    if(!player) return;
+    const guild = this.getGuild(player.guildName);
+    if(!guild) return;
+
+    guild.updateGuildMember(player);
   }
 
   public updateGuildKey(guildName: string, key: string, value: any): void {
@@ -380,6 +410,7 @@ export class GuildManager {
       if(!this.combatHelper.canDoCombat(player)) return;
 
       const pets = this.combatHelper.getAllPartyCombatPets([player]);
+      // @ts-ignore
       return [...pets, this.combatHelper.createCombatCharacter(player)];
     }).filter(Boolean));
 

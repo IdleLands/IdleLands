@@ -102,6 +102,7 @@ export enum ServerEventName {
   GuildSetRecruitment = 'guild:setrecruitment',
   GuildSetMOTD = 'guild:setmotd',
   GuildSetTax = 'guild:settax',
+  GuildMemberUpdate = 'guild:memberupdate',
   GuildDonateResource = 'guild:donateresource',
   GuildDonateAllSalvagedResources = 'guild:donateallsalvagedresource',
   GuildDonateCrystal = 'guild:donatecrystal',

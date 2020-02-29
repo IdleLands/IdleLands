@@ -52,9 +52,9 @@
 
         <ion-list-header>Members</ion-list-header>
         <ion-item *ngFor="let member of guild.members | keyvalue">
-          <ion-icon slot="start" *ngIf="member.value === 1" name="star-outline"></ion-icon>
-          <ion-icon slot="start" *ngIf="member.value === 5" name="star-half"></ion-icon>
-          <ion-icon slot="start" *ngIf="member.value === 10" name="star"></ion-icon>
+          <ion-icon slot="start" *ngIf="member.value.rank === 1" name="star-outline"></ion-icon>
+          <ion-icon slot="start" *ngIf="member.value.rank === 5" name="star-half"></ion-icon>
+          <ion-icon slot="start" *ngIf="member.value.rank === 10" name="star"></ion-icon>
           
           <ion-label *ngIf="gameService.playerInfoHash[member.key] as player">
             <h3 class="vertical-center">
@@ -70,8 +70,13 @@
             <h3 class="vertical-center">
               {{ member.key }}
             </h3>
-            <p class="vertical-center ion-margin-start">
-              Offline
+            <p class="vertical-center ion-margin-start" *ngIf="member.value.profession">
+              <ion-badge color="secondary"><span *ngIf="member.value.ascensionLevel">{{ member.value.ascensionLevel }}★</span>{{ member.value.level.__current }}</ion-badge>                
+              &nbsp; {{ member.value.profession }} (Offline)
+            </p>
+            <p class="vertical-center ion-margin-start" *ngIf="member.value.lastOnline">Last Online {{ timeString(member.value.lastOnline) }} ago</p>
+            <p class="vertical-center ion-margin-start" *ngIf="!member.value.profession">
+              (Offline)
             </p>
           </ion-label>
 
@@ -80,15 +85,15 @@
                       (click)="leave()"
                       color="danger">Leave</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value === 1" 
+                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value.rank === 1" 
                       (click)="kick(member.key)"
                       color="danger">Kick</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 1 && gameService.isGuildLeader" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value.rank !== 1 && gameService.isGuildLeader" 
                       (click)="demote(member.key)"
                       color="warning">Demote</ion-button>
           <ion-button slot="end" 
-                      *ngIf="member.key !== gameService.playerRef.name && member.value !== 10 && gameService.isGuildLeader"
+                      *ngIf="member.key !== gameService.playerRef.name && member.value.rank !== 10 && gameService.isGuildLeader"
                       (click)="promote(member.key)" 
                       color="warning">Promote</ion-button>
         </ion-item>

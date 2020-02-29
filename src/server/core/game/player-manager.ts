@@ -128,7 +128,11 @@ export class PlayerManager {
   }
 
   public updatePlayer(player: Player, operation: PlayerChannelOperation = PlayerChannelOperation.Update) {
+    player.lastOnline = Date.now();
     this.subscriptionManager.emitToChannel(Channel.Players, { player: this.simplifyPlayer(player), operation });
+
+    if(!player.guildName) return;
+    player.$$game.guildManager.updateGuildMember(player.name);
   }
 
   private resetPlayerList() {

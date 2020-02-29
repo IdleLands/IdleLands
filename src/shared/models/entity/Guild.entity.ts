@@ -1,8 +1,9 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
 import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
-   GuildMemberTier, Stat, GuildBuildingLevelValues, IGame } from '../../interfaces';
+   GuildMemberTier, Stat, GuildBuildingLevelValues, IGame, IGuildMember } from '../../interfaces';
 import { Item } from '../Item';
+import { isNumber } from 'lodash';
 
 @Entity()
 export class Guild implements IGuild {
@@ -23,7 +24,7 @@ export class Guild implements IGuild {
   @Column() public crystals: { [key: string]: number };
   @Column() public activeBuildings: { [key in GuildBuilding]?: boolean };
   @Column() public buildingLevels: { [key in GuildBuilding]?: number };
-  @Column() public members: { [key: string]: GuildMemberTier };
+  @Column() public members: { [key: string]: IGuildMember };
   @Column() public nextTick: number;
   @Column() public factoryTick: number;
   @Column() public nextProcs: { [key in GuildBuilding]?: number };
@@ -65,8 +66,32 @@ export class Guild implements IGuild {
     if(!this.nextRaidAvailability) this.nextRaidAvailability = { };
   }
 
-  public addMember(name: string, tier: GuildMemberTier) {
-    this.members[name] = tier;
+  public updateGuildMember(player: any) {
+    // TODO: Something when a GM updates their name
+    const member = this.members[player.name];
+    if(!member) return;
+
+    // Update old member to new
+    if(isNumber(member)) {
+      return this.addMember(player, member);
+    }
+
+    // Update member information
+    member.lastOnline = player.lastOnline;
+    member.level = player.level;
+    member.ascensionLevel = player.ascensionLevel;
+    member.profession = player.profession;
+  }
+
+  public addMember(player: any, tier: GuildMemberTier) {
+    this.members[player.name] = {
+      name: player.name,
+      lastOnline: player.lastOnline,
+      level: player.level,
+      ascensionLevel: player.ascensionLevel,
+      profession: player.profession,
+      rank: tier
+    };
   }
 
   public removeMember(name: string) {
