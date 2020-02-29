@@ -70,8 +70,13 @@
             <h3 class="vertical-center">
               {{ member.key }}
             </h3>
-            <p class="vertical-center ion-margin-start">
-              Offline
+            <p class="vertical-center ion-margin-start" *ngIf="member.value.profession">
+              <ion-badge color="secondary"><span *ngIf="member.value.ascensionLevel">{{ member.value.ascensionLevel }}★</span>{{ member.value.level.__current }}</ion-badge>                
+              &nbsp; {{ member.value.profession }} (Offline)
+            </p>
+            <p class="vertical-center ion-margin-start" *ngIf="member.value.lastOnline">Last Online {{ timeString(member.value.lastOnline) }} ago</p>
+            <p class="vertical-center ion-margin-start" *ngIf="!member.value.profession">
+              (Offline)
             </p>
           </ion-label>
 
