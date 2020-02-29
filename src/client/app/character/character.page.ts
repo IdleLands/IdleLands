@@ -64,6 +64,10 @@ export class CharacterPage {
     alert.present();
   }
 
+  async reviveHardcore() {
+    this.socketService.emit(ServerEventName.CharacterHardcoreRevive);
+  }
+
   async showTrail(trail = [], stat: string, total: number) {
     const baseString = trail.map(({ val, reason }) => {
       return `<tr><td>${val > 0 ? '+' + val : val}</td><td>${reason}</td></tr>`;
