@@ -127,12 +127,12 @@ export class GameService {
 
   public get isGuildMod(): boolean {
     if(!this.guild || !this.currentPlayer) return false;
-    return this.guild.members[this.currentPlayer.name] >= 5;
+    return this.guild.members[this.currentPlayer.name].rank >= 5;
   }
 
   public get isGuildLeader(): boolean {
     if(!this.guild || !this.currentPlayer) return false;
-    return this.guild.members[this.currentPlayer.name] >=  10;
+    return this.guild.members[this.currentPlayer.name].rank >=  10;
   }
 
   constructor(

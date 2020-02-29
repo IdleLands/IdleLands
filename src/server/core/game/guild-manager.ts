@@ -168,11 +168,11 @@ export class GuildManager {
     const guild = this.getGuild(guildName);
     if(!guild) throw new Error(`Guild ${guildName} does not exist; cannot join it.`);
 
-    guild.addMember(name, tier);
-    this.saveGuild(guild);
-
     const player = this.playerManager.getPlayer(name);
     if(!player) return;
+
+    guild.addMember(player, tier);
+    this.saveGuild(guild);
 
     player.guildName = guildName;
     this.discordManager.addGuildRole(player);
@@ -194,6 +194,16 @@ export class GuildManager {
     await this.discordManager.removeGuildRole(player);
     player.guildName = '';
     player.$$game.updatePlayer(player);
+  }
+
+  // Update guild member information
+  public updateGuildMember(playerName: string) {
+    const player = this.playerManager.getPlayer(playerName);
+    if(!player) return;
+    const guild = this.getGuild(player.guildName);
+    if(!guild) return;
+
+    guild.updateGuildMember(player);
   }
 
   public updateGuildKey(guildName: string, key: string, value: any): void {
@@ -380,6 +390,7 @@ export class GuildManager {
       if(!this.combatHelper.canDoCombat(player)) return;
 
       const pets = this.combatHelper.getAllPartyCombatPets([player]);
+      // @ts-ignore
       return [...pets, this.combatHelper.createCombatCharacter(player)];
     }).filter(Boolean));
 

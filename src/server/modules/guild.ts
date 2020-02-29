@@ -8,6 +8,22 @@ import { ServerEventName, ServerEvent, GuildResource, GuildBuilding, GuildBuildi
 import { ServerSocketEvent } from '../../shared/models';
 import { GuildManager } from '../core/game/guild-manager';
 
+export class GuildMemberUpdate extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.GuildMemberUpdate;
+  description = 'Update a guild member\'s information.';
+  args = '';
+
+  async callback({ }) {
+    const player = this.player;
+    if(!player) return this.notConnected();
+
+    const guild = this.game.guildManager.getGuild(player.guildName);
+    if(!guild) return;
+
+    guild.updateGuildMember(player);
+  }
+}
+
 export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.GuildCreate;
   description = 'Create a new guild.';
@@ -63,7 +79,7 @@ export class GuildSetApplyEvent extends ServerSocketEvent implements ServerEvent
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(!['Closed', 'Open', 'Apply'].includes(newMode)) return this.gameError('Invalid recruit mode.');
     this.game.guildManager.updateGuildKey(player.guildName, 'recruitment', newMode);
@@ -85,7 +101,7 @@ export class GuildSetMOTDEvent extends ServerSocketEvent implements ServerEvent 
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(newMOTD.length > 2000) newMOTD = newMOTD.slice(0, 2000);
 
@@ -108,7 +124,7 @@ export class GuildSetResourceTaxEvent extends ServerSocketEvent implements Serve
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(resource !== 'gold') return this.gameError('Invalid resource name');
     if(newTax < 0 || newTax > 50) return this.gameError('Tax rate must be between 0 and 50');
@@ -257,7 +273,7 @@ export class GuildToggleBuildingEvent extends ServerSocketEvent implements Serve
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(!GuildBuildingNames[building]) return this.gameError('Invalid building');
 
@@ -302,7 +318,7 @@ export class GuildUpgradeBuildingEvent extends ServerSocketEvent implements Serv
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(!GuildBuildingNames[building]) return this.gameError('Invalid building');
 
@@ -401,7 +417,7 @@ export class GuildInviteEvent extends ServerSocketEvent implements ServerEvent {
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('That guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
 
@@ -428,8 +444,8 @@ export class GuildLeaveEvent extends ServerSocketEvent implements ServerEvent {
     if(!guild) return this.gameError('Your guild is not valid!');
 
     // leaders can only leave if they're the last person in the guild or they promote someone else
-    if(guild.members[player.name] === GuildMemberTier.Leader && Object.keys(guild.members).length > 1) {
-      const leaderCount = Object.keys(guild.members).map(m => guild.members[m]).filter(v => v === GuildMemberTier.Leader).length;
+    if(guild.members[player.name].rank === GuildMemberTier.Leader && Object.keys(guild.members).length > 1) {
+      const leaderCount = Object.keys(guild.members).map(m => guild.members[m]).filter(v => v.rank === GuildMemberTier.Leader).length;
 
       if(leaderCount <= 1) return this.gameError('Cannot leave guild when there are no other leaders to take over.');
     }
@@ -470,7 +486,7 @@ export class GuildRejectApplicationEvent extends ServerSocketEvent implements Se
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     // we don't check if the guild exists here in case someone makes a guild, invites people, then kills the guild
     this.game.databaseManager.clearAppsInvitesForPlayer(playerName, guild.name);
@@ -522,7 +538,7 @@ export class GuildAcceptApplicationEvent extends ServerSocketEvent implements Se
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(!guild.canAnyoneJoin()) return this.gameError('Need to upgrade the academy first!');
 
@@ -553,12 +569,12 @@ export class GuildKickEvent extends ServerSocketEvent implements ServerEvent {
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     const member = guild.members[kickPlayer];
     if(!member) return this.gameError('Person is not in your guild.');
 
-    if(member > GuildMemberTier.Member) return this.gameError('Cannot kick anyone unless they are a normal member.');
+    if(member.rank > GuildMemberTier.Member) return this.gameError('Cannot kick anyone unless they are a normal member.');
 
     this.game.guildManager.initiateLeaveGuild(kickPlayer, player.guildName);
 
@@ -585,25 +601,25 @@ export class GuildPromoteEvent extends ServerSocketEvent implements ServerEvent 
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Leader) return this.gameError('Not a leader.');
+    if(guild.members[player.name].rank < GuildMemberTier.Leader) return this.gameError('Not a leader.');
 
     const member = guild.members[promotePlayer];
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
     let newTierName = '';
-    if(member === GuildMemberTier.Member) {
+    if(member.rank === GuildMemberTier.Member) {
       newTier = GuildMemberTier.Moderator;
       newTierName = 'Moderator';
     }
-    if(member === GuildMemberTier.Moderator) {
+    if(member.rank === GuildMemberTier.Moderator) {
       newTier = GuildMemberTier.Leader;
       newTierName = 'Leader';
     }
 
     if(newTier === 0) return this.gameError('Cannot promote anymore.');
 
-    this.game.guildManager.updateGuildKey(player.guildName, `members.${promotePlayer}`, newTier);
+    this.game.guildManager.updateGuildKey(player.guildName, `members.${promotePlayer}.rank`, newTier);
     this.game.discordManager.notifyGuildChannel(
       player.name,
       guild,
@@ -627,25 +643,25 @@ export class GuildDemoteEvent extends ServerSocketEvent implements ServerEvent {
     const guild = this.game.guildManager.getGuild(player.guildName);
     if(!guild) return this.gameError('Your guild is not valid!');
 
-    if(guild.members[player.name] < GuildMemberTier.Leader) return this.gameError('Not a leader.');
+    if(guild.members[player.name].rank < GuildMemberTier.Leader) return this.gameError('Not a leader.');
 
     const member = guild.members[demotePlayer];
     if(!member) return this.gameError('Person is not in your guild.');
 
     let newTier = 0;
     let newTierName = '';
-    if(member === GuildMemberTier.Leader) {
+    if(member.rank === GuildMemberTier.Leader) {
       newTier = GuildMemberTier.Moderator;
       newTierName = 'Moderator';
     }
-    if(member === GuildMemberTier.Moderator) {
+    if(member.rank === GuildMemberTier.Moderator) {
       newTier = GuildMemberTier.Member;
       newTierName = 'Member';
     }
 
     if(newTier === 0) return this.gameError('Cannot demote anymore.');
 
-    this.game.guildManager.updateGuildKey(player.guildName, `members.${demotePlayer}`, newTier);
+    this.game.guildManager.updateGuildKey(player.guildName, `members.${demotePlayer}.rank`, newTier);
     this.game.discordManager.notifyGuildChannel(
       player.name,
       guild,
@@ -672,7 +688,7 @@ export class GuildRaidBossEvent extends ServerSocketEvent implements ServerEvent
     const boss = this.game.guildManager.raidBoss(bossLevel);
     if(!boss) return this.gameError('Invalid raid boss.');
 
-    if(guild.members[player.name] < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
+    if(guild.members[player.name].rank < GuildMemberTier.Moderator) return this.gameError('Not a mod.');
 
     if(guild.resources.gold < boss.cost) return this.gameError('Not enough gold to encounter raid boss.');
 

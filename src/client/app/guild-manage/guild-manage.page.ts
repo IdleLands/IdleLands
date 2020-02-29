@@ -79,24 +79,24 @@ export class GuildManagePage implements OnInit {
 
   async promote(promotePlayer) {
     this.socketService.emit(ServerEventName.GuildPromoteMember, { promotePlayer });
-    const curTier = this.gameService.guild.members[promotePlayer];
+    const curTier = this.gameService.guild.members[promotePlayer].rank;
 
     let newTier = 0;
     if(curTier === GuildMemberTier.Member) newTier = GuildMemberTier.Moderator;
     if(curTier === GuildMemberTier.Moderator) newTier = GuildMemberTier.Leader;
 
-    this.gameService.guild.members[promotePlayer] = newTier;
+    this.gameService.guild.members[promotePlayer].rank = newTier;
   }
 
   async demote(demotePlayer) {
     this.socketService.emit(ServerEventName.GuildDemoteMember, { demotePlayer });
-    const curTier = this.gameService.guild.members[demotePlayer];
+    const curTier = this.gameService.guild.members[demotePlayer].rank;
 
     let newTier = 0;
     if(curTier === GuildMemberTier.Leader) newTier = GuildMemberTier.Moderator;
     if(curTier === GuildMemberTier.Moderator) newTier = GuildMemberTier.Member;
 
-    this.gameService.guild.members[demotePlayer] = newTier;
+    this.gameService.guild.members[demotePlayer].rank = newTier;
   }
 
   async invite() {
@@ -135,7 +135,7 @@ export class GuildManagePage implements OnInit {
     this.socketService.emit(ServerEventName.GuildAcceptApply, { playerName: appinv.playerName });
 
     this.appinvs = this.appinvs.filter(x => x.playerName !== appinv.playerName);
-    this.gameService.guild.members[appinv.playerName] = GuildMemberTier.Member;
+    this.gameService.guild.members[appinv.playerName].rank = GuildMemberTier.Member;
   }
 
 }
