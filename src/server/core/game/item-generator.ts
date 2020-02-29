@@ -214,11 +214,100 @@ export class ItemGenerator {
     body.init({
       type: <ItemSlot>'body',
       itemClass: ItemClass.Newbie,
-      name: 'Hardcore Shirt',
+      name: 'Idle4Lyfe T-Shirt',
       stats: { str: 20, hp: 25, xp: 2 }
     });
     equipment.push(body);
-
+    
+    const feet = new Item();
+    feet.init({
+      type: <ItemSlot>'feet',
+      itemClass: ItemClass.Newbie,
+      name: 'Studded Knee Highs',
+      stats: { dex: 15, con: 10, hp: 20, xp: 2 }
+    });
+    equipment.push(feet);
+    
+    const finger = new Item();
+    finger.init({
+      type: <ItemSlot>'finger',
+      itemClass: ItemClass.Newbie,
+      name: 'Ring of No Tomorrow',
+      stats: { luk: -5, hp: 70, xp: 3 }
+    });
+    equipment.push(finger);
+    
+    const hands = new Item();
+    hands.init({
+      type: <ItemSlot>'hands',
+      itemClass: ItemClass.Newbie,
+      name: 'Very Thick Leather Gloves',
+      stats: { con: 10, hp: 40, xp: 2 }
+    });
+    equipment.push(hands);
+    
+    const head = new Item();
+    head.init({
+      type: <ItemSlot>'head',
+      itemClass: ItemClass.Newbie,
+      name: 'Novelty Marine Helmet',
+      stats: { str: 15, con: 10, hp: 25, xp: 2 }
+    });
+    equipment.push(head);
+    
+    const legs = new Item();
+    legs.init({
+      type: <ItemSlot>'legs',
+      itemClass: ItemClass.Newbie,
+      name: 'Numerous Chainmail Skirts',
+      stats: { dex: -10, con: 10, hp: 60, xp: 2 }
+    });
+    equipment.push(legs);
+    
+    const neck = new Item();
+    neck.init({
+      type: <ItemSlot>'neck',
+      itemClass: ItemClass.Newbie,
+      name: 'Wicked Choker',
+      stats: { str: 10, dex: 10, hp: 25, xp: 2 }
+    });
+    equipment.push(neck);
+    
+    const mainhand = new Item();
+    mainhand.init({
+      type: <ItemSlot>'mainhand',
+      itemClass: ItemClass.Newbie,
+      name: 'Big Shielded Gauntlet',
+      stats: { str: 10, con: 10, hp: 25, xp: 2 }
+    });
+    equipment.push(mainhand);
+    
+    const offhand = new Item();
+    offhand.init({
+      type: <ItemSlot>'offhand',
+      itemClass: ItemClass.Newbie,
+      name: 'Towering Shield',
+      stats: { con: 20, hp: 50, xp: 2 }
+    });
+    equipment.push(offhand);
+    
+    const charm = new Item();
+    charm.init({
+      type: <ItemSlot>'charm',
+      itemClass: ItemClass.Newbie,
+      name: 'Bag of Fake Blood',
+      stats: { str: 5, luk: 30, hp: 15, xp: 2 }
+    });
+    equipment.push(charm);
+    
+    const trinket = new Item();
+    trinket.init({
+      type: <ItemSlot>'trinket',
+      itemClass: ItemClass.Newbie,
+      name: 'Shard of Obsidian',
+      stats: { hp: 200, xp: 5 }
+    });
+    equipment.push(trinket);
 
 
 
