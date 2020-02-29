@@ -175,6 +175,11 @@ export class Game implements IGame {
       }
     });
 
+    // Save all guilds
+    if((this.ticks % SAVE_TICKS) === 0) {
+      this.guildManager.saveAll();
+    }
+
     Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
 
     if((this.ticks % 100) === 0) {

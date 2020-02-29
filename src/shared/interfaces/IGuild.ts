@@ -248,6 +248,15 @@ export interface IGuildApplication {
   guildName: string;
 }
 
+export interface IGuildMember {
+  name: string;
+  level?: number;
+  ascensionLevel?: number;
+  profession?: string;
+  lastOnline?: number;
+  rank: GuildMemberTier;
+}
+
 export interface IGuild {
   name: string;
   tag: string;
@@ -263,7 +272,7 @@ export interface IGuild {
   activeBuildings: { [key in GuildBuilding]?: boolean };
   buildingLevels: { [key in GuildBuilding]?: number };
 
-  members: { [key: string]: GuildMemberTier };
+  members: { [key: string]: IGuildMember };
   nextRaidAvailability: { [key: string]: number };
 
 }
