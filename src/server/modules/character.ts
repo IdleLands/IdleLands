@@ -66,6 +66,21 @@ export class AscendEvent extends ServerSocketEvent implements ServerEvent {
   }
 }
 
+export class HardcoreReviveEvent extends ServerSocketEvent implements ServerEvent {
+  event = ServerEventName.CharacterHardcoreRevive;
+  description = 'Hardcore Restart.';
+  args = '';
+
+  async callback() {
+    const player = this.player;
+    if(!player) return this.notConnected();
+    if(!player.hardcore) return this.gameError('Non-Hardcore players cannot revive.');
+    if(!player.dead) return this.gameError('Living Hardcore players cannot be revived.');
+
+    player.reviveHardcore();
+  }
+}
+
 export class OOCAbilityEvent extends ServerSocketEvent implements ServerEvent {
   event = ServerEventName.CharacterOOCAction;
   description = 'Execute your classes OOC action.';
