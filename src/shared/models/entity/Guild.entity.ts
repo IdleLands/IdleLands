@@ -3,6 +3,7 @@ import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
 import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
    GuildMemberTier, Stat, GuildBuildingLevelValues, IGame, IGuildMember } from '../../interfaces';
 import { Item } from '../Item';
+import { isNumber } from 'lodash';
 
 @Entity()
 export class Guild implements IGuild {
@@ -71,7 +72,7 @@ export class Guild implements IGuild {
     if(!member) return;
 
     // Update old member to new
-    if(typeof member === 'number') {
+    if(isNumber(member)) {
       return this.addMember(player, member);
     }
 
