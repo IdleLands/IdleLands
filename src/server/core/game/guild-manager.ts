@@ -13,6 +13,7 @@ import { DiscordManager } from './discord-manager';
 import { ItemGenerator } from './item-generator';
 import { CombatHelper } from './combat-helper';
 import { CombatAction } from '../../../shared/combat/combat-simulator';
+import { isNumber } from 'lodash';
 
 @Singleton
 @AutoWired
@@ -102,8 +103,27 @@ export class GuildManager {
         this.discordManager.removeDiscordChannelForGuild(guild);
         return;
       }
+
+      // Update old guild members to the new interface
+      Object.keys(guild.members).forEach(key => {
+        const member = guild.members[key];
+        if(isNumber(member)) {
+          guild.members[key] = {
+            name: `${key}`,
+            rank: +member
+          };
+        }
+      });
+
       this.addGuild(guild);
       this.checkDiscordUpgradeForGuild(guild);
+    });
+  }
+
+  public saveAll(): void {
+    Object.keys(this.allGuilds).forEach(key => {
+      // console.log(`Saving guild: ${key}`);
+      return this.saveGuild(this.getGuild(key));
     });
   }
 
