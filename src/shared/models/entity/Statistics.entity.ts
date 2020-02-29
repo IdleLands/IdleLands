@@ -70,4 +70,13 @@ export class Statistics extends PlayerOwned {
     const statB = this.get(stat);
     return isNumber(statB) ? statB : Object.keys(statB).length;
   }
+
+  public hardcoreReset(): void {
+    const keepStats = {
+      Hardcore: this.statistics.Hardcore,
+      Game: this.statistics.Game
+    };
+
+    this.statistics = { ...keepStats };
+  }
 }
