@@ -70,7 +70,8 @@ export class ChatMessageEvent extends ServerSocketEvent implements ServerEvent {
       message,
       guildTag: playerGuild ? playerGuild.tag : '',
       realPlayerName: player.name,
-      playerName: `${player.name}${player.title ? `, the ${player.title}` : ''}`,
+      playerName: player.name,
+      playerTitle: player.title ? `, the ${player.title}` : '',
       playerLevel: player.level.total,
       playerAscension: player.ascensionLevel,
       address: player.ip

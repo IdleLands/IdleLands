@@ -38,6 +38,7 @@
                       <a target="_blank" [href]="gameService.globalLink(message.playerName)">{{ message.playerName }}</a>
                     </span>
                     <span class="chat-username" *ngIf="message.playerName == '☆System'">{{ message.playerName }}</span>
+                    <span class="chat-title" *ngIf="message.playerTitle">{{ message.playerTitle }}</span>
                     <span class="chat-guild-tag" *ngIf="message.guildTag"> [{{ message.guildTag }}]</span>
                     <span class="chat-timestamp">{{ message.timestamp | date:'short' }}</span>
                   </h2>

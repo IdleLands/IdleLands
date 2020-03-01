@@ -777,14 +777,7 @@ export class GameService {
     });
   }
 
-  public globalLink(target: string, type = 'player') {
-    let name = target;
-    // Remove title from player name
-    if(type === 'player') {
-      const noTitle = target.split(',');
-      if(noTitle.length >= 2) noTitle.pop();
-      name = noTitle.join(',');
-    }
+  public globalLink(name: string, type = 'player') {
     return `http://global.idle.land/${type};name=${name}`;
   }
 

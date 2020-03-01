@@ -399,7 +399,6 @@ export class GuildManager {
       if(!this.combatHelper.canDoCombat(player)) return;
 
       const pets = this.combatHelper.getAllPartyCombatPets([player]);
-      // @ts-ignore
       return [...pets, this.combatHelper.createCombatCharacter(player)];
     }).filter(Boolean));
 
