@@ -34,7 +34,7 @@
                   <h2>
                     <span class="chat-address" *ngIf="player.modTier">{{message.address}}</span>
                     <span class="chat-discord" *ngIf="message.fromDiscord">[Discord]</span>
-                    <span class="chat-username" *ngIf="message.playerName !== '☆System'">
+                    <span class="chat-username" *ngIf="message.playerName !== '☆System' && !message.fromDiscord">
                       <a target="_blank" [href]="gameService.globalLink(message.playerName)">{{ message.playerName }}</a>
                     </span>
                     <span class="chat-username" *ngIf="message.playerName == '☆System'">{{ message.playerName }}</span>
