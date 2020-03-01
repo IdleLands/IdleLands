@@ -381,7 +381,6 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.ChatPlayerListSync, (players) => {
-      // @ts-ignore
       this.allPlayers.push(...players);
       this.sortAndUniqPlayerList();
       this.refreshPlayerInfoHash();
