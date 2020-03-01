@@ -381,6 +381,7 @@ export class GameService {
     });
 
     this.socketService.register(ServerEventName.ChatPlayerListSync, (players) => {
+      // @ts-ignore
       this.allPlayers.push(...players);
       this.sortAndUniqPlayerList();
       this.refreshPlayerInfoHash();
@@ -775,6 +776,17 @@ export class GameService {
           this.guild = guild;
         });
     });
+  }
+
+  public globalLink(target: string, type = 'player') {
+    let name = target;
+    // Remove title from player name
+    if(type === 'player') {
+      const noTitle = target.split(',');
+      if(noTitle.length >= 2) noTitle.pop();
+      name = noTitle.join(',');
+    }
+    return `http://global.idle.land/${type};name=${name}`;
   }
 
 }

@@ -62,3 +62,11 @@
   top: 5px;
   right: 5px;
 }
+
+.chat-message a{
+  text-decoration: none;
+}
+
+.chat-message a:hover{
+  text-decoration: underline;
+}

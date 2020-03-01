@@ -243,3 +243,11 @@ ion-progress-bar {
 .gate-reward-table .alert-message{
   max-height: 80%;
 }
+
+.hover-link{
+  text-decoration: none;
+}
+
+.hover-link:hover {
+  text-decoration: underline;
+}
