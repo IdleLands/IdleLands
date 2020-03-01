@@ -316,4 +316,13 @@ export class Pets extends PlayerOwned {
     });
   }
 
+  public resetPets(player) {
+    this.allPets = { };
+    this.currentPet = '';
+    this.buyablePets = { };
+    this.ascensionMaterials = { };
+    this.adventures = [];
+    this.init(player);
+  }
+
 }

@@ -65,4 +65,8 @@ export class Collectibles extends PlayerOwned {
     this.collectibles[collectible].foundAt = Date.now();
   }
 
+  public resetCollectibles() {
+    this.collectibles = { };
+  }
+
 }
