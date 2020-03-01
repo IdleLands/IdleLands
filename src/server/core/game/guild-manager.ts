@@ -104,17 +104,6 @@ export class GuildManager {
         return;
       }
 
-      // Update old guild members to the new interface
-      Object.keys(guild.members).forEach(key => {
-        const member = guild.members[key];
-        if(isNumber(member)) {
-          guild.members[key] = {
-            name: `${key}`,
-            rank: +member
-          };
-        }
-      });
-
       this.addGuild(guild);
       this.checkDiscordUpgradeForGuild(guild);
     });
@@ -410,7 +399,6 @@ export class GuildManager {
       if(!this.combatHelper.canDoCombat(player)) return;
 
       const pets = this.combatHelper.getAllPartyCombatPets([player]);
-      // @ts-ignore
       return [...pets, this.combatHelper.createCombatCharacter(player)];
     }).filter(Boolean));
 
