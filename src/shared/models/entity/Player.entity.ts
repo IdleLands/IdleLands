@@ -275,7 +275,7 @@ export class Player implements IPlayer {
 
   async loop(tick: number): Promise<void> {
 
-    if(this.hardcore && this.$statistics.get('Hardcore/Dead') === 1) return;
+    if(this.hardcore && this.dead) return;
 
     this.increaseStatistic('Character/Ticks', 1);
 
@@ -1311,15 +1311,20 @@ export class Player implements IPlayer {
   public reviveHardcore(): void {
     if(!this.$statistics.get('Hardcore/Dead')) return;
 
+    // Remove formal flags
+    this.dead = false;
+    this.$statistics.unset('Hardcore/Dead');
+
+    // Return ascensions and levels to baseline
     this.lastAscension = null;
     this.ascensionLevel = 0;
-
     this.level.minimum = 1;
     this.level.set(1);
-
     this.xp.set(0);
     this.xp.maximum = this.$$game.calculatorHelper.calcLevelMaxXP(1);
+    this.level.maximum = 100;
 
+    // Update Best and Total statistics
     const counts = {
       Ascensions: this.$statistics.get('Character/Ascension/Times'),
       Levels: this.$statistics.get('Character/Experience/Levels'),
@@ -1336,23 +1341,30 @@ export class Player implements IPlayer {
 
     this.increaseStatistic('Hardcore/Total/Deaths', 1);
 
-    this.level.maximum = 100;
-
     this.gold = 0;
 
-    // Remove all pets
+    if(!this.cooldowns) this.cooldowns = { };
+    delete (this as any).bossTimers;
+    delete this.buffWatches['undefined'];
+    this.clearOldCooldowns();
 
+    // Remove all pets
+    this.$pets.resetPets(this);
+
+    // Re-initialize items, inventory, and buffs
     const items = this.$game.itemGenerator.generateNewbieHardcoreItems();
     items.forEach(item => this.$inventory.equipItem(item));
     this.$inventory.clearInventory();
     this.$inventory.clearBuffScrolls();
 
     // Remove all collectibles
+    this.$collectibles.resetCollectibles();
 
-    this.increaseStatistic('Character/Ascension/Collectibles', this.$collectibles.getFoundOwnedCollectibles().length);
-    this.$collectibles.resetFoundAts();
-
+    // Clear choice log
     this.$choices.removeAllChoices();
+
+    this.$statistics.hardcoreReset();
+    this.$game.achievementManager.syncAchievements(this);
 
     this.buffWatches = { };
 
