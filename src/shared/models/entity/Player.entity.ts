@@ -1343,7 +1343,7 @@ export class Player implements IPlayer {
 
     this.gold = 0;
 
-    if(!this.cooldowns) this.cooldowns = { };
+    this.cooldowns = { };
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
     this.clearOldCooldowns();
