@@ -15,6 +15,8 @@ export enum Holiday {
 @Singleton
 @AutoWired
 export class HolidayHelper {
+  
+  // fuck leap years
   private holidays = {
     valentine: {
       start: new Date('Feb 1'),
