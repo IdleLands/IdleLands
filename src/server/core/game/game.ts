@@ -181,7 +181,7 @@ export class Game implements IGame {
     }
 
     // Send crier messages
-    if((this.ticks % 25) === 0) {
+    if((this.ticks % 2) === 0) {
       this.discordManager.dispatchCrier();
     }
 
