@@ -1374,6 +1374,8 @@ export class Player implements IPlayer {
     });
 
     this.setPos(10, 10, 'Norkos', 'Norkos Town');
+    this.divineDirection.steps = 0;
+    this.divineDirection = null;
 
     this.calculateStamina();
     this.recalculateStats();
