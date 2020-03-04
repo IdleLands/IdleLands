@@ -10,6 +10,8 @@ export class GateRollEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.hardcore) return this.gameError('Hardcore players cannot roll gacha.');
+
     if(numRolls !== 1 && numRolls !== 10 && numRolls !== 100) return this.gameError('Invalid number of rolls specified.');
 
     const rollRewards = player.$premium.doGachaRoll(player, astralGateName, numRolls);
