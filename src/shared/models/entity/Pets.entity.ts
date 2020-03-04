@@ -212,11 +212,13 @@ export class Pets extends PlayerOwned {
     const pet = this.$activePet;
     if(pet.rating >= 5 || !pet.level.atMaximum()) return false;
 
-    const materials = pet.$$game.petHelper.getPetProto(pet.typeName).ascensionMaterials[pet.rating];
-    const someMaterialsMissing = Object.keys(materials).some((mat) => materials[mat] > (this.ascensionMaterials[mat] || 0));
-    if(someMaterialsMissing) return false;
+    if(!player.hardcore) {
+      const materials = pet.$$game.petHelper.getPetProto(pet.typeName).ascensionMaterials[pet.rating];
+      const someMaterialsMissing = Object.keys(materials).some((mat) => materials[mat] > (this.ascensionMaterials[mat] || 0));
+      if(someMaterialsMissing) return false;
 
-    Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
+      Object.keys(materials).forEach(mat => this.ascensionMaterials[mat] -= materials[mat]);
+    }
 
     player.increaseStatistic('Pet/Ascension/Times', 1);
     pet.ascend();
