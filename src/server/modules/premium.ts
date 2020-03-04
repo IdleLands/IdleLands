@@ -15,6 +15,8 @@ export class PremiumILPBuy extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.hardcore) return this.gameError('Hardcore players cannot purchase ILP.');
+
     if(!item || !token) return this.gameError('Item or token is not sent.');
 
     try {
