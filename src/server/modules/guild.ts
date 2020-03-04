@@ -33,6 +33,8 @@ export class CreateGuildEvent extends ServerSocketEvent implements ServerEvent {
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.hardcore) return this.gameError('Hardcore players cannot create guilds.');
+
     if(player.guildName) return this.gameError('You already have a guild!');
 
     const guildCost = 100000000;
@@ -368,6 +370,8 @@ export class GuildApplyJoinEvent extends ServerSocketEvent implements ServerEven
     const player = this.player;
     if(!player) return this.notConnected();
 
+    if(player.hardcore) return this.gameError('Hardcore players cannot apply to guilds.');
+
     if(player.guildAppBanned) return this.gameError(`You are not allowed to send guild applications`);
 
     if(player.guildName) return this.gameError('You already are in a guild!');
@@ -510,6 +514,8 @@ export class GuildAcceptInviteEvent extends ServerSocketEvent implements ServerE
   async callback({ guildName } = { guildName: '' }) {
     const player = this.player;
     if(!player) return this.notConnected();
+
+    if(player.hardcore) return this.gameError('Hardcore players cannot accept guild invites.');
 
     if(player.guildName) return this.gameError('You are already in a guild!');
 
