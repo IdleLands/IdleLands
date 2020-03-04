@@ -89,6 +89,8 @@ export class SalvageItemEvent extends ServerSocketEvent implements ServerEvent {
 
     if(foundItem.locked) return this.gameError('Item is currently locked. Unlock it to salvage it.');
 
+    if(player.hardcore) return this.gameError('Hardcore players cannot salvage equipment.');
+
     const { wood, stone, clay, astralium } = player.salvageItem(foundItem);
 
     if(!itemSlot) {
