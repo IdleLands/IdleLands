@@ -91,7 +91,7 @@ export class PetcurrentPage implements OnInit {
 
   async ascend(pet: IPet) {
 
-    const matString = (pet.$$player.hardcore ? "Nothing!" : Object.keys(pet.$ascMaterials)
+    const matString = (pet.$$player.hardcore ? 'Nothing!' : Object.keys(pet.$ascMaterials)
       .map(mat => `<li>${mat.split('Crystal').join('')} Crystal (x${pet.$ascMaterials[mat]})</li>`)
       .join(''));
 
