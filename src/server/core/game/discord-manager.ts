@@ -14,6 +14,7 @@ export class DiscordManager {
   private discord: Discord.Client;
   private discordGuild: Discord.Guild;
   private discordChannel: Discord.TextChannel;
+  private crierStorage = { };
 
   private onMessageCallback = (msg: IMessage) => { };
 
@@ -61,6 +62,30 @@ export class DiscordManager {
     });
   }
 
+  public dispatchCrier(): void {
+    // How many lines per message
+    const size = 10;
+
+    // Loop through all the stored messages
+    Object.keys(this.crierStorage).forEach(key => {
+      const groups = [];
+      const store = this.crierStorage[key];
+
+      // Split messages into groups of 10
+      for(let i = 0, x = store.messages.length; i < x; i += size) {
+        groups.push(store.messages.slice(i, i + size));
+      }
+
+      // Send each group of messages
+      groups.forEach(group => {
+        this.sendChannelMessage(store.channel, group.join('\n'));
+      });
+
+      // Delete from storage
+      delete this.crierStorage[key];
+    });
+  }
+
   public updateUserCount(userCount: number): void {
     if(!this.discordChannel) return;
 
@@ -90,7 +115,15 @@ export class DiscordManager {
     } else if(crierLevel < 3 && ['buildingLevels', 'activeBuildings', 'raid'].includes(key)) {
       return;
     }
-    this.sendChannelMessage(channel, `<☆System> ${message}`);
+
+    if(!this.crierStorage[guild.name]) {
+      this.crierStorage[guild.name] = {
+        channel,
+        messages: []
+      };
+    }
+
+    this.crierStorage[guild.name].messages.push(`<☆System> ${message}`);
   }
 
   public discordUserWithTag(tag: string): Discord.GuildMember {

@@ -180,6 +180,11 @@ export class Game implements IGame {
       this.guildManager.saveAll();
     }
 
+    // Send crier messages
+    if((this.ticks % 2) === 0) {
+      this.discordManager.dispatchCrier();
+    }
+
     Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
 
     if((this.ticks % 100) === 0) {

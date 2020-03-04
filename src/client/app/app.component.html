@@ -132,7 +132,9 @@
                 <ion-icon *ngIf="player.modTier === 1" name="star-outline"></ion-icon>
                 <ion-icon *ngIf="player.modTier === 2" name="star-half"></ion-icon>
                 <ion-icon *ngIf="player.modTier === 5" name="star"></ion-icon>
-                {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+                <a class="hover-link" target="_blank" [href]="gameService.globalLink(player.name)">
+                  {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
+                </a>
               </h2>
               <p class="vertical-center">
                 <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                

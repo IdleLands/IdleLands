@@ -42,7 +42,8 @@ export class ChatHelper {
 
     const levelString = `${message.playerAscension || 0}★${message.playerLevel}`;
     const guildString = message.guildTag ? `[${message.guildTag}] ` : '';
-    this.onMessageCallback(`<${message.playerName} ${guildString}${levelString}> ${message.message}`);
+    const playerString = message.playerName + message.playerTitle;
+    this.onMessageCallback(`<${playerString} ${guildString}${levelString}> ${message.message}`);
   }
 
 }

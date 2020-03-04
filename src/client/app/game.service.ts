@@ -777,4 +777,8 @@ export class GameService {
     });
   }
 
+  public globalLink(name: string, type = 'player') {
+    return `http://global.idle.land/${type};name=${name}`;
+  }
+
 }
