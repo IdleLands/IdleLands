@@ -62,6 +62,7 @@ export * from './Raider';
 export * from './Romantic';
 export * from './Salvager';
 export * from './Scrambler';
+export * from './Shamrocked';
 export * from './Slayer';
 export * from './SoloStepper';
 export * from './Spiritualist';
