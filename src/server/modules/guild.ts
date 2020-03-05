@@ -105,7 +105,7 @@ export class GuildSetMOTDEvent extends ServerSocketEvent implements ServerEvent 
 
     if(newMOTD.length > 2000) newMOTD = newMOTD.slice(0, 2000);
 
-    this.game.discordManager.notifyGuildChannel(player.name, guild, 'motd', newMOTD);
+    this.game.discordManager.notifyGuildChannel(player.name, guild, 'motd', `${player.name} changed the MOTD to: ${newMOTD}`);
     this.game.guildManager.updateGuildKey(player.guildName, 'motd', newMOTD);
 
     this.gameSuccess(`Set guild MOTD.`);
