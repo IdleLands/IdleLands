@@ -286,7 +286,7 @@ export class AppComponent {
       <br>
       You may revive a dead Hardcore character at any time to begin your process anew.
       <br>
-      You will lose everything except your Hardcore statistics, and a select few achievements, and start completely fresh from the beginning.
+      You will lose everything except your Hardcore statistics, and a select few achievements, and start completely fresh.
       <br>
       Hardcore also changes the game slightly.
       <br>
