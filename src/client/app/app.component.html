@@ -32,6 +32,7 @@
 
               <ion-badge class="menu-bottom-left" color="secondary" *ngIf="player.$party">In Party</ion-badge>
               <ion-badge class="menu-bottom-left" color="danger" *ngIf="player.hardcore && player.dead">Dead</ion-badge>
+              <ion-badge class="menu-top-left" color="danger" *ngIf="player.hardcore" (click)="hardcoreDescription()">
               
               <ion-label class="ion-text-wrap">
                 {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
