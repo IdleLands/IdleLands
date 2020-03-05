@@ -272,7 +272,7 @@ export class AppComponent {
     if (this.clouds > 400) window.location.reload();
   }
 
-  public hardcoreDescription() {
+  public async hardcoreDescription() {
     const alert = await this.alertCtrl.create({
       header: 'Hardcore',
       message: `Welcome to Hardcore!
