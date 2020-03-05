@@ -70,17 +70,31 @@ export class Bard extends BaseProfession implements IProfession {
       stats[stat] = val;
     });
 
-    if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
-      this.emitProfessionMessage(player, `You already have a Bardic Festival active.`);
-      return { success: false, message: `You already have a Bardic Festival active.` };
-    }
+    if(player.hardcore) {
 
-    const festival: IFestival = {
-      name: `${player.name}'s Bardic Festival`,
-      endTime: Date.now() + (1000 * 60 * 60),
-      startedBy: `${player.name} the Bard`,
-      stats
-    };
+      player.grantBuff({
+        name: `Bard's Song`,
+        statistic: 'Character/Ticks',
+        booster: true,
+        duration: 1440,
+        stats
+      }, true);
+
+    } else {
+
+      if(player.$$game.festivalManager.hasFestivalWithName(`${player.name}'s Bardic Festival`)) {
+        this.emitProfessionMessage(player, `You already have a Bardic Festival active.`);
+        return { success: false, message: `You already have a Bardic Festival active.` };
+      }
+
+      const festival: IFestival = {
+        name: `${player.name}'s Bardic Festival`,
+        endTime: Date.now() + (1000 * 60 * 60),
+        startedBy: `${player.name} the Bard`,
+        stats
+      };
+
+    }
 
     player.$$game.festivalManager.startFestival(player, festival);
 
