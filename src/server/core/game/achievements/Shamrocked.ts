@@ -45,9 +45,9 @@ static descriptionForTier(tier: number): string {
     ];
 
     if(tier >= 2) {
-     { type: AchievementRewardType.StatMultipliers, stats: {
+     baseRewards.push({ type: AchievementRewardType.StatMultipliers, stats: {
         [Stat.GOLD]: 1.02
-      } };
+      } });
     }
 
     if(tier >= 3) {
