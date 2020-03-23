@@ -103,12 +103,12 @@ export class DiscordManager {
 
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
     const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    if(!channel || !guild) return;
 
     if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
 
     if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
       const charLimit = 500;
-      if(!channel || !guild) return;
       channel.setTopic(message.substring(0, charLimit));
     } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key)) {
       return;
