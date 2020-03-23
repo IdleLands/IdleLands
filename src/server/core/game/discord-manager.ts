@@ -103,12 +103,12 @@ export class DiscordManager {
 
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
     const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    if(!channel || !guild) return;
 
     if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
 
     if(crierLevel >= 1 && key === 'motd' && guild.motd !== message) {
       const charLimit = 500;
-      if(!channel || !guild) return;
       channel.setTopic(message.substring(0, charLimit));
     } else if(crierLevel < 2 && ['members', 'recruitment', 'taxes'].includes(key)) {
       return;
@@ -247,28 +247,33 @@ export class DiscordManager {
     }
 
     let channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
-    if(!channel) {
-      channel = await this.discordGuild.createChannel(guild.tag, 'text');
+
+    try {
+      if(!channel) {
+        channel = await this.discordGuild.createChannel(guild.tag, 'text');
+      }
+
+      const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
+      await channel.setParent(categoryId);
+
+      await channel.overwritePermissions(this.discord.user.id, {
+        VIEW_CHANNEL: true
+      });
+
+      await channel.overwritePermissions(guildModRole, {
+        MANAGE_MESSAGES: true
+      });
+
+      await channel.overwritePermissions(role, {
+        VIEW_CHANNEL: true
+      });
+
+      await channel.overwritePermissions(this.discordGuild.id, {
+        VIEW_CHANNEL: false
+      });
+    } catch(e) {
+      this.logger.error(`Discord`, e.message);
     }
-
-    const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
-    await channel.setParent(categoryId);
-
-    await channel.overwritePermissions(this.discord.user.id, {
-      VIEW_CHANNEL: true
-    });
-
-    await channel.overwritePermissions(guildModRole, {
-      MANAGE_MESSAGES: true
-    });
-
-    await channel.overwritePermissions(role, {
-      VIEW_CHANNEL: true
-    });
-
-    await channel.overwritePermissions(this.discordGuild.id, {
-      VIEW_CHANNEL: false
-    });
   }
 
   public removeDiscordChannelForGuild(guild: Guild) {
