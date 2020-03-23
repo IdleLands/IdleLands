@@ -247,28 +247,33 @@ export class DiscordManager {
     }
 
     let channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
-    if(!channel) {
-      channel = await this.discordGuild.createChannel(guild.tag, 'text');
+
+    try {
+      if(!channel) {
+        channel = await this.discordGuild.createChannel(guild.tag, 'text');
+      }
+
+      const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
+      await channel.setParent(categoryId);
+
+      await channel.overwritePermissions(this.discord.user.id, {
+        VIEW_CHANNEL: true
+      });
+
+      await channel.overwritePermissions(guildModRole, {
+        MANAGE_MESSAGES: true
+      });
+
+      await channel.overwritePermissions(role, {
+        VIEW_CHANNEL: true
+      });
+
+      await channel.overwritePermissions(this.discordGuild.id, {
+        VIEW_CHANNEL: false
+      });
+    } catch(e) {
+      this.logger.error(`Discord`, e.message);
     }
-
-    const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
-    await channel.setParent(categoryId);
-
-    await channel.overwritePermissions(this.discord.user.id, {
-      VIEW_CHANNEL: true
-    });
-
-    await channel.overwritePermissions(guildModRole, {
-      MANAGE_MESSAGES: true
-    });
-
-    await channel.overwritePermissions(role, {
-      VIEW_CHANNEL: true
-    });
-
-    await channel.overwritePermissions(this.discordGuild.id, {
-      VIEW_CHANNEL: false
-    });
   }
 
   public removeDiscordChannelForGuild(guild: Guild) {
