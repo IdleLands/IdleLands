@@ -1,4 +1,6 @@
 import { Singleton, Inject } from 'typescript-ioc';
+import { LoggerTimer } from 'logger-timer';
+
 import { DatabaseManager } from './database-manager';
 import { PlayerManager } from './player-manager';
 
@@ -32,6 +34,7 @@ import { QuestHelper } from './quest-helper';
 import { GlobalQuestManager } from './global-quest-manager';
 import { StripeHelper } from './stripe-helper';
 import { GuildManager } from './guild-manager';
+
 
 const GAME_DELAY = process.env.GAME_DELAY ? +process.env.GAME_DELAY : 5000;
 const SAVE_TICKS = process.env.SAVE_DELAY ? +process.env.SAVE_DELAY : (process.env.NODE_ENV === 'production' ? 15 : 10);
@@ -154,12 +157,19 @@ export class Game implements IGame {
   }
 
   public loop() {
+    const timer = new LoggerTimer();
+
+    const timerName = `GameLoop (${this.playerManager.allPlayers.length} players)`;
+    timer.start(timerName);
 
     this.ticks++;
 
     // intentionally, we don't wait for each player to save (we could do for..of)
     // we just want to make sure their player event is done before we send an update
     this.playerManager.allPlayers.forEach(async player => {
+      const playerTimerName = `Turn (${player.name})`;
+
+      timer.start(playerTimerName);
       await player.loop(this.ticks);
 
       const charKey = player.name.slice(0, 1).toLowerCase();
@@ -173,29 +183,45 @@ export class Game implements IGame {
         // this.logger.log(`Game`, `Saving player ${player.name}...`);
         this.databaseManager.savePlayer(player);
       }
+
+      timer.stop(playerTimerName);
     });
 
-    // Save all guilds
+    timer.start('Guild Save');
     if((this.ticks % SAVE_TICKS) === 0) {
       this.guildManager.saveAll();
     }
+    timer.stop('Guild Save');
 
-    // Send crier messages
+    timer.start('Town Crier');
     if((this.ticks % 2) === 0) {
       this.discordManager.dispatchCrier();
     }
+    timer.stop('Town Crier');
 
+    timer.start('Guild Loop');
     Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
+    timer.stop('Guild Loop');
 
+    timer.start('Global Quest Tick');
     if((this.ticks % 100) === 0) {
       this.globalQuestManager.tick();
     }
+    timer.stop('Global Quest Tick');
 
+    timer.start('Festival Tick');
     if(this.ticks > 600) {
       this.ticks = 0;
 
       // this doesn't need to tick every tick
       this.festivalManager.tick();
+    }
+    timer.stop('Festival Tick');
+
+    timer.stop(timerName);
+
+    if(process.env.DEBUG_TIMERS) {
+      timer.dumpTimers();
     }
 
     setTimeout(() => {

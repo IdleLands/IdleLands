@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
 import { interval } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { sample } from 'lodash';
+import { sample, sortBy } from 'lodash';
 
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
@@ -33,7 +33,7 @@ export class AppComponent {
 
   private clouds = 0;
 
-  public appPages = [
+  public appPages = sortBy([
 
     { name: 'Moderation', icon: 'moderation', url: '/moderator', hideIf: (player) => !player.modTier },
 
@@ -80,7 +80,7 @@ export class AppComponent {
         return this.uiService.isSettingsUnSynced(player);
       }
     }
-  ];
+  ], 'name').reverse();
 
   constructor(
     private platform: Platform,
