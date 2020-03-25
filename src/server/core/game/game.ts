@@ -160,7 +160,7 @@ export class Game implements IGame {
     const timer = new LoggerTimer();
 
     const timerName = `GameLoop (${this.playerManager.allPlayers.length} players)`;
-    timer.start(timerName);
+    timer.startTimer(timerName);
 
     this.ticks++;
 
@@ -169,7 +169,7 @@ export class Game implements IGame {
     this.playerManager.allPlayers.forEach(async player => {
       const playerTimerName = `Turn (${player.name})`;
 
-      timer.start(playerTimerName);
+      timer.startTimer(playerTimerName);
       await player.loop(this.ticks);
 
       const charKey = player.name.slice(0, 1).toLowerCase();
@@ -184,41 +184,41 @@ export class Game implements IGame {
         this.databaseManager.savePlayer(player);
       }
 
-      timer.stop(playerTimerName);
+      timer.stopTimer(playerTimerName);
     });
 
-    timer.start('Guild Save');
+    timer.startTimer('Guild Save');
     if((this.ticks % SAVE_TICKS) === 0) {
       this.guildManager.saveAll();
     }
-    timer.stop('Guild Save');
+    timer.stopTimer('Guild Save');
 
-    timer.start('Town Crier');
+    timer.startTimer('Town Crier');
     if((this.ticks % 2) === 0) {
       this.discordManager.dispatchCrier();
     }
-    timer.stop('Town Crier');
+    timer.stopTimer('Town Crier');
 
-    timer.start('Guild Loop');
+    timer.startTimer('Guild Loop');
     Object.values(this.guildManager.allGuilds).forEach(guild => guild.loop(this));
-    timer.stop('Guild Loop');
+    timer.stopTimer('Guild Loop');
 
-    timer.start('Global Quest Tick');
+    timer.startTimer('Global Quest Tick');
     if((this.ticks % 100) === 0) {
       this.globalQuestManager.tick();
     }
-    timer.stop('Global Quest Tick');
+    timer.stopTimer('Global Quest Tick');
 
-    timer.start('Festival Tick');
+    timer.startTimer('Festival Tick');
     if(this.ticks > 600) {
       this.ticks = 0;
 
       // this doesn't need to tick every tick
       this.festivalManager.tick();
     }
-    timer.stop('Festival Tick');
+    timer.stopTimer('Festival Tick');
 
-    timer.stop(timerName);
+    timer.stopTimer(timerName);
 
     if(process.env.DEBUG_TIMERS) {
       timer.dumpTimers();
