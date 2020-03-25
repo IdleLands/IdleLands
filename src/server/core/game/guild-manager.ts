@@ -116,6 +116,12 @@ export class GuildManager {
     });
   }
 
+  public checkAll(): void {
+    Object.keys(this.allGuilds).forEach(key => {
+      this.discordManager.checkDiscordChannel(this.allGuilds[key]);
+    });
+  }
+
   private addGuild(guild: Guild): void {
     this.guilds[guild.name] = guild;
   }

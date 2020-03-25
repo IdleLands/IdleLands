@@ -236,8 +236,26 @@ export class DiscordManager {
     this.sendChannelMessage(channelRef, `Via ${fromPlayer}: ${itemText}`);
   }
 
+  public getGuildChannel(guild: Guild): Discord.GuildChannel {
+    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    return channel ? channel.parentID === process.env.DISCORD_GUILD_CHANNEL_GROUP_ID ? channel : null : null;
+  }
+
+  public async checkDiscordChannel(guild: Guild) {
+    const channel = this.getGuildChannel(guild);
+    if(!channel) return;
+
+    const count = Object.keys(guild.members).length;
+    if(count < 10) {
+      console.log(`${guild.name} has less than 10 members (${count}), Removing channel`);
+      this.removeDiscordChannelForGuild(guild);
+    }
+  }
+
   public async createDiscordChannelForGuild(guild: Guild) {
     if(!this.discordGuild) return null;
+    // Limit guild channels to guilds with more than 10 members
+    if(Object.keys(guild.members).length < 10) return;
 
     const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
 
@@ -246,7 +264,7 @@ export class DiscordManager {
       role = await this.discordGuild.createRole({ name: `Guild: ${guild.name}`});
     }
 
-    let channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    let channel = this.getGuildChannel(guild);
 
     try {
       if(!channel) {
@@ -276,14 +294,14 @@ export class DiscordManager {
     }
   }
 
-  public removeDiscordChannelForGuild(guild: Guild) {
+  public async removeDiscordChannelForGuild(guild: Guild) {
     if(!this.discordGuild) return;
 
     const role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
-    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    const channel = this.getGuildChannel(guild);
 
-    if(role) role.delete();
-    if(channel) channel.delete();
+    if(role) await role.delete();
+    if(channel) await channel.delete();
   }
 
 }

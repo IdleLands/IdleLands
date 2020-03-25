@@ -190,6 +190,7 @@ export class Game implements IGame {
     timer.startTimer('Guild Save');
     if((this.ticks % SAVE_TICKS) === 0) {
       this.guildManager.saveAll();
+      this.guildManager.checkAll();
     }
     timer.stopTimer('Guild Save');
 
