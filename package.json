@@ -40,15 +40,17 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.7.1",
     "@ionic/storage": "^2.2.0",
+    "bufferutil": "^4.0.1",
     "censor-sensor": "^1.0.5",
     "chance": "^1.0.18",
     "compression": "^1.7.4",
     "connect": "3.6.6",
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
-    "discord.js": "^11.4.2",
+    "discord.js": "^12.0.2",
     "dotenv": "^6.2.0",
     "download-github-repo": "^0.1.4",
+    "erlpack": "^0.1.3",
     "express": "4.16.3",
     "express-rate-limit": "^3.4.0",
     "fantastical": "^1.0.2",
@@ -88,8 +90,10 @@
     "typeorm": "0.2.22",
     "typescript": "~3.1.6",
     "typescript-ioc": "^1.2.5",
+    "utf-8-validate": "^5.0.2",
     "uuid": "^3.3.2",
     "yamljs": "^0.3.0",
+    "zlib-sync": "^0.1.6",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {
@@ -111,6 +115,6 @@
     "tslint": "~5.12.0"
   },
   "engines": {
-    "node": ">=11 <12"
+    "node": ">=12 <13"
   }
 }
