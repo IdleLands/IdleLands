@@ -33,8 +33,8 @@ export class DiscordManager {
       return;
     }
 
-    this.discordGuild = this.discord.guilds.get(process.env.DISCORD_GUILD_ID);
-    this.discordChannel = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CHANNEL_ID);
+    this.discordGuild = this.discord.guilds.cache.get(process.env.DISCORD_GUILD_ID);
+    this.discordChannel = <Discord.TextChannel>this.discord.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
       this.logger.error('Discord', new Error(error.message));
@@ -102,7 +102,7 @@ export class DiscordManager {
     if(!this.discordGuild) return;
 
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
-    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    const channel = this.discordGuild.channels.cache.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
     if(!channel || !guild) return;
 
     if(!crierLevel || crierLevel < 1 || !guild.activeBuildings[GuildBuilding.Crier] || key === 'resources') return;
@@ -128,7 +128,7 @@ export class DiscordManager {
 
   public discordUserWithTag(tag: string): Discord.GuildMember {
     if(!this.discordChannel) return null;
-    return this.discordGuild.members.find(u => u.user.tag === tag);
+    return this.discordGuild.members.cache.find(u => u.user.tag === tag);
   }
 
   public isTagInDiscord(tag: string): boolean {
@@ -139,7 +139,7 @@ export class DiscordManager {
   public hasRole(tag: string, role: string): boolean {
     const roles = this.getUserRoles(tag);
     if(!roles) return false;
-    return !!roles.find(r => r.name === role);
+    return !!roles.cache.find(r => r.name === role);
   }
 
   public async removeGuildRole(player: Player) {
@@ -148,14 +148,14 @@ export class DiscordManager {
     const user = this.discordUserWithTag(player.discordTag);
     if(!user) return;
 
-    this.discordGuild.roles.forEach(x => {
+    this.discordGuild.roles.cache.forEach(x => {
       if(!x.name.includes('Guild:')) return;
-      user.removeRole(x);
+      user.roles.remove(x);
     });
 
-    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    const guildModRole = this.discordGuild.roles.cache.find(x => x.name === 'Guild Mod');
     if(guildModRole) {
-      user.removeRole(guildModRole);
+      user.roles.remove(guildModRole);
     }
   }
 
@@ -165,15 +165,15 @@ export class DiscordManager {
     const user = this.discordUserWithTag(player.discordTag);
     if(!user) return;
 
-    const guildRole = this.discordGuild.roles.find(x => x.name === `Guild: ${player.guildName}`);
-    if(guildRole && !user.roles.has(guildRole.id)) {
-      await user.addRole(guildRole);
+    const guildRole = this.discordGuild.roles.cache.find(x => x.name === `Guild: ${player.guildName}`);
+    if(guildRole && !user.roles.cache.has(guildRole.id)) {
+      await user.roles.add(guildRole);
     }
 
     const guild = player.$$game.guildManager.getGuildForPlayer(player);
-    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    const guildModRole = this.discordGuild.roles.cache.find(x => x.name === 'Guild Mod');
     if(guildModRole && guild && guild.members[player.name] >= GuildMemberTier.Moderator) {
-      user.addRole(guildModRole);
+      user.roles.add(guildModRole);
     }
   }
 
@@ -183,9 +183,9 @@ export class DiscordManager {
     const user = this.discordUserWithTag(player.discordTag);
     if(!user) return;
 
-    const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
+    const verified = this.discordGuild.roles.cache.find(x => x.name === 'Verified');
     if(verified) {
-      user.removeRole(verified);
+      user.roles.remove(verified);
     }
 
     this.removeGuildRole(player);
@@ -197,9 +197,9 @@ export class DiscordManager {
     const user = this.discordUserWithTag(player.discordTag);
     if(!user) return;
 
-    const verified = this.discordGuild.roles.find(x => x.name === 'Verified');
-    if(verified && !user.roles.has(verified.id)) {
-      await user.addRole(verified);
+    const verified = this.discordGuild.roles.cache.find(x => x.name === 'Verified');
+    if(verified && !user.roles.cache.has(verified.id)) {
+      await user.roles.add(verified);
     }
 
     this.addGuildRole(player);
@@ -207,7 +207,7 @@ export class DiscordManager {
 
   public getUserRoles(tag: string) {
     if(!this.discordGuild) return null;
-    const guildUser = this.discordGuild.members.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
+    const guildUser = this.discordGuild.members.cache.find(u => `${u.user.username}#${u.user.discriminator}` === tag);
     if(!guildUser) return null;
     return guildUser.roles;
   }
@@ -230,14 +230,14 @@ export class DiscordManager {
     const discordChannel = process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID;
     if(!discordChannel) return null;
 
-    const channelRef = <Discord.TextChannel>this.discord.channels.get(process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID);
+    const channelRef = <Discord.TextChannel>this.discord.channels.cache.get(process.env.DISCORD_CUSTOM_ITEM_CHANNEL_ID);
     if(!channelRef) return null;
 
     this.sendChannelMessage(channelRef, `Via ${fromPlayer}: ${itemText}`);
   }
 
   public getGuildChannel(guild: Guild): Discord.GuildChannel {
-    const channel = this.discordGuild.channels.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
+    const channel = this.discordGuild.channels.cache.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
     return channel ? channel.parentID === process.env.DISCORD_GUILD_CHANNEL_GROUP_ID ? channel : null : null;
   }
 
@@ -257,38 +257,41 @@ export class DiscordManager {
     // Limit guild channels to guilds with more than 10 members
     if(Object.keys(guild.members).length < 10) return;
 
-    const guildModRole = this.discordGuild.roles.find(x => x.name === 'Guild Mod');
+    const guildModRole = this.discordGuild.roles.cache.find(x => x.name === 'Guild Mod');
 
-    let role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
+    let role = this.discordGuild.roles.cache.find(x => x.name === `Guild: ${guild.name}`);
     if(!role) {
-      role = await this.discordGuild.createRole({ name: `Guild: ${guild.name}`});
+      role = await this.discordGuild.roles.create({ data: { name: `Guild: ${guild.name}` } });
     }
 
     let channel = this.getGuildChannel(guild);
 
     try {
       if(!channel) {
-        channel = await this.discordGuild.createChannel(guild.tag, 'text');
+        channel = await this.discordGuild.channels.create(guild.tag, { type: 'text' });
       }
 
       const categoryId = process.env.DISCORD_GUILD_CHANNEL_GROUP_ID;
       await channel.setParent(categoryId);
 
-      await channel.overwritePermissions(this.discord.user.id, {
-        VIEW_CHANNEL: true
-      });
-
-      await channel.overwritePermissions(guildModRole, {
-        MANAGE_MESSAGES: true
-      });
-
-      await channel.overwritePermissions(role, {
-        VIEW_CHANNEL: true
-      });
-
-      await channel.overwritePermissions(this.discordGuild.id, {
-        VIEW_CHANNEL: false
-      });
+      await channel.overwritePermissions([
+        {
+          id: this.discord.user.id,
+          allow: ['VIEW_CHANNEL']
+        },
+        {
+          id: guildModRole,
+          allow: ['MANAGE_MESSAGES']
+        },
+        {
+          id: role,
+          allow: ['VIEW_CHANNEL']
+        },
+        {
+          id: this.discordGuild.id,
+          deny: ['VIEW_CHANNEL']
+        }
+      ]);
     } catch(e) {
       this.logger.error(`Discord`, e.message);
     }
@@ -297,7 +300,7 @@ export class DiscordManager {
   public async removeDiscordChannelForGuild(guild: Guild) {
     if(!this.discordGuild) return;
 
-    const role = this.discordGuild.roles.find(x => x.name === `Guild: ${guild.name}`);
+    const role = this.discordGuild.roles.cache.find(x => x.name === `Guild: ${guild.name}`);
     const channel = this.getGuildChannel(guild);
 
     if(role) await role.delete();
