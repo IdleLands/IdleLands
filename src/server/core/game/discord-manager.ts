@@ -41,7 +41,7 @@ export class DiscordManager {
     });
 
     this.discord.on('message', (message) => {
-      if(message.channel.id !== this.discordChannel.id || message.author.bot) return;
+      if((message.channel && this.discordChannel && message.channel.id !== this.discordChannel.id) || message.author.bot) return;
 
       let content = message.cleanContent;
       const attachment = message.attachments.first();
