@@ -9,6 +9,8 @@ const cors = require('cors');
 const healthChecker = require('sc-framework-health-check');
 const scCodecMinBin = require('sc-codec-min-bin');
 
+const { LoggerTimer } = require('logger-timer');
+
 const allEvents = require('../modules');
 const allAPI = require('../http');
 
@@ -72,13 +74,22 @@ export class GameWorker extends SCWorker {
     scServer.on('connection', (socket) => {
 
       Object.values(allEvents).forEach((EvtCtor: any) => {
+        const timer = new LoggerTimer();
+
         const evtInst = new EvtCtor(game, socket);
         socket.on(evtInst.event, async (args) => {
           if(evtInst.isDoingSomething) return;
 
+          const timerName = `Event (${socket.playerName}): ${evtInst.event}`;
+          timer.startTimer(timerName);
           evtInst.isDoingSomething = true;
           await evtInst.callback(args || { });
           evtInst.isDoingSomething = false;
+          timer.stopTimer(timerName);
+
+          if(process.env.DEBUG_TIMERS) {
+            timer.dumpTimers();
+          }
         });
       });
     });
