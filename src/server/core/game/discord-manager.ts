@@ -243,6 +243,8 @@ export class DiscordManager {
   }
 
   public getGuildChannel(guild: Guild): Discord.GuildChannel {
+    if(!this.discordGuild) return;
+
     const channel = this.discordGuild.channels.cache.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
     return channel ? channel.parentID === process.env.DISCORD_GUILD_CHANNEL_GROUP_ID ? channel : null : null;
   }
@@ -313,7 +315,7 @@ export class DiscordManager {
   }
 
   private syncDiscordGuildChannel() {
-    if(this.discordChannel) return;
+    if(this.discordChannel || !this.discordGuild) return;
     this.discordChannel = this.discordGuild.channels.cache.get(process.env.DISCORD_CHANNEL_ID) as Discord.TextChannel;
   }
 
