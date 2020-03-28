@@ -13,7 +13,7 @@ import { IItem, ItemSlot } from '../../../../shared/interfaces';
 })
 export class ItemComponent implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild('canvasContainer')
+  @ViewChild('canvasContainer', { static: false })
   public canvasContainer;
 
   private _item: IItem;

@@ -22,7 +22,7 @@ import { UiService } from './ui.service';
 })
 export class AppComponent {
 
-  @ViewChild('playerMenu')
+  @ViewChild('playerMenu', { static: false })
   public playerMenu: IonMenu;
 
   public a2hsPrompt: any;
