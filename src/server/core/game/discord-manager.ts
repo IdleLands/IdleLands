@@ -21,7 +21,10 @@ export class DiscordManager {
   public async init(onMessageCallback, canServerNodeRunDiscord = true): Promise<void> {
     if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) return;
 
-    this.onMessageCallback = onMessageCallback;
+    this.onMessageCallback = (msg) => {
+      this.syncDiscordGuildChannel();
+      onMessageCallback(msg);
+    };
 
     this.discord = new Discord.Client();
 
@@ -34,13 +37,13 @@ export class DiscordManager {
     }
 
     this.discordGuild = this.discord.guilds.cache.get(process.env.DISCORD_GUILD_ID);
-    this.discordChannel = <Discord.TextChannel>this.discord.channels.cache.get(process.env.DISCORD_CHANNEL_ID);
 
     this.discord.on('error', (error) => {
       this.logger.error('Discord', error);
     });
 
     this.discord.on('message', (message) => {
+      this.syncDiscordGuildChannel();
       if((message.channel && this.discordChannel && message.channel.id !== this.discordChannel.id) || message.author.bot) return;
 
       let content = message.cleanContent;
@@ -93,6 +96,7 @@ export class DiscordManager {
   }
 
   public sendMessage(message: string): void {
+    this.syncDiscordGuildChannel();
     if(!this.discordChannel) return;
 
     this.sendChannelMessage(this.discordChannel, message);
@@ -100,6 +104,7 @@ export class DiscordManager {
 
   public notifyGuildChannel(playerName: string, guild: Guild, key: string, message: string) {
     if(!this.discordGuild) return;
+    this.syncDiscordGuildChannel();
 
     const crierLevel = guild.buildingLevels[GuildBuilding.Crier];
     const channel = this.discordGuild.channels.cache.find(x => x.name === guild.tag.split(' ').join('-').toLowerCase());
@@ -213,6 +218,7 @@ export class DiscordManager {
   }
 
   public sendChannelMessage(channel: any, message: string) {
+
     // Stop the bot mentioning everyone or here
     message = message.replace(/@everyone/gi, 'everyone').replace(/@here/gi, 'here');
     // Add ability to @ users
@@ -247,7 +253,6 @@ export class DiscordManager {
 
     const count = Object.keys(guild.members).length;
     if(count < 10) {
-      console.log(`${guild.name} has less than 10 members (${count}), Removing channel`);
       this.removeDiscordChannelForGuild(guild);
     }
   }
@@ -305,6 +310,11 @@ export class DiscordManager {
 
     if(role) await role.delete();
     if(channel) await channel.delete();
+  }
+
+  private syncDiscordGuildChannel() {
+    if(this.discordChannel) return;
+    this.discordChannel = this.discordGuild.channels.cache.get(process.env.DISCORD_CHANNEL_ID) as Discord.TextChannel;
   }
 
 }

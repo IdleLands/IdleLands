@@ -79,7 +79,6 @@ export class ModeratorPage implements OnInit {
           text: 'Toggle!',
           handler: async (values) => {
             if(!values) return;
-            console.log(values);
             this.socketService.emit(ServerEventName.GMToggleGuildAppBan, { playerName: values.player });
           }
         }
