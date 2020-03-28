@@ -391,7 +391,7 @@ class GameState extends Phaser.State {
 })
 export class MapPage implements OnInit, OnDestroy {
 
-  @ViewChild(IonContent, { static: false })
+  @ViewChild(IonContent)
   private content: IonContent;
 
   public ddStepsLeft: number;

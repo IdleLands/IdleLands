@@ -1,5 +1,7 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
+import { isNumber } from 'lodash';
+
 import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
    GuildMemberTier, Stat, GuildBuildingLevelValues, IGame, IGuildMember } from '../../interfaces';
 import { Item } from '../Item';
@@ -67,8 +69,13 @@ export class Guild implements IGuild {
 
   public updateGuildMember(player: any) {
     // TODO: Something when a GM updates their name
-    const member = this.members[player.name];
+    let member = this.members[player.name];
     if(!member) return;
+
+    if(isNumber(member)) {
+      const memberRank: GuildMemberTier = member;
+      this.members[player.name] = member = { name: player.name, rank: memberRank };
+    }
 
     // Update member information
     member.lastOnline = player.lastOnline;

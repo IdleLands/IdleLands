@@ -13,8 +13,8 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 })
 export class ChatPage implements OnInit {
 
-  @ViewChild('chatArea', { static: false }) private chatArea: any;
-  @ViewChild(IonList, { static: false, read: ElementRef }) private chatList: ElementRef;
+  @ViewChild('chatArea') private chatArea: any;
+  @ViewChild(IonList, { read: ElementRef }) private chatList: ElementRef;
   private mutationObserver: MutationObserver;
 
   public message: string;
