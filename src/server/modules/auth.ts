@@ -191,28 +191,18 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
 
   async callback({ userId, sessionId, authToken, relogin } = { userId: '', sessionId: '', authToken: '', relogin: false }) {
 
-    const timer = new LoggerTimer({ isActive: process.env.DEBUG_TIMERS, dumpThreshold: 50 });
-
-    const dump = (err?: string) => {
-      timer.dumpTimers();
-
-      if(err) {
-        this.gameError(err);
-      }
-    };
-
     if(this.playerName) {
       const timerName = `Check Player: ${userId}`;
-      timer.startTimer(timerName);
+      this.timer.startTimer(timerName);
       const characterPreObj = this.game.playerManager.getPlayer(this.playerName);
       this.emit(ServerEventName.CharacterSync, characterPreObj);
       this.emit(ServerEventName.PlayGame);
-      timer.stopTimer(timerName);
+      this.timer.stopTimer(timerName);
 
-      return dump('You are already connected!');
+      return this.gameError('You are already connected!');
     }
 
-    if(!userId && !authToken) return dump(`${this.event} requires a userId or an authToken.`);
+    if(!userId && !authToken) return this.gameError(`${this.event} requires a userId or an authToken.`);
 
     let searchOpts: any = { currentUserId: userId };
 
@@ -220,56 +210,56 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     if(authToken) {
       try {
         const timerName = `Verify Token: ${userId}`;
-        timer.startTimer(timerName);
+        this.timer.startTimer(timerName);
         const decodedToken = await this.game.databaseManager.verifyToken(authToken);
         searchOpts = { authId: decodedToken.uid };
-        timer.stopTimer(timerName);
+        this.timer.stopTimer(timerName);
       } catch(e) {
-        dump('Auth token could not be decoded correctly.');
+        this.gameError('Auth token could not be decoded correctly.');
         return;
       }
     }
 
     const checkTimerName = `Check Character: ${userId}`;
-    timer.startTimer(checkTimerName);
+    this.timer.startTimer(checkTimerName);
     const characterCheck = await this.game.databaseManager.checkIfPlayerExists(searchOpts);
-    timer.stopTimer(checkTimerName);
+    this.timer.stopTimer(checkTimerName);
     if(!characterCheck) {
       if(userId && relogin && !sessionId) return;
-      return dump('Your character does not exist.');
+      return this.gameError('Your character does not exist.');
     }
 
     const checkLoggedInTimerName = `Check Logged In Character: ${userId}`;
-    timer.startTimer(checkLoggedInTimerName);
+    this.timer.startTimer(checkLoggedInTimerName);
     const loggedInPlayer = this.game.playerManager.getPlayer(characterCheck.name);
     const loggedInFromAnotherServerPlayer = this.game.playerManager.getSimplePlayer(characterCheck.name);
-    timer.stopTimer(checkLoggedInTimerName);
+    this.timer.stopTimer(checkLoggedInTimerName);
 
     // check first the logged in player to see if it exists, and if we match
     if(loggedInPlayer && loggedInPlayer.loggedIn && sessionId !== loggedInPlayer.sessionId) {
-      return dump('Unable to log in, please wait 30 seconds and try again.');
+      return this.gameError('Unable to log in, please wait 30 seconds and try again.');
     }
 
     // thirdly, check the character to see if it is logged in (fallback)
     if(!loggedInPlayer && loggedInFromAnotherServerPlayer && characterCheck.loggedIn) {
-      return dump('You are already logged in elsewhere.');
+      return this.gameError('You are already logged in elsewhere.');
     }
 
     // we have passed all of the checks, so lets hit the database again, why not?
     const loadTimerName = `Load Character: ${userId}`;
-    timer.startTimer(loadTimerName);
+    this.timer.startTimer(loadTimerName);
     const character = await this.game.databaseManager.loadPlayer(this.game, searchOpts);
-    timer.stopTimer(loadTimerName);
-    if(!character) return dump('Your player could not be loaded for some reason.');
+    this.timer.stopTimer(loadTimerName);
+    if(!character) return this.gameError('Your player could not be loaded for some reason.');
 
     // Check if that IP is banned
     const banTimerCheckName = `Ban Check: ${userId}`;
-    timer.startTimer(banTimerCheckName);
+    this.timer.startTimer(banTimerCheckName);
     const banned = await this.game.databaseManager.checkForIPBan(this.socketAddress());
-    timer.stopTimer(banTimerCheckName);
+    this.timer.stopTimer(banTimerCheckName);
     if(banned && banned.ips.length > 0) {
       console.log(`Ban matched user: ${banned.name} (${banned._id})`);
-      return dump('You have been permanently banned.');
+      return this.gameError('You have been permanently banned.');
     }
 
     if(!relogin) this.gameSuccess(`Welcome back, ${character.name}!`);
@@ -284,16 +274,14 @@ export class PlayGameEvent extends ServerSocketEvent implements ServerEvent {
     const setCharacter = loggedInPlayer || character;
 
     const finalizeCheckName = `Finalize: ${userId}`;
-    timer.startTimer(finalizeCheckName);
+    this.timer.startTimer(finalizeCheckName);
     this.game.playerManager.addPlayer(setCharacter, this);
     this.setPlayer(setCharacter);
     this.game.databaseManager.savePlayer(setCharacter);
 
     this.emit(ServerEventName.CharacterSync, setCharacter);
     this.emit(ServerEventName.PlayGame);
-    timer.stopTimer(finalizeCheckName);
-
-    timer.dumpTimers();
+    this.timer.stopTimer(finalizeCheckName);
 
     setTimeout(() => {
       setCharacter.tryToDoNewCharacter();
