@@ -1,7 +1,6 @@
 
 import * as uuid from 'uuid/v4';
 import { isString } from 'lodash';
-import { LoggerTimer } from 'logger-timer';
 
 import { censorSensor } from '../core/static/profanity-filter';
 
