@@ -94,7 +94,7 @@ export class GameWorker extends SCWorker {
           evtInst.isDoingSomething = false;
           evtInst.timer.stopTimer(timerName);
 
-          timer.dumpTimers();
+          evtInst.timer.dumpTimers();
         });
       });
     });
