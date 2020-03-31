@@ -94,9 +94,9 @@ export class Bard extends BaseProfession implements IProfession {
         stats
       };
 
-    }
+      player.$$game.festivalManager.startFestival(player, festival);
 
-    player.$$game.festivalManager.startFestival(player, festival);
+    }
 
     this.emitProfessionMessage(player, `You sing the song of your people!`);
     return { success: true, message: `You sing the song of your people!` };
