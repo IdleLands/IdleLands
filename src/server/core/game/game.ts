@@ -171,6 +171,7 @@ export class Game implements IGame {
 
       timer.startTimer(playerTimerName);
       await player.loop(this.ticks);
+      timer.stopTimer(playerTimerName);
 
       const charKey = player.name.slice(0, 1).toLowerCase();
       const timeout = this.timeoutMultiplier * (this.updateGroupTimeouts[charKey] || 0);
@@ -183,8 +184,6 @@ export class Game implements IGame {
         // this.logger.log(`Game`, `Saving player ${player.name}...`);
         this.databaseManager.savePlayer(player);
       }
-
-      timer.stopTimer(playerTimerName);
     });
 
     timer.startTimer('Guild Save');
