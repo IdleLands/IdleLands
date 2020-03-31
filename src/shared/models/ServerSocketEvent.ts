@@ -1,8 +1,12 @@
+
+import { LoggerTimer } from 'logger-timer';
+
 import { ServerEventName, IPlayer } from '../interfaces';
 import { Game } from '../../server/core/game/game';
 import { Player } from './entity';
 
 export class ServerSocketEvent {
+  protected timer: LoggerTimer;
 
   protected get playerName(): string {
     return this.socket.playerName;

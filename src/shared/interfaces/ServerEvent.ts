@@ -151,7 +151,7 @@ export enum PartyChannelOperation {
 }
 
 export interface ServerEvent {
-  event: string;
+  event: ServerEventName;
   description: string;
   args: string;
 

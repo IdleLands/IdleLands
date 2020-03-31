@@ -1,4 +1,4 @@
-import { Column, ObjectIdColumn } from 'typeorm';
+import { Column, ObjectIdColumn, Index } from 'typeorm';
 import { ObjectID } from 'mongodb';
 
 import { pickBy } from 'lodash';
@@ -10,6 +10,7 @@ export class PlayerOwned {
   // internal vars
   @ObjectIdColumn() public _id: ObjectID;
 
+  @Index()
   @Column()
   public owner: string;
 

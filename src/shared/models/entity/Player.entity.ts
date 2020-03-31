@@ -53,10 +53,15 @@ export class Player implements IPlayer {
   @Index({ unique: true })
   @Column() public userId: string;
   @Column() public currentUserId: string;
+
+  @Index()
   @Column() public banned: boolean;
+
+  @Index()
   @Column() public ips: string[];
   @Column() public ip: string;
 
+  @Index()
   @Column() public authId: string;
   @Column() public authSyncedTo: string;
   @Column() public authType: string;
@@ -453,26 +458,29 @@ export class Player implements IPlayer {
   }
 
   private checkStaminaTick() {
-    if(this.stamina.atMaximum()) {
-      this.nextStaminaTick = Date.now();
+    do {
+
+      if(this.stamina.atMaximum()) {
+        this.nextStaminaTick = Date.now();
         if(this.$personalities.isActive('Restless')) {
-        this.oocAction(2);
-      return;
+          this.oocAction(2);
+          return;
+        }
       }
-    }
 
-    if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
+      if(this.stamina.atMaximum() || Date.now() < this.nextStaminaTick) return;
 
-    this.increaseStatistic('Character/Stamina/Gain', 1);
-    this.stamina.add(1);
+      this.increaseStatistic('Character/Stamina/Gain', 1);
+      this.stamina.add(1);
 
-    this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
+      // TODO: figure out the delta #times instead of doing a loop
+      this.nextStaminaTick = this.nextStaminaTick + (STAMINA_TICK_BOOST * (this.$premiumData && this.$premiumData.tier ? 0.8 : 1));
 
-    if(this.$personalities.isActive('Restless') && this.stamina.atMaximum() && Date.now() < this.nextStaminaTick) {
-      this.oocAction(2);
-    }
+      if(this.$personalities.isActive('Restless') && this.stamina.atMaximum() && Date.now() < this.nextStaminaTick) {
+        this.oocAction(2);
+      }
 
-    if(Date.now() > this.nextStaminaTick) this.checkStaminaTick();
+    } while(Date.now() > this.nextStaminaTick);
   }
 
   private calculateStamina() {

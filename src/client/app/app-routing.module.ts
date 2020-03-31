@@ -10,28 +10,28 @@ import { TabGuildsPage } from './tab-guilds/tab-guilds.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
-  { path: 'map', loadChildren: './map/map.module#MapPageModule' },
-  { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
+  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule) },
+  { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapPageModule) },
+  { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule) },
 
   { path: 'accomplishments', component: TabAccomplishmentsPage, children: [
     {
       path: 'achievements',
       children: [
-        { path: '', loadChildren: './achievements/achievements.module#AchievementsPageModule' }
+        { path: '', loadChildren: () => import('./achievements/achievements.module').then(m => m.AchievementsPageModule) }
       ]
     },
     {
       path: 'collectibles',
       children: [
-        { path: '', loadChildren: './collectibles/collectibles.module#CollectiblesPageModule' }
+        { path: '', loadChildren: () => import('./collectibles/collectibles.module').then(m => m.CollectiblesPageModule) }
       ]
     },
     {
       path: 'statistics',
       children: [
-        { path: '', loadChildren: './statistics/statistics.module#StatisticsPageModule' }
+        { path: '', loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsPageModule) }
       ]
     },
     {
@@ -45,26 +45,26 @@ const routes: Routes = [
     {
       path: 'astral-gate',
       children: [
-        { path: '', loadChildren: './astral-gate/astral-gate.module#AstralGatePageModule' }
+        { path: '', loadChildren: () => import('./astral-gate/astral-gate.module').then(m => m.AstralGatePageModule) }
       ]
     },
     {
       path: 'ilp',
       children: [
-        { path: '', loadChildren: './premium/premium.module#PremiumPageModule' }
+        { path: '', loadChildren: () => import('./premium/premium.module').then(m => m.PremiumPageModule) }
       ]
     },
 
     { path: 'gold',
       children: [
-        { path: '', loadChildren: './premium-gold/premium-gold.module#PremiumGoldPageModule' }
+        { path: '', loadChildren: () => import('./premium-gold/premium-gold.module').then(m => m.PremiumGoldPageModule) }
       ]
     },
 
     {
       path: 'festivals',
       children: [
-        { path: '', loadChildren: './festivals/festivals.module#FestivalsPageModule' }
+        { path: '', loadChildren: () => import('./festivals/festivals.module').then(m => m.FestivalsPageModule) }
       ]
     },
     {
@@ -78,19 +78,19 @@ const routes: Routes = [
     {
       path: 'equipment',
       children: [
-        { path: '', loadChildren: './equipment/equipment.module#EquipmentPageModule' }
+        { path: '', loadChildren: () => import('./equipment/equipment.module').then(m => m.EquipmentPageModule) }
       ]
     },
     {
       path: 'inventory',
       children: [
-        { path: '', loadChildren: './inventory/inventory.module#InventoryPageModule' }
+        { path: '', loadChildren: () => import('./inventory/inventory.module').then(m => m.InventoryPageModule) }
       ]
     },
     {
       path: 'materials',
       children: [
-        { path: '', loadChildren: './enhancement-materials/enhancement-materials.module#EnhancementMaterialsPageModule' }
+        { path: '', loadChildren: () => import('./enhancement-materials/enhancement-materials.module').then(m => m.EnhancementMaterialsPageModule) }
       ]
     },
     {
@@ -104,25 +104,25 @@ const routes: Routes = [
     {
       path: 'me',
       children: [
-        { path: '', loadChildren: './character/character.module#CharacterPageModule' }
+        { path: '', loadChildren: () => import('./character/character.module').then(m => m.CharacterPageModule) }
       ]
     },
     {
       path: 'adventure-log',
       children: [
-        { path: '', loadChildren: './adventure-log/adventure-log.module#AdventureLogPageModule' }
+        { path: '', loadChildren: () => import('./adventure-log/adventure-log.module').then(m => m.AdventureLogPageModule) }
       ]
     },
     {
       path: 'choices',
       children: [
-        { path: '', loadChildren: './choices/choices.module#ChoicesPageModule' }
+        { path: '', loadChildren: () => import('./choices/choices.module').then(m => m.ChoicesPageModule) }
       ]
     },
     {
       path: 'personalities',
       children: [
-        { path: '', loadChildren: './personalities/personalities.module#PersonalitiesPageModule' }
+        { path: '', loadChildren: () => import('./personalities/personalities.module').then(m => m.PersonalitiesPageModule) }
       ]
     },
     {
@@ -136,25 +136,25 @@ const routes: Routes = [
     {
       path: 'all',
       children: [
-        { path: '', loadChildren: './petslist/petslist.module#PetslistPageModule' }
+        { path: '', loadChildren: () => import('./petslist/petslist.module').then(m => m.PetslistPageModule) }
       ]
     },
     {
       path: 'current',
       children: [
-        { path: '', loadChildren: './petcurrent/petcurrent.module#PetcurrentPageModule' }
+        { path: '', loadChildren: () => import('./petcurrent/petcurrent.module').then(m => m.PetcurrentPageModule) }
       ]
     },
     {
       path: 'gear',
       children: [
-        { path: '', loadChildren: './petcurrentequipment/petcurrentequipment.module#PetcurrentequipmentPageModule' }
+        { path: '', loadChildren: () => import('./petcurrentequipment/petcurrentequipment.module').then(m => m.PetcurrentequipmentPageModule) }
       ]
     },
     {
       path: 'adventures',
       children: [
-        { path: '', loadChildren: './adventures/adventures.module#AdventuresPageModule' }
+        { path: '', loadChildren: () => import('./adventures/adventures.module').then(m => m.AdventuresPageModule) }
       ]
     },
     {
@@ -168,13 +168,13 @@ const routes: Routes = [
     {
       path: 'personal',
       children: [
-        { path: '', loadChildren: './quests-personal/quests-personal.module#QuestsPersonalPageModule' }
+        { path: '', loadChildren: () => import('./quests-personal/quests-personal.module').then(m => m.QuestsPersonalPageModule) }
       ]
     },
     {
       path: 'global',
       children: [
-        { path: '', loadChildren: './quests-global/quests-global.module#QuestsGlobalPageModule' }
+        { path: '', loadChildren: () => import('./quests-global/quests-global.module').then(m => m.QuestsGlobalPageModule) }
       ]
     },
     {
@@ -184,29 +184,29 @@ const routes: Routes = [
     }
   ] },
 
-  { path: 'combat/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
+  { path: 'combat/:combatData', loadChildren: () => import('./combat/combat.module').then(m => m.CombatPageModule) },
 
-  { path: 's/c/:combatData', loadChildren: './combat/combat.module#CombatPageModule' },
+  { path: 's/c/:combatData', loadChildren: () => import('./combat/combat.module').then(m => m.CombatPageModule) },
 
-  { path: 'moderator', loadChildren: './moderator/moderator.module#ModeratorPageModule' },
+  { path: 'moderator', loadChildren: () => import('./moderator/moderator.module').then(m => m.ModeratorPageModule) },
 
   { path: 'guild', component: TabGuildsPage, children: [
     {
       path: 'overview',
       children: [
-        { path: '', loadChildren: './guild-overview/guild-overview.module#GuildOverviewPageModule' }
+        { path: '', loadChildren: () => import('./guild-overview/guild-overview.module').then(m => m.GuildOverviewPageModule) }
       ]
     },
     {
       path: 'buildings',
       children: [
-        { path: '', loadChildren: './guild-buildings/guild-buildings.module#GuildBuildingsPageModule' }
+        { path: '', loadChildren: () => import('./guild-buildings/guild-buildings.module').then(m => m.GuildBuildingsPageModule) }
       ]
     },
 
     { path: 'members',
       children: [
-        { path: '', loadChildren: './guild-manage/guild-manage.module#GuildManagePageModule' }
+        { path: '', loadChildren: () => import('./guild-manage/guild-manage.module').then(m => m.GuildManagePageModule) }
       ]
     },
     {
@@ -216,7 +216,7 @@ const routes: Routes = [
     }
   ] },
 
-  { path: 'guilds', loadChildren: './guild-none/guild-none.module#GuildNonePageModule' },
+  { path: 'guilds', loadChildren: () => import('./guild-none/guild-none.module').then(m => m.GuildNonePageModule) },
 
   { path: '**', redirectTo: 'home' }
 ];

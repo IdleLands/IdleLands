@@ -16,7 +16,7 @@ const names = [
 
 const loggedIn = {};
 
-const play = (name) => {
+const play = (name, num) => {
 
   const SocketCluster = require('socketcluster-client');
   const opts = { hostname: 'localhost', port: 8000, multiplex: false };
@@ -27,7 +27,7 @@ const play = (name) => {
   });
 
   socket.on('connect', () => {
-    console.log(`Logged in ${name}!`);
+    console.log(`Logged in ${name} (#${num})!`);
   
     setTimeout(() => {
   
@@ -63,4 +63,4 @@ if(chosenNames.length < PLAYER_COUNT) {
   }
 }
 
-chosenNames.forEach(name => play(name));
+chosenNames.forEach((name, i) => play(name, i));

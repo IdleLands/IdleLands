@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { GameService } from '../game.service';
 import { SocketClusterService } from '../socket-cluster.service';
 import { ServerEventName } from '../../../shared/interfaces';
@@ -11,10 +11,10 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements OnInit {
+export class ChatPage implements AfterViewInit {
 
-  @ViewChild('chatArea') private chatArea: any;
-  @ViewChild(IonList, { read: ElementRef }) private chatList: ElementRef;
+  @ViewChild('chatArea', { static: false }) private chatArea: any;
+  @ViewChild(IonList, { static: false, read: ElementRef }) private chatList: ElementRef;
   private mutationObserver: MutationObserver;
 
   public message: string;
@@ -25,7 +25,7 @@ export class ChatPage implements OnInit {
     private socketService: SocketClusterService
   ) { }
 
-  async ngOnInit() {
+  async ngAfterViewInit() {
 
     this.gameService.updateOptions();
 
