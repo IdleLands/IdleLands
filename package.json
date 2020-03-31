@@ -60,7 +60,7 @@
     "firebase-admin": "^7.0.0",
     "glob": "^7.1.4",
     "lodash": "^4.17.11",
-    "logger-timer": "^1.0.3",
+    "logger-timer": "^1.0.5",
     "lootastic": "^1.1.1",
     "lzutf8": "^0.5.5",
     "minimist": "1.2.2",
