@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, EventEmitter, Output, OnChanges, ElementRef } from '@angular/core';
 import { merge } from 'lodash';
 import { Sprite, SpriteCanvasHelper } from 'mixel';
 
@@ -13,7 +13,7 @@ import { IItem, ItemSlot } from '../../../../shared/interfaces';
 })
 export class ItemComponent implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild('canvasContainer', { static: false })
+  @ViewChild('canvasContainer', { static: false, read: ElementRef })
   public canvasContainer;
 
   private _item: IItem;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { IonContent, PopoverController } from '@ionic/angular';
 
 import { compact, difference, get } from 'lodash';
@@ -391,7 +391,7 @@ class GameState extends Phaser.State {
 })
 export class MapPage implements OnInit, OnDestroy {
 
-  @ViewChild(IonContent, { static: false })
+  @ViewChild(IonContent, { static: false, read: ElementRef })
   private content: IonContent;
 
   public ddStepsLeft: number;

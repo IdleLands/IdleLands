@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Platform, ModalController, AlertController, IonMenu } from '@ionic/angular';
@@ -13,7 +13,7 @@ import { sample } from 'lodash';
 
 import { GameService } from './game.service';
 import { SocketClusterService } from './socket-cluster.service';
-import { IPlayer, ServerEventName, IPet } from '../../shared/interfaces';
+import { IPlayer, ServerEventName } from '../../shared/interfaces';
 import { UiService } from './ui.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { UiService } from './ui.service';
 })
 export class AppComponent {
 
-  @ViewChild('playerMenu', { static: false })
+  @ViewChild('playerMenu', { static: false, read: ElementRef })
   public playerMenu: IonMenu;
 
   public a2hsPrompt: any;
