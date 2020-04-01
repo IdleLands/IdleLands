@@ -81,19 +81,12 @@ export class GameWorker extends SCWorker {
 
         socket.on(evtInst.event, async (args) => {
 
-          if(socket.playerName) {
-            console.log(`Player ${socket.playerName} doing action ${evtInst.event} - current?
-            ${evtInst.isDoingSomething}, player? ${!!socket.player}`, socket.game.playerManager);
-          }
-
           if(evtInst.isDoingSomething) return;
 
           const timerName = `Event (${socket.playerName || 'Unauthenticated'}): ${evtInst.event}`;
           // evtInst.timer.startTimer(timerName);
           evtInst.isDoingSomething = true;
-          console.log('start', evtInst.event);
           await evtInst.callback(args || { });
-          console.log('end', evtInst.event);
           evtInst.isDoingSomething = false;
           // evtInst.timer.stopTimer(timerName);
 
