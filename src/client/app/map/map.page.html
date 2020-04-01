@@ -16,7 +16,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #content>
   <div class="help" *ngIf="gameText | async as text" [class.ion-hide]="text.length === 0">
     <div *ngFor="let line of text" class="help-line">{{ line }}</div>
   </div>

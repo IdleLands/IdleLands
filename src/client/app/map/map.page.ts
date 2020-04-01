@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { IonContent, PopoverController } from '@ionic/angular';
 
 import { compact, difference, get } from 'lodash';
@@ -389,10 +389,10 @@ class GameState extends Phaser.State {
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
 })
-export class MapPage implements OnInit, OnDestroy {
+export class MapPage implements AfterViewInit, OnDestroy {
 
-  @ViewChild(IonContent, { static: false, read: ElementRef })
-  private content: IonContent;
+  @ViewChild('content', { static: false, read: ElementRef })
+  private content: any;
 
   public ddStepsLeft: number;
 
@@ -407,8 +407,8 @@ export class MapPage implements OnInit, OnDestroy {
     public gameService: GameService
   ) { }
 
-  async ngOnInit() {
-    const el = await this.content.getScrollElement();
+  async ngAfterViewInit() {
+    const el = await this.content.nativeElement;
 
     (<any>window).PhaserGlobal = { hideBanner: true };
 
