@@ -44,6 +44,8 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
   private canvas: HTMLCanvasElement;
 
   private recalculateImage() {
+    if(!this.canvasContainer) return;
+
     if(this.canvas) this.canvas.remove();
     if(this.item.name === 'nothing' || !this.item) {
       return;
