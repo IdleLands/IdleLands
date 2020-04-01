@@ -55,10 +55,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.playGameCb = async () => this.router.navigate([await this.storage.get('lastUrl') || '/character']);
     this.socketService.register(ServerEventName.PlayGame, this.playGameCb);
 
-    this.user$ = combineLatest(
+    this.user$ = combineLatest([
       this.gameService.userId$,
       this.socketService.status$
-    ).subscribe(([userId, status]) => {
+    ]).subscribe(([userId, status]) => {
       this.userId = userId;
 
       if(status === Status.Disconnected) {

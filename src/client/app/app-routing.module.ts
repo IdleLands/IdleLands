@@ -90,7 +90,8 @@ const routes: Routes = [
     {
       path: 'materials',
       children: [
-        { path: '', loadChildren: () => import('./enhancement-materials/enhancement-materials.module').then(m => m.EnhancementMaterialsPageModule) }
+        { path: '', loadChildren: () => import('./enhancement-materials/enhancement-materials.module')
+        .then(m => m.EnhancementMaterialsPageModule) }
       ]
     },
     {
@@ -148,7 +149,8 @@ const routes: Routes = [
     {
       path: 'gear',
       children: [
-        { path: '', loadChildren: () => import('./petcurrentequipment/petcurrentequipment.module').then(m => m.PetcurrentequipmentPageModule) }
+        { path: '', loadChildren: () => import('./petcurrentequipment/petcurrentequipment.module')
+        .then(m => m.PetcurrentequipmentPageModule) }
       ]
     },
     {
