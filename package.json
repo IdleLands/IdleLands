@@ -63,7 +63,7 @@
     "logger-timer": "^1.0.5",
     "lootastic": "^1.1.1",
     "lzutf8": "^0.5.5",
-    "minimist": "1.2.2",
+    "minimist": "1.2.3",
     "mixel": "^1.0.4",
     "mongodb": "^3.1.13",
     "morgan": "1.9.1",
