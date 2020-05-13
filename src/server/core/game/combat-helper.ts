@@ -185,6 +185,7 @@ export class CombatHelper {
         Object.values(combat.characters)
           .filter(char => char.combatPartyId === 0)
           .forEach(char => {
+            if(!char.realName) return;
 
             const playerRef = this.playerManager.getPlayer(char.realName);
             if(!playerRef) return;
