@@ -48,7 +48,7 @@ static descriptionForTier(tier: number): string {
     }
 
     if(tier >= 3) {
-      { type: AchievementRewardType.Title, title: 'Colorful' };
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Colorful' });
     }
 
     return baseRewards;
