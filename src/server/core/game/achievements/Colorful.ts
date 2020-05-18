@@ -44,13 +44,11 @@ static descriptionForTier(tier: number): string {
     ];
 
     if(tier >= 2) {
-     baseRewards.push({ type: AchievementRewardType.StatMultipliers, stats: {
-        [Stat.GOLD]: 1.02
-      } });
+      baseRewards.push({ type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.ChoiceLogSizeBoost]: 1 } });
     }
 
     if(tier >= 3) {
-      baseRewards.push({ type: AchievementRewardType.PermanentUpgrade, upgrades: { [PermanentUpgrade.ChoiceLogSizeBoost]: 1 } });
+      { type: AchievementRewardType.Title, title: 'Colorful' };
     }
 
     return baseRewards;
