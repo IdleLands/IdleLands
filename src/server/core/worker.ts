@@ -74,26 +74,29 @@ export class GameWorker extends SCWorker {
     scServer.on('connection', (socket) => {
 
       Object.values(allEvents).forEach((EvtCtor: any) => {
+
+        /*
         const timer = new LoggerTimer({
           isActive: process.env.DEBUG_TIMERS,
           dumpThreshold: process.env.NODE_ENV === 'production' ? 50 : 1
         });
+        */
 
         const evtInst = new EvtCtor(game, socket);
-        evtInst.timer = timer;
+        // evtInst.timer = timer;
 
         socket.on(evtInst.event, async (args) => {
 
           if(evtInst.isDoingSomething) return;
 
-          const timerName = `Event (${socket.playerName || 'Unauthenticated'}): ${evtInst.event}`;
-          evtInst.timer.startTimer(timerName);
+          // const timerName = `Event (${socket.playerName || 'Unauthenticated'}): ${evtInst.event}`;
+          // evtInst.timer.startTimer(timerName);
           evtInst.isDoingSomething = true;
           await evtInst.callback(args || { });
           evtInst.isDoingSomething = false;
-          evtInst.timer.stopTimer(timerName);
+          // evtInst.timer.stopTimer(timerName);
 
-          evtInst.timer.dumpTimers();
+          // evtInst.timer.dumpTimers();
         });
       });
     });
