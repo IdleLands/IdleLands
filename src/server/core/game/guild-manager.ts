@@ -1,7 +1,7 @@
 
 import * as Chance from 'chance';
 import { AutoWired, Singleton, Inject } from 'typescript-ioc';
-import { set, flatten } from 'lodash';
+import { set, flatten, pick } from 'lodash';
 import { DatabaseManager } from './database-manager';
 import { GuildMemberTier, Channel, GuildChannelOperation, IItem, EventName,
   IBuffScrollItem, GuildBuilding, AllBaseStats, Stat,
@@ -13,7 +13,6 @@ import { DiscordManager } from './discord-manager';
 import { ItemGenerator } from './item-generator';
 import { CombatHelper } from './combat-helper';
 import { CombatAction } from '../../../shared/combat/combat-simulator';
-import { isNumber } from 'lodash';
 
 @Singleton
 @AutoWired
@@ -39,6 +38,13 @@ export class GuildManager {
     this.subscribeToGuilds();
 
     this.guildRaidReadyPlayers = { };
+  }
+
+  public briefGuilds() {
+    return Object.values(this.guilds)
+      .filter(g => g.recruitment !== 'Closed')
+      .filter(g => Object.keys(g.members).length > 0)
+      .map(guild => pick(guild, ['buildingLevels', 'name', 'tag', 'recruitment']));
   }
 
   public isGuildRaiding(guildName: string): boolean {

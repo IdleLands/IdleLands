@@ -157,7 +157,10 @@ export class Game implements IGame {
   }
 
   public loop() {
-    const timer = new LoggerTimer({ isActive: process.env.DEBUG_TIMERS, dumpThreshold: 50 });
+    const timer = new LoggerTimer({
+      isActive: process.env.DEBUG_TIMERS,
+      dumpThreshold: process.env.NODE_ENV === 'production' ? 50 : 1
+    });
 
     const timerName = `GameLoop (${this.playerManager.allPlayers.length} players)`;
     timer.startTimer(timerName);

@@ -8,11 +8,7 @@ export class GuildsAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/guilds/all', async (req, res) => {
-      let guilds = [];
-
-      try {
-        guilds = (await game.databaseManager.loadBriefGuilds());
-      } catch(e) { }
+      const guilds = game.guildManager.briefGuilds();
 
       res.json({ guilds });
     });
@@ -26,11 +22,7 @@ export class GuildAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/guilds/name', async (req, res) => {
-      let guild = { };
-
-      try {
-        guild = (await game.databaseManager.loadGuild(req.query.name));
-      } catch(e) { }
+      const guild = game.guildManager.getGuild(req.query.name) || { };
 
       res.json({ guild });
     });

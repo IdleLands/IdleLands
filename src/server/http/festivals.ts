@@ -8,11 +8,7 @@ export class FestivalsAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/festivals', async (req, res) => {
-      let festivals = [];
-
-      try {
-        festivals = (await game.databaseManager.loadFestivals()).festivals;
-      } catch(e) { }
+      const festivals = (game.festivalManager as any).festivals.festivals;
 
       res.json({ festivals });
     });
