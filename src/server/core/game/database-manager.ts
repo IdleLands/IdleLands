@@ -66,7 +66,8 @@ export class DatabaseManager {
     if(!this.connection) return null;
 
     try {
-      const player = await this.connection.manager.findOne(Player, query);
+      const player = await this.connection.manager.findOne(Player, { where: query, select: ['name', 'loggedIn'] });
+      console.log(player);
       return player;
 
     } catch(e) {
