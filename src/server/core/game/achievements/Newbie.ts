@@ -21,6 +21,7 @@ export class Newbie extends Achievement {
     return [
       { type: AchievementRewardType.Stats, stats: { [Stat.XP]: 5 } },
       { type: AchievementRewardType.Title, title: 'Newbie' },
+      { type: AchievementRewardType.Title, title: 'Logged In' },
       { type: AchievementRewardType.Personality, personality: 'Affirmer' },
       { type: AchievementRewardType.Personality, personality: 'Denier' },
       { type: AchievementRewardType.Personality, personality: 'Indecisive' }
