@@ -6,9 +6,11 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "node dist/out-tsc/server/server/index.js --inspect-workers",
+    "start": "node dist/out-tsc/server/server/index.js",
+    "start:debug": "TYPEORM_ENTITIES=dist/out-tsc/server/shared/models/entity/**/*.js NODE_ENV=production node dist/out-tsc/server/server/index.js --inspect-workers",
     "start:client": "ng serve -o --host 0.0.0.0 --port 2468",
     "start:server": "ts-node --project src/server/tsconfig.server.json src/server/index.ts",
+    "start:server:debug": "ts-node --project src/server/tsconfig.server.json src/server/index.ts -- --inspect-workers",
     "build:client": "ng build --prod",
     "build:server": "tsc --project src/server/tsconfig.server.json",
     "test": "npm run test:client && npm run test:server",
@@ -47,7 +49,7 @@
     "connect": "3.6.6",
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
-    "discord.js": "^12.0.2",
+    "discord.js": "12.0.2",
     "dotenv": "^6.2.0",
     "download-github-repo": "^0.1.4",
     "erlpack": "^0.1.3",
@@ -116,6 +118,6 @@
     "tslint": "~5.12.0"
   },
   "engines": {
-    "node": "12.x"
+    "node": "10.0.0"
   }
 }

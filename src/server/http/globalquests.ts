@@ -8,11 +8,7 @@ export class GlobalQuestsAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/globalquests', async (req, res) => {
-      let globalQuests = [];
-
-      try {
-        globalQuests = (await game.databaseManager.loadGlobalQuests()).globalQuests;
-      } catch(e) { }
+      const globalQuests = (game.globalQuestManager as any).globalQuests.globalQuests;
 
       res.json({ globalQuests });
     });

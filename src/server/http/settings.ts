@@ -8,12 +8,7 @@ export class SettingsAPICall extends ServerAPICall {
 
   static init(app, game: Game) {
     app.get('/settings', async (req, res) => {
-      let settings = { };
-
-      try {
-        settings = (await game.databaseManager.loadSettings());
-        delete (settings as any)._id;
-      } catch(e) { }
+      const settings = (game.gmHelper as any).settings;
 
       res.json(settings);
     });

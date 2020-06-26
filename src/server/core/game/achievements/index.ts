@@ -20,6 +20,7 @@ export * from './Boxer';
 export * from './Camper';
 export * from './Classfluid';
 export * from './Collector';
+export * from './Colorful';
 export * from './Comedian';
 export * from './Consumerist';
 export * from './Contributor';
