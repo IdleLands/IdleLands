@@ -425,8 +425,8 @@ export class GuildManager {
     const guild = this.getGuild(guildName);
     if(!guild) return;
 
-    guild.nextRaidAvailability = guild.nextRaidAvailability || { };
-    if(Date.now() < guild.nextRaidAvailability[boss.level]) return false;
+    guild.nextRaidAvailability = guild.nextRaidAvailability || 0;
+    if(Date.now() < guild.nextRaidAvailability) return false;
 
     this.guildRaidReadyPlayers = this.guildRaidReadyPlayers || { };
     this.guildRaidReadyPlayers[guildName] = this.guildRaidReadyPlayers[guildName] || [];
@@ -457,7 +457,8 @@ export class GuildManager {
 
           // if a raid is beaten, it goes on CD for 30 mins (+1 min per 50 boss levels)
           if(data.winningParty === 0) {
-            guild.nextRaidAvailability[boss.level] = Date.now() + (30 + (boss.level / 50)) * 60 * 1000;
+
+            guild.nextRaidAvailability = Date.now() + (30 + (boss.level / 50)) * 60 * 1000;
             this.saveGuild(guild);
           }
 
