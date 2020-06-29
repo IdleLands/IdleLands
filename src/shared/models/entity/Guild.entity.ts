@@ -1,6 +1,6 @@
 
 import { Entity, ObjectIdColumn, Column, Index } from 'typeorm';
-import { isNumber } from 'lodash';
+import { isNumber, isObject } from 'lodash';
 
 import { IGuild, GuildRecruitMode, GuildResource, GuildBuilding,
    GuildMemberTier, Stat, GuildBuildingLevelValues, IGame, IGuildMember } from '../../interfaces';
@@ -29,7 +29,7 @@ export class Guild implements IGuild {
   @Column() public nextTick: number;
   @Column() public factoryTick: number;
   @Column() public nextProcs: { [key in GuildBuilding]?: number };
-  @Column() public nextRaidAvailability: { [key: string]: number };
+  @Column() public nextRaidAvailability: number;
 
   public init() {
     if(!this.createdAt) this.createdAt = Date.now();
@@ -64,7 +64,8 @@ export class Guild implements IGuild {
     if(!this.nextTick) this.nextTick = Date.now() + (60 * 60 * 1000);
     if(!this.factoryTick) this.factoryTick = this.nextTick;
     if(!this.nextProcs) this.nextProcs = { };
-    if(!this.nextRaidAvailability) this.nextRaidAvailability = { };
+
+    if(!this.nextRaidAvailability || isObject(this.nextRaidAvailability)) this.nextRaidAvailability = 0;
   }
 
   public updateGuildMember(player: any) {

@@ -273,7 +273,7 @@ export interface IGuild {
   buildingLevels: { [key in GuildBuilding]?: number };
 
   members: { [key: string]: IGuildMember };
-  nextRaidAvailability: { [key: string]: number };
+  nextRaidAvailability: number;
 
 }
 
