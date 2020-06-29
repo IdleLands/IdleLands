@@ -77,6 +77,8 @@ export class AuthService {
                   res = await this.afAuth.auth.createUserWithEmailAndPassword(emailAddress, password);
                 } catch(e) {
                   error = e;
+                  console.error(`Error creating user. Will try to log in next.`);
+                  console.error(e);
                 }
 
                 if(error && error.code === 'auth/email-already-in-use') {
@@ -85,6 +87,8 @@ export class AuthService {
                     error = null;
                   } catch(e) {
                     error = e;
+                    console.error(`Also failed to log in with "email already in use". No more to do.`);
+                    console.error(e);
                   }
                 }
 
