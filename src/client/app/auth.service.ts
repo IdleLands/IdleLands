@@ -114,6 +114,7 @@ export class AuthService {
           resolve(res);
           return;
         } catch(e) {
+          console.error(e);
           alert('Sorry! OAuth login/sync is not supported in IdleLands desktop at this time. Please use the PWA or Web version.');
         }
       }
