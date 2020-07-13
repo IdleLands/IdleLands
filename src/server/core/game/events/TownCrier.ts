@@ -55,6 +55,12 @@ const townCrierMessages = [
     origin: 'system'
   },
   {
+    message: `Looking for a single player incremental to manage heroes and send them on adventures?
+    Check out Rasterkhann - it's a single player incremental made by the creator of IdleLands!`,
+    link: 'https://rasterkhann.com',
+    origin: 'system'
+  },
+  {
     message: `Want to see the global leaderboards? Check it out!`,
     link: 'https://global.idle.land/leaderboard',
     origin: 'system'
