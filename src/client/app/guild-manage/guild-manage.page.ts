@@ -7,6 +7,7 @@ import { ServerEventName, GuildMemberTier, IGuildApplication,
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { sortBy } from 'lodash';
 
 @Component({
   selector: 'app-guild-manage',
@@ -31,6 +32,13 @@ export class GuildManagePage implements OnInit {
 
   ngOnInit() {
     this.loadData();
+  }
+  
+  public getMemberList(memberHash) {
+    return sortBy(
+      Object.keys(memberHash).map(p => ({ key: p, value: memberHash[p] })),
+      p => p.key.toLowerCase()
+    );
   }
 
   public timeString(milliseconds) {
