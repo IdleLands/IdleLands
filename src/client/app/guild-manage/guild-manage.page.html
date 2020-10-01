@@ -51,7 +51,7 @@
         </ion-item>
 
         <ion-list-header>Members</ion-list-header>
-        <ion-item *ngFor="let member of guild.members | keyvalue">
+        <ion-item *ngFor="let member of getMemberList(guild.members)">
           <ion-icon slot="start" *ngIf="member.value.rank === 1" name="star-outline"></ion-icon>
           <ion-icon slot="start" *ngIf="member.value.rank === 5" name="star-half"></ion-icon>
           <ion-icon slot="start" *ngIf="member.value.rank === 10" name="star"></ion-icon>
