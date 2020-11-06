@@ -73,6 +73,7 @@ export class Player implements IPlayer {
 
   @Column() public discordTag: string;
   @Column() public il3CharName: string;
+  @Column() public overridePremiumTier: PremiumTier;
 
   @Column() public createdAt: number;
   @Column() public loggedIn: boolean;
@@ -1274,11 +1275,13 @@ export class Player implements IPlayer {
   }
 
   public setDiscordTag(discordTag: string) {
+    const overrideTier = this.overridePremiumTier;
+    
     if(!discordTag) {
       this.$$game.discordManager.removeAllRoles(this);
       this.discordTag = '';
       this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
-      this.$premium.setTier(PremiumTier.None);
+      this.$premium.setTier(overridePremiumTier || PremiumTier.None);
       return;
     }
 
@@ -1294,6 +1297,6 @@ export class Player implements IPlayer {
 
     this.$$game.discordManager.checkUserRoles(this);
 
-    this.$premium.setTier(newPremium);
+    this.$premium.setTier(overridePremiumTier || newPremium);
   }
 }
