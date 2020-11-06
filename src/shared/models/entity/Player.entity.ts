@@ -1281,7 +1281,7 @@ export class Player implements IPlayer {
       this.$$game.discordManager.removeAllRoles(this);
       this.discordTag = '';
       this.$statistics.set('Game/Contributor/ContributorTier', ContributorTier.None);
-      this.$premium.setTier(overridePremiumTier || PremiumTier.None);
+      this.$premium.setTier(overrideTier || PremiumTier.None);
       return;
     }
 
@@ -1297,6 +1297,6 @@ export class Player implements IPlayer {
 
     this.$$game.discordManager.checkUserRoles(this);
 
-    this.$premium.setTier(overridePremiumTier || newPremium);
+    this.$premium.setTier(overrideTier || newPremium);
   }
 }
