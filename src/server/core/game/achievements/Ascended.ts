@@ -42,6 +42,9 @@ export class Ascended extends Achievement {
     if(tier >= 50) {
       baseStr = `${baseStr} Title: Ascended².`;
     }
+    
+    if(tier >= 100) {
+      baseStr = `${baseStr} Title: Ascented.`;
 
     return baseStr;
   }
@@ -89,6 +92,10 @@ export class Ascended extends Achievement {
 
     if(tier >= 50) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Ascended²' });
+    }
+
+    if(tier >= 100) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Ascented' });
     }
 
     return baseRewards;
