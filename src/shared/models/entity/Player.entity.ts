@@ -1276,7 +1276,7 @@ export class Player implements IPlayer {
 
   public setDiscordTag(discordTag: string) {
     const overrideTier = this.overridePremiumTier;
-    
+
     if(!discordTag) {
       this.$$game.discordManager.removeAllRoles(this);
       this.discordTag = '';
