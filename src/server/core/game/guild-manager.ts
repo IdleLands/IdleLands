@@ -141,11 +141,11 @@ export class GuildManager {
   }
 
   public async createGuildObject(owner: string, name: string, tag: string): Promise<Guild> {
-    
+
     if(some(Object.values(this.guilds), g => g.tag.toLowerCase() === tag.toLowerCase())) {
       throw new Error('Could not create guild with duplicate tag');
     }
-    
+
     const guild = new Guild();
     guild.name = name;
     guild.tag = tag;
