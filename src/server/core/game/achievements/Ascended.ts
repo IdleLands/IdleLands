@@ -42,7 +42,7 @@ export class Ascended extends Achievement {
     if(tier >= 50) {
       baseStr = `${baseStr} Title: Ascended².`;
     }
-    
+
     if(tier >= 100) {
       baseStr = `${baseStr} Title: Ascented.`;
     }
