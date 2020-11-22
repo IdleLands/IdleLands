@@ -45,6 +45,7 @@ export class Ascended extends Achievement {
     
     if(tier >= 100) {
       baseStr = `${baseStr} Title: Ascented.`;
+    }
 
     return baseStr;
   }
