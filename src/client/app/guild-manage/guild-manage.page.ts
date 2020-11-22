@@ -33,7 +33,7 @@ export class GuildManagePage implements OnInit {
   ngOnInit() {
     this.loadData();
   }
-  
+
   public getMemberList(memberHash) {
     return sortBy(
       Object.keys(memberHash).map(p => ({ key: p, value: memberHash[p] })),
