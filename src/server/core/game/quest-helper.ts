@@ -214,7 +214,7 @@ export class QuestHelper {
     );
 
     const objectives = [];
-    objectives.push(this.createObjective(opts.scalar, opts.map, 10));
+    objectives.push(this.createObjective(opts.scalar - 1, opts.map, 10));
     objectives.push(this.createObjective(opts.scalar - 1, opts.map, 10));
     objectives.push(this.createObjective(opts.scalar - 2, opts.map, 10));
     objectives.push(this.createObjective(opts.scalar - 3, opts.map, 10));
