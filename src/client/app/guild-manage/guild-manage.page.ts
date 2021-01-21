@@ -19,7 +19,7 @@ export class GuildManagePage implements OnInit {
   public appinvs: IGuildApplication[] = [];
 
   public get maxMembers(): number {
-    return GuildBuildingLevelValues[GuildBuilding.Academy](this.gameService.guild.buildingLevels[GuildBuilding.Academy]);
+    return 0; // GuildBuildingLevelValues[GuildBuilding.Academy](this.gameService.guild.buildingLevels[GuildBuilding.Academy]);
   }
 
   constructor(
@@ -42,6 +42,9 @@ export class GuildManagePage implements OnInit {
   }
 
   public timeString(milliseconds) {
+    return 'unknown';
+
+    /*
     if (!milliseconds) {
       return 'a long time';
     }
@@ -70,6 +73,7 @@ export class GuildManagePage implements OnInit {
     });
 
     return stamp.join(', ');
+    */
   }
 
   loadData() {
