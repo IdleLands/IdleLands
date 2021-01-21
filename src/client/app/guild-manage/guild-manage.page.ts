@@ -34,13 +34,6 @@ export class GuildManagePage implements OnInit {
     this.loadData();
   }
 
-  public getMemberList(memberHash) {
-    return sortBy(
-      Object.keys(memberHash).map(p => ({ key: p, value: memberHash[p] })),
-      p => p.key.toLowerCase()
-    );
-  }
-
   public timeString(milliseconds) {
     return 'unknown';
 

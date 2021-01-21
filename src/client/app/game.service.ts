@@ -124,6 +124,7 @@ export class GameService {
   public gameSettings: any = { };
 
   public guild: IGuild;
+  public guildMembers: any[];
 
   public get isGuildMod(): boolean {
     if(!this.guild || !this.currentPlayer) return false;
@@ -773,6 +774,11 @@ export class GameService {
         .pipe(map((x: any) => x.guild))
         .subscribe(guild => {
           this.guild = guild;
+
+          this.guildMembers = sortBy(
+            Object.keys(guild.members).map(p => ({ key: p, value: guild.members[p] })),
+            p => p.key.toLowerCase()
+          );
         });
     });
   }
