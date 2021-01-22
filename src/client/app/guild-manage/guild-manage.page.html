@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Guild Members <span *ngIf="gameService.guild">({{ gameService.guildMembers.length }}/{{ maxMembers }})</span>
+      Guild Members <span *ngIf="gameService.guild">({{ (gameService.guild.members | keyvalue).length }}/{{ maxMembers }})</span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="invite()">
@@ -13,7 +13,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+  
 
 <ion-content>
   <div class="blank-slate" *ngIf="!gameService.guild">
@@ -25,17 +25,17 @@
       <ion-list>
         <ion-list-header *ngIf="appinvs.length > 0 && gameService.isGuildMod">Applications / Invites</ion-list-header>
         <ion-item *ngFor="let appinv of appinvs" [class.ion-hide]="!gameService.isGuildMod">
-
+          
           <ion-label *ngIf="gameService.playerInfoHash[appinv.playerName] as player">
             <h3 class="vertical-center">
                 {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
             </h3>
             <p class="vertical-center ion-margin-start">
-              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>
+              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
               &nbsp; {{ player.profession }}
             </p>
           </ion-label>
-
+          
           <ion-label *ngIf="!gameService.playerInfoHash[appinv.playerName]">
             <h3 class="vertical-center">
               {{ appinv.playerName }}
@@ -51,27 +51,27 @@
         </ion-item>
 
         <ion-list-header>Members</ion-list-header>
-        <ion-item *ngFor="let member of gameService.guildMembers">
+        <ion-item *ngFor="let member of membersSorted">
           <ion-icon slot="start" *ngIf="member.value.rank === 1" name="star-outline"></ion-icon>
           <ion-icon slot="start" *ngIf="member.value.rank === 5" name="star-half"></ion-icon>
           <ion-icon slot="start" *ngIf="member.value.rank === 10" name="star"></ion-icon>
-
+          
           <ion-label *ngIf="gameService.playerInfoHash[member.key] as player">
             <h3 class="vertical-center">
                 {{ player.name }}<span *ngIf="player.title">, the {{ player.title }}</span>
             </h3>
             <p class="vertical-center ion-margin-start">
-              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>
+              <ion-badge color="secondary"><span *ngIf="player.ascensionLevel">{{ player.ascensionLevel }}★</span>{{ player.level }}</ion-badge>                
               &nbsp; {{ player.profession }}
             </p>
           </ion-label>
-
+          
           <ion-label *ngIf="!gameService.playerInfoHash[member.key]">
             <h3 class="vertical-center">
               {{ member.key }}
             </h3>
             <p class="vertical-center ion-margin-start" *ngIf="member.value.profession">
-              <ion-badge color="secondary"><span *ngIf="member.value.ascensionLevel">{{ member.value.ascensionLevel }}★</span>{{ member.value.level.__current }}</ion-badge>
+              <ion-badge color="secondary"><span *ngIf="member.value.ascensionLevel">{{ member.value.ascensionLevel }}★</span>{{ member.value.level.__current }}</ion-badge>                
               &nbsp; {{ member.value.profession }} (Offline)
             </p>
             <p class="vertical-center ion-margin-start" *ngIf="member.value.lastOnline">Last Online {{ timeString(member.value.lastOnline) }} ago</p>
@@ -80,21 +80,21 @@
             </p>
           </ion-label>
 
-          <ion-button slot="end"
-                      *ngIf="member.key === gameService.playerRef.name"
+          <ion-button slot="end" 
+                      *ngIf="member.key === gameService.playerRef.name" 
                       (click)="leave()"
                       color="danger">Leave</ion-button>
-          <ion-button slot="end"
-                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value.rank === 1"
+          <ion-button slot="end" 
+                      *ngIf="member.key !== gameService.playerRef.name && gameService.isGuildMod && member.value.rank === 1" 
                       (click)="kick(member.key)"
                       color="danger">Kick</ion-button>
-          <ion-button slot="end"
-                      *ngIf="member.key !== gameService.playerRef.name && member.value.rank !== 1 && gameService.isGuildLeader"
+          <ion-button slot="end" 
+                      *ngIf="member.key !== gameService.playerRef.name && member.value.rank !== 1 && gameService.isGuildLeader" 
                       (click)="demote(member.key)"
                       color="warning">Demote</ion-button>
-          <ion-button slot="end"
+          <ion-button slot="end" 
                       *ngIf="member.key !== gameService.playerRef.name && member.value.rank !== 10 && gameService.isGuildLeader"
-                      (click)="promote(member.key)"
+                      (click)="promote(member.key)" 
                       color="warning">Promote</ion-button>
         </ion-item>
       </ion-list>

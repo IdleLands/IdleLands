@@ -17,9 +17,10 @@ import { sortBy } from 'lodash';
 export class GuildManagePage implements OnInit {
 
   public appinvs: IGuildApplication[] = [];
+  public membersSorted: any = [];
 
   public get maxMembers(): number {
-    return 0; // GuildBuildingLevelValues[GuildBuilding.Academy](this.gameService.guild.buildingLevels[GuildBuilding.Academy]);
+    return GuildBuildingLevelValues[GuildBuilding.Academy](this.gameService.guild.buildingLevels[GuildBuilding.Academy]);
   }
 
   constructor(
@@ -35,9 +36,6 @@ export class GuildManagePage implements OnInit {
   }
 
   public timeString(milliseconds) {
-    return 'unknown';
-
-    /*
     if (!milliseconds) {
       return 'a long time';
     }
@@ -66,7 +64,6 @@ export class GuildManagePage implements OnInit {
     });
 
     return stamp.join(', ');
-    */
   }
 
   loadData() {
@@ -79,6 +76,13 @@ export class GuildManagePage implements OnInit {
       .subscribe(appinvs => {
         this.appinvs = appinvs;
       });
+    
+    this.membersSorted = sortBy(
+      Object.keys(this.gameService.guild.members).map(p => ({ key: p, value: this.gameService.guild.members[p] })),
+      p => p.key.toLowerCase()
+    );
+    
+    
   }
 
   async leave() {
