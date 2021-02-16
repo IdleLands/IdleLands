@@ -88,7 +88,7 @@
     "socketcluster": "^14.3.2",
     "socketcluster-client": "^14.2.1",
     "stripe": "^7.8.0",
-    "systeminformation": "^4.14.8",
+    "systeminformation": "^5.3.1",
     "tslib": "^1.10.0",
     "typeorm": "0.2.22",
     "typescript": "3.8.3",
