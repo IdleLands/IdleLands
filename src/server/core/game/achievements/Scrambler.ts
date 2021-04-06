@@ -15,7 +15,7 @@ export class Scrambler extends Achievement {
   }
 
   static calculateTier(player: Player): number {
-    const steps = player.$statistics.get('Character/Movement/Teleporter');
+    const steps = player.$statistics.get('Character/Movement/Teleport');
     return steps >= Scrambler.base ? 1 : 0;
   }
 
