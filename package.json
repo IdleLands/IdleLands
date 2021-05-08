@@ -90,7 +90,7 @@
     "stripe": "^7.8.0",
     "systeminformation": "^4.14.8",
     "tslib": "^1.10.0",
-    "typeorm": "0.2.22",
+    "typeorm": "0.2.25",
     "typescript": "3.8.3",
     "typescript-ioc": "^1.2.5",
     "utf-8-validate": "^5.0.2",
