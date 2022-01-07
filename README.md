@@ -14,6 +14,7 @@ The game is only tested against MongoDB. TypeORM currently lacks support for joi
 
 Additionally, it is recommended to set up a mLab account for your MongoDB tests or you can use our `docker-compose`, which you can run locally via `docker-compose up`.
 This will spin up two Docker containers. First one will be your MongoDB database and the second one is tool called Mongo Express. Here you can manage your database collections very easily.
+You may need to run the `docker-compose` command using `sudo` and make sure that you kill all instances of MongoDB server before you execute the command.
 
 To connect to Docker MongoDB instance create `.env` file (see `Environment Variables`) and set `TYPEORM_URL` environment variable to: `mongodb://admin-user:admin-password@127.0.0.1:27017/admin?retryWrites=true&w=majority`.
 
@@ -44,6 +45,14 @@ Create a `.env` file in the root of the cloned project and fill it with these va
 * `TYPEORM_URL` - the URL to connect to the DB
 * `TYPEORM_SYNCHRONIZE` - set to `true`
 * `TYPEORM_ENTITIES` - set to `src/shared/models/entity/**/*.ts`
+
+Example:
+```
+TYPEORM_CONNECTION=mongodb
+TYPEORM_URL=mongodb://admin-user:admin-password@127.0.0.1:27017/admin?retryWrites=true&w=majority
+TYPEORM_SYNCHRONIZE=true
+TYPEORM_ENTITIES=src/shared/models/entity/**/*.ts
+```
 
 ### Optional
 

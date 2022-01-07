@@ -4,7 +4,7 @@ services:
   mongo:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: _Dockerfile
     restart: always
     ports:
       - 27017:27017
