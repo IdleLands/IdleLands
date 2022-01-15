@@ -10,4 +10,6 @@
   height: 16px;
   object-fit: none;
   transform: scale(2, 2);
-} 
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
