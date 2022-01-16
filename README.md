@@ -46,7 +46,7 @@ Create a `.env` file in the root of the cloned project and fill it with these va
 * `TYPEORM_SYNCHRONIZE` - set to `true`
 * `TYPEORM_ENTITIES` - set to `src/shared/models/entity/**/*.ts`
 
-Example:
+Example content of `.env`:
 ```
 TYPEORM_CONNECTION=mongodb
 TYPEORM_URL=mongodb://admin-user:admin-password@127.0.0.1:27017/admin?retryWrites=true&w=majority
