@@ -236,7 +236,7 @@ const getDataForMap = (map) => {
   if(map.layers[3] && map.layers[3].objects) {
     map.layers[3].objects.forEach(region => {
       const startX = region.x / 16;
-      const startY = (region.y / 16) + 1;
+      const startY = region.y / 16;
       const width = region.width / 16;
       const height = region.height / 16;
 
