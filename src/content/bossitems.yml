@@ -715,3 +715,7 @@ Orikoko, Ornament of the Idling Gods:
   type: trinket
   stats:
     hp: 500000
+Chess Crown:
+  type: head
+  stats:
+    int: 1337
