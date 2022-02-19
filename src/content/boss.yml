@@ -1979,3 +1979,22 @@ Gobbler:
       agi: 9000
       int: 800000
       luk: 4800
+
+Black Queen:
+  respawn: 10800
+  availableScore: 1500
+  attributes:
+    profession: Fighter
+    gender: soap
+    level: 20
+    stats:
+      hp: 5000
+      str: 300
+      con: 130
+      dex: 500
+      agi: 300
+      luk: 15
+  items:
+  - name: Chess Crown
+    dropPercent: 85
+
