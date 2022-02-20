@@ -13,9 +13,16 @@ export class Grandmaster extends Achievement {
   }
 
   static calculateTier(player: Player): number {
+    const coll1 = player.$collectibles.has('White King\'s Pawn');
+    const coll2 = player.$collectibles.has('Black King\'s Pawn');
+    const coll3 = player.$collectibles.has('White King\'s Bishop');
+    const coll4 = player.$collectibles.has('Black Queen\'s Pawn');
+    const coll5 = player.$collectibles.has('White Queen');
+    const coll6 = player.$collectibles.has('Black Queen\'s Knight');
+    const coll7 = player.$collectibles.has('Scholar\'s Mate');
     const kill = player.$statistics.get('BossKill/Boss/Black Queen');
 
-    return kill ? 1 : 0;
+    return coll1 && coll2 && coll3 && coll4 && coll5 && coll6 && coll7 && kill ? 1 : 0;
   }
 
   static rewardsForTier(tier: number): any[] {
