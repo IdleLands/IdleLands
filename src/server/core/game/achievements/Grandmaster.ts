@@ -1,7 +1,7 @@
 import { AchievementType, AchievementRewardType, Achievement } from '../../../../shared/interfaces';
 import { Player } from '../../../../shared/models';
 
-export class TinyTerror extends Achievement {
+export class Grandmaster extends Achievement {
 
   static readonly statWatches = ['BossKill/Total'];
   static readonly type = AchievementType.Explore;
