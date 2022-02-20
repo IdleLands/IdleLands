@@ -43,6 +43,7 @@ export * from './GlobalAide';
 export * from './Golden';
 export * from './Goldsent';
 export * from './GoodSamaritan';
+export * from './Grandmaster';
 export * from './Guilded';
 export * from './Habitual';
 export * from './Haggler';

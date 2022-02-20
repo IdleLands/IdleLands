@@ -1997,4 +1997,6 @@ Black Queen:
   items:
   - name: Chess Crown
     dropPercent: 85
+  - name: Precious Peridot
+    dropPercent: 5
 
