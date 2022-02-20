@@ -5,10 +5,9 @@ export class TinyTerror extends Achievement {
 
   static readonly statWatches = ['BossKill/Total'];
   static readonly type = AchievementType.Explore;
-  static readonly base = 5;
 
   static descriptionForTier(tier: number): string {
-    const baseStr = `Become a Grandmaster by checkmating your opponent ${base} times.`;
+    const baseStr = `Become a Grandmaster by checkmating your opponent in a game of chess.`;
 
     return baseStr;
   }
@@ -16,12 +15,12 @@ export class TinyTerror extends Achievement {
   static calculateTier(player: Player): number {
     const kill = player.$statistics.get('BossKill/Boss/Black Queen');
 
-    return kill >= base ? 1 : 0;
+    return kill ? 1 : 0;
   }
 
   static rewardsForTier(tier: number): any[] {
     const baseRewards: any[] = [
-      { type: AchievementRewardType.Title, title: 'Grandmaster' },
+      { type: AchievementRewardType.Title, title: 'Grandmaster' }
     ];
 
     return baseRewards;
