@@ -3,7 +3,7 @@ import { Player } from '../../../../shared/models';
 
 export class Grandmaster extends Achievement {
 
-  static readonly statWatches = ['BossKill/Total'];
+  static readonly statWatches = ['Item/Collectible/Find', 'BossKill/Total'];
   static readonly type = AchievementType.Explore;
 
   static descriptionForTier(tier: number): string {
