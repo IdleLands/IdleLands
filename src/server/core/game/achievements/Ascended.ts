@@ -60,7 +60,7 @@ export class Ascended extends Achievement {
     }
 
     if(tier >= 500) {
-      baseStr = `${baseStr} Title: Launched.`;
+      baseStr = `${baseStr} Title: Escalator.`;
     }
 
     if(tier >= 1000) {
@@ -132,7 +132,7 @@ export class Ascended extends Achievement {
     }
 
     if(tier >= 500) {
-      baseRewards.push({ type: AchievementRewardType.Title, title: 'Launched' });
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Escalator' });
     }
 
     if(tier >= 1000) {
