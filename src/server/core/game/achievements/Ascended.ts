@@ -47,6 +47,26 @@ export class Ascended extends Achievement {
       baseStr = `${baseStr} Title: Ascented.`;
     }
 
+    if(tier >= 150) {
+      baseStr = `${baseStr} Title: Lifted.`;
+    }
+
+    if(tier >= 200) {
+      baseStr = `${baseStr} Title: Enlightened.`;
+    }
+
+    if(tier >= 250) {
+      baseStr = `${baseStr} Title: Escalated.`;
+    }
+
+    if(tier >= 500) {
+      baseStr = `${baseStr} Title: Launched.`;
+    }
+
+    if(tier >= 1000) {
+      baseStr = `${baseStr} Title: Ascender.`;
+    }
+
     return baseStr;
   }
 
@@ -97,6 +117,26 @@ export class Ascended extends Achievement {
 
     if(tier >= 100) {
       baseRewards.push({ type: AchievementRewardType.Title, title: 'Ascented' });
+    }
+
+    if(tier >= 150) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Lifted' });
+    }
+
+    if(tier >= 200) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Enlightened' });
+    }
+
+    if(tier >= 250) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Escalated' });
+    }
+
+    if(tier >= 500) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Launched' });
+    }
+
+    if(tier >= 1000) {
+      baseRewards.push({ type: AchievementRewardType.Title, title: 'Ascender' });
     }
 
     return baseRewards;
