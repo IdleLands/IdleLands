@@ -142,12 +142,10 @@ export class AchievementManager {
           let baseStr = `You've become a ${x} ${becomeTierMap[tier - 1]} times.
             Titles: ${ClassChangeTitles[x].slice(0, tier).join(', ')}.`;
 
-          if(tier >= 3) {
-            baseStr = `${baseStr} Gender: Red ${x}`;
-          }
-
           if(tier >= 5) {
-            baseStr = `${baseStr} Gender: Green ${x}`;
+            baseStr = `${baseStr} Genders: Red ${x}, Green ${x}.`;
+          } else if (tier >= 3) {
+            baseStr = `${baseStr} Gender: Red ${x}.`;
           }
 
           return baseStr;
