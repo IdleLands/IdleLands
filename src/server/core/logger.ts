@@ -1,5 +1,5 @@
 import { Singleton, AutoWired } from 'typescript-ioc';
-import * as Rollbar from 'rollbar';
+import Rollbar from 'rollbar';
 
 import Winston from 'winston';
 import 'winston-syslog';
@@ -10,7 +10,7 @@ const rollbarToken = process.env.ROLLBAR_ACCESS_TOKEN;
 @AutoWired
 export class Logger {
 
-  private rollbar;
+  private rollbar: Rollbar;
   private winston: Winston.Logger;
 
   public async init() {
