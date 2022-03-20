@@ -84,9 +84,14 @@ Stripe variables need to be set up to accept payments via Stripe.
 
 * `STRIPE_KEY` the private stripe key.
 
+#### Papertrail Variables
+
+* `PAPERTRAIL_HOST` - (optional) set this to `logsX.papertrailapp.com` (given by Papertrail)
+* `PAPERTRAIL_PORT` - (optional) set this to `XXXXX` (given by Papertrail)
+
 #### Discord Variables
 
-Discord variables are used to connect to Discord, which will sync chat between the game/Discord. You will also need to set up a Discord bot and give it sufficient permissions to post messages/emoji, create/modify channels, and create/modify roles. Your bot will either need to be an administrator or have these permissions. 
+Discord variables are used to connect to Discord, which will sync chat between the game/Discord. You will also need to set up a Discord bot and give it sufficient permissions to post messages/emoji, create/modify channels, and create/modify roles. Your bot will either need to be an administrator or have these permissions.
 
 * `DISCORD_SECRET` - the Discord API secret for your created Discord bot
 * `DISCORD_GUILD_ID` - the Discord guild ID for the Discord bot to reside in (ID of the Discord server)
