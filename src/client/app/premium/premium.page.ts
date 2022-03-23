@@ -95,7 +95,7 @@ export class PremiumPage implements OnInit {
 
   private initStripe() {
     setTimeout(() => {
-      this.stripeCheckoutHandler = (<any>window).StripeCheckout.configure({
+      this.stripeCheckoutHandler = (<any>window).StripeCheckout?.configure({
         key: environment.stripe.apiKey,
         name: 'IdleLands',
         allowRememberMe: true,
