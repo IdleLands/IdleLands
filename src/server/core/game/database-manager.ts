@@ -38,6 +38,7 @@ export class DatabaseManager {
     this.manager = getMongoManager();
 
     this.updateOldData();
+    this.logger.log('DatabaseManager', 'Initialized');
   }
 
   private async updateOldData() {

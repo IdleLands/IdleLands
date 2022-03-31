@@ -18,7 +18,8 @@ const GRACE_PERIOD_DISCONNECT = process.env.GRACE_PERIOD_DISCONNECT ? +process.e
 
 export class GameWorker extends SCWorker {
   async run() {
-    console.log('   >> Worker PID:', process.pid, 'ID:', this.id);
+    let logstr = `   >> Worker PID: ${process.pid} ID: ${this.id}`;
+    console.log(logstr);
 
     const httpServer = this.httpServer;
     const scServer = this.scServer;
@@ -27,6 +28,7 @@ export class GameWorker extends SCWorker {
 
     const game = new Game();
     await game.init(scServer, this.id);
+    game.logger.log('Worker', logstr);
 
     const environment = this.options.environment;
     const app = express();
