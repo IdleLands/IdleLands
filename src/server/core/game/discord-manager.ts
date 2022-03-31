@@ -19,7 +19,10 @@ export class DiscordManager {
   private onMessageCallback = (msg: IMessage) => { };
 
   public async init(onMessageCallback, canServerNodeRunDiscord = true): Promise<void> {
-    if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) return;
+    if(!process.env.DISCORD_SECRET || !canServerNodeRunDiscord) {
+      this.logger.log('Discord', 'Skipping Discord setup.');
+      return;
+    }
 
     this.onMessageCallback = (msg) => {
       this.syncDiscordGuildChannel();
