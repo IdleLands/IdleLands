@@ -43,7 +43,7 @@ export class Logger {
   }
 
   private _papertrailLog(type: 'info'|'warn'|'error', ...args) {
-    this.winston?.[type]?.(`[${tag}] ${args}`);
+    this.winston?.[type]?.(`${args}`);
   }
 
   log(...args) {
