@@ -17,7 +17,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_AUTH_USERNAME: admin-user
-      ME_CONFIG_MONGODB_AUTH_PASSWORD: admin-password
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin-user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin-password
     depends_on:
       - mongo
