@@ -42,21 +42,21 @@ export class Logger {
     return new Date();
   }
 
-  private _papertrailLog(type: 'info'|'warn'|'error', ...args) {
-    this.winston?.[type]?.(`${args}`);
+  private _papertrailLog(type: 'info'|'warn'|'error', tag, ...args) {
+    this.winston?.[type]?.(`[${tag}] ${args}`);
   }
 
-  log(...args) {
-    console.log(this.timestamp(), ...args);
-    this._papertrailLog('info', ...args);
+  log(tag, ...args) {
+    console.log(this.timestamp(), `[${tag}]`, ...args);
+    this._papertrailLog('info', tag, ...args);
   }
 
-  error(...args) {
-    console.error(this.timestamp(), ...args);
-    this._papertrailLog('error', ...args);
+  error(tag, ...args) {
+    console.error(this.timestamp(), `[${tag}]`, ...args);
+    this._papertrailLog('error', tag, ...args);
 
     if(this.rollbar) {
-      this.rollbar.error(...args);
+      this.rollbar.error(tag, ...args);
     }
   }
 
