@@ -133,5 +133,4 @@ const gameWorker = new GameWorker();
 
 gameWorker.on('error', err => {
   console.error('SCWorker GameWorker', err);
-  game.logger.error('SCWorker GameWorker', err);
 });
