@@ -124,6 +124,7 @@ export class GameWorker extends SCWorker {
 
     scServer.on('error', (err) => {
       console.error('SCWorker', err);
+      game.logger.error('SCWorker', err);
     });
   }
 }
@@ -132,4 +133,5 @@ const gameWorker = new GameWorker();
 
 gameWorker.on('error', err => {
   console.error('SCWorker GameWorker', err);
+  game.logger.error('SCWorker GameWorker', err);
 });
