@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone, includes, without, uniqBy, capitalize } from 'lodash';
+import { sample, pickBy, clone, includes, without, uniqBy, capitalize, isObject } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
