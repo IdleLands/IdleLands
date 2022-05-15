@@ -122,6 +122,7 @@ export interface IPlayer extends ICharacter {
 
   $quests: any;
   $questsData: any;
+  nextQuestRerollAvailability: number;
 
   lastDir: Direction;
   lastLoc: { map: string, x: number, y: number };
