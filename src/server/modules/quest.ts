@@ -14,10 +14,15 @@ export class QuestReroll extends ServerSocketEvent implements ServerEvent {
     if(cost <= 0) return this.gameError('You do not have any money, somehow!');
     if(player.gold <= 100000) return this.gameError('You need at least 100k to reroll! Otherwise, you\'re too poor for Kirierath.');
 
+    player.nextQuestRerollAvailability = player.nextQuestRerollAvailability || 0;
+    if(Date.now() < player.nextQuestRerollAvailability) return this.gameError('You need to wait 30 seconds between quest rerolls.');
+
     const quest = player.$quests.rerollQuest(player, questId);
     if(!quest) return this.gameError('Quest does not exist to reroll.');
 
     player.spendGold(cost);
+    //30 second cooldown on quest reroll
+    player.nextQuestRerollAvailability = Date.now() + 30 * 1000;
 
     this.gameMessage(`Successfully rerolled quest for ${cost.toLocaleString()} gold!`);
 

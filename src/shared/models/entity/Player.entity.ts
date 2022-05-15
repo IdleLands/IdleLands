@@ -1,6 +1,6 @@
 
 import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
-import { sample, pickBy, clone, includes, without, uniqBy, capitalize } from 'lodash';
+import { sample, pickBy, clone, includes, without, uniqBy, capitalize, isObject } from 'lodash';
 import { RestrictedNumber } from 'restricted-number';
 import { nonenumerable } from 'nonenumerable';
 
@@ -163,6 +163,7 @@ export class Player implements IPlayer {
   @nonenumerable
   public $quests: any;
   public $questsData: any;
+  @Column() public nextQuestRerollAvailability: number;
 
   @Column()
   public availableGenders: string[];
@@ -192,6 +193,7 @@ export class Player implements IPlayer {
     if(!this.$statTrail) this.$statTrail = { };
     if(!this.buffWatches) this.buffWatches = { };
     if(!this.cooldowns) this.cooldowns = { };
+    if(!this.nextQuestRerollAvailability || isObject(this.nextQuestRerollAvailability)) this.nextQuestRerollAvailability = 0;
 
     delete (this as any).bossTimers;
     delete this.buffWatches['undefined'];
