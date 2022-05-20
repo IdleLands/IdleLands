@@ -1115,8 +1115,9 @@ export class Player implements IPlayer {
   }
 
   public tryFindCollectible({ name, rarity, description, storyline }) {
-
-    this.increaseStatistic('Item/Collectible/Touch', 1);
+    if (storyline != 'Premium store.') {
+      this.increaseStatistic('Item/Collectible/Touch', 1);
+    }
 
     let currentCollectible = this.$collectibles.get(name);
 
