@@ -107,6 +107,9 @@ export class PremiumCollectibleBuy extends ServerSocketEvent implements ServerEv
     const target = PremiumGoldCollectibleInfo[collectible];
     if(!target) return this.gameError('Unable to find collectible information.');
 
+    const touches = this.player.$collectibles.get(target.name).touched;
+    if(touches > (this.player.ascensionLevel + 1)*100) return this.gameError('You can only buy 100 of each premium collectible per ascension.');
+
     player.tryFindCollectible(target);
     player.spendGold(cost, false);
 
