@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@angular/common": "^9.1.0",
-    "@angular/core": "^9.1.0",
+    "@angular/core": "^11.0.5",
     "@angular/fire": "^5.1.1",
     "@angular/forms": "^9.1.0",
     "@angular/http": "^7.2.2",
