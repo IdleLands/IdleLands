@@ -35,7 +35,7 @@
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
     "@angular/service-worker": "^9.1.0",
-    "@capacitor/cli": "1.0.0-beta.17",
+    "@capacitor/cli": "1.5.3",
     "@capacitor/core": "1.0.0-beta.17",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/splash-screen": "^5.0.0",
