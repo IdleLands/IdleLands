@@ -1,4 +1,4 @@
-import { IGacha, IPlayer, GachaFreeReset } from '../interfaces';
+import { IGacha, IPlayer, GachaFreeReset, GachaReward } from '../interfaces';
 
 import { LootTable } from 'lootastic';
 
@@ -51,11 +51,11 @@ export abstract class BaseGachaRoller implements IGacha {
 
   roll() {
     const table = new LootTable(this.rewards);
-    return table.chooseWithReplacement(1)[0];
+    return table.chooseWithReplacement(1)[0] as GachaReward;
   }
 
   roll10() {
     const table = new LootTable(this.rewards);
-    return table.chooseWithReplacement(10);
+    return table.chooseWithReplacement(10) as GachaReward[];
   }
 }
